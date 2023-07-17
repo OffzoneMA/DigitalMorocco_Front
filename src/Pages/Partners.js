@@ -20,7 +20,7 @@ export default function Partners() {
             Select Country
           </div>
 
-            <div className='relative group cursor-pointer   '>
+            <div className='relative group cursor-pointer'>
             <div className='bg-gray-200 flex justify-between items-center px-4 py-2 rounded-lg '>
               <span>All</span>
               <ChevronUpDownIcon className='h-6 w-6' />

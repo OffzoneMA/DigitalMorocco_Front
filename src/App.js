@@ -4,6 +4,9 @@ import Partners from './Pages/Partners';
 import Home from './Pages/Home';
 import Header from './Components/Header';
 import PartnerDetails from './Pages/PartnerDetails';
+import SignIn from './Pages/SignIn';
+import SignUp from './Pages/SignUp';
+
 
 function App() {
   return (
@@ -13,6 +16,8 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
         <Route   path="/" element={<Partners />} />
+        <Route   path="/SignIn" element={<SignIn />} />
+        <Route   path="/SignUp" element={<SignUp />} />
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} />
 
       </Routes>

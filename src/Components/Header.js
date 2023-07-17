@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
 
 export default function Header() {
+  const activeLink = "text-gray-500 ";
   return (
-    <div className='w-screen px-7 py-4'>
+    <div className='w-screen px-7 py-4 cursor-pointer '>
       <div className=' flex items-center justify-between  shadow-2xl rounded-full w-full px-8 py-3 '>
 
         <div className='flex items-center gap-8'>
@@ -25,11 +26,21 @@ export default function Header() {
           <NavLink>
             Partners
           </NavLink>       
-             <NavLink>
+          <NavLink 
+              to="/SignUp"
+                className={({ isActive }) =>
+                isActive ? activeLink  : ""
+                }
+          >
             Registration
           </NavLink>    
-            <NavLink>
-            log in
+          <NavLink
+               to="/SignIn"
+                className={({ isActive }) =>
+                isActive ? activeLink  : ""
+                } 
+          >
+          Login
           </NavLink>   
             <NavLink className="flex items-center justify-center gap-1 text-blue-500">
             <span className='text-lg font-semibold'>Contact</span> 
