@@ -3,8 +3,9 @@ import React from 'react'
 export default function SignIn() {
   return (
 
-<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+<div className='min-h-screen'> 
+    <div className='grid place-items-center py-10'>
+            <div className='bg-white w-3/6 space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
             src="/img/offzoneLogo.jpg"
@@ -39,7 +40,7 @@ export default function SignIn() {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="" className="font-semibold text-blue-600 hover:text-blue-500">
+                  <a href="" className="font-semibold leading-6 text-blue-600 hover:text-blue-500 cursor-pointer">
                     Forgot password?
                   </a>
                 </div>
@@ -69,11 +70,14 @@ export default function SignIn() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Don't have an account?{' '}
             <a href="/SignUp" className="font-semibold leading-6 text-blue-600 hover:text-blue-500 cursor-pointer">
-              Register
+              Sign up
             </a>
           </p>
         </div>
       </div>
+      </div>
+      </div>
+      
     
   )
 }
