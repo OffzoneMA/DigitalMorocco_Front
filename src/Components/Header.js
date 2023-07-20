@@ -1,57 +1,221 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
+import { gsap } from "gsap";
+import { useLocation } from "react-router-dom";
 
 export default function Header() {
+  const [open, setOpen] = useState(false);
   const activeLink = "text-gray-500 ";
+  const HeaderMenu = useRef(null);
+  const Menu = useRef(null);
+  const wrap = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    CloseMenu()
+    setOpen(false);
+  }, [location.pathname])
+
+
+  function OpenMenu() {
+    gsap
+      .timeline()
+      .set(HeaderMenu.current, {
+        display: "inline",
+      })
+      .to(wrap.current, {
+        scale: 1.3,
+        duration: 0.5,
+        ease: "Expo.InOut",
+      })
+      .set(Menu.current.children, {
+        opacity: 0,
+      })
+      .fromTo(
+        Menu.current.children,
+        {
+          opacity: 0,
+          yPercent: -50,
+        },
+        {
+          opacity: 1,
+          yPercent: 0,
+          stagger: 0.2,
+          ease: "Expo.InOut",
+        }
+      );
+  }
+
+  function CloseMenu() {
+    gsap
+      .timeline()
+      .fromTo(
+        Menu.current.children,
+        {
+          opacity: 1,
+          yPercent: 0,
+        },
+        {
+          opacity: 0,
+          yPercent: -50,
+          stagger: 0.1,
+          ease: "Expo.InOut",
+        }
+      )
+      .to(wrap.current, {
+        scale: 0,
+        duration: 0.3,
+        ease: "Expo.InOut",
+      })
+      .set(HeaderMenu.current, {
+        display: "none",
+      });
+
+
+  }
+
   return (
-    <div className='w-screen px-7 py-4 cursor-pointer '>
-      <div className=' flex items-center justify-between  shadow-2xl rounded-full w-full px-8 py-3 '>
+    <div className='w-screen px-2 sm:px-4 lg:px-7 py-4  '>
+      <div className='   shadow-2xl rounded-full w-full  px-7 lg:px-8 py-3  '>
+        <div className='flex items-center justify-between'>
 
-        <div className='flex items-center gap-8'>
-          <img src="/img/offzoneLogo.jpg" alt="" className='h-12' />
-          <div className='flex items-center gap-2'>
-            <div className='cursor-pointer bg-gray-100 text-blue-300 rounded-full px-2 py-1'>En</div>
-            <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
+
+          <div className='flex items-center gap-3 lg:gap-8'>
+            <img src="/img/offzoneLogo.jpg" alt="" className='h-8 sm:h-9 lg:h-12   ' />
+            <div className='hidden md:flex items-center gap-2'>
+              <div className='cursor-pointer bg-gray-100 text-blue-300 rounded-full px-2 py-1'>En</div>
+              <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
+            </div>
           </div>
-        </div>
 
-        <div className='flex items-center gap-8 pr-9 font-medium'>
-          <NavLink>
-            Home
-          </NavLink>
-          <NavLink>
-            Members
-          </NavLink>
-          <NavLink>
-            Partners
-          </NavLink>       
-          <NavLink 
+          <div className='hidden md:flex items-center  gap-3 lg:gap-8 lg:pr-9 font-medium text-sm xl:text-base '>
+            <NavLink>
+              Home
+            </NavLink>
+            <NavLink>
+              Members
+            </NavLink>
+            <NavLink to="/"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }>
+              Partners
+            </NavLink>
+            <NavLink
               to="/SignUp"
-                className={({ isActive }) =>
-                isActive ? activeLink  : ""
-                }
-          >
-            Registration
-          </NavLink>    
-          <NavLink
-               to="/SignIn"
-                className={({ isActive }) =>
-                isActive ? activeLink  : ""
-                } 
-          >
-          Login
-          </NavLink>   
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }
+            >
+              Registration
+            </NavLink>
+            <NavLink
+              to="/SignIn"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }
+            >
+              Login
+            </NavLink>
             <NavLink className="flex items-center justify-center gap-1 text-blue-500">
-            <span className='text-lg font-semibold'>Contact</span> 
-            <ArrowRightIcon className='w-4 h-4' />
-          </NavLink>
+              <span className=' font-semibold'>Contact</span>
+              <ArrowRightIcon className='w-4 h-4' />
+            </NavLink>
+          </div>
+          <button
+            onClick={() => {
+              if (
+                !(
+                  gsap.isTweening(HeaderMenu.current) ||
+                  gsap.isTweening(wrap.current) ||
+                  gsap.isTweening(Menu.current.children)
+                )
+              ) {
+                setOpen(!open);
+                open ? CloseMenu() : OpenMenu();
+              }
+            }}
+            className="MenuButton cursor-pointer  flex flex-col items-center justify-center space-y-1 outline-0	md:hidden z-[150]"
+          >
+            <span
+              className={`w-8 h-1 bg-black rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `rotate-45`
+                }`}
+            ></span>
+            <span
+              className={`w-8 h-1 bg-black rounded-full transform transition origin-[5px_2px] duration-500 ease-in-out ${open && `-translate-x-1`
+                } ${open && `opacity-0`}`}
+            ></span>
+            <span
+              className={`w-8 h-1 bg-black rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `-rotate-45`
+                }`}
+            ></span>
+          </button>
+        </div>
+        <div>
+
         </div>
 
 
 
       </div>
 
+
+      <div
+        className="fixed overflow-hidden h-screen  w-screen top-0 left-0 hidden  z-[95]"
+        ref={HeaderMenu}
+      >
+        <div
+          ref={wrap}
+          className={`rounded-bl-full h-screen bg-gray-50 w-screen tranform origin-top-right scale-0`}
+        ></div>
+        <div className={`flex flex-col items-center justify-center  h-screen w-screen  bg-gray-50 `} >
+          <div
+            className="fixed top-0 text-xl font-medium  h-screen w-screen flex flex-col items-center justify-center  space-y-10 text-center"
+            ref={Menu}
+          >
+            <div className='flex items-center gap-2 text-2xl pb-7'>
+              <div className='cursor-pointer bg-gray-100 text-blue-300 rounded-full px-2 py-1'>En</div>
+              <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
+            </div>
+
+            <NavLink>
+              Home
+            </NavLink>
+            <NavLink>
+              Members
+            </NavLink>
+            <NavLink to="/"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }>
+              Partners
+            </NavLink>
+            <NavLink
+              to="/SignUp"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }
+            >
+              Registration
+            </NavLink>
+            <NavLink
+              to="/SignIn"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }
+            >
+              Login
+            </NavLink>
+            <NavLink className="flex items-center justify-center gap-1 text-blue-500">
+              <span className=' font-semibold'>Contact</span>
+              <ArrowRightIcon className='w-4 h-4' />
+            </NavLink>
+
+
+          </div>
+        </div>
+      </div>
 
     </div>
   )

@@ -7,16 +7,16 @@ import { ChevronUpDownIcon, MagnifyingGlassIcon } from '@heroicons/react/24/soli
 
 export default function Partners() {
   return (
-    <div className='flex justify-around relative'>
-      <div className='w-[700px] h-screen sticky left-0 top-0  px-12 pt-7'>
+    <div className='flex flex-col md:flex-row justify-around relative'>
+      <div className='md:w-[400px]  md:h-screen md:sticky left-0 top-0 px-7  md:px-12 md:pt-7'>
         <div className='text-5xl font-semibold'>
           Partners 
         </div>
         <div>
 
-        <div className='space-y-6'>
+          <div className='space-y-3 md:space-y-6'>
 
-          <div className='text-2xl font-semibold pt-16'>
+            <div className='text-2xl font-semibold pt-7 md:pt-16'>
             Select Country
           </div>
 
@@ -25,7 +25,7 @@ export default function Partners() {
               <span>All</span>
               <ChevronUpDownIcon className='h-6 w-6' />
             </div>
-              <div className=' absolute hidden group-hover:inline transition ease-in-out duration-300 top-full bg-white  left-0 right-0 rounded-md '>
+              <div className='border absolute hidden group-hover:inline transition ease-in-out duration-300 top-full bg-white  left-0 right-0 rounded-md '>
               <ul className='space-y-1 divide-y-2'>
                   <li className='px-4 py-1 cursor-pointer transition ease-in-out duration-300 hover:opacity-50 hover:bg-black/20 '>Morocco</li>
                   <li className='px-4 py-1 cursor-pointer transition ease-in-out duration-300 hover:opacity-50 hover:bg-black/20'>France</li>
@@ -41,7 +41,7 @@ export default function Partners() {
               <label className='text-lg text-gray-700 '>Certified Only</label>
             </div>
 
-            <div className='text-2xl font-semibold pt-7'>
+            <div className='text-2xl font-semibold pt-3 md:pt-7'>
               Partner Type
             </div>
 
@@ -62,13 +62,14 @@ export default function Partners() {
           </div>
         </div>
       </div>
-    <div className='px-14 py-5 '>
+     
+      <div className='px-6 py-1 md:px-14 md:py-5  '>
 
       <br/>
 
-      <div className='flex justify-end  pb-16 '>
+        <div className='flex justify-center   md:justify-end   pb-7 md:pb-16 '>
   
-          <div className='   bg-gray-200  p-3  rounded-xl flex items-center   '>
+          <div className='   bg-gray-200  px-4 py-2 md:p-3  rounded-xl flex items-center w-full md:w-auto     '>
           <MagnifyingGlassIcon className="h-5 w-5 text-black " />
           <input
             type="text"
@@ -78,16 +79,16 @@ export default function Partners() {
 
         </div>
         </div>
-      <div className='flex gap-5  flex-wrap justify-between '>
+        <div className='flex flex-col items-center justify-center gap-5 lg:grid lg:grid-cols-2 xl:grid-cols-3   '>
         {
           partenaires.map((el, i) => (
-            <PartnerCard partner={el} index={i} />
+            <PartnerCard partner={el} index={i} key={i}/>
           ))
         }
-      </div>
+      </div> 
        
      
-    </div>
+    </div> 
     </div>
   )
 }
