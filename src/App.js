@@ -13,6 +13,7 @@ function App() {
   return (
     <BrowserRouter>   
        <Header />
+      
        <div className=' pt-3 md:pt-10'>
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
@@ -20,10 +21,12 @@ function App() {
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> {/**/}
+        
 
       </Routes>
       <Footer />
       </div>
+     
     </BrowserRouter>    
  
   );
