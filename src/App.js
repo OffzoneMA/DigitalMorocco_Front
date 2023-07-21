@@ -6,6 +6,7 @@ import Header from './Components/Header';
 import PartnerDetails from './Pages/PartnerDetails';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
+import Footer from './Components/Footer/Footer';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> {/**/}
 
       </Routes>
+      <Footer />
       </div>
     </BrowserRouter>    
  
