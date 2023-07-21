@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 
 export default function SignUp() {
   const [selectedOption, setSelectedOption] = useState('');
-
+  const [showAdditionalInputRC, setShowAdditionalInputRC] = useState(false);
+  const [showAdditionalInputICE, setShowAdditionalInputICE] = useState(false);
 
 
   return (
@@ -117,44 +118,75 @@ export default function SignUp() {
                   <option value="investor">Investor</option>
                   <option value="partner">Partner</option>
                 </select>
-                {/* Afficher le champ "LinkedIn Link" lorsque "Investor" est sélectionné */}
+
                 {selectedOption === 'member' && (
-                  <div className='w-full mt-2 '>
-                    <label htmlFor="rcMember" className="block text-sm font-medium leading-6 text-gray-900">
-                      RC Document Link
+                <div className='w-full mt-2'>
+                  <div className='flex items-center'>
+                    <input
+                      type="checkbox"
+                      id="rcMemberCheckbox"
+                      name="rcMemberCheckbox"
+                      onChange={() => setShowAdditionalInputRC(!showAdditionalInputRC)}
+                      className="mr-2"
+                    />
+                    <label htmlFor="rcMemberCheckbox" className="block text-sm font-medium leading-6 text-gray-900">
+                      RC Document 
                     </label>
-                    <div className='mt-2'>
-
-                      <input
-                        id="rcMember"
-                        name="rcMember"
-                        type="url"
-                        autoComplete="rcMember"
-                        required
-                        className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                    <label htmlFor="ice" className="block mt-4 text-sm font-medium leading-6 text-gray-900">
-                      ICE Document Link
-                    </label>
-                    <div className='mt-2'>
-                      <input
-                        id="ice"
-                        name="ice"
-                        type="text"
-                        autoComplete="ice"
-                        required
-                        className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
-                      />
-                    </div>
                   </div>
+                  {showAdditionalInputRC && (
+                    <div className='mt-2'>
+                      <label htmlFor="rcMember" className="w-full mt-2 justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                        Choose RC Document
+                        <input
+                          id="rcMember"
+                          name="rcMember"
+                          type="file" // Utiliser "type=file" pour permettre le téléchargement de fichiers
+                          autoComplete="rcMember"
+                          required
+                          accept=".pdf" // Limiter les types de fichiers acceptés aux fichiers PDF
+                          className="hidden" // Masquer l'input de fichier natif
+                        />
+                      </label>
+                    </div>
+                  )}
 
-                )}
+                  <div className='flex items-center mt-4'>
+                    <input
+                      type="checkbox"
+                      id="iceCheckbox"
+                      name="iceCheckbox"
+                      onChange={() => setShowAdditionalInputICE(!showAdditionalInputICE)}
+                      className="mr-2"
+                    />
+                    <label htmlFor="iceCheckbox" className="block text-sm font-medium leading-6 text-gray-900">
+                      ICE Document 
+                    </label>
+                  </div>
+                  {showAdditionalInputICE && (
+                    <div className='mt-2'>
+                      <label htmlFor="ice" className="w-full mt-2 justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                        Choose ICE Document
+                        <input
+                          id="ice"
+                          name="ice"
+                          type="file" // Utiliser "type=file" pour permettre le téléchargement de fichiers
+                          autoComplete="ice"
+                          required
+                          accept=".pdf" // Limiter les types de fichiers acceptés aux fichiers PDF
+                          className="hidden" // Masquer l'input de fichier natif
+                        />
+                      </label>
+                    </div>
+                  )}
+                </div>
+              )}
+
+
 
                 {selectedOption === 'investor' && (
                   <div className='w-full mt-2 '>
                     <label htmlFor="linkedin" className="block text-sm font-medium leading-6 text-gray-900">
-                      Linked In Link
+                      Linkedin Link
                     </label>
                     <div className='mt-2'>
 
@@ -173,7 +205,7 @@ export default function SignUp() {
                 {selectedOption === 'partner' && (
                   <div className='w-full mt-2 '>
                     <label htmlFor="rcPartner" className="block text-sm font-medium leading-6 text-gray-900">
-                      RC Document Link
+                      N° RC
                     </label>
                     <div className='mt-2'>
 

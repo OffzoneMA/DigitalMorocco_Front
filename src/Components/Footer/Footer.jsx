@@ -5,8 +5,10 @@ import { Icons } from "./Menus";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-gray-400 py-7">
+
+    <footer className="bg-gray-800 text-white rounded-lg ">
+      <div className="md:flex md:justify-between md:items-center rounded-lg sm:px-12 px-4 bg-gray-400 py-5">
+
         <h1
           className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold
          md:w-2/5"
@@ -16,7 +18,9 @@ const Footer = () => {
         <div>
           <input
             type="text"
-            placeholder="Enter Your ph.no"
+
+            placeholder="Enter Your email"
+
             className="text-gray-800
            sm:w-72 w-full sm:mr-5 mr-1 lg:mb-0 mb-4 py-2.5 rounded px-2 focus:outline-none"
           />
