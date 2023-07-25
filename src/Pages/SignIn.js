@@ -1,5 +1,10 @@
 import React from 'react'
+
+import {FaFacebookF,FaGoogle } from 'react-icons/fa'
+import { FaLinkedin } from 'react-icons/fa';
+
 import {useForm} from 'react-hook-form'
+
 
 export default function SignIn() {
   const {
@@ -25,15 +30,34 @@ export default function SignIn() {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
+          <div className='flex justify-center mt-4'>
+          <div className='border-2 w-10 border-blue-600 mb-2'></div>
+          </div>
+    <div className='flex justify-center my-1'>
+    <a href="#" className='border-2 border-gray-200 rounded-full p-3 mx-1'>
+      <FaFacebookF className='text-sm'/>
+      </a>
+      <a href="#" className='border-2 border-gray-200 rounded-full p-3 mx-1'>
+      <FaGoogle className='text-sm'/>
+      </a>
+      <a href="#" className='border-2 border-gray-200 rounded-full p-3 mx-1'>
+      <FaLinkedin className='text-sm'/>
+      </a>
+      </div> {/*social login  */}
+      <p className='text-gray-400 my-3 text-center'>or use your email account</p>
         </div>
+
+
+          <div className="felx flex-col items-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form className="space-y-6 ">
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" >
               <div>
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-900 ">
                   Email address
                 </label>
-                <div className="mt-2">
+                <div className="mt-2 ">
                   <input
                   {...register("email", {
                     required: {
