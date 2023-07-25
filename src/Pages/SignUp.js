@@ -1,10 +1,22 @@
 import React, { useState } from 'react'
+import { useForm } from "react-hook-form";
 
 export default function SignUp() {
   const [selectedOption, setSelectedOption] = useState('');
   const [showAdditionalInputRC, setShowAdditionalInputRC] = useState(false);
   const [showAdditionalInputICE, setShowAdditionalInputICE] = useState(false);
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm();
+  
+  const password = getValues("password");
+  const onSubmit = (data) => {
+    // Traiter les données soumises lorsque la validation est réussie
+    console.log(data);
+  };
 
   return (
     <div className=''>
@@ -20,7 +32,7 @@ export default function SignUp() {
               Create a new account
             </h2>
           </div>
-          <form className="w-full space-y-4" action="#" method="POST">
+          <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-wrap'>
               <div className='w-1/2 px-3'>
 
@@ -63,6 +75,24 @@ export default function SignUp() {
               <div className='mt-2'>
 
                 <input
+                 {...register("email", {
+                  required: {
+                    value: true,
+                    message: "You must enter your email address",
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "This is not long enough to be an email",
+                  },
+                  maxLength: {
+                    value: 120,
+                    message: "This is too long",
+                  },
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "This needs to be a valid email address",
+                  },
+                })}
                   id="email"
                   name="email"
                   type="email"
@@ -70,6 +100,9 @@ export default function SignUp() {
                   required
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
+                 <span className="text-red-400 text-sm py-2">
+            {errors?.email?.message}
+          </span>
               </div>
             </div>
             <div className='w-full px-3'>
@@ -79,6 +112,13 @@ export default function SignUp() {
               <div className='mt-2'>
 
                 <input
+                 {...register("password", {
+                  required: "You must enter a password",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
                   id="password"
                   name="password"
                   type="password"
@@ -86,6 +126,9 @@ export default function SignUp() {
                   required
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
+                 <span className="text-red-400 text-sm py-2">
+            {errors?.password?.message}
+          </span>
               </div>
             </div>
             <div className='w-full px-3'>
@@ -95,6 +138,11 @@ export default function SignUp() {
               <div className='mt-2'>
 
                 <input
+                {...register("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (value) =>
+                    value === password || "The passwords do not match",
+                })}
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
@@ -102,6 +150,9 @@ export default function SignUp() {
                   required
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
+                 <span className="text-red-400 text-sm py-2">
+            {errors?.confirmPassword?.message}
+          </span>
               </div>
             </div>
             <div className='w-full px-3'>

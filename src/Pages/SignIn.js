@@ -1,13 +1,26 @@
 import React from 'react'
+
 import {FaFacebookF,FaGoogle } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa';
 
+import {useForm} from 'react-hook-form'
+
 
 export default function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    // Traiter les données soumises lorsque la validation est réussie
+    console.log(data);
+  };
+
   return (
 
     <div className=''>
-      <div className='grid place-items-center py-10'>
+      <div className='grid place-items-center py-10 '>
         <div className='bg-white md:w-3/6 space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
@@ -32,14 +45,36 @@ export default function SignIn() {
       <p className='text-gray-400 my-3 text-center'>or use your email account</p>
         </div>
 
+
           <div className="felx flex-col items-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="space-y-6 ">
+
+          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" >
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-900 ">
                   Email address
                 </label>
                 <div className="mt-2 ">
                   <input
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "You must enter your email address",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "This is not long enough to be an email",
+                    },
+                    maxLength: {
+                      value: 120,
+                      message: "This is too long",
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "This needs to be a valid email address",
+                    },
+                  })}
                     id="email"
                     name="email"
                     type="email"
@@ -47,6 +82,9 @@ export default function SignIn() {
                     required
                     className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                   />
+                  <span className="text-red-400 text-sm py-2">
+            {errors?.email?.message}
+          </span>
                 </div>
               </div>
 
@@ -62,7 +100,15 @@ export default function SignIn() {
                   </div>
                 </div>
                 <div className="mt-2">
-                  <input
+                   <input {...register("password", {
+
+                  required: {
+                    value: true,
+                    message: "You must enter your password",
+                  },
+                
+                })}
+
                     id="password"
                     name="password"
                     type="password"
@@ -70,6 +116,9 @@ export default function SignIn() {
                     required
                     className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                   />
+                  <span className="text-red-400 text-sm py-2">
+            {errors?.password?.message}
+          </span>
                 </div>
               </div>
 
