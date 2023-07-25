@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from "react-hook-form";
 
 import {FaGoogle } from 'react-icons/fa'
-import { FaLinkedin } from 'react-icons/fa';
+import { FaLinkedinIn } from 'react-icons/fa';
 
 export default function SignIn() {
   const {
@@ -21,31 +21,38 @@ export default function SignIn() {
 
     <div className=''>
       <div className='grid place-items-center py-10'>
-        <div className='bg-white md:w-3/6 space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className='bg-white md:w-3/6 space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>       
+         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
             src="/img/offzoneLogo.jpg"
             alt=""
           />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+          <h2 className=" mb-0 mr-4 mt-10 text-center text-xl font-bold leading-normal tracking-tight text-gray-900">
+            Sign in to your account with
           </h2>
-          <div className='flex justify-center mt-4'>
-          <div className='border-2 w-10 border-blue-600 mb-2'></div>
+         
+          
           </div>
-    <div className='flex justify-center my-1'>
+    <div className='flex flex-row items-center justify-center lg:justify-center'>
     
-      <a href="#" className='border-2 border-gray-200 rounded-full p-3 mx-1'>
-      <FaGoogle className='text-sm'/>
+      <a href="#" className='border-2 border-gray-300 rounded-full p-3 mx-1 bg-white'>
+      <FaGoogle className='text-xl text-blue-600'/>
       </a>
-      <a href="#" className='border-2 border-gray-200 rounded-full p-3 mx-1'>
-      <FaLinkedin className='text-sm'/>
+      <a href="#" className='border-2 border-gray-300 rounded-full p-3 mx-1 bg-white'>
+      <FaLinkedinIn className='text-xl text-blue-600 '/>
       </a>
-      </div> {/*social login  */}
-      <p className='text-gray-400 my-3 text-center'>or use your email account</p>
-        </div>
+      </div> 
+      
+      
+        
 
-          <div className="felx flex-col items-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="flex-col items-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="flex items-center w-full my-4">
+                        <hr className="w-full" />
+                        <p className="px-3 font-semibold">Or</p>
+                        <hr className="w-full" />
+                    </div>
             <form className="space-y-6"  onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-900 ">
