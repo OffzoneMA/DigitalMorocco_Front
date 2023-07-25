@@ -21,9 +21,7 @@ export default function SignIn() {
           <div className='border-2 w-10 border-blue-600 mb-2'></div>
           </div>
     <div className='flex justify-center my-1'>
-    <a href="#" className='border-2 border-gray-200 rounded-full p-3 mx-1'>
-      <FaFacebookF className='text-sm'/>
-      </a>
+    
       <a href="#" className='border-2 border-gray-200 rounded-full p-3 mx-1'>
       <FaGoogle className='text-sm'/>
       </a>
