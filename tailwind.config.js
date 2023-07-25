@@ -7,7 +7,9 @@ module.exports = {
     extend: {
         colors:{
         gold:'#E9D3A8',
-        bronze:'#EEE5E0'
+        bronze:'#EEE5E0',
+        "dark-purple": "#081A51",
+        "light-white": "rgba(255,255,255,0.17)"
         }
 
     },
