@@ -1,22 +1,41 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { useForm } from "react-hook-form";
 import {FaGoogle } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa';
-
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from 'react-redux'
+import { registerUser } from '../../Redux/auth/authAction';
+import { useNavigate } from 'react-router-dom'
 
 export default function SignUp() {
-  
+  const { loading, userInfo, error } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
+    reset, getValues,
     formState: { errors },
-    getValues,
   } = useForm();
-  
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (userInfo) {
+      toast.success("Step 1 successfuly !")
+      setTimeout(() => navigate('/Complete_SignUp'), 2500)
+    }
+    if (error) {
+      toast.error(error)
+    }
+
+  }, [loading])
+
+
+
   const password = getValues("password");
   const onSubmit = (data) => {
-    // Traiter les données soumises lorsque la validation est réussie
-    console.log(data);
+    const { confirmPassword, ...formData } = data;
+    dispatch(registerUser(formData));
   };
 
   return (
@@ -34,6 +53,7 @@ export default function SignUp() {
             </h2>
           </div>
           <div className="flex-col items-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <Toaster />
             <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
            
             <div>
@@ -63,14 +83,12 @@ export default function SignUp() {
                 })}
                   id="email"
                   name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
+
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
                  <span className="text-red-400 text-sm py-2">
-            {errors?.email?.message}
-          </span>
+                {errors?.email?.message}
+               </span>
               </div>
             </div>
             <div>
@@ -90,8 +108,7 @@ export default function SignUp() {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="password"
-                  required
+               
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
                  <span className="text-red-400 text-sm py-2">
@@ -114,8 +131,6 @@ export default function SignUp() {
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
-                  autoComplete="confirmPassword"
-                  required
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
                  <span className="text-red-400 text-sm py-2">
@@ -128,7 +143,7 @@ export default function SignUp() {
                 type="submit"
                 className="w-full mt-2 justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
-                Sign up
+                Next
               </button>
             </div>
           </form>

@@ -1,22 +1,42 @@
-import React from 'react'
+import React, { useEffect} from 'react'
 import { useForm } from "react-hook-form";
-
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from 'react-redux'
+import { LoginUser } from '../../Redux/auth/authAction';
+import { useNavigate } from 'react-router-dom'
 import {FaGoogle } from 'react-icons/fa'
 import { FaLinkedinIn } from 'react-icons/fa';
 
 export default function SignIn() {
+  const { loading, userInfo, error } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-    getValues,
   } = useForm();
-  
-  const password = getValues("password");
-  const onSubmit = (data) => {
-    // Traiter les données soumises lorsque la validation est réussie
-    console.log(data);
-  };
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+     if (userInfo) {
+       toast.success("Logged In")
+       setTimeout(() => userInfo.role == "Admin" ? navigate('/Admin') : navigate('/'), 2500)
+     }
+     if (error) {
+       toast.error(error)
+     }
+
+  }, [loading])
+
+
+
+  async function onSubmit(values) {
+      dispatch(LoginUser(values))
+  }
+
+
   return (
 
     <div className=''>
@@ -53,37 +73,31 @@ export default function SignIn() {
                         <p className="px-3 font-semibold">Or</p>
                         <hr className="w-full" />
                     </div>
+            <Toaster />
+
             <form className="space-y-6"  onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-900 ">
                   Email address
                 </label>
-                <div className="mt-2 ">
+                <div className="mt-2">
                   <input
                    {...register("email", {
                     required: {
                       value: true,
                       message: "You must enter your email address",
                     },
-                    minLength: {
-                      value: 8,
-                      message: "This is not long enough to be an email",
-                    },
-                    maxLength: {
-                      value: 120,
-                      message: "This is too long",
-                    },
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       message: "This needs to be a valid email address",
-                    },
+                    }
                   })}
                     id="email"
                     name="email"
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+                    className="block  p-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                   />
                   <span className="text-red-400 text-sm py-2">
             {errors?.email?.message}
@@ -106,17 +120,14 @@ export default function SignIn() {
                   <input
                    {...register("password", {
                     required: "You must enter a password",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
-                    },
+                  
                   })}
                     id="password"
                     name="password"
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+                    className="block  p-2 w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                   />
                    <span className="text-red-400 text-sm py-2">
             {errors?.password?.message}
@@ -127,9 +138,10 @@ export default function SignIn() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md  bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                  disabled={loading}
+                  className="disabled:bg-gray-400 disabled:cursor-not-allowed flex w-full justify-center rounded-md  bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
-                  Sign in
+                  {loading ? "loading":"Sign in"}
                 </button>
               </div>
             </form>
