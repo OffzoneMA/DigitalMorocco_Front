@@ -1,8 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import { gsap } from "gsap";
 import { useLocation } from "react-router-dom";
+import { useGetUserDetailsQuery } from '../Services/Auth';
+import { useDispatch, useSelector } from "react-redux";
+import { logout, setCredentials } from "../Redux/auth/authSlice";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -11,6 +14,17 @@ export default function Header() {
   const Menu = useRef(null);
   const wrap = useRef(null);
   const location = useLocation();
+  const { data, isFetching } = useGetUserDetailsQuery("userDetails", {
+    pollingInterval: 900000,
+  });
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setCredentials(data));}
+  }, [data]);
 
   useEffect(() => {
     CloseMenu()
@@ -76,7 +90,18 @@ export default function Header() {
   }
 
   return (
-    <div className='w-screen px-2 sm:px-4 lg:px-7 py-4  '>
+    <div className='relative w-screen px-2 sm:px-4 lg:px-7 py-4  '>
+      {location.pathname != '/Complete_SignUp' &&
+        (userInfo?.status == "notVerified" || userInfo?.status == "verified" || userInfo?.status == "pending") &&
+        <div className='absolute left-[40%] top-[125%] bg-red-600 text-white p-4 rounded-md z-50'>
+          OOps!! :( Please complete your sign up <br />
+          <NavLink
+            to="/Complete_SignUp"
+          >
+            Complete SignUp
+          </NavLink>
+        </div>
+      }
       <div className='   shadow-2xl rounded-full w-full  px-7 lg:px-8 py-3  '>
         <div className='flex items-center justify-between'>
 
@@ -102,22 +127,38 @@ export default function Header() {
               }>
               Partners
             </NavLink>
-            <NavLink
-              to="/SignUp"
-              className={({ isActive }) =>
-                isActive ? activeLink : ""
-              }
-            >
-              Registration
-            </NavLink>
-            <NavLink
-              to="/SignIn"
-              className={({ isActive }) =>
-                isActive ? activeLink : ""
-              }
-            >
-              Login
-            </NavLink>
+
+            {!userInfo ?
+            <>
+                <NavLink
+                  to="/SignUp"
+                  className={({ isActive }) =>
+                    isActive ? activeLink : ""
+                  }
+                >
+                  Registration
+                </NavLink>
+                <NavLink
+                  to="/SignIn"
+                  className={({ isActive }) =>
+                    isActive ? activeLink : ""
+                  }
+                >
+                  Login
+                </NavLink></>
+                :
+              <button
+                onClick={() => {
+                  dispatch(logout())
+                  navigate('/SignIn')
+                }
+                }
+                className="gap-1 flex   p-2 rounded-lg transform transition-all duration-300 ease-in-out hover:text-white/20 "
+              >
+                Log Out
+              </button>
+            }
+
             <NavLink className="flex items-center justify-center gap-1 text-blue-500">
               <span className=' font-semibold'>Contact</span>
               <ArrowRightIcon className='w-4 h-4' />
