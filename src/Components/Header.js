@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useGetUserDetailsQuery } from '../Services/Auth';
 import { useDispatch, useSelector } from "react-redux";
 import { logout, setCredentials } from "../Redux/auth/authSlice";
+import { ExclamationTriangleIcon} from '@heroicons/react/24/solid'
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -91,16 +92,21 @@ export default function Header() {
 
   return (
     <div className='relative w-screen px-2 sm:px-4 lg:px-7 py-4  '>
-      {location.pathname != '/Complete_SignUp' &&
-        (userInfo?.status == "notVerified" || userInfo?.status == "verified" || userInfo?.status == "pending") &&
-        <div className='absolute left-[40%] top-[125%] bg-red-600 text-white p-4 rounded-md z-50'>
-          OOps!! :( Please complete your sign up <br />
-          <NavLink
-            to="/Complete_SignUp"
-          >
-            Complete SignUp
-          </NavLink>
-        </div>
+      { location.pathname != '/Complete_SignUp' &&
+        (userInfo?.status == "notVerified" || userInfo?.status == "verified" || userInfo?.status == "pending") && 
+        <NavLink  to="/Complete_SignUp" className="absolute left-1/2 top-[150%] transform -translate-x-1/2 -translate-y-1/2 bg-orange-400 text-white p-6 rounded-md shadow-lg z-50">
+  
+ 
+        <div className="flex gap-3 text-lg font-semibold p-4 items-center ">
+          
+        <ExclamationTriangleIcon className='h-6 w-6 text-white' />
+            Please complete your sign up steps!
+           
+          </div>
+         
+        </NavLink>
+        
+       
       }
       <div className='   shadow-2xl rounded-full w-full  px-7 lg:px-8 py-3  '>
         <div className='flex items-center justify-between'>
