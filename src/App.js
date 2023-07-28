@@ -12,6 +12,8 @@ import Footer from './Components/Footer/Footer';
 import Admin from './Pages/Admin/Admin';
 import GuardedAdminRoute from './GuardedRoutes/GuardedAdminRoute';
 import GuardedNewAccRoute from './GuardedRoutes/GuardedNewAccRoute';
+import Failure from './Pages/Authentification/Failure';
+import Success from './Pages/Authentification/Success';
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
         <Route   path="/SignUp" element={<SignUp />} />
         <Route path="/Complete_SignUp" element={<ContinueSignUp />} />
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> {/**/}
+        <Route path="/Failure" element={<Failure/>}/>
+        <Route path="/Success" element={<Success/>}/>
         
 
           {/* Admin Routes*/}

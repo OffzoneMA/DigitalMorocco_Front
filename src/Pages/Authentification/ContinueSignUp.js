@@ -4,16 +4,19 @@ import React, { useState } from 'react';
 const ContinueSignUp = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [showAdditionalInputRC, setShowAdditionalInputRC] = useState(false);
-  const [showAdditionalInputICE, setShowAdditionalInputICE] = useState(false);
-  const [step, setStep] = useState(2);
+
+  const [showVerificationMessage, setShowVerificationMessage] = useState(false);
+  const [step] = useState(2);
   const status = {
     "active":' shadow-blue-500 ',
     "valid":' shadow-green-500 ',
     "notactive":' shadow-gray-300 ',
   };
   
-  const handleStepChange = (newStep) => {
-    setStep(newStep);
+
+  const handleSendVerification = () => {
+    
+    setShowVerificationMessage(true);
   };
 
   return (
@@ -33,12 +36,27 @@ const ContinueSignUp = () => {
             </h2>
           </div>
           <div className="flex-col items-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            {/*  form for Step 1 */}
+            {/*  code for Step 1 */}
+            <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-900">Verify your email address</h3>
+              <button
+                className="mt-6 px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                onClick={handleSendVerification}
+              >
+                {showVerificationMessage ? "Verification Send": "Send Verification" }
+               
+              </button>
+              {showVerificationMessage && (
+                <p className="mt-2 text-sm text-gray-600 italic">
+                  Check your email for a verification link.
+                </p>
+              )}
+            </div>
           </div>
         </div>
         {/* div 2 step 2 */}
         <div
-          className={`bg-white w-3/6 py-7 px-10 rounded-lg border-0 ring-2 ring-gray-300 ring-inset ${status.notactive} ${
+          className={`bg-white w-3/6 py-7 px-10 rounded-lg border-0 ring-2 ring-gray-300 ring-inset  ${
             step === 2 && status.active }  ${step === 3 && status.valid}
            shadow-2xl`}
         >
