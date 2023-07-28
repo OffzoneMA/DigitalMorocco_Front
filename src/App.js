@@ -28,11 +28,10 @@ function App() {
          <Route   path="/" element={<Partners />} />
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
-          <Route path="/failure" element={<Failure />} />
-          <Route path="/success" element={<Success />} />
 
-
-        <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> {/**/}
+        <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
+        <Route path="/Failure" element={<Failure/>}/>
+        <Route path="/Success" element={<Success/>}/>
         
 
           {/* Admin Routes*/}
