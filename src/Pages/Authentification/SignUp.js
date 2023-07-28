@@ -31,7 +31,6 @@ export default function SignUp() {
   }, [loading])
 
 
-
   const password = getValues("password");
   const onSubmit = (data) => {
     const { confirmPassword, ...formData } = data;
@@ -159,22 +158,25 @@ export default function SignUp() {
                         <hr className="w-full" />
                     </div>
                     <div className="my-6 space-y-6">
-                        <button
+                        <a
+                            href={`${process.env.REACT_APP_baseURL}/users/auth/google`}
                             aria-label="Continue with Google"
                             type="button"
                             className="flex items-center w-full mt-2 justify-center space-x-4 border rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                         >
                             <FaGoogle className='text-lg'/>
                             <p>Continue with Google</p>
-                        </button>
-                        <button
+                        </a>
+                        <a
+                           href={`${process.env.REACT_APP_baseURL}/users/auth/linkedin`}
                             aria-label="Continue with LinkedIn"
                             role="button"
                             className="flex items-center w-full mt-2 justify-center space-x-4 border rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                        >
+                      >
                             <FaLinkedin className='text-xl'/>
                             <p>Continue with LinkedIn</p>
-                        </button>
+                        </a>
+           
                     </div>
           </div>
         </div>
