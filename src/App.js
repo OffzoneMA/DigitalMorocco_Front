@@ -22,7 +22,7 @@ function App() {
     <BrowserRouter>   
        <Header />
 
-       <div className=' pt-3 md:pt-10'>
+      <div className=' pt-3 md:pt-10 min-h-[85vh]'>
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
          <Route   path="/" element={<Partners />} />
@@ -44,9 +44,9 @@ function App() {
           </Route>
 
       </Routes>
-      <Footer />
       </div>
-     
+      <Footer />
+
     </BrowserRouter>    
  
   );
