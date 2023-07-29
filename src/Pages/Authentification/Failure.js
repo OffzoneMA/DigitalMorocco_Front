@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 export default function Failure() {
+  const [searchParams] = useSearchParams();
+  const [error, seterror] = useState(searchParams.get('error') ? searchParams.get('error')  :null)
+  const navigate = useNavigate()
+  useEffect(() => {
+    setTimeout(()=>{
+      navigate('/')
+    },4000)
+     
+  }, [])
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-          <div className="bg-white rounded-lg p-8 shadow-md">
-            <h1 className="text-4xl font-bold text-red-600 mb-4">Oops, something went wrong!</h1>
-            <p className="text-lg text-gray-600">
-              We apologize for the inconvenience. Please try again later.
-            </p>
-            <button className="mt-6 px-4 py-2 bg-red-600 text-white rounded-md shadow-md hover:bg-red-700">
-              Go Back
-            </button>
+
+      <div className="flex flex-col items-center justify-start md:h-screen ">
+        <ExclamationCircleIcon className='h-36 w-36 text-red-500' />
+        <h1 className="text-xl md:text-4xl font-bold text-red-600 mb-4">
+          { error ? error :'Oops, something went wrong!' }</h1>
           </div>
-        </div>
       )
     }
  

@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import {FaGoogle } from 'react-icons/fa'
 import { FaLinkedin } from 'react-icons/fa';
@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom'
 export default function SignUp() {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  const [Mount, setMount] = useState(true)
+
   const {
     register,
     handleSubmit,
@@ -20,13 +22,14 @@ export default function SignUp() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (userInfo) {
-      toast.success("Step 1 successfuly !")
+    if (Mount) { setMount(false) }
+   else{ if (userInfo) {
+      toast.success("Successfuly !")
       setTimeout(() => navigate('/Complete_SignUp'), 2500)
     }
     if (error) {
       toast.error(error)
-    }
+    }}
 
   }, [loading])
 

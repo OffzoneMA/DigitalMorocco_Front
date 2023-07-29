@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_baseURL,
+    baseUrl: process.env.REACT_APP_baseURL+'/users',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.userToken
 
@@ -17,15 +17,28 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     getUserDetails: builder.query({
       query: () => ({
-        url: '/users/UserInfo',
+        url: '/UserInfo',
         method: 'GET',
       }),
-
+      providesTags: ['user'],
     }),
-
+    sendEmailVerification: builder.query({
+      query: (userId) => ({
+        url: '/sendverify/' + userId,
+        method: 'GET',
+      }),
+    }),
+    addNewRequest: builder.mutation({
+      query: (payload) => ({
+        url: '/complete_signup/' +payload.userId,
+        method: 'POST',
+        body: payload.formdata,
+      }),
+      invalidatesTags: ['user'],
+    }),
 
 
   }),
 })
 
-export const { useGetUserDetailsQuery } = authApi
+export const { useGetUserDetailsQuery,useSendEmailVerificationQuery,useAddNewRequestMutation } = authApi

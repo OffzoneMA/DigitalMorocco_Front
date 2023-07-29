@@ -14,7 +14,7 @@ const GuardedNewAccRoute = () => {
  }
  else {
     return (
-       (data?.status == "notVerified" || data?.status == "verified" || data?.status == "pending" ) ? <Outlet /> : <Navigate to='/' />
+       ["notVerified", "verified", "pending"].includes(data?.status)  ? <Outlet /> : <Navigate to='/' />
     )
  }
    

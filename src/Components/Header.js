@@ -93,7 +93,7 @@ export default function Header() {
   return (
     <div className='relative w-screen px-2 sm:px-4 lg:px-7 py-4  '>
       { location.pathname != '/Complete_SignUp' &&
-        (userInfo?.status == "notVerified" || userInfo?.status == "verified" || userInfo?.status == "pending") && 
+        ["notVerified", "verified", "pending"].includes(userInfo?.status) && 
         <NavLink  to="/Complete_SignUp" className="absolute left-1/2 top-[150%] transform -translate-x-1/2 -translate-y-1/2 bg-orange-400 text-white p-6 rounded-md shadow-lg z-50">
   
  
@@ -101,7 +101,6 @@ export default function Header() {
           
         <ExclamationTriangleIcon className='h-6 w-6 text-white' />
             Please complete your sign up steps!
-           
           </div>
          
         </NavLink>
@@ -164,11 +163,18 @@ export default function Header() {
                 Log Out
               </button>
             }
+              {
+                userInfo?.displayName ?
+                <NavLink className="flex items-center justify-center gap-1 text-blue-500">
+                  hi, {userInfo?.displayName}
+              </NavLink>
+              :
+              <NavLink className="flex items-center justify-center gap-1 text-blue-500">
+                <span className=' font-semibold'>Contact</span>
+                <ArrowRightIcon className='w-4 h-4' />
+              </NavLink>
+              }
 
-            <NavLink className="flex items-center justify-center gap-1 text-blue-500">
-              <span className=' font-semibold'>Contact</span>
-              <ArrowRightIcon className='w-4 h-4' />
-            </NavLink>
           </div>
           <button
             onClick={() => {
@@ -238,26 +244,47 @@ export default function Header() {
               }>
               Partners
             </NavLink>
-            <NavLink
-              to="/SignUp"
-              className={({ isActive }) =>
-                isActive ? activeLink : ""
-              }
-            >
-              Registration
-            </NavLink>
-            <NavLink
-              to="/SignIn"
-              className={({ isActive }) =>
-                isActive ? activeLink : ""
-              }
-            >
-              Login
-            </NavLink>
-            <NavLink className="flex items-center justify-center gap-1 text-blue-500">
-              <span className=' font-semibold'>Contact</span>
-              <ArrowRightIcon className='w-4 h-4' />
-            </NavLink>
+            {!userInfo ?
+              <>
+                <NavLink
+                  to="/SignUp"
+                  className={({ isActive }) =>
+                    isActive ? activeLink : ""
+                  }
+                >
+                  Registration
+                </NavLink>
+                <NavLink
+                  to="/SignIn"
+                  className={({ isActive }) =>
+                    isActive ? activeLink : ""
+                  }
+                >
+                  Login
+                </NavLink></>
+              :
+              <button
+                onClick={() => {
+                  dispatch(logout())
+                  navigate('/SignIn')
+                }
+                }
+                className="gap-1 flex   p-2 rounded-lg  hover:text-white/20 "
+              >
+                Log Out
+              </button>
+            }
+            {
+              userInfo?.displayName ?
+                <NavLink className="flex items-center justify-center gap-1 text-blue-500">
+                  hi, {userInfo?.displayName}
+                </NavLink>
+                :
+                <NavLink className="flex items-center justify-center gap-1 text-blue-500">
+                  <span className=' font-semibold'>Contact</span>
+                  <ArrowRightIcon className='w-4 h-4' />
+                </NavLink>
+            }
 
 
           </div>
