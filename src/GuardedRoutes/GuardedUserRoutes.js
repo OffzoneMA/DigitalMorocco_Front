@@ -8,14 +8,15 @@ const {
     data,
     isLoading,isUninitialized,status,error
   } = useGetUserDetailsQuery()
-  const { userInfo } = useSelector((state) => state.auth)
+  const { userInfo, loading } = useSelector((state) => state.auth);
 
-if(isLoading){
-return <div>Loading</div>
-}
+  if (isLoading || loading) {
+    return <div>Loading</div>
+  }
 else
 return ( 
-  userInfo?.roles? <Outlet/>: <Navigate to='/SignIn'/>
+   userInfo?.status == "accepted" || data?.status == "accepted"? <Outlet/>: <Navigate to='/SignIn'/>
+ // (userInfo?.role == "member" && userInfo?.status == "accepted") || (data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
  )
 
 }

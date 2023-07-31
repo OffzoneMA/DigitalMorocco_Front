@@ -15,6 +15,7 @@ import GuardedNewAccRoute from './GuardedRoutes/GuardedNewAccRoute';
 import Failure from './Pages/Authentification/Failure';
 import Success from './Pages/Authentification/Success';
 import Subscription from './Pages/Subscription';
+import GuardedUserRoutes from './GuardedRoutes/GuardedUserRoutes';
 
 
 function App() {
@@ -29,13 +30,15 @@ function App() {
          <Route   path="/" element={<Partners />} />
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
-        <Route   path="/Subscription" element={<Subscription />} />
 
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
         <Route path="/Failure" element={<Failure/>}/>
         <Route path="/Success" element={<Success/>}/>
         
-
+          {/* User  Routes*/}
+          <Route element={<GuardedUserRoutes />}>
+            <Route path="/Subscription" element={<Subscription />} />
+          </Route>
           {/* Admin Routes*/}
           <Route element={<GuardedAdminRoute />}>
             <Route path="/Admin" element={<Admin />} />

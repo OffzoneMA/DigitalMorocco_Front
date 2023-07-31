@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { LockClosedIcon, ClockIcon, XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
 import { useForm } from "react-hook-form";
 import { useAddNewRequestMutation } from '../../../Services/Auth';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Role({ UserStatus, UserId }) {
   const [selectedOption, setSelectedOption] = useState('');
@@ -199,9 +199,11 @@ export default function Role({ UserStatus, UserId }) {
         Congratulations
         <span className='text-xs italic text-slate-400'>Your request has been accepted</span>
         
-        <button className='mt-10 px-8 py-1 text-white bg-green-600 rounded-md text-base'>
+        <NavLink
+          to={"/Subscription"}
+        className='mt-10 px-8 py-1 text-white bg-green-600 rounded-md text-base'>
           Next
-        </button>
+        </NavLink>
       </div>}
 
       {UserStatus === "rejected" && <div className='absolute bg-white top-0 left-0 w-full h-full flex flex-col items-center justify-center text-red-600-500 text-xl'>
