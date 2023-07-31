@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { LockClosedIcon,ClockIcon,XCircleIcon } from '@heroicons/react/24/solid'
+import { LockClosedIcon, ClockIcon, XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
 import { useForm } from "react-hook-form";
 import { useAddNewRequestMutation } from '../../../Services/Auth';
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +49,7 @@ export default function Role({ UserStatus, UserId }) {
  
   return (
     <div
-      className={`relative bg-white md:w-3/6 py-16  md:py-7 px-10 rounded-lg border-0 ring-2 ring-gray-300 ring-inset  ${UserStatus === "verified" && ' shadow-blue-500 '} ${UserStatus === "notVerified" && ' shadow-gray-300 '}  ${UserStatus === "pending" && 'shadow-green-500'} ${UserStatus === "rejected" && 'shadow-red-400'}
+      className={`relative bg-white md:w-3/6 py-16  md:py-7 px-10 rounded-lg border-0 ring-2 ring-gray-300 ring-inset  ${UserStatus === "verified" && ' shadow-blue-500 '} ${UserStatus === "notVerified" && ' shadow-gray-300 '} ${UserStatus === "pending" && 'shadow-blue-600'}  ${UserStatus === "accepted" && 'shadow-green-500'} ${UserStatus === "rejected" && 'shadow-red-400'}
            shadow-2xl`}
     >
 
@@ -182,14 +182,26 @@ export default function Role({ UserStatus, UserId }) {
             </div>
           </form>
         </div> }
+
       {UserStatus === "notVerified" && <div className='absolute bg-white top-0 left-0 w-full h-full flex flex-col items-center justify-center text-gray-500 text-xl'>
         <LockClosedIcon className='w-10 h-10 ' />
           Complete Step 1
         </div>}
+
       {UserStatus === "pending" && <div className='absolute bg-white top-0 left-0 w-full h-full flex flex-col items-center justify-center text-blue-500 text-xl'>
         <ClockIcon className='w-10 h-10 ' />
         Your request is under review!
         <span className='text-xs italic text-slate-400'>We will send you a mail once the admin approves it</span>
+      </div>}
+
+      {UserStatus === "accepted" && <div className='absolute bg-white top-0 left-0 w-full h-full flex flex-col items-center justify-center text-green-500 text-2xl'>
+        <CheckCircleIcon className='w-10 h-10 ' />
+        Congratulations
+        <span className='text-xs italic text-slate-400'>Your request has been accepted</span>
+        
+        <button className='mt-10 px-8 py-1 text-white bg-green-600 rounded-md text-base'>
+          Next
+        </button>
       </div>}
 
       {UserStatus === "rejected" && <div className='absolute bg-white top-0 left-0 w-full h-full flex flex-col items-center justify-center text-red-600-500 text-xl'>

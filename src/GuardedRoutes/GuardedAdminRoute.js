@@ -6,15 +6,16 @@ import { useGetUserDetailsQuery } from '../Services/Auth';
 const GuardedAdminRoute = () => {
     const {
         data,
-        isLoading,isUninitialized,status,error
+        isLoading,status,errorn,isFetching
       } = useGetUserDetailsQuery()
+   const { userInfo,loading } = useSelector((state) => state.auth);
 
- if(isLoading){
+   if (isLoading || loading ){
     return <div>Loading</div>
  }
  else {
     return (
-       data?.role == "Admin" ? <Outlet /> : <Navigate to='/SignIn' />
+       data?.role == "Admin"  || userInfo?.role == "Admin" ? <Outlet /> : <Navigate to='/SignIn' />
     )
  }
    

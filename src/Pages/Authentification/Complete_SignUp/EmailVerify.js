@@ -10,7 +10,7 @@ export default function EmailVerify({UserStatus,UserId}) {
     const [trigger, { data, isFetching, status }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
   return (
       <div
-          className={`relative bg-white md:w-3/6 py-16  md:py-7 px-10 rounded-lg border-0 ring-2 ring-gray-300 ring-inset  
+          className={`relative bg-white md:w-3/6 py-16  md:py-7 px-10 rounded-lg border-0   
           ${UserStatus === "notVerified" ? 'shadow-blue-500' : 'shadow-green-500'}
           shadow-2xl`}
       >

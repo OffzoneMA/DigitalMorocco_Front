@@ -22,10 +22,29 @@ export const adminApi = createApi({
                     params: { start, qt, type },
                 }
             },
-            providesTags: ['Requests'],
+        }),
+        approveUser: builder.mutation({
+            query: (arg) => {
+                const { userId, role } = arg;
+                return {
+                    url: '/users/ApproveUser/' + userId,
+                    method: 'GET',
+                    params: { role },
+                }
+            },
+        }),
+        rejectUser: builder.mutation({
+            query: (arg) => {
+                const { userId, role } = arg;
+                return {
+                    url: '/users/RejectUser/' + userId,
+                    method: 'GET',
+                    params: { role },
+                }
+            },
         }),
 
     }),
 })
 
-export const { useGetAllRequestsQuery} = adminApi
+export const { useGetAllRequestsQuery,useApproveUserMutation,useRejectUserMutation} = adminApi

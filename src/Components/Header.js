@@ -120,11 +120,8 @@ export default function Header() {
           </div>
 
           <div className='hidden md:flex items-center  gap-3 lg:gap-8 lg:pr-9 font-medium text-sm xl:text-base '>
-            <NavLink>
+            <NavLink to="/">
               Home
-            </NavLink>
-            <NavLink>
-              Members
             </NavLink>
             <NavLink to="/"
               className={({ isActive }) =>
@@ -132,7 +129,22 @@ export default function Header() {
               }>
               Partners
             </NavLink>
-
+           {
+           userInfo && userInfo?.role!="Admin" &&
+           <NavLink to="/Complete_SignUp"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }>
+              Profile Status
+            </NavLink>}
+            {
+              userInfo && userInfo?.role == "Admin" &&
+              <NavLink to="/Admin"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
+              </NavLink>}
             {!userInfo ?
             <>
                 <NavLink
