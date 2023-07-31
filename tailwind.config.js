@@ -8,6 +8,7 @@ module.exports = {
         colors:{
         gold:'#E9D3A8',
         bronze:'#EEE5E0',
+        silver:'#C0C0C0',
         "dark-purple": "#081A51",
         "light-white": "rgba(255,255,255,0.17)"
         }
