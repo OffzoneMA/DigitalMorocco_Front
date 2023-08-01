@@ -129,6 +129,14 @@ export default function Header() {
               }>
               Partners
             </NavLink>
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
+              <NavLink to="/Startup"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Startup
+              </NavLink>
+            }
            {
            userInfo && userInfo?.role!="Admin" &&
            <NavLink to="/Complete_SignUp"
@@ -145,6 +153,14 @@ export default function Header() {
                 }>
                 Dashboard
               </NavLink>}
+            {
+              userInfo && userInfo?.status == "accepted" &&
+              <NavLink to="/Subscription"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Subscription
+              </NavLink>} 
             {!userInfo ?
             <>
                 <NavLink
@@ -244,11 +260,8 @@ export default function Header() {
               <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
             </div>
 
-            <NavLink>
+            <NavLink to="/">
               Home
-            </NavLink>
-            <NavLink>
-              Members
             </NavLink>
             <NavLink to="/"
               className={({ isActive }) =>
@@ -256,6 +269,38 @@ export default function Header() {
               }>
               Partners
             </NavLink>
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
+              <NavLink to="/Startup"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Startup
+              </NavLink>
+            }
+            {
+              userInfo && userInfo?.role != "Admin" &&
+              <NavLink to="/Complete_SignUp"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Profile Status
+              </NavLink>}
+            {
+              userInfo && userInfo?.role == "Admin" &&
+              <NavLink to="/Admin"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
+              </NavLink>}
+            {
+              userInfo && userInfo?.status == "accepted" &&
+              <NavLink to="/Subscription"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Subscription
+              </NavLink>}
             {!userInfo ?
               <>
                 <NavLink
@@ -281,7 +326,7 @@ export default function Header() {
                   navigate('/SignIn')
                 }
                 }
-                className="gap-1 flex   p-2 rounded-lg  hover:text-white/20 "
+                className="gap-1 flex   p-2 rounded-lg  "
               >
                 Log Out
               </button>

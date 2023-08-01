@@ -8,6 +8,9 @@ import { authApi } from '../../Services/Auth';
 const ContinueSignUp = () => {
   const { userInfo } = useSelector((state) => state.auth)
   const [UserStatus, setUserStatus] = useState(userInfo?.status)
+    useEffect(() => {
+      setUserStatus(userInfo?.status)
+    }, [userInfo?.status])
 
   return (
     <div className="items-center border-5 flex-wrap md:space-y-8 p-7 py-12">

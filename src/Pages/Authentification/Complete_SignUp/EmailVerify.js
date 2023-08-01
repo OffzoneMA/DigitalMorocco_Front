@@ -43,7 +43,7 @@ export default function EmailVerify({UserStatus,UserId}) {
                   )}
               </div>
           </div></>:
-          <div className='absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center text-lime-800 text-xl'>
+              <div className='absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center  text-green-600 text-xl'>
               <CheckCircleIcon className='w-10 h-10 '  />
                    Account is Verified !
           </div>}
