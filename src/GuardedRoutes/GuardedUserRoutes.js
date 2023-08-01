@@ -15,8 +15,7 @@ const {
   }
 else
 return ( 
-   userInfo?.status == "accepted" || data?.status == "accepted"? <Outlet/>: <Navigate to='/SignIn'/>
- // (userInfo?.role == "member" && userInfo?.status == "accepted") || (data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
+  (userInfo?.role == "member" && userInfo?.status == "accepted") || (data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
  )
 
 }
