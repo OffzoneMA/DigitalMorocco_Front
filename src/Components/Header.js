@@ -129,6 +129,14 @@ export default function Header() {
               }>
               Partners
             </NavLink>
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
+              <NavLink to="/Startup"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Startup
+              </NavLink>
+            }
            {
            userInfo && userInfo?.role!="Admin" &&
            <NavLink to="/Complete_SignUp"
@@ -261,6 +269,14 @@ export default function Header() {
               }>
               Partners
             </NavLink>
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
+              <NavLink to="/Startup"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Startup
+              </NavLink>
+            }
             {
               userInfo && userInfo?.role != "Admin" &&
               <NavLink to="/Complete_SignUp"
