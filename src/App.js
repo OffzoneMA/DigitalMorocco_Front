@@ -16,8 +16,8 @@ import Failure from './Pages/Authentification/Failure';
 import Success from './Pages/Authentification/Success';
 import Subscription from './Pages/Subscription';
 import GuardedUserRoutes from './GuardedRoutes/GuardedUserRoutes';
-import Create_Startup from './Pages/Member/Create_Startup';
-import Startup from './Pages/Member/Startup';
+import Dashboard_member from './Pages/Member/Dashboard_member';
+
 
 
 function App() {
@@ -32,6 +32,8 @@ function App() {
          <Route   path="/" element={<Partners />} />
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
+        <Route path="/Dashboard_member" element={<Dashboard_member />} />
+       
 
 
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
@@ -41,8 +43,8 @@ function App() {
           {/* User Member Routes*/}
           <Route element={<GuardedUserRoutes />}>
             <Route path="/Subscription" element={<Subscription />} />
-            <Route path="/Startup" element={<Create_Startup />} />
-            <Route path="/myStartup" element={<Startup />} />
+            <Route path="/Dashboard_member" element={<Dashboard_member />} />
+          
           </Route>
           {/* Admin Routes*/}
           <Route element={<GuardedAdminRoute />}>
