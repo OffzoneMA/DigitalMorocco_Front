@@ -22,7 +22,14 @@ export const memberApi = createApi({
                 }
             },
         }),
+        buySub: builder.mutation({
+            query: (subid) => {
+                return {
+                url: '/SubscribeMember/' + subid,
+                method: 'GET',
+            }},
+        }),
     }),
 })
 
-export const {useAddStartupMutation } = memberApi
+export const {useAddStartupMutation ,useBuySubMutation} = memberApi
