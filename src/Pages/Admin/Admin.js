@@ -30,8 +30,7 @@ const Admin = () => {
 
   return (
     <div className="flex">
-      <SideMenu />            <Toaster />
-
+     
       <div className="h-screen flex-1 p-7 ">
         <div className=" w-full flex items-center justify-center text-white gap-3 py-5">
           <button

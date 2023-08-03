@@ -17,6 +17,7 @@ import Success from './Pages/Authentification/Success';
 import Subscription from './Pages/Subscription';
 import GuardedUserRoutes from './GuardedRoutes/GuardedUserRoutes';
 import Dashboard_member from './Pages/Member/Dashboard_member';
+import Dashboard_admin from './Pages/Admin/Dashboard_admin';
 
 
 
@@ -33,6 +34,8 @@ function App() {
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
         <Route path="/Dashboard_member" element={<Dashboard_member />} />
+        <Route path="/Admin" element={<Admin />} />
+        <Route path="/Dashboard_admin" element={<Dashboard_admin />} />
        
 
 
@@ -49,6 +52,7 @@ function App() {
           {/* Admin Routes*/}
           <Route element={<GuardedAdminRoute />}>
             <Route path="/Admin" element={<Admin />} />
+            <Route path="/Dashboard_admin" element={<Dashboard_admin />} />
             </Route>
           {/* New Account Routes*/}
           <Route element={<GuardedNewAccRoute />}>
