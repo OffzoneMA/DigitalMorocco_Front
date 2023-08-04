@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 const SideMenu = ({ handleMenuItemClick }) => {
     const [open, setOpen] = useState(false);
-    const [activeMenu, setActiveMenu] = useState("Dashboard");
+    const [activeMenu, setActiveMenu] = useState("Demandes");
     const Menus = [
         { title: "Dashboard", src: "dashboard" },
         { title: "Inscription", src: "add-user" },

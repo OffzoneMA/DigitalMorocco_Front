@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 const SideBar = ({ handleMenuItemClick }) => {
     const [open, setOpen] = useState(false);
     const [activeMenu, setActiveMenu] = useState("Dashboard");
@@ -18,17 +19,23 @@ const SideBar = ({ handleMenuItemClick }) => {
         <div className={` ${open ? "w-72" : "w-20"} bg-gray-100 h-screen p-5 pt-8 relative duration-300 rounded-md -mt-4 `}>
             <img
                 src="../img/control.png"
-                alt=""
+                alt=""  
                 className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple border-2 rounded-full  ${!open && "rotate-180"}`}
                 onClick={() => setOpen(!open)}
             />
-            <div className="flex gap-x-4 items-center">
+            <NavLink
+                    to="/Create_Startup"
+                    className={` ${!open &&'invisible'}  bg-white p-3 rounded-full `}
+            >
+               + Create Startup
+            </NavLink>
+                <div className="flex gap-x-4 items-center mt-5">
                
                 <div className={`cursor-pointer duration-500 ${open ? "rotate-[360deg]" : ""} rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm flex items-center gap-x-4 ${open ? "" : "hidden"}`} >
-                    <div className=' h-6 rounded-full bg-white flex items-center justify-center text-black font-bold'>
+                    <div className=' rounded-full bg-white flex items-center justify-center text-black font-bold py-2 px-3'>
                         <span id="credits">20 credits</span>
                     </div>
-                    <h1 className='not-italic text-black'>Nom de Startup</h1>
+                    <h1 className='not-italic text-black'>My Startup</h1>
                 </div>
             </div>
             <ul className="pt-6">

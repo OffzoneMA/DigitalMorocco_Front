@@ -130,11 +130,11 @@ export default function Header() {
               Partners
             </NavLink>
             {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
-              <NavLink to="/Startup"
+              <NavLink to="/Dashboard_member"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Startup
+                Dashboard
               </NavLink>
             }
            {
