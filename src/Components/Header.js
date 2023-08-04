@@ -112,7 +112,7 @@ export default function Header() {
 
 
           <div className='flex items-center gap-3 lg:gap-8'>
-            <img src="/img/offzoneLogo.jpg" alt="" className='h-8 sm:h-9 lg:h-12   ' />
+            <img src="/img/Logo.jpg" alt="" className='h-8 sm:h-9 lg:h-12   ' />
             <div className='hidden md:flex items-center gap-2'>
               <div className='cursor-pointer bg-gray-100 text-blue-300 rounded-full px-2 py-1'>En</div>
               <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>

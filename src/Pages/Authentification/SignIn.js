@@ -50,7 +50,7 @@ export default function SignIn() {
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-10 w-auto"
-              src="/img/offzoneLogo.jpg"
+              src="/img/Logo.jpg"
               alt=""
             />
             <h2 className=" mb-0 mr-4 mt-10 text-center text-xl font-bold leading-normal tracking-tight text-gray-900">
