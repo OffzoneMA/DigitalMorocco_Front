@@ -1,25 +1,24 @@
 import React, {  useState } from 'react';
 import SideMenu from './SideMenu';
-import Admin from './Admin';
-import Historique from './Historique';
+import RequestSection from './Requests/RequestSection';
+import HistorySection from './History/HistorySection';
 
 const Dashboard_admin = () => {
 
-  const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "Demandes");
+  const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "Signup Requests");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
   };
 
   
   return (
-    <div className="flex p-5 pt-8 gap-x-4 relative">
+    <div className="flex px-5   gap-x-4 relative">
      <SideMenu handleMenuItemClick={handleMenuItemClick} />
-      <div className="flex-1 ">
+      <div className="flex-1  -mt-8">
        
-        {activeMenuItem === "Demandes" && (
+        {activeMenuItem === "Signup Requests" && (
           <div className="">
-           
-           <Admin/>
+            <RequestSection />
           </div>
         )}
         {activeMenuItem === "Inscription" && (
@@ -56,7 +55,7 @@ const Dashboard_admin = () => {
         {activeMenuItem === "History" && (
           <div className=''>
           
-            <Historique/>
+            <HistorySection />
           </div>
         )}
         {activeMenuItem === "Setting" && (

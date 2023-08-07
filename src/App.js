@@ -9,7 +9,6 @@ import SignIn from './Pages/Authentification/SignIn';
 import SignUp from './Pages/Authentification/SignUp';
 import ContinueSignUp from './Pages/Authentification/ContinueSignUp';
 import Footer from './Components/Footer/Footer';
-import Admin from './Pages/Admin/Admin';
 import GuardedAdminRoute from './GuardedRoutes/GuardedAdminRoute';
 import GuardedNewAccRoute from './GuardedRoutes/GuardedNewAccRoute';
 import Failure from './Pages/Authentification/Failure';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { useApproveUserMutation, useRejectUserMutation } from '../../Services/Admin.Service'
+import { useApproveUserMutation, useRejectUserMutation } from '../../../Services/Admin.Service'
 import toast from "react-hot-toast";
 
 export default function Request({ el, reqType }) {

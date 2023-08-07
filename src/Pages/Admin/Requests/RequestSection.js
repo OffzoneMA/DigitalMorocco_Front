@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { adminApi } from "../../Services/Admin.Service";
+import { adminApi } from "../../../Services/Admin.Service";
 import Request from "./Request";
-import SideMenu from "./SideMenu";
+import SideMenu from "../SideMenu";
 import { Toaster } from "react-hot-toast";
-const Admin = () => {
+const RequestSection = () => {
   const [reqType, setreqType] = useState("member");
   const [start, setStart] = useState(0);
   const [qt, setQt] = useState(8);
@@ -100,4 +100,4 @@ const Admin = () => {
     </div>
   );
 };
-export default Admin;
+export default RequestSection;
