@@ -27,7 +27,8 @@ const SideBar = ({ handleMenuItemClick }) => {
                 className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple border-2 rounded-full  ${!open && "rotate-180"}`}
                 onClick={() => setOpen(!open)}
             />
-           {open && <div className='flex items-center  text-center p-8 '>
+                {userInfo?.member?.subStatus=="active" ?    
+                    open && <div className='flex items-center  justify-center  text-center p-8 '>
                     <span className='text-sm bg-gray-700 px-3 py-2 rounded-md text-white  shadow-2xl' >
                     Subscription expires in :  <br />
                       <span className='font-bold italic'>
@@ -38,10 +39,16 @@ const SideBar = ({ handleMenuItemClick }) => {
                             day: 'numeric',
                            
                         })}</span>  
-                    
-                    
                 </span>
-            </div>}
+            </div>
+                    : <div className='flex items-center justify-center  text-center p-8 '>
+                    <span className='text-sm bg-gray-500/50 px-3 py-2 rounded-md text-white  shadow-2xl' >
+                        Not Subscribed
+                    </span> 
+                    </div>
+                    }
+
+            
                 {!userInfo?.member?.name &&     <NavLink
                     to="/Create_Startup"
                     className={` ${!open &&'hidden'}  bg-white p-3 rounded-full `}
