@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 const SideMenu = ({ handleMenuItemClick }) => {
     const [open, setOpen] = useState(false);
-    const [activeMenu, setActiveMenu] = useState("Demandes");
     const Menus = [
         { title: "Dashboard", src: "dashboard" },
         { title: "Inscription", src: "add-user" },
         { title: "Accounts", src: "User" },
-        { title: "Demandes", src: "help" },
+        { title: "Signup Requests", src: "help" },
         { title: "Documents", src: "document" },
         { title: "Notifications", src: "notification" },
         { title: "History", src: "history"},
         { title: "Setting", src: "Settings" },
     ];
+    const [activeMenu, setActiveMenu] = useState(Menus[3].title);
   return (
       <div
           className={` ${open ? "w-72" : "w-20 "
