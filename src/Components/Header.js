@@ -137,6 +137,22 @@ export default function Header() {
                 Dashboard
               </NavLink>
             }
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "investor" &&
+              <NavLink to="/Dashboard_investor"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
+              </NavLink>
+            }
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
+              <NavLink to="/Dashboard_partner"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
+              </NavLink>
+            }
            {
            userInfo && userInfo?.role!="Admin" &&
            <NavLink to="/Complete_SignUp"
@@ -146,15 +162,15 @@ export default function Header() {
               Profile Status
             </NavLink>}
             {
-              userInfo && userInfo?.role == "Admin" &&
-              <NavLink to="/Admin"
+              userInfo &&  userInfo?.role == "Admin" &&
+              <NavLink to="/Dashboard_admin"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
                 Dashboard
               </NavLink>}
             {
-              userInfo && userInfo?.status == "accepted" &&
+              userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
               <NavLink to="/Subscription"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
@@ -268,11 +284,27 @@ export default function Header() {
               Partners
             </NavLink>
             {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
-              <NavLink to="/Startup"
+              <NavLink to="/Dashboard_member"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Startup
+                Dashboard
+              </NavLink>
+            }
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "investor" &&
+              <NavLink to="/Dashboard_investor"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
+              </NavLink>
+            }
+            {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
+              <NavLink to="/Dashboard_partner"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
               </NavLink>
             }
             {
@@ -285,14 +317,14 @@ export default function Header() {
               </NavLink>}
             {
               userInfo && userInfo?.role == "Admin" &&
-              <NavLink to="/Admin"
+              <NavLink to="/Dashboard_admin"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
                 Dashboard
               </NavLink>}
             {
-              userInfo && userInfo?.status == "accepted" &&
+              userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
               <NavLink to="/Subscription"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
@@ -324,7 +356,7 @@ export default function Header() {
                   navigate('/SignIn')
                 }
                 }
-                className="gap-1 flex   p-2 rounded-lg  "
+                className="gap-1 flex   p-2 rounded-lg transform transition-all duration-300 ease-in-out hover:text-white/20 "
               >
                 Log Out
               </button>

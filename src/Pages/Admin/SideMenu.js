@@ -9,7 +9,7 @@ const SideMenu = ({ handleMenuItemClick }) => {
         { title: "Demandes", src: "help" },
         { title: "Documents", src: "document" },
         { title: "Notifications", src: "notification" },
-        { title: "Historique", src: "history"},
+        { title: "History", src: "history"},
         { title: "Setting", src: "Settings" },
     ];
   return (

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-const SideBar = ({ handleMenuItemClick }) => {
-    const [open, setOpen] = useState(false);
+const SideBar = ({ handleMenuItemClick }) => { 
+    const { userInfo } = useSelector((state) => state.auth)
+    const [open, setOpen] = useState(true);
     const [activeMenu, setActiveMenu] = useState("Dashboard");
     const Menus = [
         { title: "Dashboard", src: "dashboard" },
@@ -14,31 +16,48 @@ const SideBar = ({ handleMenuItemClick }) => {
         { title: "Historique", src: "history" },
         { title: "Setting", src: "Settings" },
     ];
+
+
     return (
         <div className='sticky top-0 left-0'>
-        <div className={` ${open ? "w-72" : "w-20"} bg-gray-100 h-screen p-5 pt-8 relative duration-300 rounded-md -mt-4 `}>
+        <div className={` ${open ? "w-72" : "w-20"} bg-gray-100 h-screen px-5 py-6 relative duration-300 rounded-md  `}>
             <img
                 src="../img/control.png"
                 alt=""  
                 className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple border-2 rounded-full  ${!open && "rotate-180"}`}
                 onClick={() => setOpen(!open)}
             />
-            <NavLink
+           {open && <div className='flex items-center  text-center p-8 '>
+                    <span className='text-sm bg-gray-700 px-3 py-2 rounded-md text-white  shadow-2xl' >
+                    Subscription expires in :  <br />
+                      <span className='font-bold italic'>
+                        {new Date(userInfo?.member?.expireDate).toLocaleDateString('en-US', {
+                            weekday: 'short',
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                           
+                        })}</span>  
+                    
+                    
+                </span>
+            </div>}
+                {!userInfo?.member?.name &&     <NavLink
                     to="/Create_Startup"
-                    className={` ${!open &&'invisible'}  bg-white p-3 rounded-full `}
+                    className={` ${!open &&'hidden'}  bg-white p-3 rounded-full `}
             >
                + Create Startup
-            </NavLink>
-                <div className="flex gap-x-4 items-center mt-5">
+            </NavLink>}
+                <div className="flex gap-x-4 items-center justify-center py-5">
                
-                <div className={`cursor-pointer duration-500 ${open ? "rotate-[360deg]" : ""} rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm flex items-center gap-x-4 ${open ? "" : "hidden"}`} >
-                    <div className=' rounded-full bg-white flex items-center justify-center text-black font-bold py-2 px-3'>
-                        <span id="credits">20 credits</span>
+                <div className={` duration-500  rounded-md p-2 hover:bg-light-white text-gray-300 text-sm flex items-center gap-x-4  `} >
+                        <div className=' rounded-full bg-white flex items-center justify-center text-black font-bold py-2 px-3'>
+                            <span>{userInfo?.member?.credits} {open && "credits"}</span>
                     </div>
-                    <h1 className='not-italic text-black'>My Startup</h1>
+                        {userInfo?.member?.name && <h1 className='not-italic text-black'>My Startup</h1>}  
                 </div>
             </div>
-            <ul className="pt-6">
+            <ul className="">
                 {Menus.map((Menu, index) => (
                     <li
                         key={index} onClick={() => {handleMenuItemClick(Menu.title);

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Route, Navigate, Outlet  } from "react-router-dom";
 import { useGetUserDetailsQuery } from '../Services/Auth';
 
-const GuardedUserRoutes = () => {
+const GuardedUserPartnerRoutes  = () => {
 const {
     data,
     isLoading,isUninitialized,status,error
@@ -15,8 +15,8 @@ const {
   }
 else
 return ( 
-  (userInfo?.role == "member" && userInfo?.status == "accepted") || (data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
+  (userInfo?.role == "partner" && userInfo?.status == "accepted") || (data?.role == "partner" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
  )
 
 }
-export default GuardedUserRoutes;
+export default GuardedUserPartnerRoutes;
