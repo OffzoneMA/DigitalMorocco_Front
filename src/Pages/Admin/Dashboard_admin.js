@@ -53,7 +53,7 @@ const Dashboard_admin = () => {
           </div>
         )}
           
-         {activeMenuItem === "Historique" && (
+        {activeMenuItem === "History" && (
           <div className=''>
           
             <Historique/>

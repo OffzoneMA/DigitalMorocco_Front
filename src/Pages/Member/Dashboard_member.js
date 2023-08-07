@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SideBar from './SideBar';
 const Dashboard_member = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState(null);
+  const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
   };
@@ -11,7 +11,7 @@ const Dashboard_member = () => {
       <div className="main-content">
        
         {activeMenuItem === "Dashboard" && (
-          <div className="h-[200vh] ">
+          <div className=" ">
            
             <h1>Dashboard Content</h1>
           </div>
