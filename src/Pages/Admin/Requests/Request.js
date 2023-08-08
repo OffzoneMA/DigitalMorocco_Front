@@ -3,7 +3,7 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { useApproveUserMutation, useRejectUserMutation } from '../../../Services/Admin.Service'
 import toast from "react-hot-toast";
 
-export default function Request({ el, reqType }) {
+export default function Request({ el, reqType, setrc }) {
     const [Status, setStatus] = useState(null)
     const [approve, responseApprove] = useApproveUserMutation()
     const [reject, responseReject] = useRejectUserMutation()
@@ -38,7 +38,7 @@ export default function Request({ el, reqType }) {
                             second: 'numeric',
                         })}</td>
                         <td className="px-6 py-4 text-gray-700 text-center">
-                            {reqType === "member" && <a target="_blank" href={el?.rc_ice} className="underline">Document Link</a>}
+                {reqType === "member" && <a  onClick={() => setrc(el?.rc_ice)}  className="underline cursor-pointer">Document Link</a>}
                             {reqType === "partner" && <span>{el?.num_rc}</span>}
                             {reqType === "investor" && <a target="_blank" className='underline text-blue-500' href={el?.linkedin_link}>{el?.linkedin_link}</a>}
 
