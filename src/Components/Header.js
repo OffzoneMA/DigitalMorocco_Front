@@ -146,7 +146,7 @@ export default function Header() {
               </NavLink>
             }
             {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
-              <NavLink to="/Dashboard_partner"
+              <NavLink to="/Dashboard_Partner"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
