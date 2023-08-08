@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Event = ({ event }) => {
-  console.log(event)
     return (
       <tr className="border-b-2 bg-gray-50 border-white  ">
         <td className="px-6 py-2 text-sm text-gray-700 text-center">{event.owner?.email}</td>
