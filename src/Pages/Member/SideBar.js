@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const SideBar = ({ handleMenuItemClick }) => { 
     const { userInfo } = useSelector((state) => state.auth)
     const [open, setOpen] = useState(true);
-    const [activeMenu, setActiveMenu] = useState("Dashboard");
+    const [activeMenu, setActiveMenu] = useState("History");
     const Menus = [
         { title: "Dashboard", src: "dashboard" },
         { title: "My Profil", src: "add-user" },
@@ -13,7 +13,7 @@ const SideBar = ({ handleMenuItemClick }) => {
         { title: "Investors", src: "investor" },
         { title: "Documents", src: "document" },
         { title: "Notifications", src: "notification" },
-        { title: "Historique", src: "history" },
+        { title: "History", src: "history" },
         { title: "Setting", src: "Settings" },
     ];
 

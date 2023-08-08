@@ -23,9 +23,18 @@ export const userLogApi = createApi({
                 }
             },
         }),
-
+        getAllEventsByUser: builder.query({
+            query: (arg) => {
+                const { start, qt } = arg;
+                return {
+                    url: '/byUser',
+                    method: 'GET',
+                    params: { start, qt },
+                }
+            },
+        }),
 
     }),
 })
 
-export const { useGetAllEventsQuery } = userLogApi
+export const { useGetAllEventsQuery,useGetAllEventsByUserQuery } = userLogApi

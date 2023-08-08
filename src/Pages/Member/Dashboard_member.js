@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import SideBar from './SideBar';
+import UserEvents from '../UserEvents';
 const Dashboard_member = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
+  const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "History");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
   };
   return (
-    <div className="flex p-5 pt-8 gap-x-4 relative">
+    <div className="flex px-5  gap-x-4 relative">
       <SideBar handleMenuItemClick={handleMenuItemClick} />
-      <div className="main-content">
+      <div className="flex-1 -mt-8">
        
         {activeMenuItem === "Dashboard" && (
           <div className=" ">
@@ -52,11 +53,8 @@ const Dashboard_member = () => {
             <h1>My Notifications Content</h1>
           </div>
         )}
-         {activeMenuItem === "Historique" && (
-          <div>
-          
-            <h1>My Historique Content</h1>
-          </div>
+         {activeMenuItem === "History" && (
+          <UserEvents />
         )}
         {activeMenuItem === "Setting" && (
           <div>
