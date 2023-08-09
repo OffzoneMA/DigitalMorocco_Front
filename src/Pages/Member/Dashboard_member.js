@@ -3,6 +3,7 @@ import SideBar from './SideBar';
 import UserEvents from '../UserEvents';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
 import Subscription from '../Subscription';
+import Subscription_billing from './Subscription_billing';
 
 
 const Dashboard_member = () => {
@@ -28,6 +29,12 @@ const Dashboard_member = () => {
             <Subscription />
           </div>
         )}  
+        {activeMenuItem === "Subscription Billing" && (
+          <div>
+
+            <Subscription_billing />
+          </div>
+        )}
         {activeMenuItem === "Profile Status" && (
           <div>
 

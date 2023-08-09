@@ -10,6 +10,7 @@ const SideBar = ({ handleMenuItemClick }) => {
         { title: "Profile Status", src: "add-user" },
         { title: "Subscription", src: "document" },
         { title: "My Entreprise", src: "corporate" },
+        { title: "Subscription Billing", src: "investor" },
        // { title: "Events", src: "help" },
       //  { title: "My Profil", src: "add-user" },
        // { title: "Investors", src: "investor" },
@@ -52,10 +53,10 @@ const SideBar = ({ handleMenuItemClick }) => {
 
             
                 {!userInfo?.member?.name &&     <NavLink
-                    to="/Create_Startup"
+                    to="/Create_Project"
                     className={` ${!open &&'hidden'}  bg-white p-3 rounded-full `}
             >
-               + Create Startup
+                    + Create Project
             </NavLink>}
                 <div className="flex gap-x-4 items-center justify-center py-5">
                
@@ -63,7 +64,6 @@ const SideBar = ({ handleMenuItemClick }) => {
                         <div className=' rounded-full bg-white flex items-center justify-center text-black font-bold py-2 px-3'>
                             <span>{userInfo?.member?.credits} {open && "credits"}</span>
                     </div>
-                        {userInfo?.member?.name && <h1 className='not-italic text-black'>My Startup</h1>}  
                 </div>
             </div>
             <ul className="">
