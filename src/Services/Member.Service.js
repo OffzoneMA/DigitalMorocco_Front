@@ -13,7 +13,7 @@ export const memberApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        addStartup: builder.mutation({
+        addProjet: builder.mutation({
             query: (payload) => {
                 return {
                     url: '/',
@@ -32,4 +32,4 @@ export const memberApi = createApi({
     }),
 })
 
-export const {useAddStartupMutation ,useBuySubMutation} = memberApi
+export const {useAddProjetMutation ,useBuySubMutation} = memberApi

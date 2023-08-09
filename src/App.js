@@ -17,13 +17,11 @@ import Subscription from './Pages/Subscription';
 import GuardedUserMemberRoutes from './GuardedRoutes/GuardedUserMemberRoutes';
 import Dashboard_member from './Pages/Member/Dashboard_member';
 import Dashboard_admin from './Pages/Admin/Dashboard_admin';
-import Create_Startup from './Pages/Member/Create_Startup';
+import Create_Project from './Pages/Member/Create_Project';
 import GuardedUserInvestorRoutes from './GuardedRoutes/GuardedUserInvestorRoutes';
 import GuardedUserPartnerRoutes from './GuardedRoutes/GuardedUserPartnerRoutes';
-import Dashboard_Partner from './Pages/Partner/Dashboard_Partner';
+import Dashboard_Partner from './Pages/Partner/Dashboard_partner';
 import Dashboard_Investor from './Pages/Investor/Dashboard_Investor';
-
-
 
 function App() {
 
@@ -37,9 +35,7 @@ function App() {
          <Route   path="/" element={<Partners />} />
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
-        
        
-
 
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
         <Route path="/Failure" element={<Failure/>}/>
@@ -48,7 +44,7 @@ function App() {
           {/* User Member Routes*/}
           <Route element={<GuardedUserMemberRoutes />}>
             <Route path="/Subscription" element={<Subscription />} />
-            <Route path="/Create_Startup" element={<Create_Startup />} />
+            <Route path="/Create_Project" element={<Create_Project />} />
             <Route path="/Dashboard_member" element={<Dashboard_member />} />
           </Route>
 
