@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 const SideBar = ({ handleMenuItemClick }) => { 
     const { userInfo } = useSelector((state) => state.auth)
     const [open, setOpen] = useState(true);
-    const [activeMenu, setActiveMenu] = useState("History");
+    const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
     const Menus = [
-        { title: "Dashboard", src: "dashboard" },
-        { title: "My Profil", src: "add-user" },
+       // { title: "Dashboard", src: "dashboard" },
+        { title: "Profile Status", src: "add-user" },
+        { title: "Subscription", src: "document" },
         { title: "My Entreprise", src: "corporate" },
-        { title: "Events", src: "help" },
-        { title: "Investors", src: "investor" },
-        { title: "Documents", src: "document" },
-        { title: "Notifications", src: "notification" },
+       // { title: "Events", src: "help" },
+      //  { title: "My Profil", src: "add-user" },
+       // { title: "Investors", src: "investor" },
+       // { title: "Documents", src: "document" },
+       // { title: "Notifications", src: "notification" },
         { title: "History", src: "history" },
-        { title: "Setting", src: "Settings" },
+       /// { title: "Setting", src: "Settings" },
     ];
-
+    const navigate=useNavigate()
 
     return (
-        <div className='sticky top-0 left-0'>
-        <div className={` ${open ? "w-72" : "w-20"} bg-gray-100 h-screen px-5 py-6 relative duration-300 rounded-md  `}>
+        <div className='pb-10'>
+        <div className={` ${open ? "w-72" : "w-20"} bg-gray-100 min-h-screen px-5 py-6 relative duration-300 rounded-md  `}>
             <img
                 src="../img/control.png"
                 alt=""  
@@ -67,8 +69,12 @@ const SideBar = ({ handleMenuItemClick }) => {
             <ul className="">
                 {Menus.map((Menu, index) => (
                     <li
-                        key={index} onClick={() => {handleMenuItemClick(Menu.title);
-                            setActiveMenu(Menu.title);}}
+                        key={index} 
+                        onClick={() => {
+                            navigate('/Dashboard_member#' + Menu.title)
+                            handleMenuItemClick(Menu.title);
+                        setActiveMenu(Menu.title);}}
+
                             className={`flex rounded-full p-2 cursor-pointer hover:bg-slate-400 text-black text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${activeMenu === Menu.title ? "bg-slate-400" : ""}`}
                     >
                         <img src={`../img/${Menu.src}.png`} alt="" />

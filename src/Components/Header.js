@@ -154,7 +154,7 @@ export default function Header() {
               </NavLink>
             }
            {
-           userInfo && userInfo?.role!="Admin" &&
+              userInfo && userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
            <NavLink to="/Complete_SignUp"
               className={({ isActive }) =>
                 isActive ? activeLink : ""
@@ -169,14 +169,6 @@ export default function Header() {
                 }>
                 Dashboard
               </NavLink>}
-            {
-              userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
-              <NavLink to="/Subscription"
-                className={({ isActive }) =>
-                  isActive ? activeLink : ""
-                }>
-                Subscription
-              </NavLink>} 
             {!userInfo ?
             <>
                 <NavLink

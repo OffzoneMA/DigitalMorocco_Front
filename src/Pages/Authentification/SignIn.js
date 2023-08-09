@@ -26,7 +26,15 @@ export default function SignIn() {
     else {
       if (userInfo) {
         toast.success("Logged In")
-        setTimeout(() => userInfo.role == "Admin" ? navigate('/Dashboard_admin') : navigate('/'), 2500)
+        setTimeout(() =>{
+        
+        if (!userInfo?.role) { navigate('/Complete_SignUp') }
+        else{
+          navigate('/Dashboard_' + userInfo?.role)
+        }
+        
+        
+        }, 2000)
       }
       if (error) {
         toast.error(error)
