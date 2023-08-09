@@ -68,7 +68,7 @@ export default function Subscription_billing() {
                               <div>     <span className='italic text-gray-600 font-semibold '>Total Price :</span>    {el?.subscriptionId?.price}$</div>
                           </div>
                       </div>
-                      <button className='h-fit  px-4 py-1 rounded-xl border flex items-center justify-center gap-2 text-black bg-white transition-all duration-300 ease-in-out hover:opacity-50 hover:scale-105'>
+                      <button className='h-fit  px-4 py-1 rounded-xl border flex items-center justify-center gap-2 text-black bg-white transition-all duration-300 ease-in-out hover:opacity-80 hover:scale-105'>
                           <ArrowDownTrayIcon className='h-6 w-6' />
                           Download
                       </button>
