@@ -3,7 +3,9 @@ import { adminApi } from "../../../Services/Admin.Service";
 import Request from "./Request";
 import SideMenu from "../SideMenu";
 import { Toaster } from "react-hot-toast";
+import DocumentReader from "./DocumentReader";
 const RequestSection = () => {
+  const [rc, setrc] = useState(null);
   const [reqType, setreqType] = useState("member");
   const [start, setStart] = useState(0);
   const [qt, setQt] = useState(8);
@@ -31,6 +33,13 @@ const RequestSection = () => {
   return (
     <div className="flex">
       <Toaster  />
+     { rc &&
+      <div  className="h-screen w-screen flex flex-col items-center gap-1 justify-center fixed top-0 left-0 bg-black/25 backdrop-blur-xl">
+          <button className="bg-white text-black px-3 py-1 rounded-full  " onClick={()=>setrc(null)}>
+            Exit
+          </button>
+          <DocumentReader src={rc} />
+      </div>}
       <div className="h-screen flex-1 p-7 ">
         <div className=" w-full flex items-center justify-center text-white gap-3 py-5">
           <button
@@ -72,7 +81,7 @@ const RequestSection = () => {
               {
                reqs.length >0 &&
                 reqs.map((el, i) =>  (
-                  <Request reqType={reqType} el={el}  key={i} />
+                  <Request reqType={reqType} el={el}  key={i} setrc={setrc}/>
                 ))
                    }
                 
