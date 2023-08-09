@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SideBar from './SideBarPartner';
 import UserEvents from '../UserEvents';
-const Dashboard_Partner = () => {
+const Dashboard_partner = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "History");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
@@ -69,4 +69,4 @@ const Dashboard_Partner = () => {
     </div>
   );
 }
-export default Dashboard_Partner;
+export default Dashboard_partner;
