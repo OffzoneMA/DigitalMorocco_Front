@@ -52,12 +52,15 @@ const SideBar = ({ handleMenuItemClick }) => {
                     }
 
             
-                {!userInfo?.member?.name &&     <NavLink
-                    to="/Create_Project"
-                    className={` ${!open &&'hidden'}  bg-white p-3 rounded-full `}
+                {!userInfo?.member?.name &&     <button
+                    disabled={activeMenu == "Create Project"}
+                    onClick={() =>{
+                        setActiveMenu("Create Project")
+                        handleMenuItemClick("Create Project")}}
+                    className={` ${!open && 'hidden'} ${activeMenu != "Create Project" ? 'bg-white' : 'bg-gray-500/20 cursor-not-allowed'}   p-3 rounded-full `}
             >
                     + Create Project
-            </NavLink>}
+            </button>}
                 <div className="flex gap-x-4 items-center justify-center py-5">
                
                 <div className={` duration-500  rounded-md p-2 hover:bg-light-white text-gray-300 text-sm flex items-center gap-x-4  `} >

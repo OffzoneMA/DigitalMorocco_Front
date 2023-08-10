@@ -32,7 +32,9 @@ function App() {
       <div className=' pt-3 md:pt-10 min-h-[85vh]'>
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
-         <Route   path="/" element={<Partners />} />
+          <Route path="/Partners" element={<Partners />} />
+          <Route path="/" element={<Home />} />
+
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
         
@@ -44,7 +46,6 @@ function App() {
           {/* User Member Routes*/}
           <Route element={<GuardedUserMemberRoutes />}>
             <Route path="/Subscription" element={<Subscription />} />
-            <Route path="/Create_Project" element={<Create_Project />} />
             <Route path="/Dashboard_member" element={<Dashboard_member />} />
           </Route>
 

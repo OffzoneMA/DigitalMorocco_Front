@@ -92,8 +92,8 @@ const Create_Project = () => {
     return (
         <div className=''>
             <div className='grid place-items-center py-10'>
-                <div className='bg-white md:w-3/6 space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
-                    <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className='bg-white min-w-[650px] space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
+                    <div className="sm:mx-auto">
                         <img
                             className="mx-auto h-10 w-auto"
                             src="/img/Logo.jpg"
@@ -103,12 +103,12 @@ const Create_Project = () => {
                             Create a new Project
                         </h2>
                     </div>
-                    <div className="flex-col items-center mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div className="flex-col items-center mt-10">
                         <Toaster />
                         <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div >
                                 <label htmlFor="projectname" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Project Name
+                                    Project Name*
                                 </label>
                                 <div className="">
                                     <input
@@ -136,7 +136,7 @@ const Create_Project = () => {
 
                             <div>
                                 <label htmlFor="fundingAmount" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Funding Amount
+                                    Funding Amount*
                                 </label>
                                 <div className=" flex space-x-2">
                                     <input
@@ -179,7 +179,7 @@ const Create_Project = () => {
 
                             <div className=''>
                                 <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Project Details
+                                    Project Details*
                                 </label>
                                 <div className="">
                                     <textarea
@@ -206,7 +206,7 @@ const Create_Project = () => {
                             </div>
                             <div className='space-y-3'>
                                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                                    Team Members
+                                    Team Members*
                                 </label>
                                 {teamMembers.map((member, index) => (
                                     <div key={index} className=" flex space-x-2">
@@ -250,7 +250,7 @@ const Create_Project = () => {
                             </div>
                             <div className=''>
                                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                                    Milestone Progress
+                                    Milestone Progress*
                                 </label>
                                 <div className="">
                                     <textarea
@@ -347,7 +347,7 @@ const Create_Project = () => {
                                 <button
                                     disabled={!file}
                                     type="submit"
-                                    className="disabled:opacity-50 disabled:cursor-not-allowed  w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:ring-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                                    className="mt-2 disabled:opacity-50 disabled:cursor-not-allowed  w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:ring-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
                                     Create
                                 </button>

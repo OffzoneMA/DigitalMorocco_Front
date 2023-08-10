@@ -120,10 +120,12 @@ export default function Header() {
           </div>
 
           <div className='hidden md:flex items-center  gap-3 lg:gap-8 lg:pr-9 font-medium text-sm xl:text-base '>
-            <NavLink to="/">
+            <NavLink to="/" className={({ isActive }) =>
+              isActive ? activeLink : ""
+            }>
               Home
             </NavLink>
-            <NavLink to="/"
+            <NavLink to="/Partners"
               className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
@@ -266,10 +268,12 @@ export default function Header() {
               <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
             </div>
 
-            <NavLink to="/">
+            <NavLink to="/" className={({ isActive }) =>
+              isActive ? activeLink : ""
+            }>
               Home
             </NavLink>
-            <NavLink to="/"
+            <NavLink to="/Partners"
               className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
