@@ -3,6 +3,7 @@ import SideBar from './SideBar';
 import UserEvents from '../UserEvents';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
 import Subscription from '../Subscription';
+import MyEntreprise from './MyEntreprise';
 
 
 const Dashboard_member = () => {
@@ -43,7 +44,7 @@ const Dashboard_member = () => {
         {activeMenuItem === "My Entreprise" && (
           <div>
           
-            <h1>My Entreprise Content</h1>
+            <MyEntreprise />
           </div>
         )}
           {activeMenuItem === "Events" && (
