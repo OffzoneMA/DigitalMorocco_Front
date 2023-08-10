@@ -20,6 +20,8 @@ import Dashboard_admin from './Pages/Admin/Dashboard_admin';
 import Create_Project from './Pages/Member/Create_Project';
 import GuardedUserInvestorRoutes from './GuardedRoutes/GuardedUserInvestorRoutes';
 import GuardedUserPartnerRoutes from './GuardedRoutes/GuardedUserPartnerRoutes';
+import Dashboard_partner from './Pages/Partner/Dashboard_partner';
+import Dashboard_investor from './Pages/Investor/Dashboard_investor';
 
 function App() {
 
@@ -48,12 +50,12 @@ function App() {
 
           {/* User Investor Routes*/}
           <Route element={<GuardedUserInvestorRoutes />}>
-            {/* <Route path="/Dashboard_investor" element={<Dashboard_investor/>} /> */}
+            <Route path="/Dashboard_investor" element={<Dashboard_investor/>} />
           </Route>
 
           {/* User Partner Routes*/}
           <Route element={<GuardedUserPartnerRoutes />}>
-             {/* <Route path="/Dashboard_partner" element={<Dashboard_partner />} />  */}
+             <Route path="/Dashboard_partner" element={<Dashboard_partner />} /> 
           </Route>
 
 
