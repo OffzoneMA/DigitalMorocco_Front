@@ -125,12 +125,6 @@ export default function Header() {
             }>
               Home
             </NavLink>
-            <NavLink to="/Partners"
-              className={({ isActive }) =>
-                isActive ? activeLink : ""
-              }>
-              Partners
-            </NavLink>
             {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
               <NavLink to="/Dashboard_member"
                 className={({ isActive }) =>
@@ -155,6 +149,21 @@ export default function Header() {
                 Dashboard
               </NavLink>
             }
+            {
+              userInfo && userInfo?.role == "Admin" &&
+              <NavLink to="/Dashboard_admin"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
+              </NavLink>}
+            <NavLink to="/Partners"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }>
+              Partners
+            </NavLink>
+
            {
               userInfo && userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
            <NavLink to="/Complete_SignUp"
@@ -163,15 +172,8 @@ export default function Header() {
               }>
               Profile Status
             </NavLink>}
-            {
-              userInfo &&  userInfo?.role == "Admin" &&
-              <NavLink to="/Dashboard_admin"
-                className={({ isActive }) =>
-                  isActive ? activeLink : ""
-                }>
-                Dashboard
-              </NavLink>}
-            {!userInfo ?
+  
+            {!userInfo &&
             <>
                 <NavLink
                   to="/SignUp"
@@ -189,17 +191,6 @@ export default function Header() {
                 >
                   Login
                 </NavLink></>
-                :
-              <button
-                onClick={() => {
-                  dispatch(logout())
-                  navigate('/SignIn')
-                }
-                }
-                className="gap-1 flex   p-2 rounded-lg transform transition-all duration-300 ease-in-out hover:text-white/20 "
-              >
-                Log Out
-              </button>
             }
               {
                 userInfo?.displayName ?
@@ -212,6 +203,17 @@ export default function Header() {
                 <ArrowRightIcon className='w-4 h-4' />
               </NavLink>
               }
+            {                userInfo &&
+            <button
+              onClick={() => {
+                dispatch(logout())
+                navigate('/SignIn')
+              }
+              }
+              className="gap-1 flex   p-2 rounded-lg transform transition-all duration-300 ease-in-out hover:text-white/20 "
+            >
+              Log Out
+            </button>}
 
           </div>
           <button
