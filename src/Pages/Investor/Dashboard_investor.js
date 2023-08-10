@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import SideBar from './SideBarInvestor';
 import UserEvents from '../UserEvents';
-const Dashboard_Investor = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "History");
+import ContinueSignUp from '../Authentification/ContinueSignUp';
+
+const Dashboard_investor = () => {
+  const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
   };
@@ -29,6 +31,11 @@ const Dashboard_Investor = () => {
             <h1>Sponsoring Content</h1>
           </div>
         )}
+        {activeMenuItem === "Profile Status" && (
+          <div>
+            <ContinueSignUp />
+          </div>
+        )}  
           {activeMenuItem === "Events" && (
           <div>
           
@@ -64,4 +71,4 @@ const Dashboard_Investor = () => {
     </div>
   );
 }
-export default Dashboard_Investor;
+export default Dashboard_investor;

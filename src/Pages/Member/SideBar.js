@@ -10,6 +10,7 @@ const SideBar = ({ handleMenuItemClick }) => {
         { title: "Profile Status", src: "add-user" },
         { title: "Subscription", src: "document" },
         { title: "My Entreprise", src: "corporate" },
+        { title: "Subscription Billing", src: "investor" },
        // { title: "Events", src: "help" },
       //  { title: "My Profil", src: "add-user" },
        // { title: "Investors", src: "investor" },
@@ -51,19 +52,21 @@ const SideBar = ({ handleMenuItemClick }) => {
                     }
 
             
-                {!userInfo?.member?.name &&     <NavLink
-                    to="/Create_Startup"
-                    className={` ${!open &&'hidden'}  bg-white p-3 rounded-full `}
+                {!userInfo?.member?.name &&     <button
+                    disabled={activeMenu == "Create Project"}
+                    onClick={() =>{
+                        setActiveMenu("Create Project")
+                        handleMenuItemClick("Create Project")}}
+                    className={` ${!open && 'hidden'} ${activeMenu != "Create Project" ? 'bg-white' : 'bg-gray-500/20 cursor-not-allowed'}   p-3 rounded-full `}
             >
-               + Create Startup
-            </NavLink>}
+                    + Create Project
+            </button>}
                 <div className="flex gap-x-4 items-center justify-center py-5">
                
                 <div className={` duration-500  rounded-md p-2 hover:bg-light-white text-gray-300 text-sm flex items-center gap-x-4  `} >
                         <div className=' rounded-full bg-white flex items-center justify-center text-black font-bold py-2 px-3'>
                             <span>{userInfo?.member?.credits} {open && "credits"}</span>
                     </div>
-                        {userInfo?.member?.name && <h1 className='not-italic text-black'>My Startup</h1>}  
                 </div>
             </div>
             <ul className="">

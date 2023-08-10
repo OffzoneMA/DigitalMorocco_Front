@@ -4,6 +4,9 @@ import UserEvents from '../UserEvents';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
 import Subscription from '../Subscription';
 import MyEntreprise from './MyEntreprise';
+import Subscription_billing from './Subscription_billing';
+import Create_Project from './Create_Project';
+
 
 
 const Dashboard_member = () => {
@@ -16,11 +19,17 @@ const Dashboard_member = () => {
     <div className="flex px-5  gap-x-4 relative">
       <SideBar handleMenuItemClick={handleMenuItemClick} />
       <div className="flex-1 -mt-8">
-       
+        
         {activeMenuItem === "Dashboard" && (
           <div className=" ">
            
             <h1>Dashboard Content</h1>
+          </div>
+        )}
+        {activeMenuItem === "Create Project" && (
+          <div className=" ">
+
+            <Create_Project />
           </div>
         )}
         {activeMenuItem === "Subscription" && (
@@ -29,6 +38,12 @@ const Dashboard_member = () => {
             <Subscription />
           </div>
         )}  
+        {activeMenuItem === "Subscription Billing" && (
+          <div>
+
+            <Subscription_billing />
+          </div>
+        )}
         {activeMenuItem === "Profile Status" && (
           <div>
 
