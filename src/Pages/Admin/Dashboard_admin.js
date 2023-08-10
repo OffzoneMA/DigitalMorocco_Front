@@ -5,7 +5,7 @@ import HistorySection from './History/HistorySection';
 
 const Dashboard_admin = () => {
 
-  const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "Signup Requests");
+  const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "Signup Requests");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
   };

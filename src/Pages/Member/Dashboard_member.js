@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from './SideBar';
 import UserEvents from '../UserEvents';
+import ContinueSignUp from '../Authentification/ContinueSignUp';
+import Subscription from '../Subscription';
+import Subscription_billing from './Subscription_billing';
+
+
 const Dashboard_member = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "History");
+  const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
   };
+
   return (
     <div className="flex px-5  gap-x-4 relative">
       <SideBar handleMenuItemClick={handleMenuItemClick} />
@@ -17,6 +23,24 @@ const Dashboard_member = () => {
             <h1>Dashboard Content</h1>
           </div>
         )}
+        {activeMenuItem === "Subscription" && (
+          <div>
+
+            <Subscription />
+          </div>
+        )}  
+        {activeMenuItem === "Subscription Billing" && (
+          <div>
+
+            <Subscription_billing />
+          </div>
+        )}
+        {activeMenuItem === "Profile Status" && (
+          <div>
+
+            <ContinueSignUp />
+          </div>
+        )}  
         {activeMenuItem === "My Profil" && (
           <div>
            

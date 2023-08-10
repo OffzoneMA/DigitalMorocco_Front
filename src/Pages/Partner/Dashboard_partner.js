@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import SideBar from './SideBarInvestor';
+import SideBar from './SideBarPartner';
 import UserEvents from '../UserEvents';
-const Dashboard_Investor = () => {
+const Dashboard_partner = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "History");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
@@ -35,7 +35,12 @@ const Dashboard_Investor = () => {
             <h1>My events Content</h1>
           </div>
         )}
-         
+         {activeMenuItem === "Investors" && (
+          <div>
+          
+            <h1>My Investors Content</h1>
+          </div>
+        )}
           {activeMenuItem === "Documents" && (
           <div>
           
@@ -64,4 +69,4 @@ const Dashboard_Investor = () => {
     </div>
   );
 }
-export default Dashboard_Investor;
+export default Dashboard_partner;
