@@ -12,7 +12,7 @@ const SideBar = ({ handleMenuItemClick }) => {
         { title: "My Entreprise", src: "corporate" },
         { title: "Subscription Billing", src: "investor" },
        // { title: "Events", src: "help" },
-      //  { title: "My Profil", src: "add-user" },
+       { title: "My Profil", src: "add-user" },
        // { title: "Investors", src: "investor" },
        // { title: "Documents", src: "document" },
        // { title: "Notifications", src: "notification" },

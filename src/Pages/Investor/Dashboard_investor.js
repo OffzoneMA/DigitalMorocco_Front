@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SideBar from './SideBarInvestor';
 import UserEvents from '../UserEvents';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
+import UserProfile from '../UserProfile';
 
 const Dashboard_investor = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
@@ -22,7 +23,7 @@ const Dashboard_investor = () => {
         {activeMenuItem === "My Profil" && (
           <div>
            
-            <h1>My Profil Content</h1>
+            <UserProfile />
           </div>
         )}
         {activeMenuItem === "Sponsoring" && (
