@@ -6,7 +6,6 @@ import { LoginUser } from '../../Redux/auth/authAction';
 import { useNavigate } from 'react-router-dom'
 import { FaGoogle } from 'react-icons/fa'
 import { FaLinkedinIn } from 'react-icons/fa';
-import { resetState } from "../../Redux/auth/authSlice";
 
 export default function SignIn() {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
