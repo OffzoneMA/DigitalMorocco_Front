@@ -7,7 +7,7 @@ const SideBarInvestor = ({ handleMenuItemClick }) => {
     const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
     const Menus = [
         // { title: "Dashboard", src: "dashboard" },
-        // { title: "My Profil", src: "add-user" },
+     { title: "My Profil", src: "add-user" },
         { title: "Profile Status", src: "add-user" },
         // { title: "Events", src: "help" },
         // { title: "Documents", src: "document" },

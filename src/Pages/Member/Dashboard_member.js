@@ -6,6 +6,7 @@ import Subscription from '../Subscription';
 import MyEntreprise from './MyEntreprise';
 import Subscription_billing from './Subscription_billing';
 import Create_Project from './Create_Project';
+import UserProfile from '../UserProfile';
 
 
 
@@ -53,7 +54,7 @@ const Dashboard_member = () => {
         {activeMenuItem === "My Profil" && (
           <div>
            
-            <h1>My Profil Content</h1>
+            <UserProfile  />
           </div>
         )}
         {activeMenuItem === "My Entreprise" && (

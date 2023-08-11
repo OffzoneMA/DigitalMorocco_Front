@@ -22,7 +22,7 @@ import GuardedUserInvestorRoutes from './GuardedRoutes/GuardedUserInvestorRoutes
 import GuardedUserPartnerRoutes from './GuardedRoutes/GuardedUserPartnerRoutes';
 import Dashboard_partner from './Pages/Partner/Dashboard_partner';
 import Dashboard_investor from './Pages/Investor/Dashboard_investor';
-
+import UserProfile from './Pages/UserProfile';
 function App() {
 
   return (
@@ -37,6 +37,7 @@ function App() {
 
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
+        <Route   path="/UserProfile" element={<UserProfile />} />
         
 
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
