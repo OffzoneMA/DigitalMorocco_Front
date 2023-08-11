@@ -133,7 +133,7 @@ export default function MyEntreprise() {
                                                     message: "You must enter your Entreprise website",
                                                 },
                                                 pattern: {
-                                                    value: /^(https?:\/\/)?(www\.)?CompanyName\.com\//,
+                                                    value: /^(https?:\/\/)?(www\.)?([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,6}(\/.*)?$/,
                                                     message: "This needs to be a valid Company website",
                                                 }
                                             })}
