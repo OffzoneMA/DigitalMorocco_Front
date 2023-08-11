@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function UserProfile() {
-  const userInfo = {
-    name: 'Votre Nom',
-    email: 'votre@email.com',
+  const [name, setName] = useState('Khadija el wazati');
+  const [email, setEmail] = useState('khadija@email.com');
+  const [dateCreation] = useState('08-08-2023'); 
+  const [role] = useState('Member'); 
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = () => {
+
+    setIsEditing(false);
   };
 
   return (
@@ -18,81 +28,71 @@ export default function UserProfile() {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             My Profile
           </h2>
-          <div className="flex-col items-center  mt-10 w-10/12 ">
-            <form>
-              <div className='grid grid-cols-2 mb-4 space-y-6'>
-                <div className="">
-                  <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                    Name
-                  </label>
-                  <div>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-                <div className="text-center">
-                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
-                  Update
+          <div className="flex-col items-center mt-10 w-10/12">
+            <div className="mb-6">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Name
+              </label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  id="name"
+                  className="mt-1 p-2 border rounded-md w-full"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              ) : (
+                <p className="mt-2 text-lg text-gray-900">{name}</p>
+              )}
+            </div>
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              {isEditing ? (
+                <input
+                  type="email"
+                  id="email"
+                  className="mt-1 p-2 border rounded-md w-full"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              ) : (
+                <p className="mt-2 text-lg text-gray-900">{email}</p>
+              )}
+            </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700">
+                Date de création
+              </label>
+              <p className="mt-2 text-lg text-gray-900">{dateCreation}</p>
+            </div>
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700">
+                Role
+              </label>
+              <p className="mt-2 text-lg text-gray-900">{role}</p>
+            </div>
+            <div className="flex justify-center">
+              {isEditing ? (
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  onClick={handleSaveClick}
+                >
+                  Save
                 </button>
-              </div>
-              </div>
-              <div className='grid grid-cols-2 mb-4 space-y-6'>
-                <div className="">
-                  <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                    Email
-                  </label>
-                  <div>
-                    <input
-                      id="email"
-                      name="email"
-                      type="text"
-                      className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-                <div className="text-center">
-                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
-                  Update
+              ) : (
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  onClick={handleEditClick}
+                >
+                  Edit
                 </button>
-              </div>
-              </div>
-
-              <div className="mb-4 w-10/12">
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                  Role
-                </label>
-                <div>
-                  <input
-                    id="role"
-                    name="role"
-                    type="text"
-                    className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-              <div className="mb-4 w-10/12">
-                <label htmlFor="date" className="block text-sm font-medium leading-6 text-gray-900">
-                  Date Creation
-                </label>
-                <div>
-                  <input
-                    id="date"
-                    name="date"
-                    type="text"
-                    className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-
-
-            </form>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
