@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function MyEntreprise() {
     const {  userInfo } = useSelector((state) => state.auth)
-    const [edit, setedit] = useState(!userInfo?.member?.companyName ? true : false)
-    const [FirstCreate, setFirstCreate] = useState(!userInfo?.member?.companyName ? true : false)
+    const [edit, setedit] = useState(userInfo && !userInfo?.member?.companyName ? true : false)
+    const [FirstCreate, setFirstCreate] = useState(userInfo && !userInfo?.member?.companyName ? true : false)
 
     const maxFileSize = 8 * 1024 * 1024;
     const [listEmployees, setListEmployees] = useState(userInfo?.member?.listEmployee ? userInfo?.member?.listEmployee : []);
@@ -126,10 +126,11 @@ export default function MyEntreprise() {
     };
 
     return (
-
+       
         <div className=''>
             <Toaster />
-            <div className='flex py-10 '>
+          {  userInfo ? 
+                      <div className='flex py-10 '>
                 <div className='bg-white  w-full  space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
                     <div className=" ">
                         <img
@@ -592,7 +593,13 @@ export default function MyEntreprise() {
                     </div>
                 </div>
             </div>
+          :
+            <div>Loading</div>
+            
+            }
+
         </div>
+      
 
     )
 }
