@@ -7,6 +7,7 @@ import MyEntreprise from './MyEntreprise';
 import Subscription_billing from './Subscription_billing';
 import Create_Project from './Create_Project';
 import UserProfile from '../UserProfile';
+import EntrepriseDocs from './EntrepriseDocs';
 
 
 
@@ -61,6 +62,12 @@ const Dashboard_member = () => {
           <div>
           
             <MyEntreprise />
+          </div>
+        )}
+        {activeMenuItem === "Enterprise Documents" && (
+          <div>
+
+            <EntrepriseDocs />
           </div>
         )}
           {activeMenuItem === "Events" && (
