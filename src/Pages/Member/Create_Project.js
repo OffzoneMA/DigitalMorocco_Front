@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
-import { useAddProjetMutation } from '../../Services/Member.Service';
+import { useCreateEntrepriseMutation } from '../../Services/Member.Service';
 import { useNavigate } from 'react-router-dom';
 
 const Create_Project = () => {
@@ -58,7 +58,7 @@ const Create_Project = () => {
     };
 
     const [file, setFile] = useState(null)
-    const [addProjet, response] = useAddProjetMutation()
+    const [addProjet, response] = useCreateEntrepriseMutation()
     const navigate = useNavigate()
 
     const {
