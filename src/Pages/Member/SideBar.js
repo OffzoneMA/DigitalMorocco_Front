@@ -11,7 +11,7 @@ const SideBar = ({ handleMenuItemClick }) => {
         { title: "Profile Status", src: "add-user" },
         { title: "Subscription", src: "document" },
         { title: "My Entreprise", src: "corporate" ,
-            child: userInfo.member.companyName && [ { title: "Enterprise Documents", src: "document" }]
+            child: userInfo?.member?.companyName && [ { title: "Enterprise Documents", src: "document" }]
     },
         { title: "Subscription Billing", src: "investor" },
        // { title: "Events", src: "help" },
