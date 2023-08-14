@@ -29,7 +29,7 @@ export default function UserEvents() {
 
     return (
         <div className="">
-            <div className="h-[75vh]  p-7 overflow-scroll">
+            <div className="max-h-[75vh]  p-7 overflow-scroll">
                 <table className="w-full">
                     <thead className="bg-gray-100">
                         <tr>

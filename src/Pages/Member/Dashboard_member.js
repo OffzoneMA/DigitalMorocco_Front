@@ -3,7 +3,12 @@ import SideBar from './SideBar';
 import UserEvents from '../UserEvents';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
 import Subscription from '../Subscription';
+import MyEntreprise from './MyEntreprise';
 import Subscription_billing from './Subscription_billing';
+import Create_Project from './Create_Project';
+import UserProfile from '../UserProfile';
+import EntrepriseDocs from './EntrepriseDocs';
+
 
 
 const Dashboard_member = () => {
@@ -16,11 +21,17 @@ const Dashboard_member = () => {
     <div className="flex px-5  gap-x-4 relative">
       <SideBar handleMenuItemClick={handleMenuItemClick} />
       <div className="flex-1 -mt-8">
-       
+        
         {activeMenuItem === "Dashboard" && (
           <div className=" ">
            
             <h1>Dashboard Content</h1>
+          </div>
+        )}
+        {activeMenuItem === "Create Project" && (
+          <div className=" ">
+
+            <Create_Project />
           </div>
         )}
         {activeMenuItem === "Subscription" && (
@@ -44,13 +55,19 @@ const Dashboard_member = () => {
         {activeMenuItem === "My Profil" && (
           <div>
            
-            <h1>My Profil Content</h1>
+            <UserProfile  />
           </div>
         )}
         {activeMenuItem === "My Entreprise" && (
           <div>
           
-            <h1>My Entreprise Content</h1>
+            <MyEntreprise />
+          </div>
+        )}
+        {activeMenuItem === "Enterprise Documents" && (
+          <div>
+
+            <EntrepriseDocs />
           </div>
         )}
           {activeMenuItem === "Events" && (

@@ -120,14 +120,10 @@ export default function Header() {
           </div>
 
           <div className='hidden md:flex items-center  gap-3 lg:gap-8 lg:pr-9 font-medium text-sm xl:text-base '>
-            <NavLink to="/">
+            <NavLink to="/" className={({ isActive }) =>
+              isActive ? activeLink : ""
+            }>
               Home
-            </NavLink>
-            <NavLink to="/"
-              className={({ isActive }) =>
-                isActive ? activeLink : ""
-              }>
-              Partners
             </NavLink>
             {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
               <NavLink to="/Dashboard_member"
@@ -153,6 +149,21 @@ export default function Header() {
                 Dashboard
               </NavLink>
             }
+            {
+              userInfo && userInfo?.role == "Admin" &&
+              <NavLink to="/Dashboard_admin"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Dashboard
+              </NavLink>}
+            <NavLink to="/Partners"
+              className={({ isActive }) =>
+                isActive ? activeLink : ""
+              }>
+              Partners
+            </NavLink>
+
            {
               userInfo && userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
            <NavLink to="/Complete_SignUp"
@@ -161,15 +172,8 @@ export default function Header() {
               }>
               Profile Status
             </NavLink>}
-            {
-              userInfo &&  userInfo?.role == "Admin" &&
-              <NavLink to="/Dashboard_admin"
-                className={({ isActive }) =>
-                  isActive ? activeLink : ""
-                }>
-                Dashboard
-              </NavLink>}
-            {!userInfo ?
+  
+            {!userInfo &&
             <>
                 <NavLink
                   to="/SignUp"
@@ -187,17 +191,6 @@ export default function Header() {
                 >
                   Login
                 </NavLink></>
-                :
-              <button
-                onClick={() => {
-                  dispatch(logout())
-                  navigate('/SignIn')
-                }
-                }
-                className="gap-1 flex   p-2 rounded-lg transform transition-all duration-300 ease-in-out hover:text-white/20 "
-              >
-                Log Out
-              </button>
             }
               {
                 userInfo?.displayName ?
@@ -210,6 +203,17 @@ export default function Header() {
                 <ArrowRightIcon className='w-4 h-4' />
               </NavLink>
               }
+            {                userInfo &&
+            <button
+              onClick={() => {
+                dispatch(logout())
+                navigate('/SignIn')
+              }
+              }
+              className="gap-1 flex   p-2 rounded-lg transform transition-all duration-300 ease-in-out hover:text-white/20 "
+            >
+              Log Out
+            </button>}
 
           </div>
           <button
@@ -266,10 +270,12 @@ export default function Header() {
               <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
             </div>
 
-            <NavLink to="/">
+            <NavLink to="/" className={({ isActive }) =>
+              isActive ? activeLink : ""
+            }>
               Home
             </NavLink>
-            <NavLink to="/"
+            <NavLink to="/Partners"
               className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>

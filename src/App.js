@@ -22,7 +22,7 @@ import GuardedUserInvestorRoutes from './GuardedRoutes/GuardedUserInvestorRoutes
 import GuardedUserPartnerRoutes from './GuardedRoutes/GuardedUserPartnerRoutes';
 import Dashboard_partner from './Pages/Partner/Dashboard_partner';
 import Dashboard_investor from './Pages/Investor/Dashboard_investor';
-
+import UserProfile from './Pages/UserProfile';
 function App() {
 
   return (
@@ -32,9 +32,12 @@ function App() {
       <div className=' pt-3 md:pt-10 min-h-[85vh]'>
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
-         <Route   path="/" element={<Partners />} />
+          <Route path="/Partners" element={<Partners />} />
+          <Route path="/" element={<Home />} />
+
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
+        <Route   path="/UserProfile" element={<UserProfile />} />
         
 
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
@@ -44,7 +47,6 @@ function App() {
           {/* User Member Routes*/}
           <Route element={<GuardedUserMemberRoutes />}>
             <Route path="/Subscription" element={<Subscription />} />
-            <Route path="/Create_Project" element={<Create_Project />} />
             <Route path="/Dashboard_member" element={<Dashboard_member />} />
           </Route>
 

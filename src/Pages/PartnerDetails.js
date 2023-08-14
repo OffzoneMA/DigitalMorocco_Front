@@ -11,7 +11,7 @@ export default function PartnerDetails() {
   return (
     <div className='  pb-10  '>
          <NavLink
-              to={"/"}
+        to={"/Partners"}
               className="flex items-center text-gray-400 gap-1"
           >
               <ArrowLeftIcon className='h-4 w-4' />

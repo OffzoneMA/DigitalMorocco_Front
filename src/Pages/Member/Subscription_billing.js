@@ -30,7 +30,7 @@ export default function Subscription_billing() {
 
   return (
     <div>
-          <div className='flex flex-col gap-6 p-10 h-[75vh]  overflow-scroll'>
+          <div className='flex flex-col gap-6 p-10 max-h-[75vh]  overflow-scroll'>
 
           {
               SubLogs.length > 0 &&

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import SideBar from './SideBarPartner';
 import UserEvents from '../UserEvents';
+import ContinueSignUp from '../Authentification/ContinueSignUp';
+import UserProfile from '../UserProfile';
 const Dashboard_partner = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState(window.location.hash.substring(1) || "History");
+  const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
   const handleMenuItemClick = (menuTitle) => {
     setActiveMenuItem(menuTitle);
   };
@@ -17,10 +19,15 @@ const Dashboard_partner = () => {
             <h1>Dashboard Content</h1>
           </div>
         )}
+        {activeMenuItem === "Profile Status" && (
+          <div>
+            <ContinueSignUp />
+          </div>
+        )} 
         {activeMenuItem === "My Profil" && (
           <div>
            
-            <h1>My Profil Content</h1>
+            <UserProfile />
           </div>
         )}
         {activeMenuItem === "Sponsoring" && (

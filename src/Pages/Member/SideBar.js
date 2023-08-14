@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 const SideBar = ({ handleMenuItemClick }) => { 
@@ -9,10 +10,12 @@ const SideBar = ({ handleMenuItemClick }) => {
        // { title: "Dashboard", src: "dashboard" },
         { title: "Profile Status", src: "add-user" },
         { title: "Subscription", src: "document" },
-        { title: "My Entreprise", src: "corporate" },
+        { title: "My Entreprise", src: "corporate" ,
+            child: userInfo?.member?.companyName && [ { title: "Enterprise Documents", src: "document" }]
+    },
         { title: "Subscription Billing", src: "investor" },
        // { title: "Events", src: "help" },
-      //  { title: "My Profil", src: "add-user" },
+       { title: "My Profil", src: "add-user" },
        // { title: "Investors", src: "investor" },
        // { title: "Documents", src: "document" },
        // { title: "Notifications", src: "notification" },
@@ -52,12 +55,21 @@ const SideBar = ({ handleMenuItemClick }) => {
                     }
 
             
-                {!userInfo?.member?.name &&     <NavLink
-                    to="/Create_Project"
-                    className={` ${!open &&'hidden'}  bg-white p-3 rounded-full `}
+                {!userInfo?.member?.name &&     <button
+                    disabled={activeMenu == "Create Project"}
+                    onClick={() =>{
+                        if (!userInfo?.member?.companyName){
+                            toast.error("First Create Entreprise")
+                        }
+                        else{
+                             setActiveMenu("Create Project")
+                        handleMenuItemClick("Create Project")
+                        }
+                       }}
+                    className={` ${!open && 'hidden'} ${activeMenu != "Create Project" ? 'bg-white' : 'bg-gray-500/20 cursor-not-allowed'}   p-3 rounded-full `}
             >
                     + Create Project
-            </NavLink>}
+            </button>}
                 <div className="flex gap-x-4 items-center justify-center py-5">
                
                 <div className={` duration-500  rounded-md p-2 hover:bg-light-white text-gray-300 text-sm flex items-center gap-x-4  `} >
@@ -68,20 +80,39 @@ const SideBar = ({ handleMenuItemClick }) => {
             </div>
             <ul className="">
                 {Menus.map((Menu, index) => (
+                    <div key={index} >
                     <li
-                        key={index} 
                         onClick={() => {
                             navigate('/Dashboard_member#' + Menu.title)
                             handleMenuItemClick(Menu.title);
                         setActiveMenu(Menu.title);}}
 
-                            className={`flex rounded-full p-2 cursor-pointer hover:bg-slate-400 text-black text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${activeMenu === Menu.title ? "bg-slate-400" : ""}`}
+                            className={`flex rounded-full p-2 cursor-pointer hover:bg-slate-400 text-black text-sm items-center gap-x-4 mt-3 ${activeMenu === Menu.title ? "bg-slate-400" : ""}`}
                     >
                         <img src={`../img/${Menu.src}.png`} alt="" />
                         <span className={`${!open && "hidden"} origin-left duration-200`}>
                             {Menu.title}
                         </span>
                     </li>
+                       { Menu.child  && 
+                        
+                            Menu.child.map((el, i) => (
+                       <li
+                                key={i}
+                            onClick={() => {
+                                navigate('/Dashboard_member#' + el.title)
+                                handleMenuItemClick(el.title);
+                                setActiveMenu(el.title);
+                            }}
+
+                            className={`flex rounded-full p-2 cursor-pointer hover:bg-slate-400 text-black text-sm items-center gap-x-4 ml-5 mt-1 ${activeMenu === el.title ? "bg-slate-400" : ""}`}
+                        >
+                            <img src={`../img/${el.src}.png`} alt="" />
+                            <span className={`${!open && "hidden"} origin-left duration-200`}>
+                                {el.title}
+                            </span>
+                        </li>))}
+                    </div>
                 ))}
             </ul>
         </div>

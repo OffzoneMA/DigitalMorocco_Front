@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const memberApi = createApi({
-    reducerPath: 'memberApi',
+export const userApi = createApi({
+    reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_baseURL+"/members",
+        baseUrl: process.env.REACT_APP_baseURL + "/users",
         prepareHeaders: (headers, { getState }) => {
             const token = getState().auth.userToken
             if (token) {
@@ -13,23 +13,16 @@ export const memberApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        createEntreprise: builder.mutation({
+        updateUser: builder.mutation({
             query: (payload) => {
                 return {
                     url: '/',
-                    method: 'POST',
+                    method: 'PUT',
                     body: payload,
                 }
             },
         }),
-        buySub: builder.mutation({
-            query: (subid) => {
-                return {
-                url: '/SubscribeMember/' + subid,
-                method: 'GET',
-            }},
-        }),
     }),
 })
 
-export const {useCreateEntrepriseMutation ,useBuySubMutation} = memberApi
+export const { useUpdateUserMutation } = userApi
