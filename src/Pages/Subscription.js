@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useGetAllSubscriptonsQuery } from '../Services/Subscription.Service';
 import { useBuySubMutation } from '../Services/Member.Service';
 
-import { Toaster, toast } from 'react-hot-toast';
+import {  toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,12 +22,20 @@ export default function Subscription() {
     
     }
   }, [response.isLoading])
-  
 
+  useEffect(() => {
+   
+    if (userInfo && !userInfo?.member?.companyName) {
+      toast.error("First Create Entreprise !")
+      setTimeout(() => {
+        navigate("/Dashboard_member#My%20Entreprise")
+        navigate(0)
+      }, 800)
 
+    }
+  }, [userInfo?.member?.companyName])
   return (
     <div className="flex flex-col items-center justify-center  md:space-y-8  px-10 pt-10 ">
-      <Toaster />
       <h1 className="text-xl md:text-4xl xl:text-5xl font-bold mb-8 text-center">Unlock More Features</h1>
       {
         (isLoading || response.isLoading )  && 'Loading'
