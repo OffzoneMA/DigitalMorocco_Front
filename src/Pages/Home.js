@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Home() {
   return (
-    <div>
+    <div className='h-screen bg-[#222D68] '>
 
       
     </div>

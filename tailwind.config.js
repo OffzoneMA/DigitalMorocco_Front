@@ -5,6 +5,9 @@ module.exports = {
   ],
     theme: {
     extend: {
+        fontFamily: {
+        'DmSans': ['DM Sans', 'sans-serif;']
+        },
         colors:{
         gold:'#FAB818',
         bronze:'#EAC696',
