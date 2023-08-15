@@ -7,7 +7,7 @@ import { ChevronUpDownIcon, MagnifyingGlassIcon } from '@heroicons/react/24/soli
 
 export default function Partners() {
   return (
-    <div className='flex flex-col md:flex-row justify-around relative'>
+    <div className='flex flex-col md:flex-row justify-around relative pt-3 md:pt-40'>
       <div className='md:w-[400px]  md:h-screen md:sticky left-0 top-0 px-7  md:px-12 md:pt-7'>
         <div className='text-5xl font-semibold'>
           Partners 

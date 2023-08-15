@@ -9,7 +9,7 @@ export default function PartnerDetails() {
     const params = useParams();
     const partner = partenaires[params.partnerId]
   return (
-    <div className='  pb-10  '>
+    <div className='  pb-10 pt-3 md:pt-40 '>
          <NavLink
         to={"/Partners"}
               className="flex items-center text-gray-400 gap-1"
