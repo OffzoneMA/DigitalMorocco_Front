@@ -23,7 +23,6 @@ const SideBar = ({ handleMenuItemClick }) => {
        /// { title: "Setting", src: "Settings" },
     ];
     const navigate=useNavigate()
-
     return (
         <div className='pb-10'>
         <div className={` ${open ? "w-72" : "w-20"} bg-gray-100 min-h-screen px-5 py-6 relative duration-300 rounded-md  `}>
@@ -55,8 +54,27 @@ const SideBar = ({ handleMenuItemClick }) => {
                     }
 
             
-                {!userInfo?.member?.name &&     <button
-                    disabled={activeMenu == "Create Project"}
+                {userInfo?.member?.project ?
+                    <button
+                       
+                        onClick={() => {
+                           /* if (!userInfo?.member?.companyName) {
+                                toast.error("First Create Entreprise")
+                            }
+                            else {
+                                setActiveMenu("Create Project")
+                                handleMenuItemClick("Create Project")
+                            }*/
+                        }}
+                        className={` ${!open && 'hidden'} bg-green-500 text-white   p-3 rounded-full `}
+                    >
+                        {userInfo?.member?.project?.name}
+                    </button>
+                
+                :
+                
+                <button
+                    disabled={activeMenu == "Create Project" }
                     onClick={() =>{
                         if (!userInfo?.member?.companyName){
                             toast.error("First Create Entreprise")

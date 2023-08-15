@@ -1,23 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Toaster } from 'react-hot-toast';
-import { useCreateEntrepriseMutation } from '../../Services/Member.Service';
+import { useCreateProjectMutation } from '../../Services/Member.Service';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const Create_Project = () => {
+
+    const maxFileSize = 8 * 1024 * 1024;
     const [pitchDeck, setPitchDeck] = useState(null);
     const [businessPlan, setBusinessPlan] = useState(null);
     const [financialProjection, setFinancialProjection] = useState(null);
-    const [moreprojet, setMoreProjet] = useState(null);
-    const [teamMembers, setTeamMembers] = useState([{ firstName: '', lastName: '', role: '' }]);
+    const [teamMembers, setTeamMembers] = useState([]);
+
+    const [legalDocuments, setLegalDocuments] = useState([]);
+    const [legaldocFile, setlegaldocFile] = useState(null)
+    const [legaldocName, setlegaldocName] = useState(null)
+
+    const [addProjet, response] = useCreateProjectMutation()
+    const navigate = useNavigate()
+
+
+    const handleLegalDocumentsChange = (event) => {
+        const file = event.target.files[0];
+        if (file && file.size > maxFileSize) {
+            toast.error('File size exceeds the maximum allowed size.(Max 8MB)');
+        }
+        else {
+            setlegaldocFile(file);
+            event.target.value = ''
+        }
+
+    };
+
+    const handleaddDocument = () => {
+        setLegalDocuments((prevDocs) => [...prevDocs, { name: legaldocName, file: legaldocFile }])
+        setlegaldocFile(null)
+        setlegaldocName(null)
+    };
+
 
     const handlePitchDeckChange = (event) => {
         const file = event.target.files[0];
         setPitchDeck(file);
-    };
-    const handleMoreProjectionChange = (event) => {
-        const file = event.target.files[0];
-        setMoreProjet(file);
     };
 
 
@@ -49,7 +73,7 @@ const Create_Project = () => {
 
 
     const handleAddTeamMember = () => {
-        setTeamMembers([...teamMembers, { name: '', role: '' }]);
+        setTeamMembers([...teamMembers, { firstName: '', lastName: '', role: '' }]);
     };
 
     const handleRemoveTeamMember = (index) => {
@@ -57,9 +81,7 @@ const Create_Project = () => {
         setTeamMembers(updatedTeamMembers);
     };
 
-    const [file, setFile] = useState(null)
-    const [addProjet, response] = useCreateEntrepriseMutation()
-    const navigate = useNavigate()
+
 
     const {
         register,
@@ -68,30 +90,52 @@ const Create_Project = () => {
     } = useForm();
 
 
-    useEffect(() => {
-        if (response.isSuccess) {
-            navigate('/myProjet')
-        }
-    }, [response.isSuccess])
 
 
     const onSubmit = (data) => {
         const formData = new FormData();
-        formData.append('projectname', data.projectname);
-        formData.append('fundingAmount', data.fundingAmount);
-        formData.append('description', data.description);
-        formData.append('teamMember', data.teamMember);
-        formData.append('milestoneProgress', data.milestoneProgress);
+        formData.append('infos', JSON.stringify({
+            name: data.name,
+            funding: data.fundingAmount,
+            details: data.details,
+            currency: data.currency,
+            teamMember: data.teamMember,
+            milestoneProgress: data.milestoneProgress,
+            visbility: data.private ? "private" : "public",
+            listMembers: teamMembers
+        }));
 
-        console.log(data)
-        //addProjet(formData)
-        /*setFile(null)
-        reset()*/
+
+        
+        pitchDeck && formData.append('files', pitchDeck, 'pitchDeck');
+        businessPlan && formData.append('files', businessPlan, 'businessPlan');
+        financialProjection && formData.append('files', financialProjection, 'financialProjection');
+        for (const doc of legalDocuments) {
+            formData.append('files', doc.file, "doc_"+doc.name);
+        }
+        addProjet(formData)
+        reset()
     };
+
+
+    useEffect(() => {
+        response.isError && toast.error(response.error.message)
+        if (response.isSuccess) {
+            toast.success("Project Created!")
+            setTimeout(() => {
+                navigate((0))
+            }, 3000)
+        }
+
+    }, [response.isLoading])
+
 
     return (
         <div className=''>
-            <div className='grid place-items-center py-10'>
+            {response.isLoading ? "Loading"
+        
+        :
+                    <div className='grid place-items-center py-10'>
                 <div className='bg-white min-w-[650px] space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
                     <div className="sm:mx-auto">
                         <img
@@ -104,18 +148,17 @@ const Create_Project = () => {
                         </h2>
                     </div>
                     <div className="flex-col items-center mt-10">
-                        <Toaster />
                         <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div >
-                                <label htmlFor="projectname" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                                     Project Name*
                                 </label>
                                 <div className="">
                                     <input
-                                        id="projectname"
-                                        name="projectname"
+                                        id="name"
+                                        name="name"
                                         type="text"
-                                        {...register("projectname", {
+                                        {...register("name", {
                                             required: {
                                                 value: true,
                                                 message: "You must enter your Project Name ",
@@ -128,7 +171,7 @@ const Create_Project = () => {
                                         className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                     />
                                     <span className="text-red-400 text-sm py-2">
-                                        {errors?.projectname?.message}
+                                        {errors?.name?.message}
                                     </span>
                                 </div>
                             </div>
@@ -167,9 +210,9 @@ const Create_Project = () => {
                                         })}
                                         className="block w-28 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                     >
-                                        <option value="eur">Euro (€)</option>
-                                        <option value="usd">US Dollar ($)</option>
-                                        <option value="mad">Moroccan Dirham (MAD)</option>
+                                        <option value="€">Euro (€)</option>
+                                        <option value="$">US Dollar ($)</option>
+                                        <option value="MAD">Moroccan Dirham (MAD)</option>
                                     </select>
                                 </div>
                                 <div className="text-red-400 text-sm ">
@@ -178,12 +221,12 @@ const Create_Project = () => {
                             </div>
 
                             <div className=''>
-                                <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="details" className="block text-sm font-medium leading-6 text-gray-900">
                                     Project Details*
                                 </label>
                                 <div className="">
                                     <textarea
-                                        {...register("description", {
+                                        {...register("details", {
                                             required: {
                                                 value: true,
                                                 message: "You must enter your Project Details ",
@@ -193,13 +236,13 @@ const Create_Project = () => {
                                                 message: "This is not long enough ",
                                             }
                                         })}
-                                        id="description"
-                                        name="description"
+                                        id="details"
+                                        name="details"
 
                                         className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                     />
                                     <span className="text-red-400 text-sm py-2">
-                                        {errors?.description?.message}
+                                        {errors?.details?.message}
                                     </span>
                                 </div>
 
@@ -273,12 +316,12 @@ const Create_Project = () => {
                                     </span>
                                 </div>
                             </div>
-                            <div className='w-full grid grid-cols-3' >
+                            <div className='w-full grid grid-cols-2 gap-4' >
                                 <div className='w-full '>
                                     <label className="block text-sm font-medium leading-6 text-gray-900">Pitch Deck</label>
                                     <div className="flex">
                                         <label htmlFor="pitchDeck" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
-                                            Choose File
+                                          {pitchDeck ? 'Change' : 'Choose File'}
                                         </label>
                                         <input
                                             type="file"
@@ -294,7 +337,8 @@ const Create_Project = () => {
                                     <label className="block text-sm font-medium leading-6 text-gray-900">Business Plan</label>
                                     <div className="flex">
                                         <label htmlFor="businessPlan" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
-                                            Choose File
+                                            {businessPlan ? 'Change' : 'Choose File'}
+
                                         </label>
                                         <input
                                             type="file"
@@ -310,7 +354,8 @@ const Create_Project = () => {
                                     <label className="block text-sm font-medium leading-6 text-gray-900">Financial Projection</label>
                                     <div className="flex">
                                         <label htmlFor="financialProjection" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
-                                            Choose File
+                                            {financialProjection ? 'Change' : 'Choose File'}
+
                                         </label>
                                         <input
                                             type="file"
@@ -323,29 +368,63 @@ const Create_Project = () => {
                                 </div>
 
                                 <div className='w-full '>
-                                    <label className="block text-sm font-medium leading-6 text-gray-900">Upload More Files</label>
+                                    <label className="block text-sm font-medium leading-6 text-gray-900">
+                                        Upload More Files (Max 5 Files)</label>
                                     <div className="flex">
-                                        <label htmlFor="moreProjection" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
-                                            Choose File
+                                        <label htmlFor="legalDocuments" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
+                                            {legaldocFile ? 'Choosing ...' : 'Add documents'}
                                         </label>
                                         <input
+                                            disabled={legaldocFile || legalDocuments.length == 5}
                                             type="file"
                                             accept=".pdf"
-                                            onChange={handleMoreProjectionChange}
-                                            id="moreProjection"
+                                            onChange={handleLegalDocumentsChange}
+                                            id="legalDocuments"
                                             className="hidden"
                                         />
                                     </div>
+                                    {
+                                        legalDocuments.length > 0 &&
+                                        legalDocuments.map((el, i) => (
+                                            <div className='text-xs italic text-gray-400' key={i}>
+                                                <span>{el.name}</span>
+                                                <button
+                                                    onClick={() => {
+                                                        setLegalDocuments(legalDocuments.filter((_, index) => i !== index));
+                                                    }}
+                                                    className='text-red-500 mx-1 underline'
+                                                    type='button'>remove</button>
+                                            </div>
+                                        ))
+                                    }
+                                    {legaldocFile &&
+                                        <div className='flex items-center gap-1'>
+                                            <input
+                                                onChange={(e) => setlegaldocName(e.target.value.replaceAll(' ', '_'))}
+                                                type="text" className='p-2' placeholder=' Document Name Ex: RC' />
+                                            <button
+                                                type='button'
+                                                onClick={handleaddDocument}
+                                                disabled={!legaldocName || legaldocName?.length < 2 || legaldocName?.length > 35}
+                                                className={`disabled:opacity-80 disabled:cursor-not-allowed p-2 bg-green-400 mx-3 rounded-xl text-white `} >add file</button>
+                                            <button
+                                                type='button'
+                                                className={` p-2 bg-gray-400 mx-3 rounded-xl text-white`} onClick={() => {
+                                                    setlegaldocName(null)
+                                                    setlegaldocFile(null)
+                                                }}>Cancel</button>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             
                             <div>
                                 <div>
-                                <input type="checkbox" name='private' placeholder='Private' {...register('private')}/>
-                                <label htmlFor='private' className='text-lg p-2 font-semibold'>Private</label>
+                                <input type="checkbox" name='private' placeholder='private' {...register('private')}/>
+                                <label htmlFor='visbility' className='text-lg p-2 font-semibold'>Set Private</label>
                                 </div>
                                 <button
-                                    disabled={!file}
+                                    disabled={teamMembers?.length == 0 || response.isLoading}
                                     type="submit"
                                     className="mt-2 disabled:opacity-50 disabled:cursor-not-allowed  w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:ring-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
@@ -357,8 +436,10 @@ const Create_Project = () => {
                     </div>
                 </div>
             </div>
+        }
+
         </div>
     );
-};
 
+                                }
 export default Create_Project;
