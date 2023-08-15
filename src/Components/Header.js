@@ -118,7 +118,7 @@ export default function Header() {
 
 
 
-            <div className={`hidden md:flex items-center  gap-3 lg:gap-9 text-sm ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
+            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 text-sm ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
               <NavLink to="/" className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
@@ -156,7 +156,7 @@ export default function Header() {
 
             </div>
 
-            <div className='flex items-center gap-3'>
+            <div className='hidden md:flex items-center gap-3'>
               {!userInfo ?
                 <>
                   <NavLink
@@ -323,8 +323,7 @@ export default function Header() {
                   Dashboard
                 </NavLink>
               }
-              {
-                userInfo && userInfo?.role != "Admin" &&
+              { userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
                 <NavLink to="/Complete_SignUp"
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
@@ -338,14 +337,6 @@ export default function Header() {
                     isActive ? activeLink : ""
                   }>
                   Dashboard
-                </NavLink>}
-              {
-                userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
-                <NavLink to="/Subscription"
-                  className={({ isActive }) =>
-                    isActive ? activeLink : ""
-                  }>
-                  Subscription
                 </NavLink>}
               {!userInfo ?
                 <>
