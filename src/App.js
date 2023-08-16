@@ -24,6 +24,8 @@ import Dashboard_partner from './Pages/Partner/Dashboard_partner';
 import Dashboard_investor from './Pages/Investor/Dashboard_investor';
 import UserProfile from './Pages/UserProfile';
 import Pricing from './Pages/Pricing';
+import PaySuccess from './Pages/Payment/PaySuccess';
+import PayFailed from './Pages/Payment/PayFailed';
 function App() {
 
   return (
@@ -51,6 +53,8 @@ function App() {
           <Route element={<GuardedUserMemberRoutes />}>
             <Route path="/Subscription" element={<Subscription />} />
             <Route path="/Dashboard_member" element={<Dashboard_member />} />
+            <Route path="/Payement_Success" element={<PaySuccess />} />
+            <Route path="/Payement_Failed" element={<PayFailed />} />
           </Route>
 
           {/* User Investor Routes*/}

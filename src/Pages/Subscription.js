@@ -13,13 +13,9 @@ export default function Subscription() {
   const navigate=useNavigate()
 
   useEffect(() => {
-    response.isError && toast.error(response?.error?.data?.message)
-    if(response.isSuccess) {
-      toast.success("New Subscription purchased !")
-    setTimeout(()=>{
-      navigate(0)
-    },3000)
-    
+    response.isError && navigate("/Payement_Failed")
+    if (response.isSuccess) {
+      navigate("/Payement_Success")
     }
   }, [response.isLoading])
 
