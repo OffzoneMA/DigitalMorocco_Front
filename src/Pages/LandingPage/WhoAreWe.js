@@ -12,7 +12,7 @@ export default function WhoAreWe(){
                     <p className="font-bold text-xs leading-6 text-gray700 tracking-wider" >OUR MISSION</p>
                     </div>
                     <div className="w-[500px] pl-[0px]">
-                    <p className="text-gray500 text-opacity-70 font-medium text-sm ">To help professionals in the digital field grow their businesses. Digitalization is now everywhere, making our mission even more important and essential than ever.</p>
+                    <p className="text-gray500 text-opacity-70 font-medium text-sm leading-normal">To help professionals in the digital field grow their businesses. Digitalization is now everywhere, making our mission even more important and essential than ever.</p>
                     </div>
                 </div>
                 <hr className='w-[495px] ml-72 border-1 my-3' />
@@ -21,7 +21,7 @@ export default function WhoAreWe(){
                     <p className="font-bold text-xs leading-6 text-gray700 tracking-wider" >OUR APPROACH</p>
                     </div>
                     <div className="w-[500px] pl-[0px]">
-                    <p className="text-gray500 text-opacity-70 font-medium text-sm">Unity is strength, which is why we offer our members the opportunity to collaborate and progress together.</p>
+                    <p className="text-gray500 text-opacity-70 font-medium text-sm leading-normal">Unity is strength, which is why we offer our members the opportunity to collaborate and progress together.</p>
                     </div>
                     
                 </div>
@@ -32,7 +32,7 @@ export default function WhoAreWe(){
                     <p className="font-bold text-xs leading-6 text-gray700 tracking-wider" >OUR SPIRIT</p>
                     </div>
                     <div className="w-[500px] pl-[0px]">
-                    <p className="text-gray500 text-opacity-70 font-medium text-sm">Happy Business! Let's be demanding, efficient, reliable, and not take ourselves too seriously. Enjoying working as a team makes every experience and encounter effective AND fun.</p>
+                    <p className="text-gray500 text-opacity-70 font-medium text-sm leading-normal">Happy Business! Let's be demanding, efficient, reliable, and not take ourselves too seriously. Enjoying working as a team makes every experience and encounter effective AND fun.</p>
                     </div>
                     
                 </div>
@@ -43,7 +43,7 @@ export default function WhoAreWe(){
                     <p className="font-bold text-xs leading-6 text-gray700 tracking-wider" >OUR MOTTO</p>
                     </div>
                     <div className="w-[500px] pl-[0px]">
-                    <p className="text-gray500 text-opacity-70 font-medium text-sm">Mutual Aid <br/>
+                    <p className="text-gray500  text-opacity-70 font-medium text-sm leading-normal">Mutual Aid <br/>
                     Giving and receiving. Helping others and receiving their help. It is noble and highly efficient.</p>
                     </div>
                     
