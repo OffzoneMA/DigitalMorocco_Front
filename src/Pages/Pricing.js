@@ -2,6 +2,9 @@ import React from "react";
 const Pricing = () => {
     return (
         <div className="flex flex-col items-center justify-center md:space-y-8 pt-16 md:pt-48 py-8 md:py-56 px-4 md:px-16">
+            <h1 className="text-sm md:text-sm font-normal mb-2 md:mb-3 text-gray-400 text-center">
+                PLAN & PRICING
+            </h1>
             <h1 className="text-3xl md:text-5xl font-semibold mb-4 md:mb-8 text-bleu2 text-center">
                 Simple & Flexible Pricing built <br /> for Everyone
             </h1>
