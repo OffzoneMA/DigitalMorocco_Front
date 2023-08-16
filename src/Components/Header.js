@@ -149,7 +149,7 @@ export default function Header() {
                   isActive ? activeLink : ""
                 }>
                 Pricing
-              </NavLink>              <NavLink to="/Contact Us"
+              </NavLink>              <NavLink to="/ContactUs"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>

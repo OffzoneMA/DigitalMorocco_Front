@@ -24,6 +24,7 @@ import Dashboard_partner from './Pages/Partner/Dashboard_partner';
 import Dashboard_investor from './Pages/Investor/Dashboard_investor';
 import UserProfile from './Pages/UserProfile';
 import Pricing from './Pages/Pricing';
+import ContactUs from './Pages/ContactUs';
 import PaySuccess from './Pages/Payment/PaySuccess';
 import PayFailed from './Pages/Payment/PayFailed';
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route   path="/SignUp" element={<SignUp />} />
         <Route   path="/UserProfile" element={<UserProfile />} />
         <Route   path="/Pricing" element={<Pricing />} />
+        <Route   path="/ContactUs" element={<ContactUs/>}/>
         
 
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
