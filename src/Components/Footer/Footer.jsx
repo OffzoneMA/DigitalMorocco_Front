@@ -24,9 +24,9 @@ const Footer = () => {
       </div>
       <ItemsContainer />
 
-      <div className=" px-64 py-2  ">
-        <div className="flex justify-between space-x-6 border-t-2 border-t-gray-200 p-8 mx-8">
-          <div className="bg-[url('/public/img/Logo.jpg')] bg-no-repeat bg-cover bg-center h-[52px] w-[220px] mr-6 "></div>
+      <div className="px-8 py-2 md:px-64">
+        <div className="flex justify-between space-x-6 border-t-2 border-t-gray-200 p-8 md:mx-0">
+          <div className="bg-[url('/public/img/Logo.jpg')] bg-no-repeat bg-contain bg-center h-[52px] w-[220px] md:mr-8"></div>
           <div className="sm:grid sm:grid-cols-2 gap-10 text-gray-400 text-sm pb-8">
             <div>
               <p className="font-semibold text-bleu2">ADDRESS</p>
@@ -45,7 +45,7 @@ const Footer = () => {
                 card required.
               </p>
               <br />
-              <button className="border-2 border-transparent flex justify-center  rounded-full bg-blue-700 text-white mx-2 p-2 w-48 ">
+              <button className="border-2 border-transparent flex justify-center  rounded-full bg-blue-700 text-white mx-2 p-2 w-48">
                 Get Started
               </button>
             </div>
@@ -53,13 +53,13 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="sm:grid sm:grid-cols-4 gap-1 text-center pt-2 text-gray-400 text-sm pb-4  mx-72 space-x-4">
+      <div className="sm:grid sm:grid-cols-4 gap-1 text-center pt-2 text-gray-400 text-sm pb-4 md:mx-72 mx-4 space-x-4">
         <div>Conditions Générales d'Utilisation</div>
         <div>Conditions Générales de Vente Mentions Légales</div>
         <div>Politique de Confidentialité</div>
         <div>Politique en matière des Cookies</div>
       </div>
-      <div className=" text-center pt-2 text-gray-400 text-sm pb-8">
+      <div className="text-center pt-2 text-gray-400 text-sm pb-8 px-4">
         <span>Copyright © 2023 Digital Morocco, tous droits réservés</span>
       </div>
     </footer>
