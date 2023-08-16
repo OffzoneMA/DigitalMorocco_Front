@@ -31,6 +31,7 @@ function App() {
        <Header />
 
         <div className='  min-h-[85vh] '>
+
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
           <Route path="/Partners" element={<Partners />} />
