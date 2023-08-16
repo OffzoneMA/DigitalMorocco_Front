@@ -92,6 +92,7 @@ export default function Header() {
   }
 
   return (
+
     <div className='w-screen absolute top-0 left-0 z-[100]'>
       <div className='relative w-full   '>
         {location.pathname != '/Complete_SignUp' &&
@@ -103,6 +104,7 @@ export default function Header() {
 
               <ExclamationTriangleIcon className='h-6 w-6 text-white' />
               Please complete your sign up steps!
+
             </div>
 
           </NavLink>
@@ -126,6 +128,7 @@ export default function Header() {
               </NavLink>
 
               <NavLink to="/Members"
+
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
