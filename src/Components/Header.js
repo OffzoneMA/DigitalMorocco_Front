@@ -111,7 +111,7 @@ export default function Header() {
 
 
         }
-        <div className='    px-2 sm:px-4 lg:px-32 py-9  '>
+        <div className='    px-5 sm:px-6 lg:px-32 py-9  '>
           <div className='flex items-center justify-between'>
 
 
@@ -255,15 +255,15 @@ export default function Header() {
               className="MenuButton cursor-pointer  flex flex-col items-center justify-center space-y-1 outline-0	md:hidden z-[150]"
             >
               <span
-                className={`w-8 h-1 bg-black rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `rotate-45`
+                className={`w-8 h-1 ${location.pathname=="/" && !open ? "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `rotate-45`
                   }`}
               ></span>
               <span
-                className={`w-8 h-1 bg-black rounded-full transform transition origin-[5px_2px] duration-500 ease-in-out ${open && `-translate-x-1`
+                className={`w-8 h-1 ${location.pathname == "/" && !open ?  "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_2px] duration-500 ease-in-out ${open && `-translate-x-1`
                   } ${open && `opacity-0`}`}
               ></span>
               <span
-                className={`w-8 h-1 bg-black rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `-rotate-45`
+                className={`w-8 h-1 ${location.pathname == "/" && !open ?  "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `-rotate-45`
                   }`}
               ></span>
             </button>
