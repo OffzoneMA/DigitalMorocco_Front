@@ -17,9 +17,9 @@ export default function Home() {
 
       </div>
       <WhoAreWe />
-     {/*  <WhyJoinUs />
+     <WhyJoinUs />
       <OurGoals />
-      <OurActivities /> */}
+      <OurActivities /> 
 
     </div>
 
