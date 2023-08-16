@@ -29,7 +29,7 @@ function App() {
     <BrowserRouter>   
        <Header />
 
-      <div className=' pt-3 md:pt-10 min-h-[85vh]'>
+      <div className=''>
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
           <Route path="/Partners" element={<Partners />} />

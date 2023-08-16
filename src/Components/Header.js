@@ -107,7 +107,7 @@ export default function Header() {
         
        
       }
-      <div className='   shadow-2xl rounded-full w-full  px-7 lg:px-8 py-3  '>
+      <div className='opacity-100 shadow-2xl rounded-full w-full  px-7 lg:px-8 py-3  '>
         <div className='flex items-center justify-between'>
 
 
@@ -120,10 +120,10 @@ export default function Header() {
           </div>
 
           <div className='hidden md:flex items-center  gap-3 lg:gap-8 lg:pr-9 font-medium text-sm xl:text-base '>
-            <NavLink to="/" className={({ isActive }) =>
+            <NavLink to="/About" className={({ isActive }) =>
               isActive ? activeLink : ""
             }>
-              Home
+              About
             </NavLink>
             {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
               <NavLink to="/Dashboard_member"
