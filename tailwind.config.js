@@ -16,6 +16,7 @@ module.exports = {
         gray500:'#667085',
         bleu1:'#3417B0',
         bleu2:'#1E0E62',
+        col1:'#00CDAE',
        
 
         "dark-purple": "#081A51",
