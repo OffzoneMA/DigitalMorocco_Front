@@ -10,7 +10,7 @@ const Dashboard_investor = () => {
     setActiveMenuItem(menuTitle);
   };
   return (
-    <div className="flex px-5  gap-x-4 relative">
+    <div className="flex px-5  gap-x-4 relative pt-3 md:pt-40">
       <SideBar handleMenuItemClick={handleMenuItemClick} />
       <div className="flex-1 -mt-8">
        

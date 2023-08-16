@@ -22,6 +22,15 @@ export const memberApi = createApi({
                 }
             },
         }),
+        createProject: builder.mutation({
+            query: (payload) => {
+                return {
+                    url: '/project',
+                    method: 'POST',
+                    body: payload,
+                }
+            },
+        }),
         buySub: builder.mutation({
             query: (subid) => {
                 return {
@@ -32,4 +41,4 @@ export const memberApi = createApi({
     }),
 })
 
-export const {useCreateEntrepriseMutation ,useBuySubMutation} = memberApi
+export const {useCreateEntrepriseMutation ,useBuySubMutation,useCreateProjectMutation} = memberApi

@@ -39,7 +39,7 @@ const SideBarPartner = ({ handleMenuItemClick }) => {
                 {Menus.map((Menu, index) => (
                     <li
                         key={index} onClick={() => {
-                            navigate('/Dashboard_member#' + Menu.title)
+                            navigate('/Dashboard_partner#' + Menu.title)
                             handleMenuItemClick(Menu.title);
                             setActiveMenu(Menu.title);}}
                             className={`flex rounded-full p-2 cursor-pointer hover:bg-slate-400 text-black text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${activeMenu === Menu.title ? "bg-slate-400" : ""}`}

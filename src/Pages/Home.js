@@ -6,6 +6,7 @@ import OurActivities from './LandingPage/OurActivities';
 
 export default function Home() {
   return (
+
     <div>
      <div className="w-full h-[803px] bg-[#182049] bg-[url(/public/img/Bg.png),_url(/public/img/MorrocoMap.png)] bg-no-repeat bg-right">
       <div className="h-[474px] p-[229px] w-[1424px]">
@@ -20,6 +21,7 @@ export default function Home() {
       <WhyJoinUs />
       <OurGoals />
       <OurActivities />
+
     </div>
   
   )

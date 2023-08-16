@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
+import {  toast } from 'react-hot-toast';
 import { useForm } from "react-hook-form";
 import { countriesAndCities } from '../../data/countries'
 import { useCreateEntrepriseMutation } from '../../Services/Member.Service';
@@ -128,7 +128,6 @@ export default function MyEntreprise() {
     return (
        
         <div className=''>
-            <Toaster />
           {  userInfo ? 
                       <div className='flex py-10 '>
                 <div className='bg-white  w-full  space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
@@ -153,7 +152,6 @@ export default function MyEntreprise() {
                             onClick={() => setedit(true)} >
                            Enable Edit
                         </button>}
-                        <Toaster />
                         {!FirstCreate &&
                        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div className='grid gap-4 grid-cols-2'>

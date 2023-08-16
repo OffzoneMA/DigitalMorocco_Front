@@ -27,9 +27,11 @@ function App() {
 
   return (
     <BrowserRouter>   
+      <div className='font-DmSans'>
        <Header />
 
-      <div className=''>
+        <div className='  min-h-[85vh] '>
+
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
           <Route path="/Partners" element={<Partners />} />
@@ -73,7 +75,7 @@ function App() {
       </Routes>
       </div>
       <Footer />
-
+</div>
     </BrowserRouter>    
  
   );
