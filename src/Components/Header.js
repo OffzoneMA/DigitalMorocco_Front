@@ -199,38 +199,34 @@ export default function Header() {
                 </NavLink>}
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
                 <NavLink to="/Dashboard_member"
-                  className={({ isActive }) =>
-                    (isActive ? activeLink : "") + "px-3 py-2 rounded-full text-black    "
-
-                  }>
+                className={({ isActive }) =>
+                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
+             }>
                   Dashboard
                 </NavLink>
               }
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "investor" &&
                 <NavLink to="/Dashboard_investor"
-                  className={({ isActive }) =>
-                    (isActive ? activeLink : "") + "px-3 py-2 rounded-full text-black    "
-
-                  }>
+                className={({ isActive }) =>
+                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
+             }>
                   Dashboard
                 </NavLink>
               }
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
                 <NavLink to="/Dashboard_partner"
-                  className={({ isActive }) =>
-                    (isActive ? activeLink : "") + "px-3 py-2 rounded-full text-black    "
-
-                  }>
+                className={({ isActive }) =>
+                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
+             }>
                   Dashboard
                 </NavLink>
               }
               {
                 userInfo && userInfo?.role == "Admin" &&
                 <NavLink to="/Dashboard_admin"
-                  className={({ isActive }) =>
-                    (isActive ? activeLink : "") + "px-3 py-2 rounded-full text-black    "
-
-                  }>
+                className={({ isActive }) =>
+                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
+             }>
                   Dashboard
                 </NavLink>}
 
