@@ -116,7 +116,7 @@ export default function Header() {
 
 
 
-            <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14   ' />
+            <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14  ' />
 
 
 
