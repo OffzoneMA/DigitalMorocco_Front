@@ -31,7 +31,7 @@ function App() {
 
   return (
     <BrowserRouter>   
-      <div className='font-DmSans'>
+      <div className='font-DmSans  overflow-hidden'>
        <Header />
 
         <div className='  min-h-[85vh] '>
