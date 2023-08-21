@@ -7,6 +7,7 @@ export default function Partners() {
   return (
     <div>
       <PageTitle subtitle={'LIST OF OUR PARTNERS'} title={'Contribute to the growth of innovative ventures.'} text={''}/>
+      
 
       <div className='flex flex-col md:flex-row justify-around relative pt-2 md:pt-0'>
         <div className='px-6 py-1 md:px-14 md:py-5'>
