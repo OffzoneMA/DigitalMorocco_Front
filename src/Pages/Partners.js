@@ -1,94 +1,25 @@
-import React from 'react'
-import PartnerCard from '../Components/PartnerCard'
-import { partenaires } from '../data/data'
-import { ChevronUpDownIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
-
-
+import React from 'react';
+import PartnerCard from '../Components/PartnerCard';
+import { partenaires } from '../data/data';
+import PageTitle from '../Components/PageTitle';
 
 export default function Partners() {
   return (
-    <div className='flex flex-col md:flex-row justify-around relative pt-3 md:pt-40'>
-      <div className='md:w-[400px]  md:h-screen md:sticky left-0 top-0 px-7  md:px-12 md:pt-7'>
-        <div className='text-5xl font-semibold'>
-          Partners 
-        </div>
-        <div>
+    <div>
+      <PageTitle subtitle={'LIST OF OUR PARTNERS'} title={'Contribute to the growth of innovative ventures.'} text={''}/>
+      
 
-          <div className='space-y-3 md:space-y-6'>
-
-            <div className='text-2xl font-semibold pt-7 md:pt-16'>
-            Select Country
-          </div>
-
-            <div className='relative group cursor-pointer'>
-            <div className='bg-gray-200 flex justify-between items-center px-4 py-2 rounded-lg '>
-              <span>All</span>
-              <ChevronUpDownIcon className='h-6 w-6' />
-            </div>
-              <div className='border absolute hidden group-hover:inline transition ease-in-out duration-300 top-full bg-white  left-0 right-0 rounded-md '>
-              <ul className='space-y-1 divide-y-2'>
-                  <li className='px-4 py-1 cursor-pointer transition ease-in-out duration-300 hover:opacity-50 hover:bg-black/20 '>Morocco</li>
-                  <li className='px-4 py-1 cursor-pointer transition ease-in-out duration-300 hover:opacity-50 hover:bg-black/20'>France</li>
-                  <li className='px-4 py-1 cursor-pointer transition ease-in-out duration-300 hover:opacity-50 hover:bg-black/20'>Italy</li>
-                  <li className='px-4 py-1 cursor-pointer transition ease-in-out duration-300 hover:opacity-50 hover:bg-black/20'>Germany</li>
-                  <li className='px-4 py-1 cursor-pointer transition ease-in-out duration-300 hover:opacity-50 hover:bg-black/20'>Spain</li>
-              </ul>
-            </div>
-          </div>
-
-            <div className='space-x-2'>
-              <input type="checkbox" />
-              <label className='text-lg text-gray-700 '>Certified Only</label>
-            </div>
-
-            <div className='text-2xl font-semibold pt-3 md:pt-7'>
-              Partner Type
-            </div>
-
-            <div className='space-y-2'> 
-            <div className='space-x-2'>
-              <input type="checkbox" />
-              <label className='text-lg text-gray-700 '>Gold</label>
-            </div>
-            <div className='space-x-2'>
-              <input type="checkbox" />
-              <label className='text-lg text-gray-700 '>Silver</label>
-            </div>
-            <div className='space-x-2'>
-              <input type="checkbox" />
-              <label className='text-lg text-gray-700 '>Bronze</label>
-            </div>
-            </div>
+      <div className='flex flex-col md:flex-row justify-around relative pt-2 md:pt-0'>
+        <div className='px-6 py-1 md:px-14 md:py-5'>
+          <div className='flex flex-wrap justify-between gap-4 sm:grid sm:grid-cols-2 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
+            {partenaires.map((el, i) => (
+              <div key={i} className="mb-4 md:w-1/3">
+                <PartnerCard partner={el} index={i} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
-     
-      <div className='px-6 py-1 md:px-14 md:py-5  '>
-
-      <br/>
-
-        <div className='flex justify-center   md:justify-end   pb-7 md:pb-16 '>
-  
-          <div className='   bg-gray-200  px-4 py-2 md:p-3  rounded-xl flex items-center w-full md:w-auto     '>
-          <MagnifyingGlassIcon className="h-5 w-5 text-black " />
-          <input
-            type="text"
-            placeholder="Search ... "
-              className="  outline-none text-black m-0 border-0 focus:ring-0 px-2 pr-1 bg-gray-200 w-full"
-          />
-
-        </div>
-        </div>
-        <div className='flex flex-col items-center justify-center gap-5 lg:grid lg:grid-cols-2 xl:grid-cols-3   '>
-        {
-          partenaires.map((el, i) => (
-            <PartnerCard partner={el} index={i} key={i}/>
-          ))
-        }
-      </div> 
-       
-     
-    </div> 
     </div>
-  )
+  );
 }

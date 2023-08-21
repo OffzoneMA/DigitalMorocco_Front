@@ -61,7 +61,7 @@ const ContactUs = () => {
                             <label htmlFor="Your message" text="Your message" className="block font-medium">
                             </label>
                             <textarea
-                                className="border border-gray-300 rounded-xl p-8 w-full "
+                                className="border border-gray-300 rounded-xl p-8 w-full  "
                                 placeholder="Your message"
                             />
                         </div>
