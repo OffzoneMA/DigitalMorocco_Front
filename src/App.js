@@ -39,7 +39,7 @@ function App() {
         <div className='  min-h-[85vh] '>
 
       <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/Members" element={<Members />} />
         <Route path="/Partners" element={<Partners />} />
         <Route path="/" element={<Home />} />
 
@@ -71,11 +71,6 @@ function App() {
           <Route element={<GuardedUserPartnerRoutes />}>
              <Route path="/Dashboard_partner" element={<Dashboard_partner />} /> 
           </Route>
-
-              {/* Members page */}
-            <Route element={<GuardedMemberPage />}>
-              <Route path="/Members" element={<Members />} />
-            </Route>
 
           {/* Admin Routes*/}
           <Route element={<GuardedAdminRoute />}>

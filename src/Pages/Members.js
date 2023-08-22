@@ -4,6 +4,7 @@ import Pagination from '../Components/Pagination'
 import { memberApi } from "../Services/Member.Service";
 import { useSearchParams } from 'react-router-dom';
 import MemberCard from '../Components/MemberCard';
+import FilterSelect from '../Components/FilterSelect';
 
 export default function Members() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -25,6 +26,13 @@ export default function Members() {
        {
               !isFetching && data?.members?.length>0 &&
         <>
+                  <div className='flex items-center justify-center gap-5 w-screen px-6 py-1 md:px-14'>
+
+                 <FilterSelect title={"Sectors"} />
+                      <FilterSelect title={"Stage"} />
+                      <FilterSelect title={"Country"} />
+
+        </div>
           <div className='flex flex-col md:flex-row justify-around relative pt-2 md:pt-0'>
               <div className='px-6 py-1 md:px-14 md:py-5'>
                   <div className='flex flex-wrap justify-between gap-4 sm:grid sm:grid-cols-2 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>

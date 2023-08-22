@@ -4,13 +4,13 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 export default function MemberCard({ member }) {
         return (
-            <NavLink to={"/Member/" + member?._id}>
+            <NavLink /*to={"/Member/" + member?._id}*/>
                 <div className='flex flex-col rounded-xl border-2 border-[#EBEAED] bg-[#FCFCFD] w-72 px-5 mb-4 mx-2 py-2 my-2 '>
                     <div className='flex justify-center items-center mb-1 '>
                         <img src={member?.logo} className='w-52 h-36 object-center object-contain' alt='' />
                     </div>
                     <div className='my-1 text-center mb-2 grid grid-cols-2 gap-2'>
-                        <h3 className='text-lg text-bleu2 font-semibold min-h-[40px] col-span-1 whitespace-nowrap overflow-hidden overflow-ellipsis'>{member?.name}</h3>
+                        <h3 className='text-lg text-bleu2 font-semibold min-h-[40px] col-span-1 whitespace-nowrap overflow-hidden overflow-ellipsis'>{member?.companyName}</h3>
                         <div className="border-2 border-blue-400 bg-blue-100 text-blue-400 p-2 rounded-3xl col-span-1">
                             Healthcare
                         </div>

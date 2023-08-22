@@ -278,8 +278,9 @@ export default function MyEntreprise() {
 
 
                                 <div>
-                                    <label htmlFor="desc" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
                                         Description
+
                                     </label>
                                     <div className="mt-2">
                                         <textarea
@@ -523,10 +524,10 @@ export default function MyEntreprise() {
                                 </div>
 
 
-                            {
-                                !userInfo?.member?.companyName &&
+                            
                                 <div className='grid gap-4 grid-cols-2'>
-                                    <div className='w-full space-y-3'>
+                              {
+                                !userInfo?.member?.companyName &&      <div className='w-full space-y-3'>
                                         <label className="block text-sm font-medium leading-6 text-gray-900">Upload The Documents (Max 8MB)</label>
                                         <div className="flex">
                                             <label htmlFor="legalDocuments" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
@@ -574,15 +575,16 @@ export default function MyEntreprise() {
                                             </div>
                                         }
 
-                                    </div>
+                                        </div>}
 
                                     <div className="w-full space-y-3">
                                         <label className="block text-sm font-medium leading-6 text-gray-900">
                                             Company Logo (Max 8MB)
                                         </label>
-                                        <label className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
+                                        <label className={`${edit ? 'cursor-pointer':'cursor-not-allowed' }  inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out`}>
                                             {logo ? "Change Logo" : "Choose a Logo"}
                                             <input
+                                                disabled={!edit}
                                                 onChange={(event) => {
                                                     if (event.target.files[0] && event.target.files[0].size > maxFileSize) {
                                                         toast.error('File size exceeds the maximum allowed size.(Max 8MB)');
@@ -597,10 +599,12 @@ export default function MyEntreprise() {
                                             />
 
                                         </label><br />
-                                        {logo && <img className='p-5 text-xs' src={URL.createObjectURL(logo)} />}
+                                        {logo && <img className='p-5 text-xs h-52' src={URL.createObjectURL(logo)} />}
+                                        {userInfo?.member?.logo && !logo && <img className='p-5 text-xs h-52' src={userInfo?.member?.logo} />}
+
                                     </div>
                                 </div>
-                            }
+                           
 
 
 
@@ -610,7 +614,7 @@ export default function MyEntreprise() {
                                 response.isLoading ? "loading ..."
                                 :
                                 <button
-                                    disabled={(!userInfo?.member?.companyName && !logo )|| listEmployees?.length==0 || !edit } 
+                                    disabled={listEmployees?.length==0 || !edit } 
                                     type="submit"
                                     className="disabled:opacity-50 disabled:cursor-not-allowed w-full mt-2 justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
