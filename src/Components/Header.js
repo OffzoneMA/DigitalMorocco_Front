@@ -108,27 +108,27 @@ export default function Header() {
             </div>
 
           </NavLink>
-
-
         }
-        <div className='    px-5 sm:px-6 lg:px-32 py-9  '>
+  
+        <div className='  relative  px-5 sm:px-6 lg:px-32 py-9  '>
           <div className='flex items-center justify-between'>
 
 
 
-            <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14  ' />
+            <NavLink to="/">
+              <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14  ' />
+            </NavLink>
 
 
 
             <div className={`hidden md:flex items-center  gap-3 xl:gap-9 text-sm ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
-              <NavLink to="/" className={({ isActive }) =>
+              <NavLink to="/Abouts-Us" className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
                 About
               </NavLink>
 
               <NavLink to="/Members"
-
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
@@ -139,17 +139,20 @@ export default function Header() {
                   isActive ? activeLink : ""
                 }>
                 Partners
-              </NavLink>              <NavLink to="/Events"
+              </NavLink>      
+                <NavLink to="/Events"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
                 Events
-              </NavLink>              <NavLink to="/Pricing"
+              </NavLink>     
+                 <NavLink to="/Pricing"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
                 Pricing
-              </NavLink>              <NavLink to="/ContactUs"
+              </NavLink>           
+                 <NavLink to="/ContactUs"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
@@ -265,8 +268,13 @@ export default function Header() {
             </button>
           </div>
 
-
+          {/* Lang */}
+          <div className='absolute right-0 md:top-24 lg:top-8 p-3 shadow-xl bg-white rounded-xl hidden md:inline ring-1 ring-gray-100 '>
+            <a className='cursor-pointer '><img src="/img/lang/emojione_flag-for-france.png" alt="" className='md:h-7 lg:h-8 ' /></a>
+          </div>
         </div>
+
+
 
         {/* //Mobile Menu */}
         <div
@@ -287,10 +295,17 @@ export default function Header() {
                 <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
               </div>
 
-              <NavLink to="/" className={({ isActive }) =>
+              <NavLink to="/Abouts-Us" className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
-                Home
+                About
+              </NavLink>
+
+              <NavLink to="/Members"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Members
               </NavLink>
               <NavLink to="/Partners"
                 className={({ isActive }) =>
@@ -298,6 +313,18 @@ export default function Header() {
                 }>
                 Partners
               </NavLink>
+              <NavLink to="/Events"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Events
+              </NavLink>
+              <NavLink to="/Pricing"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Pricing
+              </NavLink>   
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
                 <NavLink to="/Dashboard_member"
                   className={({ isActive }) =>

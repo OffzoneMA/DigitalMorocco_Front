@@ -53,6 +53,7 @@ export default function MyEntreprise() {
             companyType: userInfo?.member?.companyType,
             tin: userInfo?.member?.taxNbr,
             cin: userInfo?.member?.corporateNbr,
+            visbility: userInfo?.member?.visbility=="public" ? false : true,
 
 
         },
@@ -111,13 +112,15 @@ export default function MyEntreprise() {
 
 
     const onSubmit = (data) => {
-        const formData = new FormData();
+        data.visbility ? data.visbility = "private" : data.visbility = "public"
+        
+       const formData = new FormData();
         formData.append('infos', JSON.stringify({
             ...data,
             listEmployees,
         }));
-        if(FirstCreate){
-        formData.append('logo', logo);
+       logo && formData.append('logo', logo);
+       if(legalDocuments.length>0) {
         for(const doc of legalDocuments){
             formData.append('files', doc.file,doc.name);
         }}
@@ -142,17 +145,13 @@ export default function MyEntreprise() {
                         </h2>
                     </div>
                     <div className="flex flex-col  mt-10 sm:mx-auto ">
-                     { FirstCreate  &&<button
-                     className=' bg-blue-600 justify-self-center self-center text-white px-3 py-1 rounded-lg'
-                     onClick={()=>setFirstCreate(false)} >
-                            Create Entreprise
-                        </button>}
-                        {!edit && !FirstCreate && <button
+             
+                        {!edit  && <button
                             className=' bg-blue-600 justify-self-center self-center text-white px-3 py-1 mb-5 rounded-lg'
                             onClick={() => setedit(true)} >
                            Enable Edit
                         </button>}
-                        {!FirstCreate &&
+                       
                        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div className='grid gap-4 grid-cols-2'>
                                 <div>
@@ -491,6 +490,12 @@ export default function MyEntreprise() {
                                     Add Employee
                                 </button>
                             </div>
+                                <div>
+                                    <input type="checkbox" name='visbility' placeholder='private' {...register('visbility')} />
+                                    <label htmlFor='visbility' className='text-lg p-2 font-semibold'>Set Private</label>
+                                </div>
+
+
                             {
                                 !userInfo?.member?.companyName &&
                                 <div className='grid gap-4 grid-cols-2'>
@@ -498,7 +503,7 @@ export default function MyEntreprise() {
                                         <label className="block text-sm font-medium leading-6 text-gray-900">Upload The Documents (Max 8MB)</label>
                                         <div className="flex">
                                             <label htmlFor="legalDocuments" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
-                                                {legaldocFile ? 'Choosing ...' : 'Add Legal documents (1-5 Files*)'}
+                                                {legaldocFile ? 'Choosing ...' : 'Add Legal documents (0-5 Files*)'}
                                             </label>
                                             <input
                                                 disabled={legaldocFile || legalDocuments.length == 5}
@@ -527,7 +532,7 @@ export default function MyEntreprise() {
                                             <div className='flex items-center gap-1'>
                                                 <input
                                                     onChange={(e) => setlegaldocName(e.target.value.replaceAll(' ', '_'))}
-                                                    type="text" className='p-2' placeholder=' Document Name Ex: RC' />
+                                                    type="text" className='p-2 ring-1' placeholder='Enter Document Name Ex: RC' />
                                                 <button
                                                     type='button'
                                                     onClick={handleaddDocument}
@@ -578,7 +583,7 @@ export default function MyEntreprise() {
                                 response.isLoading ? "loading ..."
                                 :
                                 <button
-                                    disabled={(!userInfo?.member?.companyName &&(legalDocuments?.length == 0 || !logo ))|| listEmployees?.length==0 || !edit } 
+                                    disabled={(!userInfo?.member?.companyName && !logo )|| listEmployees?.length==0 || !edit } 
                                     type="submit"
                                     className="disabled:opacity-50 disabled:cursor-not-allowed w-full mt-2 justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
@@ -586,7 +591,7 @@ export default function MyEntreprise() {
                                 </button>
                              }   
                             </div>
-                        </form>}
+                        </form>
 
                     </div>
                 </div>
