@@ -38,7 +38,7 @@ export default function Pagination({ nbrPages, link }) {
         
             <NavLink
                 onClick={() => setCurrent(current-1)}
-                 to={link + '/' + (current - 1)}
+                 to={link + '?page=' + (current - 1)}
                     className={`ring-1 px-2 py-1 rounded-lg ${current <2 && 'invisible'}`}
             >
                 Prev
@@ -52,7 +52,7 @@ export default function Pagination({ nbrPages, link }) {
                 <NavLink
                     key={i}
                     onClick={() => setCurrent(el)}
-                    to={link + '/' + el}
+                        to={link + '?page=' + el}
                         className={` px-2 rounded-full ${current === el ? 'text-col1 bg-bleu1' : 'text-white bg-gray-300'}`}
                 >
                     {el === '...' ? '...' : el}
@@ -60,7 +60,7 @@ export default function Pagination({ nbrPages, link }) {
             ))}
             <NavLink
                 onClick={() => setCurrent(current + 1)}
-                to={link + '/' + (current + 1)}
+                to={link + '?page=' + (current + 1)}
                 className={`ring-1 px-2 py-1 rounded-lg ${current ==nbrPages && 'invisible'}`}
             >
                 Next

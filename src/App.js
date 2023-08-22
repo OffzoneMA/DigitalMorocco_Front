@@ -17,7 +17,6 @@ import Subscription from './Pages/Subscription';
 import GuardedUserMemberRoutes from './GuardedRoutes/GuardedUserMemberRoutes';
 import Dashboard_member from './Pages/Member/Dashboard_member';
 import Dashboard_admin from './Pages/Admin/Dashboard_admin';
-import Create_Project from './Pages/Member/Create_Project';
 import GuardedUserInvestorRoutes from './GuardedRoutes/GuardedUserInvestorRoutes';
 import GuardedUserPartnerRoutes from './GuardedRoutes/GuardedUserPartnerRoutes';
 import Dashboard_partner from './Pages/Partner/Dashboard_partner';
@@ -27,6 +26,9 @@ import Pricing from './Pages/Pricing';
 import ContactUs from './Pages/ContactUs';
 import PaySuccess from './Pages/Payment/PaySuccess';
 import PayFailed from './Pages/Payment/PayFailed';
+import GuardedMemberPage from './GuardedRoutes/GuardedMemberPage';
+import Members from './Pages/Members';
+
 function App() {
 
   return (
@@ -38,8 +40,8 @@ function App() {
 
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/Partners" element={<Partners />} />
-          <Route path="/" element={<Home />} />
+        <Route path="/Partners" element={<Partners />} />
+        <Route path="/" element={<Home />} />
 
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
@@ -70,6 +72,10 @@ function App() {
              <Route path="/Dashboard_partner" element={<Dashboard_partner />} /> 
           </Route>
 
+              {/* Members page */}
+            <Route element={<GuardedMemberPage />}>
+              <Route path="/Members" element={<Members />} />
+            </Route>
 
           {/* Admin Routes*/}
           <Route element={<GuardedAdminRoute />}>
