@@ -5,8 +5,13 @@ module.exports = {
   ],
     theme: {
     extend: {
+      
+        screens: {
+          '3xl': '2000px',
+        },
+      
         fontFamily: {
-        'DmSans': ['DM Sans', 'sans-serif;']
+        'DmSans': ['DM Sans', 'sans-serif']
         },
         colors:{
         gold:'#FAB818',
