@@ -177,7 +177,7 @@ export default function Header() {
                   <NavLink
                     to="/SignUp"
                     className={({ isActive }) =>
-                       (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
+                       (location.pathname !== "/" ? "text-[#1f2545] " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-[#1f2545] border-[#1f2545]  bg-[#00cdae]"
                     }
                   >
                     Get Started
