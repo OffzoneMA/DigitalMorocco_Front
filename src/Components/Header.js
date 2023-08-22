@@ -109,20 +109,24 @@ export default function Header() {
 
           </NavLink>
         }
+
   
-        <div className='  relative  px-5 sm:px-6 lg:px-32 py-9  '>
+        <div className='  relative  px-5 sm:px-6 lg:px-32 py-9  3xl:px-40 3xl:py-10'>
+
           <div className='flex items-center justify-between'>
 
 
 
+
             <NavLink to="/">
-              <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14  ' />
+              <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14 2xl:h-18 3xl:h-20 ' />
             </NavLink>
 
 
 
-            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 text-sm ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
+            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-16 text-sm xl:text-medium 2xl:text-2xl 3xl:text-3xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
               <NavLink to="/Abouts-Us" className={({ isActive }) =>
+
                 isActive ? activeLink : ""
               }>
                 About
@@ -162,13 +166,13 @@ export default function Header() {
 
             </div>
 
-            <div className='hidden md:flex items-center gap-3'>
+            <div className='hidden md:flex items-center gap-3 5xl:gap-10'>
               {!userInfo ?
                 <>
                   <NavLink
                     to="/SignIn"
                     className={({ isActive }) =>
-                      (isActive ? activeLink : "") + (location.pathname == "/" ? "text-white border-white" :"text-[#1f2545] border-[#1f2545]")+  " px-5 py-1 rounded-full  border "
+                      (isActive ? activeLink : "") + (location.pathname == "/" ? "text-white border-white" :"text-[#1f2545] border-[#1f2545]")+  " px-4 py-2 rounded-full  border 3xl:px-6 3xl:py-4 3xl:text-2xl "
                     }
 
                   >
@@ -177,7 +181,9 @@ export default function Header() {
                   <NavLink
                     to="/SignUp"
                     className={({ isActive }) =>
-                       (location.pathname !== "/" ? "text-[#1f2545] " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-[#1f2545] border-[#1f2545]  bg-[#00cdae]"
+
+                       (location.pathname !== "/" ? "text-[#1f2545] " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-[#1f2545] border-[#1f2545] 3xl:px-6 3xl:py-4 3xl:text-2xl bg-[#00cdae]"
+
                     }
                   >
                     Get Started
