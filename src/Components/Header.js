@@ -111,7 +111,7 @@ export default function Header() {
         }
 
   
-        <div className='  relative  px-5 sm:px-6 lg:px-32 py-9  3xl:px-40 3xl:py-10'>
+        <div className='  relative  px-5 sm:px-6 lg:px-20 py-9  3xl:px-40 3xl:py-10'>
 
           <div className='flex items-center justify-between'>
 
@@ -124,7 +124,7 @@ export default function Header() {
 
 
 
-            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-16 text-sm xl:text-medium 2xl:text-2xl 3xl:text-3xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
+            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-10 text-sm xl:text-sm 2xl:text-lg 3xl:text-2xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
               <NavLink to="/Abouts-Us" className={({ isActive }) =>
 
                 isActive ? activeLink : ""
@@ -166,13 +166,13 @@ export default function Header() {
 
             </div>
 
-            <div className='hidden md:flex items-center gap-3 5xl:gap-10'>
+            <div className='hidden md:flex items-center gap-3 '>
               {!userInfo ?
                 <>
                   <NavLink
                     to="/SignIn"
                     className={({ isActive }) =>
-                      (isActive ? activeLink : "") + (location.pathname == "/" ? "text-white border-white" :"text-[#1f2545] border-[#1f2545]")+  " px-4 py-2 rounded-full  border 3xl:px-6 3xl:py-4 3xl:text-2xl "
+                      (isActive ? activeLink : "") + (location.pathname == "/" ? "text-white border-white" :"text-[#1f2545] border-[#1f2545]")+  " px-4 py-2 rounded-full  border 3xl:px-6 3xl:py-4 3xl:text-xl "
                     }
 
                   >
@@ -182,7 +182,7 @@ export default function Header() {
                     to="/SignUp"
                     className={({ isActive }) =>
 
-                       (location.pathname !== "/" ? "text-[#1f2545] " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-[#1f2545] border-[#1f2545] 3xl:px-6 3xl:py-4 3xl:text-2xl bg-[#00cdae]"
+                       (location.pathname !== "/" ? "text-[#1f2545] " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-[#1f2545] border-[#1f2545] 3xl:px-6 3xl:py-4 3xl:text-xl bg-[#00cdae]"
 
                     }
                   >
