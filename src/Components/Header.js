@@ -108,27 +108,31 @@ export default function Header() {
             </div>
 
           </NavLink>
-
-
         }
-        <div className='    px-5 sm:px-6 lg:px-32 py-9  3xl:px-40 3xl:py-10 4xl:px-80 4xl:py-20 5xl:px-100 5xl:py-20'>
+
+  
+        <div className='  relative  px-5 sm:px-6 lg:px-32 py-9  3xl:px-40 3xl:py-10'>
+
           <div className='flex items-center justify-between'>
 
 
 
-            <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14  2xl:h-18 3xl:h-20 4xl:h-32 5xl:h-40' />
+
+            <NavLink to="/">
+              <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14 2xl:h-18 3xl:h-20 ' />
+            </NavLink>
 
 
 
-            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 2xl:gap-14 3xl:gap-16 4xl:gap-18 5xl:gap-24 xl:text-medium 2xl:text-2xl 3xl:text-3xl 4xl:text-5xl 5xl:text-7xl text-sm ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
-              <NavLink to="/" className={({ isActive }) =>
+            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-16 text-sm xl:text-medium 2xl:text-2xl 3xl:text-3xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
+              <NavLink to="/Abouts-Us" className={({ isActive }) =>
+
                 isActive ? activeLink : ""
               }>
                 About
               </NavLink>
 
               <NavLink to="/Members"
-
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
@@ -139,17 +143,20 @@ export default function Header() {
                   isActive ? activeLink : ""
                 }>
                 Partners
-              </NavLink>              <NavLink to="/Events"
+              </NavLink>      
+                <NavLink to="/Events"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
                 Events
-              </NavLink>              <NavLink to="/Pricing"
+              </NavLink>     
+                 <NavLink to="/Pricing"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
                 Pricing
-              </NavLink>              <NavLink to="/ContactUs"
+              </NavLink>           
+                 <NavLink to="/ContactUs"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
@@ -174,7 +181,9 @@ export default function Header() {
                   <NavLink
                     to="/SignUp"
                     className={({ isActive }) =>
-                       (location.pathname !== "/" ? "text-white border-[#1f2545] " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black 3xl:px-6 3xl:py-4 3xl:text-2xl bg-[#00cdae]"
+
+                       (location.pathname !== "/" ? "text-[#1f2545] " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-[#1f2545] border-[#1f2545] 3xl:px-6 3xl:py-4 3xl:text-2xl bg-[#00cdae]"
+
                     }
                   >
                     Get Started
@@ -265,8 +274,13 @@ export default function Header() {
             </button>
           </div>
 
-
+          {/* Lang */}
+          <div className='absolute right-0 md:top-24 lg:top-8 p-3 shadow-xl bg-white rounded-xl hidden md:inline ring-1 ring-gray-100 '>
+            <a className='cursor-pointer '><img src="/img/lang/emojione_flag-for-france.png" alt="" className='md:h-7 lg:h-8 ' /></a>
+          </div>
         </div>
+
+
 
         {/* //Mobile Menu */}
         <div
@@ -287,10 +301,17 @@ export default function Header() {
                 <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
               </div>
 
-              <NavLink to="/" className={({ isActive }) =>
+              <NavLink to="/Abouts-Us" className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
-                Home
+                About
+              </NavLink>
+
+              <NavLink to="/Members"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Members
               </NavLink>
               <NavLink to="/Partners"
                 className={({ isActive }) =>
@@ -298,6 +319,18 @@ export default function Header() {
                 }>
                 Partners
               </NavLink>
+              <NavLink to="/Events"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Events
+              </NavLink>
+              <NavLink to="/Pricing"
+                className={({ isActive }) =>
+                  isActive ? activeLink : ""
+                }>
+                Pricing
+              </NavLink>   
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
                 <NavLink to="/Dashboard_member"
                   className={({ isActive }) =>

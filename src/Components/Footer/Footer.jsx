@@ -4,7 +4,7 @@ import ItemsContainer from "./ItemsContainer";
 const Footer = () => {
   return (
     <footer className="bg-white text-bleu2 ">
-      <div className="text-white md:flex md:justify-between md:items-center sm:px-72 px-8 bg-gray-400 py-3 bg-[url('/public/img/footer1.png')] bg-no-repeat bg-cover bg-center h-[388px] w-screen bg-blend-hard-light">
+      <div className="text-white md:flex md:justify-between md:items-center xl:px-72  px-8 bg-gray-400 py-3 bg-[url('/public/img/footer1.png')] bg-no-repeat bg-cover bg-center md:h-[388px] w-screen bg-blend-hard-light">
         <div className=" flex flex-col items-center space-y-4 md:space-y-6 space-x-3">
           <h1 className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold">
             Ready to unlock a world of endless possibilities?

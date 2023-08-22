@@ -53,6 +53,8 @@ export default function MyEntreprise() {
             companyType: userInfo?.member?.companyType,
             tin: userInfo?.member?.taxNbr,
             cin: userInfo?.member?.corporateNbr,
+            visbility: userInfo?.member?.visbility=="public" ? false : true,
+            desc: userInfo?.member?.desc,
 
 
         },
@@ -111,13 +113,15 @@ export default function MyEntreprise() {
 
 
     const onSubmit = (data) => {
-        const formData = new FormData();
+        data.visbility ? data.visbility = "private" : data.visbility = "public"
+        
+       const formData = new FormData();
         formData.append('infos', JSON.stringify({
             ...data,
             listEmployees,
         }));
-        if(FirstCreate){
-        formData.append('logo', logo);
+       logo && formData.append('logo', logo);
+       if(legalDocuments.length>0) {
         for(const doc of legalDocuments){
             formData.append('files', doc.file,doc.name);
         }}
@@ -142,17 +146,13 @@ export default function MyEntreprise() {
                         </h2>
                     </div>
                     <div className="flex flex-col  mt-10 sm:mx-auto ">
-                     { FirstCreate  &&<button
-                     className=' bg-blue-600 justify-self-center self-center text-white px-3 py-1 rounded-lg'
-                     onClick={()=>setFirstCreate(false)} >
-                            Create Entreprise
-                        </button>}
-                        {!edit && !FirstCreate && <button
+             
+                        {!edit  && <button
                             className=' bg-blue-600 justify-self-center self-center text-white px-3 py-1 mb-5 rounded-lg'
                             onClick={() => setedit(true)} >
                            Enable Edit
                         </button>}
-                        {!FirstCreate &&
+                       
                        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div className='grid gap-4 grid-cols-2'>
                                 <div>
@@ -277,7 +277,34 @@ export default function MyEntreprise() {
                             </div>
 
 
+                                <div>
+                                    <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Description
 
+                                    </label>
+                                    <div className="mt-2">
+                                        <textarea
+                                            disabled={!edit}
+
+                                            {...register("desc", {
+                                                required: {
+                                                    value: true,
+                                                    message: "You must enter your Entreprise Description",
+                                                },
+                                                minLength: {
+                                                    value: 10,
+                                                    message: "This is not long enough ",
+                                                }
+                                            })}
+                                            id="desc"
+                                            name="desc"
+                                            className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+                                        />
+                                        <span className="text-red-400 text-sm py-2">
+                                            {errors?.desc?.message}
+                                        </span>
+                                    </div>
+                                </div>
 
                             <div>
                                 <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
@@ -491,14 +518,20 @@ export default function MyEntreprise() {
                                     Add Employee
                                 </button>
                             </div>
-                            {
-                                !userInfo?.member?.companyName &&
+                                <div>
+                                    <input type="checkbox" name='visbility' placeholder='private' {...register('visbility')} />
+                                    <label htmlFor='visbility' className='text-lg p-2 font-semibold'>Set Private</label>
+                                </div>
+
+
+                            
                                 <div className='grid gap-4 grid-cols-2'>
-                                    <div className='w-full space-y-3'>
+                              {
+                                !userInfo?.member?.companyName &&      <div className='w-full space-y-3'>
                                         <label className="block text-sm font-medium leading-6 text-gray-900">Upload The Documents (Max 8MB)</label>
                                         <div className="flex">
                                             <label htmlFor="legalDocuments" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
-                                                {legaldocFile ? 'Choosing ...' : 'Add Legal documents (1-5 Files*)'}
+                                                {legaldocFile ? 'Choosing ...' : 'Add Legal documents (0-5 Files*)'}
                                             </label>
                                             <input
                                                 disabled={legaldocFile || legalDocuments.length == 5}
@@ -527,7 +560,7 @@ export default function MyEntreprise() {
                                             <div className='flex items-center gap-1'>
                                                 <input
                                                     onChange={(e) => setlegaldocName(e.target.value.replaceAll(' ', '_'))}
-                                                    type="text" className='p-2' placeholder=' Document Name Ex: RC' />
+                                                    type="text" className='p-2 ring-1' placeholder='Enter Document Name Ex: RC' />
                                                 <button
                                                     type='button'
                                                     onClick={handleaddDocument}
@@ -542,15 +575,16 @@ export default function MyEntreprise() {
                                             </div>
                                         }
 
-                                    </div>
+                                        </div>}
 
                                     <div className="w-full space-y-3">
                                         <label className="block text-sm font-medium leading-6 text-gray-900">
                                             Company Logo (Max 8MB)
                                         </label>
-                                        <label className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
+                                        <label className={`${edit ? 'cursor-pointer':'cursor-not-allowed' }  inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out`}>
                                             {logo ? "Change Logo" : "Choose a Logo"}
                                             <input
+                                                disabled={!edit}
                                                 onChange={(event) => {
                                                     if (event.target.files[0] && event.target.files[0].size > maxFileSize) {
                                                         toast.error('File size exceeds the maximum allowed size.(Max 8MB)');
@@ -565,10 +599,12 @@ export default function MyEntreprise() {
                                             />
 
                                         </label><br />
-                                        {logo && <img className='p-5 text-xs' src={URL.createObjectURL(logo)} />}
+                                        {logo && <img className='p-5 text-xs h-52' src={URL.createObjectURL(logo)} />}
+                                        {userInfo?.member?.logo && !logo && <img className='p-5 text-xs h-52' src={userInfo?.member?.logo} />}
+
                                     </div>
                                 </div>
-                            }
+                           
 
 
 
@@ -578,7 +614,7 @@ export default function MyEntreprise() {
                                 response.isLoading ? "loading ..."
                                 :
                                 <button
-                                    disabled={(!userInfo?.member?.companyName &&(legalDocuments?.length == 0 || !logo ))|| listEmployees?.length==0 || !edit } 
+                                    disabled={listEmployees?.length==0 || !edit } 
                                     type="submit"
                                     className="disabled:opacity-50 disabled:cursor-not-allowed w-full mt-2 justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
@@ -586,7 +622,7 @@ export default function MyEntreprise() {
                                 </button>
                              }   
                             </div>
-                        </form>}
+                        </form>
 
                     </div>
                 </div>

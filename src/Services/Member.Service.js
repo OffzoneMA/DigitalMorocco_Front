@@ -13,6 +13,16 @@ export const memberApi = createApi({
         },
     }),
     endpoints: (builder) => ({
+        getAllMembers: builder.query({
+            query: (arg) => {
+                const { page } = arg;
+                return {
+                    url: '/',
+                    method: 'GET',
+                    params: { page },
+                }
+            },
+        }),
         createEntreprise: builder.mutation({
             query: (payload) => {
                 return {
@@ -41,4 +51,4 @@ export const memberApi = createApi({
     }),
 })
 
-export const {useCreateEntrepriseMutation ,useBuySubMutation,useCreateProjectMutation} = memberApi
+export const {useCreateEntrepriseMutation ,useBuySubMutation,useCreateProjectMutation,useGetAllMembersQuery} = memberApi
