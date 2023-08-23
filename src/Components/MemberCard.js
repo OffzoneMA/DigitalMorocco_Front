@@ -20,9 +20,11 @@ export default function MemberCard({ member }) {
                             {member?.desc ? member?.desc : "Elevating online shopping with AI-driven recommendations and effortless browsing."}
                             </h3>
                     </div>
-                    <div className='flex items-center justify-between mt-2'>
+                    <div className='flex items-center justify-between mt-2'
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className='flex items-center my-1'>
-                            <a href={member?.website.startsWith("http") ? member?.website : "http://" +member?.website } className='text-blue-500 hover:underline font-medium tracking-wider'>
+                            <a href={member?.website.startsWith("http") ? member?.website : "//" + member?.website} target='_blank' className='text-blue-500 hover:underline font-medium tracking-wider'>
                                 Visit Website
                             </a>
                             <ArrowTopRightOnSquareIcon className='text-blue-500 h-5 w-8 ml-1 icon-bold' />
