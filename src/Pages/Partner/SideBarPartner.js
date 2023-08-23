@@ -8,6 +8,7 @@ const SideBarPartner = ({ handleMenuItemClick }) => {
     const Menus = [
         // { title: "Dashboard", src: "dashboard" },
          { title: "My Profil", src: "add-user" },
+        { title: "My Entreprise", src: "corporate"},
         // { title: "Events", src: "help" },
         { title: "Profile Status", src: "add-user" },
         // { title: "Sponsoring", src: "investor" },

@@ -2,22 +2,22 @@ import React, { useEffect, useState } from 'react';
 import {  toast } from 'react-hot-toast';
 import { useForm } from "react-hook-form";
 import { countriesAndCities } from '../../data/countries'
-import { useCreateEntrepriseMutation } from '../../Services/Member.Service';
+import { useCreateEntrepriseMutation } from '../../Services/Partner.Service';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 export default function MyEntreprise() {
     const {  userInfo } = useSelector((state) => state.auth)
-    const [edit, setedit] = useState(userInfo && !userInfo?.member?.companyName ? true : false)
+    const [edit, setedit] = useState(userInfo && !userInfo?.partner?.companyName ? true : false)
     const maxFileSize = 8 * 1024 * 1024;
-    const [listEmployees, setListEmployees] = useState(userInfo?.member?.listEmployee ? userInfo?.member?.listEmployee : []);
+    const [listEmployees, setListEmployees] = useState(userInfo?.partner?.listEmployee ? userInfo?.partner?.listEmployee : []);
     const [logo, setLogo] = useState(null)
     const [legalDocuments, setLegalDocuments] = useState([]);
     const [legaldocFile, setlegaldocFile] = useState(null)
     const [legaldocName, setlegaldocName] = useState(null)
 
-    const [selectedCountry, setSelectedCountry] = useState(userInfo?.member?.country ? userInfo?.member?.country : "United States");
-    const [cities, setcities] = useState(userInfo?.member?.city ? countriesAndCities[selectedCountry] : []);
+    const [selectedCountry, setSelectedCountry] = useState(userInfo?.partner?.country ? userInfo?.partner?.country : "United States");
+    const [cities, setcities] = useState(userInfo?.partner?.city ? countriesAndCities[selectedCountry] : []);
 
     const [createEntreprise, response] = useCreateEntrepriseMutation()
     const navigate = useNavigate()
@@ -38,21 +38,21 @@ export default function MyEntreprise() {
         register,
         handleSubmit, reset,
         formState: { errors },
-    } = useForm(userInfo?.member?.companyName &&{
+    } = useForm(userInfo?.partner?.companyName &&{
         defaultValues: {
-            companyName: userInfo?.member?.companyName,
-            legalName: userInfo?.member?.legalName,
-            website: userInfo?.member?.website,
-            contactEmail: userInfo?.member?.contactEmail,
-            address: userInfo?.member?.address,
-            country: userInfo?.member?.country,
-            city: userInfo?.member?.city,
-            state: userInfo?.member?.state,
-            companyType: userInfo?.member?.companyType,
-            tin: userInfo?.member?.taxNbr,
-            cin: userInfo?.member?.corporateNbr,
-            visbility: userInfo?.member?.visbility=="public" ? false : true,
-            desc: userInfo?.member?.desc,
+            companyName: userInfo?.partner?.companyName,
+            legalName: userInfo?.partner?.legalName,
+            website: userInfo?.partner?.website,
+            contactEmail: userInfo?.partner?.contactEmail,
+            address: userInfo?.partner?.address,
+            country: userInfo?.partner?.country,
+            city: userInfo?.partner?.city,
+            state: userInfo?.partner?.state,
+            companyType: userInfo?.partner?.companyType,
+            tin: userInfo?.partner?.taxNbr,
+            cin: userInfo?.partner?.corporateNbr,
+            visbility: userInfo?.partner?.visbility=="public" ? false : true,
+            desc: userInfo?.partner?.desc,
 
 
         },
@@ -145,19 +145,19 @@ export default function MyEntreprise() {
                     </div>
                     <div className="flex flex-col  mt-10 sm:mx-auto ">
              
-                            {!edit ? <button
-                                className=' bg-blue-600 justify-self-center self-center text-white px-3 py-1 mb-5 rounded-lg'
-                                onClick={() => setedit(true)} >
-                                Enable Edit
-                            </button>
-                                :
+                        {!edit  ? <button
+                            className=' bg-blue-600 justify-self-center self-center text-white px-3 py-1 mb-5 rounded-lg'
+                            onClick={() => setedit(true)} >
+                           Enable Edit
+                        </button>
+                        :
                                 <button
                                     className=' bg-gray-600 justify-self-center self-center text-white px-3 py-1 mb-5 rounded-lg'
                                     onClick={() => setedit(false)} >
                                     Cancel
                                 </button>
-
-                            }
+                        
+                    }
                        
                        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div className='grid gap-4 grid-cols-2'>
@@ -533,7 +533,7 @@ export default function MyEntreprise() {
                             
                                 <div className='grid gap-4 grid-cols-2'>
                               {
-                                !userInfo?.member?.companyName &&      <div className='w-full space-y-3'>
+                                !userInfo?.partner?.companyName &&      <div className='w-full space-y-3'>
                                         <label className="block text-sm font-medium leading-6 text-gray-900">Upload The Documents (Max 8MB)</label>
                                         <div className="flex">
                                             <label htmlFor="legalDocuments" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
@@ -605,7 +605,7 @@ export default function MyEntreprise() {
 
                                         </label><br />
                                         {logo && <img className='p-5 text-xs h-52' src={URL.createObjectURL(logo)} />}
-                                        {userInfo?.member?.logo && !logo && <img className='p-5 text-xs h-52' src={userInfo?.member?.logo} />}
+                                        {userInfo?.partner?.logo && !logo && <img className='p-5 text-xs h-52' src={userInfo?.partner?.logo} />}
 
                                     </div>
                                 </div>

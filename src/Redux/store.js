@@ -8,6 +8,7 @@ import { subsApi } from '../Services/Subscription.Service'
 import { userLogApi } from '../Services/UserLog.Service'
 import { subscriptionLogApi } from '../Services/SubscriptionLog.Service'
 import { userApi } from '../Services/User.Service'
+import { partnerApi } from '../Services/Partner.Service'
 
 const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ const store = configureStore({
     [subsApi.reducerPath]: subsApi.reducer,
     [userLogApi.reducerPath]: userLogApi.reducer,
     [subscriptionLogApi.reducerPath]: subscriptionLogApi.reducer,
-    [userApi.reducerPath]: userApi.reducer
+    [userApi.reducerPath]: userApi.reducer,
+    [partnerApi.reducerPath]: partnerApi.reducer,
   },
   devTools: process.env.NODE_ENV === 'development',
 
@@ -26,7 +28,7 @@ const store = configureStore({
     getDefaultMiddleware()
       .concat([authApi.middleware, adminApi.middleware, memberApi.middleware,
          subsApi.middleware, userLogApi.middleware, subscriptionLogApi.middleware
-        , userApi.middleware
+        , userApi.middleware, partnerApi.middleware
         ]) ,
 })
 export default store
