@@ -9,7 +9,7 @@ const SideBar = ({ handleMenuItemClick }) => {
     const Menus = [
        // { title: "Dashboard", src: "dashboard" },
         { title: "Profile Status", src: "add-user" },
-        { title: "Subscription", src: "document" },
+        userInfo?.member?.companyName && {  title: "Subscription", src: "document" },
         { title: "My Entreprise", src: "corporate" ,
             child: userInfo?.member?.companyName && [ { title: "Enterprise Documents", src: "document" }]
     },
@@ -54,26 +54,16 @@ const SideBar = ({ handleMenuItemClick }) => {
                     }
 
             
-                {userInfo?.member?.project ?
+                {userInfo?.member?.project &&
                     <button
-                       
-                        onClick={() => {
-                           /* if (!userInfo?.member?.companyName) {
-                                toast.error("First Create Entreprise")
-                            }
-                            else {
-                                setActiveMenu("Create Project")
-                                handleMenuItemClick("Create Project")
-                            }*/
-                        }}
                         className={` ${!open && 'hidden'} bg-green-500 text-white   p-3 rounded-full `}
                     >
                         {userInfo?.member?.project?.name}
                     </button>
                 
-                :
                 
-                <button
+                }
+                {userInfo?.member?.companyName && !userInfo?.member?.project &&  <button
                     disabled={activeMenu == "Create Project" }
                     onClick={() =>{
                         if (!userInfo?.member?.companyName){
@@ -98,7 +88,7 @@ const SideBar = ({ handleMenuItemClick }) => {
             </div>
             <ul className="">
                 {Menus.map((Menu, index) => (
-                    <div key={index} >
+                    Menu && <div key={index} >
                     <li
                         onClick={() => {
                             navigate('/Dashboard_member#' + Menu.title)
