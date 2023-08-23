@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const memberApi = createApi({
-    reducerPath: 'memberApi',
+export const partnerApi = createApi({
+    reducerPath: 'partnerApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_baseURL+"/members",
+        baseUrl: process.env.REACT_APP_baseURL+"/partners",
         prepareHeaders: (headers, { getState }) => {
             const token = getState().auth.userToken
             if (token) {
@@ -13,7 +13,7 @@ export const memberApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        getAllMembers: builder.query({
+        getAllPartners: builder.query({
             query: (arg) => {
                 const { page } = arg;
                 return {
@@ -31,24 +31,8 @@ export const memberApi = createApi({
                     body: payload,
                 }
             },
-        }),
-        createProject: builder.mutation({
-            query: (payload) => {
-                return {
-                    url: '/project',
-                    method: 'POST',
-                    body: payload,
-                }
-            },
-        }),
-        buySub: builder.mutation({
-            query: (subid) => {
-                return {
-                url: '/SubscribeMember/' + subid,
-                method: 'GET',
-            }},
-        }),
+        })
     }),
 })
 
-export const {useCreateEntrepriseMutation ,useBuySubMutation,useCreateProjectMutation,useGetAllMembersQuery} = memberApi
+export const {useCreateEntrepriseMutation ,useGetAllPartnersQuery} = partnerApi

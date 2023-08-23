@@ -23,13 +23,7 @@ const Dashboard_member = () => {
       <Toaster />
       <SideBar handleMenuItemClick={handleMenuItemClick} />
       <div className="flex-1 -mt-8">
-        
-        {activeMenuItem === "Dashboard" && (
-          <div className=" ">
-           
-            <h1>Dashboard Content</h1>
-          </div>
-        )}
+
         {activeMenuItem === "Create Project" && (
           <div className=" ">
 
@@ -72,40 +66,9 @@ const Dashboard_member = () => {
             <EntrepriseDocs />
           </div>
         )}
-          {activeMenuItem === "Events" && (
-          <div>
-          
-            <h1>My events Content</h1>
-          </div>
-        )}
-         {activeMenuItem === "Investors" && (
-          <div>
-          
-            <h1>My Investors Content</h1>
-          </div>
-        )}
-          {activeMenuItem === "Documents" && (
-          <div>
-          
-            <h1>My Documents Content</h1>
-          </div>
-        )}
-          {activeMenuItem === "Notifications" && (
-          <div>
-          
-            <h1>My Notifications Content</h1>
-          </div>
-        )}
          {activeMenuItem === "History" && (
           <UserEvents />
         )}
-        {activeMenuItem === "Setting" && (
-          <div>
-          
-            <h1>My Setting Content</h1>
-          </div>
-        )}
-        
 
      
       </div>

@@ -46,8 +46,6 @@ export const LoginUser = createAsyncThunk(
         config
       )
       data?.accessToken &&localStorage.setItem('userToken', data.accessToken)
-      console.log(data)
-
       return data
     } catch (error) {
       if (error.response && error.response.data.message) {
