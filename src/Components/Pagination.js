@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function Pagination({ nbrPages, link }) {
     const [current, setCurrent] = useState(1);
-
+    
     const generatePageLinks = () => {
         const maxVisiblePages = 5; // You can adjust the number of visible page links
 
@@ -34,7 +34,7 @@ export default function Pagination({ nbrPages, link }) {
     };
 
     return (
-        <div className='w-screen flex justify-center items-center gap-2'>
+        <div className='w-full flex justify-center items-center gap-2'>
         
             <NavLink
                 onClick={() => setCurrent(current-1)}
