@@ -28,7 +28,7 @@ export default function MyEntreprise() {
         response.isError && toast.error(response.error.message)
         if(response.isSuccess) 
        { 
-        toast.success("Entreprise Created!")
+        toast.success("Entreprise Edited!")
         setTimeout(()=>{
             navigate((0))
         },3000)
