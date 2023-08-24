@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useUpdateUserMutation } from '../Services/User.Service'
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 export default function UserProfile() {
   const { userInfo, loading } = useSelector((state) => state.auth)
 
@@ -31,7 +31,6 @@ export default function UserProfile() {
 
   return (
     <div className='grid place-items-center py-10'>
-      <Toaster />
       <div className='bg-white min-w-[650px] space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
         <div className="sm:mx-auto">
           <img

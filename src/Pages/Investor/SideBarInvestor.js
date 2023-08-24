@@ -11,9 +11,9 @@ const SideBarInvestor = ({ handleMenuItemClick }) => {
         { title: "Profile Status", src: "add-user" },
         // { title: "Events", src: "help" },
         // { title: "Documents", src: "document" },
-        // { title: "Notifications", src: "notification" },
-        //  { title: "Setting", src: "Settings" },
+        // { title: "Notifications", src: "notification" },  
         { title: "History", src: "history" },
+         { title: "Setting", src: "Settings" },
        
     ];
     const navigate = useNavigate()

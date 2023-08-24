@@ -10,6 +10,7 @@ import UserProfile from '../UserProfile';
 import EntrepriseDocs from './EntrepriseDocs';
 import { Toaster } from 'react-hot-toast';
 import Investors from './Investors';
+import Settings from '../Settings';
 
 
 
@@ -72,6 +73,9 @@ const Dashboard_member = () => {
         )}
         {activeMenuItem === "Investors" && (
           <Investors />
+        )}
+        {activeMenuItem === "Setting" && (
+          <Settings />
         )}
       </div>
     </div>
