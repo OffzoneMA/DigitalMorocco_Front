@@ -9,6 +9,7 @@ import Create_Project from './Create_Project';
 import UserProfile from '../UserProfile';
 import EntrepriseDocs from './EntrepriseDocs';
 import { Toaster } from 'react-hot-toast';
+import Investors from './Investors';
 
 
 
@@ -69,8 +70,9 @@ const Dashboard_member = () => {
          {activeMenuItem === "History" && (
           <UserEvents />
         )}
-
-     
+        {activeMenuItem === "Investors" && (
+          <Investors />
+        )}
       </div>
     </div>
   );
