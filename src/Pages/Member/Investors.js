@@ -12,7 +12,11 @@ export default function Investors() {
     const { userInfo, loading } = useSelector((state) => state.auth);
     const navigate = useNavigate()
     useEffect(() => {
-    if (!searchParams.get('page')) { setSearchParams({ page: 1 }) }
+     
+   if (!searchParams.get('page')) { 
+        setSearchParams({ page: 1 }) 
+            window.location.hash = 'Investors';
+         }
         else {
             trigger({
                 page: searchParams.get('page')
@@ -66,7 +70,7 @@ export default function Investors() {
                 
 
             </div>
-                        <Pagination link={'/Dashboard_member#Investors'} nbrPages={data?.totalPages} />
+                    <Pagination link={'/Dashboard_member'} nbrPages={data?.totalPages}  />
 
 
             </>}
