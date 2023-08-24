@@ -10,17 +10,17 @@ const SideBar = ({ handleMenuItemClick }) => {
        // { title: "Dashboard", src: "dashboard" },
         { title: "Profile Status", src: "add-user" },
         userInfo?.member?.companyName && {  title: "Subscription", src: "document" },
-        { title: "My Entreprise", src: "corporate" ,
-            child: userInfo?.member?.companyName && [ { title: "Enterprise Documents", src: "document" }]
+        { title: "My Entreprise", src: "corporate" /*,
+            child: userInfo?.member?.companyName && [ { title: "Enterprise Documents", src: "document" }]*/
     },
         userInfo?.member?.subStatus=="active" && { title: "Investors", src: "investor" },
-        { title: "Subscription Billing", src: "investor" },
+        { title: "Subscription Billing", src: "document" },
        // { title: "Events", src: "help" },
        { title: "My Profil", src: "add-user" },
        // { title: "Documents", src: "document" },
        // { title: "Notifications", src: "notification" },
         { title: "History", src: "history" },
-       /// { title: "Setting", src: "Settings" },
+        { title: "Setting", src: "Settings" },
     ];
     const navigate=useNavigate()
     return (

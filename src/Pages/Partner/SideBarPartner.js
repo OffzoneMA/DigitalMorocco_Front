@@ -15,7 +15,7 @@ const SideBarPartner = ({ handleMenuItemClick }) => {
         // { title: "Documents", src: "document" },
         // { title: "Notifications", src: "notification" },
         { title: "History", src: "history" },
-        //{ title: "Setting", src: "Settings" },
+        { title: "Setting", src: "Settings" },
     ];
     const navigate = useNavigate()
 
