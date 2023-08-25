@@ -4,8 +4,10 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 export default function MemberCard({ member }) {
         return (
-            <NavLink /*to={"/Member/" + member?._id}*/>
-                <div className='flex flex-col rounded-xl border-2 border-[#EBEAED] bg-[#FCFCFD] w-72 px-5 mb-4 mx-2 py-2 my-2 '>
+            <NavLink
+            className={''}
+            /*to={"/Member/" + member?._id}*/>
+                <div className=' transition-all ease-in-out duration-300 hover:scale-105 hover:shadow-2xl flex flex-col rounded-xl border-2 border-[#EBEAED] bg-[#FCFCFD] w-72 px-5 mb-4 mx-2 py-2 my-2 '>
                     <div className='flex justify-center items-center mb-1 '>
                         <img src={member?.logo} className='w-52 h-36 object-center object-contain' alt='' />
                     </div>
