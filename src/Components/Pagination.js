@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {  useSearchParams } from 'react-router-dom';
+import { ArrowLeftIcon,ArrowRightIcon } from '@heroicons/react/24/solid';
 
 export default function Pagination({ nbrPages, link,tab }) {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -35,20 +36,21 @@ export default function Pagination({ nbrPages, link,tab }) {
     };
 
     return (
-        <div className='w-full flex justify-center items-center gap-2 py-5'>
-        
+        <div className='w-full flex items-center justify-center py-5'>
+            <div className='flex '>
             <button
                 onClick={() => {
-                    setSearchParams({ page: current - 1 })
+                    setSearchParams({ page: (current - 1 )})
                     tab && (window.location.hash = tab)
                     setCurrent(current-1)}}
-                    className={`ring-1 px-2 py-1 rounded-lg ${current <2 && 'invisible'}`}
+                    className={`flex gap-2 text-gray500 border-gray-300 text-sm  items-center justify-center border border-r-0 px-2 py-2 rounded-l-full ${current <2 && 'invisible'}`}
             >
+                <ArrowLeftIcon className='h-4 w-4 ' />
                 Prev
             </button>
             {generatePageLinks().map((el, i) => (
                 el === '...' ?
-                <div className='px-5'> 
+                <div className='px-3'> 
                  ...
                 </div>
                 :
@@ -59,21 +61,23 @@ export default function Pagination({ nbrPages, link,tab }) {
                             tab && (window.location.hash = tab)
                             setCurrent(el)
                         }}
-                        className={` px-2 rounded-full ${current == el ? 'text-col1 bg-bleu1' : 'text-white bg-gray-300'}`}
+                        className={` px-4  border border-gray-300 ${current == el ? 'text-white bg-gray700' : 'text-gray700 bg-white'}`}
                 >
-                    {el === '...' ? '...' : el}
+                     {el}
                 </button>
             ))}
             <button
                 onClick={() => {
-                    setSearchParams({ page: current + 1 })
+                        setSearchParams({ page: (parseInt(current)  + 1) })
                     tab && (window.location.hash = tab)
                     setCurrent(current + 1)
                 }}
-                className={`ring-1 px-2 py-1 rounded-lg ${current ==nbrPages && 'invisible'}`}
+                    className={`flex gap-2 text-gray500 border-gray-300 text-sm items-center justify-center border border-l-0 px-2 py-2 rounded-r-full ${current ==nbrPages && 'invisible'}`}
             >
                 Next
-            </button>
+                    <ArrowRightIcon className='h-4 w-4 ' />
+
+                </button></div>
         </div>
     );
 }
