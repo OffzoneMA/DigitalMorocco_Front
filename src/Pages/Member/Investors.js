@@ -63,7 +63,7 @@ export default function Investors() {
                             </div>
                             <button
                             onClick={()=>toast.error("Coming Soon !")}
-                            className='p-2 text-green-200 bg-green-800 rounded-lg hover:opacity-50'>Contact Request</button>
+                            className='p-2 text-green-200 bg-green-800 rounded-lg hover:opacity-50'>Contact </button>
                         </div>
                     ))
                 }
