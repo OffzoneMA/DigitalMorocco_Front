@@ -28,6 +28,7 @@ import PaySuccess from './Pages/Payment/PaySuccess';
 import PayFailed from './Pages/Payment/PayFailed';
 import GuardedMemberPage from './GuardedRoutes/GuardedMemberPage';
 import Members from './Pages/Members';
+import AboutUs from './Pages/AboutUs';
 
 function App() {
 
@@ -48,7 +49,8 @@ function App() {
         <Route   path="/UserProfile" element={<UserProfile />} />
         <Route   path="/Pricing" element={<Pricing />} />
         <Route   path="/ContactUs" element={<ContactUs/>}/>
-        
+        <Route   path="/About-Us" element={<AboutUs/>}/>
+
 
         <Route path="/Partners/:partnerId" element={<PartnerDetails />} /> 
         <Route path="/Failure" element={<Failure/>}/>
