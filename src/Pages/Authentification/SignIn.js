@@ -51,7 +51,7 @@ export default function SignIn() {
 
   return (
 
-    <div className='pt-3 md:pt-40'>
+    <div className='pt-20 md:pt-24'>
       <div className='grid place-items-center py-10'>
         <div className='bg-white md:w-3/6 space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

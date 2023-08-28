@@ -5,17 +5,16 @@ import { useGetUserDetailsQuery } from '../Services/Auth';
 
 const GuardedUserMemberRoutes  = () => {
 const {
-    data,
-    isLoading,isUninitialized,status,error
+    data,isFetching
   } = useGetUserDetailsQuery()
   const { userInfo, loading } = useSelector((state) => state.auth);
 
-  if (isLoading || loading) {
+  if (isFetching || loading) {
     return <div>Loading</div>
   }
 else
 return ( 
-  (userInfo?.role == "member" && userInfo?.status == "accepted") || (data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
+  (userInfo?.role == "member" && userInfo?.status == "accepted") || ( data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
  )
 
 }
