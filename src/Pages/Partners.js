@@ -39,7 +39,7 @@ export default function Partners() {
         </div>
       </div>
       
-          <Pagination link={'/Partners'} nbrPages={data?.totalPages} />
+          <Pagination  nbrPages={data?.totalPages} />
 
       
       </>

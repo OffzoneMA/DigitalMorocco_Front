@@ -44,7 +44,7 @@ export default function Members() {
                   </div>
               </div>
           </div>
-                  <Pagination link={'/Members'} nbrPages={data?.totalPages}/>
+                  <Pagination  nbrPages={data?.totalPages}/>
           
           </> }
       </div>

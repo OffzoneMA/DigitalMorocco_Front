@@ -13,7 +13,8 @@ const SideBar = ({ handleMenuItemClick }) => {
         { title: "My Entreprise", src: "corporate" /*,
             child: userInfo?.member?.companyName && [ { title: "Enterprise Documents", src: "document" }]*/
     },
-        userInfo?.member?.subStatus=="active" && { title: "Investors", src: "investor" },
+        userInfo?.member?.subStatus=="active" && { title: "Investors", src: "investor",
+            child: [{ title: "Contact Requests", src: "history" }] },
         { title: "Subscription Billing", src: "document" },
        // { title: "Events", src: "help" },
        { title: "My Profil", src: "add-user" },
