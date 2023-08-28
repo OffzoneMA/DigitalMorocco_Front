@@ -18,12 +18,12 @@ export default function OurTeam(){
     return(
         <div className="py-16 ">
             <div className="space-y-5">
-                <h2 className="text-gray700 text-center tracking-wider font-bold text-sm">OUR TEAM</h2>
-                <p className="text-gray700 text-center font-bold text-3xl md:mx-60">Discover a dynamic and innovative business networking platform</p>
+                <h2 className="text-gray700 text-center tracking-wider font-bold text-sm 3xl:text-2xl 2xl:text-xl">OUR TEAM</h2>
+                <p className="text-gray700 text-center font-bold text-3xl sm:mx-20 lg:mx-60 3xl:text-4xl">Discover a dynamic and innovative business networking platform</p>
             </div>
-            <div className="flex flex-col md:grid md:grid-cols-4 py-5 gap-10 px-3 md:gap-10 md:px-20 md:py-10  lg:px-40  xl:px-60 ">
+            <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid lg:grid-cols-4 py-5 gap-10 px-3 sm:px-20 md:px-40 md:py-10  lg:px-40 lg:gap-10 xl:px-60 3xl:px-80 ">
                     {teamMembers?.map((teamMember, i) => (
-                        <div key={i} className="">
+                        <div key={i} className="flex items-center justify-center">
                             <TeamMemberCard teamMember={teamMember}  onClick={() => handleCardClick(teamMember)}/>
                         </div>
                        
