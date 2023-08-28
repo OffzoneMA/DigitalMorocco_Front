@@ -44,7 +44,18 @@ export default function Contact_Requests() {
               {
                   !isFetching && data?.ContactsHistory?.length > 0 &&
                   <>    <div className='py-10  px-5 md:px-10 xl:px-32 space-y-4   '>
-
+                      <div className='space-x-3'>
+                          <select defaultValue={"Filter By"} className='p-3'>
+                              <option value="Filter By"  disabled >Filter By</option>
+                          <option value="Status" >Status</option>
+                          <option value="Date" >Date</option>
+                        </select>
+                          <select className='p-3'>
+                              <option value="Asc" >Asc</option>
+                              <option value="Desc" >Desc</option>
+                          </select>
+                        
+                        </div> 
                       {
                           data?.ContactsHistory?.map((el, i) =>(
                             <div className='flex flex-col gap-3 py-5 px-4 border rounded-3xl shadow-md' key={i}>
@@ -54,7 +65,7 @@ export default function Contact_Requests() {
                                       month: 'long',
                                       day: 'numeric',
                                   })}</div>
-                                  <div className='flex items-center justify-around py-2 ' key={i} >
+                                  <div className='flex items-center justify-around py-2 ' >
                                       <div className='space-y-2'>
                                           <div>
                                               <span>Name : </span>
