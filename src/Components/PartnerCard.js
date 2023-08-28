@@ -11,7 +11,7 @@ export default function PartnerCard({ partner }) {
           <img src={partner?.logo} className='w-52 h-36 object-center object-contain' alt='' />
       </div>
       <div className='my-1 text-center mb-2'>
-        <h3 className='text-lg text-bleu2 font-semibold min-h-[40px]'>{partner?.cmpanyName}</h3>
+        <h3 className='text-lg text-bleu2 font-semibold min-h-[40px]'>{partner?.companyName}</h3>
         <h3 className='text-base text-gray-500 font-medium min-h-[40px] mt-2'>{partner?.desc}</h3>
       </div>
       <div className='flex items-center justify-between mt-2'>

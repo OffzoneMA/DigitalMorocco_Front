@@ -18,9 +18,10 @@ export default function MemberCard({ member }) {
                         </div>
                     </div>
                     <div className='my-1 text-center mb-2'>
-                        <h3 className='text-base text-gray-500 font-medium min-h-[40px] mt-2 whitespace-normal'>
-                            {member?.desc ? member?.desc : "Elevating online shopping with AI-driven recommendations and effortless browsing."}
-                            </h3>
+                        <p className='text-base text-gray-500 font-medium h-[100px] text-ellipsis overflow-hidden'>
+
+                            {member?.desc ? member?.desc : "Elevating online shopping with AI-driven recommendations and effortless browsingElevating online shopping with AI-driven recommendations and effortless browsingElevating online shopping with AI-driven recommendations and effortless browsingElevating online shopping with AI-driven recommendations and effortless browsing."}
+                            </p>
                     </div>
                     <div className='flex items-center justify-between mt-2'
                         onClick={(e) => e.stopPropagation()}

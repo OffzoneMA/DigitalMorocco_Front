@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
 export default function Investors() {
-    const cost=10
+    const cost=3
     const [searchParams, setSearchParams] = useSearchParams();
     const [trigger, { data, isFetching, status }, lastPromiseInfo] = investorApi.endpoints.getAllInvestors.useLazyQuery()
     const [addNewContactReq, response] = useCreateConatctReqMutation()
