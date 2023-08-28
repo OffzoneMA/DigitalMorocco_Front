@@ -6,11 +6,11 @@ import { useGetUserDetailsQuery } from '../Services/Auth';
 const GuardedAdminRoute = () => {
     const {
         data,
-        isLoading,status,errorn,isFetching
+        isFetching
       } = useGetUserDetailsQuery()
    const { userInfo,loading } = useSelector((state) => state.auth);
 
-   if (isLoading || loading ){
+   if (isFetching || loading ){
     return <div>Loading</div>
  }
  else {

@@ -4,6 +4,7 @@ import UserEvents from '../UserEvents';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
 import UserProfile from '../UserProfile';
 import { Toaster } from 'react-hot-toast';
+import Settings from '../Settings';
 
 const Dashboard_investor = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
@@ -29,7 +30,9 @@ const Dashboard_investor = () => {
          {activeMenuItem === "History" && (
           <UserEvents />
         )}
-
+        {activeMenuItem === "Setting" && (
+          <Settings />
+        )}
      
       </div>
     </div>

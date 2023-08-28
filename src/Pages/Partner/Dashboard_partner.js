@@ -5,6 +5,7 @@ import ContinueSignUp from '../Authentification/ContinueSignUp';
 import UserProfile from '../UserProfile';
 import { Toaster } from 'react-hot-toast';
 import MyEntreprise from './MyEntreprise';
+import Settings from '../Settings';
 const Dashboard_partner = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
   const handleMenuItemClick = (menuTitle) => {
@@ -37,7 +38,9 @@ const Dashboard_partner = () => {
          {activeMenuItem === "History" && (
           <UserEvents />
         )}
-     
+        {activeMenuItem === "Setting" && (
+          <Settings />
+        )}
       </div>
     </div>
   );

@@ -4,16 +4,15 @@ import { Route, Navigate, Outlet  } from "react-router-dom";
 import { useGetUserDetailsQuery } from '../Services/Auth';
 
 const GuardedUserInvestorRoutes  = () => {
-const {
-    data,
-    isLoading,isUninitialized,status,error
+  const {
+    data, isFetching
   } = useGetUserDetailsQuery()
   const { userInfo, loading } = useSelector((state) => state.auth);
 
-  if (isLoading || loading) {
+  if (isFetching || loading) {
     return <div>Loading</div>
   }
-else
+  else
 return ( 
   (userInfo?.role == "investor" && userInfo?.status == "accepted") || (data?.role == "investor" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
  )

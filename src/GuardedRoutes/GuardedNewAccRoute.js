@@ -5,11 +5,10 @@ import { useGetUserDetailsQuery } from '../Services/Auth';
 
 const GuardedNewAccRoute = () => {
     const {
-        data,
-        isLoading,isUninitialized,status,error
+        data, isFetching
       } = useGetUserDetailsQuery()
 
- if(isLoading){
+   if (isFetching){
     return <div>Loading</div>
  }
  else {

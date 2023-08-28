@@ -4,8 +4,10 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 export default function MemberCard({ member }) {
         return (
-            <NavLink /*to={"/Member/" + member?._id}*/>
-                <div className='flex flex-col rounded-xl border-2 border-[#EBEAED] bg-[#FCFCFD] w-72 px-5 mb-4 mx-2 py-2 my-2 '>
+            <NavLink
+            className={''}
+            /*to={"/Member/" + member?._id}*/>
+                <div className=' transition-all ease-in-out duration-300 hover:scale-105 hover:shadow-2xl flex flex-col rounded-xl border-2 border-[#EBEAED] bg-[#FCFCFD] w-72 px-5 mb-4 mx-2 py-2 my-2 '>
                     <div className='flex justify-center items-center mb-1 '>
                         <img src={member?.logo} className='w-52 h-36 object-center object-contain' alt='' />
                     </div>
@@ -16,9 +18,10 @@ export default function MemberCard({ member }) {
                         </div>
                     </div>
                     <div className='my-1 text-center mb-2'>
-                        <h3 className='text-base text-gray-500 font-medium min-h-[40px] mt-2 whitespace-normal'>
-                            {member?.desc ? member?.desc : "Elevating online shopping with AI-driven recommendations and effortless browsing."}
-                            </h3>
+                        <p className='text-base text-gray-500 font-medium h-[100px] text-ellipsis overflow-hidden'>
+
+                            {member?.desc ? member?.desc : "Elevating online shopping with AI-driven recommendations and effortless browsingElevating online shopping with AI-driven recommendations and effortless browsingElevating online shopping with AI-driven recommendations and effortless browsingElevating online shopping with AI-driven recommendations and effortless browsing."}
+                            </p>
                     </div>
                     <div className='flex items-center justify-between mt-2'
                         onClick={(e) => e.stopPropagation()}

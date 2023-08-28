@@ -28,9 +28,9 @@ export default function Partners() {
         !isFetching && data?.partners?.length > 0 &&
 <>
       <div className='flex flex-col md:flex-row justify-around relative pt-2 md:pt-0'>
-        <div className='px-6 py-1 md:px-14 md:py-5'>
-          <div className='flex flex-wrap justify-between gap-4 sm:grid sm:grid-cols-2 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
-                {data?.partners?.map((el, i) => (
+            <div className='px-6  md:px-14 py-8'>
+              <div className='flex flex-col justify-center items-center gap-4 sm:grid sm:grid-cols-2 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
+                             {data?.partners?.map((el, i) => (
               <div key={i} className="mb-4 md:w-1/3">
                 <PartnerCard partner={el}  />
               </div>
@@ -39,7 +39,7 @@ export default function Partners() {
         </div>
       </div>
       
-          <Pagination link={'/Partners'} nbrPages={data?.totalPages} />
+          <Pagination  nbrPages={data?.totalPages} />
 
       
       </>

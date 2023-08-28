@@ -124,8 +124,9 @@ export default function Header() {
 
 
 
-            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-10 text-sm xl:text-sm 2xl:text-lg 3xl:text-2xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-thin `} >
-              <NavLink to="/About-Us" className={({ isActive }) =>
+            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-10 text-sm xl:text-sm 2xl:text-lg 3xl:text-2xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-light `} >
+              <NavLink to="/Abouts-Us" className={({ isActive }) =>
+
 
                 isActive ? activeLink : ""
               }>
