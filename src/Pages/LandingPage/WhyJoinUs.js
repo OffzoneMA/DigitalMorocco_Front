@@ -4,7 +4,7 @@ export default function WhyJoinUs(){
     return(
         <div className="flex flex-col md:flex-row-reverse items-center justify-center md:items-start md:justify-start md:h-screen bg-[#F2F4F7]  ">
            <div className="pb-4 sm:pb-0 ">
-                <img src="/img/Frame.png" alt="" className='max-w-sm lg:max-w-md xl:max-w-lg sm:object-cover sm:h-[400px]  md:h-screen h-[300px] 2xl:max-w-2xl object-left' />
+                <img src="/img/Frame.png" alt="" className='max-w-sm lg:max-w-md xl:max-w-lg sm:object-cover sm:h-[400px]  md:h-screen h-[300px] 2xl:max-w-2xl object-right' />
             </div>
            <div className="">
 
