@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {  useSearchParams } from 'react-router-dom';
 import { ArrowLeftIcon,ArrowRightIcon } from '@heroicons/react/24/solid';
 
-export default function Pagination({ nbrPages, link,tab }) {
+export default function Pagination({ nbrPages }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const [current, setCurrent] = useState(searchParams.get("page") || 1);
 
@@ -41,7 +41,6 @@ export default function Pagination({ nbrPages, link,tab }) {
             <button
                 onClick={() => {
                     setSearchParams({ page: (current - 1 )})
-                    tab && (window.location.hash = tab)
                     setCurrent(current-1)}}
                     className={`flex gap-2 text-gray500 border-gray-300 text-sm  items-center justify-center border border-r-0 px-2 py-2 rounded-l-full ${current <2 && 'invisible'}`}
             >
@@ -50,7 +49,7 @@ export default function Pagination({ nbrPages, link,tab }) {
             </button>
             {generatePageLinks().map((el, i) => (
                 el === '...' ?
-                <div className='px-3'> 
+                <div className='px-3' key={i}> 
                  ...
                 </div>
                 :
@@ -58,7 +57,6 @@ export default function Pagination({ nbrPages, link,tab }) {
                     key={i}
                         onClick={() => {
                             setSearchParams({ page: el })
-                            tab && (window.location.hash = tab)
                             setCurrent(el)
                         }}
                         className={` px-4  border border-gray-300 ${current == el ? 'text-white bg-gray700' : 'text-gray700 bg-white'}`}
@@ -69,7 +67,6 @@ export default function Pagination({ nbrPages, link,tab }) {
             <button
                 onClick={() => {
                         setSearchParams({ page: (parseInt(current)  + 1) })
-                    tab && (window.location.hash = tab)
                     setCurrent(current + 1)
                 }}
                     className={`flex gap-2 text-gray500 border-gray-300 text-sm items-center justify-center border border-l-0 px-2 py-2 rounded-r-full ${current ==nbrPages && 'invisible'}`}
