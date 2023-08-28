@@ -81,7 +81,9 @@ export default function Investors() {
                                 className='w-fit p-2 text-green-200 bg-green-800 rounded-lg hover:opacity-50'>
                                 Send Contact Request
                             </button>
-                            <button className='w-fit p-2 text-white bg-gray-400 rounded-lg hover:opacity-50'>
+                            <button 
+                            onClick={()=>setinvestor(null)}
+                            className='w-fit p-2 text-white bg-gray-400 rounded-lg hover:opacity-50'>
                                 Cancel
                             </button>
 
