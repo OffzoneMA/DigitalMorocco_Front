@@ -22,6 +22,8 @@ module.exports = {
         bleu1:'#3417B0',
         bleu2:'#1E0E62',
         col1:'#00CDAE',
+        color1:'#1E0E62',
+        color2:'#15143966',
        
 
         "dark-purple": "#081A51",
