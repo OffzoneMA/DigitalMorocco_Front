@@ -302,7 +302,7 @@ export default function Header() {
                 <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
               </div>
 
-              <NavLink to="/Abouts-Us" className={({ isActive }) =>
+              <NavLink to="/About-Us" className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
                 About
