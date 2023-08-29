@@ -30,11 +30,15 @@ import GuardedMemberPage from './GuardedRoutes/GuardedMemberPage';
 import Members from './Pages/Members';
 import AboutUs from './Pages/AboutUs';
 import Explore from './Pages/Explore';
+import { I18nextProvider } from 'react-i18next'; // Import I18nextProvider
+import i18n from './i18n';
 
 
 function App() {
 
   return (
+    <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
+ 
     <BrowserRouter>   
       <div className='font-DmSans  overflow-hidden'>
        <Header />
@@ -91,6 +95,8 @@ function App() {
       <Footer />
 </div>
     </BrowserRouter>    
+  </I18nextProvider>
+
  
   );
 }

@@ -6,9 +6,18 @@ import { useLocation } from "react-router-dom";
 import { useGetUserDetailsQuery } from '../Services/Auth';
 import { useDispatch, useSelector } from "react-redux";
 import { logout, setCredentials } from "../Redux/auth/authSlice";
-import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from 'react-i18next';
+
 
 export default function Header() {
+
+  const { t, i18n } = useTranslation();
+
+  const handleFlagClick = () => {
+    const newLanguage = i18n.language === 'en' ? 'fr' : 'en';
+    i18n.changeLanguage(newLanguage);
+  };
   const [open, setOpen] = useState(false);
   const activeLink = "text-[#00cdae] ";
   const HeaderMenu = useRef(null);
@@ -130,38 +139,38 @@ export default function Header() {
 
                 isActive ? activeLink : ""
               }>
-                About
+                {t('header.about')}
               </NavLink>
 
               <NavLink to="/Members"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Members
+                {t('header.members')}
               </NavLink>
               <NavLink to="/Partners"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Partners
+                {t('header.partners')}
               </NavLink>      
                 <NavLink to="/Events"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Events
+                {t('header.events')}
               </NavLink>     
                  <NavLink to="/Pricing"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Pricing
+                {t('header.pricing')}
               </NavLink>           
                  <NavLink to="/ContactUs"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Contact Us
+                {t('header.contactUs')}
               </NavLink>
 
 
@@ -177,7 +186,7 @@ export default function Header() {
                     }
 
                   >
-                    Sign In
+                    {t('header.signIn')}
                   </NavLink>
                   <NavLink
                     to="/SignUp"
@@ -187,7 +196,7 @@ export default function Header() {
 
                     }
                   >
-                    Get Started
+                    {t('header.getStarted')}
                   </NavLink></>
                 :
                 <button
@@ -276,9 +285,23 @@ export default function Header() {
           </div>
 
           {/* Lang */}
-          <div className='absolute right-0 md:top-24 lg:top-8 p-3 shadow-xl bg-white rounded-l-xl hidden md:inline ring-1 ring-gray-100 '>
-            <a className='cursor-pointer '><img src="/img/lang/emojione_flag-for-france.png" alt="" className='md:h-7 lg:h-8 ' /></a>
-          </div>
+          <div className='hover:scale-105 transition-all ease-in-out duration-200 hover:shadow-2xl cursor-pointer absolute right-0 md:top-24 lg:top-8 p-3 shadow-xl bg-white rounded-l-xl hidden md:inline ring-1 ring-gray-100'>
+        <a className='cursor-pointer' onClick={handleFlagClick}>
+          {/* Change the image source based on the current language */}
+          <img
+            src={
+              i18n.language === 'en' 
+                ? '/img/lang/emojione_flag-for-france.png'
+                : '/img/lang/icons8-usa-32.png'
+            }
+            alt="Flag"
+            className='md:h-7 lg:h-8'
+          />
+        </a>
+      </div>
+          {/* <div className='hover:scale-105 transition-all ease-in-out duration-200 hover:shadow-2xl cursor-pointer absolute right-0 md:top-24 lg:top-8 p-3 shadow-xl bg-white rounded-l-xl hidden md:inline ring-1 ring-gray-100 '>
+            <a className='cursor-pointer '><img src="/img/lang/emojione_flag-for-france.png" alt="" className='md:h-7 lg:h-8  ' /></a>
+          </div> */}
         </div>
 
 
