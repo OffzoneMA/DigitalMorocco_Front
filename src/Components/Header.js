@@ -276,7 +276,7 @@ export default function Header() {
           </div>
 
           {/* Lang */}
-          <div className='absolute right-0 md:top-24 lg:top-8 p-3 shadow-xl bg-white rounded-xl hidden md:inline ring-1 ring-gray-100 '>
+          <div className='absolute right-0 md:top-24 lg:top-8 p-3 shadow-xl bg-white rounded-l-xl hidden md:inline ring-1 ring-gray-100 '>
             <a className='cursor-pointer '><img src="/img/lang/emojione_flag-for-france.png" alt="" className='md:h-7 lg:h-8 ' /></a>
           </div>
         </div>
