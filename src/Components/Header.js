@@ -13,6 +13,9 @@ import { useTranslation } from 'react-i18next';
 export default function Header() {
 
   const { t, i18n } = useTranslation();
+  const handleLanguageChange = (language) => {
+    i18n.changeLanguage(language);
+  };
 
   const handleFlagClick = () => {
     const newLanguage = i18n.language === 'en' ? 'fr' : 'en';
@@ -207,21 +210,21 @@ export default function Header() {
                   }
                   className={`px-2 py-1 rounded-full border ${(location.pathname == "/" ? "text-white border-white" : "text-[#1f2545] border-[#1f2545]") }`}
                 >
-                  Log Out
+                  {t('header.logOut')}
                 </button>}
               {userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
                 <NavLink to="/Complete_SignUp"
                   className={({ isActive }) =>
                     (isActive ? activeLink : "") + "px-3 py-2 rounded-full text-black    bg-[#bdfff5]"
                   }>
-                  Profile Status
+                  {t('header.profileStatus')}
                 </NavLink>}
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
                 <NavLink to="/Dashboard_member"
                 className={({ isActive }) =>
                 (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
              }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>
               }
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "investor" &&
@@ -229,7 +232,7 @@ export default function Header() {
                 className={({ isActive }) =>
                 (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
              }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>
               }
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
@@ -237,7 +240,7 @@ export default function Header() {
                 className={({ isActive }) =>
                 (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
              }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>
               }
               {
@@ -246,7 +249,7 @@ export default function Header() {
                 className={({ isActive }) =>
                 (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
              }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>}
 
 
@@ -321,46 +324,52 @@ export default function Header() {
               ref={Menu}
             >
               <div className='flex items-center gap-2 text-2xl pb-7'>
-                <div className='cursor-pointer bg-gray-100 text-blue-300 rounded-full px-2 py-1'>En</div>
-                <div className='cursor-pointer hover:bg-gray-100 hover:text-blue-300 rounded-full  px-2 py-1'>Fr</div>
+                <div className={`cursor-pointer bg-gray-100 rounded-full px-2 py-1 ${
+                i18n.language === 'en' ? 'text-blue-300' : ''
+                }`}
+                  onClick={() => handleLanguageChange('en')}>En</div>
+                <div className={`cursor-pointer bg-gray-100 rounded-full px-2 py-1 ${
+                i18n.language === 'fr' ? 'text-blue-300' : ''
+                }`}
+                onClick={() => handleLanguageChange('fr')}>Fr</div>
               </div>
 
               <NavLink to="/About-Us" className={({ isActive }) =>
                 isActive ? activeLink : ""
               }>
-                About
+                {t('header.about')}
               </NavLink>
 
               <NavLink to="/Members"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Members
+                {t('header.members')}
               </NavLink>
               <NavLink to="/Partners"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Partners
+                {t('header.partners')}
               </NavLink>
               <NavLink to="/Events"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Events
+                {t('header.events')}
               </NavLink>
               <NavLink to="/Pricing"
                 className={({ isActive }) =>
                   isActive ? activeLink : ""
                 }>
-                Pricing
+                {t('header.pricing')}
               </NavLink>   
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
                 <NavLink to="/Dashboard_member"
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
                   }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>
               }
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "investor" &&
@@ -368,7 +377,7 @@ export default function Header() {
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
                   }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>
               }
               {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
@@ -376,7 +385,7 @@ export default function Header() {
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
                   }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>
               }
               { userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
@@ -384,7 +393,7 @@ export default function Header() {
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
                   }>
-                  Profile Status
+                  {t('header.profileStatus')}
                 </NavLink>}
               {
                 userInfo && userInfo?.role == "Admin" &&
@@ -392,7 +401,7 @@ export default function Header() {
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
                   }>
-                  Dashboard
+                  {t('header.dashboard')}
                 </NavLink>}
               {!userInfo ?
                 <>
@@ -402,7 +411,7 @@ export default function Header() {
                       isActive ? activeLink : ""
                     }
                   >
-                    Registration
+                    {t('header.signUp')}
                   </NavLink>
                   <NavLink
                     to="/SignIn"
@@ -410,7 +419,7 @@ export default function Header() {
                       isActive ? activeLink : ""
                     }
                   >
-                    Login
+                    {t('header.signIn')}
                   </NavLink></>
                 :
                 <button
@@ -421,17 +430,17 @@ export default function Header() {
                   }
                   className="gap-1 flex   p-2 rounded-lg transform transition-all duration-300 ease-in-out hover:text-white/20 "
                 >
-                  Log Out
+                  {t('header.logOut')}
                 </button>
               }
               {
                 userInfo?.displayName ?
                   <NavLink className="flex items-center justify-center gap-1 text-blue-500">
-                    hi, {userInfo?.displayName}
+                    {t('header.hi')}, {userInfo?.displayName}
                   </NavLink>
                   :
-                  <NavLink className="flex items-center justify-center gap-1 text-blue-500">
-                    <span className=' font-semibold'>Contact</span>
+                  <NavLink className="flex items-center justify-center gap-1 text-blue-500 " to="/ContactUs">
+                    <span className=' font-semibold'>{t('header.contactUs')}</span>
                     <ArrowRightIcon className='w-4 h-4' />
                   </NavLink>
               }
