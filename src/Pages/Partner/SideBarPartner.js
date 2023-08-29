@@ -32,7 +32,7 @@ const SideBarPartner = ({ handleMenuItemClick }) => {
 
                         </div>
                             */}
-                        <img src={userInfo?.partner?.logo} className='w-20    ' alt="Company Logo" />
+                        <img src={userInfo?.partner?.logo} className='w-40 h-20 object-center object-contain   ' alt="Company Logo" />
                         <div className='flex-1'>
                             <h2 className='text-2xl font-semibold'>{userInfo?.partner?.companyName}</h2>
                         </div>
