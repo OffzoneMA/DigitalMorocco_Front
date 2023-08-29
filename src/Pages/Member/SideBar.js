@@ -36,12 +36,11 @@ const SideBar = ({ handleMenuItemClick }) => {
             />
                 {userInfo?.member?.companyName && open && 
                 <div className='flex items-center justify-center pt-8 px-8 pb-3 gap-2'>
-                        <img src={userInfo?.member?.logo} className='w-14   ' alt="Company Logo" />
+                        <img src={userInfo?.member?.logo} className='w-40 h-20 object-center object-contain   ' alt="Company Logo" />
                          <div className='flex-1'>
                             <h2 className='text-2xl font-semibold'>{userInfo?.member?.companyName}</h2>
                         </div>
                 </div>
-                
             }
         <div className='pb-3 mb-4 mx-8 border-b-2'>
 

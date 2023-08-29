@@ -23,8 +23,26 @@ export const investorApi = createApi({
                 }
             },
         }),
-
+        getAllConatctReq: builder.query({
+            query: (arg) => {
+                const { page,status } = arg;
+                return {
+                    url: '/ContactRequest',
+                    method: 'GET',
+                    params: { page, status },
+                }
+            },
+        }),
+        updateConatctReq: builder.mutation({
+            query: (payload) => {
+                return {
+                    url: '/ContactRequest/' + payload.requestId,
+                    method: 'PUT',
+                    body: { response:payload.response }
+                }
+            },
+        }),
     }),
 })
 
-export const {useGetAllInvestorsQuery} = investorApi
+export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation} = investorApi
