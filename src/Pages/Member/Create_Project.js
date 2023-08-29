@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form';
 import { useCreateProjectMutation } from '../../Services/Member.Service';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 const Create_Project = () => {
+    const { userInfo } = useSelector((state) => state.auth);
 
     const maxFileSize = 8 * 1024 * 1024;
     const [pitchDeck, setPitchDeck] = useState(null);
@@ -129,7 +131,17 @@ const Create_Project = () => {
 
     }, [response.isLoading])
 
+    useEffect(() => {
 
+        if (userInfo && userInfo?.member?.project) {
+            toast.error("Project already created !")
+            setTimeout(() => {
+                navigate("/Dashboard_member")
+                navigate(0)
+            }, 800)
+
+        }
+    }, [userInfo?.member?.project])
     return (
         <div className=''>
             {response.isLoading ? "Loading"

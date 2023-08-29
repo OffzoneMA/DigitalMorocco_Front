@@ -22,7 +22,7 @@ const Dashboard_member = () => {
   };
 
   return (
-    <div className="flex px-5  gap-x-4 relative pt-3 md:pt-40">
+    <div className="flex px-5  pt-28  gap-x-4 relative  md:pt-40">
       <Toaster />
       <SideBar handleMenuItemClick={handleMenuItemClick} />
       <div className="flex-1 -mt-8">
