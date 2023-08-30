@@ -12,7 +12,8 @@ import { Toaster } from 'react-hot-toast';
 import Investors from './Investors';
 import Settings from '../Settings';
 import Contact_Requests from './Contact_Requests';
-
+import Contacts from './Contacts';
+import Messages from './Messages';
 
 
 const Dashboard_member = () => {
@@ -72,7 +73,7 @@ const Dashboard_member = () => {
          {activeMenuItem === "History" && (
           <UserEvents />
         )}
-        {activeMenuItem === "Investors" && (
+        {activeMenuItem === "List Investors" && (
           <Investors />
         )}
         {activeMenuItem === "Setting" && (
@@ -81,6 +82,12 @@ const Dashboard_member = () => {
         {activeMenuItem === "Contact Requests" && (
         <Contact_Requests />
       )}
+        {activeMenuItem === "Contacts" && (
+          <Contacts />
+        )}
+        {activeMenuItem === "Messages" && (
+          <Messages />
+        )}
       </div>
      
     </div>

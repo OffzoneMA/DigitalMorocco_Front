@@ -28,7 +28,7 @@ export default function Request({el}) {
                       <a
                           className='italic underline '
                           target='_blank'
-                          href={"mailto:" + el?.member?.website}>{el?.member?.website}</a>
+                          href={"mailto:" + el?.member?.contactEmail}>{el?.member?.contactEmail}</a>
                   </div>
               </div>
               <div className='space-y-2'>

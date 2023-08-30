@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import Settings from '../Settings';
 import Contact_Requests from './Contact_Requests';
 import Contacts from './Contacts';
+import Messages from './Messages';
 
 const Dashboard_investor = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
@@ -35,11 +36,14 @@ const Dashboard_investor = () => {
         {activeMenuItem === "Setting" && (
           <Settings />
         )}
-        {activeMenuItem === "Contact Request" && (
+        {activeMenuItem === "Contact Requests" && (
           <Contact_Requests />
         )}
         {activeMenuItem === "Contacts" && (
           <Contacts />
+        )}
+        {activeMenuItem === "Messages" && (
+          <Messages />
         )}
       </div>
     </div>

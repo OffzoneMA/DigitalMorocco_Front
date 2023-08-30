@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Cog8ToothIcon,ClockIcon,UserCircleIcon,CubeIcon,BuildingOffice2Icon,UserGroupIcon,UsersIcon,ClipboardDocumentCheckIcon,UserIcon } from '@heroicons/react/24/outline';
+import { Cog8ToothIcon, UserPlusIcon, ClockIcon, UserCircleIcon, CubeIcon,EnvelopeIcon,BuildingOffice2Icon,UserGroupIcon,UsersIcon,ClipboardDocumentCheckIcon,UserIcon, ListBulletIcon } from '@heroicons/react/24/outline';
 
 const SideBar = ({ handleMenuItemClick }) => { 
     const { userInfo } = useSelector((state) => state.auth)
@@ -17,8 +17,13 @@ const SideBar = ({ handleMenuItemClick }) => {
             child: userInfo?.member?.companyName && [ { title: "Enterprise Documents", src: "document" }]*/
     },
         userInfo?.member?.subStatus == "active" && {
-            title: "Investors", src: <UserGroupIcon className='w-5 h-5' />,
-            child: [{ title: "Contact Requests", src: <UsersIcon className='w-4 h-4' /> }] },
+            title: "Contacts", src: <UserGroupIcon className='w-5 h-5' />,
+            child: [
+                { title: "List Investors", src: <ListBulletIcon className='w-5 h-5' /> },
+                { title: "Contact Requests", src: <UsersIcon className='w-4 h-4' /> },
+                 { title: "Messages", src: <EnvelopeIcon className='w-4 h-4' />, badge: 2 },
+
+        ] },
         { title: "Subscription Billing", src: <ClipboardDocumentCheckIcon className='w-5 h-5' /> },
         { title: "My Profil", src: <UserIcon className='w-5 h-5' /> },
         { title: "History", src: <ClockIcon className='w-5 h-5' /> },
@@ -97,7 +102,7 @@ const SideBar = ({ handleMenuItemClick }) => {
                     <div className="flex gap-x-4 items-center justify-center py-3">
 
                         <div className=' text-xs rounded-full border border-gray-200 bg-white flex items-center justify-center text-black font-bold py-1 px-2'>
-                            <span>{userInfo?.member?.credits} {open && "credits"}</span>
+                            <span>{userInfo?.member?.credits} {open && "credit(s)"}</span>
                         </div>
                     </div>
             </div>
@@ -137,6 +142,8 @@ const SideBar = ({ handleMenuItemClick }) => {
                             <span className={`${!open && "hidden"} origin-left duration-200`}>
                                 {el.title}
                             </span>
+                                    {el?.badge && <span className='self-center justify-self-center text-xs rounded-full px-[6px] py-[2px] bg-red-600 text-white '> {el?.badge}</span>}
+
                         </li>))}
                     </div>
                 ))}
