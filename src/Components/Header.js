@@ -295,7 +295,7 @@ export default function Header() {
             src={
               i18n.language === 'en' 
                 ? '/img/lang/emojione_flag-for-france.png'
-                : '/img/lang/icons8-usa-32.png'
+                : '/img/lang/emojione_flag-england.png'
             }
             alt="Flag"
             className='md:h-7 lg:h-8'
