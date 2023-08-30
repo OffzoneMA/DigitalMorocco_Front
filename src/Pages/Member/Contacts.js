@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useGetAllConatctsQuery } from "../../Services/Investor.Service";
+import { useGetAllConatctsQuery } from "../../Services/Member.Service";
 import { toast } from 'react-hot-toast';
 
 export default function Contacts() {
@@ -22,35 +22,21 @@ export default function Contacts() {
             {data?.map((el, i) => (
               <div key={i} className='w-[850px] 2xl:-[950px]  flex flex-col gap-3  ring-2 ring-gray-300 shadow-xl rounded-3xl py-4'>
                 <div className='flex items-center justify-around py-2 ' >
-                  <img src={el?.logo} className='self-center w-52 h-36 object-center object-contain ' alt="" />
-
                   <div className='space-y-2'>
                     <div>
-                      <span>Company Name : </span>
+                      <span>Name : </span>
                       <span className='italic  '>
-                        <span className='italic text-gray-800'>{el?.companyName}</span>
+                        <span className='italic text-gray-800'>{el?.name ? el?.name :"No Name Specified!"}</span>
                       </span>
                     </div>
+                
                     <div>
-                      <span>Website : </span>
+                      <span>linkedIn Link : </span>
                       <a
                         className='italic underline '
                         target='_blank'
-                        href={el?.website}>Visit</a>
+                        href={ el?.linkedin_link}>Link</a>
                     </div>
-                    <div>
-                      <span>Contact Email : </span>
-                      <a
-                        className='italic underline '
-                        target='_blank'
-                        href={"mailto:" + el?.contactEmail}>{el?.contactEmail}</a>
-                    </div>
-                  </div>
-                  <div className='space-y-2'>
-                    <div>Country : <span className={`italic text-gray-500`}>{el?.country}</span></div>
-                    <div>City : <span className={`italic text-gray-500`}>{el?.city}</span></div>
-                    <div>Company Type : <span className={`italic text-gray-500`}>{el?.companyType}</span></div>
-
                   </div>
                 </div>
       
