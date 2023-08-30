@@ -16,7 +16,7 @@ export default function Contact_Requests() {
     useEffect(() => {
         if (!searchParams.get('page')) {
             setSearchParams({ page: 1 })
-            window.location.hash = 'Contact Request';
+          window.location.hash = 'Contact Requests';
         }
         else {
             trigger({

@@ -51,6 +51,14 @@ export const memberApi = createApi({
                 }
             },
         }),
+        getAllConatcts: builder.query({
+            query: () => {
+                return {
+                    url: '/Contacts',
+                    method: 'GET',
+                }
+            },
+        }),
         createConatctReq: builder.mutation({
             query: (payload) => {
                 return {
@@ -69,4 +77,4 @@ export const memberApi = createApi({
     }),
 })
 
-export const {useCreateEntrepriseMutation,useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,useGetAllMembersQuery} = memberApi
+export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,useGetAllMembersQuery} = memberApi

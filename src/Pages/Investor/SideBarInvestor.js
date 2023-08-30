@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Cog8ToothIcon, ClockIcon, UserCircleIcon, UsersIcon,UserGroupIcon, UserIcon } from '@heroicons/react/24/outline';
+import { Cog8ToothIcon, ClockIcon, EnvelopeIcon,UserCircleIcon, UsersIcon,UserGroupIcon, UserIcon } from '@heroicons/react/24/outline';
 
 const SideBarInvestor = ({ handleMenuItemClick }) => { 
     const { userInfo } = useSelector((state) => state.auth)
@@ -12,7 +12,10 @@ const SideBarInvestor = ({ handleMenuItemClick }) => {
         { title: "Profile Status", src: <UserCircleIcon className='w-5 h-5' /> },
         {
             title: "Contacts", src: <UserGroupIcon className='w-5 h-5' />, 
-            child: [{ title: "Contact Request", src: <UsersIcon className='w-4 h-4' /> }] },
+            child: [
+                { title: "Contact Requests", src: <UsersIcon className='w-4 h-4' /> },
+                { title: "Messages", src: <EnvelopeIcon className='w-4 h-4' />,badge:2 },
+            ] },
         { title: "History", src: <ClockIcon className='w-5 h-5' /> },
         { title: "Setting", src: <Cog8ToothIcon className='w-5 h-5' /> },
 
@@ -64,8 +67,10 @@ const SideBarInvestor = ({ handleMenuItemClick }) => {
                             >
                                 {el.src}
                                 <span className={`${!open && "hidden"} origin-left duration-200`}>
-                                    {el.title}
+                                    {el.title} 
                                 </span>
+                                {el?.badge && <span className='self-center justify-self-center text-xs rounded-full px-[6px] py-[2px] bg-red-600 text-white '> {el?.badge}</span>}
+
                             </li>))}
                     
                     </div>

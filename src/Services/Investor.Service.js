@@ -33,6 +33,14 @@ export const investorApi = createApi({
                 }
             },
         }),
+        getAllConatcts: builder.query({
+            query: () => {
+                return {
+                    url: '/Contacts',
+                    method: 'GET',
+                }
+            },
+        }),
         updateConatctReq: builder.mutation({
             query: (payload) => {
                 return {
@@ -45,4 +53,4 @@ export const investorApi = createApi({
     }),
 })
 
-export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation} = investorApi
+export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery} = investorApi

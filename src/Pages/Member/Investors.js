@@ -19,7 +19,7 @@ export default function Investors() {
      
    if (!searchParams.get('page')) { 
         setSearchParams({ page: 1 }) 
-            window.location.hash = 'Investors';
+       window.location.hash = 'List Investors';
          }
         else {
             trigger({
