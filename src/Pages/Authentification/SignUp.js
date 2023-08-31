@@ -88,7 +88,7 @@ export default function SignUp() {
 
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
-                 <span className="text-red-400 text-sm py-2">
+                  <span id='email-error' className="text-red-400 text-sm py-2">
                 {errors?.email?.message}
                </span>
               </div>
@@ -113,7 +113,7 @@ export default function SignUp() {
                
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
-                 <span className="text-red-400 text-sm py-2">
+                  <span id='password-error' className="text-red-400 text-sm py-2">
             {errors?.password?.message}
           </span>
               </div>
@@ -135,7 +135,7 @@ export default function SignUp() {
                   type="password"
                   className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                 />
-                 <span className="text-red-400 text-sm py-2">
+                  <span id='confirmPassword-error' className="text-red-400 text-sm py-2">
             {errors?.confirmPassword?.message}
           </span>
               </div>
