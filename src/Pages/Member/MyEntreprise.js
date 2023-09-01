@@ -23,7 +23,7 @@ export default function MyEntreprise() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        response.isError && toast.error(response.error.message)
+        response.isError && toast.error(response.error?.data?.message)
         if(response.isSuccess) 
        { 
         toast.success("Entreprise Edited!")

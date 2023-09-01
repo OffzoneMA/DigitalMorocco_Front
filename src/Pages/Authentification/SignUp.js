@@ -128,7 +128,7 @@ export default function SignUp() {
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) =>
-                    value === password || "The passwords do not match",
+                    value == password || "The passwords do not match",
                 })}
                   id="confirmPassword"
                   name="confirmPassword"

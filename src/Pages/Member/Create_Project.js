@@ -121,7 +121,7 @@ const Create_Project = () => {
 
 
     useEffect(() => {
-        response.isError && toast.error(response.error.message)
+        response.isError && toast.error(response.error?.data?.message)
         if (response.isSuccess) {
             toast.success("Project Created!")
             setTimeout(() => {

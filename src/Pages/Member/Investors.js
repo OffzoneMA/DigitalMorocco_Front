@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
 export default function Investors() {
-    const cost=3
+    const cost = process.env.REACT_APP_credits || 3
     const [searchParams, setSearchParams] = useSearchParams();
     const [trigger, { data, isFetching, status }, lastPromiseInfo] = investorApi.endpoints.getAllInvestors.useLazyQuery()
     const [addNewContactReq, response] = useCreateConatctReqMutation()
@@ -40,7 +40,10 @@ export default function Investors() {
     }, [userInfo])
 
     useEffect(() => {
-        response.isError && toast.error(response.error.message)
+        if (response.isError) {
+         toast.error(response.error?.data?.message)
+            setinvestor(null)
+        }
         if(response.isSuccess){
             toast.success("Your Request has been sent to the investor")
             setTimeout(() => {
@@ -69,7 +72,7 @@ export default function Investors() {
 
             {investor &&  <div className='fixed  top-0 left-0 z-[2] w-screen h-screen flex items-center justify-center backdrop-blur-2xl'>
              {response.isLoading  &&
-                    <p className=' w-fit p-8 bg-white shadow-2xl rounded-2xl'> "Loading ..."</p>}
+                    <p className=' w-fit p-8 bg-white shadow-2xl rounded-2xl'> Loading ...</p>}
                 {!response.isSuccess && !response.isLoading &&
                     <div className='flex flex-col gap-3 items-center justify-center  w-fit p-8 bg-white shadow-2xl rounded-2xl '>
 
@@ -89,7 +92,9 @@ export default function Investors() {
 
                         </div>
                         <p className='italic text-sm text-gray-800 text-center '>
-                            Sending a contact request to this investor will cost you <b>{cost} credits</b>. Please note that these credits are non-refundable, even if the investor rejects your request.
+                           - Sending a contact request to this investor will cost you <b>{cost} credits</b>. Please note that these credits are non-refundable, even if the investor rejects your request.<br/>
+                            -If the investor has rejected you will have to wait {process.env.REACT_APP_Contact_Delay_After_Reject_by_days ||'180'} Day(s) before you can resend another contact request !
+                       
                         </p>
 
                     </div>
