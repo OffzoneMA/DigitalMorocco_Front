@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Cog8ToothIcon,ClockIcon,UserCircleIcon,BuildingOffice2Icon,UserIcon } from '@heroicons/react/24/outline';
+import { Cog8ToothIcon,ClockIcon,UserCircleIcon,ListBulletIcon,BuildingOffice2Icon,UserIcon } from '@heroicons/react/24/outline';
 
 const SideBarPartner = ({ handleMenuItemClick }) => { 
     const { userInfo } = useSelector((state) => state.auth)
@@ -11,7 +11,8 @@ const SideBarPartner = ({ handleMenuItemClick }) => {
         { title: "My Profil", src: <UserIcon className='w-5 h-5' /> },
         { title: "My Entreprise", src: <BuildingOffice2Icon className='w-5 h-5' />  },      
         { title: "Profile Status", src: <UserCircleIcon className='w-5 h-5' /> },
-         { title: "History", src: <ClockIcon className='w-5 h-5' /> },
+        { title: "List Projects", src: <ListBulletIcon className='w-5 h-5' />},
+        { title: "History", src: <ClockIcon className='w-5 h-5' /> },
         { title: "Setting", src: <Cog8ToothIcon className='w-5 h-5'  /> },
      ];
     const navigate = useNavigate()
