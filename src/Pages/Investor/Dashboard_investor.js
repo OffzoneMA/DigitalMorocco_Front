@@ -4,7 +4,7 @@ import UserEvents from '../UserEvents';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
 import UserProfile from '../UserProfile';
 import { Toaster } from 'react-hot-toast';
-import Projects from '../Projects';
+import Projects from './Projects';
 import Settings from '../Settings';
 import Contact_Requests from './Contact_Requests';
 import Contacts from './Contacts';

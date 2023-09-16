@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SideBar from './SideBarPartner';
 import UserEvents from '../UserEvents';
-import Projects from '../Projects.js';
+import Projects from './Projects.js';
 import ContinueSignUp from '../Authentification/ContinueSignUp';
 import UserProfile from '../UserProfile';
 import { Toaster } from 'react-hot-toast';
