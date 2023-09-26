@@ -1,13 +1,33 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import DocumentReader from '../Pages/Investor/DocumentReader';
 
 export default function ProjectDetails({project,onClose}){
+  const [pdfSrc, setPdfSrc] = useState(null);
+
+  const openPdf = (pdfLink) => {
+    setPdfSrc(pdfLink);
+  };
+
+  const closePdf = () => {
+    setPdfSrc(null);
+  };
     return(
+     <div>
+        {pdfSrc ? (
+        <div  className="h-screen w-screen flex flex-col items-center gap-1 justify-center fixed top-0 left-0 bg-black/25 backdrop-blur-xl">
+          <button className="bg-white text-black px-3 py-1 rounded-full  " onClick={closePdf}>
+            Exit
+          </button>
+          <DocumentReader src={pdfSrc} />
+      </div>
+      ):(
+     
     <div className="relative px-8 py-20 md:px-10 lg:px-20 xl:px-60 xl:py-40 2xl:px-40 3xl:px-80">
         <div className=" absolute px-8 my-6 mx-6 py-20 md:px-10 lg:px-20 xl:px-60 xl:py-40 -top-4 -right-4 2xl:px-40 3xl:px-80 2xl:-top-8 2xl:-right-8">
         <XMarkIcon className="h-6 w-6 2xl:h-10 2xl:w-10 text-[#F2F4F7] cursor-pointer hover:h-5 hover:w-5 hover:text-black 2xl:hover:h-11 2xl:hover:w-11 "  onClick={onClose} />
         </div>
-         
+      
 
               <div key={project.id} className='my-6 mx-6 bg-white ring-2 ring-gray-300 shadow-xl rounded-3xl space-y-2'>
               <div className="space-y-2 px-6 py-4">
@@ -65,11 +85,29 @@ export default function ProjectDetails({project,onClose}){
                       <span className=' text-gray-800'>{ project?.milestoneProgress}</span>
                       </span>
                     </div>
+                    <div>
+                    <span className="font-semibold">Documents : </span>
+                        <span className='text-gray-800 underline cursor-pointer'>
+                        {project?.documents?.map((document, index) => (
+                          <span key={index}>
+                            <a href={document.link} target="_self" rel="noopener noreferrer"
+                            onClick={(e) => {
+                          e.preventDefault(); // Prevent normal link behavior
+                          openPdf(document.link); // Open PDF in modal
+                        }}>
+                            {document.name}
+                            </a>
+                            {index !== project.documents.length - 1 && <span className="ml-2">    </span>}
+                          </span>
+                        ))}
+                      </span>
+                    </div>
+     
                     </div>
                     </div>
                     </div>
-                
-                
+      )}
+                    </div>
             
-          )
+          );
 }
