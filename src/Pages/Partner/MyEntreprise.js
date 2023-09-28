@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {  toast } from 'react-hot-toast';
 import { useForm } from "react-hook-form";
-import { countriesAndCities } from '../../data/countries'
+import { countriesAndCities } from '../../data/countriesAndCities';
 import { useCreateEntrepriseMutation } from '../../Services/Partner.Service';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';

@@ -14,7 +14,7 @@ export default function MemberCard({ member }) {
                     <div className='my-1 text-center mb-2 grid grid-cols-2 gap-2'>
                         <h3 className='text-lg text-bleu2 font-semibold min-h-[40px] col-span-1 whitespace-nowrap overflow-hidden overflow-ellipsis'>{member?.companyName}</h3>
                         <div className="border-2 border-blue-400 bg-blue-100 text-blue-400 p-2 rounded-3xl col-span-1">
-                            Healthcare
+                        {member?.companyType}
                         </div>
                     </div>
                     <div className='my-1 text-center mb-2'>
