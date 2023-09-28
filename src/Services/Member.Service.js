@@ -14,12 +14,12 @@ export const memberApi = createApi({
     }),
     endpoints: (builder) => ({
         getAllMembers: builder.query({
-            query: (arg) => {
-                const { page } = arg;
+            query: (args) => {
+                const { page, sectors, stages, countries } = args;
                 return {
                     url: '/',
                     method: 'GET',
-                    params: { page },
+                    params: { page, sectors, stages, countries },
                 }
             },
         }),
