@@ -1,5 +1,5 @@
 # Getting Started with Create React App
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0f2a42a3-f6dd-4ede-af3a-2ebac637a6bb/deploy-status)](https://app.netlify.com/sites/digitalmorocco-dev/deploys)
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
