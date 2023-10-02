@@ -71,6 +71,9 @@ export default function MyEntreprise() {
     const handleCountryChange = (event) => {
         setSelectedCountry(event.target.value);
     };
+    const handleCompanyTypeChange = (event) => {
+        setSelectedCompanyType(event.target.value);
+    };
 
 
     const handleLegalDocumentsChange = (event) => {
