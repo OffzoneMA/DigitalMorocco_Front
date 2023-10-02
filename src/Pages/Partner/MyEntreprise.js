@@ -16,7 +16,7 @@ export default function MyEntreprise() {
     const [legalDocuments, setLegalDocuments] = useState([]);
     const [legaldocFile, setlegaldocFile] = useState(null)
     const [legaldocName, setlegaldocName] = useState(null)
-    const [selectedCompanyType, setSelectedCompanyType]=  useState(userInfo?.member?.companyType? userInfo?.member?.companyType : "Fintech");
+    const [selectedCompanyType, setSelectedCompanyType]=  useState(userInfo?.partner?.companyType? userInfo?.partner?.companyType : "Fintech");
     const [selectedCountry, setSelectedCountry] = useState(userInfo?.partner?.country ? userInfo?.partner?.country : "United States");
     const [cities, setcities] = useState(userInfo?.partner?.city ? countriesAndCities[selectedCountry] : []);
 
