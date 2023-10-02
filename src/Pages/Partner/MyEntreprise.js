@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {  toast } from 'react-hot-toast';
 import { useForm } from "react-hook-form";
 import { countriesAndCities } from '../../data/countriesAndCities';
+import { companyType } from '../../data/companyType';
 import { useCreateEntrepriseMutation } from '../../Services/Partner.Service';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +16,7 @@ export default function MyEntreprise() {
     const [legalDocuments, setLegalDocuments] = useState([]);
     const [legaldocFile, setlegaldocFile] = useState(null)
     const [legaldocName, setlegaldocName] = useState(null)
-
+    const [selectedCompanyType, setSelectedCompanyType]=  useState(userInfo?.member?.companyType? userInfo?.member?.companyType : "Fintech");
     const [selectedCountry, setSelectedCountry] = useState(userInfo?.partner?.country ? userInfo?.partner?.country : "United States");
     const [cities, setcities] = useState(userInfo?.partner?.city ? countriesAndCities[selectedCountry] : []);
 
@@ -406,18 +407,21 @@ export default function MyEntreprise() {
                                         {...register("companyType", {
                                             required: "You must select a company type",
                                         })}
+                                        value={selectedCompanyType}
+                                        onChange={handleCompanyTypeChange}
                                         data-te-select-init className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6" >
                                         <option value="">Select a company type</option>
-                                        <option value="type1">Type 1</option>
-                                        <option value="type2">Type 2</option>
-                                        <option value="type3">Type 3</option>
+                                        {companyType.map((type) => (
+                                        <option key={type} value={type}>
+                                            {type}
+                                        </option>
+                                        ))}
                                     </select>
                                     <span className="text-red-400 text-sm py-2">
                                         {errors?.companyType?.message}
                                     </span>
                                 </div>
                             </div>
-
 
                             <div className='grid gap-4 grid-cols-2'>
                                 <div>
