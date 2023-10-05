@@ -7,12 +7,12 @@ import { useSelector } from 'react-redux';
 
 const Create_Project = () => {
     const { userInfo } = useSelector((state) => state.auth);
-
+    const [edit, setedit] = useState(userInfo && !userInfo?.member?.project?.name? true : false)
     const maxFileSize = 8 * 1024 * 1024;
     const [pitchDeck, setPitchDeck] = useState(null);
     const [businessPlan, setBusinessPlan] = useState(null);
     const [financialProjection, setFinancialProjection] = useState(null);
-    const [teamMembers, setTeamMembers] = useState([]);
+    const [listMembers, setListMembers] = useState(userInfo?.member?.project?.listMember ? userInfo?.member?.project?.listMember : []);
 
     const [legalDocuments, setLegalDocuments] = useState([]);
     const [legaldocFile, setlegaldocFile] = useState(null)
@@ -20,7 +20,12 @@ const Create_Project = () => {
 
     const [addProjet, response] = useCreateProjectMutation()
     const navigate = useNavigate()
+    const [isChecked, setIsChecked] = useState(userInfo?.member?.project?.visbility === "private");
+    console.log('UserInfo:', userInfo);
 
+    const handleToggle = () => {
+      setIsChecked(!isChecked);
+    };
 
     const handleLegalDocumentsChange = (event) => {
         const file = event.target.files[0];
@@ -56,31 +61,31 @@ const Create_Project = () => {
         setFinancialProjection(file);
     };
 
-    const handleTeamMemberRoleChange = (index, value) => {
-        const updatedTeamMembers = [...teamMembers];
-        updatedTeamMembers[index].role = value;
-        setTeamMembers(updatedTeamMembers);
+    const handleListMembersRoleChange = (index, value) => {
+        const updatedListMembers = [...listMembers];
+        updatedListMembers[index] = { ...updatedListMembers[index], role: value };
+        setListMembers(updatedListMembers);
     };
-    const handleTeamMemberFirstNameChange = (index, value) => {
-        const updatedTeamMembers = [...teamMembers];
-        updatedTeamMembers[index].firstName = value;
-        setTeamMembers(updatedTeamMembers);
-    };
-
-    const handleTeamMemberLastNameChange = (index, value) => {
-        const updatedTeamMembers = [...teamMembers];
-        updatedTeamMembers[index].lastName = value;
-        setTeamMembers(updatedTeamMembers);
+    const handleListMembersFirstNameChange = (index, value) => {
+        const updatedListMembers = [...listMembers];
+        updatedListMembers[index] = { ...updatedListMembers[index], firstName: value };
+        setListMembers(updatedListMembers);
     };
 
-
-    const handleAddTeamMember = () => {
-        setTeamMembers([...teamMembers, { firstName: '', lastName: '', role: '' }]);
+    const handleListMembersLastNameChange = (index, value) => {
+        const updatedListMembers = [...listMembers];
+        updatedListMembers[index] = { ...updatedListMembers[index], lastName: value };
+        setListMembers(updatedListMembers);
     };
 
-    const handleRemoveTeamMember = (index) => {
-        const updatedTeamMembers = teamMembers.filter((_, i) => i !== index);
-        setTeamMembers(updatedTeamMembers);
+
+    const handleAddListMembers = () => {
+        setListMembers([...listMembers, { firstName: '', lastName: '', role: '' }]);
+    };
+
+    const handleRemoveListMembers = (index) => {
+        const updatedListMembers = listMembers.filter((_, i) => i !== index);
+        setListMembers(updatedListMembers);
     };
 
 
@@ -89,64 +94,55 @@ const Create_Project = () => {
         register,
         handleSubmit, reset,
         formState: { errors },
-    } = useForm();
+    } = useForm(userInfo?.member?.project?.name &&{
+        defaultValues: {
+            name: userInfo?.member?.project?.name,
+            fundingAmount: userInfo?.member?.project?.funding,
+            details: userInfo?.member?.project?.details,
+            currency: userInfo?.member?.project?.currency,
+            milestoneProgress: userInfo?.member?.project?.milestoneProgress,
+            visbility: isChecked ? "private" : "public",
+        }
+    });
 
 
 
 
     const onSubmit = (data) => {
+        data.visbility = isChecked ? "private" : "public";
+
         const formData = new FormData();
         formData.append('infos', JSON.stringify({
-            name: data.name,
-            funding: data.fundingAmount,
-            details: data.details,
-            currency: data.currency,
-            teamMember: data.teamMember,
-            milestoneProgress: data.milestoneProgress,
-            visbility: data.private ? "private" : "public",
-            listMembers: teamMembers
+            ...data,
+            listMembers,
+
         }));
-
-
-        
         pitchDeck && formData.append('files', pitchDeck, 'pitchDeck');
         businessPlan && formData.append('files', businessPlan, 'businessPlan');
         financialProjection && formData.append('files', financialProjection, 'financialProjection');
         for (const doc of legalDocuments) {
             formData.append('files', doc.file, "doc_"+doc.name);
         }
-        addProjet(formData)
-        reset()
+        addProjet(formData);
+       
     };
 
 
     useEffect(() => {
         response.isError && toast.error(response.error?.data?.message)
         if (response.isSuccess) {
-            toast.success("Project Created!")
+            toast.success("Project Edited!")
             setTimeout(() => {
                 navigate((0))
             }, 3000)
         }
 
-    }, [response.isLoading])
+    }, [response.isLoading]);
 
-    useEffect(() => {
 
-        if (userInfo && userInfo?.member?.project) {
-            toast.error("Project already created !")
-            setTimeout(() => {
-                navigate("/Dashboard_member")
-                navigate(0)
-            }, 800)
-
-        }
-    }, [userInfo?.member?.project])
     return (
         <div className=''>
-            {response.isLoading ? "Loading"
-        
-        :
+            { userInfo ?
                     <div className='grid place-items-center py-10'>
                 <div className='bg-white min-w-[650px] space-y-10 mx-auto py-7 px-10 rounded-lg border-0 ring-1 ring-inset ring-gray-300 shadow-lg'>
                     <div className="sm:mx-auto">
@@ -159,7 +155,20 @@ const Create_Project = () => {
                             Create a new Project
                         </h2>
                     </div>
-                    <div className="flex-col items-center mt-10">
+                    <div className="flex flex-col items-center mt-10">
+                    {!edit ? <button
+                                className=' bg-blue-600 justify-self-center self-center text-white px-3 py-1 mb-5 rounded-lg'
+                                onClick={() => setedit(true)} >
+                                Enable Edit
+                            </button>
+                                :
+                                <button
+                                    className=' bg-gray-600 justify-self-center self-center text-white px-3 py-1 mb-5 rounded-lg'
+                                    onClick={() => setedit(false)} >
+                                    Cancel
+                                </button>
+
+                            }
                         <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <div >
                                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
@@ -170,6 +179,7 @@ const Create_Project = () => {
                                         id="name"
                                         name="name"
                                         type="text"
+                                        disabled={!edit}
                                         {...register("name", {
                                             required: {
                                                 value: true,
@@ -209,6 +219,7 @@ const Create_Project = () => {
                                                 message: "Amount must be greater than 0",
                                             },
                                         })}
+                                        disabled={!edit}
                                         className="block flex-1 w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                     />
                                     <select
@@ -220,6 +231,7 @@ const Create_Project = () => {
                                                 message: "You must select a currency",
                                             },
                                         })}
+                                        disabled={!edit}
                                         className="block w-28 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                     >
                                         <option value="€">Euro (€)</option>
@@ -250,7 +262,7 @@ const Create_Project = () => {
                                         })}
                                         id="details"
                                         name="details"
-
+                                        disabled={!edit}
                                         className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                     />
                                     <span className="text-red-400 text-sm py-2">
@@ -263,33 +275,37 @@ const Create_Project = () => {
                                 <label className="block text-sm font-medium leading-6 text-gray-900">
                                     Team Members*
                                 </label>
-                                {teamMembers.map((member, index) => (
+                                {listMembers.map((member, index) => (
                                     <div key={index} className=" flex space-x-2">
                                         <input
                                             type="text"
+                                            disabled={!edit}
                                             value={member.firstName}
-                                            onChange={(e) => handleTeamMemberFirstNameChange(index, e.target.value)}
+                                            onChange={(e) => handleListMembersFirstNameChange(index, e.target.value)}
                                             placeholder={`First Name`}
                                             className="block flex-1 w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                         />
                                         <input
                                             type="text"
+                                            disabled={!edit}
                                             value={member.lastName}
-                                            onChange={(e) => handleTeamMemberLastNameChange(index, e.target.value)}
+                                            onChange={(e) => handleListMembersLastNameChange(index, e.target.value)}
                                             placeholder={`Last Name `}
                                             className="block flex-1 w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                         />
                                         <input
                                             type="text"
                                             value={member.role}
-                                            onChange={(e) => handleTeamMemberRoleChange(index, e.target.value)}
+                                            onChange={(e) => handleListMembersRoleChange(index, e.target.value)}
                                             placeholder={`Role`}
+                                            disabled={!edit}
                                             className="block flex-1 w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                         />
                                         <button
                                             type="button"
-                                            onClick={() => handleRemoveTeamMember(index)}
-                                            className="px-2 py-1.5 text-sm rounded-md bg-red-500 text-white hover:bg-red-600"
+                                            disabled={!edit}
+                                            onClick={() => handleRemoveListMembers(index)}
+                                            className=" disabled:opacity-50 disabled:cursor-not-allowed px-2 py-1.5 text-sm rounded-md bg-red-500 text-white hover:bg-red-600"
                                         >
                                             Remove
                                         </button>
@@ -297,8 +313,9 @@ const Create_Project = () => {
                                 ))}
                                 <button
                                     type="button"
-                                    onClick={handleAddTeamMember}
-                                    className=" px-2 py-1.5 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600"
+                                    disabled={!edit}
+                                    onClick={handleAddListMembers}
+                                    className=" disabled:opacity-50 disabled:cursor-not-allowed px-2 py-1.5 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600"
                                 >
                                     Add Team Member
                                 </button>
@@ -321,6 +338,7 @@ const Create_Project = () => {
                                         })}
                                         id="milestoneProgress"
                                         name="milestoneProgress"
+                                        disabled={!edit}
                                         className="block w-full px-2 rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                                     />
                                     <span className="text-red-400 text-sm py-2">
@@ -328,8 +346,10 @@ const Create_Project = () => {
                                     </span>
                                 </div>
                             </div>
+                            {
+                                !userInfo?.member?.project?.name &&  
                             <div className='w-full grid grid-cols-2 gap-4' >
-                                <div className='w-full '>
+                             <div className='w-full '>
                                     <label className="block text-sm font-medium leading-6 text-gray-900">Pitch Deck</label>
                                     <div className="flex">
                                         <label htmlFor="pitchDeck" className="cursor-pointer inline-block bg-blue-400 px-4 py-2 text-white rounded-md shadow hover:bg-blue-500 transition duration-300 ease-in-out">
@@ -428,26 +448,54 @@ const Create_Project = () => {
                                         </div>
                                     }
                                 </div>
-                            </div>
+                            </div>}
                             
-                            <div>
-                                <div>
-                                <input type="checkbox" name='private' placeholder='private' {...register('private')}/>
-                                <label htmlFor='visbility' className='text-lg p-2 font-semibold'>Set Private</label>
-                                </div>
+                                
+                            <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="toggleSwitch"
+          checked={isChecked}
+          onChange={handleToggle}
+          className="sr-only"
+          disabled={!edit}
+        />
+        <label
+          htmlFor="toggleSwitch"
+          className={`relative block w-10 h-5 rounded-full transition ${
+            isChecked ? "bg-blue-400" : "bg-gray-300"
+          }`}
+        >
+          <span
+            className={`absolute left-1 top-1 w-3 h-3 rounded-full transition-transform ${
+              isChecked ? "transform translate-x-full bg-white" : "bg-gray-400"
+            }`}
+          ></span>
+        </label>
+        <span className="ml-2">Set Private</span>
+      </div>
+
+                                <div className="mt-2">
+                                {
+                                response.isLoading ? "loading ..."
+                                :
                                 <button
-                                    disabled={teamMembers?.length == 0 || response.isLoading}
+                                    disabled={listMembers?.length == 0 || !edit}
                                     type="submit"
                                     className="mt-2 disabled:opacity-50 disabled:cursor-not-allowed  w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:ring-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
-                                    Create
+                                    Save
                                 </button>
+                                }
                             </div>
                         </form>
 
                     </div>
                 </div>
+                
             </div>
+            :
+            <div>Loading</div>
         }
 
         </div>

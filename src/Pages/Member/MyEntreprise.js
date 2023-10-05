@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {  toast } from 'react-hot-toast';
-import { useForm } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import { countriesAndCities } from '../../data/countriesAndCities';
 import { companyType } from '../../data/companyType';
 import { stage } from '../../data/stage';
@@ -24,7 +24,11 @@ export default function MyEntreprise() {
 
     const [createEntreprise, response] = useCreateEntrepriseMutation()
     const navigate = useNavigate()
+    const [isChecked, setIsChecked] = useState(userInfo?.member?.visbility === "private");
 
+    const handleToggle = () => {
+      setIsChecked(!isChecked);
+    };
     console.log('UserInfo:', userInfo);
     useEffect(() => {
         response.isError && toast.error(response.error?.data?.message)
@@ -56,7 +60,7 @@ export default function MyEntreprise() {
             stage: userInfo?.member?.stage,
             tin: userInfo?.member?.taxNbr,
             cin: userInfo?.member?.corporateNbr,
-            visbility: userInfo?.member?.visbility=="public" ? false : true,
+            visbility: isChecked ? "private" : "public",
             desc: userInfo?.member?.desc,
 
 
@@ -121,7 +125,7 @@ export default function MyEntreprise() {
 
 
     const onSubmit = (data) => {
-        data.visbility ? data.visbility = "private" : data.visbility = "public"
+        data.visbility = isChecked ? "private" : "public";
         
        const formData = new FormData();
         formData.append('infos', JSON.stringify({
@@ -564,10 +568,31 @@ export default function MyEntreprise() {
                                     Add Employee
                                 </button>
                             </div>
-                                <div>
-                                    <input type="checkbox" name='visbility' placeholder='private' {...register('visbility')} />
-                                    <label htmlFor='visbility' className='text-lg p-2 font-semibold'>Set Private</label>
-                                </div>
+                            
+
+                            <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="toggleSwitch"
+          checked={isChecked}
+          onChange={handleToggle}
+          className="sr-only"
+          disabled={!edit}
+        />
+        <label
+          htmlFor="toggleSwitch"
+          className={`relative block w-10 h-5 rounded-full transition ${
+            isChecked ? "bg-blue-400" : "bg-gray-300"
+          }`}
+        >
+          <span
+            className={`absolute left-1 top-1 w-3 h-3 rounded-full transition-transform ${
+              isChecked ? "transform translate-x-full bg-white" : "bg-gray-400"
+            }`}
+          ></span>
+        </label>
+        <span className="ml-2">Set Private</span>
+      </div>
 
 
                             
