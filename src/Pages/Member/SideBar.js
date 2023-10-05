@@ -76,7 +76,10 @@ const SideBar = ({ handleMenuItemClick }) => {
             <div className='flex items-center justify-between'>
                     {userInfo?.member?.project &&
                         <div className='flex items-center justify-center'>
-                            <button
+                            <button  onClick={() => {
+                            navigate('/Dashboard_member#' + 'My Project')
+                            handleMenuItemClick("Create Project");}}
+                            
                                 className={` ${!open && 'hidden'} bg-col1 text-white   p-3 rounded-full w-32 truncate `}
                             >
                                 {userInfo?.member?.project?.name}
