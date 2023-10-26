@@ -14,7 +14,7 @@ const SideBarInvestor = ({ handleMenuItemClick }) => {
             title: "Contacts", src: <UserGroupIcon className='w-5 h-5' />, 
             child: [
                 { title: "Contact Requests", src: <UsersIcon className='w-4 h-4' /> },
-                { title: "Messages", src: <EnvelopeIcon className='w-4 h-4' />,badge:2 },
+                { title: "Messages", src: <EnvelopeIcon className='w-4 h-4' />},
             ] },
         { title: "List Projects", src: <ListBulletIcon className='w-5 h-5' />},
         { title: "History", src: <ClockIcon className='w-5 h-5' /> },

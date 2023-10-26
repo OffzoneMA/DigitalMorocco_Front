@@ -21,7 +21,7 @@ const SideBar = ({ handleMenuItemClick }) => {
             child: [
                 { title: "List Investors", src: <ListBulletIcon className='w-5 h-5' /> },
                 { title: "Contact Requests", src: <UsersIcon className='w-4 h-4' /> },
-                 { title: "Messages", src: <EnvelopeIcon className='w-4 h-4' />, badge: 2 },
+                 { title: "Messages", src: <EnvelopeIcon className='w-4 h-4' />},
 
         ] },
         { title: "Subscription Billing", src: <ClipboardDocumentCheckIcon className='w-5 h-5' /> },

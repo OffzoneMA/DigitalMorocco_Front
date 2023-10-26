@@ -69,6 +69,7 @@ function App() {
             <Route path="/Dashboard_member" element={<Dashboard_member />} />
             <Route path="/Payement_Success" element={<PaySuccess />} />
             <Route path="/Payement_Failed" element={<PayFailed />} />
+
           </Route>
 
           {/* User Investor Routes*/}

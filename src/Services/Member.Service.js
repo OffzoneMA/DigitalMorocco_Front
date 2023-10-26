@@ -83,8 +83,46 @@ export const memberApi = createApi({
                 url: '/SubscribeMember/' + subid,
                 method: 'GET',
             }},
+        
         }),
+        // Fetch chat conversations for a member
+        createChatRoomWithInvestor: builder.mutation({
+            query: (payload) => {
+              return {
+                url: '/Chat/' + payload.investorId,
+                method: 'POST',
+              };
+            },
+          }),
+  
+      // Fetch messages in a specific chat room
+      getChatMessagesInRoom: builder.query({
+        query: (conversationId) => {
+          return {
+            url: '/Chat/' + conversationId,
+            method: 'GET',
+          };
+        },
+      }),
+  
+      // Send a chat message in a specific chat room
+      sendChatMessageInRoom: builder.mutation({
+        query: (payload) => {
+          return {
+            url: '/Chat/' + payload.conversationId,
+            method: 'POST',
+          };
+        },
+      }),
+      getMemberConversations: builder.query({
+        query: (memberId) => {
+            return {
+            url: '/Conversations/' + memberId,
+            method: 'GET',
+        }},
+    
+    }),
     }),
 })
 
-export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllProjectsQuery,useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,useGetAllMembersQuery} = memberApi
+export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllProjectsQuery,useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,useGetAllMembersQuery, useCreateChatRoomWithInvestorMutation, useGetChatMessagesInRoomQuery, useSendChatMessageInRoomMutation, useGetMemberConversationsQuery } = memberApi

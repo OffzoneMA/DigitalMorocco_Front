@@ -14,7 +14,7 @@ import Settings from '../Settings';
 import Contact_Requests from './Contact_Requests';
 import Contacts from './Contacts';
 import Messages from './Messages';
-
+import Chat from './Chat';
 
 const Dashboard_member = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
@@ -88,6 +88,7 @@ const Dashboard_member = () => {
         {activeMenuItem === "Messages" && (
           <Messages />
         )}
+       
       </div>
      
     </div>
