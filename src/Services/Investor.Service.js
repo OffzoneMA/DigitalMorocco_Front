@@ -58,44 +58,10 @@ export const investorApi = createApi({
                 }
             },
         }),
-          // Fetch chat conversations for a member
-          createChatRoomWithMember: builder.mutation({
-            query: (memberId) => {
-              return {
-                url: '/chat/' + memberId,
-                method: 'POST',
-              };
-            },
-          }),
-           // Fetch messages in a specific chat room
-      getChatMessagesInRoom: builder.query({
-        query: (roomId) => {
-          return {
-            url: '/chat/${roomId}/messages',
-            method: 'GET',
-          };
-        },
-      }),
+ 
+       
   
-      // Send a chat message in a specific chat room
-      sendChatMessageInRoom: builder.mutation({
-        query: (payload) => {
-          return {
-            url: '/chat/${payload.roomId}/messages',
-            method: 'POST',
-            body: payload,
-          };
-        },
-      }),
-      getInvestorConversations: builder.query({
-        query: (investorId) => {
-            return {
-            url: '/conversations/' + investorId,
-            method: 'GET',
-        }},
-    
-    }),
     }),
 })
 
-export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery, useCreateChatRoomWithMemberMutation,useGetChatMessagesInRoomQuery, useSendChatMessageInRoomMutation, useGetInvestorConversationsQuery} = investorApi
+export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery} = investorApi
