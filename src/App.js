@@ -28,30 +28,39 @@ import PaySuccess from './Pages/Payment/PaySuccess';
 import PayFailed from './Pages/Payment/PayFailed';
 import GuardedMemberPage from './GuardedRoutes/GuardedMemberPage';
 import Members from './Pages/Members';
+import VerificationCode from './Pages/Authentification/Complete_SignUp/VerificationCode';
 import AboutUs from './Pages/AboutUs';
+import ResetPasswordEmail from './Pages/Authentification/ResetPasswordEmail';
+import ResetPassword from './Pages/Authentification/ResetPassword';
+import PasswordResetSucces from './Pages/Authentification/PasswordResetSucces';
 import Explore from './Pages/Explore';
+import ForgotPassword from './Pages/Authentification/ForgotPassword';
 import { I18nextProvider } from 'react-i18next'; // Import I18nextProvider
 import i18n from './i18n';
+import Layout from './Components/Layout';
 
 
 function App() {
+
+  const notnavPaths = [ '/SignIn', '/SignUp', '/Complete_SignUp1', '/ResetPasswordEmail', '/ResetPassword', '/PasswordResetSucces' ];
+
+  // Vérifie si le chemin actuel est dans la liste des chemins où afficher la barre de navigation
+  //const showNav = !notnavPaths.includes(location.pathname);
 
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
  
     <BrowserRouter>   
       <div className='font-DmSans  overflow-hidden'>
-       <Header />
-
+       
         <div className='  min-h-[85vh] '>
 
       <Routes>
+        <Route element={<Layout />}>
+        
         <Route path="/Members" element={<Members />} />
         <Route path="/Partners" element={<Partners />} />
         <Route path="/" element={<Home />} />
-
-        <Route   path="/SignIn" element={<SignIn />} />
-        <Route   path="/SignUp" element={<SignUp />} />
         <Route   path="/UserProfile" element={<UserProfile />} />
         <Route   path="/Pricing" element={<Pricing />} />
         <Route   path="/ContactUs" element={<ContactUs/>}/>
@@ -89,6 +98,14 @@ function App() {
           <Route element={<GuardedNewAccRoute />}>
             <Route path="/Complete_SignUp" element={<ContinueSignUp />} />
           </Route>
+          </Route>
+        <Route   path="/SignIn" element={<SignIn />} />
+        <Route   path="/SignUp" element={<SignUp />} />
+        <Route path="/Complete_SignUp1" element={<VerificationCode />} />
+        <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/ResetPassword" element={<ResetPassword />} />
+        <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
 
       </Routes>
       </div>

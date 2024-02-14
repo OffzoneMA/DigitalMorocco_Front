@@ -14,8 +14,8 @@ const {
   }
 else
 return ( 
-  (userInfo?.role == "member" && userInfo?.status == "accepted") || ( data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
- )
+  data?.role == "Member"  || userInfo?.role == "Member" ? <Outlet /> : <Navigate to='/SignIn' />
+  )
 
 }
 export default GuardedUserMemberRoutes;

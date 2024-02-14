@@ -12,6 +12,8 @@ RUN npm install
 
 # Copy the project files
 COPY . .
+#Expose port
+EXPOSE 3000
 
 # Start the React app
 CMD ["npm", "start"]

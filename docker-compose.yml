@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+    app_front:
+        container_name: container_front
+        restart: always
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: base
+        ports:
+            - "3000:3000"
+        environment: 
+            REACT_APP_baseURL: http://app:8080
+            REACT_APP_credits: 3
+            REACT_APP_Contact_Delay_After_Reject_by_days: 180
+            
