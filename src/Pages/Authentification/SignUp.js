@@ -26,7 +26,7 @@ export default function SignUp() {
     if (Mount) { setMount(false) }
    else{ if (userInfo) {
       toast.success("Successfuly !")
-      setTimeout(() => navigate('/Complete_SignUp1'), 2500)
+      setTimeout(() => navigate('/Complete_SignUp'), 2500)
     }
     if (error) {
       toast.error(error)

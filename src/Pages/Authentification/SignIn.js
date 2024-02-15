@@ -97,6 +97,7 @@ export default function SignIn() {
               </Button>
               <Button
                 className="border border-gray-300 border-solid cursor-pointer flex items-center justify-center min-w-full"
+                onClick={handleLinkedinButtonClick}
                 leftIcon={
                   <img
                     className="h-6 mr-2.5"
@@ -112,6 +113,7 @@ export default function SignIn() {
               </Button>
               <Button
                 className="border border-gray-300 border-solid cursor-pointer flex items-center justify-center min-w-full"
+                onClick={handleFacebookButtonClick}
                 leftIcon={
                   <img
                     className="h-6 mr-2.5"
