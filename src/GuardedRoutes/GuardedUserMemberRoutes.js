@@ -14,7 +14,7 @@ const {
   }
 else
 return ( 
-  data?.role == "Member"  || userInfo?.role == "Member" ? <Outlet /> : <Navigate to='/SignIn' />
+  (userInfo?.role == "member" && userInfo?.status == "accepted") || (data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
   )
 
 }

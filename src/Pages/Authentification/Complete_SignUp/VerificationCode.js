@@ -2,17 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../../Components/Text';
-import { Button } from '../../../Components/Button';
-import { CheckCircleIcon} from '@heroicons/react/24/solid'
 import { authApi } from '../../../Services/Auth';
+import { useVerifyOTPMutation , useSendOTPMutation} from '../../../Services/Auth';
 import { FaSpinner } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 
 export default function VerificationCode() {
-  const { userInfo } = useSelector((state) => state.auth)
+  const { t } = useTranslation();
 
-  const [isSending, setIsSending] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth)
+  const { userEmail } = useSelector((state) => state.auth)
+  const [verifyOTP, { isLoading: isVerifyingOTP }] = useVerifyOTPMutation();
+  const [sendOtp, { isLoading: isSendingOTP }] = useSendOTPMutation();
+
+
 
     const {
         register,
@@ -24,14 +29,20 @@ export default function VerificationCode() {
       const navigate = useNavigate()
     
       async function onSubmit(values) {
-        console.log(values);
-        setIsSending(true);
+        const updatedValues = { ...values, email: userEmail };
+        console.log(updatedValues);
+        verifyOTP(updatedValues);
+        navigate("/ChooseRole");
       }
 
-      async function resendEmail() {
-        console.log("User Email" , userInfo?.email);
-        
-      }
+      const handleSendOtp = async () => {
+        try {
+          const { data } = await sendOtp(userEmail);
+          console.log(data);
+        } catch (error) {
+          console.error('Error sending OTP:', error);
+        }
+      };
 
       return (
         <>
@@ -56,7 +67,7 @@ export default function VerificationCode() {
                   className="text-[22px] text-black-900 sm:text-lg md:text-xl w-auto"
                   size="txtDMSansMedium22Black900"
                 >
-                  Verify your email
+                  {t('verifyEmail')}
                 </Text>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-9 items-center justify-start w-full">
                   <div className="flex flex-col items-center justify-start w-full">
@@ -64,8 +75,7 @@ export default function VerificationCode() {
                       className="leading-[26.00px] max-w-[456px] md:max-w-full text-base text-blue_gray-500 text-center"
                       size="txtDMSansMedium16Bluegray500"
                     >
-                      We sent you an email. Follow the instructions within the email
-                      to complete verification.
+                      {t('verification.instructions')}
                     </Text>
                   </div>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
@@ -75,7 +85,7 @@ export default function VerificationCode() {
                           className="text-gray-900_01 text-sm w-auto"
                           size="txtDMSansRegular14Gray90001"
                         >
-                          Verification Code
+                          {t('verification.verificationCode')}
                         </Text>
                         <div className={`border border-solid w-full rounded-[21px] 
                     pb-2.5 pt-[10px] px-2.5 fill bg-white-A700 text-${errors?.fullName ? 'red-400' : ''}  
@@ -87,13 +97,13 @@ export default function VerificationCode() {
                         },
                         pattern: {
                           value: /^\d{6}$/,
-                          message: "Enter a 6-digit verification code",
+                          message: t('verification.codeErrorMessage'),
                         },
                         
                       })}
                         id="code"
                       name="code"
-                      placeholder="Enter your Verification Code"
+                      placeholder={t('verification.enterCodePlaceholder')}
                       className={`leading-[normal] md:h-auto p-0 placeholder:text-gray-500 sm:h-auto 
                       text-left text-sm tracking-[0.14px] w-full bg-transparent border-0 `}
                       type="text"
@@ -112,9 +122,9 @@ export default function VerificationCode() {
                             className="text-base text-white-A700 w-auto"
                             size="font-dmsans font-medium"
                         >
-                            Verify Email
+                            {t('verification.verifyButton')}
                         </button>
-                        {isSending ?
+                        {isVerifyingOTP ?
                          <FaSpinner className="animate-spin h-6 w-6 text-white-A700" /> :
                          <img
                         className="h-6 w-6"
@@ -127,11 +137,11 @@ export default function VerificationCode() {
                         <div className="bg-blue-50 flex flex-row gap-6 h-[52px] md:h-auto w-full items-center justify-center sm:px-8 px-12 py-[13px] rounded-[26px] ">
                             <button
                             type='button'
-                            onClick={resendEmail}
+                            onClick={handleSendOtp}
                             className=" text-teal-A700 leading-[normal] rounded-[26px] text-base text-center w-full"
                             size="p-[15px]"
                             >
-                            Resend Email
+                            {t('verification.resendButton')}
                             </button>
                             </div>
                         </div>
@@ -142,13 +152,13 @@ export default function VerificationCode() {
                         className="text-blue_gray-900_02 text-sm w-auto"
                         size="txtDMSansMedium14"
                       >
-                        Having trouble registering?
+                        {t('verification.troubleRegistering')}
                       </Text>
                       <Text
                         className="text-deep_purple-A400 text-sm w-auto"
                         size="txtDMSansBold14"
                       >
-                        Contact Support
+                        {t('verification.contactSupport')}
                       </Text>
                     </div>
                   

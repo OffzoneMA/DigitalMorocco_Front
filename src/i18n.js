@@ -3,6 +3,10 @@ import { initReactI18next } from 'react-i18next';
 import enTranslations from './en.json';
 import frTranslations from './fr.json';
 
+const userLanguage = navigator.language || navigator.userLanguage;
+
+const defaultLanguage = 'en';
+
 i18n.use(initReactI18next).init({
   resources: {
     en: {
@@ -12,8 +16,11 @@ i18n.use(initReactI18next).init({
       translation: frTranslations,
     },
   },
-  lng: 'en', // Default language
+  lng: userLanguage || defaultLanguage, // Default language
   fallbackLng: 'en', // Fallback language if the specified language is not found
+  detection: {
+    order: ['navigator'], // Ordre de détection (priorité au navigateur)
+  },
   interpolation: {
     escapeValue: false, // React already does escaping
   },

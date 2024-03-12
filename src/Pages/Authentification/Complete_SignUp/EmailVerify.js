@@ -33,7 +33,8 @@ export default function EmailVerify({UserStatus,UserId}) {
                   >
                       {data ? "Verification SenT" : "Send Verification"}
 
-                  </button>}
+                  </button>
+                }
                       {data && !isFetching &&
                        <a onClick={() => { trigger(UserId) }} className=' p-5 cursor-pointer'>Resend ? </a>}
                       {data && (

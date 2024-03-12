@@ -1,11 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux';
+import { setUserEmail } from '../../Redux/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
 import { Text  } from '../../Components/Text';
-import { Button } from '../../Components/Button';
+import { useTranslation } from 'react-i18next';
+import { useSendForgotPasswordMutation } from '../../Services/Auth';
 
 
 export default function ForgotPassword(){
+  const { t } = useTranslation();
+  const [sendForgotPassword, { isLoading }] = useSendForgotPasswordMutation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+
+
     const {
         register,
         handleSubmit,
@@ -15,6 +24,14 @@ export default function ForgotPassword(){
 
       async function onSubmit(values) {
         console.log(values);
+        try {
+          await sendForgotPassword(values);
+          dispatch(setUserEmail(values)); 
+          navigate('/ResetPasswordEmail');
+        
+        } catch (error) {
+          console.error('Forgot password request failed:', error);
+        }
       }
 
     return (
@@ -32,7 +49,7 @@ export default function ForgotPassword(){
                     <Text
                         size="txtManropeSemiBold14"
                     >
-                        Back to Login
+                        {t('backToLogin')}
                     </Text>
                 </a>
                 </div>
@@ -51,7 +68,7 @@ export default function ForgotPassword(){
                   href="javascript:"
                   className="text-[22px] text-gray-900 sm:text-lg md:text-xl w-auto"
                 >
-                  <Text size="txtDMSansMedium22">Forgot Password?</Text>
+                  <Text size="txtDMSansMedium22">{t('forgot.forgotPassword')} </Text>
                 </a>
                 <div className="flex flex-col gap-8 items-center justify-start w-full">
                   <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 items-center justify-start w-full">
@@ -59,7 +76,7 @@ export default function ForgotPassword(){
                       className="text-gray-900 text-lg w-full"
                       size="txtDMSansMedium18"
                     >
-                      Enter your Email Address to reset your password
+                      {t('forgot.enterEmailAddress')}
                     </Text>
                     <div className="flex flex-col gap-4  justify-start w-full">
                       <div className="flex flex-col font-dmsans items-start justify-start w-full">
@@ -67,7 +84,7 @@ export default function ForgotPassword(){
                           className="text-base text-gray-900 w-auto"
                           size="txtDMSansMedium16"
                         >
-                          Email Address
+                          {t('forgot.emailAddress')}
                         </Text>
                       </div>
                       <div className={`border border-solid w-full rounded-[21px] 
@@ -77,24 +94,24 @@ export default function ForgotPassword(){
                       {...register("email", {
                         required: {
                           value: true,
-                          message: "You must enter your email address",
+                          message: t('signup.emailRequired'),
                         },
                         minLength: {
                           value: 8,
-                          message: "This is not long enough to be an email",
+                          message: t('signup.emailMinLength'),
                         },
                         maxLength: {
                           value: 120,
-                          message: "This is too long",
+                          message: t('signup.emailMaxLength'),
                         },
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "This needs to be a valid email address",
+                          message: t('signup.emailPattern'),
                         },
                       })}
                         id="email"
                         name="email"
-                      placeholder="Enter your email address"
+                      placeholder={t('signup.enterEmailAddress')}
                       className="leading-[normal] md:h-auto p-0 placeholder:text-gray-500 sm:h-auto text-left text-sm tracking-[0.14px] w-full bg-transparent border-0"
                       type="text"
                     ></input>
@@ -113,7 +130,7 @@ export default function ForgotPassword(){
                             className="text-base text-white-A700 w-auto"
                             size="font-dmsans font-medium"
                         >
-                            Reset Password 
+                          {isLoading ? t('forgot.resetPasswordSend') : t('forgot.resetPassword')}
                         </button>
                         </div>
                         <img
@@ -127,13 +144,13 @@ export default function ForgotPassword(){
                         className="text-blue_gray-900_02 text-sm w-auto"
                         size="txtDMSansMedium14"
                       >
-                        Having trouble signing in?
+                        {t('forgot.havingTroubleSigningIn')}
                       </Text>
                       <Text
                         className="text-deep_purple-A400 text-sm w-auto"
                         size="txtDMSansBold14"
                       >
-                        Contact Support
+                        {t('forgot.contactSupport')}
                       </Text>
                     </div>
                   </div>

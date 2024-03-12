@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from "react-hook-form";
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../Components/Text';
-import { Button } from '../../Components/Button';
+import { useTranslation } from 'react-i18next';
 
 export default function PasswordResetSucces() {
+  const { t } = useTranslation();
+
     const navigate = useNavigate()
 
     return (
@@ -30,8 +31,7 @@ export default function PasswordResetSucces() {
                     size="txtDMSansMedium22Gray90001"
                   >
                     <>
-                      Your password reset has been <br />
-                      successfully completed
+                      {t('resetSuccess.resetSuccess')}
                     </>
                   </Text>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
@@ -39,11 +39,11 @@ export default function PasswordResetSucces() {
                     <div className="flex flex-col items-center justify-center w-auto">
                       <button
                         type="button"
-                        onClick={()=> navigate("/Login")}
+                        onClick={()=> navigate("/SignIn")}
                         className="text-base text-white-A700 w-auto"
                         size="font-dmsans font-medium"
                       >
-                        Sign In
+                        {t('resetSuccess.signIn')}
                       </button>
                     </div>
                     <img
@@ -57,13 +57,13 @@ export default function PasswordResetSucces() {
                         className="text-blue_gray-900_02 text-sm w-auto"
                         size="txtDMSansMedium14"
                       >
-                        Having trouble signing in?
+                        {t('resetSuccess.troubleSigningIn')}
                       </Text>
                       <Text
                         className="text-deep_purple-A400 text-sm w-auto"
                         size="txtDMSansBold14"
                       >
-                        Contact Support
+                        {t('resetSuccess.contactSupport')}
                       </Text>
                     </div>
                   </div>

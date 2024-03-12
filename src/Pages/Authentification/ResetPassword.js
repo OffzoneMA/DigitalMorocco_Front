@@ -1,29 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../Components/Text';
-import { Button } from '../../Components/Button';
+import { useTranslation } from 'react-i18next';
+import { useResetPasswordMutation } from '../../Services/Auth';
+
 
 export default function ResetPassword() {
-    const {
+  const { t } = useTranslation();
+  const [resetPassword, { isLoading }] = useResetPasswordMutation()
+
+  const {
         register,
         handleSubmit,
-        reset,
         formState: { errors },
         watch,
-      } = useForm();
+  } = useForm();
     
-      const navigate = useNavigate()
+  const navigate = useNavigate()
+
     
       // Custom validation function for confirm password
   const validateConfirmPassword = (value) => {
     const password = watch("password"); // Get the value of the password field
     return value === password || "Passwords do not match";
   };
+
+  function extractTokenFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('token');
+  }
     
-      async function onSubmit(values) {
-        console.log(values);
-      }
+  async function onSubmit(values) {
+    const token = extractTokenFromURL();
+    const payload = { ...values, token };
+    console.log(payload);
+
+    try {
+      await resetPassword(payload); 
+        navigate('/PasswordResetSucces'); 
+      } catch (error) {
+    }
+  }
 
     return (
         <>
@@ -48,7 +66,7 @@ export default function ResetPassword() {
                   className="text-[22px] text-gray-900 sm:text-lg md:text-xl w-auto"
                   size="txtDMSansMedium22"
                 >
-                  Reset Your Password
+                  {t('resetPassword.resetPassword')}
                 </Text>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-9 items-center justify-start w-full">
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
@@ -56,30 +74,30 @@ export default function ResetPassword() {
                       className="text-gray-900 text-lg w-full"
                       size="txtDMSansMedium18"
                     >
-                      Enter your New Password to reset your password
+                      {t('resetPassword.enterNewPassword')}
                     </Text>
                     <div className="flex flex-col gap-2 items-start justify-start w-full">
                       <Text
                         className="text-base text-gray-900 w-auto"
                         size="txtDMSansMedium16"
                       >
-                        New Password
+                        {t('resetPassword.newPassword')}
                       </Text>
                       <div className={`border border-solid w-full rounded-[21px] 
                     pb-2.5 pt-[10px] px-2.5 fill bg-white-A700 text-${errors?.password ? 'red-400' : ''}  
                     ${errors?.password ? 'border-red-500' : 'border-blue_gray-100'}`}>
                     <input
                       {...register("password", {
-                        required: "You must enter a password",
+                        required: t('signup.passwordRequired'),
                         minLength: {
-                          value: 6,
-                          message: "Password must be at least 6 characters",
+                          value: 8,
+                          message: t('signup.passwordMinLength'),
                         },
                       })}
                         id="password"
                         name="password"
                         type="password"
-                      placeholder="Enter your password"
+                      placeholder={t('signup.enterPassword')}
                       className="leading-[normal] md:h-auto p-0 placeholder:text-gray-500 sm:h-auto text-left text-sm tracking-[0.14px] w-full bg-transparent border-0"
                     ></input>
                     </div>
@@ -94,21 +112,21 @@ export default function ResetPassword() {
                         className="text-base text-gray-900 w-auto"
                         size="txtDMSansMedium16"
                       >
-                        Re-enter Password
+                        {t('resetPassword.reenterPassword')}
                       </Text>
                       <div className={`border border-solid w-full rounded-[21px] 
                     pb-2.5 pt-[10px] px-2.5 fill bg-white-A700 text-${errors?.confirmPassword ? 'red-400' : ''}  
                     ${errors?.confirmPassword ? 'border-red-500' : 'border-blue_gray-100'}`}>
                     <input
                       {...register("confirmPassword", {
-                        required: "Confirm Password is required",
+                        required: t('resetPassword.confirmPasswordRequired'),
                         validate: validateConfirmPassword,
                       })}
             
                         id="confirmPassword"
                         name="confirmPassword"
                         type="password"
-                      placeholder="Re-Enter your password"
+                      placeholder={t('resetPassword.confirmPassword')}
                       className="leading-[normal] md:h-auto p-0 placeholder:text-gray-500 sm:h-auto text-left text-sm tracking-[0.14px] w-full bg-transparent border-0"
                     ></input>
                     </div>
@@ -127,7 +145,7 @@ export default function ResetPassword() {
                         className="text-base text-white-A700 w-auto"
                         size="font-dmsans font-medium"
                       >
-                        Reset Paswword
+                        {t('resetPassword.submit')}
                       </button>
                     </div>
                     <img
@@ -141,13 +159,13 @@ export default function ResetPassword() {
                         className="text-blue_gray-900_02 text-sm w-auto"
                         size="txtDMSansMedium14"
                       >
-                        Having trouble signing in?
+                        {t('resetPassword.havingTrouble')}
                       </Text>
                       <Text
                         className="text-deep_purple-A400 text-sm w-auto"
                         size="txtDMSansBold14"
                       >
-                        Contact Support
+                        {t('resetPassword.contactSupport')}
                       </Text>
                     </div>
                   </div>

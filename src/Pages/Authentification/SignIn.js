@@ -4,12 +4,15 @@ import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser } from '../../Redux/auth/authAction';
 import { useNavigate } from 'react-router-dom'
-import { FaGoogle } from 'react-icons/fa'
-import { FaLinkedinIn } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 import { Text } from '../../Components/Text';
 import { Button } from '../../Components/Button';
+import { IoIosCheckmark } from "react-icons/io";
+
 
 export default function SignIn() {
+  const { t, i18n } = useTranslation();
+
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const [Mount, setMount] = useState(true)
   const dispatch = useDispatch()
@@ -84,7 +87,7 @@ export default function SignIn() {
                 onClick={handleGoogleButtonClick}
                 leftIcon={
                   <img
-                    className="h-6 w-6"
+                    className="h-6 w-6 mr-2.5"
                     src="images/img_flatcoloriconsgoogle.svg"
                     alt="flatcoloriconsg"
                   />
@@ -92,7 +95,7 @@ export default function SignIn() {
                 shape="round"
               >
                 <div className="font-medium leading-[normal] text-left text-sm tracking-[0.14px]">
-                Sign in with Google
+                {t('signin.googleSignIn')}
                 </div>
               </Button>
               <Button
@@ -108,7 +111,7 @@ export default function SignIn() {
                 shape="round"
               >
                 <div className="font-medium leading-[normal] text-left text-sm tracking-[0.14px]">
-                  Sign in with LinkedIn
+                  {t('signin.linkedinSignIn')}
                 </div>
               </Button>
               <Button
@@ -124,7 +127,7 @@ export default function SignIn() {
                 shape="round"
               >
                 <div className="font-medium leading-[normal] text-left text-sm tracking-[0.14px]">
-                  Sign in with Facebook
+                  {t('signin.facebookSignIn')}
                 </div>
               </Button>
             </div>
@@ -134,7 +137,7 @@ export default function SignIn() {
                 className="text-[15px] text-gray-700 tracking-[0.15px] w-auto"
                 size="txtDMSansMedium15"
               >
-                OR
+                {t('signup.or')}
               </Text>
               <div className="bg-gray-300 h-px w-[46%]" />
             </div>
@@ -144,7 +147,7 @@ export default function SignIn() {
                 className="text-base text-gray-900 tracking-[0.16px] w-auto"
                 size="txtDMSansMedium16"
               >
-                Sign in with your Email{" "}
+                {t('signin.usingEmail')}
               </Text>
               <div className="flex flex-col gap-4 items-center justify-start w-full">
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
@@ -155,24 +158,24 @@ export default function SignIn() {
                       {...register("email", {
                         required: {
                           value: true,
-                          message: "You must enter your email address",
+                          message: t('ignup.emailRequired'),
                         },
                         minLength: {
                           value: 8,
-                          message: "This is not long enough to be an email",
+                          message: t('signup.emailMinLength'),
                         },
                         maxLength: {
                           value: 120,
-                          message: "This is too long",
+                          message: t('signup.emailMaxLength'),
                         },
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "This needs to be a valid email address",
+                          message: t('signup.emailPattern'),
                         },
                       })}
                         id="email"
                         name="email"
-                      placeholder="Enter your email address"
+                      placeholder={t('signin.emailPlaceholder')}
                       className="leading-[normal] md:h-auto p-0 placeholder:text-gray-500 sm:h-auto text-left text-sm tracking-[0.14px] w-full bg-transparent border-0"
                       type="text"
                     ></input>
@@ -190,16 +193,16 @@ export default function SignIn() {
                     ${errors?.password ? 'border-red-500' : 'border-blue_gray-100'}`}>
                     <input
                       {...register("password", {
-                        required: "You must enter a password",
+                        required: t('signup.passwordRequired'),
                         minLength: {
-                          value: 6,
-                          message: "Password must be at least 6 characters",
+                          value: 8,
+                          message: t('signup.passwordMinLength'),
                         },
                       })}
                         id="password"
                         name="password"
                         type="password"
-                      placeholder="Enter your password"
+                      placeholder={t('signin.passwordPlaceholder')}
                       className="leading-[normal] md:h-auto p-0 placeholder:text-gray-500 sm:h-auto text-left text-sm tracking-[0.14px] w-full bg-transparent border-0"
                     ></input>
                     </div>
@@ -210,25 +213,36 @@ export default function SignIn() {
                     }
                     </div>
                   </div>
-                  <div className="flex flex-row gap-2.5 items-center justify-between w-full">
-                    <div className="leading-[normal] text-[13px] text-left tracking-[0.13px]">
-                        <input
-                            {...register("rememberme")}
-                            className={`border border-blue_gray-100_01 border-solid h-4 mr-[5px] w-4 rounded bg-white-A700 text-gray-700 `}
-                            name="rememberme"
-                            id="rememberme"
+                  <div className="flex flex-row gap-2.5 items-center  w-full">
+                      <div className="flex flex-row flex-1 items-center justify-start m-auto w-auto">
+                        <label htmlFor={`rememberme`} className="cursor-pointer relative inline-flex items-center justify-center peer-checked:border-0 rounded-[3px] mr-2">
+                          <input
+                          {...register("rememberme" , {
+                            required: t('signup.termsValidation'),
+                          }
+                          )}
+                            id={`rememberme`}
                             type="checkbox"
-                            
-                        />
-                        <label htmlFor="rememberme"> Remember Me</label>
+                            name="rememberme"
+                            className={`peer appearance-none w-4 h-4 bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border border-solid border-gray-300 rounded-[3px] focus:ring-blue-500 relative`}
+                          />
+                          <IoIosCheckmark size={22} className="absolute text-white-A700 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100"/>
+                        </label>
+                        
+                        <Text
+                          className="text-[13px] text-gray-700 w-auto"
+                          size="txtAvenirNextLTProRegular13Gray700"
+                        >
+                          {t('signin.rememberMe')}                       
+                        </Text>
                     </div>
-                    <a className="text-[13px] text-deep_purple-A400 tracking-[0.13px] w-auto">
+                    <a className="text-[13px] text-deep_purple-A400 tracking-[0.13px]  w-1/3 justify-end">
                       <Text
                         className="common-pointer"
                         size="txtDMSansRegular13"
                         onClick={() => navigate("/ForgotPassword")}
                       >
-                        Forgot Password?
+                        {t('signin.forgotPassword')}
                       </Text>
                     </a>
                   </div>
@@ -240,7 +254,7 @@ export default function SignIn() {
                             className="text-base text-white-A700 w-auto"
                             size="font-dmsans font-medium"
                         >
-                            Sign in
+                            {t('signin.signIn')}
                         </button>
                         </div>
                         <img
@@ -254,13 +268,13 @@ export default function SignIn() {
                             className="text-blue_gray-900_02 text-sm w-auto"
                             size="txtDMSansMedium14"
                         >
-                            New to Digital Morocco?
+                            {t('signin.newToDigitalMorocco')}
                         </Text>
                         <a
                             href="/SignUp"
                             className="text-deep_purple-A400 text-sm w-auto"
                         >
-                            <Text size="txtDMSansBold14">Create an Account</Text>
+                            <Text size="txtDMSansBold14">{t('signin.createAccount')} </Text>
                         </a>
                     </div>
                   </div>
