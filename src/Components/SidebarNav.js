@@ -14,10 +14,23 @@ import { useNavigate } from "react-router-dom";
 const SidebarNav = () => {
   const { userInfo } = useSelector((state) => state.auth)
     const [open, setOpen] = useState(true);
-    const [submenuOpen, setSubmenuOpen] = useState(false);
+    const [submenuOpen, setSubmenuOpen] = useState({
+      company: false,
+      investor: false,
+      // Ajoutez d'autres sous-menus si nécessaire
+    });
+    
     const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
 
     const navigate=useNavigate()
+
+    const setSubmenu = (submenuName, isOpen) => {
+      setSubmenuOpen(prevState => ({
+        ...prevState,
+        [submenuName]: isOpen,
+      }));
+    };
+    
     const Menus = [
       { title: "Dashboard", src: <RiHome6Line size={22} /> , link:"Dashboard" },
       { title: "Projects", src: <GoRocket size={22} />, link:"Projects" },
@@ -33,7 +46,15 @@ const SidebarNav = () => {
         ]
       }
       ,
-      { title: "Investor", src: <TiFlashOutline size={22} /> ,link:"Investors" },
+      { title: "Investor", src: <TiFlashOutline size={22} /> ,link:"Investors" ,
+      submenu: true,
+      child: [
+        //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
+        { title: "Investor List", src: '', link: "Investors" },
+        { title: "My Investors", src: '', link: "MyInvestors" },
+        { title: "Request History", src: '', link: "InvestorRequestsHistoty" },
+      ]
+      },
       { title: "Event", src: <HiOutlineTicket size={22} /> ,link:"Event" },
       { title: "Document", src: <PiFolderThin size={22}  /> , link:"Document"},
       { title: "History", src: <PiHourglassLowFill size={22} /> , link:"History" },
@@ -61,14 +82,14 @@ const SidebarNav = () => {
                 </span>
           {Menu.submenu && (
             open ? (
-              <BsChevronDown className={`${submenuOpen && "rotate-180"}`} onClick={() => {setSubmenuOpen(!submenuOpen)}} />
+              <BsChevronDown className={`${submenuOpen[`${Menu.title}`] && "rotate-180"}`} onClick={() => {setSubmenu(Menu.title, !submenuOpen[Menu.title])}} />
             ) : (
               <BsDot size={18} className="text-gray-500" />
             )
           )}
         </li
           >
-        { Menu.submenu  && submenuOpen && (
+        { Menu.submenu  && submenuOpen[Menu.title] && (
 
           Menu.child.map((el, i) => (
             <li
@@ -76,7 +97,7 @@ const SidebarNav = () => {
               onClick={() => {
                 navigate(el.link)
                 setActiveMenu(el.link);}}
-              className={`font-dmsans text-base font-normal leading-6 ${!open && 'w-fit'}  flex rounded-md py-2 px-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2 ml-5 mt-1 `}
+              className={`font-dmsans text-base font-normal leading-6 ${!open && 'w-fit'}  flex rounded-md py-2 px-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2 ml-6 mt-1 `}
             >
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                         {el.title}

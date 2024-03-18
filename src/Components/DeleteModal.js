@@ -21,15 +21,16 @@ const DeleteModal = (props) => {
               >
                 {props.title}
               </Text>
-          <IoCloseOutline  className='text-blue_gray-500'
-          onClick={props.onRequestClose}
-            size={20}
-          />
+              <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+                <IoCloseOutline  className='text-blue_gray-500'
+                  size={20}
+                />
+              </div>
         </div>
         <div className="bg-indigo-50 h-px w-full" />
         <div className="flex flex-col items-center justify-start w-full">
           <div className="flex flex-col items-center justify-start w-auto px-5 w-full">
-            <div className="flex flex-col gap-2 items-center justify-start w-auto w-full">
+            <div className="flex flex-col gap-2 items-center justify-start pb-4 w-auto w-full">
               <Text
                 className=""
                 size=""

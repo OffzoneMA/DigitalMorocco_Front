@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text } from "../Components/Text";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
-import { FiEdit3 } from "react-icons/fi";
+import { FiDownload } from "react-icons/fi";
 import { GrAttachment } from "react-icons/gr";
 import NewCampanyDocumentModal from "../Components/NewCampanyDocumentModal";
 import { AiOutlineFileSearch } from "react-icons/ai";
@@ -173,23 +173,23 @@ const CompanyLegal = () => {
                 <tbody className="font-DmSans text-sm font-normal leading-6">
                 {documentData.map((document, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                    <td className="py-4 px-3">
+                    <td className="py-3 px-3">
                       <div className="flex flex-row space-x-3 items-center">
                         <GrAttachment size={15} className="" />
-                        <span className="text-gray-600">{document.name}</span>
+                        <span className="text-gray-600" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-3 text-gray-600">{document.lastModified}</td>
-                    <td className="py-4 px-3 text-gray-600">
+                    <td className="py-4 px-3 text-gray-600" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.lastModified}</td>
+                    <td className="py-3 px-3 text-gray-600">
                       <div className="flex flex-row space-x-3 items-center">
                         <img src={document.ownerImg} alt="owner" className="h-9 w-9 mr-2 rounded-full"/>
-                        {document.owner}
+                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.owner}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-3 ">
+                    <td className="py-3 px-3 ">
                       <div className="flex flex-row space-x-3 p-3 items-center">
-                        <HiOutlineTrash onClick={()=> openDeleteModal(document)} className="text-blue_gray-300"/>
-                        <FiEdit3 className="text-blue_gray-300"/>
+                        <HiOutlineTrash size={17} onClick={()=> openDeleteModal(document)} className="text-blue_gray-300"/>
+                        <FiDownload  size={17} className="text-blue_gray-300"/>
                       </div>
                       <DeleteModal isOpen={isDeleteModalOpen}
                       onRequestClose={closeDeleteModal} title="Delete" 

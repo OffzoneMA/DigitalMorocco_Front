@@ -4,6 +4,8 @@ import { IoSearch } from "react-icons/io5";
 import { Text } from "./Text";
 import { FaCheck } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
+import { IoCloseOutline } from "react-icons/io5";
+
 
 const ShareToInvestorModal = (props) => {
   const investorsData = [
@@ -27,6 +29,21 @@ const ShareToInvestorModal = (props) => {
     >
       <div className="max-h-[93vh] sm:w-full md:w-full">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-3 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[8px] w-full">
+            <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-4 mb-2 w-full">
+              <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+                <Text
+                  className="md:text-xl text-[18px] text-gray-900 w-full"
+                  size="txtDMSansCardHeader16"
+                >
+                  Share project to Investors
+                </Text>
+              </div>
+              <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+                <IoCloseOutline  className='text-blue_gray-500'
+                  size={20}
+                />
+              </div>
+            </div>
           <div className="flex w-full rounded-md p-2 border border-solid">
             <input
               className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
@@ -36,7 +53,7 @@ const ShareToInvestorModal = (props) => {
             />
             <IoSearch size={18} className="text-gray-400 z-20 hover:text-gray-500"/>
           </div>
-          <div className="flex flex-col w-full max-h-[70vh] overflow-y-auto">
+          <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
             {investorsData.map((item, index) => (
               <div key={index} className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3">
                 <label htmlFor={`check_inv_${index}`} className="cursor-pointer relative inline-flex items-center">
@@ -52,10 +69,20 @@ const ShareToInvestorModal = (props) => {
               </div>
             ))}
           </div>
-          <div className="flex space-x-3 w-full">
-            <button className="flex-1 bg-light_blue-100 text-blue-500 py-3 font-DmSans text-base font-medium leading-5 tracking-normal px-4 rounded-lg">Cancel</button>
-            <button className="flex-1 bg-blue-500 text-white-A700 py-3 font-DmSans text-base font-medium leading-5 tracking-normal px-4 rounded-lg">Share</button>
-          </div>
+          <div className="flex space-x-3 md:space-x-5 w-auto">
+                <button 
+                onClick={props.onRequestClose}
+                className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 
+                md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">
+                    Cancel
+                </button>
+                <button 
+                className="ml-auto bg-blue-500 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans 
+                text-base font-medium leading-5 tracking-normal rounded-lg">
+                    Share to Selected Investors
+                </button>
+                
+              </div>
         </div>
       </div>
     </ModalProvider>

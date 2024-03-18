@@ -9,11 +9,13 @@ import TeamMemberItem from "../Components/TeamMemberItem";
 import ProjectDocumentItem from "../Components/ProjectDocumentItem";
 import ShareToInvestorModal from "../Components/ShareToInvestorModal";
 import NewMilestoneModal from "../Components/NewMilestoneModal";
+import DeleteModal from "../Components/DeleteModal";
 
 
 const ProjectDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,6 +23,14 @@ const ProjectDetails = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
   };
 
   const openModalMilestone = () => {
@@ -88,6 +98,7 @@ const ProjectDetails = () => {
   ];
 
   return (
+    <>
     <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -128,7 +139,7 @@ const ProjectDetails = () => {
                 <div className="bg-light_blue-100 text-blue-500 flex flex-row items-center ml-auto p-2 rounded-md ">
                   <HiOutlineShare   size={18} className="mr-2"/>
                   <button
-                    type="submit"
+                    type="button"
                     onClick={openModal}
                     className="font-dmsans md:text-sm text-base font-medium leading-5"
                   >
@@ -139,16 +150,17 @@ const ProjectDetails = () => {
                 <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center ml-auto p-2 rounded-md">
                   <RiDeleteBinLine  size={18} className="mr-2"/>
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={openDeleteModal}
                     className="font-dmsans md:text-sm text-base font-medium leading-5"
                   >
-                    Share to Investor
+                    Delete Project
                   </button>
                 </div>
                 <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center ml-auto p-2 rounded-md ">
                   <FiEdit3   size={18} className="mr-2"/>
                   <button
-                    type="submit"
+                    type="button"
                     className="font-dmsans md:text-sm text-base font-medium leading-5"
                   >
                     Edit Project
@@ -159,7 +171,7 @@ const ProjectDetails = () => {
               <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-200 justify-start py-5 w-full">
                 <div
                   className=" flex-row gap-px grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 w-full"
-                >
+                 >
                   <div className="flex flex-col items-start justify-start w-full">
                     <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
                       <div className="flex flex-col items-center justify-start w-auto">
@@ -364,6 +376,19 @@ const ProjectDetails = () => {
         </div>
       </div>
     </div>
+    <DeleteModal isOpen={isDeleteModalOpen}
+    onRequestClose={closeDeleteModal} title="Delete Project" 
+    content={
+      <div className="flex flex-col gap-5 items-center justify-start w-auto py-4 w-full">
+        <Text
+          className="font-DmSans text-center text-base font-normal leading-6"
+          size=""
+        >
+          Are you sure you want to delete this project?
+        </Text>
+      </div>
+    }/>
+    </>
   );
 };
 

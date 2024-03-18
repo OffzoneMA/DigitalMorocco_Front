@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import{Text } from "../Components/Text"
 import { CiSquarePlus } from "react-icons/ci";
 import { FaRegPlusSquare } from "react-icons/fa";
@@ -11,15 +11,46 @@ import { CheckPicker } from "rsuite";
 import 'rsuite/CheckPicker/styles/index.css';
 
 const CreateProject = () => {
+  const [focusedMilestone, setFocusedMilestone] = useState(null);
+  const [milestones, setMilestones] = useState([{ id: 1 }]);
+  const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
+  const [droppedFiles, setDroppedFiles] = useState([]);
   const [files1, setFiles1] = useState(null);
   const [files2, setFiles2] = useState(null);
   const [files3, setFiles3] = useState(null);
-  const [files4, setFiles4] = useState(null);
 
-  const inputRef = React.useRef(null);
-  const inputRef1 = React.useRef(null);
-  const inputRef2 = React.useRef(null);
-  const inputRef3 = React.useRef(null);
+  const handleFocus = (milestoneId) => {
+    setFocusedMilestone(milestoneId);
+  };
+
+  const handleBlur = () => {
+    setFocusedMilestone(null);
+  };
+
+  const addMilestone = () => {
+    const newId = milestones.length + 1;
+    setMilestones([...milestones, { id: newId }]);
+  };
+
+  const addDocumentDiv = () => {
+    const newId = documentDivs.length + 1;
+    setDocumentDivs([...documentDivs, { id: newId }]);
+    inputRefs.current.push(React.createRef());
+  };
+
+  const handleDrop = (event, index) => {
+    event.preventDefault();
+    const files = Array.from(event.dataTransfer.files);
+    console.log(`Dropped files for div ${index}`, files);
+    setDroppedFiles((prevFiles) => [...prevFiles, ...files]);
+  };
+
+  const inputRefs = useRef([]);
+
+
+  const inputRef = useRef(null);
+  const inputRef1 = useRef(null);
+  const inputRef2 = useRef(null);
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -39,11 +70,6 @@ const CreateProject = () => {
   const handleDrop3 = (event) => {
     event.preventDefault();
     setFiles3(event.dataTransfer.files);
-  };
-
-  const handleDrop4 = (event) => {
-    event.preventDefault();
-    setFiles4(event.dataTransfer.files);
   };
 
   const handleUpload = (files) => {
@@ -104,10 +130,10 @@ const CreateProject = () => {
     "Serie D",
     "Serie E",
     "IPO"
-].map(
-  item => ({ label: item, value: item })
-);
-;
+  ].map(
+    item => ({ label: item, value: item })
+  );
+  ;
 
 
   return (
@@ -201,7 +227,6 @@ const CreateProject = () => {
                     <CheckPicker size="md" data={teamMembersdataList}
                                  className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
                                  placeholder="Assign Team Member to this Project"
-                                 menuItemClassName="items-center border-b border-solid border-gray-300"
                                  menuClassName="custom_list_item"
                                  valueKey="name"
                                  labelKey="name"
@@ -255,7 +280,7 @@ const CreateProject = () => {
                             className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
                             placeholder="Select a Stage"
                             renderMenuItem={( item) =>{ return (
-                              <div className="flex items-center justify-start space-x-3 mt-1.5">
+                              <div className="flex items-center justify-start space-x-3">
                                 <div className="flex flex-col gap-1.5 items-center justify-center w-full">
                                   <Text
                                     className="text-gray-900 text-sm w-auto"
@@ -276,11 +301,12 @@ const CreateProject = () => {
                     >
                       Project Milestone
                     </Text>
-                    <div className={`flex flex-row gap-2 items-start justify-start w-full`}>
+                    {milestones.map((milestone, index) => (
+                    <div key={milestone.id} className={`flex flex-row gap-2 items-start justify-start w-full`}>
                       <div className="flex md:flex-1 w-[55%] rounded-md p-2 border border-solid">
                         <input
                           className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                          name="name"
+                          name={`name-${milestone.id}`}
                           placeholder="Enter your project milestone"
                         />
                       </div>
@@ -288,26 +314,32 @@ const CreateProject = () => {
                         <input
                           type="text"
                           className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                          name="name"
+                          name={`due-date-${milestone.id}`}
                           placeholder="Due Date"
-                          onFocus={(e) => (e.target.type = 'date')}
-                          onBlur={(e) => (e.target.type = 'text')}
+                          onFocus={(e) => {
+                            handleFocus(milestone.id)
+                            e.target.type = 'date';
+                          }}
+                          onBlur={(e) => {
+                            handleBlur()
+                            e.target.type = 'text';
+                          }}
                         />
-                        <MdOutlineDateRange size={20} className="text-blue_gray-300"/>
+                        <MdOutlineDateRange size={20} className={`${focusedMilestone === milestone.id ? 'hidden' : ''} text-blue_gray-300`}/>
                       </div>
-                      <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%]">
-                        <IoMdAdd   size={18} className="mr-1"/>
-                        <button
-                          type="submit"
-                          className="text-base"
-                        >
-                          More
-                        </button>
-                      </div>
+                      {/* {index === milestones.length - 1 && ( */}
+                        <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%]">
+                          <IoMdAdd size={18} className="mr-1" />
+                          <button type="button" onClick={addMilestone} className="text-base">
+                            More
+                          </button>
+                        </div>
+                      {/* )} */}
                     </div>
+                    ))}
                   </div>
                 </div>
-                <div className="bg-indigo-50 md:h-[719px] h-px w-full md:w-px" />
+                <div className="bg-indigo-50 md:h-[720px] h-px w-full md:w-px" />
                 <div className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -395,39 +427,40 @@ const CreateProject = () => {
                       </label>
                     </div>
                   </div>
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
-                      size="txtDMSansLablel"
-                    >
+                  {documentDivs.map((div, index) => (
+                  <div key={div.id} className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text className="text-base text-gray-900_01 w-auto" size="txtDMSansLablel">
                       Upload Other Document
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full cursor-pointer rounded-md px-2 py-3 border border-dashed bg-blue_gray-50"
-                         onDragOver={handleDragOver}
-                         onDrop={handleDrop4}>
-                      <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
+                    <div
+                      className="flex md:flex-1 w-full md:w-full cursor-pointer rounded-md px-2 py-3 border border-dashed bg-blue_gray-50"
+                      onDragOver={(event) => event.preventDefault()}
+                      onDrop={(event) => handleDrop(event, index)}
+                    >
+                      <MdOutlineFileUpload size={22} className="text-blue-700 mr-2" />
                       <input
-                        ref={inputRef3}
+                        ref={inputRefs.current[index]}
                         style={{ display: 'none' }}
                         className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
-                        name="name"
+                        name={`file-${index}`}
                       />
-                      <label
-                        className="font-manrope text-sm leading-18 tracking-wide text-left w-auto"
-                      >
+                      <label className="font-manrope text-sm leading-18 tracking-wide text-left w-auto">
                         <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500" onClick={()=> onButtonClick(inputRef3)}>choose file</span>
+                        <span className="text-blue-500" onClick={() => inputRefs.current[index].current.click()}>
+                          choose file
+                        </span>
                       </label>
                     </div>
                   </div>
+                  ))}
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center">
-                      <ImFileText2 size={20} className="mr-2 text-blue-500"/>
-                      <button
-                        type="submit"
-                        className="text-base text-blue-500 font-dmsans text-sm font-medium leading-18"
-                      >
+                    <div
+                      className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
+                      onClick={addDocumentDiv}
+                    >
+                      <ImFileText2 size={20} className="mr-2 text-blue-500" />
+                      <button type="button" className="text-base text-blue-500 font-dmsans text-sm font-medium leading-18">
                         Add More Document
                       </button>
                     </div>

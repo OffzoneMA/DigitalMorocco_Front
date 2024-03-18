@@ -22,7 +22,7 @@ const Projects = () => {
   const { data: partnerData, isFetching: isPartnerFetching } = usePartnerGetAllProjectsQuery();
   const { data: investorData, isFetching: isInvestorFetching } = useInvestorGetAllProjectsQuery();
 
-  const data = userInfo?.member ? memberData : userInfo?.partner ? partnerData : userInfo?.investor ? investorData : [];
+  // const data = userInfo?.member ? memberData : userInfo?.partner ? partnerData : userInfo?.investor ? investorData : [];
   const isFetching = isMemberFetching || isPartnerFetching || isInvestorFetching;
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -31,7 +31,7 @@ const Projects = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 1;
   const itemsToShow = 4;
-  const dataP = [
+  const data = [
     {
       projectName: "Lorem Ipsum Project - Angel Round Investment",
       target: "USD 5,000,000",
@@ -157,11 +157,11 @@ const Projects = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''}`}>
-                      <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.projectName}</td>
-                      <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.target}</td>
-                      <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.stage}</td>
-                      <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.milestone}</td>
-                      <td className="py-4 px-3">
+                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.projectName}</td>
+                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.target}</td>
+                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.stage}</td>
+                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.milestone}</td>
+                      <td className="py-3 px-3">
                         <div className={`flex flex-row space-x-2 items-center py-1 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${
                           item.status === 'Active' ? 'bg-emerald-50 text-green-700' :
                             item.status === 'In Progress' ? 'bg-orange-100 text-orange-500' :
@@ -171,10 +171,10 @@ const Projects = () => {
                           {item.status}
                         </div>
                       </td>
-                      <td className="py-4 px-3 ">
+                      <td className="py-3 px-3 ">
                         <div className="flex flex-row space-x-3 p-3 items-center">
-                          <HiOutlineTrash onClick={() => openDeleteModal(item)}  className="text-blue_gray-300"/>
-                          <FiEdit3 className="text-blue_gray-300"/>
+                          <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)}  className="text-blue_gray-300"/>
+                          <FiEdit3 size={17} className="text-blue_gray-300"/>
                         </div>
                         <DeleteModal isOpen={isDeleteModalOpen}
                       onRequestClose={closeDeleteModal} title="Delete Project" 

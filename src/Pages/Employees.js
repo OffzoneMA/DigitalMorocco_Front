@@ -6,7 +6,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { GoDotFill } from "react-icons/go";
 import TablePagination from "../Components/TablePagination";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineFileSearch } from "react-icons/ai";
+import { PiUsersThin } from "react-icons/pi";
 import DeleteModal from "../Components/DeleteModal";
 
 const Employees = () => {
@@ -19,15 +19,16 @@ const Employees = () => {
   const pagesToShow = 4;
 
   const data = [
-  //   { name: 'Annette Black',userImg:'images/img_avatar.png', email: 'annette@digitalmorocco.com', title: 'Back End Developer', type: 'Internship', status: 'Active' },
-  //   { name: 'Dianne Russell', userImg:'images/img_avatar_62x62.png',  email: 'dianne@digitalmorocco.com', title: 'Software Developer', type: 'Job Share', status: 'Active' },
-  //   { name: 'Floyd Miles',userImg:'images/img_avatar_1.png', email: 'f.miles@digitalmorocco.com', title: 'Software Development Manager Contract', type: 'Project-Based', status: 'Offline' },
-  //   { name: 'Kathryn Murphy',userImg:'images/img_avatar_2.png', email: 'kathryn@digitalmorocco.com', title: 'Social Media Manager', type: 'Consultancy', status: 'Active' },
-  //   { name: 'Jerome Bell',userImg:'images/img_avatar.png', email: 'jerome.bell@digitalmorocco.com', title: 'Project Manager', type: 'Full-Time', status: 'Offline' },
-  //   { name: 'Cameron Williamson',userImg:'images/img_avatar_3.png', email: 'cameron.w@digitalmorocco.com', title: 'Software Tester', type: 'Part-Time', status: 'Active' },
-  //   { name: 'Darlene Robertson',userImg:'images/img_avatar_4.png', email: 'darlene@digitalmorocco.com', title: 'Scrum Master', type: 'Temporary', status: 'Active' },
-  //   { name: 'Ralph Edwards',userImg:'images/img_avatar_5.png', email: 'ralphed@digitalmorocco.com', title: 'UX Designer', type: 'Temporary', status: 'Active' },
-  ];
+    { name: 'Annette Black',userImg:'images/img_avatar.png', email: 'annette@digitalmorocco.com', title: 'Back End Developer', type: 'Internship', status: 'Active' },
+    { name: 'Dianne Russell', userImg:'images/img_avatar_62x62.png',  email: 'dianne@digitalmorocco.com', title: 'Software Developer', type: 'Job Share', status: 'Active' },
+    { name: 'Floyd Miles',userImg:'images/img_avatar_1.png', email: 'f.miles@digitalmorocco.com', title: 'Software Development Manager Contract', type: 'Project-Based', status: 'Offline' },
+    { name: 'Kathryn Murphy',userImg:'images/img_avatar_2.png', email: 'kathryn@digitalmorocco.com', title: 'Social Media Manager', type: 'Consultancy', status: 'Active' },
+    { name: 'Jerome Bell',userImg:'images/img_avatar.png', email: 'jerome.bell@digitalmorocco.com', title: 'Project Manager', type: 'Full-Time', status: 'Offline' },
+    { name: 'Cameron Williamson',userImg:'images/img_avatar_3.png', email: 'cameron.w@digitalmorocco.com', title: 'Software Tester', type: 'Part-Time', status: 'Active' },
+    { name: 'Darlene Robertson',userImg:'images/img_avatar_4.png', email: 'darlene@digitalmorocco.com', title: 'Scrum Master', type: 'Temporary', status: 'Active' },
+    { name: 'Ralph Edwards',userImg:'images/img_avatar_5.png', email: 'ralphed@digitalmorocco.com', title: 'UX Designer', type: 'Temporary', status: 'Active' },
+  
+];
 
   const totalTablePages = Math.ceil(data.length / itemsPerPage);
 
@@ -123,16 +124,16 @@ const Employees = () => {
                 <tbody className="font-DmSans text-sm font-normal leading-6">
                 {pageData.map((item, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                    <td className="py-4 px-3 text-gray-600">
-                      <div className="flex items-center ">
+                    <td className="py-3 px-3 text-gray-600">
+                      <div className="flex items-center " style={{}}>
                         <img src={item.userImg} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
-                        {item.name}
+                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-3 text-gray-600">{item.email}</td>
-                    <td className="py-4 px-3 text-gray-600">{item.title}</td>
-                    <td className="py-4 px-3 text-gray-600">{item.type}</td>
-                    <td className="py-4 px-3">
+                    <td className="py-3 px-3 text-gray-600">{item.email}</td>
+                    <td className="py-3 px-3 text-gray-600">{item.title}</td>
+                    <td className="py-3 px-3 text-gray-600">{item.type}</td>
+                    <td className="py-3 px-3">
                       <div className={`flex flex-row space-x-2 items-center w-auto py-0.5 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${
                         item.status === 'Active' ? 'bg-emerald-50 text-green-700' :
                             item.status === 'Offline' ? 'bg-gray-200 text-blue_gray-700' : ''
@@ -141,10 +142,10 @@ const Employees = () => {
                         {item.status}
                       </div>
                     </td>
-                    <td className="py-4 px-3 ">
+                    <td className="py-3 px-3 ">
                       <div className="flex flex-row space-x-3 p-3 items-center">
-                        <HiOutlineTrash onClick={() => openDeleteModal(item)} className="text-blue_gray-300"/>
-                        <FiEdit3 className="text-blue_gray-300"/>
+                        <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)} className="text-blue_gray-300"/>
+                        <FiEdit3 size={17} className="text-blue_gray-300"/>
                       </div>
                       <DeleteModal isOpen={isDeleteModalOpen}
                       onRequestClose={closeDeleteModal} title="Delete Employee" 
@@ -168,12 +169,12 @@ const Employees = () => {
               </table>
               {!pageData?.length>0 && (
                   <div className="flex flex-col items-center w-full text-gray-600 py-28">
-                    <AiOutlineFileSearch size={30} c />
+                    <PiUsersThin size={30} c />
                     <Text
                       className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
                       size=""
                     >
-                      No Project Created
+                      No Team Mmembers 
                     </Text>
                   </div>
                 )}

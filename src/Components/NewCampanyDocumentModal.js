@@ -17,7 +17,7 @@ const NewCampanyDocumentModal = (props) => {
       overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
       {...props}
     >
-      <div className="max-h-[97vh] sm:w-full md:w-full overflow-y-auto">
+      <div className="max-h-[99vh] sm:w-full md:w-full overflow-y-auto">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-4 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -28,10 +28,11 @@ const NewCampanyDocumentModal = (props) => {
                 New Document
               </Text>
             </div>
-            <IoCloseOutline  className='text-blue_gray-500'
-                             onClick={props.onRequestClose}
-                             size={20}
-            />
+            <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+                <IoCloseOutline  className='text-blue_gray-500'
+                                  size={20}
+                />
+              </div>
           </div>
           <div className="flex flex-col gap-3 w-full max-h-[70vh] ">
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>

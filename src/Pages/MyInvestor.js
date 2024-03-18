@@ -10,7 +10,7 @@ import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal";
 import { SelectPicker } from "rsuite";
 
-const Investors = () => {
+const MyInvestors = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
   const [filter , setFilter] = useState(false);
@@ -89,20 +89,20 @@ const Investors = () => {
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+              <div className="flex flex-row flex-wrap text-sm text-center items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
                 <Text
                   className="text-lg leading-7 text-gray-900 pt-1"
                   size="txtDmSansMedium16"
                 >
-                  Investor List
+                  My Investors
                 </Text>
-                <div className=" md:grid-cols-auto-fit lg:flex lg:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
+                  <div className=" md:grid-cols-auto-fit lg:flex lg:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
                   {filter && 
                 (
                     <>
                     <div className="flex w-full rounded-md p-1.5 border border-solid min-w-[80px]">
                       <input
-                        className={`!placeholder:text-blue_gray-300 text-black-900 font-manrope font-normal p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="text"
                         name="search"
                         placeholder="Keywords"
@@ -122,7 +122,7 @@ const Investors = () => {
                     <div className="bg-blue-A400 text-white-A700 flex flex-row items-center p-[6px] rounded-md ">
                         <BiFilterAlt   size={18} className="mr-2"/>
                         <button
-                        onClick={()=>setFilter(!filter)}
+                        onClick={()=>setFilter(true)}
                             type="submit"
                             className="text-base text-white-A700"
                             style={{whiteSpace:'nowrap'}}
@@ -130,7 +130,7 @@ const Investors = () => {
                             {filter? "Apply Filters": "Filters"}
                         </button>
                     </div>
-                </div>
+                    </div>
               </div>
               <div className="relative flex flex-col w-full">
               <div className="bg-white-A700  border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
@@ -156,11 +156,11 @@ const Investors = () => {
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.InvestorName}</span>
                         </div>
                     </td>
-                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6" 
-                      style={{ whiteSpace: 'nowrap' }}>{item.Type}</td>
+                      <td className="py-3 px-3 text-gray-600 font-DmSans inline-flex text-sm font-normal leading-6"
+                      style={{ whiteSpace: 'nowrap'}}>{item.Type}</td>
                       <td className="py-3 px-3 text-center text-gray-600 font-DmSans text-sm font-normal leading-6">{item.NumberOfInvestment}</td>
                       <td className="py-3 px-3 text-center text-gray-600 font-DmSans text-sm font-normal leading-6">{item.NumberOfExits}</td>
-                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6" 
+                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6"
                       style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.Location}</td>
                       <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -174,31 +174,6 @@ const Investors = () => {
                   ""
                 }
                 </table>
-                <div className="overlay-content-inv w-full flex flex-col top-12">
-                    <BsEyeSlash size={40} className="text-gray-600 "/>
-                    <Text
-                      className="font-DmSans text-2xl font-semibold leading-8 text-gray-900_01 w-auto pt-4"
-                      size=""
-                    >
-                      View all 261,765 Investors
-                    </Text>
-                    <Text
-                      className="font-DmSans text-base font-semibold leading-6 text-gray-900_01 w-auto pt-3 pb-8"
-                      size=""
-                    >
-                      Upgrade to <a className="text-blue-500" href="/DigitalMoroccoPro">Digital Morocco Pro</a>,  and get access all search results, save to custom lists and get connected with investors
-                    </Text>
-                    <div className="bg-blue-A400 text-white-A700 flex flex-row items-center p-2 rounded-md ">
-                        <TiFlashOutline   size={25} className="mr-2"/>
-                        <button
-                        onClick={()=>navigate('')}
-                            type="submit"
-                            className="text-base text-white-A700"
-                        >
-                            Upgrade Membership
-                        </button>
-                    </div>
-                </div>
                 {!pageData?.length>0 && (
                   <div className="flex flex-col items-center text-gray-600 w-full py-28">
                     <IoFlashOffOutline  size={40} />
@@ -229,4 +204,4 @@ const Investors = () => {
     </div>
     )
 }
-export default Investors;
+export default MyInvestors;

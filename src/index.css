@@ -27,14 +27,23 @@ html {
 }
 
 /*Rsuite checkpicker custom css*/
-.rs-picker-list-item {
+
+.custom_list_item .rs-picker-list-item{
   padding-top: 2px;
   padding-bottom: 2px;
-  align-items: center !important;
-}
-.custom_list_item .rs-picker-list-item{
+  margin-left: 8px;
+  margin-right: 8px;
   border-bottom: 1px solid #E4E7EC !important;
+}
 
+.custom_list_item .rs-stack {
+  padding-top: 10px !important; 
+  /* padding-bottom: 3px ; */
+}
+
+.custom_list_item .rs-check-item .rs-checkbox-checker .rs-checkbox-wrapper {
+  left: 6px !important;
+  margin-top: 5px;
 }
 
 .rs-checkbox-checker{
@@ -86,11 +95,6 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
   font-weight: normal !important;
 }
 
-.rs-stack {
-  padding-top: 3px;
-  padding-bottom: 3px ;
-}
-
 .rs-picker:not(.rs-picker-disabled):hover,
 .rs-picker.rs-picker-focused {
   border-color: white !important;
@@ -104,4 +108,38 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
 .rs-picker-toggle .rs-picker-default:not(.rs-picker-disabled):hover,
 .rs-picker-toggle .rs-picker-default:not(.rs-picker-disabled):focus {
   border-color: white !important;
+}
+
+.rs-input-group:not(.rs-input-group-disabled).rs-input-group-focus,
+.rs-input-group:focus-within {
+  outline: none !important;
+}
+.rs-picker-toggle:focus-visible {
+  outline: none !important;
+}
+
+.rs-picker-toggle-active,
+.rs-picker.rs-picker-focused {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.rs-stack{
+  padding-top: 2.5px;
+  padding-bottom: 2.5px;
+}
+
+.overlay-content-inv {
+  height: 88%;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-content-invDetails {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
 }

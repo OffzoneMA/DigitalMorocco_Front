@@ -6,10 +6,18 @@ import { CheckPicker, SelectPicker } from "rsuite";
 import { IoImageOutline } from "react-icons/io5";
 import 'rsuite/SelectPicker/styles/index.css';
 import 'rsuite/CheckPicker/styles/index.css';
+import { Country ,City } from 'country-state-city';
+import { useForm } from "react-hook-form";
 
 const MyCompany = () => {
   const [logoFile, setLogoFile] = useState(null);
-  const countryOptions = useMemo(() => countryList().getData(), [])
+  // const countryOptions = useMemo(() => countryList().getData(), [])
+  const dataCountries = Country.getAllCountries();
+  const [selectedCountry , setSelectedCountry] = useState(null);
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const countryNameSelec = selectedCountry? Country.getCountryByCode(selectedCountry) : "";
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -28,6 +36,10 @@ const MyCompany = () => {
   const companySectorData = ['Fintech', 'Healthtech', 'ECommerce', 'Edutech', 'CRM', 'Travel', 'HRM'].map(
     item => ({ label: item, value: item })
   );
+
+  const onSubmit = (data) => {
+    console.log(data); 
+  };
 
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
@@ -68,199 +80,217 @@ const MyCompany = () => {
       <div className="flex items-start justify-start w-full">
         <div className="flex  w-full">
           <form className="flex flex-col md:flex-row lg:flex-row gap-8 items-start justify-start px-5 w-full ">
-          <div className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Company Name
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="name"
-                  placeholder="Your Company Name"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Legal Name
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="name"
-                  placeholder="Your Company Legal Name"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Description
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <textarea
-                  className={`!placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                  name="name"
-                  rows={4}
-                  placeholder="Write your company’s short description here"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Website
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="name"
-                  placeholder="Your Company Website"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Contact Email
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="name"
-                  placeholder="Your Company email"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Address
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="name"
-                  placeholder="Your Company address"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Country
-              </Text>
-              <SelectPicker size="md" data={countryOptions}
-                           
-                           className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                           placeholder="Select Country"/>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                City/State
-              </Text>
-              <SelectPicker size="md" data={companySectorData}
-                           className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                           placeholder="Select City"/>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Company Sector
-              </Text>
-              <CheckPicker size="md" data={companySectorData} searchable={false}
-                            className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                            placeholder="Select Company Sector"/>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Tax Identifier Number
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="name"
-                  placeholder="0000 - 0000 - 0000"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Corporate Identifier Number
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="name"
-                  placeholder="0000 - 0000 - 0000"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-start justify-start md:w-[35%] lg:w-[35%] w-full">
-            <div className="flex flex-col gap-2 items-start justify-start w-full">
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansRegular16"
-              >
-                Company Logo
-              </Text>
-              <div className="bg-white-A700 border border-blue_gray-100_01 border-solid flex flex-col items-center justify-center rounded-md w-full"
-                   onDragOver={handleDragOver}
-                   onDrop={handleDrop}>
-                {logoFile ? (
-                  <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-auto py-[50px]" />
-                ) : (
-                <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[50px] rounded-md w-full">
-                  <IoImageOutline />
-                  <div className="flex flex-col items-start justify-start w-auto">
-                    <Text
-                      className="text-[13px] text-base leading-6 tracking-normal w-auto"
-                      size="txtDMSansRegular13"
-                    >
-                      Upload Your Logo
-                    </Text>
-                  </div>
+            <div className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Company Name
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <input
+                    {...register("companyName", { required: {value:true , message: "Company name is required"} })}
+                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="companyName"
+                    placeholder="Your Company Name"
+                  />
                 </div>
-                  )}
+                {errors.companyName && <span className="text-sm font-DmSans text-red-500">{errors.companyName?.message}</span>}
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Legal Name
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <input
+                    {...register("legalName", { required: {value:true , message:"Company Legal name is required"} })}
+                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="legalName"
+                    placeholder="Your Company Legal Name"
+                  />
+                </div>
+                {errors.legalName && <span className="text-sm font-DmSans text-red-500">{errors.legalName?.message}</span>}
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Description
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <textarea
+                    {...register("description", { required: false })}
+                    className={`!placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                    name="description"
+                    rows={4}
+                    placeholder="Write your company’s short description here"
+                  />
+                </div>
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Website
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <input
+                  {...register("website", { required: {value:true , message:"Company website is required"} })}
+                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="website"
+                    placeholder="Your Company Website"
+                  />
+                </div>
+                {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>}
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Contact Email
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <input
+                    {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"} })}
+                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="contactEmail"
+                    placeholder="Your Company email"
+                  />
+                </div>
+                {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>}
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Address
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <input
+                    {...register("address", { required: {value:true , message:"Company address is required"} })}
+                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="address"
+                    placeholder="Your Company address"
+                  />
+                </div>
+                {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>}
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Country
+                </Text>
+                <SelectPicker size="md" data={dataCountries} name="country"
+                            {...register("country", { required: {value:false , message:"Company country is required"} })}
+                            //  valueKey="name"
+                            labelKey="name" valueKey="isoCode"
+                            value={selectedCountry}
+                            onChange={setSelectedCountry}
+                            menuClassName="w-auto"
+                            className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                            placeholder="Select Country"/>
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  City/State
+                </Text>
+                <SelectPicker size="md" data={City.getCitiesOfCountry(selectedCountry)}
+                          labelKey="name"
+                          valueKey="name"
+                            className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                            placeholder="Select City"/>
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Company Sector
+                </Text>
+                <CheckPicker size="md" data={companySectorData} searchable={false}
+                              className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                              placeholder="Select Company Sector"/>
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Tax Identifier Number
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <input
+                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="name"
+                    placeholder="0000 - 0000 - 0000"
+                  />
+                </div>
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansLablel"
+                >
+                  Corporate Identifier Number
+                </Text>
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                  <input
+                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="name"
+                    placeholder="0000 - 0000 - 0000"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+            <div className="flex flex-col items-start justify-start md:w-[35%] lg:w-[35%] w-full">
+              <div className="flex flex-col gap-2 items-start justify-start w-full">
+                <Text
+                  className="text-base text-gray-900_01 w-auto"
+                  size="txtDMSansRegular16"
+                >
+                  Company Logo
+                </Text>
+                <div className="bg-white-A700 border border-blue_gray-100_01 border-solid flex flex-col items-center justify-center rounded-md w-full"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}>
+                  {logoFile ? (
+                    <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-auto py-[50px]" />
+                  ) : (
+                  <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[50px] rounded-md w-full">
+                    <IoImageOutline />
+                    <div className="flex flex-col items-start justify-start w-auto">
+                      <Text
+                        className="text-[13px] text-base leading-6 tracking-normal w-auto"
+                        size="txtDMSansRegular13"
+                      >
+                        Upload Your Logo
+                      </Text>
+                    </div>
+                  </div>
+                    )}
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>

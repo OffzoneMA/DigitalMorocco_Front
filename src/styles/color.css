@@ -57,4 +57,9 @@
 --indigo_900:#203668; 
 --blue_100_01:#b2cdf8; 
 --rs-checkbox-icon: #1E0E62 !important;
+--rs-input-focus-border: #e5e5ea !important;
+--rs-color-focus-ring: #e5e5ea !important;
+--rs-listbox-option-hover-bg: #f8f9fb !important;
+--rs-listbox-option-selected-bg: #f8f9fb !important;
+--rs-listbox-option-hover-text: #101828 !important;
 }

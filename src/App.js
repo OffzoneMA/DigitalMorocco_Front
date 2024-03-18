@@ -34,6 +34,12 @@ import Employees from "./Pages/Employees";
 import NewEmployee from "./Pages/NewEmployee";
 import Dashbord from './Pages/Dashbord';
 import Investors from './Pages/Investors';
+import InvestorDetails from './Pages/InvestorDetails';
+import InvestorRequestHistory from './Pages/InvestorRequestHistory';
+import MyInvestors from './Pages/MyInvestor';
+import Documents from './Pages/Documents';
+import Events from './Pages/Events';
+import History from './Pages/History';
 
 function App() {
   return (
@@ -47,6 +53,9 @@ function App() {
         <Route element={<DashbordLayout />}>
            <Route path="/Dashboard" element={<Dashbord />} />
             <Route path="/Investors" element={<Investors />} />
+            <Route path="/MyInvestors" element={<MyInvestors />} />
+            <Route path="/InvestorDetails" element={<InvestorDetails />} />
+            <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
             <Route path="/Projects" element={<Projects />} />
             <Route path="/Createproject" element={<CreateProject />} />
             <Route path="/Projectdetails" element={<ProjectDetails />} />
@@ -54,6 +63,9 @@ function App() {
             <Route path="/MyCompany" element={<MyCompany />} />
             <Route path="/Employees" element={<Employees />} />
             <Route path="/NewEmployee" element={<NewEmployee />} />
+            <Route path="/Document" element={<Documents />} />
+            <Route path="/Event" element={<Events />} />
+            <Route path="/History" element={<History />} />
         </Route>
         <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
