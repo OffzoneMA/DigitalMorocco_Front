@@ -107,9 +107,9 @@ export default function Header() {
 
     <div className='w-screen absolute top-0 left-0 z-[100]'>
       <div className='relative w-full   '>
-        {location.pathname != '/Complete_SignUp' &&
+        {location.pathname != '/ChooseRole' &&
           ["notVerified", "verified", "pending"].includes(userInfo?.status) &&
-          <NavLink to="/Complete_SignUp" className="absolute left-1/2 top-[150%] transform -translate-x-1/2 -translate-y-1/2 bg-orange-400 text-white p-6 rounded-md shadow-lg z-50">
+          <NavLink to="/ChooseRole" className="absolute left-1/2 top-[150%] transform -translate-x-1/2 -translate-y-1/2 bg-orange-400 text-white p-6 rounded-md shadow-lg z-50">
 
 
             <div className="flex gap-3 text-lg font-semibold p-4 items-center ">

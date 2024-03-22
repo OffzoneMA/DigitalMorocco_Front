@@ -216,7 +216,7 @@ export default function SignIn() {
                         <label htmlFor={`rememberme`} className="cursor-pointer relative inline-flex items-center justify-center peer-checked:border-0 rounded-[3px] mr-2">
                           <input
                           {...register("rememberme" , {
-                            required: t('signup.termsValidation'),
+                            required: {value: false , message: t('signup.termsValidation')},
                           }
                           )}
                             id={`rememberme`}
