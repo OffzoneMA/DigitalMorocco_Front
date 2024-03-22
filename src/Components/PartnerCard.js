@@ -1,28 +1,32 @@
-import React from 'react'
-import { CheckBadgeIcon} from '@heroicons/react/24/solid'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
 
 
-export default function PartnerCard({partner,index}) {
+export default function PartnerCard({ partner }) {
   return (
-    <NavLink
-      to={"/Partners/" + index}
-    >
-    <div className=' flex flex-col rounded-lg border w-72  px-5 py-6'>
-        <div className='flex justify-end'>
-              <CheckBadgeIcon className='h-6 w-6 text-green-800' />
+    <NavLink /*to={"/Partners/" + index}*/>
+      <div className=' transition-all ease-in-out duration-300 hover:scale-105 hover:shadow-2xl flex flex-col rounded-xl border-2 border-[#EBEAED] bg-[#FCFCFD] w-72 px-5 mb-4 mx-2 py-2 my-2 '>
+      <div className='flex justify-center items-center mb-1 '>
+          <img src={partner?.logo} className='w-52 h-36 object-center object-contain' alt='' />
+      </div>
+      <div className='my-1 text-center mb-2'>
+        <h3 className='text-lg text-bleu2 font-semibold min-h-[40px]'>{partner?.companyName}</h3>
+        <h3 className='text-base text-gray-500 font-medium min-h-[40px] mt-2'>{partner?.desc}</h3>
+      </div>
+      <div className='flex items-center justify-between mt-2'>
+        <div
+            onClick={(e) => e.stopPropagation()}
+         className='flex items-center my-1'>
+            <a href={partner?.website.startsWith("http") ? partner?.website : "//" + partner?.website} target='_blank' className='text-blue-500 hover:underline font-medium tracking-wider'>
+            Visit Website
+          </a>
+          <ArrowTopRightOnSquareIcon className='text-blue-500 h-5 w-8 ml-1 icon-bold' />
         </div>
-        <div className='flex justify-center items-center'>
-              <img src={partner.img} className='w-48 h-36 object-center object-contain' />
-        </div>
-          <h3 className='text-lg text-slate-950 font-semibold min-h-[60px]'>{partner.name}</h3>
-          <br/>
-          <div className=' flex items-center justify-between '>
-            <div className='bg-gold px-4 py-1 uppercase font-semibold tracking-wider rounded-md'>{partner.badge}</div>
-              <div>{partner.country}</div>
-
-          </div>
+      </div>
     </div>
-    </NavLink>
-  )
+  </NavLink>
+  
+  );
 }
+

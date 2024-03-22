@@ -1,0 +1,9 @@
+* {
+  box-sizing: border-box;
+  line-height: normal;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+

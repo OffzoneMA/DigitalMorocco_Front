@@ -1,0 +1,274 @@
+import React, { useState } from "react";
+import { Text } from "../Components/Text";
+import { FaRegPlusSquare } from "react-icons/fa";
+import { HiOutlineTrash } from "react-icons/hi";
+import { FiDownload } from "react-icons/fi";
+import { GrAttachment } from "react-icons/gr";
+import NewCampanyDocumentModal from "../Components/NewCampanyDocumentModal";
+import { AiOutlineFileSearch } from "react-icons/ai";
+import { useSearchParams ,useNavigate } from "react-router-dom";
+import TablePagination from "../Components/TablePagination";
+import DeleteModal from "../Components/DeleteModal";
+
+const CompanyLegal = () => {
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteRow , setDeleteRow] = useState(null);
+  const [document , setDocument] = useState(null);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [num, setNum] = useState(1);
+  const [cur, setCur] = useState(1);
+  const itemsPerPage = 2;
+  const pagesToShow = 4;
+  const data = [
+    {
+        id: 1,
+        title: "Marketing Plan",
+        name: "Marketing Plan-Q2 [2023].pdf",
+        lastModified: "Jun 6 2023 02:37:22 PM",
+        owner: "Annette Black",
+        ownerImg: "images/img_avatar.png"
+    },
+    {
+        id: 2,
+        title: "Non-Disclosure Agreement (NDA)",
+        name: "Non-Disclosure Agreement (NDA).pdf",
+        lastModified: "Jun 16 2023 02:37:22 PM",
+        owner: "Darlene Robertson",
+        ownerImg: "images/img_avatar_4.png"
+    },
+    {
+        id: 3,
+        title: "Employment Contract",
+        name: "Employment Contract_ Annette Black.pdf",
+        lastModified: "Jun 4,2023 12:05:58 AM",
+        owner: "Annette Black",
+        ownerImg: "images/img_avatar.png"
+    },
+    {
+        id: 4,
+        title: "Investor Pitch Deck",
+        name: "Investor Pitch Deck Jun 2023.pdf",
+        lastModified: "Jun 28,2023 04:01 PM",
+        owner: "Annette Black",
+        ownerImg: "images/img_avatar.png"
+    },
+    {
+        id: 5,
+        title: "Mou Digital Morocco",
+        name: "Mou Digital Morocco.pdf",
+        lastModified: "Jun 14 2023 11:20:58 AM",
+        owner: "Darlene Robertson",
+        ownerImg: "images/img_avatar_4.png"
+    },
+    {
+        id: 6,
+        title: "Partnership Agreement DM",
+        name: "Partnership Agreement DM (2023).pdf",
+        lastModified: "Jun 30 2023 12:20:56 PM",
+        owner: "Cameron Williamson",
+        ownerImg: "images/img_avatar_3.png"
+    },
+    {
+        id: 7,
+        title: "Employee Handbook",
+        name: "Employee Handbook.pdf",
+        lastModified: "Jun 22 2023 12:45:15 PM",
+        owner: "Darlene Robertson",
+        ownerImg: "images/img_avatar_4.png"
+    },
+    {
+        id: 8,
+        title: "Quality Assurance (QA) Plan",
+        name: "Quality Assurance (QA) Plan.pdf",
+        lastModified: "Jun 1 2023 10:45:08 AM",
+        owner: "Cameron Williamson",
+        ownerImg: "images/img_avatar_3.png"
+    }
+];
+
+
+
+  const totalTablePages = Math.ceil(data.length / itemsPerPage);
+
+  const getPageData = () => {
+    const startIndex = (cur - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return data.slice(startIndex, endIndex);
+  };
+
+  function handlePageChange(page) {
+    if (page >= 1 && page <= totalTablePages) {
+      setCur(page);
+    }
+  }
+
+  const documentData = getPageData();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openEditModal = (doc) => {
+    setIsEditModalOpen(true);
+    setDocument(doc);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+    const openDeleteModal = (rowData) => {
+      setIsDeleteModalOpen(true);
+      setDeleteRow(rowData);
+    };
+  
+    const closeDeleteModal = () => {
+      setIsDeleteModalOpen(false);
+      setDeleteRow(null);
+    };
+
+    const handleDelete = () => {
+      console.log(deleteRow?.name);
+    };
+
+  return (
+    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
+      <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+        <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+          <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+            <Text
+              className="text-3xl font-bold leading-11 text-gray-900 w-full"
+              size="txtDMSansBold32"
+            >
+              Company
+            </Text>
+          </div>
+          <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
+            <img
+              className="cursor-pointer h-[18px] mr-1.5 my-px"
+              src="images/img_search_blue_gray_700_01.svg"
+              alt="search"
+            />
+            <input
+              className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+              type="text"
+              name="search"
+              placeholder="Search..."
+            />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col items-start justify-start w-full">
+        <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+              <Text
+                className="text-lg leading-7 text-gray-900 pt-1"
+                size="txtDmSansMedium16"
+              >
+                Legal Document
+              </Text>
+              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+                <FaRegPlusSquare  size={18} className="mr-2"/>
+                <button
+                  onClick={openModal}
+                  type="submit"
+                  className="text-base text-white-A700"
+                >
+                  Add New Document
+                </button>
+              </div>
+            </div>
+            <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                <tr className="font-DmSans text-sm leading-6">
+                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Document Name</th>
+                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Date Modified</th>
+                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Modified By</th>
+                  <th className="p-3 w-auto"></th>
+                </tr>
+                </thead>
+                { documentData?.length > 0 ?
+                <tbody className="font-DmSans text-sm font-normal leading-6">
+                {documentData.map((document, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
+                    <td className="py-3 px-3" onClick={()=>openEditModal(document)}>
+                      <div className="flex flex-row space-x-3 items-center">
+                        <GrAttachment size={15} className="" />
+                        <span className="text-gray-600" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.name}</span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-3 text-gray-600" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.lastModified}</td>
+                    <td className="py-3 px-3 text-gray-600">
+                      <div className="flex flex-row space-x-3 items-center">
+                        <img src={document.ownerImg} alt="owner" className="h-9 w-9 mr-2 rounded-full"/>
+                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.owner}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-3 ">
+                      <div className="flex flex-row space-x-3 p-3 items-center">
+                        <HiOutlineTrash size={17} onClick={()=> openDeleteModal(document)} className="text-blue_gray-300"/>
+                        <FiDownload  size={17} className="text-blue_gray-300"/>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                </tbody>
+                :
+                ""}
+              </table>
+              {!documentData?.length>0 && (
+                  <div className="flex flex-col items-center w-full text-gray-600 py-28">
+                    <AiOutlineFileSearch size={30} c />
+                    <Text
+                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                      size=""
+                    >
+                      No Document Available
+                    </Text>
+                  </div>
+                )}
+            </div>
+            {documentData?.length>0 && (
+            <TablePagination
+              currentPage={cur}
+              totalPages={totalTablePages}
+              onPageChange={handlePageChange}
+              itemsToShow={pagesToShow}
+            />
+            )}
+          </div>
+        </div>
+      </div>
+
+      <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal}/>
+      <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document}/>
+      <DeleteModal isOpen={isDeleteModalOpen}
+                      onRequestClose={closeDeleteModal} title="Delete" 
+                      onDelete={handleDelete}
+                      content={
+                        <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
+                          <Text
+                            className="font-DmSans text-center text-base font-normal leading-6"
+                            size=""
+                          >
+                            This will <span className="text-red-500">immediately and permanently</span> delete document.
+                            <br/>
+                            Are you sure you want to delete this?
+                          </Text>
+                        </div>
+                      }/>
+    </div>
+  );
+};
+
+export default CompanyLegal;
