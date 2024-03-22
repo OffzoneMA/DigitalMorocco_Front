@@ -8,7 +8,7 @@ import { BsEyeSlash } from "react-icons/bs";
 import { TiFlashOutline } from "react-icons/ti";
 import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal";
-import { SelectPicker } from "rsuite";
+import { SelectPicker , CheckPicker} from "rsuite";
 
 const InvestorRequestHistory = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -150,15 +150,12 @@ const InvestorRequestHistory = () => {
                         placeholder="Keywords"
                       />
                     </div>
-                    <SelectPicker size="md" data={[]}
+                    <CheckPicker size="md" data={[]}
                                 className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                placeholder="Type of Investment"/>
-                    <SelectPicker size="md" data={[]}
+                                placeholder="Investor Name"/>
+                    <CheckPicker size="md" data={[]}
                                 className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                placeholder="Location"/>
-                    <SelectPicker size="md" data={[]}
-                                className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                    placeholder="Select Industries"/>
+                                    placeholder="Status"/>
                     </>
                 )}
                     <div className="bg-blue-A400 text-white-A700 flex flex-row items-center p-[6px] rounded-md ">
