@@ -13,8 +13,10 @@ import DeleteModal from "../Components/DeleteModal";
 const CompanyLegal = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
+  const [document , setDocument] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [num, setNum] = useState(1);
@@ -23,54 +25,72 @@ const CompanyLegal = () => {
   const pagesToShow = 4;
   const data = [
     {
-      name: "Marketing Plan-Q2 [2023].pdf",
-      lastModified: "Jun 6 2023 02:37:22 PM",
-      owner: "Annette Black",
-      ownerImg:"images/img_avatar.png"
+        id: 1,
+        title: "Marketing Plan",
+        name: "Marketing Plan-Q2 [2023].pdf",
+        lastModified: "Jun 6 2023 02:37:22 PM",
+        owner: "Annette Black",
+        ownerImg: "images/img_avatar.png"
     },
     {
-      name: "Non-Disclosure Agreement (NDA).pdf",
-      lastModified: "Jun 16 2023 02:37:22 PM",
-      owner: "Darlene Robertson",
-      ownerImg:"images/img_avatar_4.png"
+        id: 2,
+        title: "Non-Disclosure Agreement (NDA)",
+        name: "Non-Disclosure Agreement (NDA).pdf",
+        lastModified: "Jun 16 2023 02:37:22 PM",
+        owner: "Darlene Robertson",
+        ownerImg: "images/img_avatar_4.png"
     },
     {
-      name: "Employment Contract_ Annette Black.pdf",
-      lastModified: "Jun 4,2023 12:05:58 AM",
-      owner: "Annette Black",
-      ownerImg:"images/img_avatar.png"
+        id: 3,
+        title: "Employment Contract",
+        name: "Employment Contract_ Annette Black.pdf",
+        lastModified: "Jun 4,2023 12:05:58 AM",
+        owner: "Annette Black",
+        ownerImg: "images/img_avatar.png"
     },
     {
-      name: "Investor Pitch Deck Jun 2023.pdf",
-      lastModified: "Jun 28,2023 04:01 PM",
-      owner: "Annette Black",
-      ownerImg:"images/img_avatar.png"
+        id: 4,
+        title: "Investor Pitch Deck",
+        name: "Investor Pitch Deck Jun 2023.pdf",
+        lastModified: "Jun 28,2023 04:01 PM",
+        owner: "Annette Black",
+        ownerImg: "images/img_avatar.png"
     },
     {
-      name: "Mou Digital Morocco.pdf",
-      lastModified: "Jun 14 2023 11:20:58 AM",
-      owner: "Darlene Robertson",
-      ownerImg:"images/img_avatar_4.png"
+        id: 5,
+        title: "Mou Digital Morocco",
+        name: "Mou Digital Morocco.pdf",
+        lastModified: "Jun 14 2023 11:20:58 AM",
+        owner: "Darlene Robertson",
+        ownerImg: "images/img_avatar_4.png"
     },
     {
-      name: "Partnership Agreement DM (2023).pdf",
-      lastModified: "Jun 30 2023 12:20:56 PM",
-      owner: "Cameron Williamson",
-      ownerImg:"images/img_avatar_3.png"
+        id: 6,
+        title: "Partnership Agreement DM",
+        name: "Partnership Agreement DM (2023).pdf",
+        lastModified: "Jun 30 2023 12:20:56 PM",
+        owner: "Cameron Williamson",
+        ownerImg: "images/img_avatar_3.png"
     },
     {
-      name: "Employee Handbook.pdf",
-      lastModified: "Jun 22 2023 12:45:15 PM",
-      owner: "Darlene Robertson",
-      ownerImg:"images/img_avatar_4.png"
+        id: 7,
+        title: "Employee Handbook",
+        name: "Employee Handbook.pdf",
+        lastModified: "Jun 22 2023 12:45:15 PM",
+        owner: "Darlene Robertson",
+        ownerImg: "images/img_avatar_4.png"
     },
     {
-      name: "Quality Assurance (QA) Plan.pdf",
-      lastModified: "Jun 1 2023 10:45:08 AM",
-      owner: "Cameron Williamson",
-      ownerImg:"images/img_avatar_3.png"
+        id: 8,
+        title: "Quality Assurance (QA) Plan",
+        name: "Quality Assurance (QA) Plan.pdf",
+        lastModified: "Jun 1 2023 10:45:08 AM",
+        owner: "Cameron Williamson",
+        ownerImg: "images/img_avatar_3.png"
     }
-  ];
+];
+
+
 
   const totalTablePages = Math.ceil(data.length / itemsPerPage);
 
@@ -94,6 +114,15 @@ const CompanyLegal = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openEditModal = (doc) => {
+    setIsEditModalOpen(true);
+    setDocument(doc);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
   };
 
     const openDeleteModal = (rowData) => {
@@ -156,7 +185,6 @@ const CompanyLegal = () => {
                 >
                   Add New Document
                 </button>
-                <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal}/>
               </div>
             </div>
             <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
@@ -173,7 +201,7 @@ const CompanyLegal = () => {
                 <tbody className="font-DmSans text-sm font-normal leading-6">
                 {documentData.map((document, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                    <td className="py-3 px-3">
+                    <td className="py-3 px-3" onClick={()=>openEditModal(document)}>
                       <div className="flex flex-row space-x-3 items-center">
                         <GrAttachment size={15} className="" />
                         <span className="text-gray-600" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.name}</span>
@@ -191,21 +219,6 @@ const CompanyLegal = () => {
                         <HiOutlineTrash size={17} onClick={()=> openDeleteModal(document)} className="text-blue_gray-300"/>
                         <FiDownload  size={17} className="text-blue_gray-300"/>
                       </div>
-                      <DeleteModal isOpen={isDeleteModalOpen}
-                      onRequestClose={closeDeleteModal} title="Delete" 
-                      onDelete={handleDelete}
-                      content={
-                        <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
-                          <Text
-                            className="font-DmSans text-center text-base font-normal leading-6"
-                            size=""
-                          >
-                            This will <span className="text-red-500">immediately and permanently</span> delete document.
-                            <br/>
-                            Are you sure you want to delete this?
-                          </Text>
-                        </div>
-                      }/>
                     </td>
                   </tr>
                 ))}
@@ -236,6 +249,24 @@ const CompanyLegal = () => {
           </div>
         </div>
       </div>
+
+      <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal}/>
+      <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document}/>
+      <DeleteModal isOpen={isDeleteModalOpen}
+                      onRequestClose={closeDeleteModal} title="Delete" 
+                      onDelete={handleDelete}
+                      content={
+                        <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
+                          <Text
+                            className="font-DmSans text-center text-base font-normal leading-6"
+                            size=""
+                          >
+                            This will <span className="text-red-500">immediately and permanently</span> delete document.
+                            <br/>
+                            Are you sure you want to delete this?
+                          </Text>
+                        </div>
+                      }/>
     </div>
   );
 };

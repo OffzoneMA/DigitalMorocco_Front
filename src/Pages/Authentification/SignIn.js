@@ -32,12 +32,10 @@ export default function SignIn() {
         toast.success("Logged In")
         setTimeout(() =>{
         
-        if (!userInfo?.role) { navigate('/Complete_SignUp') }
+        if (!userInfo?.role) { navigate('/ChooseRole') }
         else{
-          navigate('/Dashboard_' + userInfo?.role)
+          navigate('/Dashboard')
         }
-        
-        
         }, 2000)
       }
       if (error) {
@@ -158,7 +156,7 @@ export default function SignIn() {
                       {...register("email", {
                         required: {
                           value: true,
-                          message: t('ignup.emailRequired'),
+                          message: t('signup.emailRequired'),
                         },
                         minLength: {
                           value: 8,

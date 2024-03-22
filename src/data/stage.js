@@ -8,5 +8,4 @@ export const stage = [
     "Serie D",
     "Serie E",
     "IPO",
- 
  ];

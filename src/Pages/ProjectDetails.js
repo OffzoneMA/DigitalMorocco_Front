@@ -10,12 +10,15 @@ import ProjectDocumentItem from "../Components/ProjectDocumentItem";
 import ShareToInvestorModal from "../Components/ShareToInvestorModal";
 import NewMilestoneModal from "../Components/NewMilestoneModal";
 import DeleteModal from "../Components/DeleteModal";
+import { useNavigate } from "react-router-dom";
 
 
 const ProjectDetails = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -85,6 +88,10 @@ const ProjectDetails = () => {
     },
   ];
 
+  const filteredTeamMembers = teamMembersdataList.filter(member =>
+    member.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   const documents = [
     {
       documentName: 'Digital Morocco_PitchDeck [2023].pdf',
@@ -145,7 +152,6 @@ const ProjectDetails = () => {
                   >
                     Share to Investor
                   </button>
-                  <ShareToInvestorModal isOpen={isModalOpen} onRequestClose={closeModal}/>
                 </div>
                 <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center ml-auto p-2 rounded-md">
                   <RiDeleteBinLine  size={18} className="mr-2"/>
@@ -160,6 +166,7 @@ const ProjectDetails = () => {
                 <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center ml-auto p-2 rounded-md ">
                   <FiEdit3   size={18} className="mr-2"/>
                   <button
+                    onClick={()=> navigate("/Createproject")}
                     type="button"
                     className="font-dmsans md:text-sm text-base font-medium leading-5"
                   >
@@ -300,7 +307,6 @@ const ProjectDetails = () => {
                         >
                           Add New Milestone
                         </button>
-                        <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone}/>
                       </div>
                     </div>
                     <div className="items-start justify-start w-full">
@@ -326,10 +332,12 @@ const ProjectDetails = () => {
                       </Text>
                       <div className="flex w-[45%] rounded-md p-2 border border-solid">
                         <input
-                          className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                          className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                           type="text"
                           name="search"
                           placeholder="Search..."
+                          value={searchValue}
+                          onChange={(e) => setSearchValue(e.target.value)}
                         />
                         <img
                           className="cursor-pointer mr-1.5 my-px"
@@ -343,7 +351,7 @@ const ProjectDetails = () => {
                         className="flex flex-col gap-6 items-center w-full"
                       >
                         <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-3 grid-cols-1 gap-5 items-center justify-between my-0 w-full">
-                          {teamMembersdataList.map((item, index) => (
+                          {filteredTeamMembers.map((item, index) => (
                             <TeamMemberItem key={index} {...item} />
                           ))}
                         </div>
@@ -376,6 +384,10 @@ const ProjectDetails = () => {
         </div>
       </div>
     </div>
+    <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone}/>
+
+    <ShareToInvestorModal isOpen={isModalOpen} onRequestClose={closeModal}/>
+
     <DeleteModal isOpen={isDeleteModalOpen}
     onRequestClose={closeDeleteModal} title="Delete Project" 
     content={

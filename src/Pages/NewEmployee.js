@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { Text } from "../Components/Text";
-import { FaRegPlusSquare } from "react-icons/fa";
 import { FiSave } from "react-icons/fi";
 import { CheckPicker, SelectPicker } from "rsuite";
 import { IoImageOutline } from "react-icons/io5";
@@ -9,48 +8,59 @@ import { MdOutlineDateRange } from "react-icons/md";
 import { Country ,City } from 'country-state-city';
 import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const NewEmployee = () => {
+  const navigate = useNavigate();
   const [photoEmp, setPhotoEmp] = useState(null);
+  const [imgFile , setImgFile] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const dataCountries = Country.getAllCountries();
   const [selectedCountry , setSelectedCountry] = useState(null);
   const [selectedCity , setSelectedCity] = useState(null);
   const [selectedJobTitle, setSelectedJobTitle] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
-  const countryVal = Country.getCountryByCode(selectedCountry);
+  const countryVal = selectedCountry ? Country.getCountryByCode(selectedCountry)["name"]: "";
   const [isSaved , setIsSaved] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const formData = new FormData();
 
   const onSubmit = (data) => {
     console.log(data); 
-    const formData = new FormData();
-    formData.append('photo', photoEmp); 
+    formData.append('photo', imgFile); 
     formData.append('jobTitle', selectedJobTitle);
     formData.append('level', selectedLevel);
     formData.append('department', selectedDepartment);
-    formData.append('country', selectedCountry);
+    formData.append('country', countryVal);
     formData.append('cityState', selectedCity);
     formData.append('startDate', data.startDate);
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
     setIsSaved(true);
-    console.log(formData);
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
+    console.log(imgFile.name)
   };
 
   const handleDragOver = (event) => {
     event.preventDefault();
+    setIsDragging(true);
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
+    setIsDragging(false);
     const droppedFiles = event.dataTransfer.files;
 
     if (droppedFiles.length > 0) {
       const imageFile = droppedFiles[0];
+      const reader = new FileReader();
+      setImgFile(imageFile);
       setPhotoEmp(URL.createObjectURL(imageFile));
     }
   };
@@ -110,7 +120,7 @@ const NewEmployee = () => {
               alt="search"
             />
             <input
-              className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+              className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
               type="text"
               name="search"
               placeholder="Search..."
@@ -164,7 +174,7 @@ const NewEmployee = () => {
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("fullName", { required: {value:true , message:"Employee Full Name is required"} })}
-                      className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent !border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent !border-0`}
                       type="text"
                       name="fullName"
                       placeholder="Full Name"
@@ -182,7 +192,7 @@ const NewEmployee = () => {
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("workEmail", { required: {value:true , message:"Employee Work Email is required"} })}
-                      className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
                       name="workEmail"
                       placeholder="Enter Work Email"
@@ -200,7 +210,7 @@ const NewEmployee = () => {
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("personalEmail", { required: {value:true , message:"Employee personalEmail is required"} })}
-                      className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
                       name="personalEmail"
                       placeholder="Enter Personal Email"
@@ -218,7 +228,7 @@ const NewEmployee = () => {
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("phoneNumber", { required: {value:true , message:"Employee Phone Number is required"} })}
-                      className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
                       name="phoneNumber"
                       placeholder="+212 - "
@@ -236,7 +246,7 @@ const NewEmployee = () => {
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("address", { required: {value:true , message:"Employee address is required"} })}
-                      className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
                       name="address"
                       placeholder="Enter Address of Employee"
@@ -280,7 +290,7 @@ const NewEmployee = () => {
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("personalTaxIdentifierNumber", { required: {value:true , message:"Employee Personal Tax Identifier Number is required"} })}
-                      className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
                       name="personalTaxIdentifierNumber"
                       placeholder="0000 - 0000 - 0000"
@@ -295,7 +305,7 @@ const NewEmployee = () => {
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}>
                   {photoEmp ? (
-                    <img src={photoEmp} alt="Uploaded Logo" className="rounded-md w-full py-[5px]" />
+                    <img src={photoEmp} alt="Uploaded Logo" className="rounded-md w-full py-[5px] h-[254px] " />
                   ) : (
                     <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[100px] rounded-md w-full">
                       <PiUserSquare  size={24} radius={8} className=""/>
@@ -304,7 +314,7 @@ const NewEmployee = () => {
                             className="text-[13px] text-base leading-6 tracking-normal w-auto"
                             size="txtDMSansRegular13"
                           >
-                            Upload Photo Here
+                          {isDragging? "Drop Your logo here" : "Upload Your Logo"}  
                           </Text>
                         </div>
                     </div>
@@ -360,7 +370,7 @@ const NewEmployee = () => {
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <input
                         {...register("startDate", { required: {value:true , message:"Employee Start Date is required"} })}
-                        className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="text"
                         name="startDate"
                         placeholder="MM/DD/YYYY"

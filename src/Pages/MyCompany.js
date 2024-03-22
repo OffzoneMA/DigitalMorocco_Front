@@ -1,48 +1,86 @@
 import React, { useState , useMemo  } from "react";
 import { Text } from "../Components/Text";
-import countryList from 'react-select-country-list'
-import { FaRegPlusSquare } from "react-icons/fa";
+import { FiSave } from "react-icons/fi";
+import { BsCheck2Circle } from "react-icons/bs";
 import { CheckPicker, SelectPicker } from "rsuite";
 import { IoImageOutline } from "react-icons/io5";
 import 'rsuite/SelectPicker/styles/index.css';
 import 'rsuite/CheckPicker/styles/index.css';
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
+import {companyType} from "../data/companyType";
 
 const MyCompany = () => {
   const [logoFile, setLogoFile] = useState(null);
-  // const countryOptions = useMemo(() => countryList().getData(), [])
+  const [imgFile , setImgFile] = useState(null);
+  const [isSaved , setIsSaved] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [taxIdentfier, settaxIdentfier] = useState('');
+  const [selectedCity , setSelectedCity] = useState(null);
+  const [selectedSector, setselectedSector] = useState([]);
   const dataCountries = Country.getAllCountries();
   const [selectedCountry , setSelectedCountry] = useState(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const countryNameSelec = selectedCountry? Country.getCountryByCode(selectedCountry) : "";
+  const countryNameSelec = selectedCountry? Country.getCountryByCode(selectedCountry)["name"] : "";
+
+  const handleChange = (e , setValue) => {
+    const formattedValue = e.target.value
+      .replace(/\D/g, '') 
+      .replace(/(\d{0,4})(\d{0,4})(\d{0,4})/, (match, p1, p2, p3) => {
+        let formatted = '';
+        if (p1) formatted += p1;
+        if (p2) formatted += ' - ' + p2;
+        if (p3) formatted += ' - ' + p3;
+        return formatted;
+      });
+
+      setValue(formattedValue);
+  };
 
   const handleDragOver = (event) => {
     event.preventDefault();
+    setIsDragging(true);
+
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
+    setIsDragging(false);
     const droppedFiles = event.dataTransfer.files;
+
 
     if (droppedFiles.length > 0) {
       const imageFile = droppedFiles[0];
+      setImgFile(imageFile);
       setLogoFile(URL.createObjectURL(imageFile));
     }
   };
   
-  const companySectorData = ['Fintech', 'Healthtech', 'ECommerce', 'Edutech', 'CRM', 'Travel', 'HRM'].map(
+  const companySectorData = companyType.map(
     item => ({ label: item, value: item })
   );
+  const formData = new FormData();
 
   const onSubmit = (data) => {
-    console.log(data); 
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+    formData.append('logo', imgFile); 
+    formData.append('companyType', selectedSector);
+    formData.append('country', countryNameSelec);
+    formData.append('cityState', selectedCity);
+
+    setIsSaved(true);
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
   };
 
   return (
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
@@ -66,20 +104,32 @@ const MyCompany = () => {
               placeholder="Search..."
             />
           </div>
-          <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
-            <FaRegPlusSquare  size={18} className="mr-2"/>
-            <button
-              type="submit"
-              className="text-base text-white-A700"
-            >
-              Create Project
-            </button>
-          </div>
+          {isSaved? 
+              <div className="bg-teal-A700 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+                <BsCheck2Circle  size={18} className="mr-2"/>
+                <button
+                  type="submit"
+                  className="text-base text-white-A700"
+                >
+                  Saved
+                </button>
+              </div>  
+              :
+            <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+              <FiSave  size={18} className="mr-2"/>
+              <button
+                type="submit"
+                className="text-base text-white-A700"
+              >
+                Save
+              </button>
+            </div>
+            }
         </div>
       </div>
       <div className="flex items-start justify-start w-full">
         <div className="flex  w-full">
-          <form className="flex flex-col md:flex-row lg:flex-row gap-8 items-start justify-start px-5 w-full ">
+          <div className="flex flex-col md:flex-row lg:flex-row gap-8 items-start justify-start px-5 w-full ">
             <div className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -91,7 +141,7 @@ const MyCompany = () => {
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("companyName", { required: {value:true , message: "Company name is required"} })}
-                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="companyName"
                     placeholder="Your Company Name"
@@ -109,7 +159,7 @@ const MyCompany = () => {
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("legalName", { required: {value:true , message:"Company Legal name is required"} })}
-                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="legalName"
                     placeholder="Your Company Legal Name"
@@ -127,7 +177,7 @@ const MyCompany = () => {
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <textarea
                     {...register("description", { required: false })}
-                    className={`!placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                     name="description"
                     rows={4}
                     placeholder="Write your company’s short description here"
@@ -144,7 +194,7 @@ const MyCompany = () => {
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                   {...register("website", { required: {value:true , message:"Company website is required"} })}
-                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="website"
                     placeholder="Your Company Website"
@@ -162,7 +212,7 @@ const MyCompany = () => {
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"} })}
-                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="contactEmail"
                     placeholder="Your Company email"
@@ -180,7 +230,7 @@ const MyCompany = () => {
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("address", { required: {value:true , message:"Company address is required"} })}
-                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="address"
                     placeholder="Your Company address"
@@ -196,14 +246,14 @@ const MyCompany = () => {
                   Country
                 </Text>
                 <SelectPicker size="md" data={dataCountries} name="country"
-                            {...register("country", { required: {value:false , message:"Company country is required"} })}
                             //  valueKey="name"
                             labelKey="name" valueKey="isoCode"
                             value={selectedCountry}
                             onChange={setSelectedCountry}
                             menuClassName="w-auto"
-                            className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                            className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
                             placeholder="Select Country"/>
+              {/* {selectedCountry==null && <span className="text-sm font-DmSans text-red-500">Company country is required</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -213,10 +263,13 @@ const MyCompany = () => {
                   City/State
                 </Text>
                 <SelectPicker size="md" data={City.getCitiesOfCountry(selectedCountry)}
+                          value={selectedCity} 
+                          onChange={setSelectedCity}
                           labelKey="name"
                           valueKey="name"
                             className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
                             placeholder="Select City"/>
+                {/* {selectedCity==null && <span className="text-sm font-DmSans text-red-500">Company city/state is required</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -226,8 +279,11 @@ const MyCompany = () => {
                   Company Sector
                 </Text>
                 <CheckPicker size="md" data={companySectorData} searchable={false}
-                              className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                              placeholder="Select Company Sector"/>
+                    value={selectedSector} onChange={setselectedSector}
+                    className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                    placeholder="Select Company Sector"/>
+                    {/* {selectedSector==null && <span className="text-sm font-DmSans text-red-500">Company Sector is required</span>} */}
+
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -241,6 +297,8 @@ const MyCompany = () => {
                     className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="name"
+                    value={taxIdentfier}
+                    onChange={e => handleChange(e, settaxIdentfier)}
                     placeholder="0000 - 0000 - 0000"
                   />
                 </div>
@@ -283,7 +341,7 @@ const MyCompany = () => {
                         className="text-[13px] text-base leading-6 tracking-normal w-auto"
                         size="txtDMSansRegular13"
                       >
-                        Upload Your Logo
+                      {isDragging? "Drop Your logo here" : "Upload Your Logo"}  
                       </Text>
                     </div>
                   </div>
@@ -291,10 +349,10 @@ const MyCompany = () => {
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
 
   );
 };

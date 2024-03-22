@@ -1,14 +1,55 @@
-import React , {useMemo} from "react";
+import React , {useMemo , useRef , useState} from "react";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import { default as ModalProvider } from "react-modal";
 import { LuUploadCloud } from "react-icons/lu";
-import {  SelectPicker } from "rsuite";
+import { IoDocumentTextOutline } from "react-icons/io5";
 import countryList from 'react-select-country-list'
 import 'rsuite/SelectPicker/styles/index.css';
+import { City } from "country-state-city";
+import { useForm } from "react-hook-form";
 
 const NewCampanyDocumentModal = (props) => {
-  const countryOptions = useMemo(() => countryList().getData(), [])
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const cities = City.getAllCities();
+  const inputRef = useRef(null);
+  const [files, setFiles] = useState(null);
+  const [preview , setPreview] = useState(null);
+  const documentFile = props?.documentFile? props.documentFile : null;
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    setFiles(event.dataTransfer.files[0]);
+    setPreview(URL.createObjectURL(event.dataTransfer.files[0]))
+    console.log(files);
+  };
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files[0]);
+    setPreview(URL.createObjectURL(e.target.files[0]))
+  }
+
+  const formData = new FormData();
+
+  const onSubmit = (data) => {
+    formData.append('document', files); 
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
+  };
+
 
   return (
     <ModalProvider
@@ -17,7 +58,7 @@ const NewCampanyDocumentModal = (props) => {
       overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
       {...props}
     >
-      <div className="max-h-[99vh] sm:w-full md:w-full overflow-y-auto">
+      <form onSubmit={handleSubmit(onSubmit)} className="max-h-[99vh] sm:w-full md:w-full overflow-y-auto">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-4 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -25,7 +66,7 @@ const NewCampanyDocumentModal = (props) => {
                 className="md:text-xl sm:text-[18px] text-[18px] text-gray-900 w-full"
                 size="txtDMSansCardHeader16"
               >
-                New Document
+                {documentFile?.id? "Edit Document": "Add New Document"} 
               </Text>
             </div>
             <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
@@ -44,40 +85,15 @@ const NewCampanyDocumentModal = (props) => {
               </Text>
               <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                 <input
-                  className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                  {...register("title", { required: {value:true , message: "Document title is required."} })}
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                   type="text"
-                  name="name"
+                  name="title"
                   placeholder="Document Title"
+                  defaultValue={documentFile?.id? documentFile?.title :""}
                 />
               </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                Description
-              </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  type="text"
-                  className={`!placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                  name="name"
-                  placeholder="Document description"
-                />
-              </div>
-            </div>
-            <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-              <Text
-                className="text-base text-gray-900_01 w-auto"
-                size="txtDMSansLablel"
-              >
-                City/State
-              </Text>
-              <SelectPicker size="md" data={countryOptions}
-                           
-                           className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                           placeholder="Select City/State"/>
+              {errors.title && <span className="text-sm font-DmSans text-red-500">{errors.title?.message} </span>}
             </div>
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
               <Text
@@ -86,23 +102,63 @@ const NewCampanyDocumentModal = (props) => {
               >
                 Upload Document
               </Text>
-              <div className="flex flex-col items-center text-blue-700 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-10 border border-solid">
-                <LuUploadCloud  size={24} className=" mr-2"/>
-                <Text className="font-dmsans text-base font-normal leading-6 tracking-normal">
-                  Drop file or click here to upload your document
-                </Text>
-              </div>
+                <div className={`${(preview || documentFile?.id)?  "border-dashed ": "border-solid"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}>
+                  {(preview || documentFile?.id) ? (
+                    <div className="flex flex-col items-center text-blue-700 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
+                        <Text className="flex flex-row font-dmsans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
+                        <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {preview? files.name : documentFile?.id? documentFile?.name: ""}
+                        </Text>
+                        <div className="bg-white-A700 text-blue-700 border border-solid border-blue-500 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
+                          <LuUploadCloud  size={18} className="mr-2"/>
+                          <input
+                          ref={inputRef}
+                          onChange={handleFileChange}
+                          style={{ display: 'none' }}
+                          className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                          type="file"
+                          name="name"
+                        />
+                          <button
+                            onClick={() =>onButtonClick(inputRef)}
+                            type="button"
+                            className="text-base "
+                          >
+                            update your document
+                          </button>
+                        </div>
+                    </div>) :
+                  (   
+                <div className="flex flex-col items-center text-blue-700 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
+                  <LuUploadCloud  size={24} className=" mr-2"/>
+                  <input
+                          ref={inputRef}
+                          onChange={handleFileChange}
+                          style={{ display: 'none' }}
+                          className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                          type="file"
+                          name="name"
+                        />
+                  <Text className="font-dmsans text-base font-normal leading-6 tracking-normal">
+                    Drop file or <span className="" onClick={()=> onButtonClick(inputRef)}>click here to upload your document</span>  
+                  </Text>
+                </div>
+                  )
+                  }
+                </div>
             </div>
 
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
-              <button className="bg-gray-300 text-gray-700 py-3 px-5 font-dmsans text-base font-medium leading-5 tracking-normal rounded-lg">Cancel</button>
-              <button className="ml-auto bg-blue-500 text-white-A700 py-3 px-5 font-dmsans text-base font-medium leading-5 tracking-normal rounded-lg">Add Document</button>
+              <button type="reset" className="bg-gray-300 text-gray-700 py-3 px-5 font-dmsans text-base font-medium leading-5 tracking-normal rounded-lg" 
+              onClick={() => setPreview(null)}>Cancel</button>
+              <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-3 px-5 font-dmsans text-base font-medium leading-5 tracking-normal rounded-lg">Add Document</button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </ModalProvider>
   );
 };

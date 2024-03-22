@@ -4,17 +4,18 @@ import{Text } from "../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
 import { IoFlashOffOutline } from "react-icons/io5";
-import { BsEyeSlash } from "react-icons/bs";
-import { TiFlashOutline } from "react-icons/ti";
 import TablePagination from "../Components/TablePagination";
-import DeleteModal from "../Components/DeleteModal";
-import { SelectPicker } from "rsuite";
+import {companyType} from "../data/companyType";
+import { SelectPicker , CheckPicker } from "rsuite";
+import { Country } from "country-state-city";
+import { FiDelete } from "react-icons/fi";
 
 const MyInvestors = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
   const [filter , setFilter] = useState(false);
-
+  const [filterApply , setFilterApply] = useState(false);
+  const dataCountries = Country.getAllCountries();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,18 +48,19 @@ const MyInvestors = () => {
     }
   }
 
-  const openDeleteModal = (rowData) => {
-    setIsDeleteModalOpen(true);
-    setDeleteRow(rowData);
-  };
+  const invTypedata = [
+    'Venture Capital',
+    'Angel',
+    'Accelerator',
+    'Angel Club',
+    'Family Business'
+  ].map(
+    item => ({ label: item, value: item })
+  );
 
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
-
-  const handleDelete = () => {
-    console.log(deleteRow?.projectName);
-  };
+  const companySectorData = companyType.map(
+    item => ({ label: item, value: item })
+  );
     return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -91,12 +93,13 @@ const MyInvestors = () => {
             <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
               <div className="flex flex-row flex-wrap text-sm text-center items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
                 <Text
-                  className="text-lg leading-7 text-gray-900 pt-1"
+                style={{whiteSpace:"nowrap"}}
+                  className="text-lg leading-7 text-gray-900 pt-1 w-[100px] mr-8"
                   size="txtDmSansMedium16"
                 >
                   My Investors
                 </Text>
-                  <div className=" md:grid-cols-auto-fit lg:flex lg:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
+                  <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
                   {filter && 
                 (
                     <>
@@ -108,29 +111,58 @@ const MyInvestors = () => {
                         placeholder="Keywords"
                       />
                     </div>
-                    <SelectPicker size="md" data={[]}
+                    <CheckPicker size="md" data={invTypedata}
+                                className="cus_pop w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                                placeholder="Type of Investment"
+                                menuClassName="cus_pop"
+                                />
+                    <SelectPicker size="md" data={dataCountries}
+                                labelKey="name" valueKey="name"
                                 className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                placeholder="Type of Investment"/>
-                    <SelectPicker size="md" data={[]}
-                                className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                                menuClassName="cus_pop"
                                 placeholder="Location"/>
-                    <SelectPicker size="md" data={[]}
-                                className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                    placeholder="Select Industries"/>
+                    <CheckPicker size="md" data={companySectorData}
+                                className="cus_pop w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                                    placeholder="Select Industries"
+                                    menuClassName="cus_pop"
+                                    />
                     </>
                 )}
-                    <div className="bg-blue-A400 text-white-A700 flex flex-row items-center p-[6px] rounded-md ">
+                    <div className="bg-blue-A400 text-white-A700 flex flex-row items-center p-[6px] h-[38px] rounded-md ">
                         <BiFilterAlt   size={18} className="mr-2"/>
-                        <button
+                        {filter ? (
+                          <button
+                          onClick={()=>setFilterApply(true)}
+                              type="submit"
+                              className="text-base text-white-A700"
+                              style={{whiteSpace:'nowrap'}}
+                          >
+                             Apply Filters
+                          </button>
+                        ):
+                        (
+                          <button
                         onClick={()=>setFilter(true)}
                             type="submit"
                             className="text-base text-white-A700"
                             style={{whiteSpace:'nowrap'}}
                         >
-                            {filter? "Apply Filters": "Filters"}
+                         Filters
                         </button>
+                        )}
                     </div>
+                    {filterApply && (
+                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] border-b border-solid border-blue_gray-300 " onClick={()=>{setFilter(false); setFilterApply(false);}}>
+                      <FiDelete   size={18} className="mr-2"/>
+                      <Text
+                        className="text-sm leading-6 text-blue_gray-300 "
+                        size="txtDmSansMedium16"
+                      >
+                        Clear
+                      </Text>
                     </div>
+                    )}
+                  </div>
               </div>
               <div className="relative flex flex-col w-full">
               <div className="bg-white-A700  border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">

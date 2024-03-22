@@ -1,35 +1,58 @@
 import React, { useState,useRef } from "react";
 import{Text } from "../Components/Text"
-import { CiSquarePlus } from "react-icons/ci";
-import { FaRegPlusSquare } from "react-icons/fa";
 import { FiSave } from "react-icons/fi";
 import { BiDollar } from "react-icons/bi";
 import { MdOutlineDateRange, MdOutlineFileUpload } from "react-icons/md";
 import { ImFileText2 } from "react-icons/im";
-import { IoIosCheckmark, IoMdAdd } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
 import { CheckPicker } from "rsuite";
 import 'rsuite/CheckPicker/styles/index.css';
+import { useForm } from "react-hook-form";
+import { GrAttachment } from "react-icons/gr";
+import { useNavigate } from "react-router-dom";
+import {stage} from "../data/stage"
 
 const CreateProject = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
+
   const [focusedMilestone, setFocusedMilestone] = useState(null);
-  const [milestones, setMilestones] = useState([{ id: 1 }]);
+  const [milestones, setMilestones] = useState([{ id: 1, name: '', dueDate: '' }]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [documents, setDocuments] = useState([]);
+  const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
   const [droppedFiles, setDroppedFiles] = useState([]);
-  const [files1, setFiles1] = useState(null);
-  const [files2, setFiles2] = useState(null);
-  const [files3, setFiles3] = useState(null);
+
+  const [selectedTeamsMembers , setSelectedTeamsMember] = useState([]);
+  const [selectedStages , setSelectedStages] = useState([]);
+
+  const inputRefs = useRef([]);
+
+  const inputRef = useRef(null);
+  const inputRef1 = useRef(null);
+  const inputRef2 = useRef(null);
 
   const handleFocus = (milestoneId) => {
     setFocusedMilestone(milestoneId);
   };
-
   const handleBlur = () => {
     setFocusedMilestone(null);
   };
 
   const addMilestone = () => {
     const newId = milestones.length + 1;
-    setMilestones([...milestones, { id: newId }]);
+    setMilestones([...milestones, { id: newId, name: '', dueDate: '' }]);
+  };
+
+  const handleMilestoneChange = (e, id, field) => {
+    const { value } = e.target;
+    setMilestones(prevData => prevData.map(milestone => {
+      if (milestone.id === id) {
+        return { ...milestone, [field]: value };
+      }
+      return milestone;
+    }));
   };
 
   const addDocumentDiv = () => {
@@ -40,42 +63,46 @@ const CreateProject = () => {
 
   const handleDrop = (event, index) => {
     event.preventDefault();
+    setIsDragging(false);
     const files = Array.from(event.dataTransfer.files);
-    console.log(`Dropped files for div ${index}`, files);
-    setDroppedFiles((prevFiles) => [...prevFiles, ...files]);
+    const filesWithIndex = files.map(file => ({ name: file.name, index }));
+    setDroppedFiles((prevFiles) => [...prevFiles, ...filesWithIndex]);
   };
 
-  const inputRefs = useRef([]);
+  const setFileName = (type, name) => {
+    setFileNames(prevFileNames => ({ ...prevFileNames, [type]: name }));
+  };
 
-
-  const inputRef = useRef(null);
-  const inputRef1 = useRef(null);
-  const inputRef2 = useRef(null);
+  const handleDrop1 = (event, type) => {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files[0];
+    setDocuments(prevDocuments => [...prevDocuments, { file, type }]);
+    setFileName(type, file.name);
+  };
 
   const handleDragOver = (event) => {
     event.preventDefault();
+    setIsDragging(true);
   };
 
-  const handleDrop1 = (event) => {
-    event.preventDefault();
-    setFiles1(event.dataTransfer.files);
-    console.log(files1);
-  };
+  const formData = new FormData();
 
-  const handleDrop2 = (event) => {
-    event.preventDefault();
-    setFiles2(event.dataTransfer.files);
-  };
-
-  const handleDrop3 = (event) => {
-    event.preventDefault();
-    setFiles3(event.dataTransfer.files);
-  };
-
-  const handleUpload = (files) => {
-    const formData = new FormData();
-    formData.append("Files", files);
-    console.log(formData.getAll());
+  const onSubmit = (data) => {
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+    formData.append("stage" , selectedStages)
+    formData.append("listMember" ,selectedTeamsMembers);
+    formData.append("milestones" , milestones);
+    documents.forEach(({ file, type }) => {
+      formData.append(`documents[${type}]`, file);
+    });
+      droppedFiles.forEach(({ name, index }) => {
+      formData.append(`droppedFiles[${index}]`, name);
+    });
+    
+    navigate("/Projects");
   };
 
   const onButtonClick = (inputref) => {
@@ -120,24 +147,14 @@ const CreateProject = () => {
     },
   ];
 
-  const StageData = [
-    "Idea",
-    "Pree-Seed",
-    "Seed",
-    "Serie A",
-    "Serie B",
-    "Serie C",
-    "Serie D",
-    "Serie E",
-    "IPO"
-  ].map(
+  const StageData = stage.map(
     item => ({ label: item, value: item })
   );
   ;
 
 
   return (
-      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
+      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -155,7 +172,7 @@ const CreateProject = () => {
                 alt="search"
               />
               <input
-                className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                 type="text"
                 name="search"
                 placeholder="Search..."
@@ -165,7 +182,7 @@ const CreateProject = () => {
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-            <form className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
               <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
                 <Text
                   className="text-lg leading-7 text-gray-900 pt-1"
@@ -183,7 +200,7 @@ const CreateProject = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 py-5 bg-white-A700 w-full">
+              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 py-5 bg-white-A700 w-full h-full">
                 <div className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -194,12 +211,14 @@ const CreateProject = () => {
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <input
-                        className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        {...register("name", { required: {value:true , message: "Project Name is required"} })}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="text"
                         name="name"
                         placeholder="Enter Project Name"
                       />
                     </div>
+                    {errors.name && <span className="text-sm font-DmSans text-red-500">{errors.name?.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -210,12 +229,14 @@ const CreateProject = () => {
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <textarea
-                        className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                        name="name"
+                       {...register("details", { required: {value:true , message: "Project Details is required"} })}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                        name="details"
                         rows={5}
                         placeholder="Write your project detals here"
                       />
                     </div>
+                    {errors.details && <span className="text-sm font-DmSans text-red-500">{errors.details?.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -225,7 +246,8 @@ const CreateProject = () => {
                       Team Member
                     </Text>
                     <CheckPicker size="md" data={teamMembersdataList}
-                                 className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                                value={selectedTeamsMembers} onChange={setSelectedTeamsMember}
+                                 className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
                                  placeholder="Assign Team Member to this Project"
                                  menuClassName="custom_list_item"
                                  valueKey="name"
@@ -252,6 +274,7 @@ const CreateProject = () => {
                                  }
                                 }
                     />
+                    {selectedTeamsMembers.length==0 && <span className="text-sm font-DmSans text-red-500">Please select teams members</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -263,11 +286,14 @@ const CreateProject = () => {
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <BiDollar size={18}/>
                       <input
-                        className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                        name="name"
+                        {...register("target", { required: {value:true , message: "Project Funding Target is required"} })}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                        name="target"
+                        type="number"
                         placeholder="Enter Funding Target"
                       />
                     </div>
+                    {errors.target && <span className="text-sm font-DmSans text-red-500">{errors.target?.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -277,7 +303,8 @@ const CreateProject = () => {
                       Stage
                     </Text>
                     <CheckPicker size="md" data={StageData}
-                            className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
+                            value={selectedStages} onChange={setSelectedStages}
+                            className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
                             placeholder="Select a Stage"
                             renderMenuItem={( item) =>{ return (
                               <div className="flex items-center justify-start space-x-3">
@@ -293,6 +320,7 @@ const CreateProject = () => {
                               );
                             }
                            }/>
+                                        {selectedStages.length==0 && <span className="text-sm font-DmSans text-red-500">Please select stages</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -305,15 +333,17 @@ const CreateProject = () => {
                     <div key={milestone.id} className={`flex flex-row gap-2 items-start justify-start w-full`}>
                       <div className="flex md:flex-1 w-[55%] rounded-md p-2 border border-solid">
                         <input
-                          className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                          className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                           name={`name-${milestone.id}`}
                           placeholder="Enter your project milestone"
+                          value={milestone.name}
+                          onChange={e => handleMilestoneChange(e, milestone.id, 'name')}
                         />
                       </div>
-                      <div className="flex md:flex-1 w-[30%] rounded-md p-2 border border-solid">
+                      <div className="flex  w-[30%] rounded-md p-2 border border-solid">
                         <input
                           type="text"
-                          className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                          className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                           name={`due-date-${milestone.id}`}
                           placeholder="Due Date"
                           onFocus={(e) => {
@@ -324,11 +354,13 @@ const CreateProject = () => {
                             handleBlur()
                             e.target.type = 'text';
                           }}
+                          value={milestone.dueDate}
+                          onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}
                         />
                         <MdOutlineDateRange size={20} className={`${focusedMilestone === milestone.id ? 'hidden' : ''} text-blue_gray-300`}/>
                       </div>
                       {/* {index === milestones.length - 1 && ( */}
-                        <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%]">
+                        <div className="bg-light_blue-100 border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%]">
                           <IoMdAdd size={18} className="mr-1" />
                           <button type="button" onClick={addMilestone} className="text-base">
                             More
@@ -339,7 +371,7 @@ const CreateProject = () => {
                     ))}
                   </div>
                 </div>
-                <div className="bg-indigo-50 md:h-[720px] h-px w-full md:w-px" />
+                <div className="bg-indigo-50 md:min-h-[750px] md:h-full h-px w-full md:w-px" />
                 <div className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -351,7 +383,7 @@ const CreateProject = () => {
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
-                       onDrop={handleDrop1}>
+                       onDrop={(event) => handleDrop1(event, "Pitch Deck")}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -363,21 +395,36 @@ const CreateProject = () => {
                       <input
                         ref={inputRef}
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                        {isDragging ? <span className="text-blue_gray-300">Drop Pitch Deck file here</span> :
+                        <>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500" onClick={()=> onButtonClick(inputRef)}>choose file</span>
+                        </> 
+                        }
                       </label>
                     </div>
+                    {fileNames["Pitch Deck"] && (
+                      <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
+                      <GrAttachment size={16} className="mr-2" />
+                      <Text
+                        className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                        size=""
+                      >
+                        {fileNames["Pitch Deck"]}
+                      </Text>
+                    </div>
+                    )}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
-                       onDrop={handleDrop2}>
+                       onDrop={(event) => handleDrop1(event, "Business Plan")}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -389,21 +436,36 @@ const CreateProject = () => {
                       <input
                         ref={inputRef1}
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                        {isDragging ? <span className="text-blue_gray-300">Drop Business Plan file here</span> :
+                        <>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500" onClick={()=> onButtonClick(inputRef1)}>choose file</span>
+                        </> 
+                        }
                       </label>
                     </div>
+                    {fileNames["Business Plan"] && (
+                      <div className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
+                      <GrAttachment size={16} className="mr-2" />
+                      <Text
+                        className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                        size=""
+                      >
+                        {fileNames["Business Plan"]}
+                      </Text>
+                    </div>
+                    )}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
-                       onDrop={handleDrop3}>
+                       onDrop={(event) => handleDrop1(event, "Financial Projection")}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -415,17 +477,32 @@ const CreateProject = () => {
                       <input
                         ref={inputRef2}
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                        {isDragging ? <span className="text-blue_gray-300">Drop Financial Projection file here</span> :
+                        <>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500" onClick={()=> onButtonClick(inputRef2)}>choose file</span>
+                        </> 
+                        }
                       </label>
                     </div>
+                    {fileNames["Financial Projection"] && (
+                      <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
+                      <GrAttachment size={16} className="mr-2" />
+                      <Text
+                        className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                        size=""
+                      >
+                        {fileNames["Financial Projection"]}
+                      </Text>
+                    </div>
+                    )}
                   </div>
                   {documentDivs.map((div, index) => (
                   <div key={div.id} className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -441,17 +518,37 @@ const CreateProject = () => {
                       <input
                         ref={inputRefs.current[index]}
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name={`file-${index}`}
                       />
                       <label className="font-manrope text-sm leading-18 tracking-wide text-left w-auto">
-                        <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                      {isDragging ? <span className="text-blue_gray-300">Drop file here</span> :
+                        <>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500" onClick={() => inputRefs.current[index].current.click()}>
                           choose file
                         </span>
+                        </> 
+                        }
                       </label>
                     </div>
+                    {droppedFiles.map((file, fileIndex) => {
+                      if (file.index === index) {
+                        return (
+                          <div key={fileIndex} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
+                            <GrAttachment size={16} className="mr-2" />
+                            <Text
+                              className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                              size=""
+                            >
+                              {file.name}
+                            </Text>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })}
                   </div>
                   ))}
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>

@@ -24,7 +24,7 @@ const ConfirmedModal = (props) => {
           </div>
         </div>
         <div className="flex flex-col gap-6 items-center justify-start w-full">
-          <div className="flex flex-col gap-[38px] items-center justify-start w-auto px-[55px] w-full">
+          <div className="flex flex-col gap-[38px] items-center justify-start w-auto px-[45px] w-full">
             <img
               className="h-[172px] w-[172px]"
               src="images/img_role_confirmed.svg"
@@ -36,8 +36,9 @@ const ConfirmedModal = (props) => {
                 size="txtDMSansMedium18"
               >
                 <span className="text-blue_gray-900_03 font-DmSans text-base font-semibold leading-7">
-                  {props.m1}{" "}
+                  {props.m1}
                 </span>
+                <br/>
                 <span className="text-blue-A400 font-DmSans text-base font-semibold leading-7">
                   {props.m2}
                 </span>

@@ -46,6 +46,11 @@ html {
   margin-top: 5px;
 }
 
+.cus_pop.rs-picker-popup{
+  width: 170px !important;
+  max-height: 320px !important;
+}
+
 .rs-checkbox-checker{
   align-items: center;
   display: flex;
@@ -127,6 +132,27 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
 .rs-stack{
   padding-top: 2.5px;
   padding-bottom: 2.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cus_pop.rs-stack-item {
+  max-width: 200px;
+}
+.cus_pop.rs-picker-toggle-textbox.rs-picker-toggle-read-only{
+  max-width: 200px;
+
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.cus_pop .rs-picker-value-list {
+  max-width: 150px;
+
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.rs-picker-value-count{
+  display: none;
 }
 
 .overlay-content-inv {
@@ -137,6 +163,13 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
   text-align: center;
   align-items: center;
   justify-content: center;
+}
+
+.overlay-content-invPro {
+  height: 100%;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
 }
 
 .overlay-content-invDetails {

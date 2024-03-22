@@ -50,7 +50,7 @@ const NewMilestoneModal = (props) => {
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("name", { required: {value: true , message: "Milestone name is required"} })}
-                    className={`!placeholder:text-blue_gray-300  font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="name"
                     placeholder="Milestone Name"
@@ -69,7 +69,7 @@ const NewMilestoneModal = (props) => {
                   <input
                     {...register("dueDate", { required: {value:true , message: "Due date is required"} })}
                     type="text"
-                    className={`!placeholder:text-blue_gray-300  font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                     name="dueDate"
                     placeholder="Due Date"
                     onFocus={(e) => {
@@ -110,7 +110,7 @@ const NewMilestoneModal = (props) => {
             </div>
             <div className="flex items-end w-full justify-end">
               <div className="flex space-x-3 md:space-x-5 w-auto">
-                <button type="reset" className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Cancel</button>
+                <button onClick={props.onRequestClose} type="reset" className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Cancel</button>
                 <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Add Milestone</button>
               </div>
             </div>

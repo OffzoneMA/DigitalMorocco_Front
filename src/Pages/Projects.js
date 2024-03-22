@@ -157,7 +157,7 @@ const Projects = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''}`}>
-                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.projectName}</td>
+                      <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6" onClick={()=> navigate("/Projectdetails")}>{item.projectName}</td>
                       <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.target}</td>
                       <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.stage}</td>
                       <td className="py-3 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.milestone}</td>
@@ -174,7 +174,7 @@ const Projects = () => {
                       <td className="py-3 px-3 ">
                         <div className="flex flex-row space-x-3 p-3 items-center">
                           <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)}  className="text-blue_gray-300"/>
-                          <FiEdit3 size={17} className="text-blue_gray-300"/>
+                          <FiEdit3 size={17} className="text-blue_gray-300" onClick={()=> navigate("/Createproject")} />
                         </div>
                         <DeleteModal isOpen={isDeleteModalOpen}
                       onRequestClose={closeDeleteModal} title="Delete Project" 

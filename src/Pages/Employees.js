@@ -145,21 +145,9 @@ const Employees = () => {
                     <td className="py-3 px-3 ">
                       <div className="flex flex-row space-x-3 p-3 items-center">
                         <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)} className="text-blue_gray-300"/>
-                        <FiEdit3 size={17} className="text-blue_gray-300"/>
+                        <FiEdit3 size={17} className="text-blue_gray-300" onClick={()=> navigate("/NewEmployee")}/>
                       </div>
-                      <DeleteModal isOpen={isDeleteModalOpen}
-                      onRequestClose={closeDeleteModal} title="Delete Employee" 
-                      onDelete={handleDelete}
-                      content={
-                        <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
-                          <Text
-                            className="font-DmSans text-center text-base font-normal leading-6"
-                            size=""
-                          >
-                            Are you sure you want to delete this employee?
-                          </Text>
-                        </div>
-                      }/>
+                      
                     </td>
                   </tr>
                 ))}
@@ -192,6 +180,19 @@ const Employees = () => {
           </div>
         </div>
       </div>
+      <DeleteModal isOpen={isDeleteModalOpen}
+                      onRequestClose={closeDeleteModal} title="Delete Employee" 
+                      onDelete={handleDelete}
+                      content={
+                        <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
+                          <Text
+                            className="font-DmSans text-center text-base font-normal leading-6"
+                            size=""
+                          >
+                            Are you sure you want to delete this employee?
+                          </Text>
+                        </div>
+                      }/>
     </div>
   );
 };
