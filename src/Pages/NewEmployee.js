@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { CheckPicker, SelectPicker } from "rsuite";
+import SimpleSelect from "../Components/SimpleSelect";
+import MultipleSelect from "../Components/MultipleSelect";
 import { IoImageOutline } from "react-icons/io5";
 import { PiUserSquare } from "react-icons/pi";
 import { MdOutlineDateRange } from "react-icons/md";
@@ -22,11 +24,25 @@ const NewEmployee = () => {
   const [selectedJobTitle, setSelectedJobTitle] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
-  const countryVal = selectedCountry ? Country.getCountryByCode(selectedCountry)["name"]: "";
+  const [taxIdentfier, settaxIdentfier] = useState('');
+  const countryVal = selectedCountry ? selectedCountry["name"]: "";
   const [isSaved , setIsSaved] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const formData = new FormData();
+
+  const handleChange = (e, setValue) => {
+    const formattedValue = e.target.value
+      // Supprime tous les caractères non numériques
+      .replace(/\D/g, '')
+      // Insère un tiret entre chaque groupe de quatre chiffres
+      .replace(/(\d{4})/g, '$1 - ')
+      // Supprime le dernier espace et tiret s'il y en a un
+      .replace(/ - $/, '');
+  
+    setValue(formattedValue);
+  };
+  
 
   const onSubmit = (data) => {
     console.log(data); 
@@ -102,12 +118,12 @@ const NewEmployee = () => {
   
   
   return (
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
+    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
             <Text
-              className="md:text-3xl sm:text-[28px] text-[32px] text-gray-900 w-full"
+              className="text-3xl font-bold leading-11 text-gray-900 w-full"
               size="txtDMSansBold32"
             >
               Company
@@ -134,8 +150,8 @@ const NewEmployee = () => {
           <form className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
               <Text
-                className="md:text-2xl sm:text-[16px] text-[16px] text-gray-900 pt-1"
-                size="txtDMSansCardHeader"
+                className="text-lg leading-7 text-gray-900_01 pt-1"
+                size="txtDmSansMedium16"
               >
                 Add Employee
               </Text>
@@ -261,11 +277,20 @@ const NewEmployee = () => {
                   >
                     Country
                   </Text>
-                  <SelectPicker size="md" data={dataCountries} 
-                    labelKey="name" valueKey="isoCode"
-                    onChange={setSelectedCountry} value={selectedCountry}
-                                className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                placeholder="Select Country"/>
+                  <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setSelectedCountry} 
+                    placeholder="Select Country" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
@@ -274,11 +299,20 @@ const NewEmployee = () => {
                   >
                     City/State
                   </Text>
-                  <SelectPicker size="md" data={City.getCitiesOfCountry(selectedCountry)}
-                    onChange={setSelectedCity} value={selectedCity}
-                    labelKey="name" valueKey="name"
-                                className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                placeholder="Select City"/>
+                  <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry['isoCode']): []} onSelect={""} searchLabel='Select City' setSelectedOptionVal={setSelectedCity} 
+                    placeholder="Select City" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
@@ -293,6 +327,8 @@ const NewEmployee = () => {
                       className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
                       name="personalTaxIdentifierNumber"
+                      value={taxIdentfier}
+                      onChange={e => handleChange(e, settaxIdentfier)}
                       placeholder="0000 - 0000 - 0000"
                     />
                   </div>
@@ -327,11 +363,20 @@ const NewEmployee = () => {
                     >
                       Job Title
                     </Text>
-                    <SelectPicker size="md" data={jobTitles}
-                      onChange={setSelectedJobTitle} value={selectedJobTitle}
-                      labelKey="title" valueKey="title"
-                                  className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                  placeholder="Select position / title"/>
+                    <SimpleSelect id='job' options={jobTitles} onSelect={""} searchLabel='Select position / title' setSelectedOptionVal={setSelectedJobTitle} 
+                    placeholder="Select position / title" valuekey="title" 
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.title}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -340,12 +385,20 @@ const NewEmployee = () => {
                     >
                       Level
                     </Text>
-                    <SelectPicker size="md" data={employeeLevels}
-                    onChange={setSelectedLevel} value={selectedLevel}
-                      labelKey="level"
-                      valueKey="level"
-                                  className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                  placeholder="Select employee level"/>
+                    <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel='Select Level' setSelectedOptionVal={setSelectedLevel} 
+                    placeholder="Select employee level" valuekey="level"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.level}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -354,11 +407,20 @@ const NewEmployee = () => {
                     >
                       Department
                     </Text>
-                    <SelectPicker size="md" data={departments}
-                      onChange={setSelectedDepartment} value={selectedDepartment}
-                      labelKey="name" valueKey="name"
-                                  className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                                  placeholder="Select Department"/>
+                    <SimpleSelect id='department' options={departments} onSelect={""} searchLabel='Select Department' setSelectedOptionVal={setSelectedDepartment} 
+                    placeholder="Select Department" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text

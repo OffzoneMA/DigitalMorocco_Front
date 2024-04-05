@@ -1,14 +1,17 @@
-import React, { useState , useMemo  } from "react";
+import React, { useState , useMemo , useRef } from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
 import { CheckPicker, SelectPicker } from "rsuite";
+import MultipleSelect from "../Components/MultipleSelect";
+import SimpleSelect from "../Components/SimpleSelect";
 import { IoImageOutline } from "react-icons/io5";
 import 'rsuite/SelectPicker/styles/index.css';
 import 'rsuite/CheckPicker/styles/index.css';
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
 import {companyType} from "../data/companyType";
+import countryList from "react-select-country-list";
 
 const MyCompany = () => {
   const [logoFile, setLogoFile] = useState(null);
@@ -22,21 +25,26 @@ const MyCompany = () => {
   const [selectedCountry , setSelectedCountry] = useState(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const formRef = useRef();
+  const formButtonRef = useRef();
 
-  const countryNameSelec = selectedCountry? Country.getCountryByCode(selectedCountry)["name"] : "";
+  const countryNameSelec = selectedCountry? selectedCountry["name"] : "";
 
-  const handleChange = (e , setValue) => {
+  const handleChange = (e, setValue) => {
     const formattedValue = e.target.value
-      .replace(/\D/g, '') 
-      .replace(/(\d{0,4})(\d{0,4})(\d{0,4})/, (match, p1, p2, p3) => {
-        let formatted = '';
-        if (p1) formatted += p1;
-        if (p2) formatted += ' - ' + p2;
-        if (p3) formatted += ' - ' + p3;
-        return formatted;
-      });
+      // Supprime tous les caractères non numériques
+      .replace(/\D/g, '')
+      // Insère un tiret entre chaque groupe de quatre chiffres
+      .replace(/(\d{4})/g, '$1 - ')
+      // Supprime le dernier espace et tiret s'il y en a un
+      .replace(/ - $/, '');
+  
+    setValue(formattedValue);
+  };
+  
 
-      setValue(formattedValue);
+  const onButtonClick = (buttonRef) => {
+    buttonRef.current.click();
   };
 
   const handleDragOver = (event) => {
@@ -80,7 +88,7 @@ const MyCompany = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
@@ -105,7 +113,7 @@ const MyCompany = () => {
             />
           </div>
           {isSaved? 
-              <div className="bg-teal-A700 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+              <div className="bg-teal-A700 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto">
                 <BsCheck2Circle  size={18} className="mr-2"/>
                 <button
                   type="submit"
@@ -115,9 +123,11 @@ const MyCompany = () => {
                 </button>
               </div>  
               :
-            <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+            <div className="bg-blue-501 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
+            onClick={() => onButtonClick(formButtonRef)}>
               <FiSave  size={18} className="mr-2"/>
               <button
+              ref={formButtonRef}
                 type="submit"
                 className="text-base text-white-A700"
               >
@@ -245,14 +255,20 @@ const MyCompany = () => {
                 >
                   Country
                 </Text>
-                <SelectPicker size="md" data={dataCountries} name="country"
-                            //  valueKey="name"
-                            labelKey="name" valueKey="isoCode"
-                            value={selectedCountry}
-                            onChange={setSelectedCountry}
-                            menuClassName="w-auto"
-                            className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
-                            placeholder="Select Country"/>
+                <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setSelectedCountry} 
+                    placeholder="Select Country" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
               {/* {selectedCountry==null && <span className="text-sm font-DmSans text-red-500">Company country is required</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -262,13 +278,20 @@ const MyCompany = () => {
                 >
                   City/State
                 </Text>
-                <SelectPicker size="md" data={City.getCitiesOfCountry(selectedCountry)}
-                          value={selectedCity} 
-                          onChange={setSelectedCity}
-                          labelKey="name"
-                          valueKey="name"
-                            className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                            placeholder="Select City"/>
+                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry['isoCode']): []} onSelect={""} searchLabel='Select City' setSelectedOptionVal={setSelectedCity} 
+                    placeholder="Select City" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                 {/* {selectedCity==null && <span className="text-sm font-DmSans text-red-500">Company city/state is required</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -278,10 +301,20 @@ const MyCompany = () => {
                 >
                   Company Sector
                 </Text>
-                <CheckPicker size="md" data={companySectorData} searchable={false}
-                    value={selectedSector} onChange={setselectedSector}
-                    className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                    placeholder="Select Company Sector"/>
+                <MultipleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setselectedSector} 
+                    placeholder="Select Company Sector"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
+                              >
+                               {option}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                     {/* {selectedSector==null && <span className="text-sm font-DmSans text-red-500">Company Sector is required</span>} */}
 
               </div>
@@ -332,7 +365,7 @@ const MyCompany = () => {
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}>
                   {logoFile ? (
-                    <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-auto py-[50px]" />
+                    <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[150px]" />
                   ) : (
                   <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[50px] rounded-md w-full">
                     <IoImageOutline />

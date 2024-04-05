@@ -13,9 +13,12 @@ import ProgressBar from "../Components/ProgressBar";
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { IoFlashOffOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 
 const Dashbord = () => {
+
+  const navigate = useNavigate();
 
     const chartData = [
         { name: 'Jan', value: 150 },
@@ -119,10 +122,11 @@ const Dashbord = () => {
                             placeholder="Search..."
                             />
                         </div>
-                        <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
+                        <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] cursor-pointer rounded-md w-auto" 
+                        onClick={()=> navigate("/CreateProject")}>
                             <FaRegPlusSquare  size={18} className="mr-2"/>
                             <button
-                            type="submit"
+                            type="button"
                             className="text-base text-white-A700"
                             >
                             Create Project
@@ -153,7 +157,7 @@ const Dashbord = () => {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </Text>
                     </div>
-                    <div className="flex items-center justify-end bg-teal-A700 rounded-md w-auto ml-auto p-2">
+                    <div className="flex items-center justify-end bg-teal-A700 rounded-md w-auto ml-auto cursor-pointer p-2">
                        <HiOutlineSparkles  size={18} className=" text-blue_gray-901 mr-2"/>
                         <button
                         type="submit"

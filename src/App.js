@@ -40,6 +40,12 @@ import MyInvestors from './Pages/MyInvestor';
 import Documents from './Pages/Documents';
 import Events from './Pages/Events';
 import History from './Pages/History';
+import DownloadTicket from './Components/DownloadTicket';
+import UpcomingEvents from './Pages/UpcomingEvent';
+import UpcomingEventDetails from './Pages/UpcomingEventDetails';
+import PastEvents from './Pages/PastEvents';
+import ChoosePlan from './Pages/ChoosePlan';
+import Notifications from './Pages/Notifications';
 
 function App() {
   return (
@@ -64,12 +70,18 @@ function App() {
             <Route path="/Employees" element={<Employees />} />
             <Route path="/NewEmployee" element={<NewEmployee />} />
             <Route path="/Document" element={<Documents />} />
-            <Route path="/Event" element={<Events />} />
+            <Route path="/Participate" element={<Events />} />
+            <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
+            <Route path="/PastEvent" element={<PastEvents />} />
+            <Route path="/UpcomingEventDetails" element={<UpcomingEventDetails />} />
+            <Route   path="/UserProfile" element={<UserProfile />} />
+            <Route path="/Subscription" element={<Subscription />} />
+            <Route path="/ChoosePlan" element={<ChoosePlan />} />
             <Route path="/History" element={<History />} />
+            <Route path="/Notification" element={<Notifications />} />
         </Route>
         <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route   path="/UserProfile" element={<UserProfile />} />
         <Route   path="/Pricing" element={<Pricing />} />
         <Route   path="/ContactUs" element={<ContactUs/>}/>
         <Route   path="/About-Us" element={<AboutUs/>}/>
@@ -79,7 +91,6 @@ function App() {
         
           {/* User Member Routes*/}
           <Route element={<GuardedUserMemberRoutes />}>
-            <Route path="/Subscription" element={<Subscription />} />
             <Route path="/Payement_Success" element={<PaySuccess />} />
             <Route path="/Payement_Failed" element={<PayFailed />} />
           </Route>
@@ -93,7 +104,7 @@ function App() {
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
         <Route path="/ChooseRole" element={<ChooseRole />} />
-
+        <Route path="/DownloadTicket" element={<DownloadTicket />} />
       </Routes>
       </div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { BsArrowLeftShort, BsChevronDown, BsDot } from "react-icons/bs";
+import { BsArrowLeftShort, BsDot } from "react-icons/bs";
+import { BiChevronDown } from "react-icons/bi";
 import { BiBuildings } from "react-icons/bi";
 import { GoRocket } from "react-icons/go";
 import { RiHome6Line } from "react-icons/ri";
@@ -17,9 +18,12 @@ const SidebarNav = () => {
     const [submenuOpen, setSubmenuOpen] = useState({
       company: false,
       investor: false,
+      event: false,
       // Ajoutez d'autres sous-menus si nécessaire
     });
-    
+    const [settingsOpen , setSettingsOpen] = useState(false);
+    const [notifOpen , setNotifOpen] = useState(false);
+
     const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
 
     const navigate=useNavigate()
@@ -46,7 +50,7 @@ const SidebarNav = () => {
         ]
       }
       ,
-      { title: "Investor", src: <TiFlashOutline size={22} /> ,link:"Investors" ,
+      { title: "Investor", src: <TiFlashOutline size={22} /> ,
       submenu: true,
       child: [
         //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
@@ -55,7 +59,13 @@ const SidebarNav = () => {
         { title: "Request History", src: '', link: "InvestorRequestsHistoty" },
       ]
       },
-      { title: "Event", src: <HiOutlineTicket size={22} /> ,link:"Event" },
+      { title: "Event", src: <HiOutlineTicket size={22} />  ,
+      submenu: true,
+      child: [
+        { title: "Participate", src: '', link: "Participate" },
+        { title: "Upcoming Event", src: '', link: "UpcomingEvent" },
+        { title: "Past Event", src: '', link: "PastEvent" },
+      ]},
       { title: "Document", src: <PiFolderThin size={22}  /> , link:"Document"},
       { title: "History", src: <PiHourglassLowFill size={22} /> , link:"History" },
   
@@ -72,23 +82,23 @@ const SidebarNav = () => {
       Menu && <div key={index} >
         <li
         onClick={() => {
+          (Menu.submenu && setSubmenu(Menu.title, !submenuOpen[Menu.title]))
           navigate( Menu.link)
           setActiveMenu(Menu.title);}}
-          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === Menu.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center  gap-x-3 mt-3 `}
+          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === Menu.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
         >
           {Menu.src}
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
                     {Menu.title}
                 </span>
-          {Menu.submenu && (
+          {submenuOpen[`${Menu.title}`] && (
             open ? (
-              <BsChevronDown className={`${submenuOpen[`${Menu.title}`] && "rotate-180"}`} onClick={() => {setSubmenu(Menu.title, !submenuOpen[Menu.title])}} />
+              <BiChevronDown size={22} fontWeight={700} className={``} onClick={() => {setSubmenu(Menu.title, !submenuOpen[Menu.title])}} />
             ) : (
-              <BsDot size={18} className="text-gray-500" />
+              ""
             )
           )}
-        </li
-          >
+        </li>
         { Menu.submenu  && submenuOpen[Menu.title] && (
 
           Menu.child.map((el, i) => (
@@ -97,9 +107,9 @@ const SidebarNav = () => {
               onClick={() => {
                 navigate(el.link)
                 setActiveMenu(el.link);}}
-              className={`font-dmsans text-base font-normal leading-6 ${!open && 'w-fit'}  flex rounded-md py-2 px-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2 ml-6 mt-1 `}
+              className={`font-dmsans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2  mt-1 `}
             >
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
+              <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
                         {el.title}
                     </span>
 
@@ -110,15 +120,43 @@ const SidebarNav = () => {
   </ul>
   <div className="font-dmsans text-base font-normal leading-6">
     <div
-      className={` ${!open && 'w-fit'} flex rounded-md p-2 mb-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-300 items-center  gap-x-3 mt-3 `}
+    onClick={() => {setSettingsOpen(!settingsOpen)}}
+      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-300 items-center  gap-x-3 mt-3 `}
     >
       <IoSettingsOutline size={22}/>
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
-                    Settings
-                </span>
+          Settings
+      </span>
+      {(open && settingsOpen)  ? (
+              <BiChevronDown size={22} className={``}  />
+            ) : (
+""      )}
+    </div>
+    {settingsOpen && (
+      <>
+      <div
+      onClick={() => {
+        navigate("/UserProfile")
+        setActiveMenu("My Profil");}}
+      className={`font-dmsans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "My Profil"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2  mt-1 `}
+    >
+      <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
+      My Profil
+      </span>
 
     </div>
-    <div className="border-t flex px-2 py-3 items-center">
+    <div
+      onClick={() => {
+        navigate("/Subscription")
+        setActiveMenu("Subscription & Billing");}}
+      className={`font-dmsans  mb-6 flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "Subscription & Billing"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2  mt-1 `}
+    >
+      <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
+      Subscription & Billing
+      </span>
+    </div></>
+    )}
+    <div className="border-t border-blue_gray-601 flex px-2 py-3 items-center">
       <img
         src="images/img_avatar.svg"
         alt=""
@@ -134,7 +172,14 @@ const SidebarNav = () => {
           <span className=" text-white-A700">Camille Olivia</span>
         </div>
       </div>
-      <IoNotificationsOutline size={26} className="text-white-A700"/>
+      <div className={`flex ${notifOpen? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursor-pointer`} 
+      onClick={()=> {
+        setNotifOpen(true)
+        navigate('/Notification')
+        setActiveMenu("Notification")
+      }}>
+      <IoNotificationsOutline size={20} className={`text-white-A700 ${notifOpen? 'text-blue_gray-801' :""}`}/>
+      </div>
     </div>
   </div>
 

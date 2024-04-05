@@ -5,12 +5,12 @@ import { BiDollar } from "react-icons/bi";
 import { MdOutlineDateRange, MdOutlineFileUpload } from "react-icons/md";
 import { ImFileText2 } from "react-icons/im";
 import { IoMdAdd } from "react-icons/io";
-import { CheckPicker } from "rsuite";
-import 'rsuite/CheckPicker/styles/index.css';
 import { useForm } from "react-hook-form";
 import { GrAttachment } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import {stage} from "../data/stage"
+import MultipleSelect from "../Components/MultipleSelect";
+import { stages as stagesData } from "../data/stage";
 
 const CreateProject = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -20,6 +20,7 @@ const CreateProject = () => {
   const [milestones, setMilestones] = useState([{ id: 1, name: '', dueDate: '' }]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
+  const [fundingValue , setFundingValue] = useState('');
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
   const [droppedFiles, setDroppedFiles] = useState([]);
@@ -27,11 +28,19 @@ const CreateProject = () => {
   const [selectedTeamsMembers , setSelectedTeamsMember] = useState([]);
   const [selectedStages , setSelectedStages] = useState([]);
 
-  const inputRefs = useRef([]);
+  const formatFunding = (value) => {
+    let formattedValue = value.replace(/\D/g, '');
+    formattedValue = formattedValue.replace(/(\d{3})/g, '$1 ').trim();
+    setFundingValue(formattedValue);
+  };
+
+  const inputRefs = useRef([React.createRef()]);
 
   const inputRef = useRef(null);
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
+
+  const formButtonRef = useRef();
 
   const handleFocus = (milestoneId) => {
     setFocusedMilestone(milestoneId);
@@ -58,16 +67,38 @@ const CreateProject = () => {
   const addDocumentDiv = () => {
     const newId = documentDivs.length + 1;
     setDocumentDivs([...documentDivs, { id: newId }]);
-    inputRefs.current.push(React.createRef());
+    inputRefs.current = [...inputRefs.current, React.createRef()];
   };
 
   const handleDrop = (event, index) => {
     event.preventDefault();
     setIsDragging(false);
-    const files = Array.from(event.dataTransfer.files);
-    const filesWithIndex = files.map(file => ({ name: file.name, index }));
-    setDroppedFiles((prevFiles) => [...prevFiles, ...filesWithIndex]);
-  };
+    const file = event.dataTransfer.files[0];
+
+    if (file) {
+      const fileWithIndex = { name: file.name, index };
+          setDroppedFiles((prevFiles) => {
+          const updatedFiles = [...prevFiles];
+          updatedFiles[index] = fileWithIndex;
+          return updatedFiles;
+      });
+  }
+};
+
+
+const handleFileInputChange = (event, index) => {
+  const file = event.target.files[0];
+
+  if (file) {
+    const fileWithIndex = { name: file.name, index };
+        setDroppedFiles((prevFiles) => {
+        const updatedFiles = [...prevFiles];
+        updatedFiles[index] = fileWithIndex;
+        return updatedFiles;
+    });
+}
+};
+
 
   const setFileName = (type, name) => {
     setFileNames(prevFileNames => ({ ...prevFileNames, [type]: name }));
@@ -80,6 +111,15 @@ const CreateProject = () => {
     setDocuments(prevDocuments => [...prevDocuments, { file, type }]);
     setFileName(type, file.name);
   };
+
+  const handleFileUpload1 = (event, type) => {
+    const file = event.target.files[0];  
+    if (file) {
+      setDocuments(prevDocuments => [...prevDocuments, { file, type }]);
+      setFileName(type, file.name);
+    }
+  };
+  
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -111,50 +151,58 @@ const CreateProject = () => {
 
   const teamMembersdataList = [
     {
+      id: 1,
       imageSrc: 'images/img_avatar.png',
       name: 'Annette Black',
       job: 'Back End Developer',
     },
     {
+      id: 2,
       imageSrc: 'images/img_avatar_62x62.png',
       name: 'Dianne Russell',
       job: 'Software Developer',
     },
     {
+      id: 3,
       imageSrc: 'images/img_avatar_1.png',
       name: 'Floyd Miles',
       job: 'Software Development Manager',
     },
     {
+      id: 4,
       imageSrc: 'images/img_avatar_2.png',
       name: 'Kathryn Murphy',
       job: 'Social Media Manager',
     },
     {
+      id: 5,
       imageSrc: 'images/img_avatar_3.png',
       name: 'Cameron Williamson',
       job: 'Software Tester',
     },
     {
+      id: 6,
       imageSrc: 'images/img_avatar_4.png',
       name: 'Darlene Robertson',
       job: 'Scrum Master',
     },
     {
+      id: 7,
       imageSrc: 'images/img_avatar_5.png',
       name: 'Ralph Edwards',
       job: 'UI/UX Designer',
     },
-  ];
+];
+
 
   const StageData = stage.map(
     item => ({ label: item, value: item })
   );
-  ;
+
 
 
   return (
-      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
+      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full overflow-y-auto w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -180,19 +228,21 @@ const CreateProject = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-start justify-start w-full">
+        <div className="flex flex-col items-start justify-start w-full pb-6">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
               <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
                 <Text
-                  className="text-lg leading-7 text-gray-900 pt-1"
+                  className="text-lg leading-7 text-gray-900_01 pt-1"
                   size="txtDmSansMedium16"
                 >
                   Create New Project
                 </Text>
-                <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+                <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
+                onClick={()=> onButtonClick(formButtonRef)}>
                   <FiSave  size={18} className="mr-2"/>
                   <button
+                  ref={formButtonRef}
                     type="submit"
                     className="text-base text-white-A700"
                   >
@@ -200,8 +250,8 @@ const CreateProject = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 py-5 bg-white-A700 w-full h-full">
-                <div className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
+              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-full">
+                <div className="flex md:border-r border-indigo-50 pr-8 flex-1 flex-col gap-6 items-start justify-start w-full h-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
@@ -212,7 +262,7 @@ const CreateProject = () => {
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="text"
                         name="name"
                         placeholder="Enter Project Name"
@@ -245,35 +295,30 @@ const CreateProject = () => {
                     >
                       Team Member
                     </Text>
-                    <CheckPicker size="md" data={teamMembersdataList}
-                                value={selectedTeamsMembers} onChange={setSelectedTeamsMember}
-                                 className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
-                                 placeholder="Assign Team Member to this Project"
-                                 menuClassName="custom_list_item"
-                                 valueKey="name"
-                                 labelKey="name"
-                                 renderMenuItem={(label, item) =>{ return (
-                                   <div className="flex items-start justify-start space-x-3 ">
-                                     <img src={item.imageSrc} alt="teams" className="h-8 w-8 rounded-full"/>
-                                     <div className="flex flex-col gap-1.5 items-start justify-center w-full">
-                                       <Text
-                                         className="text-gray-900 text-sm w-auto"
-                                         size="txtDMSansRegular14Gray900"
-                                         >
-                                          {item.name}
-                                       </Text>
-                                       <Text
-                                         className="text-blue_gray-300 text-xs w-auto"
-                                         size="txtDMSansRegular12"
-                                         >
-                                          {item.job}
-                                        </Text>
-                                      </div>
-                                   </div>
-                                   );
-                                 }
-                                }
-                    />
+                    <MultipleSelect id='teams' options={teamMembersdataList} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} 
+                    itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="name" optionkey="id"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex items-center  space-x-3 ">
+                          <img src={option.imageSrc} alt="teams" className="h-8 w-8 rounded-full"/>
+                          <div className="flex flex-col gap-1.5 items-start justify-center w-full">
+                            <Text
+                              className="text-gray-900 text-sm w-auto"
+                              size="txtDMSansRegular14Gray900"
+                              >
+                              {option.name}
+                            </Text>
+                            <Text
+                              className="text-blue_gray-300 text-xs w-auto"
+                              size="txtDMSansRegular12"
+                              >
+                              {option.job}
+                            </Text>
+                          </div>
+                        </div>
+                        );
+                      }
+                    }/>
                     {selectedTeamsMembers.length==0 && <span className="text-sm font-DmSans text-red-500">Please select teams members</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -289,7 +334,9 @@ const CreateProject = () => {
                         {...register("target", { required: {value:true , message: "Project Funding Target is required"} })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                         name="target"
-                        type="number"
+                        type="text"
+                        value={fundingValue}
+                        onChange={(e)=> formatFunding(e.target.value)}
                         placeholder="Enter Funding Target"
                       />
                     </div>
@@ -302,25 +349,22 @@ const CreateProject = () => {
                     >
                       Stage
                     </Text>
-                    <CheckPicker size="md" data={StageData}
-                            value={selectedStages} onChange={setSelectedStages}
-                            className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
-                            placeholder="Select a Stage"
-                            renderMenuItem={( item) =>{ return (
-                              <div className="flex items-center justify-start space-x-3">
-                                <div className="flex flex-col gap-1.5 items-center justify-center w-full">
-                                  <Text
-                                    className="text-gray-900 text-sm w-auto"
-                                    size="txtDMSansRegular14Gray900"
-                                    >
-                                     {item}
-                                  </Text>
-                                 </div>
-                              </div>
-                              );
-                            }
-                           }/>
-                                        {selectedStages.length==0 && <span className="text-sm font-DmSans text-red-500">Please select stages</span>}
+                    <MultipleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStages} 
+                    placeholder="Select Stage" valuekey="name" optionkey="id"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-1.5 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
+                    {selectedStages.length==0 && <span className="text-sm font-DmSans text-red-500">Please select stages</span>} 
+                    
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -360,9 +404,10 @@ const CreateProject = () => {
                         <MdOutlineDateRange size={20} className={`${focusedMilestone === milestone.id ? 'hidden' : ''} text-blue_gray-300`}/>
                       </div>
                       {/* {index === milestones.length - 1 && ( */}
-                        <div className="bg-light_blue-100 border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%]">
+                        <div className="bg-light_blue-100 border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%]" 
+                        onClick={addMilestone}>
                           <IoMdAdd size={18} className="mr-1" />
-                          <button type="button" onClick={addMilestone} className="text-base">
+                          <button type="button"  className="text-base">
                             More
                           </button>
                         </div>
@@ -371,7 +416,10 @@ const CreateProject = () => {
                     ))}
                   </div>
                 </div>
-                <div className="bg-indigo-50 md:min-h-[750px] md:h-full h-px w-full md:w-px" />
+                {/* <div className="bg-indigo-50 md:min-h-[750px] md:h-full h-px w-full md:w-px" /> */}
+                {/* <div className="flex flex-col md:divide-x md:min-h-[750px] md:h-full divide-indigo-50 hover:divide-pink-400">
+                  {` `}
+                </div> */}
                 <div className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -390,10 +438,12 @@ const CreateProject = () => {
                     >
                       Upload Pitch Deck
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed bg-blue_gray-50">
+                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed cursor-pointer bg-blue_gray-50" 
+                    onClick={()=> onButtonClick(inputRef)}>
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
                         ref={inputRef}
+                        onChange={(e) => handleFileUpload1(e, "Pitch Deck")} 
                         style={{ display: 'none' }}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
@@ -405,7 +455,7 @@ const CreateProject = () => {
                         {isDragging ? <span className="text-blue_gray-300">Drop Pitch Deck file here</span> :
                         <>
                           <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500" onClick={()=> onButtonClick(inputRef)}>choose file</span>
+                        <span className="text-blue-500">choose file</span>
                         </> 
                         }
                       </label>
@@ -431,10 +481,12 @@ const CreateProject = () => {
                     >
                       Upload Business Plan
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed bg-blue_gray-50">
+                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 cursor-pointer border border-dashed bg-blue_gray-50" 
+                    onClick={()=> onButtonClick(inputRef1)}>
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
                         ref={inputRef1}
+                        onChange={(e) => handleFileUpload1(e, "Business Plan")} 
                         style={{ display: 'none' }}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
@@ -446,7 +498,7 @@ const CreateProject = () => {
                         {isDragging ? <span className="text-blue_gray-300">Drop Business Plan file here</span> :
                         <>
                           <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500" onClick={()=> onButtonClick(inputRef1)}>choose file</span>
+                        <span className="text-blue-500" >choose file</span>
                         </> 
                         }
                       </label>
@@ -472,10 +524,12 @@ const CreateProject = () => {
                     >
                       Upload Financial Projection
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed bg-blue_gray-50">
+                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed bg-blue_gray-50" 
+                    onClick={()=> onButtonClick(inputRef2)}>
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
                         ref={inputRef2}
+                        onChange={(e) => handleFileUpload1(e, "Financial Projection")} 
                         style={{ display: 'none' }}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
@@ -487,7 +541,7 @@ const CreateProject = () => {
                         {isDragging ? <span className="text-blue_gray-300">Drop Financial Projection file here</span> :
                         <>
                           <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500" onClick={()=> onButtonClick(inputRef2)}>choose file</span>
+                        <span className="text-blue-500" >choose file</span>
                         </> 
                         }
                       </label>
@@ -513,6 +567,7 @@ const CreateProject = () => {
                       className="flex md:flex-1 w-full md:w-full cursor-pointer rounded-md px-2 py-3 border border-dashed bg-blue_gray-50"
                       onDragOver={(event) => event.preventDefault()}
                       onDrop={(event) => handleDrop(event, index)}
+                      onClick={() => inputRefs.current[index]?.current?.click()}
                     >
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2" />
                       <input
@@ -521,12 +576,13 @@ const CreateProject = () => {
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name={`file-${index}`}
+                        onChange={(event) => handleFileInputChange(event, index)}
                       />
                       <label className="font-manrope text-sm leading-18 tracking-wide text-left w-auto">
                       {isDragging ? <span className="text-blue_gray-300">Drop file here</span> :
                         <>
                           <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500" onClick={() => inputRefs.current[index].current.click()}>
+                        <span className="text-blue-500" >
                           choose file
                         </span>
                         </> 

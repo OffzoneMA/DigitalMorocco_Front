@@ -16,8 +16,7 @@ const DeleteModal = (props) => {
       <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 md:px-8 sm:px-8 rounded-[14px] w-full">
         <div className="flex flex-row items-center justify-between w-full ">
             <Text
-                className="leading-[28px] max-w-[460px] md:max-w-full text-center text-lg"
-                size="txtDMSansBold16"
+                className="leading-7 max-w-[460px] md:max-w-full text-center text-lg font-medium font-DmSans"
               >
                 {props.title}
               </Text>

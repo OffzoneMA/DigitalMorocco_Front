@@ -67,8 +67,7 @@ const onSubmit = () => {
             <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-4 mb-2 w-full">
               <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
                 <Text
-                  className="md:text-xl text-[18px] text-gray-900 w-full"
-                  size="txtDMSansCardHeader16"
+                  className="md:text-lg text-[18px]  leading-7 font-DmSans text-gray-900 font-medium w-full"
                 >
                   Share project to Investors
                 </Text>
@@ -81,7 +80,7 @@ const onSubmit = () => {
             </div>
           <div className="flex w-full rounded-md p-2 border border-solid">
             <input
-              className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+              className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
               type="text"
               name="search"
               placeholder="Search Investors"
@@ -92,17 +91,18 @@ const onSubmit = () => {
           </div>
           <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
             {filteredInvestors.map((item, index) => (
-              <div key={index} className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3">
+              <div key={index} className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3 cursor-pointer" 
+              onClick={() => handleInvestorSelection(item.id)}>
                 <label htmlFor={`check_inv_${index}`} className="cursor-pointer relative inline-flex items-center">
                   <input id={`check_inv_${index}`}
                          type="checkbox"
                          checked={selectedInvestors.includes(item.id)}
                          onChange={() => handleInvestorSelection(item.id)}
                          className="peer appearance-none w-[18px] h-[18px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-300 rounded-[6px] focus:ring-blue-500"/>
-                  <IoIosCheckmark size={18} className="absolute left-0 top-0 transition opacity-0 peer-checked:opacity-100"/>
+                  <IoIosCheckmark size={19} fontWeight={500} className="absolute left-0 top-0 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"/>
                 </label>
                 <img src={item.logo} alt="investors" className="h-8 w-8 rounded-full"/>
-                <Text className="text-sm leading-6 tracking-normal" size="txtDMSansRegular14">
+                <Text className="text-sm text-gray-900_01 leading-6 tracking-normal" size="txtDMSansRegular14">
                   {item.name}
                 </Text>
               </div>

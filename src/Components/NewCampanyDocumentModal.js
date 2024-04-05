@@ -61,10 +61,9 @@ const NewCampanyDocumentModal = (props) => {
       <form onSubmit={handleSubmit(onSubmit)} className="max-h-[99vh] sm:w-full md:w-full overflow-y-auto">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-4 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-            <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+            <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <Text
-                className="md:text-xl sm:text-[18px] text-[18px] text-gray-900 w-full"
-                size="txtDMSansCardHeader16"
+                className="md:text-lg text-[18px] font-medium font-DmSans leading-7 text-gray-900 w-full"
               >
                 {documentFile?.id? "Edit Document": "Add New Document"} 
               </Text>
@@ -106,11 +105,11 @@ const NewCampanyDocumentModal = (props) => {
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
                   {(preview || documentFile?.id) ? (
-                    <div className="flex flex-col items-center text-blue-700 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
-                        <Text className="flex flex-row font-dmsans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
+                    <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
+                        <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-[26px] tracking-normal items-center">
                         <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {preview? files.name : documentFile?.id? documentFile?.name: ""}
                         </Text>
-                        <div className="bg-white-A700 text-blue-700 border border-solid border-blue-500 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
+                        <div className="font-DmSans bg-white-A700 text-blue-A400 border border-solid border-blue-A400 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
                           <LuUploadCloud  size={18} className="mr-2"/>
                           <input
                           ref={inputRef}
@@ -123,14 +122,14 @@ const NewCampanyDocumentModal = (props) => {
                           <button
                             onClick={() =>onButtonClick(inputRef)}
                             type="button"
-                            className="text-base "
+                            className="text-sm font-medium leading-[26px] "
                           >
                             update your document
                           </button>
                         </div>
                     </div>) :
                   (   
-                <div className="flex flex-col items-center text-blue-700 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
+                <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
                   <LuUploadCloud  size={24} className=" mr-2"/>
                   <input
                           ref={inputRef}
@@ -140,7 +139,7 @@ const NewCampanyDocumentModal = (props) => {
                           type="file"
                           name="name"
                         />
-                  <Text className="font-dmsans text-base font-normal leading-6 tracking-normal">
+                  <Text className="font-DmSans text-sm font-normal leading-[26px] tracking-normal">
                     Drop file or <span className="" onClick={()=> onButtonClick(inputRef)}>click here to upload your document</span>  
                   </Text>
                 </div>
@@ -152,9 +151,9 @@ const NewCampanyDocumentModal = (props) => {
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
-              <button type="reset" className="bg-gray-300 text-gray-700 py-3 px-5 font-dmsans text-base font-medium leading-5 tracking-normal rounded-lg" 
+              <button type="reset" className="bg-gray-300 text-gray-700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg" 
               onClick={() => setPreview(null)}>Cancel</button>
-              <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-3 px-5 font-dmsans text-base font-medium leading-5 tracking-normal rounded-lg">Add Document</button>
+              <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Add Document</button>
             </div>
           </div>
         </div>

@@ -26,8 +26,7 @@ const NewMilestoneModal = (props) => {
           <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
               <Text
-                className="md:text-xl text-[18px] text-gray-900 w-full"
-                size="txtDMSansCardHeader16"
+                className="md:text-lg text-[18px] font-medium leading-7 text-gray-900 w-full font-DmSans"
               >
                 Add New Milestone
               </Text>
@@ -47,10 +46,10 @@ const NewMilestoneModal = (props) => {
                 >
                   Milestone Name
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-gray-301">
                   <input
                     {...register("name", { required: {value: true , message: "Milestone name is required"} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="name"
                     placeholder="Milestone Name"
@@ -65,11 +64,11 @@ const NewMilestoneModal = (props) => {
                 >
                   Due Date
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-gray-301">
                   <input
                     {...register("dueDate", { required: {value:true , message: "Due date is required"} })}
                     type="text"
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-[18.2px] tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                     name="dueDate"
                     placeholder="Due Date"
                     onFocus={(e) => {
@@ -97,12 +96,12 @@ const NewMilestoneModal = (props) => {
                 >
                   Description <span className="text-blue_gray-300">(Optinal)</span>
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-gray-301">
                   <textarea
                     {...register("description")}
-                    className={`!placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-[18.2px] tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                     name="description"
-                    rows={3}
+                    rows={4}
                     placeholder="Description"
                   />
                 </div>

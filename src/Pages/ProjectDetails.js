@@ -143,30 +143,30 @@ const ProjectDetails = () => {
                 Lorem Ipsum Project - Angel Round Investment
               </Text>
               <div className="flex  flex-row gap-3 items-center justify-end">
-                <div className="bg-light_blue-100 text-blue-500 flex flex-row items-center ml-auto p-2 rounded-md ">
+                <div className="bg-light_blue-100 text-blue-500 flex flex-row items-center ml-auto p-2 cursor-pointer rounded-md " 
+                onClick={openModal}>
                   <HiOutlineShare   size={18} className="mr-2"/>
                   <button
                     type="button"
-                    onClick={openModal}
                     className="font-dmsans md:text-sm text-base font-medium leading-5"
                   >
                     Share to Investor
                   </button>
                 </div>
-                <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center ml-auto p-2 rounded-md">
+                <div className="bg-light_blue-100 text-blue-500 cursor-pointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md" 
+                  onClick={openDeleteModal}>
                   <RiDeleteBinLine  size={18} className="mr-2"/>
                   <button
                     type="button"
-                    onClick={openDeleteModal}
                     className="font-dmsans md:text-sm text-base font-medium leading-5"
                   >
                     Delete Project
                   </button>
                 </div>
-                <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto items-center ml-auto p-2 rounded-md ">
+                <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursor-pointer items-center ml-auto p-2 rounded-md " 
+                onClick={()=> navigate("/Createproject")}>
                   <FiEdit3   size={18} className="mr-2"/>
                   <button
-                    onClick={()=> navigate("/Createproject")}
                     type="button"
                     className="font-dmsans md:text-sm text-base font-medium leading-5"
                   >
@@ -251,10 +251,10 @@ const ProjectDetails = () => {
                       </div>
                     </div>
                     <div className=" flex flex-row h-16 items-start justify-start px-[18px] py-4 w-full ">
-                      <div className="bg-green-50 flex flex-row h-auto items-center justify-center px-4 text-green-700 py-1 rounded-full w-auto ">
+                      <div className="bg-green-50 flex flex-row h-auto items-center justify-center px-2 py-0.5 text-green-700 rounded-full w-auto ">
                         <GoDotFill size={12} className="mr-2"/>
                         <label
-                          className="font-inter text-base font-medium leading-20 text-center "
+                          className="font-inter text-sm font-medium leading-[20px] text-center "
                         >
                           Active
                         </label>
@@ -299,9 +299,9 @@ const ProjectDetails = () => {
                       >
                         Project Milestone
                       </Text>
-                      <div className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+                      <div className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursor-pointer ml-auto p-[7px] rounded-md w-auto" 
+                      onClick={openModalMilestone}>
                         <button
-                          onClick={openModalMilestone}
                           type="submit"
                           className="cursor-pointer font-medium leading-[normal] text-center text-xs"
                         >

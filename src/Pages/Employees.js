@@ -8,6 +8,7 @@ import TablePagination from "../Components/TablePagination";
 import { useNavigate } from "react-router-dom";
 import { PiUsersThin } from "react-icons/pi";
 import DeleteModal from "../Components/DeleteModal";
+import { employeesData } from "../data/tablesData";
 
 const Employees = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -15,20 +16,10 @@ const Employees = () => {
   const navigate = useNavigate();
   const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 7;
   const pagesToShow = 4;
 
-  const data = [
-    { name: 'Annette Black',userImg:'images/img_avatar.png', email: 'annette@digitalmorocco.com', title: 'Back End Developer', type: 'Internship', status: 'Active' },
-    { name: 'Dianne Russell', userImg:'images/img_avatar_62x62.png',  email: 'dianne@digitalmorocco.com', title: 'Software Developer', type: 'Job Share', status: 'Active' },
-    { name: 'Floyd Miles',userImg:'images/img_avatar_1.png', email: 'f.miles@digitalmorocco.com', title: 'Software Development Manager Contract', type: 'Project-Based', status: 'Offline' },
-    { name: 'Kathryn Murphy',userImg:'images/img_avatar_2.png', email: 'kathryn@digitalmorocco.com', title: 'Social Media Manager', type: 'Consultancy', status: 'Active' },
-    { name: 'Jerome Bell',userImg:'images/img_avatar.png', email: 'jerome.bell@digitalmorocco.com', title: 'Project Manager', type: 'Full-Time', status: 'Offline' },
-    { name: 'Cameron Williamson',userImg:'images/img_avatar_3.png', email: 'cameron.w@digitalmorocco.com', title: 'Software Tester', type: 'Part-Time', status: 'Active' },
-    { name: 'Darlene Robertson',userImg:'images/img_avatar_4.png', email: 'darlene@digitalmorocco.com', title: 'Scrum Master', type: 'Temporary', status: 'Active' },
-    { name: 'Ralph Edwards',userImg:'images/img_avatar_5.png', email: 'ralphed@digitalmorocco.com', title: 'UX Designer', type: 'Temporary', status: 'Active' },
-  
-];
+  const data = employeesData;
 
   const totalTablePages = Math.ceil(data.length / itemsPerPage);
 
@@ -97,12 +88,12 @@ const Employees = () => {
               >
                 Team members
               </Text>
-              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
+              onClick={()=> navigate("/NewEmployee")}>
                 <FaRegPlusSquare  size={18} className="mr-2"/>
                 <button
-                onClick={()=> navigate("/NewEmployee")}
-                  type="submit"
-                  className="text-basetext-white-A700"
+                  type="button"
+                  className="text-sm font-medium leading-[18.23px] text-white-A700"
                 >
                   Add New Employee
                 </button>
@@ -112,40 +103,40 @@ const Employees = () => {
               <table className="w-full mx-auto table-auto">
                 <thead>
                 <tr className="text-sm leading-6">
-                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Name</th>
-                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Email address</th>
-                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Title</th>
-                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Type</th>
-                  <th className="p-3 text-left text-blue_gray-800_01 font-medium">Status</th>
+                  <th className="p-3 text-left text-gray700 font-medium">Name</th>
+                  <th className="p-3 text-left text-gray700 font-medium">Email address</th>
+                  <th className="p-3 text-left text-gray700 font-medium">Title</th>
+                  <th className="p-3 text-left text-gray700 font-medium">Type</th>
+                  <th className="p-3 text-left text-gray700 font-medium">Status</th>
                   <th className="p-3 w-auto"></th>
                 </tr>
                 </thead>
                 { pageData?.length > 0 ?
-                <tbody className="font-DmSans text-sm font-normal leading-6">
+                <tbody className="font-DmSans text-sm font-normal leading-[26px] ">
                 {pageData.map((item, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                    <td className="py-3 px-3 text-gray-600">
+                    <td className="py-3 px-3 text-gray-900_01">
                       <div className="flex items-center " style={{}}>
                         <img src={item.userImg} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-3 text-gray-600">{item.email}</td>
-                    <td className="py-3 px-3 text-gray-600">{item.title}</td>
-                    <td className="py-3 px-3 text-gray-600">{item.type}</td>
+                    <td className="py-3 px-3 text-gray500">{item.email}</td>
+                    <td className="py-3 px-3 text-gray500">{item.title}</td>
+                    <td className="py-3 px-3 text-gray500">{item.type}</td>
                     <td className="py-3 px-3">
-                      <div className={`flex flex-row space-x-2 items-center w-auto py-0.5 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${
+                      <div className={`flex flex-row items-center w-auto  px-1 font-DmSans text-xs font-medium leading-[18px] rounded-full ${
                         item.status === 'Active' ? 'bg-emerald-50 text-green-700' :
                             item.status === 'Offline' ? 'bg-gray-200 text-blue_gray-700' : ''
                       } inline-flex`}>
-                        <GoDotFill size={12} className="mr-2"/>
+                        <GoDotFill size={10} className="mr-1"/>
                         {item.status}
                       </div>
                     </td>
                     <td className="py-3 px-3 ">
-                      <div className="flex flex-row space-x-3 p-3 items-center">
-                        <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)} className="text-blue_gray-300"/>
-                        <FiEdit3 size={17} className="text-blue_gray-300" onClick={()=> navigate("/NewEmployee")}/>
+                      <div className="flex flex-row space-x-3 px-3 items-center">
+                        <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)} className="text-blue_gray-301"/>
+                        <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> navigate("/NewEmployee")}/>
                       </div>
                       
                     </td>
@@ -156,7 +147,7 @@ const Employees = () => {
                 ""}
               </table>
               {!pageData?.length>0 && (
-                  <div className="flex flex-col items-center w-full text-gray-600 py-28">
+                  <div className="flex flex-col items-center w-full text-gray500 py-28">
                     <PiUsersThin size={30} c />
                     <Text
                       className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"

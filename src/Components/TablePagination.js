@@ -21,7 +21,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
     <div className='flex items-center justify-between w-full font-inter text-sm font-medium leading-5'>
       <button
         onClick={() => onPageChange(currentPage - 1)}
-        className={`flex gap-2 text-gray-700 border-gray-300 items-center justify-start border px-2 py-2 rounded-[8px] ${currentPage < 2 && 'diseable'}`}
+        className={`flex gap-2 text-gray700 border-gray-300 items-center justify-start border px-2 py-2 rounded-[8px] ${currentPage < 2 && 'diseable'}`}
       >
         <PiArrowLeftBold  className='h-4 w-4 ' />
         Previous
@@ -33,7 +33,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`px-3 py-2 rounded-[8px] ${currentPage === page ? 'text-violet-500 bg-purple-50' : 'text-gray-600 bg-white-A700'}`}
+            className={`px-3 py-2 rounded-[8px] ${currentPage === page ? 'text-violet-501 bg-purple-51' : 'text-gray500 bg-white-A700'}`}
           >
             {page}
           </button>
@@ -42,7 +42,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
 
       <button
         onClick={() => onPageChange(currentPage + 1)}
-        className={`flex gap-2 text-gray-700 border-gray-300 items-center justify-end border px-2 py-2 rounded-[8px] ${currentPage === totalPages && 'diseable'}`}
+        className={`flex gap-2 text-gray700 border-gray-300 items-center justify-end border px-2 py-2 rounded-[8px] ${currentPage === totalPages && 'diseable'}`}
       >
         Next
         <PiArrowRightBold  className='h-4 w-4 ' />

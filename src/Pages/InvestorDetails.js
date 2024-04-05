@@ -111,11 +111,10 @@ const InvestorDetails = () => {
                             <button
                                 onClick={openModal}
                                 type="submit"
-                                className="text-base text-white-A700"
+                                className="text-sm font-DmSans font-normal leading-[22px] text-white-A700"
                             >
                                 Send Contact Request
                             </button>
-                            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal}/>
                             </div>
                         </div>
                         <div className="py-3">
@@ -379,11 +378,11 @@ const InvestorDetails = () => {
                               <table className=" w-full">
                                 <thead>
                                 <tr className="bg-white-A700 text-sm leading-6">
-                                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Announcement Date</th>
-                                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Company Name</th>
-                                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Location</th>
-                                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Funding Round</th>
-                                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Money Raised</th>
+                                    <th className="p-3 text-left text-gray700 font-medium">Announcement Date</th>
+                                    <th className="p-3 text-left text-gray700 font-medium">Company Name</th>
+                                    <th className="p-3 text-left text-gray700 font-medium">Location</th>
+                                    <th className="p-3 text-left text-gray700 font-medium">Funding Round</th>
+                                    <th className="p-3 text-left text-gray700 font-medium">Money Raised</th>
                                 </tr>
                                 </thead>
                                 { pageData?.length > 0 ?
@@ -391,18 +390,18 @@ const InvestorDetails = () => {
                                 {
                                     (pageData.map((item, index) => (
                                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                                    <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">
+                                    <td className="py-4 px-3 text-gray700 font-DmSans text-sm font-normal leading-6">
                                         {item.AnnouncementDate}
                                     </td>
-                                    <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">
+                                    <td className="py-4 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                                         <div className="flex items-center" >
                                             <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
                                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.CompanyName}</span>
                                         </div>
                                     </td>
-                                    <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.Location}</td>
-                                    <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.FundingRound}</td>
-                                    <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.MoneyRaised}</td>
+                                    <td className="py-4 px-3 text-gray700 font-DmSans text-sm font-normal leading-6">{item.Location}</td>
+                                    <td className="py-4 px-3 text-gray700 font-DmSans text-sm font-normal leading-6">{item.FundingRound}</td>
+                                    <td className="py-4 px-3 text-gray700 font-DmSans text-sm font-normal leading-6">{item.MoneyRaised}</td>
                                     </tr>
                                 ))) }
                                 </tbody>
@@ -411,7 +410,7 @@ const InvestorDetails = () => {
                                 }
                               </table>
                               {!pageData?.length>0 && (
-                                <div className="flex flex-col items-center text-gray-600 w-full py-28">
+                                <div className="flex flex-col items-center text-gray700 w-full py-28">
                                     <IoFlashOffOutline  size={40} />
                                     <Text
                                     className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto py-4"
@@ -436,6 +435,7 @@ const InvestorDetails = () => {
                     </div>
                 </div>
             </div>
+            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal}/>
         </div>
     )
 }

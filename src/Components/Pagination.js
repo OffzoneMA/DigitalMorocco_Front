@@ -39,10 +39,11 @@ export default function Pagination({ nbrPages }) {
         <div className='w-full flex items-center justify-center py-5'>
             <div className='flex '>
             <button
+            disabled={current <2 }
                 onClick={() => {
                     setSearchParams({ page: (current - 1 )})
                     setCurrent(current-1)}}
-                    className={`flex gap-2 text-gray500 border-gray-300 text-sm  items-center justify-center border border-r-0 px-2 py-2 rounded-l-full ${current <2 && 'invisible'}`}
+                    className={`flex gap-2 text-gray500 border-gray-300 text-sm  items-center justify-center border border-r-0 px-2 py-2 rounded-l-full ${current <2 && 'disabled'}`}
             >
                 <ArrowLeftIcon className='h-4 w-4 ' />
                 Prev
@@ -65,11 +66,12 @@ export default function Pagination({ nbrPages }) {
                 </button>
             ))}
             <button
+            disabled={current === nbrPages}
                 onClick={() => {
                         setSearchParams({ page: (parseInt(current)  + 1) })
                     setCurrent(current + 1)
                 }}
-                    className={`flex gap-2 text-gray500 border-gray-300 text-sm items-center justify-center border border-l-0 px-2 py-2 rounded-r-full ${current ==nbrPages && 'invisible'}`}
+                    className={`flex gap-2 text-gray500 border-gray-300 text-sm items-center justify-center border border-l-0 px-2 py-2 rounded-r-full ${current === nbrPages ? 'disabled' : ''}`}
             >
                 Next
                     <ArrowRightIcon className='h-4 w-4 ' />
