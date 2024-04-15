@@ -45,7 +45,7 @@ export default function ResetPassword() {
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col font-dmsans items-center justify-end mx-auto p-[33px] sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col min-h-screen font-dmsans items-center justify-end mx-auto p-[33px] sm:px-5 w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-auto w-full">
               <div className="flex flex-col items-center justify-center w-full">
                 <img

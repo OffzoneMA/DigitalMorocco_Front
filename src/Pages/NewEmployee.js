@@ -11,6 +11,7 @@ import { Country ,City } from 'country-state-city';
 import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import CustomCalendar from "../Components/CustomCalendar";
 
 const NewEmployee = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const NewEmployee = () => {
   const [selectedCountry , setSelectedCountry] = useState(null);
   const [selectedCity , setSelectedCity] = useState(null);
   const [selectedJobTitle, setSelectedJobTitle] = useState(null);
+  const [selectedDate , setSelectedDate] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [taxIdentfier, settaxIdentfier] = useState('');
@@ -429,7 +431,12 @@ const NewEmployee = () => {
                     >
                       Start Date
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                    <CustomCalendar
+                        className={' w-full'} 
+                        onChangeDate={(date) => setSelectedDate(date)}
+                        inputPlaceholder={`DD/MM/YYYY`}
+                      />
+                    {/* <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <input
                         {...register("startDate", { required: {value:true , message:"Employee Start Date is required"} })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
@@ -446,7 +453,7 @@ const NewEmployee = () => {
                         }}
                       />
                       <MdOutlineDateRange size={20} className={`${isFocused ? 'hidden' : ''} text-blue_gray-300`}/>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

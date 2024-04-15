@@ -46,6 +46,8 @@ import UpcomingEventDetails from './Pages/UpcomingEventDetails';
 import PastEvents from './Pages/PastEvents';
 import ChoosePlan from './Pages/ChoosePlan';
 import Notifications from './Pages/Notifications';
+import CustomDatePicker from './Components/CustomDatePicker';
+import CustomCalendar from './Components/CustomCalendar';
 
 function App() {
   return (
@@ -104,7 +106,8 @@ function App() {
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
         <Route path="/ChooseRole" element={<ChooseRole />} />
-        <Route path="/DownloadTicket" element={<DownloadTicket />} />
+        {/* <Route path="/DownloadTicket" element={<DownloadTicket />} /> */}
+        <Route path="/DatePicker" element={<CustomCalendar />} />
       </Routes>
       </div>
 

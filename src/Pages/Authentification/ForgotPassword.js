@@ -36,7 +36,7 @@ export default function ForgotPassword(){
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col font-manrope gap-4 mx-auto p-[30px] sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col font-manrope gap-4 mx-auto p-[30px] min-h-screen sm:px-5 w-full">
             <div className="flex flex-col items-start md:px-5 w-auto">
             <div className={`self-start flex flex-col gap-[18px] h-11 md:h-auto items-center justify-center py-[18px] rounded-[22px] w-auto`}>
                 <div className="flex flex-row gap-3 items-center justify-center w-auto w-full">

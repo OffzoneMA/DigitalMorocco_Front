@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import {stage} from "../data/stage"
 import MultipleSelect from "../Components/MultipleSelect";
 import { stages as stagesData } from "../data/stage";
+import CustomCalendar from "../Components/CustomCalendar";
 
 const CreateProject = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -63,6 +64,14 @@ const CreateProject = () => {
       return milestone;
     }));
   };
+  const handleMilestoneDateChange = (id, field, value) => {
+    setMilestones(prevData => prevData.map(milestone => {
+      if (milestone.id === id) {
+        return { ...milestone, [field]: value };
+      }
+      return milestone;
+    }));
+};
 
   const addDocumentDiv = () => {
     const newId = documentDivs.length + 1;
@@ -85,7 +94,6 @@ const CreateProject = () => {
   }
 };
 
-
 const handleFileInputChange = (event, index) => {
   const file = event.target.files[0];
 
@@ -98,7 +106,6 @@ const handleFileInputChange = (event, index) => {
     });
 }
 };
-
 
   const setFileName = (type, name) => {
     setFileNames(prevFileNames => ({ ...prevFileNames, [type]: name }));
@@ -199,10 +206,8 @@ const handleFileInputChange = (event, index) => {
     item => ({ label: item, value: item })
   );
 
-
-
   return (
-      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full overflow-y-auto w-full">
+      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -384,30 +389,16 @@ const handleFileInputChange = (event, index) => {
                           onChange={e => handleMilestoneChange(e, milestone.id, 'name')}
                         />
                       </div>
-                      <div className="flex  w-[30%] rounded-md p-2 border border-solid">
-                        <input
-                          type="text"
-                          className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                          name={`due-date-${milestone.id}`}
-                          placeholder="Due Date"
-                          onFocus={(e) => {
-                            handleFocus(milestone.id)
-                            e.target.type = 'date';
-                          }}
-                          onBlur={(e) => {
-                            handleBlur()
-                            e.target.type = 'text';
-                          }}
-                          value={milestone.dueDate}
-                          onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}
-                        />
-                        <MdOutlineDateRange size={20} className={`${focusedMilestone === milestone.id ? 'hidden' : ''} text-blue_gray-300`}/>
-                      </div>
+                      <CustomCalendar
+                        className={' w-[30%]'} 
+                        onChangeDate={(date) => handleMilestoneDateChange(milestone.id, 'dueDate', date)}
+                      />
                       {/* {index === milestones.length - 1 && ( */}
-                        <div className="bg-light_blue-100 border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%]" 
+                        <div className="bg-light_blue-100 border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%] cursor-pointer" 
+                        style={{whiteSpace:'nowrap'}} 
                         onClick={addMilestone}>
                           <IoMdAdd size={18} className="mr-1" />
-                          <button type="button"  className="text-base">
+                          <button type="button"  className="text-base" >
                             More
                           </button>
                         </div>

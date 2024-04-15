@@ -4,10 +4,11 @@ import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineDateRange } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import CustomCalendar from "./CustomCalendar";
 
 const NewMilestoneModal = (props) => {
   const [isFocused, setIsFocused] = useState(false);
-
+  const [selectedDate , setSelectedDate] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
@@ -64,7 +65,11 @@ const NewMilestoneModal = (props) => {
                 >
                   Due Date
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-gray-301">
+                <CustomCalendar
+                        className={' w-full'} 
+                        onChangeDate={(date) => setSelectedDate(date)}
+                      />
+                {/* <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-gray-301">
                   <input
                     {...register("dueDate", { required: {value:true , message: "Due date is required"} })}
                     type="text"
@@ -86,7 +91,7 @@ const NewMilestoneModal = (props) => {
                       isFocused ? 'hidden' : ''
                     } text-blue_gray-300`}
                   />
-                </div>
+                </div> */}
                 {errors.dueDate && <span className=" text-sm font-DmSans text-red-500">{errors.dueDate?.message}</span>}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
