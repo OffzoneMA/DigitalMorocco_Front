@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useRef} from 'react'
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { setUserEmail } from '../../Redux/auth/authSlice';
@@ -22,6 +22,11 @@ export default function ForgotPassword(){
         formState: { errors },
       } = useForm();
 
+  const formButtonRef = useRef();
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
+  };
       async function onSubmit(values) {
         console.log(values);
         try {
@@ -123,9 +128,11 @@ export default function ForgotPassword(){
                     </div>
                   
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                  <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full">
+                    <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full cursor-pointer" 
+                    onClick={()=> onButtonClick(formButtonRef)}>
                         <div className="flex flex-col items-center justify-center w-auto">
                         <button
+                        ref={formButtonRef}
                             type="submit"
                             className="text-base text-white-A700 w-auto"
                             size="font-dmsans font-medium"

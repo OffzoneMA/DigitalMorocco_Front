@@ -84,7 +84,7 @@ export default function Subscription() {
                     <TiFlashOutline size={25}/>
                       <button
                       // style={{whiteSpace:"nowrap"}}
-                        type="submit"
+                        type="button"
                         className="text-base leading-[20.83px] font-medium text-white-A700"
                       >
                         Upgrade Plan
@@ -176,7 +176,7 @@ export default function Subscription() {
                   <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center leading-5 tracking-normal gap-3 ml-auto py-2 px-6 rounded-md w-auto">
                   <TiFlashOutline size={25}/>
                     <button
-                      type="submit"
+                      type="button"
                       className="text-base leading-[20.83px] font-medium text-white-A700"
                     >
                       Renew my subscription
@@ -251,7 +251,7 @@ export default function Subscription() {
             <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto">
               <TiFlashOutline size={25}/>
                 <button
-                  type="submit"
+                  type="button"
                   className="text-base leading-[20.83px] font-medium text-white-A700"
                 >
                   Start Your Free Trial
@@ -269,7 +269,7 @@ export default function Subscription() {
             <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 mr-auto py-3 justify-center  rounded-md w-full">
               <IoWalletOutline  size={22}/>
                 <button
-                  type="submit"
+                  type="button"
                   className="text-base leading-[20.83px] font-medium text-white-A700"
                 >
                   Add Payment Method

@@ -384,7 +384,7 @@ const Events = () => {
                     </Text>
                     <div className="bg-blue-A400 text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
                         <button
-                            type="submit"
+                            type="button"
                             className=" font-DmSans text-sm font-medium leading-[18.23px] text-white-A700"
                             style={{whiteSpace:'nowrap'}}
                         >

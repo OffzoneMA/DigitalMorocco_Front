@@ -1,12 +1,8 @@
-import React, {useState} from "react";
+import React, {useState , useRef} from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
-import { CheckPicker, SelectPicker } from "rsuite";
 import SimpleSelect from "../Components/SimpleSelect";
-import MultipleSelect from "../Components/MultipleSelect";
-import { IoImageOutline } from "react-icons/io5";
 import { PiUserSquare } from "react-icons/pi";
-import { MdOutlineDateRange } from "react-icons/md";
 import { Country ,City } from 'country-state-city';
 import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
@@ -32,6 +28,12 @@ const NewEmployee = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const formData = new FormData();
+
+  const formButtonRef = useRef();
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
+  };
 
   const handleChange = (e, setValue) => {
     const formattedValue = e.target.value
@@ -168,9 +170,11 @@ const NewEmployee = () => {
                 </button>
               </div>  
               :
-              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursor-pointer" 
+              onClick={()=> onButtonClick(formButtonRef)}>
                 <FiSave  size={18} className="mr-2"/>
                 <button
+                ref={formButtonRef}
                   type="submit"
                   className="text-base text-white-A700"
                 >

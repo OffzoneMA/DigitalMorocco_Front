@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,useRef } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../../Components/Text';
@@ -27,6 +27,12 @@ export default function VerificationCode() {
       } = useForm();
     
       const navigate = useNavigate()
+
+      const formButtonRef = useRef();
+
+      const onButtonClick = (inputref) => {
+        inputref.current.click();
+      };
     
       async function onSubmit(values) {
         const updatedValues = { ...values, email: userEmail };
@@ -116,8 +122,10 @@ export default function VerificationCode() {
                     }
                     </div>
                     <div className="flex sm:flex-row flex-col gap-6 items-start justify-between py-2 w-full">
-                      <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto w-full items-center justify-center sm:px-7 px-10 py-[13px] rounded-[26px] ">
+                      <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto w-full items-center justify-center sm:px-7 px-10 py-[13px] rounded-[26px] cursor-pointer " 
+                      onClick={()=> onButtonClick(formButtonRef)}>
                         <button
+                        ref={formButtonRef}
                             type="submit"
                             className="text-base text-white-A700 w-auto"
                             size="font-dmsans font-medium"

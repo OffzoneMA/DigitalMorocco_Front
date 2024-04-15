@@ -117,7 +117,7 @@ const CompanyLegal = () => {
                 <FaRegPlusSquare  size={18} className="mr-2"/>
                 <button
                   onClick={openModal}
-                  type="submit"
+                  type="button"
                   className="text-sm font-medium leading-[18.23px] text-white-A700"
                 >
                   Add New Document

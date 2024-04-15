@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useRef} from 'react'
 import { Text } from "../../Components/Text";
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -17,6 +17,12 @@ export default function ResetPasswordEmail() {
     } catch (error) {
       console.error('Resend email request failed:', error);
     }
+  };
+
+  const formButtonRef = useRef();
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
   };
 
 

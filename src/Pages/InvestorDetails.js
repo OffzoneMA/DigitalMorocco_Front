@@ -110,7 +110,7 @@ const InvestorDetails = () => {
                             <TbSend  size={18} className="mr-2"/>
                             <button
                                 onClick={openModal}
-                                type="submit"
+                                type="button"
                                 className="text-sm font-DmSans font-normal leading-[22px] text-white-A700"
                             >
                                 Send Contact Request

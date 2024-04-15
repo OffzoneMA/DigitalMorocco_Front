@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useRef} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../Components/Text';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,12 @@ export default function PasswordResetSucces() {
   const { t } = useTranslation();
 
     const navigate = useNavigate()
+
+    const formButtonRef = useRef();
+
+    const onButtonClick = (inputref) => {
+      inputref.current.click();
+    };
 
     return (
         <>

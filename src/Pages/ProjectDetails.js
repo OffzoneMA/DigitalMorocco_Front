@@ -302,7 +302,7 @@ const ProjectDetails = () => {
                       <div className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursor-pointer ml-auto p-[7px] rounded-md w-auto" 
                       onClick={openModalMilestone}>
                         <button
-                          type="submit"
+                          type="button"
                           className="cursor-pointer font-medium leading-[normal] text-center text-xs"
                         >
                           Add New Milestone
