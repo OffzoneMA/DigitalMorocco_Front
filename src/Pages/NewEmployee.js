@@ -1,16 +1,13 @@
-import React, {useState} from "react";
+import React, {useState , useRef} from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
-import { CheckPicker, SelectPicker } from "rsuite";
 import SimpleSelect from "../Components/SimpleSelect";
-import MultipleSelect from "../Components/MultipleSelect";
-import { IoImageOutline } from "react-icons/io5";
 import { PiUserSquare } from "react-icons/pi";
-import { MdOutlineDateRange } from "react-icons/md";
 import { Country ,City } from 'country-state-city';
 import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import CustomCalendar from "../Components/CustomCalendar";
 
 const NewEmployee = () => {
   const navigate = useNavigate();
@@ -22,6 +19,7 @@ const NewEmployee = () => {
   const [selectedCountry , setSelectedCountry] = useState(null);
   const [selectedCity , setSelectedCity] = useState(null);
   const [selectedJobTitle, setSelectedJobTitle] = useState(null);
+  const [selectedDate , setSelectedDate] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [taxIdentfier, settaxIdentfier] = useState('');
@@ -30,6 +28,12 @@ const NewEmployee = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   const formData = new FormData();
+
+  const formButtonRef = useRef();
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
+  };
 
   const handleChange = (e, setValue) => {
     const formattedValue = e.target.value
@@ -166,9 +170,11 @@ const NewEmployee = () => {
                 </button>
               </div>  
               :
-              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
+              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursor-pointer" 
+              onClick={()=> onButtonClick(formButtonRef)}>
                 <FiSave  size={18} className="mr-2"/>
                 <button
+                ref={formButtonRef}
                   type="submit"
                   className="text-base text-white-A700"
                 >
@@ -429,7 +435,12 @@ const NewEmployee = () => {
                     >
                       Start Date
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                    <CustomCalendar
+                        className={' w-full'} 
+                        onChangeDate={(date) => setSelectedDate(date)}
+                        inputPlaceholder={`DD/MM/YYYY`}
+                      />
+                    {/* <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <input
                         {...register("startDate", { required: {value:true , message:"Employee Start Date is required"} })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
@@ -446,7 +457,7 @@ const NewEmployee = () => {
                         }}
                       />
                       <MdOutlineDateRange size={20} className={`${isFocused ? 'hidden' : ''} text-blue_gray-300`}/>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

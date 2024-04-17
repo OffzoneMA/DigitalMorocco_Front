@@ -164,7 +164,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     <div className="flex items-center justify-end bg-teal-A700 rounded-md w-auto ml-auto cursor-pointer p-2">
                        <HiOutlineSparkles  size={18} className=" text-blue_gray-901 mr-2"/>
                         <button
-                        type="submit"
+                        type="button"
                         className="text-base text-blue_gray-901"
                         >
                         Upgrade Membership

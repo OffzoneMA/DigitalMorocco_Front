@@ -116,15 +116,15 @@ const Investors = () => {
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-row text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+              <div className="flex flex-col gap-5 md:flex-row text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
                 <Text
                 style={{whiteSpace:"nowrap"}}
-                  className="text-lg leading-7 text-left text-gray-900 pt-1 w-auto mr-4 "
+                  className="text-lg leading-7 text-left text-gray-900 pt-1 w-auto "
                   size="txtDmSansMedium16"
                 >
                   Investors List
                 </Text>
-                <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center justify-end ml-auto w-auto">
+                <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
                 (
                     <>
@@ -207,7 +207,7 @@ const Investors = () => {
                 </div>)
                 }
                     {filterApply && (
-                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={clearFilter}>
+                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={clearFilter}>
                       <FiDelete   size={18} className="mr-2"/>
                       <Text
                         className="text-base font-DmSans font-normal  leading-[26px] text-blue_gray-300 "

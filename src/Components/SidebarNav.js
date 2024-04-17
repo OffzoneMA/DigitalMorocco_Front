@@ -80,7 +80,7 @@ const SidebarNav = () => {
     }
     
   return (
-    <div className={`bg-blue_gray-901 flex flex-col h-screen p-5 pt-8 ${open ? "w-64" : "w-20"} duration-300 relative`}>
+    <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-64" : "w-20"} duration-300 relative`}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursor-pointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex">
   <Link to="/">

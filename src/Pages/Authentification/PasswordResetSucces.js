@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useRef} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../Components/Text';
 import { useTranslation } from 'react-i18next';
@@ -8,9 +8,15 @@ export default function PasswordResetSucces() {
 
     const navigate = useNavigate()
 
+    const formButtonRef = useRef();
+
+    const onButtonClick = (inputref) => {
+      inputref.current.click();
+    };
+
     return (
         <>
-          <div className="bg-gray-100 flex flex-col font-dmsans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col font-dmsans items-center min-h-screen justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mb-[213px] w-auto w-full">
               <div className="flex flex-col items-center justify-center w-full">
                 <img

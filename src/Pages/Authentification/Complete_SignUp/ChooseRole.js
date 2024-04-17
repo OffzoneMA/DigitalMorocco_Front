@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React , {useState , useRef} from "react";
 
 import { Text } from "../../../Components/Text";
 import { Button } from "../../../Components/Button";
@@ -26,7 +26,7 @@ const ChooseRole = () => {
 
   return (
     <>
-      <div className="bg-white-A700 flex flex-col font-dmsans sm:gap-10 md:gap-10 gap-[84px] items-center justify-start mx-auto pb-[246px] w-full">
+      <div className="bg-white-A700 flex flex-col font-dmsans sm:gap-10 md:gap-10 gap-[84px] items-center justify-start mx-auto pb-[246px] w-full min-h-screen">
         <div className="border-b border-indigo-50 border-solid flex flex-row md:flex-row gap-10 items-center justify-between md:px-20 sm:px-20 py-5 w-full">
           <img
             className="h-[47px] w-[180px]"

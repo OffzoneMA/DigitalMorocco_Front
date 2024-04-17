@@ -112,19 +112,19 @@ const MyInvestors = () => {
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-row flex-wrap text-sm text-center items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+            <div className="flex flex-col gap-5 md:flex-row text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
                 <Text
                 style={{whiteSpace:"nowrap"}}
-                  className="text-lg leading-7 text-gray-900 pt-1 w-[100px] mr-8"
+                  className="text-lg leading-7 text-left text-gray-900 pt-1 w-auto "
                   size="txtDmSansMedium16"
                 >
                   My Investors
                 </Text>
-                  <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
+                <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
                 (
                     <>
-                    <div className="flex w-full rounded-md p-2 border border-solid min-w-[70px]">
+                    <div className="flex rounded-md p-2 border border-solid min-w-[70px]">
                       <input
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="text"
@@ -148,7 +148,7 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[130px] max-w-[200px] " id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setLocation} 
                     placeholder="Location" valuekey="name"
                     content={
                       ( option) =>{ return (
@@ -178,8 +178,8 @@ const MyInvestors = () => {
                     }/>
                     </>
                 )}
-                    {filter ?
-                (<div className="bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " 
+                {filter ?
+                (<div className=" bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md " 
                 onClick={()=>setFilterApply(true)}>
                 <BiFilterAlt   size={18} className="mr-2"/>
                   <button
@@ -190,7 +190,7 @@ const MyInvestors = () => {
                      Apply Filters
                   </button>
                   </div>):
-                (<div className="bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " 
+                (<div className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md " 
                 onClick={()=>setFilter(true)}>
                   <BiFilterAlt   size={18} className="mr-2"/>
                   <button
@@ -203,7 +203,7 @@ const MyInvestors = () => {
                 </div>)
                 }
                     {filterApply && (
-                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={clearFilter}>
+                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={clearFilter}>
                       <FiDelete   size={18} className="mr-2"/>
                       <Text
                         className="text-base font-DmSans font-normal  leading-[26px] text-blue_gray-300 "

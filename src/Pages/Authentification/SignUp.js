@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useRef} from 'react'
 import { useForm } from "react-hook-form";
 import {Text } from '../../Components/Text'
 import {Button } from '../../Components/Button'
@@ -28,6 +28,12 @@ export default function SignUp() {
   } = useForm();
 
   const navigate = useNavigate()
+  const formButtonRef = useRef();
+
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
+  };
 
   useEffect(() => {
     if (Mount) { setMount(false) }
@@ -63,7 +69,7 @@ export default function SignUp() {
 
   return (
     <>
-    <div className="bg-gray-100 flex flex-col font-dmsans items-center justify-start mx-auto p-[42px] md:px-10 sm:px-5 w-full">
+    <div className="bg-gray-100 flex flex-col font-dmsans items-center justify-start mx-auto min-h-screen p-[42px] md:px-10 sm:px-5 w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
           <div className="flex flex-col items-center justify-center w-full">
             <img
@@ -283,9 +289,11 @@ export default function SignUp() {
                     }
                   </div>
                   <div className="flex flex-col items-center justify-start w-full">
-                  <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full">
+                  <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full cursor-pointer" 
+                  onClick={()=> onButtonClick(formButtonRef)}>
                     <div className="flex flex-col items-center justify-center w-auto">
                       <button
+                      ref={formButtonRef}
                         type="submit"
                         className="text-base text-white-A700 w-auto"
                         size="font-dmsans font-medium"

@@ -47,6 +47,8 @@ import UpcomingEventDetails from './Pages/UpcomingEventDetails';
 import PastEvents from './Pages/PastEvents';
 import ChoosePlan from './Pages/ChoosePlan';
 import Notifications from './Pages/Notifications';
+import CustomDatePicker from './Components/CustomDatePicker';
+import CustomCalendar from './Components/CustomCalendar';
 
 function App() {
   return (
@@ -55,7 +57,7 @@ function App() {
     <BrowserRouter>   
       <div className='font-DmSans  overflow-hidden'>
        
-        <div className='  min-h-[85vh] '>
+        <div className='  min-h-screen '>
       <Routes>
         <Route element={<DashbordLayout />}>
             <Route path="/Dashboard" element={<Dashbord />} />
@@ -83,7 +85,7 @@ function App() {
             <Route path="/Notification" element={<Notifications />} />
         </Route>
         <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
         <Route   path="/Pricing" element={<Pricing />} />
         <Route   path="/ContactUs" element={<ContactUs/>}/>
         <Route   path="/About-Us" element={<AboutUs/>}/>
@@ -98,6 +100,7 @@ function App() {
           </Route>
           </Route>
         <Route   path="/SignIn" element={<SignIn />} />
+        <Route   path="/" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
         <Route   path="/SocialSignUp" element={<SocialSignUp />} />
 
@@ -108,7 +111,8 @@ function App() {
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
         <Route path="/ChooseRole" element={<ChooseRole />} />
-        <Route path="/DownloadTicket" element={<DownloadTicket />} />
+        {/* <Route path="/DownloadTicket" element={<DownloadTicket />} /> */}
+        <Route path="/DatePicker" element={<CustomCalendar />} />
       </Routes>
       </div>
 

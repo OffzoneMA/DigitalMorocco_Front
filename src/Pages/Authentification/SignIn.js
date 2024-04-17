@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useRef } from 'react'
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,6 +22,12 @@ export default function SignIn() {
     reset,
     formState: { errors },
   } = useForm();
+
+  const formButtonRef = useRef();
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
+  };
 
   const navigate = useNavigate()
 
@@ -247,16 +253,18 @@ export default function SignIn() {
                     </a>
                   </div>
                   <div className="flex flex-col items-center justify-start w-full">
-                    <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full">
-                        <div className="flex flex-col items-center justify-center w-auto">
+                    <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full cursor-pointer" 
+                    onClick={()=> onButtonClick(formButtonRef)}>
+                      <div className="flex flex-col items-center justify-center w-auto">
                         <button
+                        ref={formButtonRef}
                             type="submit"
                             className="text-base text-white-A700 w-auto"
                             size="font-dmsans font-medium"
                         >
                             {t('signin.signIn')}
                         </button>
-                        </div>
+                      </div>
                         <img
                         className="h-6 w-6"
                         src="images/img_arrowright.svg"

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../Components/Text';
@@ -18,6 +18,12 @@ export default function ResetPassword() {
   } = useForm();
     
   const navigate = useNavigate()
+
+  const formButtonRef = useRef();
+
+  const onButtonClick = (inputref) => {
+    inputref.current.click();
+  };
 
     
       // Custom validation function for confirm password
@@ -45,7 +51,7 @@ export default function ResetPassword() {
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col font-dmsans items-center justify-end mx-auto p-[33px] sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col min-h-screen font-dmsans items-center justify-end mx-auto p-[33px] sm:px-5 w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-auto w-full">
               <div className="flex flex-col items-center justify-center w-full">
                 <img
@@ -138,9 +144,11 @@ export default function ResetPassword() {
                     </div>
                   </div>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                  <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full">
+                  <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[13px] rounded-[26px] w-full cursor-pointer" 
+                  onClick={()=> onButtonClick(formButtonRef)}>
                     <div className="flex flex-col items-center justify-center w-auto">
                       <button
+                      ref={formButtonRef}
                         type="submit"
                         className="text-base text-white-A700 w-auto"
                         size="font-dmsans font-medium"

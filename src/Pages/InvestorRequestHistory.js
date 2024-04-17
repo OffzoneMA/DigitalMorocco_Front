@@ -109,7 +109,7 @@ const InvestorRequestHistory = () => {
                         >
                         Request History
                         </Text>
-                        <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
+                        <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 xs:grid-cols-1 gap-3 w-auto items-center justify-end ml-auto w-auto">
                   {filter && 
                 (
                     <>
@@ -165,7 +165,7 @@ const InvestorRequestHistory = () => {
                      Apply Filters
                   </button>
                   </div>):
-                (<div className="bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " 
+                (<div className="col-end-3 col-span-1 bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " 
                 onClick={()=>setFilter(true)}>
                   <BiFilterAlt   size={18} className="mr-2"/>
                   <button
@@ -178,7 +178,7 @@ const InvestorRequestHistory = () => {
                 </div>)
                 }
                     {filterApply && (
-                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={ClearFilter}>
+                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={ClearFilter}>
                       <FiDelete   size={18} className="mr-2"/>
                       <Text
                         className="text-base font-DmSans font-normal  leading-[26px] text-blue_gray-300 "
@@ -206,10 +206,12 @@ const InvestorRequestHistory = () => {
                     {
                         (pageData.map((item, index) => (
                         <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                        <td className="py-3 px-3 w-auto text-gray500 font-DmSans text-sm font-normal leading-6">
+                        <td className="py-3 px-3 w-auto text-gray500 font-DmSans text-sm font-normal leading-6" 
+                        style={{whiteSpace:'nowrap'}}>
                             {item.date}
                         </td>
-                        <td className="py-3 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6">{item.investorName}</td>
+                        <td className="py-3 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6" 
+                        style={{whiteSpace:'nowrap'}}>{item.investorName}</td>
                         <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.communicationStatus}</td>
                         <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">
                         <div style={{whiteSpace:"nowrap"}} className={`flex flex-row space-x-2 items-center py-0.5 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${

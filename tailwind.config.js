@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
     theme: {
     extend: {
@@ -48,6 +49,7 @@ module.exports = {
           401: "#A9ACB0",
           500: "#a7a6a8",
           700: "#555458",
+          701:"#262D33",
           801: "#1D2939",
           900: "#1d1c21",
           901: "#1D1C21",
