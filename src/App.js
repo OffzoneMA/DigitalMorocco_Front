@@ -40,6 +40,7 @@ import MyInvestors from './Pages/MyInvestor';
 import Documents from './Pages/Documents';
 import Events from './Pages/Events';
 import History from './Pages/History';
+import Users from './Pages/Users';
 import DownloadTicket from './Components/DownloadTicket';
 import UpcomingEvents from './Pages/UpcomingEvent';
 import UpcomingEventDetails from './Pages/UpcomingEventDetails';
@@ -57,7 +58,8 @@ function App() {
         <div className='  min-h-[85vh] '>
       <Routes>
         <Route element={<DashbordLayout />}>
-           <Route path="/Dashboard" element={<Dashbord />} />
+            <Route path="/Dashboard" element={<Dashbord />} />
+            <Route path="/Users" element={<Users />} />
             <Route path="/Investors" element={<Investors />} />
             <Route path="/MyInvestors" element={<MyInvestors />} />
             <Route path="/InvestorDetails" element={<InvestorDetails />} />
@@ -74,7 +76,7 @@ function App() {
             <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
             <Route path="/PastEvent" element={<PastEvents />} />
             <Route path="/UpcomingEventDetails" element={<UpcomingEventDetails />} />
-            <Route   path="/UserProfile" element={<UserProfile />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/Subscription" element={<Subscription />} />
             <Route path="/ChoosePlan" element={<ChoosePlan />} />
             <Route path="/History" element={<History />} />
@@ -98,6 +100,8 @@ function App() {
         <Route   path="/SignIn" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
         <Route   path="/SocialSignUp" element={<SocialSignUp />} />
+
+        
         <Route path="/VerificationCode" element={<VerificationCode />} />
         <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />

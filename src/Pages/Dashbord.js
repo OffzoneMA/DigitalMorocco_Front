@@ -14,11 +14,14 @@ import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { IoFlashOffOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+
 
 
 const Dashbord = () => {
-
+const { userInfo } = useSelector((state) => state.auth)
   const navigate = useNavigate();
+  const userData = JSON.parse(sessionStorage.getItem('userData'));
 
     const chartData = [
         { name: 'Jan', value: 150 },
@@ -96,6 +99,7 @@ const Dashbord = () => {
       };
       
       const off = gradientOffset(); 
+
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -105,7 +109,7 @@ const Dashbord = () => {
                         className="text-3xl font-bold leading-11 text-gray-900 w-full"
                         size="txtDMSansBold32"
                         >
-                        Welcome back, Olivia
+                        Welcome back, {userData.displayName}
                         </Text>
                     </div>
                     <div className="flex flex-row w-full md:w-[50%] ml-auto md:justify-end gap-4">

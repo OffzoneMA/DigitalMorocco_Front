@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser } from '../../Redux/auth/authAction';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate , Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../Components/Text';
 import { Button } from '../../Components/Button';
@@ -69,11 +69,13 @@ export default function SignIn() {
     <div className="bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col font-dmsans items-center justify-start mx-auto p-[42px] md:px-10 sm:px-5 min-h-screen w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto w-full">
           <div className="flex flex-col items-center justify-center w-full">
-            <img
+          <Link to="/"><img
               className="h-[50px] w-[183px]"
               src="images/img_logo2.svg"
               alt="logo"
             />
+      </Link>
+            
           </div>
           <div className="bg-white-A700 gap-5 md:gap-10 flex flex-col items-center justify-start px-6 px-6 py-8 rounded-[12px] shadow-bs1 w-full max-w-[520px]">
           <div className="flex flex-col gap-4 items-center justify-start w-full">

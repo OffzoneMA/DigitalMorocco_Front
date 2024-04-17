@@ -78,9 +78,11 @@ const Employees = () => {
           </div>
         </div>
       </div>
+
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            
             <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
               <Text
                 className="text-lg leading-7 text-gray-900 pt-1"
@@ -99,6 +101,7 @@ const Employees = () => {
                 </button>
               </div>
             </div>
+
             <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
               <table className="w-full mx-auto table-auto">
                 <thead>

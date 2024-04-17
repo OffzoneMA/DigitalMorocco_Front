@@ -41,6 +41,7 @@
     "recharts": "^2.12.2",
     "rsuite": "^5.55.0",
     "stream-browserify": "^3.0.0",
+    "sweetalert2": "^11.10.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

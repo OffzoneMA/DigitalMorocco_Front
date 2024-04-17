@@ -3,13 +3,14 @@ import { BsArrowLeftShort, BsDot } from "react-icons/bs";
 import { BiChevronDown } from "react-icons/bi";
 import { BiBuildings } from "react-icons/bi";
 import { GoRocket } from "react-icons/go";
-import { RiHome6Line } from "react-icons/ri";
+import { RiHome6Line, RiUser3Line } from "react-icons/ri";
 import { TiFlashOutline } from "react-icons/ti";
 import { useSelector } from 'react-redux';
 import { PiFolderThin, PiHourglassLowFill } from "react-icons/pi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { IoNotificationsOutline, IoSettingsOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 
 
 const SidebarNav = () => {
@@ -28,6 +29,9 @@ const SidebarNav = () => {
 
     const navigate=useNavigate()
 
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+
+
     const setSubmenu = (submenuName, isOpen) => {
       setSubmenuOpen(prevState => ({
         ...prevState,
@@ -37,6 +41,7 @@ const SidebarNav = () => {
     
     const Menus = [
       { title: "Dashboard", src: <RiHome6Line size={22} /> , link:"Dashboard" },
+      
       { title: "Projects", src: <GoRocket size={22} />, link:"Projects" },
       //(userInfo?.member || userInfo?.partner) && 
       {
@@ -70,13 +75,21 @@ const SidebarNav = () => {
       { title: "History", src: <PiHourglassLowFill size={22} /> , link:"History" },
   
     ];
+    if (userData.role === "Admin") {
+      Menus.push({ title: "Users", src: <RiUser3Line size={22} /> , link:"Users" });
+    }
+    
   return (
     <div className={`bg-blue_gray-901 flex flex-col h-screen p-5 pt-8 ${open ? "w-64" : "w-20"} duration-300 relative`}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursor-pointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex">
-      <img src="images/img_simple_logo.svg" className={`text-4xl rounded cursor-pointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo"/>
-      <img src="images/img_simple_logo_text.svg" className={`origin-left ${!open && "scale-0"}`}/>
-    </div>
+  <Link to="/">
+    <img src="images/img_simple_logo.svg" className={`text-4xl rounded cursor-pointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo"/>
+  </Link>
+  <Link to="/">
+    <img src="images/img_simple_logo_text.svg" className={`origin-left ${!open && "scale-0"}`}/>
+  </Link>
+</div>
   <ul className="font-dmsans text-base font-normal leading-6 pt-3 flex-1">
     {Menus.map((Menu, index) => (
       Menu && <div key={index} >
@@ -169,7 +182,7 @@ const SidebarNav = () => {
   `}
       >
         <div className="leading-4">
-          <span className=" text-white-A700">Camille Olivia</span>
+        <span className="text-white-A700">{userData.displayName}</span>
         </div>
       </div>
       <div className={`flex ${notifOpen? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursor-pointer`} 

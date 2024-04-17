@@ -136,7 +136,7 @@ export default function Header() {
 
 
 
-            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-10 text-sm xl:text-sm 2xl:text-lg 3xl:text-2xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-light `} >
+            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-10 text-sm xl:text-sm 2xl:text-lg 3xl:text-2xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-light `}  >
               <NavLink to="/About-Us" className={({ isActive }) =>
 
 
@@ -179,7 +179,7 @@ export default function Header() {
 
             </div>
 
-            <div className='hidden md:flex items-center gap-3 '>
+            <div className='hidden md:flex items-center gap-3 ' style={{ color: "#ffffff" , fontWeight: "bold" }}>
               {!userInfo ?
                 <>
                   <NavLink
@@ -219,38 +219,15 @@ export default function Header() {
                   }>
                   {t('header.profileStatus')}
                 </NavLink>}
-              {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
-                <NavLink to="/Dashboard_member"
-                className={({ isActive }) =>
-                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
-             }>
+
+                {userInfo && userInfo?.status === "accepted" && (
+                <NavLink
+                  to={"/Dashboard"}
+                  className={({ isActive }) => (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black bg-[#00cdae]"}
+                >
                   {t('header.dashboard')}
                 </NavLink>
-              }
-              {userInfo && userInfo?.status == "accepted" && userInfo?.role == "investor" &&
-                <NavLink to="/Dashboard_investor"
-                className={({ isActive }) =>
-                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
-             }>
-                  {t('header.dashboard')}
-                </NavLink>
-              }
-              {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
-                <NavLink to="/Dashboard_partner"
-                className={({ isActive }) =>
-                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
-             }>
-                  {t('header.dashboard')}
-                </NavLink>
-              }
-              {
-                userInfo && userInfo?.role == "Admin" &&
-                <NavLink to="/Dashboard_admin"
-                className={({ isActive }) =>
-                (location.pathname !== "/" ? "text-white " : "text-[#1f2545] ") + "px-4 py-2 rounded-full text-black    bg-[#00cdae]"
-             }>
-                  {t('header.dashboard')}
-                </NavLink>}
+              )}
 
 
             </div>
@@ -364,30 +341,15 @@ export default function Header() {
                 }>
                 {t('header.pricing')}
               </NavLink>   
-              {userInfo && userInfo?.status == "accepted" && userInfo?.role == "member" &&
-                <NavLink to="/Dashboard_member"
+              {userInfo && userInfo?.status == "accepted" &&
+                <NavLink to="/Dashboard"
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
                   }>
                   {t('header.dashboard')}
                 </NavLink>
               }
-              {userInfo && userInfo?.status == "accepted" && userInfo?.role == "investor" &&
-                <NavLink to="/Dashboard_investor"
-                  className={({ isActive }) =>
-                    isActive ? activeLink : ""
-                  }>
-                  {t('header.dashboard')}
-                </NavLink>
-              }
-              {userInfo && userInfo?.status == "accepted" && userInfo?.role == "partner" &&
-                <NavLink to="/Dashboard_partner"
-                  className={({ isActive }) =>
-                    isActive ? activeLink : ""
-                  }>
-                  {t('header.dashboard')}
-                </NavLink>
-              }
+              
               { userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
                 <NavLink to="/Complete_SignUp"
                   className={({ isActive }) =>
@@ -395,14 +357,7 @@ export default function Header() {
                   }>
                   {t('header.profileStatus')}
                 </NavLink>}
-              {
-                userInfo && userInfo?.role == "Admin" &&
-                <NavLink to="/Dashboard_admin"
-                  className={({ isActive }) =>
-                    isActive ? activeLink : ""
-                  }>
-                  {t('header.dashboard')}
-                </NavLink>}
+              
               {!userInfo ?
                 <>
                   <NavLink

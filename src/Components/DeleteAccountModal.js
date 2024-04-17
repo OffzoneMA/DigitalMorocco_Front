@@ -5,7 +5,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineDateRange } from "react-icons/md";
 import { BiMap } from "react-icons/bi";
 import { PiTagBold } from "react-icons/pi";
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
 import { BiError } from "react-icons/bi";
 
 const DeleteAccountModal = (props) => {

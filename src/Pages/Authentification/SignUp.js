@@ -12,8 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IoIosCheckmark } from "react-icons/io";
 
-
-
 export default function SignUp() {
   const { t, i18n } = useTranslation();
 
