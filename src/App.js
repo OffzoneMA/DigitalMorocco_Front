@@ -41,13 +41,11 @@ import Documents from './Pages/Documents';
 import Events from './Pages/Events';
 import History from './Pages/History';
 import Users from './Pages/Users';
-import DownloadTicket from './Components/DownloadTicket';
 import UpcomingEvents from './Pages/UpcomingEvent';
 import UpcomingEventDetails from './Pages/UpcomingEventDetails';
 import PastEvents from './Pages/PastEvents';
 import ChoosePlan from './Pages/ChoosePlan';
 import Notifications from './Pages/Notifications';
-import CustomDatePicker from './Components/CustomDatePicker';
 import CustomCalendar from './Components/CustomCalendar';
 
 function App() {
@@ -85,7 +83,7 @@ function App() {
             <Route path="/Notification" element={<Notifications />} />
         </Route>
         <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/Home" element={<Home />} />
         <Route   path="/Pricing" element={<Pricing />} />
         <Route   path="/ContactUs" element={<ContactUs/>}/>
         <Route   path="/About-Us" element={<AboutUs/>}/>
@@ -100,7 +98,7 @@ function App() {
           </Route>
           </Route>
         <Route   path="/SignIn" element={<SignIn />} />
-        <Route   path="/" element={<Home />} />
+        <Route   path="/" element={<SignIn />} />
         <Route   path="/SignUp" element={<SignUp />} />
         <Route   path="/SocialSignUp" element={<SocialSignUp />} />
 
@@ -111,8 +109,6 @@ function App() {
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
         <Route path="/ChooseRole" element={<ChooseRole />} />
-        {/* <Route path="/DownloadTicket" element={<DownloadTicket />} /> */}
-        <Route path="/DatePicker" element={<CustomCalendar />} />
       </Routes>
       </div>
 

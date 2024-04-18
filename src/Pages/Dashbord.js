@@ -109,7 +109,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         className="text-3xl font-bold leading-11 text-gray-900 w-full"
                         size="txtDMSansBold32"
                         >
-                        Welcome back, {userData?.displayName? userData.displayName : 'Olivia'}
+                        Welcome back, {userData?.displayName? userData?.displayName : 'Olivia'}
                         </Text>
                     </div>
                     <div className="flex flex-row w-full md:w-[50%] ml-auto md:justify-end gap-4">

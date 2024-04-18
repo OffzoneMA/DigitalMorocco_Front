@@ -180,7 +180,7 @@ const SidebarNav = () => {
   `}
       >
         <div className="leading-4">
-        <span className="text-white-A700">{userData?.displayName? userData.displayName : "Camille Olivia"}</span>
+        <span className="text-white-A700">{userData?.displayName? userData?.displayName : "Camille Olivia"}</span>
         </div>
       </div>
       <div className={`flex ${notifOpen? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursor-pointer`} 
