@@ -40,12 +40,12 @@ const SidebarNav = () => {
     };
     
     const Menus = [
-      { title: "Dashboard", src: <RiHome6Line size={22} /> , link:"Dashboard" },
+      { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link:"Dashboard" },
       
-      { title: "Projects", src: <GoRocket size={22} />, link:"Projects" },
+      { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" },
       //(userInfo?.member || userInfo?.partner) && 
       {
-        title: "Company", src: <BiBuildings size={22} />,
+        title: "Company", src: <BiBuildings size={22} className="text-light_blue-100"/>,
         submenu: true,
         child: [
           //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
@@ -55,7 +55,7 @@ const SidebarNav = () => {
         ]
       }
       ,
-      { title: "Investor", src: <TiFlashOutline size={22} /> ,
+      { title: "Investor", src: <TiFlashOutline size={22} className="text-light_blue-100"/> ,
       submenu: true,
       child: [
         //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
@@ -64,19 +64,19 @@ const SidebarNav = () => {
         { title: "Request History", src: '', link: "InvestorRequestsHistoty" },
       ]
       },
-      { title: "Event", src: <HiOutlineTicket size={22} />  ,
+      { title: "Event", src: <HiOutlineTicket size={22} className="text-light_blue-100"/>  ,
       submenu: true,
       child: [
         { title: "Participate", src: '', link: "Participate" },
         { title: "Upcoming Event", src: '', link: "UpcomingEvent" },
         { title: "Past Event", src: '', link: "PastEvent" },
       ]},
-      { title: "Document", src: <PiFolderThin size={22}  /> , link:"Document"},
-      { title: "History", src: <PiHourglassLowFill size={22} /> , link:"History" },
+      { title: "Document", src: <PiFolderThin size={22}  className="text-light_blue-100"/> , link:"Document"},
+      { title: "History", src: <PiHourglassLowFill size={22} className="text-light_blue-100"/> , link:"History" },
   
     ];
-    if (userData.role === "Admin") {
-      Menus.push({ title: "Users", src: <RiUser3Line size={22} /> , link:"Users" });
+    if (userData?.role === "Admin") {
+      Menus.push({ title: "Users", src: <RiUser3Line size={22} className="text-light_blue-100"/> , link:"Users" });
     }
     
   return (
@@ -98,7 +98,7 @@ const SidebarNav = () => {
           (Menu.submenu && setSubmenu(Menu.title, !submenuOpen[Menu.title]))
           navigate( Menu.link)
           setActiveMenu(Menu.title);}}
-          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === Menu.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
+          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === Menu.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
         >
           {Menu.src}
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
@@ -120,7 +120,7 @@ const SidebarNav = () => {
               onClick={() => {
                 navigate(el.link)
                 setActiveMenu(el.link);}}
-              className={`font-dmsans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2  mt-1 `}
+              className={`font-dmsans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
             >
               <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
                         {el.title}
@@ -134,9 +134,9 @@ const SidebarNav = () => {
   <div className="font-dmsans text-base font-normal leading-6">
     <div
     onClick={() => {setSettingsOpen(!settingsOpen)}}
-      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-300 items-center  gap-x-3 mt-3 `}
+      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
     >
-      <IoSettingsOutline size={22}/>
+      <IoSettingsOutline size={22} className="text-light_blue-100"/>
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
           Settings
       </span>
@@ -151,7 +151,7 @@ const SidebarNav = () => {
       onClick={() => {
         navigate("/UserProfile")
         setActiveMenu("My Profil");}}
-      className={`font-dmsans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "My Profil"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2  mt-1 `}
+      className={`font-dmsans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "My Profil"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       My Profil
@@ -162,7 +162,7 @@ const SidebarNav = () => {
       onClick={() => {
         navigate("/Subscription")
         setActiveMenu("Subscription & Billing");}}
-      className={`font-dmsans  mb-6 flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "Subscription & Billing"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2  mt-1 `}
+      className={`font-dmsans  mb-6 flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "Subscription & Billing"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       Subscription & Billing
@@ -182,7 +182,7 @@ const SidebarNav = () => {
   `}
       >
         <div className="leading-4">
-        <span className="text-white-A700">{userData.displayName}</span>
+        <span className="text-white-A700">{userData?.displayName? userData.displayName : "Camille Olivia"}</span>
         </div>
       </div>
       <div className={`flex ${notifOpen? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursor-pointer`} 
