@@ -9,7 +9,6 @@ import { BsEyeSlash } from "react-icons/bs";
 import { TiFlashOutline } from "react-icons/ti";
 import TablePagination from "../Components/TablePagination";
 import {companyType} from "../data/companyType";
-import { SelectPicker ,CheckPicker } from "rsuite";
 import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import { Country } from "country-state-city";

@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import toast from "react-hot-toast";
 import { Text } from '../Components/Text';
 import { PiUserBold } from "react-icons/pi";
-import { SelectPicker } from 'rsuite';
 import SimpleSelect from '../Components/SimpleSelect';
 import { AiFillFacebook } from "react-icons/ai";
 import { AiOutlineInstagram } from "react-icons/ai";

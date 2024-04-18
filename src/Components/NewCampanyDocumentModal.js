@@ -4,8 +4,6 @@ import { IoCloseOutline } from "react-icons/io5";
 import { default as ModalProvider } from "react-modal";
 import { LuUploadCloud } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import countryList from 'react-select-country-list'
-import 'rsuite/SelectPicker/styles/index.css';
 import { City } from "country-state-city";
 import { useForm } from "react-hook-form";
 

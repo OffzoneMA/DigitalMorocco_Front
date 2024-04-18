@@ -4,8 +4,6 @@ import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuUploadCloud } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { SelectPicker } from "rsuite";
-import 'rsuite/SelectPicker/styles/index.css';
 import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";

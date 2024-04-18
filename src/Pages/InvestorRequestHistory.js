@@ -8,7 +8,6 @@ import { BsEyeSlash } from "react-icons/bs";
 import { TiFlashOutline } from "react-icons/ti";
 import TablePagination from "../Components/TablePagination";
 import { FiDelete } from "react-icons/fi";
-import { SelectPicker , CheckPicker} from "rsuite";
 import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import { InvestorsRequestData } from "../data/tablesData";

@@ -6,7 +6,6 @@ import { useSearchParams , useNavigate} from "react-router-dom";
 import { IoFlashOffOutline } from "react-icons/io5";
 import TablePagination from "../Components/TablePagination";
 import {companyType} from "../data/companyType";
-import { SelectPicker , CheckPicker } from "rsuite";
 import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import { Country } from "country-state-city";

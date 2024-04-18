@@ -9,7 +9,6 @@ import { FiDelete } from "react-icons/fi";
 import { HiOutlineQrcode } from "react-icons/hi";
 import { FiDownload } from "react-icons/fi";
 import TablePagination from "../Components/TablePagination";
-import { SelectPicker ,CheckPicker } from "rsuite";
 import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import ViewTicketModal from "../Components/ViewTicketModal";

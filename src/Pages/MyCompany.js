@@ -11,7 +11,6 @@ import 'rsuite/CheckPicker/styles/index.css';
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
 import {companyType} from "../data/companyType";
-import countryList from "react-select-country-list";
 
 const MyCompany = () => {
   const [logoFile, setLogoFile] = useState(null);
