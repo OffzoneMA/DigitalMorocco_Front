@@ -4,11 +4,41 @@
 @tailwind screens;
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Manrope:wght@200..800&display=swap');
-@import url(https://db.onlinewebfonts.com/c/09c6fa9769528ae2357e67e71c192ee0?family=AvenirNextLTPro-Heavy);
+@import url('https://db.onlinewebfonts.com/c/09c6fa9769528ae2357e67e71c192ee0?family=AvenirNextLTPro-Heavy');
 @import url('https://fonts.cdnfonts.com/css/avenir-lt-pro');
+
+
+@font-face{
+  src: url("/public/fonts/AvenirNextLTPro-Regular.otf") format('truetype');
+  font-family: "AvenirNextLTPro";
+}
+
+@font-face {
+ font-family: 'Montserrat-Medium';
+ src: url('/public/fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
+@font-face {
+ font-family: 'DMSans-Regular';
+ src: url('/public/fonts/DMSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+ font-family: 'DMSans-Medium';
+ src: url('/public/fonts/DMSans-Medium.ttf') format('truetype');
+}
+
+@font-face {
+ font-family: 'DMSans-Bold';
+ src: url('/public/fonts/DMSans-Bold.ttf') format('truetype');
+}
+
+
 
 html {
   overflow-x: hidden;
+  font-family: 'DMSans-Regular', sans-serif; 
+
 }
 
 ::-webkit-scrollbar {
@@ -286,3 +316,48 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
  padding-right: 5px;
  padding-bottom: 10px;
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.animate_loader {
+  width: 69px;
+  height: 30px;
+  --c: radial-gradient(farthest-side, #766DF4 90%, #0000);
+  background: var(--c), var(--c), var(--c), var(--c);
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  animation: animate-loader 1s infinite linear alternate;
+}
+
+@keyframes animate-loader {
+  0%, 5% {background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 50%}
+  12.5% {background-position: calc(0*100%/3) 0, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 50%}
+  25% {background-position: calc(0*100%/3) 0, calc(1*100%/3) 0, calc(2*100%/3) 50%, calc(3*100%/3) 50%}
+  37.5% {background-position: calc(0*100%/3) 100%, calc(1*100%/3) 0, calc(2*100%/3) 0, calc(3*100%/3) 50%}
+  50% {background-position: calc(0*100%/3) 100%, calc(1*100%/3) 100%, calc(2*100%/3) 0, calc(3*100%/3) 0}
+  62.5% {background-position: calc(0*100%/3) 50%, calc(1*100%/3) 100%, calc(2*100%/3) 100%, calc(3*100%/3) 0}
+  75% {background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 100%, calc(3*100%/3) 100%}
+  87.5% {background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 100%}
+  95%, 100% {background-position: calc(0*100%/3) 50%, calc(1*100%/3) 50%, calc(2*100%/3) 50%, calc(3*100%/3) 50%}
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.hover\:svg-translate:hover svg {
+  transform: translateX(2px);
+}
+
+.hover\:stroke-red:hover svg>path {
+  stroke: #EA6479;
+  transition-property: stroke;
+  transition-duration: 200ms;
+}
+
+

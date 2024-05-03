@@ -125,7 +125,7 @@ const NewEmployee = () => {
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
+          <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
             <Text
               className="text-3xl font-bold leading-11 text-gray-900 w-full"
               size="txtDMSansBold32"

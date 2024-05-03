@@ -28,42 +28,37 @@ export default function ResetPasswordEmail() {
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col min-h-screen font-dmsans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
             <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
-              <div className="flex flex-col items-center justify-center w-full">
+              <a href='' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src="images/img_logo.svg"
                   alt="logo"
                 />
-              </div>
-              <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start sm:px-5 px-8 py-[42px] rounded-[12px] shadow-bs1 max-w-[520px] w-full">
-                <div className="flex flex-col items-center justify-start pb-5 w-auto">
-                <div className="flex flex-col items-center justify-center w-full">
+              </a>
+              <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start px-6 py-[42px] rounded-[12px] shadow-formbs max-w-[520px] w-full">
+                <div className="flex flex-col items-center justify-start w-auto">
                   <img
                     className="h-[235px] w-[256px]"
                     src="images/img_verify.svg"
                     alt="logo"
                   />
                 </div>
-                </div>
                 <Text
-                  className="text-[22px] text-gray-900 sm:text-lg md:text-xl w-auto"
-                  size="txtDMSansMedium22"
+                  className="text-[22px] font-dm-sans-medium text-gray-901 leading-8 w-auto"
                 >
                   {t('resetEmail.checkInbox')}
                 </Text>
                 <div className="flex flex-col gap-9 items-center justify-start w-full">
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
                     <Text
-                      className="leading-[28.00px] max-w-[456px] md:max-w-full text-center text-gray-900 text-lg"
-                      size="txtDMSansMedium18"
+                      className="leading-[28.00px] font-dm-sans-medium text-center text-gray-901 text-[18px] "
                     >
                       {t('resetEmail.resetLinkSent')}
                     </Text>
                     <Text
-                      className="leading-[26.00px] max-w-[456px] md:max-w-full text-base text-blue_gray-500 text-center"
-                      size="txtDMSansMedium16Bluegray500"
+                      className="leading-[26.00px] font-dm-sans-medium text-base text-gray500 text-center"
                     >
                       <>
                         {t('resetEmail.cantFindEmail')}
@@ -71,28 +66,24 @@ export default function ResetPasswordEmail() {
                     </Text>
                   </div>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                  <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center sm:px-5 px-7 py-[10px] rounded-[26px] ">
+                    <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center px-6 py-[14px] rounded-[26px] ">
                         <button
                             type="button"
                             onClick={handleResendEmail}
-                            className="text-base text-white-A700 w-auto"
-                            size="font-dmsans font-medium"
+                            className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto"
                         >
                             {isLoading? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
                         </button>
-                        
                     </div>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
                       <Text
-                        className="text-blue_gray-900_02 text-sm w-auto"
-                        size="txtDMSansMedium14"
-                      >
+                        className="text-blue_gray-900_02 font-dm-sans-medium leading-[26px] text-sm w-auto"
+                        >
                         {t('resetEmail.signInTrouble')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 text-sm w-auto"
-                        size="txtDMSansBold14"
-                      >
+                        className="text-deep_purple-A400 leading-[26px] font-dm-sans-bold text-sm w-auto"
+                        >
                         {t('resetEmail.contactSupport')}
                       </Text>
                     </div>

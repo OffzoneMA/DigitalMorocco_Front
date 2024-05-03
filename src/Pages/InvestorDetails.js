@@ -63,7 +63,7 @@ const InvestorDetails = () => {
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-                <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+                <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <Text
                     className="text-3xl font-bold leading-11 text-gray-900 w-full"
                     size="txtDmSansBold32"

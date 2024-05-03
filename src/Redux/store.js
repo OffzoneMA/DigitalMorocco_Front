@@ -10,6 +10,7 @@ import { subscriptionLogApi } from '../Services/SubscriptionLog.Service'
 import { userApi } from '../Services/User.Service'
 import { partnerApi } from '../Services/Partner.Service'
 import { investorApi } from '../Services/Investor.Service'
+import { projectApi } from '../Services/Project.Service'
 
 const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [partnerApi.reducerPath]: partnerApi.reducer,
     [investorApi.reducerPath]: investorApi.reducer,
+    [projectApi.reducerPath]: projectApi.reducer,
   },
   devTools: process.env.NODE_ENV === 'development',
 
@@ -30,7 +32,7 @@ const store = configureStore({
     getDefaultMiddleware()
       .concat([authApi.middleware, adminApi.middleware, memberApi.middleware,
          subsApi.middleware, userLogApi.middleware, subscriptionLogApi.middleware
-        , userApi.middleware, partnerApi.middleware, investorApi.middleware
+        , userApi.middleware, partnerApi.middleware, investorApi.middleware , projectApi.middleware
         ]) ,
 })
 export default store

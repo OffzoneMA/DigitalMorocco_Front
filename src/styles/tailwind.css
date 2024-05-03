@@ -14,7 +14,6 @@
 textarea:focus,
 select:focus {
   --tw-ring-color: var(--primary-color);
-  border-color: var(--primary-color);
 }
 
 .react-datepicker-wrapper .react-datepicker__input-container input{

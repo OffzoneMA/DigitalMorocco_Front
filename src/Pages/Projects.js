@@ -10,10 +10,16 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal";
 import { projectsData } from "../data/tablesData";
+import { useGetAllProjectsQuery } from "../Services/Member.Service";
+import { formatNumber } from "../data/helper";
+import { useDeleteProjectMutation } from "../Services/Project.Service";
+import Loader from "../Components/Loader";
 
 const Projects = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
+  const { data, error, isLoading , refetch } = useGetAllProjectsQuery();
+  const [deleteProject, response] = useDeleteProjectMutation();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
@@ -21,14 +27,14 @@ const Projects = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 6;
   const itemsToShow = 4;
-  const data = projectsData;
+  // const data = projectsData;
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
+    return data?.slice(startIndex, endIndex);
   };
 
   const pageData = getPageData();
@@ -48,16 +54,21 @@ const Projects = () => {
     setIsDeleteModalOpen(false);
   };
 
-  const handleDelete = () => {
-    console.log(deleteRow?.projectName);
+  const handleDelete = async () => {
+    try {
+      await deleteProject(deleteRow?._id);
+      closeDeleteModal();
+      refetch();
+    } catch (error) {
+      console.error("Erreur lors de la suppression du projet :", error);
+    }
   };
-
 
   return (
       <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
         <div className="flex items-start justify-start sm:px-5 px-8 w-full">
             <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-              <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
+              <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
                 <Text
                   className="text-3xl font-bold leading-11 text-gray-900 w-full"
                   size="txtDmSansBold32"
@@ -68,7 +79,7 @@ const Projects = () => {
               <div className="flex w-[22%] rounded-md p-2 border border-solid">
                 <img
                   className="cursor-pointer h-[18px] mr-1.5 my-px"
-                  src="images/img_search_blue_gray_700_01.svg"
+                  src="/images/img_search_blue_gray_700_01.svg"
                   alt="search"
                 />
                 <input
@@ -119,10 +130,10 @@ const Projects = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} >
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursor-pointer" onClick={()=> navigate("/Projectdetails")}>{item.projectName}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.target}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stage}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.milestone}</td>
+                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursor-pointer" onClick={()=> navigate(`/Projectdetails/${item._id}`)}>{item.name}</td>
+                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
+                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages[0]}</td>
+                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.milestones[0]?.name}</td>
                       <td className="py-3 px-3 items-center">
                         <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
                           item.status === 'Active' ? 'bg-emerald-50 text-green-700' :
@@ -136,7 +147,7 @@ const Projects = () => {
                       <td className="py-3 px-3 ">
                         <div className="flex flex-row space-x-3 px-3 items-center">
                           <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)}  className="text-blue_gray-301"/>
-                          <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> navigate("/Createproject")} />
+                          <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> navigate(`/EditProject/${item._id}`)} />
                         </div>
                       </td>
                     </tr>
@@ -146,17 +157,24 @@ const Projects = () => {
                   ""
                 }
                 </table>
-                {!pageData?.length>0 && (
-                  <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
-                    <AiOutlineFileSearch size={30} />
-                    <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
-                      size=""
-                    >
-                      No Project Created
-                    </Text>
+                {isLoading ? (
+                <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                  <Loader />
                   </div>
+                ) : (
+                  !pageData?.length > 0 && (
+                    <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                      <AiOutlineFileSearch size={30} />
+                      <Text
+                        className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                        size=""
+                      >
+                        No Project Created
+                      </Text>
+                    </div>
+                  )
                 )}
+
                 
               </div>
               {pageData?.length>0 && (

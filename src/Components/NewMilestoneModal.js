@@ -1,19 +1,46 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlineDateRange } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import CustomCalendar from "./CustomCalendar";
+import { useAddMilestoneToProjectMutation } from "../Services/Project.Service";
 
 const NewMilestoneModal = (props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [selectedDate , setSelectedDate] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [addMilestoneToProject, {isSuccess, isLoading, isError, error }] = useAddMilestoneToProjectMutation();
 
-  const onSubmit = (data) => {
-    console.log(data); 
+  function parseDateString(dateString) {
+    const [day, month, year] = dateString.split('/');
+
+    const dateObject = new Date(`${year}-${month}-${day}`);
+
+    return dateObject;
+}
+  const onSubmit = async (data) => {
+    try {
+      const formDataContent = {
+        ...data,
+        dueDate: parseDateString(selectedDate)
+    };
+
+      const response = await addMilestoneToProject({ projectId: props?.rowData?._id ,milestoneData: formDataContent  });
+    } catch (error) {
+      console.error("Error adding milestone:", error);
+    }
   };
+
+  useEffect(() => {
+    isError && console.log(error?.data.message)
+    if (isSuccess) {
+        props.onRequestClose();
+    }
+  
+  }, [isLoading]);
+
 
   return (
     <ModalProvider
@@ -25,7 +52,7 @@ const NewMilestoneModal = (props) => {
       <div className="max-h-[97vh] overflow-y-auto w-full md:w-full">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-            <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+            <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <Text
                 className="md:text-lg text-[18px] font-medium leading-7 text-gray-900 w-full font-DmSans"
               >
