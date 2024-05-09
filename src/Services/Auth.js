@@ -28,6 +28,9 @@ export const authApi = createApi({
         method: 'GET',
       }),
     }),
+    getUserByEmail: builder.query({
+      query: (email) => `/users/${email}`,
+    }),
     addNewRequest: builder.mutation({
       query: (payload) => ({
         url: '/complete_signup/' +payload.userId,

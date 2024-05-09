@@ -17,7 +17,6 @@ import { eventData } from "../data/tablesData";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import ReactDOMServer from 'react-dom/server';
-import { useReactToPrint } from 'react-to-print';
 
 
 const Events = () => {
