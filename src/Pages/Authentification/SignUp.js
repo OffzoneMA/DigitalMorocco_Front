@@ -2,7 +2,6 @@ import React, { useEffect, useState , useRef} from 'react'
 import { useForm } from "react-hook-form";
 import {Text } from '../../Components/Text'
 import {Button } from '../../Components/Button'
-import { FaCheck, FaTimes } from "react-icons/fa"; 
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../Redux/auth/authAction';
@@ -10,7 +9,11 @@ import { setUserEmail } from '../../Redux/auth/authSlice';
 import { useSendOTPMutation } from '../../Services/Auth';
 import { useNavigate , Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IoIosCheckmark } from "react-icons/io";
+import logo from '../../Media/img_logo.svg';
+import googleLogo  from '../../Media/img_flatcoloriconsgoogle.svg';
+import faceBookLogo from '../../Media/img_logosfacebook.svg';
+import linkLogo from '../../Media/img_link.svg';
+import { authApi } from '../../Services/Auth';
 
 export default function SignUp() {
   const { t, i18n } = useTranslation();
@@ -19,6 +22,7 @@ export default function SignUp() {
   const dispatch = useDispatch()
   const [Mount, setMount] = useState(true)
   const [sendOTP] = useSendOTPMutation();
+  const [trigger, { data, isFetching, status }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
   const [hasLowerCase, setHasLowerCase] = useState(false);
   const [hasUpperCase, setHasUpperCase] = useState(false);
@@ -45,8 +49,8 @@ export default function SignUp() {
    else{ if (userInfo) {
       toast.success("Successfuly !")
       dispatch(setUserEmail(userInfo?.email));
-      sendOTP(userInfo?.email)
-      setTimeout(() => navigate('/VerificationCode'), 2500)
+      trigger(userInfo?._id)
+      setTimeout(() => navigate('/VerificationEmail'), 2500)
     }
     if (error) {
       toast.error(error)
@@ -72,10 +76,15 @@ export default function SignUp() {
   };
 
   const passwordValidation = validatePassword(password);
+
   const onSubmit = (data) => {
     console.log(data)
     dispatch(registerUser(data));
   };
+
+  const socialSignUp = () => {
+    navigate('/SocialSignUp')
+  }
 
   const handleGoogleButtonClick = () => {
     window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google`;
@@ -97,10 +106,10 @@ export default function SignUp() {
     <>
     <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto min-h-screen p-[42px] md:px-10 sm:px-5 w-full">
         <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
-          <div className="flex flex-col items-center justify-center w-full cursor-pointer">
+          <div className="flex flex-col items-center justify-center w-full cursorpointer">
             <Link to="/"><img
                 className="h-[50px] w-[183px]"
-                src="images/img_logo.svg"
+                src={logo}
                 alt="logo"
               />
             </Link>  
@@ -116,11 +125,12 @@ export default function SignUp() {
                 </Text>
                 <div className="flex flex-col gap-4 items-center justify-start w-full">
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
-                    <Text
+                    <label
+                      htmlFor='displayName'
                       className="text-gray-900_01 font-dm-sans-regular text-sm leading-[26px] text-left w-auto"
                     >
                       {t('signup.fullName')}
-                    </Text>
+                    </label>
                     <input
                       {...register("displayName", {
                         required: {
@@ -146,11 +156,12 @@ export default function SignUp() {
                     {errors?.displayName?.message &&<span className="text-errorColor text-sm">{errors?.displayName?.message}</span>}
                   </div>
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
-                    <Text
+                    <label
+                      htmlFor='email'
                       className="text-gray-900_01 font-dm-sans-regular text-sm leading-[26px] text-left w-auto"
                       >
                       {t('signup.emailAddress')}
-                    </Text>
+                    </label>
                     <input
                       {...register("email", {
                         required: {
@@ -167,7 +178,7 @@ export default function SignUp() {
                         },
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          // message: t('signup.emailPattern'),
+                          message: t('signup.emailPattern'),
                         },
                       })}
                         id="email"
@@ -180,22 +191,26 @@ export default function SignUp() {
                   </div>
                   <div className="flex flex-col gap-3 items-end justify-start w-full">
                     <div className="flex flex-col gap-2 items-start justify-start w-full">
-                      <Text
+                      <label
+                      htmlFor='password'
                       className="text-gray-900_01 font-dm-sans-regular text-sm leading-[26px] text-left w-auto"
                       >
                         {t('signup.password')}
-                      </Text>
+                      </label>
                       <div className="relative w-full">
                         <input
                           {...register("password", {
                             validate: {
                               hasUpperCase: v => /[A-Z]/.test(v) ,
+                              // message : t('signup.passwordUpperCaseVal')
                             },
                             validate: {
                               hasLowerCase: v => /[a-z]/.test(v),
+                              // message : t('signup.passwordLowerCaseVal')
                             },
                             minLength: {
                               value: 8,
+                              message: t('signup.passwordMinLengthVal')
                             },
                             
                           })}
@@ -223,14 +238,13 @@ export default function SignUp() {
                           )}
                         </button>
                       </div>
+                      {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs font-normal leading-[15.62px] tracking-[0.01em] text-left text-gray-700">{t('signup.passwordValidation')}</span>}
 
-                    {!errors?.password?.message &&<span className="font-dm-sans-regular mt-1 text-xs font-normal leading-[15.62px] tracking-[0.01em] text-left text-gray-700">{t('signup.passwordValidation')}</span>}
-                    {errors?.password?.message &&
+                    {(errors?.password || passwordValidation.minLength || passwordValidation.hasLowerCase || passwordValidation.hasUpperCase) &&
                       <>
                         <span className=''>
                         <ul style={{ listStyle: "none", display: 'flex', paddingLeft: 0 }} className='items-center justify-between space-x-4' >
                           <li className={`text-gray-600 items-center text-sm flex ${errors.password?.type === 'minLength' ? 'error' : 'valid'}`}>
-                            <div className={`rounded-full flex items-center justify-center`}>
                               {!passwordValidation.minLength  || getValues('password')==''  ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
@@ -240,13 +254,11 @@ export default function SignUp() {
                                 <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
                                 </svg>
                               )}
-                            </div>
                             <span className='ml-1'>
                               {t('signup.passwordMinLengthVal')}
                             </span>
                           </li>
                           <li className={`text-gray-600 text-sm items-center flex ${errors.password?.type === "hasLowerCase" ? "error" : "valid"}`}>
-                            <div className={`rounded-full flex items-center justify-center`}>
                               {!passwordValidation.hasLowerCase  || getValues('password')==''? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
@@ -256,13 +268,11 @@ export default function SignUp() {
                                 <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
                                 </svg>
                               )}
-                            </div>
                             <span className='ml-1'>
                               {t('signup.passwordLowerCaseVal')}
                             </span>
                           </li>
                           <li className={`text-gray-600 text-sm items-center flex ${errors.password?.type === "hasUpperCase" ? "error" : "valid"}`}>
-                            <div className={`rounded-full flex items-center justify-center`}>
                               {!passwordValidation.hasUpperCase  || getValues('password')=='' ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
@@ -272,25 +282,25 @@ export default function SignUp() {
                                 <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
                                 </svg>
                               )}
-                            </div>
                             <span className='ml-1'>
                               {t('signup.passwordUpperCaseVal')}
                             </span>
                           </li>
                         </ul>
                         </span>
-                        <span className="text-errorColor text-sm mt-1">
-                          {errors?.password?.message}
+                        <span className="text-errorColor font-dm-sans-regular text-sm mt-1">
+                          {!passwordValidation.minLength && t('signup.passwordMinLength')} {!passwordValidation.hasLowerCase && "& " +  t('signup.passwordLowerCase')}{!passwordValidation.hasUpperCase && " & " +  t('signup.passwordUpperCase')}
                         </span>
                       </>
                     }
                     </div>
                   </div>
-                  <div className="flex flex-col font-avenirnextltpro mt-2 mb-3 gap-2.5 items-start justify-start w-full">
+                  <div className="flex flex-col mt-1 mb-3 gap-2.5 items-start justify-start w-full">
                     <Text
-                      className="font-Avenir-next-LTPro leading-[16.8px] text-[12px] text-[#585E66] w-full"
+                      className="font-Montserrat-regular leading-[16.8px] text-[12px] text-[#585E66] w-full"
                     >
-                      {t('signup.accordance')}
+                      {t('signup.accordance')} <br/>
+                      {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>D-W-266/2024.</span>
                     </Text>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-4">
                         <label htmlFor={`acceptTerms`} className="cursor-pointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
@@ -302,20 +312,21 @@ export default function SignUp() {
                             id={`acceptTerms`}
                             type="checkbox"
                             name="acceptTerms"
-                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border checked:shadow-none border-solid border-errorColor shadow-checkErrorbs rounded-[3px]  relative`}
+                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border checked:shadow-none border-[0.5px]  ${errors?.acceptTerms?.message? 'border-errorColor shadow-checkErrorbs': 'shadow-none border-[#303030]' } rounded-[4px]  relative`}
                           />
                           <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100">
                             <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
                           </svg>
                         </label>
-                        <Text
+                        <label
+                          htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-gray-700 w-auto font-dm-sans-regular"
                         >
                           <p dangerouslySetInnerHTML={{ __html: t('signup.terms') }} />                        
-                        </Text>
+                        </label>
                     </div>
                   </div>
-                  <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursor-pointer hover:bg-greenbtnhoverbg hover:svg-translate" 
+                  <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
                     onClick={()=> onButtonClick(formButtonRef)}>
                       <button ref={formButtonRef} type="submit" className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
                       {t('signup.next')}
@@ -343,8 +354,8 @@ export default function SignUp() {
                 </Text>
                 <div className="flex flex-col gap-3 items-center justify-start w-full">
                   <Button
-                    className=" text-[#37363B] border border-gray-300 text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border-solid cursor-pointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
-                    onClick={handleGoogleButtonClick}
+                    className=" text-[#37363B] border border-gray-300 text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                    onClick={socialSignUp}
                     leftIcon={
                       <img
                         className="h-6 mr-2.5"
@@ -359,8 +370,8 @@ export default function SignUp() {
                     </div>
                   </Button>
                   <Button
-                    className=" text-[#37363B] text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border border-gray-300 border-solid cursor-pointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
-                    onClick={handleLinkedinButtonClick}
+                    className=" text-[#37363B] text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                    onClick={socialSignUp}
                     leftIcon={
                       <img
                         className="h-6 mr-2.5"
@@ -375,8 +386,8 @@ export default function SignUp() {
                     </div>
                   </Button>
                   <Button
-                    className="text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] text-[#37363B] border border-gray-300 border-solid cursor-pointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
-                    onClick={handleFacebookButtonClick}
+                    className="text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                    onClick={socialSignUp}
                     leftIcon={
                       <img
                         className="h-6 mr-2.5"
@@ -404,7 +415,7 @@ export default function SignUp() {
               href="/SignIn"
               className="text-[#482BE7] text-sm font-dm-sans-bold leading-[26px] w-auto"
             >
-              <Text className='cursor-pointer'>{t('signup.signIn')}</Text>
+              <Text className='cursorpointer-green'>{t('signup.signIn')}</Text>
             </a>
           </div>
         </div>

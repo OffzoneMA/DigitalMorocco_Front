@@ -7,14 +7,18 @@ import { useNavigate , Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../Components/Text';
 import { Button } from '../../Components/Button';
-import { IoIosCheckmark } from "react-icons/io";
-import Input from '../../Components/Input';
+import logo from '../../Media/img_logo2.svg';
+import googleLogo  from '../../Media/img_flatcoloriconsgoogle.svg';
+import faceBookLogo from '../../Media/img_logosfacebook.svg';
+import linkLogo from '../../Media/img_link.svg';
+import LoginModal from '../../Components/LoginModal';
 
 
 export default function SignIn() {
   const { t, i18n } = useTranslation();
 
   const { loading, userInfo, error } = useSelector((state) => state.auth)
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [Mount, setMount] = useState(true)
   const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch()
@@ -33,6 +37,14 @@ export default function SignIn() {
 
   const navigate = useNavigate()
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     if (Mount) { setMount(false) }
     else {
@@ -42,7 +54,8 @@ export default function SignIn() {
         
         if (!userInfo?.role) { navigate('/ChooseRole') }
         else{
-          navigate('/Dashboard')
+          // navigate('/Dashboard')
+          openModal();
         }
         }, 2000)
       }
@@ -82,7 +95,7 @@ export default function SignIn() {
           <div className="flex flex-col items-center justify-center w-full ">
             <Link to="/"><img
                 className="h-[50px] w-[183px]"
-                src="images/img_logo2.svg"
+                src={logo}
                 alt="logo"
               />
             </Link>  
@@ -92,12 +105,12 @@ export default function SignIn() {
           <Toaster />
             <div className="flex flex-col gap-3 items-start justify-start w-full">
               <Button
-                className="border border-gray-300 border-solid cursor-pointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
+                className="border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
                 onClick={handleGoogleButtonClick}
                 leftIcon={
                   <img
                     className="h-6 w-6 mr-2.5"
-                    src="images/img_flatcoloriconsgoogle.svg"
+                    src={googleLogo}
                     alt="flatcoloriconsg"
                   />
                 }
@@ -108,12 +121,12 @@ export default function SignIn() {
                 </div>
               </Button>
               <Button
-                className="text-[#37363B] border border-gray-300 border-solid cursor-pointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                className="text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleLinkedinButtonClick}
                 leftIcon={
                   <img
                     className="h-6 mr-2.5"
-                    src="images/img_link.svg"
+                    src={linkLogo}
                     alt="link"
                   />
                 }
@@ -124,12 +137,12 @@ export default function SignIn() {
                 </div>
               </Button>
               <Button
-                className=" text-[#37363B] border border-gray-300 border-solid cursor-pointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                className=" text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleFacebookButtonClick}
                 leftIcon={
                   <img
                     className="h-6 mr-2.5"
-                    src="images/img_logosfacebook.svg"
+                    src={faceBookLogo}
                     alt="logos:facebook"
                   />
                 }
@@ -216,43 +229,39 @@ export default function SignIn() {
                         )}
                       </button>
                     </div>
-                    {errors?.password?.message &&<span className="text-errorColor text-sm">{errors?.password?.message}</span>}
+                    {errors?.password?.message &&<span className="text-errorColor text-sm">{t('signup.emailPattern')}</span>}
                   </div>
                   <div className="flex flex-row gap-2.5 items-center  w-full">
-                      <div className="flex flex-row flex-1 items-center justify-start m-auto w-auto">
-                        <label htmlFor={`rememberme`} className="cursor-pointer relative inline-flex items-center justify-center peer-checked:border-0 rounded-[3px] mr-2">
+                    <div className="flex flex-row flex-1 items-center justify-start m-auto w-auto">
+                      <label htmlFor={`rememberme`} className="cursorpointer relative inline-flex items-center justify-center peer-checked:border-0 rounded-[3px] mr-2">
                           <input
-                          {...register("rememberme" , {
-                            required: {value: false , message: t('signup.termsValidation')},
-                          }
-                          )}
-                            id={`rememberme`}
-                            type="checkbox"
-                            name="rememberme"
-                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border border-solid border-gray-300 rounded-[3px] focus:ring-blue-500 relative`}
+                              {...register("rememberme" , {
+                                  required: {value: false , message: t('signup.termsValidation')},
+                              })}
+                              id={`rememberme`}
+                              type="checkbox"
+                              name="rememberme"
+                              className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border border-solid border-[#D0D5DD] rounded-[4px] focus:ring-blue-500 relative`}
                           />
                           <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100">
-                            <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
+                              <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
                           </svg>
-                        </label>
-                        
-                        <Text
-                          className="text-[13px] font-dm-sans-regular leading-[16.93px] tracking-[0.01em] text-gray-700 w-auto"
-                        >
+                      </label>
+                      <label htmlFor={`rememberme`} className="text-[13px] text-center font-dm-sans-regular leading-[16.93px] tracking-[0.01em] text-gray-700 w-auto cursorpointer">
                           {t('signin.rememberMe')}                       
-                        </Text>
+                      </label>
                     </div>
                     <a className="text-[13px] leading-[16.93px] font-dm-sans-regular text-deep_purple-A400 tracking-[0.01em]  w-1/3 justify-end">
                       <Text
-                        className="cursor-pointer "
+                        className="cursorpointer-green "
                         onClick={() => navigate("/ForgotPassword")}
                       >
                         {t('signin.forgotPassword')}
                       </Text>
                     </a>
                   </div>
-                  <div className="flex flex-col items-center justify-start w-full mt-[16px] ">
-                    <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursor-pointer hover:bg-greenbtnhoverbg hover:svg-translate" 
+                  <div className="flex flex-col items-center justify-start w-full mt-[10px] ">
+                    <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
                       onClick={()=> onButtonClick(formButtonRef)}>
                       <button ref={formButtonRef} type="submit" className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
                       {t('signin.signIn')}
@@ -271,7 +280,7 @@ export default function SignIn() {
                             href="/SignUp"
                             className="text-[#482BE7] text-sm w-auto font-dm-sans-bold"
                         >
-                            <Text className='cursor-pointer font-dm-sans-bold'>{t('signin.createAccount')} </Text>
+                            <Text className='cursorpointer-green font-dm-sans-bold'>{t('signin.createAccount')} </Text>
                         </a>
                     </div>
                   </div>
@@ -283,6 +292,8 @@ export default function SignIn() {
         </div>
         </div>
     </div>
+    <LoginModal isOpen={isModalOpen}
+        onRequestClose={closeModal}/>
     </>
   )
 }

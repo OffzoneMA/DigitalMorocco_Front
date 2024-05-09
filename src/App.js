@@ -46,7 +46,7 @@ import UpcomingEventDetails from './Pages/UpcomingEventDetails';
 import PastEvents from './Pages/PastEvents';
 import ChoosePlan from './Pages/ChoosePlan';
 import Notifications from './Pages/Notifications';
-import CustomCalendar from './Components/CustomCalendar';
+import VerificationEmail from './Pages/Authentification/Complete_SignUp/VerificationEmail';
 
 function App() {
   return (
@@ -105,6 +105,7 @@ function App() {
 
         
         <Route path="/VerificationCode" element={<VerificationCode />} />
+        <Route path="/VerificationEmail" element={<VerificationEmail />} />
         <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/ResetPassword" element={<ResetPassword />} />

@@ -95,12 +95,13 @@ export default function SocialSignUp() {
                   </div>
                   <div className="flex flex-col mt-4 mb-3 gap-2.5 justify-start w-full">
                     <Text
-                      className="font-Avenir-next-LTPro font-normal leading-[18.2px] text-[13px] text-[#585E66] w-full"
+                      className="font-Montserrat-regular leading-[18.2px] text-[13px] text-[#585E66] w-full"
                       >
-                      {t('signup.accordance')}
+                      {t('signup.accordance')} <br/>
+                      {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>D-W-266/2024.</span>
                     </Text>
                     <div className="flex flex-row items-start mt-4 justify-start w-full">
-                        <label htmlFor={`acceptTerms`} className="cursor-pointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
+                        <label htmlFor={`acceptTerms`} className="cursorpointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
                           <input
                           {...register("acceptTerms" , {
                             required: t('signup.termsValidation'),
@@ -109,17 +110,18 @@ export default function SocialSignUp() {
                             id={`acceptTerms`}
                             type="checkbox"
                             name="acceptTerms"
-                            className={`peer appearance-none w-4 h-4 bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border border-solid border-gray-300 ${errors?.acceptTerms ? 'border-red-500 text-red-400' : 'border-gray-300'} rounded-[3px] focus:ring-blue-500 relative`}
+                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border-[0.5px] border-[#303030] ${errors?.acceptTerms ? 'border-errorColor text-errorColor shadow-checkErrorbs' : 'shadow-none border-[#303030] '} rounded-[4px] focus:ring-blue-500 relative`}
                           />
                           <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100">
                             <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
                           </svg>
                         </label>                      
-                        <Text
+                        <label
+                          htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-gray-700 w-auto font-dm-sans-regular"
                           >
                           <p dangerouslySetInnerHTML={{ __html: t('signup.terms') }} />                        
-                        </Text>
+                        </label>
                     </div>
                     {errors?.acceptTerms?.message &&
                     <span className="text-red-400 text-sm">
@@ -127,7 +129,7 @@ export default function SocialSignUp() {
                    </span>
                     }
                   </div>
-                  <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursor-pointer hover:bg-greenbtnhoverbg hover:svg-translate" 
+                  <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
                     onClick={()=> onButtonClick(formButtonRef)}>
                     <button ref={formButtonRef} type="submit" className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
                     {t('signup.signup')}
@@ -150,12 +152,12 @@ export default function SocialSignUp() {
               href="/SignIn"
               className="text-[#482BE7] text-sm font-dm-sans-bold leading-[26px] w-auto"
             >
-              <Text className='cursor-pointer'>{t('signup.signIn')}</Text>
+              <Text className='cursorpointer-green'>{t('signup.signIn')}</Text>
             </a>
           </div>
       </div>
-      <EmailExistModal isOpen={isModalOpen}
-        onRequestClose={closeModal}/>
+      {/* <EmailExistModal isOpen={isModalOpen}
+        onRequestClose={closeModal}/> */}
     </div>
     </>
 

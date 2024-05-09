@@ -17,6 +17,10 @@ module.exports = {
         'dm-sans-regular': ['DMSans-Regular', 'sans-serif'],
         'dm-sans-medium': ['DMSans-Medium', 'sans-serif'],
         'dm-sans-bold': ['DMSans-Bold', 'sans-serif'],
+        'Montserrat-regular': ['Montserrat-Regular' , 'sans-serif'],
+        'Montserrat-medium': ['Montserrat-Medium' , 'sans-serif'],
+        'Montserrat-bold': ['Montserrat-Bold' , 'sans-serif'],
+        'Montserrat-semiBold': ['Montserrat-SemiBold' , 'sans-serif'],
         'Avenir-next-LTPro': ['AvenirNextLTPro','sans-serif']
         },
         colors:{

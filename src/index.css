@@ -33,13 +33,45 @@
  src: url('/public/fonts/DMSans-Bold.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Montserrat-Regular';
+  src: url('/public/fonts/Montserrat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: url('/public/fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Bold';
+  src: url('/public/fonts/Montserrat-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-SemiBold';
+  src: url('/public/fonts/Montserrat-SemiBold.ttf') format('truetype');
+}
+
 
 
 html {
   overflow-x: hidden;
   font-family: 'DMSans-Regular', sans-serif; 
-
+  /* cursor: url('/src/Media/curs.svg') , auto; */
 }
+
+* {
+  cursor: url('/src/Media/curs.svg') , auto;
+}
+
+.cursorpointer, .cursorpointer *:hover {
+  cursor: url('/src/Media/curs2.svg'), auto; 
+}
+
+
+
+
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -59,6 +91,15 @@ html {
   background: #E4E7EC;
   border-radius: 10px;
 }
+
+/* Selection*/
+
+::selection {
+  background-color: #00CDAE; 
+  cursor: url('/src/Media/curs2.svg') , auto;
+}
+
+
 
 /*Rsuite checkpicker custom css*/
 
@@ -357,7 +398,7 @@ input::-ms-clear {
 .hover\:stroke-red:hover svg>path {
   stroke: #EA6479;
   transition-property: stroke;
-  transition-duration: 200ms;
+  transition-duration: 300ms;
 }
 
 

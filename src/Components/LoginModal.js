@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import confirmImage from '../Media/img_role_confirmed.svg'
 
-const RoleConfirmedModal = (props) => {
+const LoginModal = (props) => {
   const {t} = useTranslation();
 
   return (
@@ -16,8 +16,8 @@ const RoleConfirmedModal = (props) => {
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
     {...props}
   >
-    <div className="max-h-[97vh] overflow-y-auto sm:w-full md:w-full">
-      <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[14px] w-full">
+    <div className="max-h-[97vh] overflow-y-auto w-full">
+      <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 rounded-[14px] w-full">
         <div className="flex items-center justify-end pb-6 w-full ml-auto">
           <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,29 +25,29 @@ const RoleConfirmedModal = (props) => {
             </svg>
           </div>
         </div>
-        <div className="flex flex-col gap-6 items-center justify-start w-full">
-          <div className="flex flex-col gap-[38px] items-center justify-start w-auto sm:px-16 w-full">
+        <div className="flex flex-col gap-6 items-center justify-start w-full ">
+          <div className="flex flex-col gap-[38px] items-center justify-start w-auto max-w-[460px] px-3 w-full">
             <img
               className="h-[172px] w-[172px]"
               src={confirmImage}
               alt="successtick"
             />
-            <div className="flex flex-col gap-5 items-center justify-start w-auto max-w-[460px]">
+            <div className="flex flex-col gap-5 items-center justify-start w-auto ">
               <Text
                 className="leading-[28.00px] font-dm-sans-medium text-gray-801 text-center text-[18px] "
               >
                 <span className=" font-dm-sans-medium">
-                  {t('chooserole.confirmed.m1')}{" "}
+                  {t('signin.congrate')}{" "}
                 </span>
                 <span className="text-blue-A400 font-dm-sans-medium">
-                  {t('chooserole.confirmed.m2')}
+                  {t('signin.congrate1')}
                 </span>
               </Text>
               <Text
                 className="flex flex-col gap-4 font-dm-sans-regular leading-[26.00px] text-gray-801 text-center text-sm"
               >
                 <>
-                  {t('chooserole.confirmed.m3')}
+                  {t('signin.congrate2')}
                   <br/>
                   <span className=''>{t('chooserole.confirmed.m4')}</span>
                 </>
@@ -74,4 +74,4 @@ const RoleConfirmedModal = (props) => {
   );
 };
 
-export default RoleConfirmedModal;
+export default LoginModal;

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Text  } from '../../Components/Text';
 import { useTranslation } from 'react-i18next';
 import { useSendForgotPasswordMutation } from '../../Services/Auth';
+import arrowLeftImage from '../../Media/img_arrowleft.svg';
 
 
 export default function ForgotPassword(){
@@ -44,10 +45,10 @@ export default function ForgotPassword(){
         <>
           <div className="bg-gray-100 flex flex-col font-manrope gap-4 mx-auto p-[30px] min-h-screen sm:px-5 w-full">
             <div className={`self-start flex flex-col px-5 gap-[18px] h-11 md:h-auto items-center justify-center py-[18px] rounded-[22px] w-auto`}>
-                <div className="flex flex-row gap-3 items-center justify-center w-auto w-full cursor-pointer">
+                <div className="flex flex-row gap-3 items-center justify-center w-auto w-full cursorpointer-green">
                   <img
                       className="h-[22px] w-[22px]"
-                      src="images/img_arrowleft.svg"
+                      src={arrowLeftImage}
                       alt="arrowleft"
                   />
                   <a className="text-[#8C8C8E] text-sm tracking-[0.14px] w-auto" href='/SignIn'>
@@ -140,7 +141,7 @@ export default function ForgotPassword(){
                     {errors?.email?.message &&<span className="text-red-400 text-sm">{errors?.email?.message}</span>}
                     </div>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                    <div className={`${errors?.email? 'bg-gray-202 text-placehColor' : ' bg-teal-A700 text-white-A700'} my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursor-pointer ${errors?.email? 'hover:bg-gray-301': 'hover:bg-greenbtnhoverbg'}  hover:svg-translate`}>
+                    <div className={`${errors?.email? 'bg-gray-202 text-placehColor' : ' bg-teal-A700 text-white-A700'} my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursorpointer ${errors?.email? 'hover:bg-gray-301': 'hover:bg-greenbtnhoverbg'}  hover:svg-translate`}>
                       <button ref={formButtonRef} type="submit" className="text-base items-center justify-center font-dm-sans-medium w-auto">
                           {isLoading ? t('forgot.resetPasswordSend') : t('forgot.resetPassword')}
                       </button>

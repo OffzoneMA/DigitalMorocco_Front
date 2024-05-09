@@ -1,21 +1,19 @@
 import React , {useRef} from 'react'
-import { Text } from "../../Components/Text";
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useSendForgotPasswordMutation } from '../../Services/Auth';
-import logo from '../../Media/img_logo.svg';
-import verifyImage from '../../Media/img_verify.svg';
+import { Text } from '../../../Components/Text';
+import { authApi } from '../../../Services/Auth';
 
 
-export default function ResetPasswordEmail() {
+export default function VerificationEmail() {
   const { t } = useTranslation();
-  const { userEmail } = useSelector((state) => state.auth)
-  const [sendForgotPassword, { isLoading }] = useSendForgotPasswordMutation()
+  const { loading, userInfo, error } = useSelector((state) => state.auth)
+  const [trigger, { data, isFetching, status }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
   const handleResendEmail = async () => {
     try {
-      console.log(userEmail)
-      await sendForgotPassword(userEmail);
+      console.log(userInfo)
+      await trigger(userInfo?._id);
     } catch (error) {
       console.error('Resend email request failed:', error);
     }
@@ -35,7 +33,7 @@ export default function ResetPasswordEmail() {
               <a href='' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
-                  src={logo}
+                  src="images/img_logo.svg"
                   alt="logo"
                 />
               </a>
@@ -43,40 +41,31 @@ export default function ResetPasswordEmail() {
                 <div className="flex flex-col items-center justify-start w-auto">
                   <img
                     className="h-[235px] w-[256px]"
-                    src={verifyImage}
+                    src="images/img_verify.svg"
                     alt="logo"
                   />
                 </div>
                 <Text
                   className="text-[22px] font-dm-sans-medium text-gray-901 leading-8 w-auto"
                 >
-                  {t('resetEmail.checkInbox')}
+                  {t('verifyEmailMsg')}
                 </Text>
                 <div className="flex flex-col gap-9 items-center justify-start w-full">
-                  <div className="flex flex-col gap-6 items-center justify-start w-full">
                     <Text
-                      className="leading-[28.00px] font-dm-sans-medium text-center text-gray-901 text-[18px] "
-                    >
-                      {t('resetEmail.resetLinkSent')}
-                    </Text>
-                    <Text
-                      className="leading-[26.00px] font-dm-sans-medium text-base text-gray500 text-center"
+                      className="leading-[26.00px] px-4 font-dm-sans-medium text-base text-[#667085] text-center"
                     >
                       <>
-                        {t('resetEmail.cantFindEmail')}
+                        {t('verification.instructions')}
                       </>
                     </Text>
-                  </div>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                    <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto cursorpointer items-center justify-center px-6 py-[14px] rounded-[26px] ">
                         <button
                             type="button"
                             onClick={handleResendEmail}
-                            className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto"
+                            className="bg-[#EDF7FF] flex cursorpointer flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base items-center justify-center font-dm-sans-medium text-[#00CDAE] w-full"
                         >
-                            {isLoading? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
+                            {isFetching? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
                         </button>
-                    </div>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
                       <Text
                         className="text-blue_gray-900_02 font-dm-sans-medium leading-[26px] text-sm w-auto"

@@ -4,6 +4,11 @@ import { Text } from "../../../Components/Text";
 import { Button } from "../../../Components/Button";
 import { useTranslation } from "react-i18next";
 import RoleConfirmedModal from "../../../Components/RoleConfirmedModal";
+import logo from '../../../Media/img_logo.svg';
+import userImage from '../../../Media/img_user03.svg';
+import startupImage from '../../../Media/img_startup.svg';
+import investorImage from '../../../Media/img_investor.svg';
+import companyImage from '../../../Media/img_company.svg';
 
 const ChooseRole = () => {
     const { t, i18n } = useTranslation();
@@ -22,6 +27,7 @@ const ChooseRole = () => {
     const closeModal = () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
+      // Redirection ves site officiel
     };
 
   return (
@@ -31,7 +37,7 @@ const ChooseRole = () => {
           <a href="/">
             <img
               className="h-[47px] w-[180px]"
-              src="images/img_logo.svg"
+              src={logo}
               alt="logo"
             />
           </a>
@@ -44,11 +50,11 @@ const ChooseRole = () => {
             >
               <img
                 className="h-6"
-                src="images/img_user03.svg"
+                src={userImage}
                 alt="userThree"
               />
             </Button>
-            <div className="absolute bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] border border-gray-201 top-[46px] right-0 w-[248px] rounded-[6px] cursor-pointer  h-[46px] flex items-center transition-colors duration-200 hover:text-[#EA6479] hover:stroke-red">
+            <div className="absolute bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] border border-gray-201 top-[46px] right-0 w-[248px] rounded-[6px] cursorpointer-green  h-[46px] flex items-center transition-colors duration-200 hover:text-[#EA6479] hover:stroke-red">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M14 15L19 10M19 10L14 5M19 10H7M10 15C10 15.93 10 16.395 9.89778 16.7765C9.62038 17.8117 8.81173 18.6204 7.77646 18.8978C7.39496 19 6.92997 19 6 19H5.5C4.10218 19 3.40326 19 2.85195 18.7716C2.11687 18.4672 1.53284 17.8831 1.22836 17.1481C1 16.5967 1 15.8978 1 14.5V5.5C1 4.10217 1 3.40326 1.22836 2.85195C1.53284 2.11687 2.11687 1.53284 2.85195 1.22836C3.40326 1 4.10218 1 5.5 1H6C6.92997 1 7.39496 1 7.77646 1.10222C8.81173 1.37962 9.62038 2.18827 9.89778 3.22354C10 3.60504 10 4.07003 10 5" stroke="#203668" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -60,7 +66,7 @@ const ChooseRole = () => {
         </div>
         <div className="px-20 flex justify-end w-full">
         {selectedGrid && 
-          <div className="bg-teal-A700 ml-auto my-3 flex flex-row gap-6 h-[52px] items-center justify-center px-7 py-[13px] rounded-[26px] w-auto cursor-pointer hover:bg-greenbtnhoverbg hover:svg-translate" 
+          <div className="bg-teal-A700 ml-auto my-3 flex flex-row gap-6 h-[52px] items-center justify-center px-8 py-[13px] rounded-[26px] w-auto cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
             onClick={openModal}>
             <button type="submit" className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
             {isModalOpen ? t('chooserole.confirmed.button1') : t('chooserole.confirmed.button')}
@@ -90,7 +96,7 @@ const ChooseRole = () => {
             </div>
             <div className="gap-[42px] grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 items-center justify-center w-full">
               <div onClick={() => handleGridClick(1)} 
-                className={`border-2  border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursor-pointer hover:border-blue-503 ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
+                className={`border-2  border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursorpointer-green hover:border-blue-503 ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
                 <div className="flex flex-col gap-6 items-center justify-start w-auto">
                   <Text
                     className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
@@ -99,7 +105,7 @@ const ChooseRole = () => {
                   </Text>
                   <img
                     className="h-40 w-40"
-                    src="images/img_startup.svg"
+                    src={startupImage}
                     alt="startup"
                   />
                   <Text
@@ -110,7 +116,7 @@ const ChooseRole = () => {
                 </div>
               </div>
               <div onClick={() => handleGridClick(2)} 
-              className={`border-2 border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursor-pointer hover:border-blue-503 ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
+              className={`border-2 border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursorpointer-green hover:border-blue-503 ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-6 items-center justify-start w-auto">
                   <Text
                     className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
@@ -119,7 +125,7 @@ const ChooseRole = () => {
                   </Text>
                   <img
                     className="h-40 w-40"
-                    src="images/img_investor.svg"
+                    src={investorImage}
                     alt="startup"
                   />
                   <Text
@@ -130,7 +136,7 @@ const ChooseRole = () => {
                 </div>
               </div>
               <div onClick={() => handleGridClick(3)} 
-              className={`border-2 border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursor-pointer hover:border-blue-503 ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
+              className={`border-2 border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursorpointer hover:border-blue-503 ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-6 items-center justify-start w-auto">
                   <Text
                     className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
@@ -139,7 +145,7 @@ const ChooseRole = () => {
                   </Text>
                   <img
                     className="h-40 w-40"
-                    src="images/img_company.svg"
+                    src={companyImage}
                     alt="startup"
                   />
                   <Text
@@ -154,9 +160,9 @@ const ChooseRole = () => {
         </div>
       </div>
       <div>
+      </div>
       <RoleConfirmedModal isOpen={isModalOpen}
         onRequestClose={closeModal}/>
-      </div>
     </>
   );
 };

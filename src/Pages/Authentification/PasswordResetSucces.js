@@ -2,6 +2,9 @@ import React , {useRef} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../Components/Text';
 import { useTranslation } from 'react-i18next';
+import logo from '../../Media/img_logo.svg';
+import succesImage from '../../Media/img_frame12.svg';
+
 
 export default function PasswordResetSucces() {
   const { t } = useTranslation();
@@ -18,18 +21,18 @@ export default function PasswordResetSucces() {
         <>
           <div className="bg-gray-100 flex flex-col font-DmSans items-center min-h-screen justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mb-[213px] w-auto w-full">
-              <a className="flex flex-col items-center justify-center w-full">
+              <a href='' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
-                  src="images/img_logo.svg"
+                  src={logo}
                   alt="logo"
                 />
               </a>
               <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start px-6 py-[42px] rounded-[12px] shadow-formbs max-w-[520px] w-full">
                 <img
                   className="h-[235px] w-64"
-                  src="images/img_frame12.svg"
-                  alt="frameTwelve"
+                  src={succesImage}
+                  alt="succes"
                 />
                 <div className="flex flex-col gap-9 items-center justify-start w-full">
                   <Text
@@ -40,10 +43,10 @@ export default function PasswordResetSucces() {
                     </>
                   </Text>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                    <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[14px] rounded-[26px] w-full cursor-pointer hover:bg-greenbtnhoverbg hover:svg-translate" >
+                    <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[14px] rounded-[26px] w-full cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
+                    onClick={()=> navigate("/SignIn")}>
                         <button
                           type="button"
-                          onClick={()=> navigate("/SignIn")}
                           className="text-base leading-[20.83px] text-white-A700 font-dm-sans-medium w-auto"
                         >
                         {t('resetSuccess.signIn')}
@@ -59,7 +62,7 @@ export default function PasswordResetSucces() {
                         {t('resetEmail.signInTrouble')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 leading-[26px] font-dm-sans-bold text-sm w-auto cursor-pointer"
+                        className="text-deep_purple-A400 leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer-green"
                         >
                         {t('resetEmail.contactSupport')}
                       </Text>
