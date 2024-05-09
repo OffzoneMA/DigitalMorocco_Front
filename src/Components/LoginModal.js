@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
-import { IoCloseOutline } from "react-icons/io5";
 import { useTranslation } from 'react-i18next';
 
 import confirmImage from '../Media/img_role_confirmed.svg'
