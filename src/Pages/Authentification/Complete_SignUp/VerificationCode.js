@@ -156,17 +156,15 @@ export default function VerificationCode() {
                         </div>
                         </div>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
-                      <Text
-                        className="text-blue_gray-900_02 text-sm w-auto"
-                        size="txtDMSansMedium14"
+                    <Text
+                        className="text-blue_gray-900_02 font-dm-sans-medium leading-[26px] text-sm w-auto"
                       >
-                        {t('verification.troubleRegistering')}
+                        {t('forgot.havingTroubleSigningIn')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 text-sm w-auto"
-                        size="txtDMSansBold14"
+                        className="text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer-green"
                       >
-                        {t('verification.contactSupport')}
+                        <a href="mailto:support@digitalmorocco.net">{t('resetEmail.contactSupport')}</a>
                       </Text>
                     </div>
                   

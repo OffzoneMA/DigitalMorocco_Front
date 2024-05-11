@@ -1,23 +1,62 @@
-import React , {useRef} from 'react'
+import React , {useRef , useEffect , useState} from 'react'
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Text } from '../../../Components/Text';
 import { authApi } from '../../../Services/Auth';
+import { useNavigate } from 'react-router-dom';
+import toast , {Toaster} from 'react-hot-toast';
+import logo from '../../../Media/img_logo.svg';
+import verifyImage from '../../../Media/img_verify.svg';
 
 
 export default function VerificationEmail() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { loading, userInfo, error } = useSelector((state) => state.auth)
-  const [trigger, { data, isFetching, status }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [UserStatus, setUserStatus] = useState(userInfo?.status)
+  const [trigger, { data, isFetching, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
   const handleResendEmail = async () => {
     try {
-      console.log(userInfo)
       await trigger(userInfo?._id);
     } catch (error) {
       console.error('Resend email request failed:', error);
     }
   };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (userInfo?.status === 'verified') {
+      toast.success("Account Verified !")
+      setTimeout(() =>{
+        if (!userInfo?.role) { navigate('/ChooseRole') }
+        else{
+          // navigate('/Dashboard')
+          openModal();
+        }
+        }, 2000)
+    }
+  }, [userInfo?.status, navigate]);
+
+  useEffect(() => {
+    if (data) {
+      toast.success("Email Send")
+    }
+    if (sendError && sendError?.data?.name === "CastError") {
+      toast.error('User not found !')
+      console.log(sendError)
+    }
+
+  }, [isFetching])
+
 
   const formButtonRef = useRef();
 
@@ -33,15 +72,16 @@ export default function VerificationEmail() {
               <a href='' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
-                  src="images/img_logo.svg"
+                  src={logo}
                   alt="logo"
                 />
               </a>
               <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start px-6 py-[42px] rounded-[12px] shadow-formbs max-w-[520px] w-full">
+                <Toaster/>
                 <div className="flex flex-col items-center justify-start w-auto">
                   <img
                     className="h-[235px] w-[256px]"
-                    src="images/img_verify.svg"
+                    src={verifyImage}
                     alt="logo"
                   />
                 </div>
@@ -73,7 +113,7 @@ export default function VerificationEmail() {
                         {t('resetEmail.signInTrouble')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 leading-[26px] font-dm-sans-bold text-sm w-auto"
+                        className="text-deep_purple-A400 cursorpointer hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto"
                         >
                         {t('resetEmail.contactSupport')}
                       </Text>

@@ -20,6 +20,7 @@ export default function ResetPassword() {
         register,
         handleSubmit,
         formState: { errors },
+        getValues,
         watch,
   } = useForm({ mode: 'onChange' });
     
@@ -41,7 +42,7 @@ export default function ResetPassword() {
     
   const validateConfirmPassword = (value) => {
     const password = watch("password"); 
-    return value === password || "Passwords do not match";
+    return value === password || t('resetPassword.notMatch');
   };
 
   function extractTokenFromURL() {
@@ -85,7 +86,7 @@ export default function ResetPassword() {
                   >
                   {t('resetPassword.resetPassword')}
                 </Text>
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-9 items-center justify-start w-full">
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 items-center justify-start w-full">
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
                     <Text
                       className="leading-[28.00px] w-full font-dm-sans-medium text-left text-gray-901 text-[18px] "
@@ -110,14 +111,16 @@ export default function ResetPassword() {
                             minLength: {
                               value: 8,
                             },
-                            
+                            validate: {
+                              hasSpecialChar:  v => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(v),
+                            },
                           })}
                           id="password"
                           name="password"
                           type={showPassword ? "text" : "password"}
                           placeholder={t('signup.enterPassword')}
                           style={{ appearance: 'none' }}
-                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${errors?.password ? 'border-errorColor' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${(errors?.password) ? 'border-errorColor focus:border-errorColor shadow-inputBsError' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                         />
                         <button
                           type="button"
@@ -136,7 +139,7 @@ export default function ResetPassword() {
                           )}
                         </button>
                       </div>
-                      {errors?.password?.message &&<span className="text-red-400 text-sm">{errors?.password?.message}</span>}
+                      {(errors?.password && getValues('password')?.length > 0) &&<span className="text-red-400 text-sm">{t('signup.passwordValidation')}</span>}
                     </div>
                     <div className="flex flex-col gap-2 items-start justify-start w-full">
                       <Text
@@ -147,7 +150,9 @@ export default function ResetPassword() {
                       <div className={`relative w-full`}>
                       <input
                       {...register("confirmPassword", {
-                        required: t('resetPassword.confirmPasswordRequired'),
+                        required: {
+                          value : true
+                        },
                         validate: validateConfirmPassword,
                       })}
             
@@ -155,7 +160,7 @@ export default function ResetPassword() {
                         name="confirmPassword"
                         type={showConfPassword ? "text" : "password"}
                       placeholder={t('resetPassword.confirmPassword')}
-                      className={`${!showConfPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${errors?.confirmPassword ? 'border-errorColor' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.confirmPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.confirmPassword ? 'errorColor' : 'gray-801'}`}
+                      className={`${!showConfPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${(errors?.confirmPassword) ? 'border-errorColor focus:border-errorColor shadow-inputBsError ' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.confirmPassword ? 'errorColor' : 'gray-801'}`}
                       ></input>
                       <button
                           type="button"
@@ -174,10 +179,10 @@ export default function ResetPassword() {
                           )}
                       </button>
                     </div>
-                    {errors?.confirmPassword?.message &&<span className="text-red-400 text-sm">{errors?.confirmPassword?.message}</span>}
+                    {(errors?.confirmPassword && getValues('confirmPassword')?.length > 0) &&<span className="text-red-400 text-sm">{errors?.confirmPassword?.message}</span>}
                     </div>
                   </div>
-                  <div className="flex flex-col gap-6 items-center justify-start w-full">
+                  <div className="flex flex-col gap-4 items-center justify-start w-full">
                     <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[14px] rounded-[26px] w-full cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
                       onClick={()=> onButtonClick(formButtonRef)}>
                         <button
@@ -198,9 +203,9 @@ export default function ResetPassword() {
                         {t('resetEmail.signInTrouble')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer-green"
-                        >
-                        {t('resetEmail.contactSupport')}
+                        className="text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer-green"
+                      >
+                        <a href="mailto:support@digitalmorocco.net">{t('resetEmail.contactSupport')}</a>
                       </Text>
                     </div>
                   </div>

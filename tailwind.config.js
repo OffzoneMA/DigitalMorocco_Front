@@ -12,16 +12,16 @@ module.exports = {
         },
       
         fontFamily: {
-        'DmSans': ['DM Sans', 'sans-serif'] , inter:['Inter', 'sans-serif'] , manrope: ['Manrope', 'sans-serif'],
-        'montserrat-medium': ['Montserrat-Medium', 'sans-serif'],
-        'dm-sans-regular': ['DMSans-Regular', 'sans-serif'],
-        'dm-sans-medium': ['DMSans-Medium', 'sans-serif'],
-        'dm-sans-bold': ['DMSans-Bold', 'sans-serif'],
-        'Montserrat-regular': ['Montserrat-Regular' , 'sans-serif'],
-        'Montserrat-medium': ['Montserrat-Medium' , 'sans-serif'],
-        'Montserrat-bold': ['Montserrat-Bold' , 'sans-serif'],
-        'Montserrat-semiBold': ['Montserrat-SemiBold' , 'sans-serif'],
-        'Avenir-next-LTPro': ['AvenirNextLTPro','sans-serif']
+        'DmSans': ['DM Sans'] , inter:['Inter'] , manrope: ['Manrope'],
+        'montserrat-medium': ['Montserrat-Medium'],
+        'dm-sans-regular': ['DMSans-Regular'],
+        'dm-sans-medium': ['DMSans-Medium'],
+        'dm-sans-bold': ['DMSans-Bold'],
+        'Montserrat-regular': ['Montserrat-Regular' ],
+        'Montserrat-medium': ['Montserrat-Medium' ],
+        'Montserrat-bold': ['Montserrat-Bold' ],
+        'Montserrat-semiBold': ['Montserrat-SemiBold' ],
+        'Avenir-next-LTPro': ['AvenirNextLTPro']
         },
         colors:{
           blue: {
@@ -140,6 +140,7 @@ module.exports = {
           bs2: "0px 2.77px  2px 0px #00000005",
           bs3: "0px 0px 13px 0px #CEE0FCE8",
           inputBs: "0px 0px 0px 4px #007FFF21",
+          inputBsError: "0px 0px 0px 4px #E8555521",
           formbs: [
               '0px 4px 6px -2px #1018280D',
               '0px 12px 16px -4px #1018281A',

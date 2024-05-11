@@ -26,6 +26,7 @@ export default function SignIn() {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm();
 
@@ -156,7 +157,7 @@ export default function SignIn() {
             <div className="flex sm:flex-row flex-row gap-2.5 items-center justify-start py-2.5 w-full">
               <div className="bg-gray-300 h-px w-[46%]" />
               <Text
-                className="text-[15px] font-dm-sans-medium  text-gray-700 tracking-[0.15px] w-auto"
+                className="text-[15px] font-dm-sans-medium  text-gray700 tracking-[0.15px] w-auto"
               >
                 {t('signup.or')}
               </Text>
@@ -186,12 +187,12 @@ export default function SignIn() {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         },
                       })}
-                      className={`bg-white w-full leading-[18.23px] border border-solid ${errors?.email ? 'border-errorColor' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.email ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full leading-[18.23px] border border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.email ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
                       id="email"
                       name="email"
                       placeholder={t('signin.emailPlaceholder')}
                     />
-                    {errors?.email?.message &&
+                    {(errors?.email?.message && getValues('email')?.length > 0) &&
                     <span className="text-errorColor text-sm">{errors?.email?.message}</span>
                     }
                   </div>
@@ -210,7 +211,7 @@ export default function SignIn() {
                         type={showPassword ? "text" : "password"}
                         placeholder={t('signup.enterPassword')}
                         style={{ appearance: 'none' }}
-                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${errors?.password ? 'border-errorColor' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                       />
                       <button
                         type="button"
@@ -223,15 +224,15 @@ export default function SignIn() {
                           </svg>                           
                         ) : (
                           <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.60556 7C1.68752 7.14165 1.79619 7.32216 1.93081 7.53061C2.27658 8.06598 2.78862 8.77795 3.4534 9.48704C4.79664 10.9198 6.67463 12.25 9 12.25C11.3254 12.25 13.2034 10.9198 14.5466 9.48704C15.2114 8.77795 15.7234 8.06598 16.0692 7.53061C16.2038 7.32216 16.3125 7.14165 16.3944 7C16.3125 6.85835 16.2038 6.67784 16.0692 6.46939C15.7234 5.93402 15.2114 5.22205 14.5466 4.51296C13.2034 3.08017 11.3254 1.75 9 1.75C6.67463 1.75 4.79664 3.08017 3.4534 4.51296C2.78862 5.22205 2.27658 5.93402 1.93081 6.46939C1.79619 6.67784 1.68752 6.85835 1.60556 7ZM17.25 7C17.9208 6.66459 17.9207 6.66434 17.9206 6.66406L17.9193 6.66165L17.9168 6.65653L17.9082 6.63987C17.9011 6.62596 17.891 6.60648 17.8779 6.58183C17.8518 6.53252 17.814 6.46242 17.7645 6.37449C17.6657 6.19873 17.5201 5.95114 17.3292 5.65561C16.9485 5.06598 16.3824 4.27795 15.6409 3.48704C14.1716 1.91983 11.9246 0.25 9 0.25C6.07537 0.25 3.82836 1.91983 2.3591 3.48704C1.61763 4.27795 1.05155 5.06598 0.670752 5.65561C0.479888 5.95114 0.334344 6.19873 0.235479 6.37449C0.186018 6.46242 0.148155 6.53252 0.122065 6.58183C0.109018 6.60648 0.0989064 6.62596 0.0917535 6.63987L0.0832425 6.65653L0.0806542 6.66165L0.0797776 6.6634C0.0796397 6.66367 0.0791796 6.66459 0.75 7L0.0791796 6.66459C-0.0263932 6.87574 -0.0263932 7.12426 0.0791796 7.33541L0.75 7C0.0791796 7.33541 0.0790418 7.33513 0.0791796 7.33541L0.0806542 7.33835L0.0832425 7.34347L0.0917535 7.36013C0.0989064 7.37405 0.109018 7.39352 0.122065 7.41817C0.148155 7.46748 0.186018 7.53758 0.235479 7.62551C0.334344 7.80127 0.479888 8.04886 0.670752 8.34439C1.05155 8.93402 1.61763 9.72205 2.3591 10.513C3.82836 12.0802 6.07537 13.75 9 13.75C11.9246 13.75 14.1716 12.0802 15.6409 10.513C16.3824 9.72205 16.9485 8.93402 17.3292 8.34439C17.5201 8.04886 17.6657 7.80127 17.7645 7.62551C17.814 7.53758 17.8518 7.46748 17.8779 7.41817C17.891 7.39352 17.9011 7.37405 17.9082 7.36013L17.9168 7.34347L17.9193 7.33835L17.9202 7.3366C17.9204 7.33633 17.9208 7.33541 17.25 7ZM17.25 7L17.9208 7.33541C18.0264 7.12426 18.0261 6.87521 17.9206 6.66406L17.25 7Z" fill="#37363B"/>
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 5.5C8.17157 5.5 7.5 6.17157 7.5 7C7.5 7.82843 8.17157 8.5 9 8.5C9.82843 8.5 10.5 7.82843 10.5 7C10.5 6.17157 9.82843 5.5 9 5.5ZM6 7C6 5.34315 7.34315 4 9 4C10.6569 4 12 5.34315 12 7C12 8.65685 10.6569 10 9 10C7.34315 10 6 8.65685 6 7Z" fill="#37363B"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M1.60556 7C1.68752 7.14165 1.79619 7.32216 1.93081 7.53061C2.27658 8.06598 2.78862 8.77795 3.4534 9.48704C4.79664 10.9198 6.67463 12.25 9 12.25C11.3254 12.25 13.2034 10.9198 14.5466 9.48704C15.2114 8.77795 15.7234 8.06598 16.0692 7.53061C16.2038 7.32216 16.3125 7.14165 16.3944 7C16.3125 6.85835 16.2038 6.67784 16.0692 6.46939C15.7234 5.93402 15.2114 5.22205 14.5466 4.51296C13.2034 3.08017 11.3254 1.75 9 1.75C6.67463 1.75 4.79664 3.08017 3.4534 4.51296C2.78862 5.22205 2.27658 5.93402 1.93081 6.46939C1.79619 6.67784 1.68752 6.85835 1.60556 7ZM17.25 7C17.9208 6.66459 17.9207 6.66434 17.9206 6.66406L17.9193 6.66165L17.9168 6.65653L17.9082 6.63987C17.9011 6.62596 17.891 6.60648 17.8779 6.58183C17.8518 6.53252 17.814 6.46242 17.7645 6.37449C17.6657 6.19873 17.5201 5.95114 17.3292 5.65561C16.9485 5.06598 16.3824 4.27795 15.6409 3.48704C14.1716 1.91983 11.9246 0.25 9 0.25C6.07537 0.25 3.82836 1.91983 2.3591 3.48704C1.61763 4.27795 1.05155 5.06598 0.670752 5.65561C0.479888 5.95114 0.334344 6.19873 0.235479 6.37449C0.186018 6.46242 0.148155 6.53252 0.122065 6.58183C0.109018 6.60648 0.0989064 6.62596 0.0917535 6.63987L0.0832425 6.65653L0.0806542 6.66165L0.0797776 6.6634C0.0796397 6.66367 0.0791796 6.66459 0.75 7L0.0791796 6.66459C-0.0263932 6.87574 -0.0263932 7.12426 0.0791796 7.33541L0.75 7C0.0791796 7.33541 0.0790418 7.33513 0.0791796 7.33541L0.0806542 7.33835L0.0832425 7.34347L0.0917535 7.36013C0.0989064 7.37405 0.109018 7.39352 0.122065 7.41817C0.148155 7.46748 0.186018 7.53758 0.235479 7.62551C0.334344 7.80127 0.479888 8.04886 0.670752 8.34439C1.05155 8.93402 1.61763 9.72205 2.3591 10.513C3.82836 12.0802 6.07537 13.75 9 13.75C11.9246 13.75 14.1716 12.0802 15.6409 10.513C16.3824 9.72205 16.9485 8.93402 17.3292 8.34439C17.5201 8.04886 17.6657 7.80127 17.7645 7.62551C17.814 7.53758 17.8518 7.46748 17.8779 7.41817C17.891 7.39352 17.9011 7.37405 17.9082 7.36013L17.9168 7.34347L17.9193 7.33835L17.9202 7.3366C17.9204 7.33633 17.9208 7.33541 17.25 7ZM17.25 7L17.9208 7.33541C18.0264 7.12426 18.0261 6.87521 17.9206 6.66406L17.25 7Z" fill="#37363B"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M9 5.5C8.17157 5.5 7.5 6.17157 7.5 7C7.5 7.82843 8.17157 8.5 9 8.5C9.82843 8.5 10.5 7.82843 10.5 7C10.5 6.17157 9.82843 5.5 9 5.5ZM6 7C6 5.34315 7.34315 4 9 4C10.6569 4 12 5.34315 12 7C12 8.65685 10.6569 10 9 10C7.34315 10 6 8.65685 6 7Z" fill="#37363B"/>
                           </svg>                            
                         )}
                       </button>
                     </div>
-                    {errors?.password?.message &&<span className="text-errorColor text-sm">{t('signup.emailPattern')}</span>}
+                    {((errors?.password?.message && getValues('password')?.length > 0) || (errors?.email?.message && getValues('email')?.length > 0)) &&<span className="text-errorColor text-sm">{t('signup.emailPattern')}</span>}
                   </div>
-                  <div className="flex flex-row gap-2.5 items-center  w-full">
+                  <div className="flex flex-row gap-2.5 items-center justify-between  w-full">
                     <div className="flex flex-row flex-1 items-center justify-start m-auto w-auto">
                       <label htmlFor={`rememberme`} className="cursorpointer relative inline-flex items-center justify-center peer-checked:border-0 rounded-[3px] mr-2">
                           <input
@@ -247,20 +248,20 @@ export default function SignIn() {
                               <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
                           </svg>
                       </label>
-                      <label htmlFor={`rememberme`} className="text-[13px] text-center font-dm-sans-regular leading-[16.93px] tracking-[0.01em] text-gray-700 w-auto cursorpointer">
+                      <label htmlFor={`rememberme`} className="text-[13px] mt-[0.5px] text-center font-dm-sans-regular leading-[16.93px] tracking-[0.01em] text-gray700 w-auto cursorpointer">
                           {t('signin.rememberMe')}                       
                       </label>
                     </div>
-                    <a className="text-[13px] leading-[16.93px] font-dm-sans-regular text-deep_purple-A400 tracking-[0.01em]  w-1/3 justify-end">
+                    <a className="text-[13px] hover:text-[#00CDAE] leading-[16.93px] font-dm-sans-regular text-deep_purple-A400 tracking-[0.01em] ">
                       <Text
-                        className="cursorpointer-green "
+                        className="cursorpointer-green text-right"
                         onClick={() => navigate("/ForgotPassword")}
                       >
                         {t('signin.forgotPassword')}
                       </Text>
                     </a>
                   </div>
-                  <div className="flex flex-col items-center justify-start w-full mt-[10px] ">
+                  <div className="flex flex-col items-center justify-start w-full mt-[5px] ">
                     <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
                       onClick={()=> onButtonClick(formButtonRef)}>
                       <button ref={formButtonRef} type="submit" className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
@@ -278,7 +279,7 @@ export default function SignIn() {
                         </Text>
                         <a
                             href="/SignUp"
-                            className="text-[#482BE7] text-sm w-auto font-dm-sans-bold"
+                            className="text-[#482BE7] hover:text-[#00CDAE]  text-sm w-auto font-dm-sans-bold"
                         >
                             <Text className='cursorpointer-green font-dm-sans-bold'>{t('signin.createAccount')} </Text>
                         </a>

@@ -60,7 +60,7 @@ export default function ResetPasswordEmail() {
                       {t('resetEmail.resetLinkSent')}
                     </Text>
                     <Text
-                      className="leading-[26.00px] font-dm-sans-medium text-base text-gray500 text-center"
+                      className="leading-[26.00px] font-dm-sans-medium text-[16px] text-gray500 text-center"
                     >
                       <>
                         {t('resetEmail.cantFindEmail')}
@@ -68,15 +68,13 @@ export default function ResetPasswordEmail() {
                     </Text>
                   </div>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                    <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto cursorpointer items-center justify-center px-6 py-[14px] rounded-[26px] ">
-                        <button
-                            type="button"
-                            onClick={handleResendEmail}
-                            className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto"
-                        >
-                            {isLoading? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
-                        </button>
-                    </div>
+                      <button
+                          type="button"
+                          onClick={handleResendEmail}
+                          className="bg-teal-A700 flex flex-row gap-6 h-[52px] hover:bg-greenbtnhoverbg cursorpointer items-center justify-center px-6 py-[14px] rounded-[26px] text-base font-dm-sans-medium text-white-A700 w-auto"
+                      >
+                          {isLoading? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
+                      </button>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
                       <Text
                         className="text-blue_gray-900_02 font-dm-sans-medium leading-[26px] text-sm w-auto"
@@ -84,9 +82,9 @@ export default function ResetPasswordEmail() {
                         {t('resetEmail.signInTrouble')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 leading-[26px] font-dm-sans-bold text-sm w-auto"
-                        >
-                        {t('resetEmail.contactSupport')}
+                        className="text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer-green"
+                      >
+                        <a href="mailto:support@digitalmorocco.net">{t('resetEmail.contactSupport')}</a>
                       </Text>
                     </div>
                   </div>

@@ -93,9 +93,9 @@ export default function SocialSignUp() {
                     ></input>
                     {errors?.displayName?.message &&<span className="text-red-400 text-sm">{errors?.displayName?.message}</span>}
                   </div>
-                  <div className="flex flex-col mt-4 mb-3 gap-2.5 justify-start w-full">
+                  <div className="flex flex-col mt-4 mb-1 gap-2.5 justify-start w-full">
                     <Text
-                      className="font-Montserrat-regular leading-[18.2px] text-[13px] text-[#585E66] w-full"
+                      className="font-Avenir-next-LTPro leading-[18.2px] text-[13px] text-[#585E66] w-full"
                       >
                       {t('signup.accordance')} <br/>
                       {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>D-W-266/2024.</span>
@@ -123,16 +123,11 @@ export default function SocialSignUp() {
                           <p dangerouslySetInnerHTML={{ __html: t('signup.terms') }} />                        
                         </label>
                     </div>
-                    {errors?.acceptTerms?.message &&
-                    <span className="text-red-400 text-sm">
-                    {errors?.acceptTerms?.message}
-                   </span>
-                    }
                   </div>
                   <div className="bg-teal-A700 my-3 flex flex-row gap-6 h-[52px] md:h-auto items-center justify-center py-[13px] rounded-[26px] w-full cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
                     onClick={()=> onButtonClick(formButtonRef)}>
                     <button ref={formButtonRef} type="submit" className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
-                    {t('signup.signup')}
+                    {t('signup.next')}
                     </button>
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform transform">
                         <path d="M11 15L15 11M15 11L11 7M15 11H7M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -150,9 +145,9 @@ export default function SocialSignUp() {
             </a>
             <a
               href="/SignIn"
-              className="text-[#482BE7] text-sm font-dm-sans-bold leading-[26px] w-auto"
+              className="text-[#482BE7] hover:text-[#00CDAE]  text-sm font-dm-sans-bold leading-[26px] w-auto"
             >
-              <Text className='cursorpointer-green'>{t('signup.signIn')}</Text>
+              <Text className='cursorpointer'>{t('signup.signIn')}</Text>
             </a>
           </div>
       </div>
