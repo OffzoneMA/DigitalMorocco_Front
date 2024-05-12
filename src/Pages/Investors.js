@@ -13,6 +13,10 @@ import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import { Country } from "country-state-city";
 import { InvestorsData } from "../data/tablesData";
+import PageHeader from "../Components/PageHeader";
+import TableTitle from "../Components/TableTitle";
+import SearchInput from "../Components/SeachInput";
+
 
 const Investors = () => {
   const navigate = useNavigate();
@@ -90,39 +94,23 @@ const Investors = () => {
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-              <Text
-                className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                size="txtDmSansBold32"
-              >
+              <PageHeader
+                >
                 Investor
-              </Text>
+              </PageHeader>
             </div>
-            <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-              <img
-                className="cursor-pointer h-[18px] mr-1.5 my-px"
-                src="images/img_search_blue_gray_700_01.svg"
-                alt="search"
-              />
-              <input
-                className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                type="text"
-                name="search"
-                placeholder="Search..."
-              />
-            </div>
+            <SearchInput className={'min-w-[25%]'}/>
           </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-col gap-5 md:flex-row text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
-                <Text
-                style={{whiteSpace:"nowrap"}}
-                  className="text-lg leading-7 text-left text-gray-900 pt-1 w-auto "
-                  size="txtDmSansMedium16"
-                >
+              <div className="flex flex-col gap-5 md:flex-row items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+                <TableTitle
+                  style={{whiteSpace:"nowrap"}}
+                  >
                   Investors List
-                </Text>
+                </TableTitle>
                 <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
                 (
@@ -182,38 +170,41 @@ const Investors = () => {
                     </>
                 )}
                 {filter ?
-                (<div className=" bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md " 
-                onClick={()=>setFilterApply(true)}>
-                <BiFilterAlt   size={18} className="mr-2"/>
-                  <button
-                      type="button"
-                      className="font-DmSans text-sm font-medium  leading-[18.23px] text-white-A700"
-                      style={{whiteSpace:'nowrap'}}
-                  >
-                     Apply Filters
-                  </button>
-                  </div>):
-                (<div className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md " 
-                onClick={()=>setFilter(true)}>
-                  <BiFilterAlt   size={18} className="mr-2"/>
-                  <button
-                        type="button"
-                        className="font-DmSans text-sm font-medium  leading-[18.23px] text-white-A700"
-                        style={{whiteSpace:'nowrap'}}
-                    >
+                (
+                <button
+                  className="bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                  onClick={() => setFilterApply(true)}
+                  type="button"
+              >
+                  <BiFilterAlt size={18} className="mr-2" />
+                  <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
+                      Apply Filters
+                  </span>
+              </button>              
+                ):
+                (
+                <button
+                  className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                  onClick={() => setFilter(true)}
+                  type="button"
+                >
+                  <BiFilterAlt size={18} className="mr-2" />
+                  <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
                       Filters
-                  </button>
-                </div>)
+                  </span>
+              </button>
+              
+                )
                 }
                     {filterApply && (
-                      <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={clearFilter}>
-                      <FiDelete   size={18} className="mr-2"/>
-                      <Text
-                        className="text-base font-DmSans font-normal  leading-[26px] text-blue_gray-300 "
-                      >
-                        Clear
-                      </Text>
-                    </div>
+                    <button
+                      className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer"
+                      onClick={clearFilter}
+                      type="button"
+                  >
+                      <FiDelete size={18} className="mr-2" />
+                      <span className="text-base font-DmSans font-normal leading-[26px] text-blue_gray-300">Clear</span>
+                  </button>
                     )}
                   </div>
               </div>
@@ -281,16 +272,15 @@ const Investors = () => {
                   >
                     Upgrade to <a className="text-blue-500" href="/DigitalMoroccoPro">Digital Morocco Pro</a>,  and get access all search results, save to custom lists and get connected with investors
                   </Text>
-                  <div className="bg-blue-A400 text-white-A700 flex flex-row items-center p-2 rounded-md  cursor-pointer " 
-                  onClick={()=>navigate('/ChoosePlan')}>
-                      <TiFlashOutline   size={25} className="mr-2"/>
-                      <button
-                          type="button"
-                          className="text-sm font-DmSans font-medium leading-[18.23px] text-white-A700"
-                      >
-                          Upgrade Membership
-                      </button>
-                  </div>
+                  <button
+                    className="bg-blue-A400 text-white-A700 flex flex-row items-center p-2 rounded-md cursor-pointer"
+                    onClick={() => navigate('/ChoosePlan')}
+                    type="button"
+                  >
+                    <TiFlashOutline size={25} className="mr-2" />
+                    <span className="text-sm font-DmSans font-medium leading-[18.23px] text-white-A700">Upgrade Membership</span>
+                  </button>
+
                 </div>
                 )}
                 

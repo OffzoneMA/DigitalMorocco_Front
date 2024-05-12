@@ -16,7 +16,8 @@ import { useCreateProjectMutation } from "../Services/Member.Service";
 import { useGetProjectByIdQuery } from "../Services/Project.Service";
 import { useParams } from "react-router-dom";
 import { useUpdateProjectMutation } from "../Services/Member.Service";
-
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -308,11 +309,9 @@ useEffect(() => {
 
 }, [response.isLoading]);
 
-
-
-  const onButtonClick = (inputref) => {
-    inputref.current.click();
-  };
+const onButtonClick = (inputref) => {
+  inputref.current.click();
+};
 
   const teamMembersdataList = [
     {
@@ -359,36 +358,21 @@ useEffect(() => {
     },
 ];
 
-
-  const StageData = stage.map(
-    item => ({ label: item, value: item })
-  );
+const StageData = stage.map(
+  item => ({ label: item, value: item })
+);
 
   return (
       <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
-              <Text
-                className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                size="txtDmSansBold32"
-              >
-                Projects
-              </Text>
+              <PageHeader
+                >
+                  Projects
+              </PageHeader>
             </div>
-            <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-              <img
-                className="cursor-pointer h-[18px] mr-1.5 my-px"
-                src="/images/img_search_blue_gray_700_01.svg"
-                alt="search"
-              />
-              <input
-                className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                type="text"
-                name="search"
-                placeholder="Search..."
-              />
-            </div>
+            <SearchInput className={'min-w-[25%]'}/>
           </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full pb-6">
@@ -401,17 +385,15 @@ useEffect(() => {
                 >
                   Create New Project
                 </Text>
-                <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
-                onClick={()=> onButtonClick(formButtonRef)}>
-                  <FiSave  size={18} className="mr-2"/>
-                  <button
+                <button 
+                  className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
+                  onClick={() => onButtonClick(formButtonRef)}
                   ref={formButtonRef}
-                    type="submit"
-                    className="text-base text-white-A700"
-                  >
-                    Save
-                  </button>
-                </div>
+                  type="submit"
+              >
+                  <FiSave size={18} className="mr-2" />
+                  Save
+              </button>
               </div>
               <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-full">
                 <div ref={div1Ref} className="flex  flex-1 flex-col gap-6 items-start justify-start w-full h-full">
@@ -553,14 +535,15 @@ useEffect(() => {
                         onChangeDate={(date) => handleMilestoneDateChange(milestone.id, 'dueDate', parseDateString(date))}
                       />
                       {/* {index === milestones.length - 1 && ( */}
-                        <div className="bg-light_blue-100 border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%] cursor-pointer" 
-                        style={{whiteSpace:'nowrap'}} 
-                        onClick={addMilestone}>
-                          <IoMdAdd size={18} className="mr-1" />
-                          <button type="button"  className="text-base" >
-                            More
-                          </button>
-                        </div>
+                      <button
+                        className="bg-light_blue-100 text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[6px] rounded-md w-[15%] cursor-pointer"
+                        style={{ whiteSpace: 'nowrap' }}
+                        onClick={addMilestone}
+                        type="button"
+                    >
+                        <IoMdAdd size={18} className="mr-1" />
+                        More
+                    </button>
                       {/* )} */}
                     </div>
                     ))}
@@ -757,17 +740,14 @@ useEffect(() => {
                     })}
                   </div>
                   ))}
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <div
-                      className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
-                      onClick={addDocumentDiv}
-                    >
-                      <ImFileText2 size={20} className="mr-2 text-blue-500" />
-                      <button type="button" className="text-base text-blue-500 font-dmsans text-sm font-medium leading-18">
-                        Add More Document
-                      </button>
-                    </div>
-                  </div>
+                  <button
+                    className="flex w-full text-base text-blue-500 font-dmsans font-medium leading-[18px] rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
+                    onClick={addDocumentDiv}
+                    type="button"
+                  >
+                    <ImFileText2 size={20} className="mr-2 text-blue-500" />
+                    Add More Document
+                  </button>
                 </div>
               </div>
             </form>

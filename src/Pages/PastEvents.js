@@ -9,6 +9,9 @@ import { PiTagBold } from "react-icons/pi";
 import Pagination from "../Components/Pagination";
 import { PastEvents as PastEventsData } from "../data/tablesData";
 import { useNavigate } from "react-router-dom";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+
 
 const PastEvents = () => {
   const navigate = useNavigate();
@@ -34,26 +37,12 @@ const PastEvents = () => {
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-                  <Text
-                    className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                    size="txtDmSansBold32"
-                  >
+                  <PageHeader
+                    >
                     Past Event
-                  </Text>
+                  </PageHeader>
                 </div>
-                <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-                  <img
-                    className="cursor-pointer h-[18px] mr-1.5 my-px"
-                    src="images/img_search_blue_gray_700_01.svg"
-                    alt="search"
-                  />
-                  <input
-                    className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                    type="text"
-                    name="search"
-                    placeholder="Search..."
-                  />
-                </div>
+                <SearchInput className={'min-w-[25%]'}/>
               </div>
               <div className="flex flex-col items-start justify-start w-full">
                 {displayedEvents?.length > 0 ? 
@@ -89,15 +78,12 @@ const PastEvents = () => {
                           </Text>
                       </div>
                       {item.canParticipate && (
-                        <div className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 rounded-full">
                         <button
-                          style={{whiteSpace:'nowrap'}}
-                            type="button"
-                            className="text-base text-light_blue-51"
-                        >
-                          Participate
-                          </button>
-                      </div>
+                        className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 rounded-full"
+                        type="button"
+                      >
+                        <span style={{ whiteSpace: 'nowrap' }} className="text-base text-light_blue-51">Participate</span>
+                      </button>
                       )} 
                     </div>
                   </div>

@@ -15,6 +15,8 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { IoFlashOffOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
 
 
 
@@ -105,37 +107,21 @@ const { userInfo } = useSelector((state) => state.auth)
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
                 <div className="flex flex-col md:flex-row gap-5 items-start justify-start pb-2 w-full">
                     <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
-                        <Text
-                        className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                        size="txtDMSansBold32"
+                        <PageHeader
                         >
                         Welcome back, {userData?.displayName? userData?.displayName : 'Olivia'}
-                        </Text>
+                        </PageHeader>
                     </div>
                     <div className="flex flex-row w-full md:w-[50%] ml-auto md:justify-end gap-4">
-                        <div className="flex w-auto  md:w-[40%] rounded-md p-2 border border-solid">
-                            <img
-                            className="cursor-pointer h-[18px] mr-1.5 my-px"
-                            src="images/img_search_blue_gray_700_01.svg"
-                            alt="search"
-                            />
-                            <input
-                            className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                            type="text"
-                            name="search"
-                            placeholder="Search..."
-                            />
-                        </div>
-                        <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] cursor-pointer rounded-md w-auto" 
-                        onClick={()=> navigate("/CreateProject")}>
-                            <FaRegPlusSquare  size={18} className="mr-2"/>
-                            <button
-                            type="button"
-                            className="text-base text-white-A700"
-                            >
-                            Create Project
-                            </button>
-                        </div>
+                        <SearchInput className={'min-w-[30%]'}/>
+                        <button 
+                        style={{whiteSpace: 'nowrap'}}
+                          className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] cursor-pointer rounded-md w-auto" 
+                          onClick={() => navigate("/CreateProject")}
+                      >
+                          <FaRegPlusSquare size={18} className="mr-2" />
+                          Create Project
+                      </button>
                     </div>
                 </div>
                 <div className="flex pb-6">
@@ -161,15 +147,11 @@ const { userInfo } = useSelector((state) => state.auth)
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </Text>
                     </div>
-                    <div className="flex items-center justify-end bg-teal-A700 rounded-md w-auto ml-auto cursor-pointer p-2">
-                       <HiOutlineSparkles  size={18} className=" text-blue_gray-901 mr-2"/>
-                        <button
-                        type="button"
-                        className="text-base text-blue_gray-901"
-                        >
-                        Upgrade Membership
-                        </button>
-                    </div>
+                    <button className="flex items-center text-base text-blue_gray-901 justify-end bg-teal-A700 rounded-md w-auto ml-auto cursor-pointer p-2" onClick={() => '' }>
+                      <HiOutlineSparkles size={18} className="text-blue_gray-901 mr-2" />
+                      Upgrade Membership
+                  </button>
+
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pt-8 w-full">
                     <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 py-7 px-5">

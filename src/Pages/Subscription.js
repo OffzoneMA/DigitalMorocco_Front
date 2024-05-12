@@ -12,6 +12,8 @@ import { GiCheckMark } from "react-icons/gi";
 import { FiTrash2 } from "react-icons/fi";
 import CancelPlanModal from '../Components/CancelPlanModal';
 import AddPaymentMethodModal from '../Components/AddPaymentMethodModal';
+import PageHeader from "../Components/PageHeader";
+
 
 export default function Subscription() {
   // const { data = [], isLoading, isFetching, isError } = useGetAllSubscriptonsQuery()
@@ -50,12 +52,10 @@ export default function Subscription() {
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-            <Text
-              className="text-3xl font-bold leading-11 text-gray-900 w-full"
-              size="txtDmSansBold32"
-            >
+            <PageHeader
+              >
               Subscription & Billing
-            </Text>
+            </PageHeader>
           </div>
         </div>
         {!isSubscribe? (
@@ -80,16 +80,13 @@ export default function Subscription() {
                     >
                     Basic plan
                   </Text>
-                  <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 ml-auto py-2 px-8 rounded-md w-auto">
-                    <TiFlashOutline size={25}/>
-                      <button
-                      // style={{whiteSpace:"nowrap"}}
-                        type="button"
-                        className="text-base leading-[20.83px] font-medium text-white-A700"
-                      >
-                        Upgrade Plan
-                      </button>
-                    </div>
+                  <button
+                      className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 ml-auto py-2 px-8 rounded-md w-auto"
+                      type="button"
+                  >
+                      <TiFlashOutline size={25} />
+                      <span className="text-base leading-[20.83px] font-medium">Upgrade Plan</span>
+                  </button>
                   </div>
                   <div className='flex flex-rox w-full items-start gap-2'>
                     <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
@@ -160,29 +157,22 @@ export default function Subscription() {
                 >
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.               </Text>
               </div>
-              <div className="flex items-end w-full py-2 justify-end">
-                <div className="flex space-x-3 md:space-x-5 w-auto">
-                  <div className="flex flex-row gap-3 w-auto ml-auto items-center rounded-md bg-gray-201 text-blue_gray-301 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal" 
-                  onClick={openCancelModal}>
-                  <FiTrash2  size={23}/>
-                    <button
-                    style={{whiteSpace: 'nowrap'}}
-                      type="button"
-                      className="text-base leading-[20.83px] font-medium text-blue_gray-301"
-                    >
-                      Cancel My Plan
-                    </button>
-                  </div>
-                  <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center leading-5 tracking-normal gap-3 ml-auto py-2 px-6 rounded-md w-auto">
-                  <TiFlashOutline size={25}/>
-                    <button
-                      type="button"
-                      className="text-base leading-[20.83px] font-medium text-white-A700"
-                    >
-                      Renew my subscription
-                    </button>
-                  </div>
-                </div>
+              <div className="flex space-x-3 md:space-x-5 items-end w-full py-2 justify-end">
+                <button
+                    className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center rounded-md bg-gray-201 text-blue_gray-301 py-3 px-5 font-DmSans font-medium  tracking-normal"
+                    onClick={openCancelModal}
+                    type="button"
+                >
+                    <FiTrash2 size={23} />
+                        Cancel My Plan
+                </button>
+                <button
+                    className="bg-blue-A400 text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row  items-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto"
+                    type="button"
+                >
+                    <TiFlashOutline size={23} />
+                    Renew my subscription
+                </button>
               </div>
             </div>
           </div>
@@ -210,16 +200,14 @@ export default function Subscription() {
                 </Text>
               </div>
             </div>
-            <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center justify-center gap-3 mr-auto py-3  rounded-md w-full" 
-            onClick={openPaymentModal}>
-              <IoWalletOutline  size={22}/>
-                <button
-                  type="button"
-                  className="text-base leading-[20.83px] font-medium text-white-A700"
-                >
-                  Change Payment Method
-                </button>
-              </div>
+            <button
+                className="bg-blue-A400 text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 rounded-md w-full"
+                onClick={openPaymentModal}
+                type="button"
+            >
+                <IoWalletOutline size={22} />
+                Change Payment Method
+            </button>
           </div>
         </div>
         ):
@@ -248,15 +236,13 @@ export default function Subscription() {
               >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
             </Text>
-            <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto">
-              <TiFlashOutline size={25}/>
-                <button
-                  type="button"
-                  className="text-base leading-[20.83px] font-medium text-white-A700"
-                >
-                  Start Your Free Trial
-                </button>
-              </div>
+            <button
+                className="bg-blue-A400 text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto"
+                type="button"
+            >
+                <TiFlashOutline size={23} />
+                Start Your Free Trial
+            </button>
             </div>
           </div>
           {/* <div className="flex flex-col w-full h-px bg-indigo-50 md:w-px md:min-h-[320px] md:max-h-[540px] md:h-auto ">{``} </div> */}
@@ -266,15 +252,13 @@ export default function Subscription() {
                 >
               Payment and Billing
             </Text>
-            <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 mr-auto py-3 justify-center  rounded-md w-full">
-              <IoWalletOutline  size={22}/>
-                <button
-                  type="button"
-                  className="text-base leading-[20.83px] font-medium text-white-A700"
-                >
-                  Add Payment Method
-                </button>
-              </div>
+            <button
+                className="bg-blue-A400 text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 mr-auto py-3 justify-center rounded-md w-full"
+                type="button"
+            >
+                <IoWalletOutline size={22} />
+                Add Payment Method
+            </button>
           </div>
         </div>
         )}

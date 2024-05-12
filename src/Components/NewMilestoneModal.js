@@ -139,11 +139,9 @@ const NewMilestoneModal = (props) => {
                 </div>
               </div>
             </div>
-            <div className="flex items-end w-full justify-end">
-              <div className="flex space-x-3 md:space-x-5 w-auto">
-                <button onClick={props.onRequestClose} type="reset" className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Cancel</button>
-                <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Add Milestone</button>
-              </div>
+            <div className="flex space-x-3 md:space-x-5 items-end w-full justify-end">
+              <button onClick={props.onRequestClose} type="reset" className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Cancel</button>
+              <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Add Milestone</button>
             </div>
           </form>
         </div>

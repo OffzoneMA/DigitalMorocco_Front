@@ -15,6 +15,9 @@ import { BsDot } from "react-icons/bs";
 import { useGetProjectByIdQuery } from "../Services/Project.Service";
 import { useParams } from "react-router-dom";
 import { formatNumber } from "../data/helper";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+import TableTitle from "../Components/TableTitle";
 
 
 const ProjectDetails = () => {
@@ -125,159 +128,107 @@ const ProjectDetails = () => {
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-            <Text
-              className="md:text-3xl text-[28px] text-gray-900 w-full"
-              size="txtDMDashHeader"
-            >
-              Projects
-            </Text>
+            <PageHeader
+              >
+                Projects
+            </PageHeader>
           </div>
-          <div className="flex  md:w-[25%] w-full rounded-md p-2 border border-solid">
-            <img
-              className="cursor-pointer h-[18px] mr-1.5 my-px"
-              src="/images/img_search_blue_gray_700_01.svg"
-              alt="search"
-            />
-            <input
-              className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search..."
-            />
-          </div>
+          <SearchInput className={'min-w-[25%]'}/>
         </div>
       </div>
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start px-5 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex flex-col md:flex-row justify-between text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
-              <Text
-                className="md:text-[18px] text-[16px] text-gray-900 pt-1 md:mb-2 mb-2 justify-start w-auto"
-                size="txtDMSansCardHeader"
+            <div className="flex flex-col md:flex-row justify-between items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
+              <TableTitle
               >
                 {data?.name? data?.name : `Lorem Ipsum Project - Angel Round Investment`}
-              </Text>
+              </TableTitle>
               <div className="flex  flex-row gap-3 items-center justify-end">
-                <div className="bg-light_blue-100 text-blue-500 flex flex-row items-center ml-auto p-2 cursor-pointer rounded-md " 
-                onClick={openModal}>
-                  <HiOutlineShare   size={18} className="mr-2"/>
-                  <button
-                    type="button"
-                    className="font-DmSans md:text-sm text-base font-medium leading-5"
-                  >
-                    Share to Investor
-                  </button>
-                </div>
-                <div className="bg-light_blue-100 text-blue-500 cursor-pointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md" 
-                  onClick={openDeleteModal}>
-                  <RiDeleteBinLine  size={18} className="mr-2"/>
-                  <button
-                    type="button"
-                    className="font-DmSans md:text-sm text-base font-medium leading-5"
-                  >
-                    Delete Project
-                  </button>
-                </div>
-                <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursor-pointer items-center ml-auto p-2 rounded-md " 
-                onClick={()=> navigate(`/Editproject/${projectId}`)}>
-                  <FiEdit3   size={18} className="mr-2"/>
-                  <button
-                    type="button"
-                    className="font-DmSans md:text-sm text-base font-medium leading-5"
-                  >
-                    Edit Project
-                  </button>
-                </div>
+                <button
+                  className="bg-light_blue-100 md:text-sm text-base font-medium leading-5 text-blue-500 flex flex-row items-center ml-auto p-2 cursor-pointer rounded-md font-DmSans"
+                  onClick={openModal}
+                  type="button"
+                >
+                  <HiOutlineShare size={18} className="mr-2" />
+                  Share to Investor
+                </button>
+
+                <button
+                  className="bg-light_blue-100 text-blue-500 cursor-pointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md"
+                  onClick={openDeleteModal}
+                  type="button"
+                >
+                  <RiDeleteBinLine size={18} className="mr-2" />
+                  <span className="font-DmSans md:text-sm text-base font-medium leading-5">Delete Project</span>
+                </button>
+                <button
+                  className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursor-pointer items-center ml-auto p-2 rounded-md"
+                  onClick={() => navigate(`/Editproject/${projectId}`)}
+                  type="button"
+                >
+                  <FiEdit3 size={18} className="mr-2" />
+                  <span className="font-DmSans md:text-sm text-base font-medium leading-5">Edit Project</span>
+                </button>
               </div>
             </div>
               <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-200 justify-start py-5 w-full">
                 <div
-                  className=" flex-row gap-px grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 w-full"
+                  className=" flex-row py-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 w-full"
                  >
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Total Raised
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Total Raised
+                      </Text>
                     </div>
-                    <div className="flex flex-col h-16 md:h-auto items-start justify-start px-[18px] py-4 w-full">
-                      <Text
-                        className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                        size="txtDMSansMedium22"
-                      >
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
                         USD 0
                       </Text>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Target{" "}
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Target
+                      </Text>
                     </div>
-                    <div className="flex flex-col h-16 md:h-auto items-start justify-center px-[18px] py-4 w-full">
-                      <Text
-                        className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                        size="txtDMSansMedium22"
-                      >
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
                         {`${data?.currency} ${formatNumber(data?.funding)}`}
                       </Text>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Stage
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Stage
+                      </Text>
                     </div>
-                    <div className="flex flex-col h-16 md:h-auto items-start justify-center px-[18px] py-4 w-full">
-                      <Text
-                        className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                        size="txtDMSansMedium22"
-                      >
-                         {data?.stages[0]? data?.stages[0] :`Angel Round` }  
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto">
+                        {data?.stages[0] ? data?.stages[0] : "Angel Round"}
                       </Text>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Status
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Status
+                      </Text>
                     </div>
-                    <div className=" flex flex-row h-16 items-start justify-start px-[18px] py-4 w-full ">
-                    <div className={`flex flex-row items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
-                          data?.status === 'Active' ? 'bg-emerald-50 text-green-700' :
-                          data?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
-                          data?.status === 'Stand by' ? 'bg-gray-200 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
-                        }`}  style={{whiteSpace:'nowrap'}}>
-                          <BsDot  size={28} className=""/>
-                          <label
-                            className="font-inter text-sm font-medium leading-[20px] text-center "
-                          >
-                            {data?.status? data?.status : `Active`}
-                          </label>
-                        </div>
+                    <div className="flex flex-row items-start justify-start w-full">
+                      <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
+                        data?.status === 'Active' ? 'bg-emerald-50 text-green-700' :
+                        data?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
+                        data?.status === 'Stand by' ? 'bg-gray-200 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
+                      }`} style={{whiteSpace: 'nowrap'}}>
+                        <BsDot size={28} className="" />
+                        <label className="font-inter text-sm font-medium leading-[20px] text-center">
+                          {data?.status ? data?.status : 'Active'}
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -318,15 +269,14 @@ const ProjectDetails = () => {
                       >
                         Project Milestone
                       </Text>
-                      <div className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursor-pointer ml-auto p-[7px] rounded-md w-auto" 
-                      onClick={openModalMilestone}>
-                        <button
-                          type="button"
-                          className="cursor-pointer font-medium leading-[normal] text-center text-xs"
-                        >
-                          Add New Milestone
-                        </button>
-                      </div>
+                      <button
+                        className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursor-pointer ml-auto p-[7px] rounded-md w-auto"
+                        onClick={openModalMilestone}
+                        type="button"
+                    >
+                        <span className="cursor-pointer font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
+                    </button>
+
                     </div>
                     <div className="items-start justify-start w-full">
                       {data?.milestones.length >0 &&  data?.milestones.map((item, index) => (
@@ -380,7 +330,7 @@ const ProjectDetails = () => {
                   {/* Fin Divider */}
                 </div>
                 {/* Divider */}
-                <div className="bg-indigo-50 md:h-[805px] h-px w-full md:w-px" />
+                <div className="bg-indigo-50 md:h-[750px] h-px w-full md:w-px" />
                 {/*Fin Divider */}
                 <div className="flex flex-col items-start justify-start w-full md:w-1/3">
                   <div className="flex flex-col items-center justify-start w-auto">

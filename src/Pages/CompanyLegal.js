@@ -11,6 +11,9 @@ import { useSearchParams ,useNavigate } from "react-router-dom";
 import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal"; 
 import { CompanyLegalData } from "../data/tablesData";
+import PageHeader from "../Components/PageHeader";
+import TableTitle from "../Components/TableTitle";
+import SearchInput from "../Components/SeachInput";
 
 const CompanyLegal = () => {
   const navigate = useNavigate();
@@ -81,48 +84,30 @@ const CompanyLegal = () => {
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-            <Text
-              className="text-3xl font-bold leading-11 text-gray-900 w-full"
-              size="txtDMSansBold32"
-            >
+            <PageHeader
+              >
               Company
-            </Text>
+            </PageHeader>
           </div>
-          <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-            <img
-              className="cursor-pointer h-[18px] mr-1.5 my-px"
-              src="images/img_search_blue_gray_700_01.svg"
-              alt="search"
-            />
-            <input
-              className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search..."
-            />
-          </div>
+          <SearchInput className={'min-w-[25%]'}/>
         </div>
       </div>
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
-              <Text
-                className="text-lg leading-7 text-gray-900 pt-1"
-                size="txtDmSansMedium16"
+            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+                <TableTitle
+                  >
+                  Legal Document
+                </TableTitle>
+              <button
+                className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto"
+                onClick={openModal}
+                type="button"
               >
-                Legal Document
-              </Text>
-              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
-                <FaRegPlusSquare  size={18} className="mr-2"/>
-                <button
-                  onClick={openModal}
-                  type="button"
-                  className="text-sm font-medium leading-[18.23px] text-white-A700"
-                >
-                  Add New Document
-                </button>
-              </div>
+                <FaRegPlusSquare size={18} className="mr-2" />
+                <span className="text-sm font-medium leading-[18.23px]">Add New Document</span>
+             </button>
             </div>
             <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
               <table className="w-full border-collapse">

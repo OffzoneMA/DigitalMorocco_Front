@@ -14,6 +14,10 @@ import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { formatNumber } from "../data/helper";
 import { useDeleteProjectMutation } from "../Services/Project.Service";
 import Loader from "../Components/Loader";
+import PageHeader from "../Components/PageHeader";
+import TableTitle from "../Components/TableTitle";
+import SearchInput from "../Components/SeachInput";
+
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -69,49 +73,27 @@ const Projects = () => {
         <div className="flex items-start justify-start sm:px-5 px-8 w-full">
             <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
               <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
-                <Text
-                  className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                  size="txtDmSansBold32"
+                <PageHeader
                 >
                   Projects
-                </Text>
+                </PageHeader>
               </div>
-              <div className="flex w-[22%] rounded-md p-2 border border-solid">
-                <img
-                  className="cursor-pointer h-[18px] mr-1.5 my-px"
-                  src="/images/img_search_blue_gray_700_01.svg"
-                  alt="search"
-                />
-                <input
-                  className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="search"
-                  placeholder="Search..."
-                />
-              </div>
+              <SearchInput className={'min-w-[25%]'}/>
             </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
-                <Text
-                  className="text-lg leading-7 text-gray-900 pt-1"
-                  size="txtDmSansMedium16"
-                >
-                  Project List
-                </Text>
-                <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
-                onClick={()=>navigate('/CreateProject')}>
-                  <FaRegPlusSquare  size={18} className="mr-2"/>
-                  <button
-                  style={{whiteSpace: 'nowrap'}}
-                    type="button"
-                    className="text-sm font-medium leading-[18.23px] text-white-A700"
+              <div className="flex flex-row flex-wrap  items-center border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+                <TableTitle
                   >
-                    New Project
-                  </button>
-                </div>
+                  Project List
+                </TableTitle>
+                <button className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto text-sm font-medium leading-[18.23px]" 
+                onClick={() => navigate('/CreateProject')}>
+                  <FaRegPlusSquare size={18} className="mr-2" />
+                  <span style={{ whiteSpace: 'nowrap' }}>New Project</span>
+                </button>
               </div>
               <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
                 <table className=" w-full">

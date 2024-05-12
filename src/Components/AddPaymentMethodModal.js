@@ -139,9 +139,7 @@ const AddPaymentMethodModal = (props) => {
                     </div>
                     <div className="flex items-start w-full pt-1 pb-2">
                     {haveMethod? (
-                        <div className="flex flex-row space-x-3 w-full">
-                            <button type="button" className="flex-1 bg-blue-501 text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Update</button>
-                        </div>
+                        <button type="button" className="flex-1 bg-blue-501 text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Update</button>
                     ) :
                     (
                     <div className="flex flex-row space-x-3 w-full">

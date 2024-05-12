@@ -10,6 +10,9 @@ import { TbCopy } from "react-icons/tb";
 import { BiMessageAltError } from "react-icons/bi";
 import { BiPurchaseTagAlt } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+
 
 const UpcomingEventDetails = () => {
 
@@ -67,26 +70,12 @@ const UpcomingEventDetails = () => {
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-                  <Text
-                    className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                    size="txtDmSansBold32"
-                  >
-                    Upcoming Event
-                  </Text>
+                  <PageHeader
+                    >
+                    {past? 'Past Event' : 'Upcoming Event'}
+                  </PageHeader>
                 </div>
-                <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-                  <img
-                    className="cursor-pointer h-[18px] mr-1.5 my-px"
-                    src="images/img_search_blue_gray_700_01.svg"
-                    alt="search"
-                  />
-                  <input
-                    className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                    type="text"
-                    name="search"
-                    placeholder="Search..."
-                  />
-                </div>
+                <SearchInput className={'min-w-[25%]'}/>
               </div>
               <div className="flex flex-col items-start justify-start w-full">
                   <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 pt-6 pb-9">
@@ -103,15 +92,15 @@ const UpcomingEventDetails = () => {
                                 Monthly #FirstFridayFair Business, Data & Technology Virtual Event
                             </Text>
                             {!past &&
-                            <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center px-4 py-2 rounded-md w-auto cursor-pointer">
-                              <button
-                              style={{whiteSpace:'nowrap'}}
-                                  type="button"
-                                  className="text-sm font-DmSans font-medium leading-[18.23px] text-white-A700"
+                            <button
+                              className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center px-4 py-2 rounded-md w-auto cursor-pointer"
+                              type="button"
                               >
+                              <span style={{ whiteSpace: 'nowrap' }} className="text-sm font-DmSans font-medium leading-[18.23px]">
                                   Buy Ticket
-                              </button>
-                            </div> }
+                              </span>
+                            </button>
+                         }
                         </div>
                       <div className="flex flex-row gap-3 items-center text-left">
                           <MdOutlineDateRange  size={18} className="text-teal-A300"/>
