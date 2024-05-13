@@ -24,7 +24,7 @@ export default function SignUp() {
   const dispatch = useDispatch()
   const [Mount, setMount] = useState(true)
   const [sendOTP] = useSendOTPMutation();
-  const [trigger, { data, isFetching, status }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [trigger, { data, isFetching, status , error: triggerError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
   const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
   const [hasLowerCase, setHasLowerCase] = useState(false);
@@ -62,18 +62,25 @@ export default function SignUp() {
     if (Mount) { setMount(false) }
    else{ if (userInfo) {
       toast.success("Successfuly !")
+      console.log(userInfo)
       dispatch(setUserEmail(userInfo?.email));
+      localStorage.setItem('userEmail', userInfo?.email);
       trigger(userInfo?._id).then(() => {
-        setSending(false);
-        setTimeout(() => navigate('/VerificationEmail'), 2500)
+        if (data) {
+          setSending(false);
+          setTimeout(() => navigate('/VerificationEmail'), 2500);
+        } else {
+          console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
+        }
       }
       )
     }
-    if (error) {
+    if (error ) {
       // toast.error(error)
-    }}
+    }
+  }
 
-  }, [loading])
+  }, [userInfo , data])
 
   const handlePasswordChange = (e) => {
     const password = e.target.value;
@@ -209,7 +216,7 @@ export default function SignUp() {
                         id="displayName"
                       name="displayName"
                       placeholder={t('signup.enterFullName')}
-                      className={`bg-white w-full leading-[18.23px] border border-solid !focus:border !focus:border-solid ${errors?.displayName ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.displayName ? ' focus:border-errorColor' : ' focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.displayName ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full  border border-solid !focus:border !focus:border-solid ${errors?.displayName ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.displayName ? ' focus:border-errorColor' : ' focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.displayName ? 'errorColor' : 'gray-801'}`}
                       type="text"
                     ></input>
                     {errors?.displayName?.message &&<span className="text-errorColor text-sm">{errors?.displayName?.message}</span>}
@@ -243,7 +250,7 @@ export default function SignUp() {
                         id="email"
                         name="email"
                       placeholder={t('signup.enterEmailAddress')}
-                      className={`bg-white w-full leading-[18.23px] border border-solid !focus:border !focus:border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.email ? ' focus:border-errorColor' : ' focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full border border-solid !focus:border !focus:border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.email ? ' focus:border-errorColor' : ' focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
                       type="text"
                     ></input>
                     {(errors?.email?.message && getValues('email') !=='') &&<span className="text-errorColor font-dm-sans-regular text-sm">{errors?.email?.message}</span>}
@@ -281,7 +288,7 @@ export default function SignUp() {
                           type={showPassword ? "text" : "password"}
                           placeholder={t('signup.enterPassword')}
                           style={{ appearance: 'none' }}
-                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                         />
                         <button
                           type="button"
@@ -300,13 +307,13 @@ export default function SignUp() {
                           )}
                         </button>
                       </div>
-                      {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs font-normal leading-[15.62px] tracking-[0.01em] text-left text-[#555458] ">{t('signup.passwordValidation')}</span>}
+                      {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs leading-[15.62px] tracking-[0.01em] text-left text-[#555458] ">{t('signup.passwordValidation')}</span>}
 
                     {(errors?.password || passwordValidation.minLength || passwordValidation.hasLowerCase || passwordValidation.hasUpperCase) &&
                       <>
                         <span className=''>
                         <ul style={{ listStyle: "none", paddingLeft: 0 }} className='flex flex-wrap items-center gap-4' >
-                          <li className={`text-[#555458] items-center justify-start text-sm flex ${errors.password?.type === 'minLength' ? 'error' : 'valid'}`}>
+                          <li className={`text-[#555458] items-center justify-start text-xs flex ${errors.password?.type === 'minLength' ? 'error' : 'valid'}`}>
                               {!passwordValidation.minLength  || getValues('password')==''  ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
@@ -320,7 +327,7 @@ export default function SignUp() {
                               {t('signup.passwordMinLengthVal')}
                             </span>
                           </li>
-                          <li className={`text-[#555458] text-sm justify-start items-center flex ${errors.password?.type === "hasLowerCase" ? "error" : "valid"}`}>
+                          <li className={`text-[#555458] text-xs justify-start items-center flex ${errors.password?.type === "hasLowerCase" ? "error" : "valid"}`}>
                               {!passwordValidation.hasLowerCase  || getValues('password')==''? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
@@ -334,7 +341,7 @@ export default function SignUp() {
                               {t('signup.passwordLowerCaseVal')}
                             </span>
                           </li>
-                          <li className={`text-[#555458] text-sm items-center justify-start flex ${errors.password?.type === "hasUpperCase" ? "error" : "valid"}`}>
+                          <li className={`text-[#555458] text-xs items-center justify-start flex ${errors.password?.type === "hasUpperCase" ? "error" : "valid"}`}>
                               {!passwordValidation.hasUpperCase  || getValues('password')=='' ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
@@ -348,7 +355,7 @@ export default function SignUp() {
                               {t('signup.passwordUpperCaseVal')}
                             </span>
                           </li>
-                          <li className={`text-[#555458] text-sm items-center justify-start flex ${errors.password?.type === "hasUpperCase" ? "error" : "valid"}`}>
+                          <li className={`text-[#555458] text-xs items-center justify-start flex ${errors.password?.type === "hasUpperCase" ? "error" : "valid"}`}>
                               {!passwordValidation.hasSpecialChar  || getValues('password')=='' ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
@@ -398,7 +405,26 @@ export default function SignUp() {
                           htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                         >
-                          <p dangerouslySetInnerHTML={{ __html: t('signup.terms') }} />                        
+                          {t('signup.terms1')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'>{t('signup.terms2')}</a> {t('signup.terms3')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'>{t('signup.terms4')} </a> {t('signup.terms5')}                      
+                        </label>
+                    </div>
+                    <div className="flex flex-row items-start justify-start m-auto w-full">
+                        <label htmlFor={`offers`} className="cursorpointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
+                          <input
+                            id={`offers`}
+                            type="checkbox"
+                            name="offers"
+                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border checked:shadow-none border-[0.5px]  ${(errors?.acceptTerms?.message && sending)? 'border-errorColor shadow-checkErrorbs': 'shadow-none border-[#303030]' } rounded-[4px]  relative`}
+                          />
+                          <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100">
+                            <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
+                          </svg>
+                        </label>
+                        <label
+                          htmlFor='offers'
+                          className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
+                        >
+                          {t('signup.acceptOffers')}
                         </label>
                     </div>
                   </div>

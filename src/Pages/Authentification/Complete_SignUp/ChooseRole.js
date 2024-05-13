@@ -1,5 +1,5 @@
-import React , {useState , useRef} from "react";
-
+import React , {useState , useRef , useEffect} from "react";
+import { useSelector } from "react-redux";
 import { Text } from "../../../Components/Text";
 import { Button } from "../../../Components/Button";
 import { useTranslation } from "react-i18next";
@@ -9,17 +9,44 @@ import userImage from '../../../Media/img_user03.svg';
 import startupImage from '../../../Media/img_startup.svg';
 import investorImage from '../../../Media/img_investor.svg';
 import companyImage from '../../../Media/img_company.svg';
+import { useAddNewRequestMutation } from '../../../Services/Auth';
+import { authApi } from "../../../Services/Auth";
+import { useNavigate } from "react-router-dom";
+
 
 const ChooseRole = () => {
     const { t, i18n } = useTranslation();
-
+    const navigate = useNavigate();
+    const [selectedOption, setSelectedOption] = useState('');
+    const { userInfo } = useSelector((state) => state.auth)
+    const { userEmail } = useSelector((state) => state.auth)
+    const [UserId, setUserId] = useState(userInfo?._id)
     const [selectedGrid, setSelectedGrid] = useState(null);
+    const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [addNewRequest, response] = useAddNewRequestMutation()
 
-    const handleGridClick = (gridId) => {
+    const handleGridClick = (gridId , option) => {
       setSelectedGrid(gridId);
+      setSelectedOption(option);
     };
 
+    useEffect(() => {
+      if (userInfo) {
+        setUserId(userInfo?._id);
+      } else {
+        if (userEmail) {
+          userTrigger(userEmail).then(() => {
+            if (userData && userData.status === 'verified') {
+              setUserId(userData?._id)
+            }
+          }).catch(error => {
+            console.error("Error fetching user by email:", error);
+          });
+        }
+      }
+    }, [userInfo, userEmail, userData]);
+    
     const openModal = () => {
       setIsModalOpen(true);
     };
@@ -27,8 +54,22 @@ const ChooseRole = () => {
     const closeModal = () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
+      setSelectedOption('');
+      navigate('/SignIn');
       // Redirection ves site officiel
     };
+
+    useEffect(()=>{
+      if(response.isSuccess)  {
+        openModal();
+      }
+     },[response.isSuccess])
+
+    const confirmRole = () => {
+      const formData = new FormData();
+      formData.append('role', selectedOption);
+      addNewRequest({ formdata: formData, userId: UserId })
+    }
 
   return (
     <>
@@ -67,7 +108,7 @@ const ChooseRole = () => {
         <div className="px-20 flex justify-end w-full">
         {selectedGrid && 
           <div className="bg-teal-A700 ml-auto my-3 flex flex-row gap-6 h-[52px] items-center justify-center px-8 py-[13px] rounded-[26px] w-auto cursorpointer hover:bg-greenbtnhoverbg hover:svg-translate" 
-            onClick={openModal}>
+            onClick={confirmRole}>
             <button type="submit" className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
             {isModalOpen ? t('chooserole.confirmed.button1') : t('chooserole.confirmed.button')}
             </button>
@@ -94,8 +135,9 @@ const ChooseRole = () => {
                 {t('chooserole.choosePathMessage2')}
               </Text>
             </div>
-            <div className="gap-[42px] grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 items-center justify-center w-full">
-              <div onClick={() => handleGridClick(1)} 
+            <div className="flex flex-col items-center"> 
+            <div className="gap-[42px] grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+              <div onClick={() => handleGridClick(1 , 'member')} 
                 className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
                 <div className="flex flex-col gap-6 items-center justify-start w-auto">
                   <Text
@@ -115,7 +157,7 @@ const ChooseRole = () => {
                   </Text>
                 </div>
               </div>
-              <div onClick={() => handleGridClick(2)} 
+              <div onClick={() => handleGridClick(2 , 'investor')} 
               className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-6 items-center justify-start w-auto">
                   <Text
@@ -135,7 +177,7 @@ const ChooseRole = () => {
                   </Text>
                 </div>
               </div>
-              <div onClick={() => handleGridClick(3)} 
+              <div onClick={() => handleGridClick(3 , 'partner')} 
               className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] max-w-[382.67px] cursorpointer hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-6 items-center justify-start w-auto">
                   <Text
@@ -156,6 +198,8 @@ const ChooseRole = () => {
                 </div>
               </div>
             </div>
+            </div>
+            
           </div>
         </div>
       </div>

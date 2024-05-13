@@ -14,12 +14,18 @@ export default function VerificationEmail() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loading, userInfo, error } = useSelector((state) => state.auth)
+  const { userEmail } = useSelector((state) => state.auth)
   const [UserStatus, setUserStatus] = useState(userInfo?.status)
+  const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [trigger, { data, isFetching, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
   const handleResendEmail = async () => {
     try {
-      await trigger(userInfo?._id);
+      await userTrigger(userEmail).then(() => {
+        if (userData) {
+          trigger(userData?._id);
+        }
+      })
     } catch (error) {
       console.error('Resend email request failed:', error);
     }
@@ -34,17 +40,53 @@ export default function VerificationEmail() {
   };
 
   useEffect(() => {
-    if (userInfo?.status === 'verified') {
-      toast.success("Account Verified !")
-      setTimeout(() =>{
-        if (!userInfo?.role) { navigate('/ChooseRole') }
-        else{
-          // navigate('/Dashboard')
-          openModal();
+    const checkAccountVerification = async () => {
+      if (userInfo) {
+        userTrigger(userInfo?.email).then(() => {
+          if (userData && userData.status === 'verified') {
+            console.log('userData'  , userData)
+            toast.success("Account Verified !");
+            setTimeout(() => {
+              if (!userData.role) {
+                navigate('/ChooseRole');
+              } else {
+                navigate('/SignIn');
+              }
+            }, 2000);
+          }
+        })
+      } else {
+        if (userEmail) {
+          userTrigger(userEmail).then(() => {
+            if (userData && userData.status === 'verified') {
+              toast.success("Account Verified !");
+              setTimeout(() => {
+                if (!userData.role) {
+                  navigate('/ChooseRole');
+                } else {
+                  navigate('/SignIn');
+                }
+              }, 2000);
+            }
+          } )
+        } else {
+          console.log('user Email not found')
+          console.log(userEmail)
         }
-        }, 2000)
-    }
-  }, [userInfo?.status, navigate]);
+
+      }
+    };
+  
+    checkAccountVerification();
+  
+    // const interval = setInterval(() => {
+    //   checkAccountVerification();
+    // }, 1000); 
+  
+    // return () => clearInterval(interval); 
+  }, [userInfo ,userEmail , userData]);
+  
+  
 
   useEffect(() => {
     if (data) {

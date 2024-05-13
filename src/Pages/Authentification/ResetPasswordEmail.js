@@ -1,25 +1,38 @@
-import React , {useRef} from 'react'
+import React , {useRef , useEffect} from 'react'
 import { Text } from "../../Components/Text";
+import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useSendForgotPasswordMutation } from '../../Services/Auth';
 import logo from '../../Media/img_logo.svg';
 import verifyImage from '../../Media/img_verify.svg';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ResetPasswordEmail() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { userEmail } = useSelector((state) => state.auth)
-  const [sendForgotPassword, { isLoading }] = useSendForgotPasswordMutation()
+  const [sendForgotPassword, { isLoading , isSuccess , error}] = useSendForgotPasswordMutation()
 
   const handleResendEmail = async () => {
     try {
-      console.log(userEmail)
-      await sendForgotPassword(userEmail);
+      await sendForgotPassword({email: userEmail});
     } catch (error) {
       console.error('Resend email request failed:', error);
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Successfuly !")
+      // setTimeout(() => navigate(0), 1000)
+    }
+    if (error ) {
+    toast.error(error)
+    }
+
+  }, [isSuccess , isLoading , error])
 
   const formButtonRef = useRef();
 
@@ -40,6 +53,7 @@ export default function ResetPasswordEmail() {
                 />
               </a>
               <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start px-6 py-[42px] rounded-[12px] shadow-formbs max-w-[520px] w-full">
+                <Toaster/>
                 <div className="flex flex-col items-center justify-start w-auto">
                   <img
                     className="h-[235px] w-[256px]"

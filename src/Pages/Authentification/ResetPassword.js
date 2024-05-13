@@ -1,4 +1,4 @@
-import React, {useRef , useState} from 'react'
+import React, {useRef , useState , useEffect} from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../Components/Text';
@@ -11,7 +11,7 @@ import mailSendImage from '../../Media/img_mailsent.svg';
 
 export default function ResetPassword() {
   const { t } = useTranslation();
-  const [resetPassword, { isLoading }] = useResetPasswordMutation()
+  const [resetPassword, { isLoading , isSuccess , }] = useResetPasswordMutation()
   const [showPassword, setShowPassword] = useState(false); 
   const [showConfPassword, setShowConfPassword] = useState(false); 
 
@@ -25,6 +25,13 @@ export default function ResetPassword() {
   } = useForm({ mode: 'onChange' });
     
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isSuccess) {
+      setTimeout(() => navigate('/PasswordResetSucces'), 1000)
+    }
+
+  }, [isSuccess , isLoading ])
 
   const formButtonRef = useRef();
 
@@ -56,9 +63,9 @@ export default function ResetPassword() {
     console.log(payload);
 
     try {
-      await resetPassword(payload); 
-        navigate('/PasswordResetSucces'); 
-      } catch (error) {
+       resetPassword(payload); 
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -73,7 +80,7 @@ export default function ResetPassword() {
                   alt="logo"
                 />
               </a>
-              <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start sm:px-5 px-8 py-[42px] rounded-[12px] shadow-formbs max-w-[520px] w-full">
+              <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start px-8 py-[42px] rounded-[12px] shadow-formbs max-w-[520px] w-full">
                 <div className="flex flex-col items-center justify-start pb-3 w-auto">
                   <img
                     className="h-[215px] w-64"
@@ -120,7 +127,7 @@ export default function ResetPassword() {
                           type={showPassword ? "text" : "password"}
                           placeholder={t('signup.enterPassword')}
                           style={{ appearance: 'none' }}
-                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${(errors?.password) ? 'border-errorColor focus:border-errorColor shadow-inputBsError' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${(errors?.password) ? 'border-errorColor focus:border-errorColor shadow-inputBsError' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                         />
                         <button
                           type="button"
@@ -160,7 +167,7 @@ export default function ResetPassword() {
                         name="confirmPassword"
                         type={showConfPassword ? "text" : "password"}
                       placeholder={t('resetPassword.confirmPassword')}
-                      className={`${!showConfPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${(errors?.confirmPassword) ? 'border-errorColor focus:border-errorColor shadow-inputBsError ' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.confirmPassword ? 'errorColor' : 'gray-801'}`}
+                      className={`${!showConfPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${(errors?.confirmPassword) ? 'border-errorColor focus:border-errorColor shadow-inputBsError ' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.confirmPassword ? 'errorColor' : 'gray-801'}`}
                       ></input>
                       <button
                           type="button"
@@ -190,7 +197,7 @@ export default function ResetPassword() {
                           type="submit"
                           className="text-base leading-[20.83px] text-white-A700 font-dm-sans-medium w-auto"
                         >
-                          {t('resetPassword.submit')}
+                          {isLoading? 'Reseting password...' : t('resetPassword.submit')}
                         </button>
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform transform">
                           <path d="M11 15L15 11M15 11L11 7M15 11H7M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />

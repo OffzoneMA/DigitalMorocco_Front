@@ -88,7 +88,7 @@ const SidebarNav = () => {
     <img src="/images/img_simple_logo_text.svg" className={`origin-left ${!open && "scale-0"}`}/>
   </Link>
 </div>
-  <ul className="font-DmSans text-base font-normal leading-6 pt-3 flex-1">
+  <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
     {Menus.map((Menu, index) => (
       Menu && <div key={index} >
         <li
@@ -118,7 +118,7 @@ const SidebarNav = () => {
               onClick={() => {
                 navigate(el.link)
                 setActiveMenu(el.link);}}
-              className={`font-DmSans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+              className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
             >
               <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
                         {el.title}
@@ -129,7 +129,7 @@ const SidebarNav = () => {
       </div>
     ))}
   </ul>
-  <div className="font-DmSans text-base font-normal leading-6">
+  <div className=" text-base font-dm-sans-regular leading-6">
     <div
     onClick={() => {setSettingsOpen(!settingsOpen)}}
       className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
@@ -149,7 +149,7 @@ const SidebarNav = () => {
       onClick={() => {
         navigate("/UserProfile")
         setActiveMenu("My Profil");}}
-      className={`font-DmSans flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "My Profil"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+      className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "My Profil"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       My Profil
@@ -160,7 +160,7 @@ const SidebarNav = () => {
       onClick={() => {
         navigate("/Subscription")
         setActiveMenu("Subscription & Billing");}}
-      className={`font-DmSans  mb-6 flex text-base font-normal leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "Subscription & Billing"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+      className={`  mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "Subscription & Billing"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       Subscription & Billing

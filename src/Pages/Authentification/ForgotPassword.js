@@ -35,7 +35,6 @@ export default function ForgotPassword(){
   };
 
   useEffect(() => {
-    console.log(userError)
     if (isSuccess) {
       toast.success("Successfuly !")
       setTimeout(() => navigate('/ResetPasswordEmail'), 1000)
@@ -48,14 +47,15 @@ export default function ForgotPassword(){
     }
     setUserErrorVal(null)
 
-  }, [isLoadingUser , isLoading , userError , error])
+  }, [isLoadingUser,isSuccess , isLoading , userData, userError , error])
 
   async function onSubmit(values) {
     try {
       userTrigger(values.email).then(async () => {
         if (userData && !userError) {
           await sendForgotPassword(values);
-          dispatch(setUserEmail(values)); 
+          dispatch(setUserEmail(values.email)); 
+          localStorage.setItem('userEmail', values?.email);
         }
         else {
           setUserErrorVal(userError)
@@ -137,7 +137,7 @@ export default function ForgotPassword(){
                             id="email"
                             name="email"
                             placeholder={t('signup.enterEmailAddress')}
-                            className={`bg-white w-full leading-[18.23px] border border-solid ${(errors?.email || userError) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${(errors?.email || userError) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[16px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
+                            className={`bg-white w-full border border-solid ${(errors?.email || userError) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[11px] ${(errors?.email || userError) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[16px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
                             type="text"
                         />
                         <button
@@ -191,7 +191,7 @@ export default function ForgotPassword(){
                         {t('forgot.havingTroubleSigningIn')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer-green"
+                        className=" text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer"
                       >
                         <a href="mailto:support@digitalmorocco.net">{t('resetEmail.contactSupport')}</a>
                       </Text>

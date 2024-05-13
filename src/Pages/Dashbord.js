@@ -106,7 +106,7 @@ const { userInfo } = useSelector((state) => state.auth)
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
                 <div className="flex flex-col md:flex-row gap-5 items-start justify-start pb-2 w-full">
-                    <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
+                    <div className="flex flex-1 h-full items-start justify-start w-auto">
                         <PageHeader
                         >
                         Welcome back, {userData?.displayName? userData?.displayName : 'Olivia'}
@@ -137,12 +137,12 @@ const { userInfo } = useSelector((state) => state.auth)
                      </div>
                      <div className="flex flex-col p-3 items-center gap-1 ml-3">
                      <Text
-                        className="font-DmSans text-[22px] font-medium leading-8 text-white-A700 tracking-normal w-full"
+                        className=" text-[22px] font-dm-sans-medium leading-8 text-white-A700 tracking-normal w-full"
                         >
                         Upgrade your account and get full access to Digital Morocco
                     </Text>
                     <Text
-                        className="text-sm font-normal leading-[26px] tracking-normal font-DmSans text-white-A700 w-full"
+                        className="text-sm font-dm-sans-regular leading-[26px] tracking-normal  text-white-A700 w-full"
                         >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </Text>
@@ -159,12 +159,12 @@ const { userInfo } = useSelector((state) => state.auth)
                         <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Create Project
                       </Text>
                       <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                       </Text>
@@ -174,12 +174,12 @@ const { userInfo } = useSelector((state) => state.auth)
                         <TiFlashOutline size={28} className="text-blue-701" />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Investors
                       </Text>
                       <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                       </Text>
@@ -189,12 +189,12 @@ const { userInfo } = useSelector((state) => state.auth)
                         <HiOutlineSpeakerphone size={28} className="text-amber-601"  />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Events
                       </Text>
                       <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                       </Text>
@@ -204,12 +204,12 @@ const { userInfo } = useSelector((state) => state.auth)
                         <BiBuildings size={28} className="text-blue-601" />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         My Company
                       </Text>
                       <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                       </Text>
@@ -224,12 +224,12 @@ const { userInfo } = useSelector((state) => state.auth)
                      </div>
                      <div className="flex flex-col p-3 items-center gap-1 ml-2">
                         <Text
-                            className="font-DmSans ext-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                            className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                             >
                            The Top Markets
                         </Text>
                         <Text
-                            className="text-sm font-normal leading-[26px] text-blue_gray-301 tracking-normal font-DmSans w-full"
+                            className="text-sm font-dm-sans-regular leading-[26px] text-blue_gray-301 tracking-normal  w-full"
                             >
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit
                         </Text>
@@ -243,7 +243,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     ) : (
                         <div className="flex flex-col items-center text-gray-600 w-full py-28">
                             <AiOutlineFileSearch size={30} />
-                            <Text className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto" size="">
+                            <Text className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto" size="">
                                 Data not available
                             </Text>
                         </div>
@@ -257,12 +257,12 @@ const { userInfo } = useSelector((state) => state.auth)
                      </div>
                      <div className="flex flex-col p-3 items-center gap-1 ml-2">
                         <Text
-                            className="font-DmSans ext-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                            className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                             >
                            Investment Volume 
                         </Text>
                         <Text
-                            className="text-sm font-normal leading-[26px] text-blue_gray-301 tracking-normal font-DmSans w-full"
+                            className="text-sm font-dm-sans-regular leading-[26px] text-blue_gray-301 tracking-normal  w-full"
                             >
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit
                         </Text>
@@ -287,7 +287,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         <div className="flex flex-col items-center text-gray-600 w-full py-28">
                             <AiOutlineFileSearch size={30} />
                             <Text
-                            className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                            className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
                             Data not available
@@ -305,7 +305,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         </div>
                         <div className="flex flex-col p-3 items-center ml-2">
                             <Text
-                                className="font-DmSans text-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                                className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                                 >
                             Active Projects
                             </Text>
@@ -316,11 +316,11 @@ const { userInfo } = useSelector((state) => state.auth)
                             <div className="flex flex-col px-6 w-full">
                             <div className="flex flex-row items-center gap-3 py-2 justify-start w-full">
                                 <Text
-                                    className="font-DmSans text-base font-medium leading-8 text-gray-900_01 tracking-normal text-left"
+                                    className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal text-left"
                                     >
                                 {item.project}
                                 </Text>
-                                <div className={`flex flex-row space-x-2 bg-emerald-50 text-green-700 items-center py-1 px-2 font-DmSans text-sm font-normal leading-6 rounded-full`}>
+                                <div className={`flex flex-row space-x-2 bg-emerald-50 text-green-700 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full`}>
                                 <GoDotFill size={12} className="mr-2"/>
                                 {item.stage}
                                 </div>
@@ -387,7 +387,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         <div className="flex flex-col items-center text-gray-600  w-full py-28">
                             <IoFlashOffOutline size={30} />
                             <Text
-                            className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                            className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
                             No Active Project
@@ -402,7 +402,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         </div>
                         <div className="flex flex-col p-3 items-center ml-2">
                             <Text
-                                className="font-DmSans ext-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                                className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                                 >
                             Lastest Request
                             </Text>
@@ -412,24 +412,24 @@ const { userInfo } = useSelector((state) => state.auth)
                           <table className=" w-full">
                             <thead className="">
                             <tr className="bg-white-A700 text-sm leading-6 ">
-                                <th className="p-3 text-left text-blue_gray-800_01 font-medium">Investor Name</th>
-                                <th className="p-3 text-left text-blue_gray-800_01 font-medium">Communication Status</th>
-                                <th className="p-3 text-left text-blue_gray-800_01 font-medium">Status</th>
+                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Investor Name</th>
+                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Communication Status</th>
+                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Status</th>
                             </tr>
                             </thead>
                             {Requestdata.length >0 ?
                             Requestdata.map((item, index) => (
                             <tbody className="items-center w-full ">
                               <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                                <td className="py-4 px-3 w-auto text-gray-600 font-DmSans text-sm font-normal leading-6">
+                                <td className="py-4 px-3 w-auto text-gray-600  text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center" >
                                         <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
                                         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.investorName}</span>
                                     </div>
                                 </td>
-                                <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.communicationStatus}</td>
-                                <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">
-                                    <div className={`flex flex-row space-x-2 items-center py-1 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${
+                                <td className="py-4 px-3 text-gray-600  text-sm font-dm-sans-regular leading-6">{item.communicationStatus}</td>
+                                <td className="py-4 px-3 text-gray-600  text-sm font-dm-sans-regular leading-6">
+                                    <div className={`flex flex-row space-x-2 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full ${
                                     item.status === 'Approved' ? 'bg-emerald-50 text-green-700' :
                                         item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' :
                                         item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''
@@ -448,7 +448,7 @@ const { userInfo } = useSelector((state) => state.auth)
                        <div className="flex flex-col items-center text-gray-600 w-full py-28">
                             <IoFlashOffOutline size={30} />
                             <Text
-                            className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                            className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
                             No Request Yet

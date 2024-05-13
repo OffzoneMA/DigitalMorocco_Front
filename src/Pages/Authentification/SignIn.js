@@ -164,7 +164,7 @@ export default function SignIn() {
               <div className="bg-gray-300 h-px w-[46%]" />
             </div>
             <div className="flex flex-col gap-4 items-center justify-start w-full">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center justify-start w-full">
+            <form autoComplete='off' onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center justify-start w-full">
               <Text
                 className="text-base  font-dm-sans-medium leading-[25.6px] text-gray-901 tracking-[0.16px] w-auto"
               >
@@ -187,9 +187,10 @@ export default function SignIn() {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         },
                       })}
-                      className={`bg-white w-full leading-[18.23px] border border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.email ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full border border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.email ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
                       id="email"
                       name="email"
+                      autoComplete='off'
                       placeholder={t('signin.emailPlaceholder')}
                     />
                     {(errors?.email?.message && getValues('email')?.length > 0) &&
@@ -208,10 +209,11 @@ export default function SignIn() {
                         })}
                         id="password"
                         name="password"
+                        autoComplete='off'
                         type={showPassword ? "text" : "password"}
                         placeholder={t('signup.enterPassword')}
                         style={{ appearance: 'none' }}
-                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full leading-[18.23px] border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                       />
                       <button
                         type="button"
@@ -252,9 +254,9 @@ export default function SignIn() {
                           {t('signin.rememberMe')}                       
                       </label>
                     </div>
-                    <a className="text-[13px] hover:text-[#00CDAE] leading-[16.93px] font-dm-sans-regular text-deep_purple-A400 tracking-[0.01em] ">
+                    <a className="cursorpointer text-[13px] hover:text-[#00CDAE] leading-[16.93px] font-dm-sans-regular text-deep_purple-A400 tracking-[0.01em] ">
                       <Text
-                        className="cursorpointer-green text-right"
+                        className=" text-right"
                         onClick={() => navigate("/ForgotPassword")}
                       >
                         {t('signin.forgotPassword')}
@@ -279,9 +281,9 @@ export default function SignIn() {
                         </Text>
                         <a
                             href="/SignUp"
-                            className="text-[#482BE7] hover:text-[#00CDAE]  text-sm w-auto font-dm-sans-bold"
+                            className="text-[#482BE7] cursorpointer hover:text-[#00CDAE]  text-sm w-auto font-dm-sans-bold"
                         >
-                            <Text className='cursorpointer-green font-dm-sans-bold'>{t('signin.createAccount')} </Text>
+                            <Text className=' font-dm-sans-bold'>{t('signin.createAccount')} </Text>
                         </a>
                     </div>
                   </div>
