@@ -1,4 +1,4 @@
-import React, { useState,useRef } from "react";
+import React, { useState,useRef , useEffect} from "react";
 import{Text } from "../Components/Text"
 import { FiSave } from "react-icons/fi";
 import { BiDollar } from "react-icons/bi";
@@ -10,28 +10,130 @@ import { GrAttachment } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import {stage} from "../data/stage"
 import MultipleSelect from "../Components/MultipleSelect";
-import { stages as stagesData } from "../data/stage";
+import { stage as stagesData } from "../data/stage";
 import CustomCalendar from "../Components/CustomCalendar";
+import { useCreateProjectMutation } from "../Services/Member.Service"; 
+import { useGetProjectByIdQuery } from "../Services/Project.Service";
+import { useParams } from "react-router-dom";
+import { useUpdateProjectMutation } from "../Services/Member.Service";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
 
 const CreateProject = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const dividerRef = useRef(null);
+  const div1Ref = useRef(null);
+  const div2Ref = useRef(null);
+  const [maxDivHeight, setDivMaxHeight] = useState('720px');
+  useEffect(() => {
+    const setMaxHeight = () => {
+      const div1Height = div1Ref.current.clientHeight;
+      const div2Height = div2Ref.current.clientHeight;
+      const maxHeight = Math.max(div1Height, div2Height);
+      if (window.innerWidth >= 768) { 
+        dividerRef.current.style.height = `${maxHeight}px`;
+        setDivMaxHeight(`${maxHeight}px`);
+      } else {
+        dividerRef.current.style.height = '1px';
+        setDivMaxHeight('auto');
+      }
+    };
+  
+    setMaxHeight();
+  
+    const intervalId = setInterval(() => {
+      setMaxHeight(); 
+    }, 10); 
+  
+    return () => {
+      clearInterval(intervalId); 
+    };
+  }, [div1Ref, div2Ref]);
+   
+  console.log(maxDivHeight)
+  
+
+  const { projectId } = useParams();
+  const { data: editedProject, error, isLoading } = useGetProjectByIdQuery(projectId);
+  const { register, handleSubmit, formState: { errors } } = useForm(editedProject && {
+    defaultValues: {
+      name: editedProject?.name,
+      details: editedProject?.details,
+  }
+  });
   const navigate = useNavigate();
 
   const [focusedMilestone, setFocusedMilestone] = useState(null);
-  const [milestones, setMilestones] = useState([{ id: 1, name: '', dueDate: '' }]);
+  const [milestones, setMilestones] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
-  const [fundingValue , setFundingValue] = useState('');
+  const [fundingValue , setFundingValue] = useState(editedProject?.funding?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
   const [droppedFiles, setDroppedFiles] = useState([]);
+  const [allFiles, setAllFiles] = useState([]);
 
   const [selectedTeamsMembers , setSelectedTeamsMember] = useState([]);
   const [selectedStages , setSelectedStages] = useState([]);
+  const [addProjet, addResponse] = useCreateProjectMutation()
+  const [updateProject , updateResponse] = useUpdateProjectMutation();
+  const mutation = projectId ? updateProject : addProjet;
+  const response = projectId ? updateResponse : addResponse;
 
+
+  useEffect(() => {
+    if (editedProject?.milestones) {
+      const initialFormattedMilestones = editedProject.milestones.map((milestone, index) => ({
+        id: index + 1, 
+        name: milestone.name,
+        dueDate: new Date(milestone.dueDate)
+      }));
+      setMilestones(initialFormattedMilestones);
+    } else {
+      setMilestones([{ id: 1, name: '', dueDate: '' }]);
+    }
+
+    if (editedProject?.documents) {
+      const otherDocuments = editedProject.documents.filter(document => document.documentType === "other");
+      const initialDocumentDivs = otherDocuments.map((document, index) => ({
+        id: index + 1,
+      }));
+      setDocumentDivs(initialDocumentDivs);
+    } else {
+      setDocumentDivs([{ id: 1 }]);
+    }
+  }, [editedProject]); 
+  useEffect(() => {
+    const initializeFileNames = () => {
+      const initialFileNames = {};
+      editedProject?.documents?.forEach(document => {
+        const { name, documentType } = document;
+        if (!initialFileNames[documentType]) {
+          initialFileNames[documentType] = ''; 
+        }
+        initialFileNames[documentType]= name 
+      });
+      setFileNames(initialFileNames);
+    };
+    initializeFileNames();
+  }, [editedProject]);
+
+  useEffect(() => {
+    if (editedProject?.documents) {
+      const otherDocuments = editedProject.documents.filter(document => document.documentType === "other");
+      const initialDroppedFiles = otherDocuments.map((document, index) => ({
+        name: document.name,
+        index: index
+      }));
+      setDroppedFiles(initialDroppedFiles);
+    } else {
+      setDroppedFiles([]);
+    }
+  }, [editedProject]);
+  
+  
   const formatFunding = (value) => {
     let formattedValue = value.replace(/\D/g, '');
-    formattedValue = formattedValue.replace(/(\d{3})/g, '$1 ').trim();
+    formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     setFundingValue(formattedValue);
   };
 
@@ -86,9 +188,15 @@ const CreateProject = () => {
 
     if (file) {
       const fileWithIndex = { name: file.name, index };
+      const fileWithIndex1 = { file: file, index };
           setDroppedFiles((prevFiles) => {
           const updatedFiles = [...prevFiles];
           updatedFiles[index] = fileWithIndex;
+          return updatedFiles;
+      });
+      setAllFiles((prevFiles) => {
+          const updatedFiles = [...prevFiles];
+          updatedFiles[index] = fileWithIndex1;
           return updatedFiles;
       });
   }
@@ -104,6 +212,12 @@ const handleFileInputChange = (event, index) => {
         updatedFiles[index] = fileWithIndex;
         return updatedFiles;
     });
+    const fileWithIndex1 = { file: file, index };
+    setAllFiles((prevFiles) => {
+      const updatedFiles = [...prevFiles];
+      updatedFiles[index] = fileWithIndex1;
+      return updatedFiles;
+  });
 }
 };
 
@@ -127,6 +241,13 @@ const handleFileInputChange = (event, index) => {
     }
   };
   
+  function parseDateString(dateString) {
+    const [day, month, year] = dateString.split('/');
+
+    const dateObject = new Date(`${year}-${month}-${day}`);
+
+    return dateObject;
+}
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -136,101 +257,122 @@ const handleFileInputChange = (event, index) => {
   const formData = new FormData();
 
   const onSubmit = (data) => {
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append("stage" , selectedStages)
-    formData.append("listMember" ,selectedTeamsMembers);
-    formData.append("milestones" , milestones);
+    const fundingValue = parseFloat(data.funding.replace(/\s/g, ''));
+
+    const updatedData = {
+        ...data,
+        funding: fundingValue
+    };
+    // const selectedStagesNames = selectedStages.map(stage => stage.name);
+
+    const formattedMilestones = milestones.map(({ id, ...rest }) => rest);
+
+    const formDataContent = {
+        ...updatedData,
+        stages: selectedStages,
+        listMember: selectedTeamsMembers.map(({ id, ...rest }) => rest),
+        milestones: formattedMilestones
+    };
+
+    formData.append('infos', JSON.stringify(formDataContent));
+
     documents.forEach(({ file, type }) => {
-      formData.append(`documents[${type}]`, file);
-    });
-      droppedFiles.forEach(({ name, index }) => {
-      formData.append(`droppedFiles[${index}]`, name);
+        formData.append(`${type}`, file);
     });
     
-    navigate("/Projects");
-  };
+    allFiles.forEach(({ file }) => {
+        formData.append(`files`, file);
+    });
+    
+    // Afficher les données de formData dans la console
+    for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]); 
+    }
+    if (projectId) {
+      mutation({
+        projectId,
+        payload: formData,
+      });
+    } else {
+      mutation(formData);
+    }
+};
 
-  const onButtonClick = (inputref) => {
-    inputref.current.click();
-  };
+useEffect(() => {
+  response.isError && response.log(response.error?.data.message)
+  if (response.isSuccess) {
+      setTimeout(() => {
+          navigate((0))
+      }, 3000)
+      navigate("/Projects")
+  }
+
+}, [response.isLoading]);
+
+const onButtonClick = (inputref) => {
+  inputref.current.click();
+};
 
   const teamMembersdataList = [
     {
       id: 1,
-      imageSrc: 'images/img_avatar.png',
+      imageSrc: '/images/img_avatar.png',
       name: 'Annette Black',
       job: 'Back End Developer',
     },
     {
       id: 2,
-      imageSrc: 'images/img_avatar_62x62.png',
+      imageSrc: '/images/img_avatar_62x62.png',
       name: 'Dianne Russell',
       job: 'Software Developer',
     },
     {
       id: 3,
-      imageSrc: 'images/img_avatar_1.png',
+      imageSrc: '/images/img_avatar_1.png',
       name: 'Floyd Miles',
       job: 'Software Development Manager',
     },
     {
       id: 4,
-      imageSrc: 'images/img_avatar_2.png',
+      imageSrc: '/images/img_avatar_2.png',
       name: 'Kathryn Murphy',
       job: 'Social Media Manager',
     },
     {
       id: 5,
-      imageSrc: 'images/img_avatar_3.png',
+      imageSrc: '/images/img_avatar_3.png',
       name: 'Cameron Williamson',
       job: 'Software Tester',
     },
     {
       id: 6,
-      imageSrc: 'images/img_avatar_4.png',
+      imageSrc: '/images/img_avatar_4.png',
       name: 'Darlene Robertson',
       job: 'Scrum Master',
     },
     {
       id: 7,
-      imageSrc: 'images/img_avatar_5.png',
+      imageSrc: '/images/img_avatar_5.png',
       name: 'Ralph Edwards',
       job: 'UI/UX Designer',
     },
 ];
 
-
-  const StageData = stage.map(
-    item => ({ label: item, value: item })
-  );
+const StageData = stage.map(
+  item => ({ label: item, value: item })
+);
 
   return (
       <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
-              <Text
-                className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                size="txtDmSansBold32"
-              >
-                Projects
-              </Text>
+              <PageHeader
+                >
+                  Projects
+              </PageHeader>
             </div>
-            <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-              <img
-                className="cursor-pointer h-[18px] mr-1.5 my-px"
-                src="images/img_search_blue_gray_700_01.svg"
-                alt="search"
-              />
-              <input
-                className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                type="text"
-                name="search"
-                placeholder="Search..."
-              />
-            </div>
+            <SearchInput className={'min-w-[25%]'}/>
           </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full pb-6">
@@ -243,20 +385,18 @@ const handleFileInputChange = (event, index) => {
                 >
                   Create New Project
                 </Text>
-                <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
-                onClick={()=> onButtonClick(formButtonRef)}>
-                  <FiSave  size={18} className="mr-2"/>
-                  <button
+                <button 
+                  className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
+                  onClick={() => onButtonClick(formButtonRef)}
                   ref={formButtonRef}
-                    type="submit"
-                    className="text-base text-white-A700"
-                  >
-                    Save
-                  </button>
-                </div>
+                  type="submit"
+              >
+                  <FiSave size={18} className="mr-2" />
+                  Save
+              </button>
               </div>
               <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-full">
-                <div className="flex md:border-r border-indigo-50 pr-8 flex-1 flex-col gap-6 items-start justify-start w-full h-full">
+                <div ref={div1Ref} className="flex  flex-1 flex-col gap-6 items-start justify-start w-full h-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
@@ -336,16 +476,16 @@ const handleFileInputChange = (event, index) => {
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <BiDollar size={18}/>
                       <input
-                        {...register("target", { required: {value:true , message: "Project Funding Target is required"} })}
+                        {...register("funding", { required: {value:true , message: "Project Funding Target is required"} })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                        name="target"
+                        name="funding"
                         type="text"
                         value={fundingValue}
                         onChange={(e)=> formatFunding(e.target.value)}
                         placeholder="Enter Funding Target"
                       />
                     </div>
-                    {errors.target && <span className="text-sm font-DmSans text-red-500">{errors.target?.message}</span>}
+                    {errors.funding && <span className="text-sm font-DmSans text-red-500">{errors.funding?.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -355,20 +495,20 @@ const handleFileInputChange = (event, index) => {
                       Stage
                     </Text>
                     <MultipleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStages} 
-                    placeholder="Select Stage" valuekey="name" optionkey="id"
+                    placeholder="Select Stage" selectedOptionsDfault={editedProject?.stages}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-1.5 items-center  w-full">
                             <Text
                               className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
                               >
-                               {option.name}
+                               {option}
                             </Text>
                            </div>
                         );
                       }
                     }/>
-                    {selectedStages.length==0 && <span className="text-sm font-DmSans text-red-500">Please select stages</span>} 
+                    {/* {selectedStages.length==0 && <span className="text-sm font-DmSans text-red-500">Please select stages</span>}  */}
                     
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -391,27 +531,29 @@ const handleFileInputChange = (event, index) => {
                       </div>
                       <CustomCalendar
                         className={' w-[30%]'} 
-                        onChangeDate={(date) => handleMilestoneDateChange(milestone.id, 'dueDate', date)}
+                        defaultValue={milestone.dueDate}
+                        onChangeDate={(date) => handleMilestoneDateChange(milestone.id, 'dueDate', parseDateString(date))}
                       />
                       {/* {index === milestones.length - 1 && ( */}
-                        <div className="bg-light_blue-100 border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto p-[7px] rounded-md w-[15%] cursor-pointer" 
-                        style={{whiteSpace:'nowrap'}} 
-                        onClick={addMilestone}>
-                          <IoMdAdd size={18} className="mr-1" />
-                          <button type="button"  className="text-base" >
-                            More
-                          </button>
-                        </div>
+                      <button
+                        className="bg-light_blue-100 text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[6px] rounded-md w-[15%] cursor-pointer"
+                        style={{ whiteSpace: 'nowrap' }}
+                        onClick={addMilestone}
+                        type="button"
+                    >
+                        <IoMdAdd size={18} className="mr-1" />
+                        More
+                    </button>
                       {/* )} */}
                     </div>
                     ))}
                   </div>
                 </div>
-                {/* <div className="bg-indigo-50 md:min-h-[750px] md:h-full h-px w-full md:w-px" /> */}
+                <div ref={dividerRef} className={`bg-indigo-50 md:min-h-fit md:h-[${maxDivHeight}] h-px w-full md:w-px`} />
                 {/* <div className="flex flex-col md:divide-x md:min-h-[750px] md:h-full divide-indigo-50 hover:divide-pink-400">
                   {` `}
                 </div> */}
-                <div className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
+                <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
@@ -422,7 +564,7 @@ const handleFileInputChange = (event, index) => {
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
-                       onDrop={(event) => handleDrop1(event, "Pitch Deck")}>
+                       onDrop={(event) => handleDrop1(event, "pitchDeck")}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -434,7 +576,7 @@ const handleFileInputChange = (event, index) => {
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
                         ref={inputRef}
-                        onChange={(e) => handleFileUpload1(e, "Pitch Deck")} 
+                        onChange={(e) => handleFileUpload1(e, "pitchDeck")} 
                         style={{ display: 'none' }}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
@@ -451,21 +593,21 @@ const handleFileInputChange = (event, index) => {
                         }
                       </label>
                     </div>
-                    {fileNames["Pitch Deck"] && (
+                    {fileNames["pitchDeck"] && (
                       <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
                       <GrAttachment size={16} className="mr-2" />
                       <Text
                         className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
                         size=""
                       >
-                        {fileNames["Pitch Deck"]}
+                        {fileNames["pitchDeck"] || editedProject?.documents?.filter(document => document.documentType === 'pitchDeck').name}
                       </Text>
                     </div>
                     )}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
-                       onDrop={(event) => handleDrop1(event, "Business Plan")}>
+                       onDrop={(event) => handleDrop1(event, "businessPlan")}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -477,7 +619,7 @@ const handleFileInputChange = (event, index) => {
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
                         ref={inputRef1}
-                        onChange={(e) => handleFileUpload1(e, "Business Plan")} 
+                        onChange={(e) => handleFileUpload1(e, "businessPlan")} 
                         style={{ display: 'none' }}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
@@ -494,21 +636,21 @@ const handleFileInputChange = (event, index) => {
                         }
                       </label>
                     </div>
-                    {fileNames["Business Plan"] && (
+                    {fileNames["businessPlan"] && (
                       <div className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
                       <GrAttachment size={16} className="mr-2" />
                       <Text
                         className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
                         size=""
                       >
-                        {fileNames["Business Plan"]}
+                        {fileNames["businessPlan"]}
                       </Text>
                     </div>
                     )}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
-                       onDrop={(event) => handleDrop1(event, "Financial Projection")}>
+                       onDrop={(event) => handleDrop1(event, "financialProjection")}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -520,7 +662,7 @@ const handleFileInputChange = (event, index) => {
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
                         ref={inputRef2}
-                        onChange={(e) => handleFileUpload1(e, "Financial Projection")} 
+                        onChange={(e) => handleFileUpload1(e, "financialProjection")} 
                         style={{ display: 'none' }}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
@@ -537,14 +679,14 @@ const handleFileInputChange = (event, index) => {
                         }
                       </label>
                     </div>
-                    {fileNames["Financial Projection"] && (
+                    {fileNames["financialProjection"] && (
                       <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
                       <GrAttachment size={16} className="mr-2" />
                       <Text
                         className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
                         size=""
                       >
-                        {fileNames["Financial Projection"]}
+                        {fileNames["financialProjection"]}
                       </Text>
                     </div>
                     )}
@@ -598,17 +740,14 @@ const handleFileInputChange = (event, index) => {
                     })}
                   </div>
                   ))}
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <div
-                      className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
-                      onClick={addDocumentDiv}
-                    >
-                      <ImFileText2 size={20} className="mr-2 text-blue-500" />
-                      <button type="button" className="text-base text-blue-500 font-dmsans text-sm font-medium leading-18">
-                        Add More Document
-                      </button>
-                    </div>
-                  </div>
+                  <button
+                    className="flex w-full text-base text-blue-500 font-dmsans font-medium leading-[18px] rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
+                    onClick={addDocumentDiv}
+                    type="button"
+                  >
+                    <ImFileText2 size={20} className="mr-2 text-blue-500" />
+                    Add More Document
+                  </button>
                 </div>
               </div>
             </form>

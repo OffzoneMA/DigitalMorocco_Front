@@ -16,6 +16,8 @@ import { Country, City } from 'country-state-city';
 import { languages } from '../data/tablesData';
 import { regions } from '../data/tablesData';
 import { SlCheck } from "react-icons/sl";
+import PageHeader from "../Components/PageHeader";
+
 
 export default function UserProfile() {
   const { userInfo, loading } = useSelector((state) => state.auth)
@@ -122,13 +124,11 @@ export default function UserProfile() {
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
-            <Text
-              className="text-3xl font-bold leading-11 text-gray-900 w-full"
-              size="txtDmSansBold32"
-            >
+          <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
+            <PageHeader
+              >
               My Profil
-            </Text>
+            </PageHeader>
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-center md:items-start w-full py-6 gap-8">
@@ -148,17 +148,14 @@ export default function UserProfile() {
               accept="image/*"
               style={{ display: 'none' }}
             />
-            <div className="text-blue-501 flex flex-row items-center justify-center p-2 gap-3 rounded-full border-[2px] border-blue-501 w-full" 
+            <button
+              className="text-blue-501 flex flex-row items-center justify-center p-2 gap-3 rounded-full border-[2px] border-blue-501 w-full"
               onClick={handleUploadClick}
-           >
-              <img src='images/img_imageuserplus.svg' className=''/>
-              <button
-                type="button"
-                className="text-[13px]"
-              >
-                Upload Photo
-              </button>
-            </div>
+              type="button"
+          >
+              <img src="images/img_imageuserplus.svg" className="" alt="Upload Icon" />
+              <span className="text-[13px]">Upload Photo</span>
+          </button>
           </div>
           <div className='flex flex-1 flex-col gap-5'>
             <form onSubmit={handleSubmit1(onSubmit1)} className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
@@ -358,25 +355,22 @@ export default function UserProfile() {
                 </div>
               </div>
               {!isForm1Saved? (
-                <div className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto">
                 <button
+                  className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto"
                   type="submit"
-                  className="text-base text-white-A700"
-                >
-                  Save
+                  >
+                      Save
                 </button>
-              </div>
+            
               ):
               (
-                <div className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto">
-                <SlCheck size={20}/>
                 <button
+                  className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto"
                   type="submit"
-                  className="text-base text-gray500"
-                >
-                  Saved
+                 >
+                  <SlCheck size={20} />
+                  <span className="text-base text-gray500">Saved</span>
                 </button>
-              </div>
               )}
               
             </form>
@@ -444,25 +438,21 @@ export default function UserProfile() {
                   {errors2.confirmNewPassword && <span className="text-sm font-DmSans text-red-500">{errors2.confirmNewPassword?.message}</span>}
                 </div> 
                 {!isForm2Saved? (
-                <div className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto">
                 <button
-                  type="submit"
-                  className="text-base text-white-A700"
-                >
-                  Save
+                    className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto"
+                    type="submit"
+                  >
+                    Save
                 </button>
-              </div>
               ):
               (
-                <div className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto">
-                <SlCheck size={20}/>
                 <button
+                  className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto"
                   type="submit"
-                  className="text-base text-gray500"
-                >
-                  Saved
+                  >
+                  <SlCheck size={20} />
+                  <span className="text-base text-gray500">Saved</span>
                 </button>
-              </div>
               )}                    
             </form>
             <div className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
@@ -480,14 +470,14 @@ export default function UserProfile() {
                     Facebook
                   </Text>
                 </div>
-                <div className={` ${isConnect? 'text-red-502 border-red-502 ': 'text-blue-501 border-blue-501 '} flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px]`}>
-                  <button
-                    type="submit"
-                    className="text-sm leading-[18.33px] "
+                <button
+                  className={` ${isConnect ? 'text-red-502 border-red-502 ' : 'text-blue-501 border-blue-501 '} flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px]`}
+                  type="submit"
                   >
-                    {isConnect? "Disconnected": "Connect"}
-                  </button>
-                </div>
+                  <span className="text-sm leading-[18.33px]">
+                      {isConnect ? "Disconnected" : "Connect"}
+                  </span>
+                </button>
               </div>
               <div className='flex flex-row w-full justify-between items-center'>
                 <div className='flex flex-row gap-2 items-center'>
@@ -498,14 +488,12 @@ export default function UserProfile() {
                     Instagram
                   </Text>
                 </div>
-                <div className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501 ">
-                  <button
-                    type="submit"
-                    className="text-sm leading-[18.33px] "
+                <button
+                  className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501"
+                  type="submit"
                   >
-                    Connect
-                  </button>
-                </div>
+                  <span className="text-sm leading-[18.33px]">Connect</span>
+                </button>
               </div>
               <div className='flex flex-row w-full justify-between items-center'>
                 <div className='flex flex-row gap-2 items-center'>
@@ -516,14 +504,12 @@ export default function UserProfile() {
                     Twitter (X)
                   </Text>
                 </div>
-                <div className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501 ">
-                  <button
-                    type="submit"
-                    className="text-sm leading-[18.33px] "
+                <button
+                  className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501"
+                  type="submit"
                   >
-                    Connect
-                  </button>
-                </div>
+                  <span className="text-sm leading-[18.33px]">Connect</span>
+                </button>
               </div>
               <div className='flex flex-row w-full justify-between items-center'>
                 <div className='flex flex-row gap-2 items-center text-left'>
@@ -534,14 +520,14 @@ export default function UserProfile() {
                     LinkedIn
                   </Text>
                 </div>
-                <div className={` ${isConnect? 'text-red-502 border-red-502 ': 'text-blue-501 border-blue-501 '} flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px]`}>
-                  <button
+                <button
+                    className={` ${isConnect ? 'text-red-502 border-red-502 ' : 'text-blue-501 border-blue-501 '} flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px]`}
                     type="submit"
-                    className="text-sm leading-[18.33px] "
                   >
-                    {isConnect? "Disconnected": "Connect"}
-                  </button>
-                </div>
+                    <span className="text-sm leading-[18.33px]">
+                        {isConnect ? "Disconnected" : "Connect"}
+                    </span>
+                </button>
               </div>
               <div className='flex flex-row w-full justify-between items-center'>
                 <div className='flex flex-row gap-2 items-center'>
@@ -552,23 +538,19 @@ export default function UserProfile() {
                     Youtube
                   </Text>
                 </div>
-                <div className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501 ">
-                  <button
-                    type="submit"
-                    className="text-sm leading-[18.33px] "
+                <button
+                  className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501"
+                  type="submit"
                   >
-                    Connect
-                  </button>
-                </div>
+                  <span className="text-sm leading-[18.33px]">Connect</span>
+                </button>
               </div>
-              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto">
-                  <button
-                    type="submit"
-                    className="text-base text-white-A700"
-                  >
-                    Save
-                  </button>
-                </div>
+              <button
+                  className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto"
+                  type="submit"
+                >
+                  Save
+              </button>
             </div>
             <form onSubmit={handleSubmit3(onSubmit3)} className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
               <Text
@@ -631,25 +613,21 @@ export default function UserProfile() {
                         placeholder="Select Your Region"/> */}
               </div>
               {!isForm3Saved? (
-                <div className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto">
                 <button
-                  type="submit"
-                  className="text-base text-white-A700"
+                    className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto"
+                    type="submit"
                 >
-                  Save
-                </button>
-              </div>
-              ):
-              (
-                <div className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto">
-                <SlCheck size={20}/>
+                    Save
+                </button>            
+                ):
+                (
                 <button
+                  className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto"
                   type="submit"
-                  className="text-base text-gray500"
-                >
-                  Saved
+                 >
+                  <SlCheck size={20} />
+                  <span className="text-base text-gray500">Saved</span>
                 </button>
-              </div>
               )}
             </form>
             <div className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
@@ -663,15 +641,14 @@ export default function UserProfile() {
                 >
                   By deleting your account, you’ll no longer be able to access your account or log in to Digital Morocco. 
               </Text>
-              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto">
-                <button
-                onClick={openDeleteModal}
+              <button
+                  className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto"
+                  onClick={openDeleteModal}
                   type="button"
-                  className="text-base text-white-A700"
-                >
+              >
                   Delete Account
-                </button>
-              </div>
+              </button>
+
             </div>
           </div>
         </div>

@@ -7,10 +7,17 @@ import { FiChevronLeft } from "react-icons/fi";
 import ReactDOM from 'react-dom';
 
 
-const CustomCalendar = ({setValue , className , onChangeDate , inputPlaceholder}) => {
+const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue}) => {
+    const formatDefaultValut = (defaultValue) => {
+        if(defaultValue) {
+            const formattedDate = new Intl.DateTimeFormat('en-GB').format(defaultValue);
+            return formattedDate;
+        }
+    }
+
     const [show, setShow] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [valueDate, setValueDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState(defaultValue);
+    const [valueDate, setValueDate] = useState(formatDefaultValut(defaultValue));
     const dropdownRef = useRef(null);
     const parentRef = useRef(null);
     const userLanguage = navigator.language.split('-')[0];

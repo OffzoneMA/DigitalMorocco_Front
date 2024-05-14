@@ -18,6 +18,9 @@ import { HiOutlineMail } from "react-icons/hi";
 import TablePagination from "../Components/TablePagination";
 import SendContactModal from "../Components/SendContactModal";
 import ConfirmedModal from "../Components/ConfirmedModal";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+
 
 const InvestorDetails = () => {
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -63,27 +66,13 @@ const InvestorDetails = () => {
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-                <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
-                  <Text
-                    className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                    size="txtDmSansBold32"
+                <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
+                <PageHeader
                   >
-                    Investor
-                  </Text>
+                  Investor
+                </PageHeader>
                 </div>
-                <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-                  <img
-                    className="cursor-pointer h-[18px] mr-1.5 my-px"
-                    src="images/img_search_blue_gray_700_01.svg"
-                    alt="search"
-                  />
-                  <input
-                    className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                    type="text"
-                    name="search"
-                    placeholder="Search..."
-                  />
-                </div>
+                <SearchInput className={'min-w-[25%]'}/>
               </div>
             </div>
             <div className="flex flex-col w-full gap-10 bg-white-A700 px-5">
@@ -92,9 +81,9 @@ const InvestorDetails = () => {
                         <img
                           src="images/img_inv.svg"
                           alt="vector_three"
-                          className="h-[140px] w-[150px]"
+                          className="h-[140px] w-[150px] "
                         />
-                        <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                        <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
                         </div>
                       </div>
                       <div className="flex flex-col gap-6 flex-1 w-full">
@@ -106,16 +95,14 @@ const InvestorDetails = () => {
                             <div className="absolute h-full overlay-content-invDetails w-full top-0">
                             </div>
                           </div>
-                          <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
-                            <TbSend  size={18} className="mr-2"/>
-                            <button
-                                onClick={openModal}
-                                type="button"
-                                className="text-sm font-DmSans font-normal leading-[22px] text-white-A700"
-                            >
-                                Send Contact Request
-                            </button>
-                            </div>
+                          <button
+                              className="bg-blue-A400 text-white-A700 text-sm font-DmSans font-normal leading-[22px] flex flex-row items-center p-[7px] rounded-md w-auto"
+                              onClick={openModal}
+                              type="button"
+                          >
+                              <TbSend size={18} className="mr-2" />
+                              Send Contact Request
+                          </button>
                         </div>
                         <div className="py-3">
                           <div className="grid grid-cols-4 gap-px">

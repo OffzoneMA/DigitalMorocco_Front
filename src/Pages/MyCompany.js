@@ -11,6 +11,9 @@ import 'rsuite/CheckPicker/styles/index.css';
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
 import {companyType} from "../data/companyType";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+
 
 const MyCompany = () => {
   const [logoFile, setLogoFile] = useState(null);
@@ -130,49 +133,31 @@ const MyCompany = () => {
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
-            <Text
-              className="text-3xl font-bold leading-11 text-gray-900 w-full"
-              size="txtDMSansBold32"
-            >
-              Company
-            </Text>
-          </div>
-          <div className="flex  w-[25%] rounded-md p-2 border border-solid">
-            <img
-              className="cursor-pointer h-[18px] mr-1.5 my-px"
-              src="images/img_search_blue_gray_700_01.svg"
-              alt="search"
-            />
-            <input
-              className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search..."
-            />
-          </div>
-          {isSaved? 
-              <div className="bg-teal-A700 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto">
-                <BsCheck2Circle  size={18} className="mr-2"/>
-                <button
-                  type="submit"
-                  className="text-base text-white-A700"
-                >
-                  Saved
-                </button>
-              </div>  
-              :
-            <div className="bg-blue-501 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
-            onClick={() => onButtonClick(formButtonRef)}>
-              <FiSave  size={18} className="mr-2"/>
-              <button
-              ref={formButtonRef}
-                type="submit"
-                className="text-base text-white-A700"
+          <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
+            <PageHeader
               >
-                Save
+              Company
+            </PageHeader>
+          </div>
+          <SearchInput className={'min-w-[25%]'}/>
+          {isSaved? 
+              <button
+                className="bg-teal-A700 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                type="submit"
+              >
+                <BsCheck2Circle size={18} className="mr-2" />
+                Saved
               </button>
-            </div>
+              :
+              <button
+                ref={formButtonRef}
+                className="bg-blue-501 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                onClick={() => onButtonClick(formButtonRef)}
+                type="submit"
+                >
+                <FiSave size={18} className="mr-2" />
+                Save
+              </button>          
             }
         </div>
       </div>

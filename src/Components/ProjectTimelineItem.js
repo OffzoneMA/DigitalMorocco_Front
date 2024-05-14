@@ -1,5 +1,7 @@
 import React from "react";
 import {Text} from "./Text";
+
+
 const ProjectTimelineItem = ({isFirstItem=false, time, text}) => {
   return (
     <div className="flex flex-row gap-4 md:h-auto items-end justify-center w-full">
@@ -13,13 +15,13 @@ const ProjectTimelineItem = ({isFirstItem=false, time, text}) => {
         {isFirstItem ? (
           <img
             className="w-3.5"
-            src="images/img_reply_blue_gray_100.svg"
+            src="/images/img_reply_blue_gray_100.svg"
             alt="reply"
           />
         ) : (
           <img
             className="h-full w-3.5"
-            src="images/img_frame36930.svg"
+            src="/images/img_frame36930.svg"
             alt="frame36930"
           />
         )}

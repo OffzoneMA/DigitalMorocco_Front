@@ -17,7 +17,9 @@ import { eventData } from "../data/tablesData";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import ReactDOMServer from 'react-dom/server';
-import { useReactToPrint } from 'react-to-print';
+import PageHeader from "../Components/PageHeader";
+import TableTitle from "../Components/TableTitle";
+import SearchInput from "../Components/SeachInput";
 
 
 const Events = () => {
@@ -166,42 +168,26 @@ const Events = () => {
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-                <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
-                  <Text
-                    className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                    size="txtDmSansBold32"
-                  >
-                    Events
-                  </Text>
+                <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
+                  <PageHeader
+                    >
+                    Event Participate
+                  </PageHeader>
                 </div>
-                <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-                  <img
-                    className="cursor-pointer h-[18px] mr-1.5 my-px"
-                    src="images/img_search_blue_gray_700_01.svg"
-                    alt="search"
-                  />
-                  <input
-                    className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                    type="text"
-                    name="search"
-                    placeholder="Search..."
-                  />
-                </div>
+                <SearchInput className={'min-w-[25%]'}/>
               </div>
             </div>
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               { pageData?.length > 0 ?
                 <div className="relative w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                  <div className="flex flex-row gap-4 text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
-                    <Text
-                    style={{whiteSpace:"nowrap"}}
-                      className="text-lg leading-7 text-left text-gray-900 pt-1 w-auto "
-                      size="txtDmSansMedium16"
+                  <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+                    <TableTitle
+                      style={{whiteSpace:"nowrap"}}
                     >
                       Event
-                    </Text>
-                      <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
+                    </TableTitle>
+                    <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto w-auto">
                       {filter && 
                     (
                         <>
@@ -246,39 +232,38 @@ const Events = () => {
                         </>
                     )}
                       {filter ?
-                      (<div className="bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " 
-                      onClick={()=>setFilterApply(true)}>
-                      <BiFilterAlt   size={18} className="mr-2"/>
-                        <button
-                            type="button"
-                            className="text-base text-white-A700"
-                            style={{whiteSpace:'nowrap'}}
-                        >
-                          Apply Filters
-                        </button>
-                        </div>):
-                      (<div className="bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " 
-                      onClick={()=>setFilter(true)}>
-                        <BiFilterAlt   size={18} className="mr-2"/>
-                        <button
-                              type="button"
-                              className="text-base text-white-A700"
-                              style={{whiteSpace:'nowrap'}}
-                          >
+                      (<button
+                        className="bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                        onClick={() => setFilterApply(true)}
+                        type="button"
+                    >
+                        <BiFilterAlt size={18} className="mr-2" />
+                        <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
+                            Apply Filters
+                        </span>
+                    </button>
+                    ):
+                      (<button
+                        className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                        onClick={() => setFilter(true)}
+                        type="button"
+                    >
+                        <BiFilterAlt size={18} className="mr-2" />
+                        <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
                             Filters
-                        </button>
-                      </div>)
+                        </span>
+                      </button>
+                      )
                       }
                         {filterApply && (
-                          <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={clearFilter}>
-                          <FiDelete   size={18} className="mr-2"/>
-                          <Text
-                            className="text-sm leading-6 text-blue_gray-300 "
-                            size="txtDmSansMedium16"
-                          >
-                            Clear
-                          </Text>
-                        </div>
+                          <button
+                          className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer"
+                          onClick={clearFilter}
+                          type="button"
+                      >
+                          <FiDelete size={18} className="mr-2" />
+                          <span className="text-base font-DmSans font-normal leading-[26px] text-blue_gray-300">Clear</span>
+                        </button>
                         )}
                       </div>
                   </div>

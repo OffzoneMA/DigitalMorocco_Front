@@ -65,7 +65,7 @@ const onSubmit = () => {
       <div className="max-h-[93vh] sm:w-full md:w-full">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-3 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[8px] w-full">
             <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-4 mb-2 w-full">
-              <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+              <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text
                   className="md:text-lg text-[18px]  leading-7 font-DmSans text-gray-900 font-medium w-full"
                 >

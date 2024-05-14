@@ -46,7 +46,7 @@ import UpcomingEventDetails from './Pages/UpcomingEventDetails';
 import PastEvents from './Pages/PastEvents';
 import ChoosePlan from './Pages/ChoosePlan';
 import Notifications from './Pages/Notifications';
-import CustomCalendar from './Components/CustomCalendar';
+import VerificationEmail from './Pages/Authentification/Complete_SignUp/VerificationEmail';
 import { isAuthenticated } from './Services/UserAuth';
 import GuardedConnectedUserRoute from './GuardedRoutes/GuardedConnectedUserRoute';
 
@@ -71,7 +71,8 @@ function App() {
             <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
             <Route path="/Projects" element={<Projects />} />
             <Route path="/Createproject" element={<CreateProject />} />
-            <Route path="/Projectdetails" element={<ProjectDetails />} />
+            <Route path="/Editproject/:projectId" element={<CreateProject />} />
+            <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
             <Route path="/CompanyLegal" element={<CompanyLegal />} />
             <Route path="/MyCompany" element={<MyCompany />} />
             <Route path="/Employees" element={<Employees />} />
@@ -110,6 +111,7 @@ function App() {
 
         
         <Route path="/VerificationCode" element={<VerificationCode />} />
+        <Route path="/VerificationEmail" element={<VerificationEmail />} />
         <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/ResetPassword" element={<ResetPassword />} />

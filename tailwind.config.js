@@ -12,7 +12,16 @@ module.exports = {
         },
       
         fontFamily: {
-        'DmSans': ['DM Sans', 'sans-serif'] , inter:['Inter', 'sans-serif'] , manrope: ['Manrope', 'sans-serif']
+        'DmSans': ['DM Sans'] , inter:['Inter'] , manrope: ['Manrope'],
+        'montserrat-medium': ['Montserrat-Medium'],
+        'dm-sans-regular': ['DMSans-Regular'],
+        'dm-sans-medium': ['DMSans-Medium'],
+        'dm-sans-bold': ['DMSans-Bold'],
+        'Montserrat-regular': ['Montserrat-Regular' ],
+        'Montserrat-medium': ['Montserrat-Medium' ],
+        'Montserrat-bold': ['Montserrat-Bold' ],
+        'Montserrat-semiBold': ['Montserrat-SemiBold' ],
+        'Avenir-next-LTPro': ['AvenirNextLTPro']
         },
         colors:{
           blue: {
@@ -44,6 +53,7 @@ module.exports = {
           100: "#f2f3f6",
           101:"#F2F4F7",
           201: "#E4E7EC",
+          202: "#E5E5E6",
           300: "#dcdcdb",
           301: "#D0D5DD",
           401: "#A9ACB0",
@@ -113,8 +123,13 @@ module.exports = {
         col1:'#00CDAE',
         bg_plan:"#E8FFF81F",
         bord:"#AAAAAA33",
+        greenbtnhoverbg: '#01A395',
         color1:'#1E0E62',
         color2:'#15143966',
+        borderColor: "#D9D9D9",
+        focusColor: "#53B1FD",
+        placehColor: "#A7A6A8",
+        errorColor: "#EC7373",
     
         "dark-purple": "#081A51",
         "light-white": "rgba(255,255,255,0.17)"
@@ -123,7 +138,26 @@ module.exports = {
           bs: "0px 3px  3px 0px #0000001e",
           bs1: "0px 4px  6px -2px #1018280c",
           bs2: "0px 2.77px  2px 0px #00000005",
-          bs3: "0px 0px 13px 0px #CEE0FCE8"
+          bs3: "0px 0px 13px 0px #CEE0FCE8",
+          inputBs: "0px 0px 0px 4px #007FFF21",
+          inputBsError: "0px 0px 0px 4px #E8555521",
+          formbs: [
+              '0px 4px 6px -2px #1018280D',
+              '0px 12px 16px -4px #1018281A',
+              '0px 1px 0px 0px #FFFFFF99 inset'
+          ],
+          modalbs: [
+            '0px 2.77px 2.21px 0px #00000005', 
+            '0px 6.65px 5.32px 0px #00000007', 
+            '0px 12.52px 10.02px 0px #00000009', 
+            '0px 22.34px 17.87px 0px #0000000B', 
+            '0px 41.78px 33.42px 0px #0000000D', 
+            '0px 100px 80px 0px #00000012'],
+          checkErrorbs : '0px 4px 12px 2px #EC737340',
+          roleCardbs: [
+            '0px 4px 6px -4px #1018280D',
+            '0px 12px 16px -4px #1018281A'
+          ]
         },
 
     },

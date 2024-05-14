@@ -8,6 +8,8 @@ import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import CustomCalendar from "../Components/CustomCalendar";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
 import axios from "axios";
 import { format } from "date-fns";
 
@@ -208,28 +210,13 @@ const NewEmployee = () => {
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
-            <Text
-              className="text-3xl font-bold leading-11 text-gray-900 w-full"
-              size="txtDMSansBold32"
-            >
+          <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
+            <PageHeader
+              >
               Company
-            </Text>
+            </PageHeader>
           </div>
-          <div className="flex  w-[22%] rounded-md p-2 border border-solid">
-            <img
-              className="cursor-pointer h-[18px] mr-1.5 my-px"
-              src="images/img_search_blue_gray_700_01.svg"
-              alt="search"
-            />
-            <input
-              className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search..."
-            />
-          </div>
-
+          <SearchInput className={'min-w-[25%]'}/>
         </div>
       </div>
       <div className="flex items-start justify-start w-full">
@@ -245,29 +232,24 @@ const NewEmployee = () => {
               >
                 Add Employee
               </Text>
-              {isSaved ?
-                <div className="bg-teal-A700 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
-                  <BsCheck2Circle size={18} className="mr-2" />
-                  <button
-                    type="submit"
-                    className="text-base text-white-A700"
-                  >
-                    Saved
-                  </button>
-                </div>
-                :
-                <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursor-pointer">
-                  <FiSave size={18} className="mr-2" />
-                  <button
-
-                    type="submit"
-                    className="text-base text-white-A700"
-                  >
-                    Save
-                  </button>
-                </div>
+              {isSaved? 
+              <button
+                className="bg-teal-A700 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto"
+                type="submit"
+              >
+                <BsCheck2Circle size={18} className="mr-2" />
+                Saved
+              </button>
+              :
+              <button
+                className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursor-pointer"
+                type="submit"
+              >
+                <FiSave size={18} className="mr-2" />
+                Save
+              </button>
               }
-
+              
             </div>
             <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-5 md:px-5 w-full">
               <div className="flex flex-1 flex-col gap-6 py-5 items-start justify-start w-full">

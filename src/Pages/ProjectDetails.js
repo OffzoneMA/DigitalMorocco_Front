@@ -11,14 +11,32 @@ import ShareToInvestorModal from "../Components/ShareToInvestorModal";
 import NewMilestoneModal from "../Components/NewMilestoneModal";
 import DeleteModal from "../Components/DeleteModal";
 import { useNavigate } from "react-router-dom";
+import { BsDot } from "react-icons/bs";
+import { useGetProjectByIdQuery } from "../Services/Project.Service";
+import { useParams } from "react-router-dom";
+import { formatNumber } from "../data/helper";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+import TableTitle from "../Components/TableTitle";
 
 
 const ProjectDetails = () => {
+  const { projectId } = useParams();
+
+  const { data, error, isLoading } = useGetProjectByIdQuery(projectId , {pollingInterval: 3000 , refetchOnMountOrArgChange: true , skip: false});
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [project , setProject] = useState(null);
+
+  function formatDate(isoDate) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const date = new Date(isoDate);
+    const formattedDate = months[date.getMonth()] + ' ' + date.getFullYear();
+    return formattedDate;
+}
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -52,37 +70,37 @@ const ProjectDetails = () => {
 
   const teamMembersdataList = [
     {
-      imageSrc: 'images/img_avatar.png',
+      imageSrc: '/images/img_avatar.png',
       name: 'Annette Black',
       job: 'Back End Developer',
     },
     {
-      imageSrc: 'images/img_avatar_62x62.png',
+      imageSrc: '/images/img_avatar_62x62.png',
       name: 'Dianne Russell',
       job: 'Software Developer',
     },
     {
-      imageSrc: 'images/img_avatar_1.png',
+      imageSrc: '/images/img_avatar_1.png',
       name: 'Floyd Miles',
       job: 'Software Development Manager',
     },
     {
-      imageSrc: 'images/img_avatar_2.png',
+      imageSrc: '/images/img_avatar_2.png',
       name: 'Kathryn Murphy',
       job: 'Social Media Manager',
     },
     {
-      imageSrc: 'images/img_avatar_3.png',
+      imageSrc: '/images/img_avatar_3.png',
       name: 'Cameron Williamson',
       job: 'Software Tester',
     },
     {
-      imageSrc: 'images/img_avatar_4.png',
+      imageSrc: '/images/img_avatar_4.png',
       name: 'Darlene Robertson',
       job: 'Scrum Master',
     },
     {
-      imageSrc: 'images/img_avatar_5.png',
+      imageSrc: '/images/img_avatar_5.png',
       name: 'Ralph Edwards',
       job: 'UI/UX Designer',
     },
@@ -109,154 +127,106 @@ const ProjectDetails = () => {
     <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
-            <Text
-              className="md:text-3xl text-[28px] text-gray-900 w-full"
-              size="txtDMDashHeader"
-            >
-              Projects
-            </Text>
+          <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
+            <PageHeader
+              >
+                Projects
+            </PageHeader>
           </div>
-          <div className="flex  md:w-[25%] w-full rounded-md p-2 border border-solid">
-            <img
-              className="cursor-pointer h-[18px] mr-1.5 my-px"
-              src="images/img_search_blue_gray_700_01.svg"
-              alt="search"
-            />
-            <input
-              className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search..."
-            />
-          </div>
+          <SearchInput className={'min-w-[25%]'}/>
         </div>
       </div>
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start px-5 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex flex-col md:flex-row justify-between text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
-              <Text
-                className="md:text-[18px] text-[16px] text-gray-900 pt-1 md:mb-2 mb-2 justify-start w-auto"
-                size="txtDMSansCardHeader"
+            <div className="flex flex-col md:flex-row justify-between items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
+              <TableTitle
               >
-                Lorem Ipsum Project - Angel Round Investment
-              </Text>
+                {data?.name? data?.name : `Lorem Ipsum Project - Angel Round Investment`}
+              </TableTitle>
               <div className="flex  flex-row gap-3 items-center justify-end">
-                <div className="bg-light_blue-100 text-blue-500 flex flex-row items-center ml-auto p-2 cursor-pointer rounded-md " 
-                onClick={openModal}>
-                  <HiOutlineShare   size={18} className="mr-2"/>
-                  <button
-                    type="button"
-                    className="font-dmsans md:text-sm text-base font-medium leading-5"
-                  >
-                    Share to Investor
-                  </button>
-                </div>
-                <div className="bg-light_blue-100 text-blue-500 cursor-pointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md" 
-                  onClick={openDeleteModal}>
-                  <RiDeleteBinLine  size={18} className="mr-2"/>
-                  <button
-                    type="button"
-                    className="font-dmsans md:text-sm text-base font-medium leading-5"
-                  >
-                    Delete Project
-                  </button>
-                </div>
-                <div className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursor-pointer items-center ml-auto p-2 rounded-md " 
-                onClick={()=> navigate("/Createproject")}>
-                  <FiEdit3   size={18} className="mr-2"/>
-                  <button
-                    type="button"
-                    className="font-dmsans md:text-sm text-base font-medium leading-5"
-                  >
-                    Edit Project
-                  </button>
-                </div>
+                <button
+                  className="bg-light_blue-100 md:text-sm text-base font-medium leading-5 text-blue-500 flex flex-row items-center ml-auto p-2 cursor-pointer rounded-md font-DmSans"
+                  onClick={openModal}
+                  type="button"
+                >
+                  <HiOutlineShare size={18} className="mr-2" />
+                  Share to Investor
+                </button>
+
+                <button
+                  className="bg-light_blue-100 text-blue-500 cursor-pointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md"
+                  onClick={openDeleteModal}
+                  type="button"
+                >
+                  <RiDeleteBinLine size={18} className="mr-2" />
+                  <span className="font-DmSans md:text-sm text-base font-medium leading-5">Delete Project</span>
+                </button>
+                <button
+                  className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursor-pointer items-center ml-auto p-2 rounded-md"
+                  onClick={() => navigate(`/Editproject/${projectId}`)}
+                  type="button"
+                >
+                  <FiEdit3 size={18} className="mr-2" />
+                  <span className="font-DmSans md:text-sm text-base font-medium leading-5">Edit Project</span>
+                </button>
               </div>
             </div>
               <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-200 justify-start py-5 w-full">
                 <div
-                  className=" flex-row gap-px grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 w-full"
+                  className=" flex-row py-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 w-full"
                  >
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Total Raised
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Total Raised
+                      </Text>
                     </div>
-                    <div className="flex flex-col h-16 md:h-auto items-start justify-start px-[18px] py-4 w-full">
-                      <Text
-                        className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                        size="txtDMSansMedium22"
-                      >
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
                         USD 0
                       </Text>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Target{" "}
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Target
+                      </Text>
                     </div>
-                    <div className="flex flex-col h-16 md:h-auto items-start justify-center px-[18px] py-4 w-full">
-                      <Text
-                        className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                        size="txtDMSansMedium22"
-                      >
-                        USD 5,000,000
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
+                        {`${data?.currency} ${formatNumber(data?.funding)}`}
                       </Text>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Stage
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Stage
+                      </Text>
                     </div>
-                    <div className="flex flex-col h-16 md:h-auto items-start justify-center px-[18px] py-4 w-full">
-                      <Text
-                        className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                        size="txtDMSansMedium22"
-                      >
-                        Angel Round
+                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto">
+                        {data?.stages[0] ? data?.stages[0] : "Angel Round"}
                       </Text>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start justify-start w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start px-[18px] py-2 w-full">
-                      <div className="flex flex-col items-center justify-start w-auto">
-                        <Text
-                          className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                          size="txtDMSansBold12"
-                        >
-                          Status
-                        </Text>
-                      </div>
+                  <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 w-full">
+                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
+                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                        Status
+                      </Text>
                     </div>
-                    <div className=" flex flex-row h-16 items-start justify-start px-[18px] py-4 w-full ">
-                      <div className="bg-green-50 flex flex-row h-auto items-center justify-center px-2 py-0.5 text-green-700 rounded-full w-auto ">
-                        <GoDotFill size={12} className="mr-2"/>
-                        <label
-                          className="font-inter text-sm font-medium leading-[20px] text-center "
-                        >
-                          Active
+                    <div className="flex flex-row items-start justify-start w-full">
+                      <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
+                        data?.status === 'Active' ? 'bg-emerald-50 text-green-700' :
+                        data?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
+                        data?.status === 'Stand by' ? 'bg-gray-200 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
+                      }`} style={{whiteSpace: 'nowrap'}}>
+                        <BsDot size={28} className="" />
+                        <label className="font-inter text-sm font-medium leading-[20px] text-center">
+                          {data?.status ? data?.status : 'Active'}
                         </label>
                       </div>
                     </div>
@@ -274,17 +244,17 @@ const ProjectDetails = () => {
                         Project Description
                       </Text>
                     </div>
-                    <div className="flex flex-col items-end justify-start py-4 w-full">
+                    <div className="flex flex-col justify-start py-4 w-full">
                       <Text
                         className="leading-[26.00px] max-w-[599px] md:max-w-full text-blue_gray-800_01 text-sm"
                         size="txtDMSansRegular14Bluegray80001"
                       >
-                        Discover a dynamic and innovative business
+                        { data?.details? data?.details : `Discover a dynamic and innovative business
                         networking platform designed to connect startups,
                         companies, project holders, and investors. Digital
                         Morocco is your gateway to a vibrant community of
                         professionals, where collaboration and growth
-                        opportunities abound.
+                        opportunities abound.`}
                       </Text>
                     </div>
                   </div>
@@ -299,22 +269,21 @@ const ProjectDetails = () => {
                       >
                         Project Milestone
                       </Text>
-                      <div className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursor-pointer ml-auto p-[7px] rounded-md w-auto" 
-                      onClick={openModalMilestone}>
-                        <button
-                          type="button"
-                          className="cursor-pointer font-medium leading-[normal] text-center text-xs"
-                        >
-                          Add New Milestone
-                        </button>
-                      </div>
+                      <button
+                        className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursor-pointer ml-auto p-[7px] rounded-md w-auto"
+                        onClick={openModalMilestone}
+                        type="button"
+                    >
+                        <span className="cursor-pointer font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
+                    </button>
+
                     </div>
                     <div className="items-start justify-start w-full">
-                      {timelineDta.map((item, index) => (
+                      {data?.milestones.length >0 &&  data?.milestones.map((item, index) => (
                         <ProjectTimelineItem
                           key={index}
-                          time={item.time}
-                          text={item.text}
+                          time={formatDate(item.dueDate)}
+                          text={item.name}
                           isFirstItem={index === 0}
                         />
                       ))}
@@ -341,8 +310,8 @@ const ProjectDetails = () => {
                         />
                         <img
                           className="cursor-pointer mr-1.5 my-px"
-                          src="images/img_search_blue_gray_700_01.svg"
-                          alt="search"
+                          src="/images/img_search_blue_gray_700_01.svg"
+                          alt=""
                         />
                       </div>
                     </div>
@@ -361,7 +330,7 @@ const ProjectDetails = () => {
                   {/* Fin Divider */}
                 </div>
                 {/* Divider */}
-                <div className="bg-indigo-50 md:h-[805px] h-px w-full md:w-px" />
+                <div className="bg-indigo-50 md:h-[750px] h-px w-full md:w-px" />
                 {/*Fin Divider */}
                 <div className="flex flex-col items-start justify-start w-full md:w-1/3">
                   <div className="flex flex-col items-center justify-start w-auto">
@@ -372,10 +341,10 @@ const ProjectDetails = () => {
                       Documents
                     </Text>
                   </div>
-                  {documents.map((document, index) => (
+                  {data?.documents.length> 0 && data?.documents.map((document, index) => (
                     <ProjectDocumentItem
                       key={index}
-                      docName={document.documentName}
+                      docName={document.name}
                     />
                   ))}
                 </div>
@@ -384,7 +353,7 @@ const ProjectDetails = () => {
         </div>
       </div>
     </div>
-    <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone}/>
+    <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone} rowData={data}/>
 
     <ShareToInvestorModal isOpen={isModalOpen} onRequestClose={closeModal}/>
 

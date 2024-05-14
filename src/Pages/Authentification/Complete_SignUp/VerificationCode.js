@@ -7,6 +7,7 @@ import { useVerifyOTPMutation , useSendOTPMutation} from '../../../Services/Auth
 import { FaSpinner } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import logo from '../../../Media/img_logo.svg';
 
 
 export default function VerificationCode() {
@@ -52,15 +53,15 @@ export default function VerificationCode() {
 
       return (
         <>
-          <div className="bg-gray-100 flex flex-col font-dmsans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full min-h-screen">
+          <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full min-h-screen">
             <div className="flex flex-col gap-[42px] items-center justify-start mb-[39px] w-auto w-full">
-              <div className="flex flex-col items-center justify-center w-full">
+              <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
-                  src="images/img_logo.svg"
+                  src={logo}
                   alt="logo"
                 />
-              </div>
+              </a>
               <div className="bg-white-A700 flex flex-col gap-9 items-center justify-start sm:px-5 px-8 py-[42px] rounded-[12px] shadow-bs1 max-w-[520px] w-full">
               <div className="flex flex-col items-center justify-center w-full">
                 <img
@@ -128,7 +129,7 @@ export default function VerificationCode() {
                         ref={formButtonRef}
                             type="submit"
                             className="text-base text-white-A700 w-auto"
-                            size="font-dmsans font-medium"
+                            size="font-DmSans font-medium"
                         >
                             {t('verification.verifyButton')}
                         </button>
@@ -156,18 +157,18 @@ export default function VerificationCode() {
                         </div>
                         </div>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
-                      <Text
-                        className="text-blue_gray-900_02 text-sm w-auto"
-                        size="txtDMSansMedium14"
+                    <Text
+                        className="text-blue_gray-900_02 font-dm-sans-medium leading-[26px] text-sm w-auto"
                       >
-                        {t('verification.troubleRegistering')}
+                        {t('forgot.havingTroubleSigningIn')}
                       </Text>
-                      <Text
-                        className="text-deep_purple-A400 text-sm w-auto"
-                        size="txtDMSansBold14"
-                      >
-                        {t('verification.contactSupport')}
-                      </Text>
+                      <a href="mailto:support@digitalmorocco.net">
+                        <Text
+                          className=" text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer"
+                        >
+                          {t('resetEmail.contactSupport')}
+                        </Text>
+                      </a>
                     </div>
                   
                 </form>

@@ -9,6 +9,14 @@ const userData = sessionStorage.getItem('userData')
 ? sessionStorage.getItem('userData')
 : null
 
+  const userEmail = localStorage.getItem('userEmail')
+  ? localStorage.getItem('userEmail')
+  : null
+
+  const userEmail = localStorage.getItem('userEmail')
+  ? localStorage.getItem('userEmail')
+  : null
+
 const initialState = {
   loading: false,
   userInfo: null, 
@@ -16,7 +24,7 @@ const initialState = {
   userData,
   error: null,
   success: false,
-  userEmail: null,
+  userEmail
 }
 
 const authSlice = createSlice({
@@ -74,6 +82,7 @@ const authSlice = createSlice({
           state.loading = false
           state.userToken = payload.accessToken
           state.userInfo = payload.user
+          state.userEmail = payload.user.email
           state.success = true 
         },
         [registerUser.rejected]: (state, { payload }) => {

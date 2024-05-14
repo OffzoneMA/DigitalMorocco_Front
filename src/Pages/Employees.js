@@ -7,6 +7,10 @@ import NewEmployee from "./NewEmployee";
 import { useNavigate } from "react-router-dom";
 import { FaRegPlusSquare, FaTrashAlt, FaPencilAlt, FaUsers } from "react-icons/fa";
 import Swal from "sweetalert2";
+import PageHeader from "../Components/PageHeader";
+import TableTitle from "../Components/TableTitle";
+import SearchInput from "../Components/SeachInput";
+
 
 const Employees = () => {
   const [employees, setMembers] = useState([]);
@@ -92,25 +96,31 @@ const Employees = () => {
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
-            <Text className="text-3xl font-bold leading-11 text-gray-900 w-full" size="txtDMSansBold32">Company</Text>
+          <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
+            <PageHeader
+              >
+              Company
+            </PageHeader>
           </div>
-          <div className="flex md:w-[25%] w-full rounded-md p-2 border border-solid">
-            <img className="cursor-pointer h-[18px] mr-1.5 my-px" src="images/img_search_blue_gray_700_01.svg" alt="search" />
-            <input className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`} type="text" name="search" placeholder="Search..." />
-          </div>
+          <SearchInput className={'min-w-[25%]'}/>
         </div>
       </div>
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
-            <div className="flex justify-between items-center mb-4 px-6 pt-6">
-              <h1 className="text-xl font-semibold">Team members</h1>
-              <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
-                onClick={() => navigate("/NewEmployee")}>
+          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+              <TableTitle
+                  >
+                  Team members
+                </TableTitle>
+              <button
+                className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                onClick={() => navigate("/NewEmployee")}
+                type="button"
+              >
                 <FaRegPlusSquare size={18} className="mr-2" />
-                <button type="button" className="text-sm font-medium leading-[18.23px] text-white-A700">Add New Employee</button>
-              </div>
+                <span className="text-sm font-medium leading-[18.23px]">Add New Employee</span>
+              </button>
             </div>
             <div className="bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
               <table className="w-full text-sm text-left text-zinc-500" style={{ borderWidth: "1px", borderBlockStartColor: "#dadde1" }}>
