@@ -24,8 +24,8 @@ export default function SignUp() {
   const dispatch = useDispatch()
   const [Mount, setMount] = useState(true)
   const [sendOTP] = useSendOTPMutation();
-  const [trigger, { data, isFetching, status , error: triggerError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
-  const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
+  const [trigger, { data, isFetching, status , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [userTrigger ,{ data: userData, error: userError, isFetching: userFetching , isSuccess: userSucces} ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
   const [hasLowerCase, setHasLowerCase] = useState(false);
   const [hasUpperCase, setHasUpperCase] = useState(false);
@@ -60,7 +60,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (Mount) { setMount(false) }
-   else{ if (userInfo) {
+   else{ if (userInfo && !loading) {
       toast.success("Successfuly !")
       dispatch(setUserEmail(userInfo?.email));
       localStorage.setItem('userEmail', userInfo?.email);
@@ -79,7 +79,7 @@ export default function SignUp() {
     }
   }
 
-  }, [userInfo , data])
+  }, [userInfo, loading , data])
 
   const handlePasswordChange = (e) => {
     const password = e.target.value;
@@ -136,15 +136,23 @@ export default function SignUp() {
 
 
 
-  const onSubmit = (data) => {
-    userTrigger(data.email).then(() => {
-      if (!userData) {
-        dispatch(registerUser(data));
-      } else {
+const onSubmit = (data) => {
+  try {
+    userTrigger(data.email).then((payload)=> {
+      console.log(payload)
+      if(payload?.isSuccess) {
+        if (payload?.data) {
           openModal();
+        } else {
+          dispatch(registerUser(data));
+        }
       }
     });
-  };
+  } catch (error) {
+    console.log(userFetching)
+    console.log(error)
+  }
+};
 
   const socialSignUp = () => {
     navigate('/SocialSignUp')
