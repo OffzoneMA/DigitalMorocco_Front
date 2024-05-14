@@ -13,10 +13,6 @@ const userData = sessionStorage.getItem('userData')
   ? localStorage.getItem('userEmail')
   : null
 
-  const userEmail = localStorage.getItem('userEmail')
-  ? localStorage.getItem('userEmail')
-  : null
-
 const initialState = {
   loading: false,
   userInfo: null, 
