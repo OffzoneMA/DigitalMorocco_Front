@@ -24,8 +24,8 @@ export default function SignUp() {
   const dispatch = useDispatch()
   const [Mount, setMount] = useState(true)
   const [sendOTP] = useSendOTPMutation();
-  const [trigger, { data, isFetching, status , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
-  const [userTrigger ,{ data: userData, error: userError, isFetching: userFetching , isSuccess: userSucces} ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
+  const [trigger, { data, isLoading, status , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [userTrigger ,{ data: userData, error: userError, isLoading: userFetching , isSuccess: userSucces} ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
   const [hasLowerCase, setHasLowerCase] = useState(false);
   const [hasUpperCase, setHasUpperCase] = useState(false);
@@ -60,16 +60,18 @@ export default function SignUp() {
 
   useEffect(() => {
     if (Mount) { setMount(false) }
-   else{ if (userInfo && !loading) {
+   else{ if (userInfo) {
       toast.success("Successfuly !")
       dispatch(setUserEmail(userInfo?.email));
       localStorage.setItem('userEmail', userInfo?.email);
-      trigger(userInfo?._id).then(() => {
-        if (data) {
-          setSending(false);
-          setTimeout(() => navigate('/VerificationEmail'), 2500);
-        } else {
-          console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
+      trigger(userInfo?._id).then((payload) => {
+        if(payload?.isSuccess) {
+          if (payload?.data) {
+            setSending(false);
+            setTimeout(() => navigate('/VerificationEmail'), 2500);
+          } else {
+            console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
+          }
         }
       }
       )
@@ -79,7 +81,7 @@ export default function SignUp() {
     }
   }
 
-  }, [userInfo, loading , data])
+  }, [userInfo, data])
 
   const handlePasswordChange = (e) => {
     const password = e.target.value;
@@ -137,21 +139,15 @@ export default function SignUp() {
 
 
 const onSubmit = (data) => {
-  try {
-    userTrigger(data.email).then((payload)=> {
-      console.log(payload)
-      if(payload?.isSuccess) {
-        if (payload?.data) {
-          openModal();
-        } else {
-          dispatch(registerUser(data));
-        }
+  userTrigger(data.email).then((payload)=> {
+    if(payload?.isSuccess) {
+      if (payload?.data) {
+        openModal();
+      } else {
+        dispatch(registerUser(data));
       }
-    });
-  } catch (error) {
-    console.log(userFetching)
-    console.log(error)
-  }
+    }
+  });
 };
 
   const socialSignUp = () => {
