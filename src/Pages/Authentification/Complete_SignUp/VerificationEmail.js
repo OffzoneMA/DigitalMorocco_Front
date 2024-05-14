@@ -15,14 +15,14 @@ export default function VerificationEmail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const { userEmail } = useSelector((state) => state.auth)
-  const [UserStatus, setUserStatus] = useState(userInfo?.status)
+  const [User, setUser] = useState(userInfo);
   const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [trigger, { data, isFetching, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
   const handleResendEmail = async () => {
     try {
-      await userTrigger(userEmail).then(() => {
-        if (userData) {
+      await userTrigger(userEmail).then((payload) => {
+        if (payload?.isSuccess) {
           trigger(userData?._id);
         }
       })
@@ -42,12 +42,11 @@ export default function VerificationEmail() {
   useEffect(() => {
     const checkAccountVerification = async () => {
       if (userInfo) {
-        userTrigger(userInfo?.email).then(() => {
-          if (userData && userData.status === 'verified') {
-            console.log('userData'  , userData)
+        userTrigger(userInfo?.email).then((payload) => {
+          if (payload?.isSuccess && payload?.data?.status === 'verified') {
             toast.success("Account Verified !");
             setTimeout(() => {
-              if (!userData.role) {
+              if (!payload?.data?.role) {
                 navigate('/ChooseRole');
               } else {
                 navigate('/SignIn');
@@ -57,11 +56,11 @@ export default function VerificationEmail() {
         })
       } else {
         if (userEmail) {
-          userTrigger(userEmail).then(() => {
-            if (userData && userData.status === 'verified') {
+          userTrigger(userEmail).then((payload) => {
+            if (payload?.isSuccess && payload?.data?.status === 'verified') {
               toast.success("Account Verified !");
               setTimeout(() => {
-                if (!userData.role) {
+                if (!payload?.data?.role) {
                   navigate('/ChooseRole');
                 } else {
                   navigate('/SignIn');
@@ -79,12 +78,12 @@ export default function VerificationEmail() {
   
     checkAccountVerification();
   
-    // const interval = setInterval(() => {
-    //   checkAccountVerification();
-    // }, 1000); 
+    const interval = setInterval(() => {
+      checkAccountVerification();
+    }, 5000); 
   
-    // return () => clearInterval(interval); 
-  }, [userInfo ,userEmail , userData]);
+    return () => clearInterval(interval); 
+  }, [userInfo ,userEmail]);
   
   
 
@@ -111,7 +110,7 @@ export default function VerificationEmail() {
         <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
             <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
-              <a href='' className="flex flex-col items-center justify-center w-full">
+              <a href='/digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}

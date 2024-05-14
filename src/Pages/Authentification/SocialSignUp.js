@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import EmailExistModal from '../../Components/EmailExistModal';
+import logo from '../../Media/img_logo.svg';
+
 
 export default function SocialSignUp() {
   const { t, i18n } = useTranslation();
@@ -46,10 +48,10 @@ export default function SocialSignUp() {
     <>
     <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto pt-[80px] p-[42px] md:px-10 sm:px-5 w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
-          <a className="flex flex-col items-center justify-center w-full">
+          <a href='/digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
             <img
               className="h-[50px] w-[183px]"
-              src="images/img_logo.svg"
+              src={logo}
               alt="logo"
             />
           </a>

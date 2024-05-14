@@ -75,7 +75,7 @@ const ChooseRole = () => {
     <>
       <div className="bg-white-A700 flex flex-col font-DmSans sm:gap-10 md:gap-10 gap-[84px] items-center justify-start mx-auto pb-[246px] w-full min-h-screen">
         <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between px-20 md:px-[100px] py-5 w-full relative">
-          <a href="/">
+          <a href="/digitalmorocco.net">
             <img
               className="h-[47px] w-[180px]"
               src={logo}

@@ -29,10 +29,10 @@ export default function ResetPasswordEmail() {
       // setTimeout(() => navigate(0), 1000)
     }
     if (error ) {
-    toast.error(error)
+    toast.error(error?.data?.message)
     }
 
-  }, [isSuccess , isLoading , error])
+  }, [isSuccess , error])
 
   const formButtonRef = useRef();
 
@@ -45,7 +45,7 @@ export default function ResetPasswordEmail() {
         <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
             <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
-              <a href='' className="flex flex-col items-center justify-center w-full">
+              <a href='/digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}

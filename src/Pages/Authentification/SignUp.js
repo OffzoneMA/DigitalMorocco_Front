@@ -22,9 +22,10 @@ export default function SignUp() {
 
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  const [user , setUser] = useState(userInfo);
   const [Mount, setMount] = useState(true)
   const [sendOTP] = useSendOTPMutation();
-  const [trigger, { data, isLoading, status , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [trigger, { data, isLoading, status , isSuccess , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
   const [userTrigger ,{ data: userData, error: userError, isLoading: userFetching , isSuccess: userSucces} ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
   const [hasLowerCase, setHasLowerCase] = useState(false);
@@ -59,27 +60,31 @@ export default function SignUp() {
   };
 
   useEffect(() => {
+    if (user) {
+      trigger(userInfo?._id).then((payload) => {
+        if (payload?.isSuccess) {
+          setSending(false);
+          setTimeout(() => navigate('/VerificationEmail'), 2500);
+          setUser(null);
+        } else {
+          console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
+        }
+    }
+    )
+    }
+  } ,[user])
+
+  useEffect(() => {
     if (Mount) { setMount(false) }
    else{ if (userInfo) {
       toast.success("Successfuly !")
       dispatch(setUserEmail(userInfo?.email));
+      setUser(userInfo)
       localStorage.setItem('userEmail', userInfo?.email);
-      trigger(userInfo?._id).then(() => {
-          if (data) {
-            setSending(false);
-            setTimeout(() => navigate('/VerificationEmail'), 2500);
-          } else {
-            console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
-          }
-      }
-      )
-    }
-    if (error ) {
-      // toast.error(error)
     }
   }
 
-  }, [userInfo, data])
+  }, [userInfo])
 
   const handlePasswordChange = (e) => {
     const password = e.target.value;
@@ -178,7 +183,7 @@ const onSubmit = (data) => {
     <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto min-h-screen p-[42px] md:px-10 sm:px-5 w-full">
         <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
           <div className="flex flex-col items-center justify-center w-full cursorpointer">
-            <Link to="/"><img
+            <Link to="/digitalmorocco.net"><img
                 className="h-[50px] w-[183px]"
                 src={logo}
                 alt="logo"

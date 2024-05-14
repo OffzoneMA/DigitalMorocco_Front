@@ -37,7 +37,7 @@ const LoginModal = (props) => {
               >
                 <span className=" font-dm-sans-medium">
                   {t('signin.congrate')}{" "}
-                </span>
+                </span> <br/>
                 <span className="text-blue-A400 font-dm-sans-medium">
                   {t('signin.congrate1')}
                 </span>

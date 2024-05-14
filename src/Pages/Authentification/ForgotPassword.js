@@ -40,25 +40,25 @@ export default function ForgotPassword(){
       setTimeout(() => navigate('/ResetPasswordEmail'), 1000)
     }
     if (error ) {
-    toast.error(error)
+    toast.error(error?.data?.message)
     }
     if (userError ) {
       toast.error(userError?.data?.message)
     }
     setUserErrorVal(null)
 
-  }, [isLoadingUser,isSuccess , isLoading , userData, userError , error])
+  }, [isSuccess , userError , error])
 
   async function onSubmit(values) {
     try {
-      userTrigger(values.email).then(async () => {
-        if (userData && !userError) {
+      userTrigger(values.email).then(async (payload) => {
+        if (payload?.isSuccess) {
           await sendForgotPassword(values);
           dispatch(setUserEmail(values.email)); 
           localStorage.setItem('userEmail', values?.email);
         }
         else {
-          setUserErrorVal(userError)
+          setUserErrorVal(payload?.error?.data?.message)
         }
       });    
     } catch (error) {
@@ -86,7 +86,7 @@ export default function ForgotPassword(){
               </a>
             </div>
             <div className="flex flex-col font-dmsans gap-[42px] items-center justify-start mb-[368px]  w-auto w-full ">
-              <a href='' className="flex flex-col items-center justify-center w-full">
+              <a href='/digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src="images/img_logo.svg"
