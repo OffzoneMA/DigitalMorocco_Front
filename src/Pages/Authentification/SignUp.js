@@ -62,7 +62,6 @@ export default function SignUp() {
     if (Mount) { setMount(false) }
    else{ if (userInfo) {
       toast.success("Successfuly !")
-      console.log(userInfo)
       dispatch(setUserEmail(userInfo?.email));
       localStorage.setItem('userEmail', userInfo?.email);
       trigger(userInfo?._id).then(() => {
@@ -139,11 +138,10 @@ export default function SignUp() {
 
   const onSubmit = (data) => {
     userTrigger(data.email).then(() => {
-      if (!userData) {
+      if (!userData && userError) {
         dispatch(registerUser(data));
       } else {
-        console.log('Cet e-mail est déjà utilisé par un autre utilisateur.');
-        openModal();
+          openModal();
       }
     });
   };
