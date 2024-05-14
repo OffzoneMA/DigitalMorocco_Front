@@ -86,7 +86,7 @@ export default function ForgotPassword(){
               </a>
             </div>
             <div className="flex flex-col font-dmsans gap-[42px] items-center justify-start mb-[368px]  w-auto w-full ">
-              <a href='/digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
+              <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src="images/img_logo.svg"
@@ -190,11 +190,13 @@ export default function ForgotPassword(){
                       >
                         {t('forgot.havingTroubleSigningIn')}
                       </Text>
-                      <Text
-                        className=" text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer"
-                      >
-                        <a href="mailto:support@digitalmorocco.net">{t('resetEmail.contactSupport')}</a>
-                      </Text>
+                      <a href="mailto:support@digitalmorocco.net">
+                        <Text
+                          className=" text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer"
+                        >
+                          {t('resetEmail.contactSupport')}
+                        </Text>
+                      </a>
                     </div>
                   </div>
                   </form>

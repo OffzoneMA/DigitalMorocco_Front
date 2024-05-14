@@ -50,14 +50,20 @@ export default function SignIn() {
     if (Mount) { setMount(false) }
     else {
       if (userInfo) {
-        toast.success("Logged In")
         setTimeout(() =>{
+          if(userInfo?.status === 'notVerified') {
+            toast.error("Account not Verified !")
+            navigate('/VerificationEmail')
+          }
+          else {
+            toast.success("Logged In")
+            if (!userInfo?.role) { navigate('/ChooseRole') }
+            else{
+              // navigate('/Dashboard')
+              openModal();
+            }
+          }
         
-        if (!userInfo?.role) { navigate('/ChooseRole') }
-        else{
-          // navigate('/Dashboard')
-          openModal();
-        }
         }, 2000)
       }
       if (error) {
@@ -94,7 +100,7 @@ export default function SignIn() {
     <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto p-[42px] md:px-10 sm:px-5 min-h-screen w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto w-full">
           <div className="flex flex-col items-center justify-center w-full ">
-            <Link to="/digitalmorocco.net"><img
+            <Link to="https://digitalmorocco.net"><img
                 className="h-[50px] w-[183px]"
                 src={logo}
                 alt="logo"
@@ -187,7 +193,7 @@ export default function SignIn() {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         },
                       })}
-                      className={`bg-white w-full border border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.email ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full border border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.email ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
                       id="email"
                       name="email"
                       autoComplete='off'
@@ -213,7 +219,7 @@ export default function SignIn() {
                         type={showPassword ? "text" : "password"}
                         placeholder={t('signup.enterPassword')}
                         style={{ appearance: 'none' }}
-                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                       />
                       <button
                         type="button"
@@ -232,7 +238,7 @@ export default function SignIn() {
                         )}
                       </button>
                     </div>
-                    {((errors?.password?.message && getValues('password')?.length > 0) || (errors?.email?.message && getValues('email')?.length > 0)) &&<span className="text-errorColor text-sm">{t('signup.emailPattern')}</span>}
+                    {((errors?.password?.message && getValues('password')?.length > 0) || (errors?.email?.message && getValues('email')?.length > 0)) &&<span className="text-errorColor text-sm ">{t('signup.emailPattern')}</span>}
                   </div>
                   <div className="flex flex-row gap-2.5 items-center justify-between  w-full">
                     <div className="flex flex-row flex-1 items-center justify-start m-auto w-auto">

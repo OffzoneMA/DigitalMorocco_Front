@@ -48,7 +48,7 @@ export default function SocialSignUp() {
     <>
     <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto pt-[80px] p-[42px] md:px-10 sm:px-5 w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
-          <a href='/digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
+          <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
             <img
               className="h-[50px] w-[183px]"
               src={logo}
@@ -97,8 +97,8 @@ export default function SocialSignUp() {
                   </div>
                   <div className="flex flex-col mt-4 mb-1 gap-2.5 justify-start w-full">
                     <Text
-                      className="font-Avenir-next-LTPro leading-[18.2px] text-[13px] text-[#585E66] w-full"
-                      >
+                      className="font-Avenir-next-LTPro leading-[16.8px] text-[12px] text-[#585E66] w-full"
+                    >
                       {t('signup.accordance')} <br/>
                       {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>D-W-266/2024.</span>
                     </Text>
@@ -120,9 +120,9 @@ export default function SocialSignUp() {
                         </label>                      
                         <label
                           htmlFor='acceptTerms'
-                          className="text-[13px] leading-[16.93px] text-gray-700 w-auto font-dm-sans-regular"
-                          >
-                          <p dangerouslySetInnerHTML={{ __html: t('signup.terms') }} />                        
+                          className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
+                        >
+                          {t('signup.terms1')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                      
                         </label>
                     </div>
                   </div>

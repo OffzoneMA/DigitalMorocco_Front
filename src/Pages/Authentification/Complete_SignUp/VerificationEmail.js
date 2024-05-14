@@ -110,7 +110,7 @@ export default function VerificationEmail() {
         <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
             <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
-              <a href='/digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
+              <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}
@@ -140,24 +140,26 @@ export default function VerificationEmail() {
                       </>
                     </Text>
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
-                        <button
-                            type="button"
-                            onClick={handleResendEmail}
-                            className="bg-[#EDF7FF] flex cursorpointer flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base items-center justify-center font-dm-sans-medium text-[#00CDAE] w-full"
-                        >
-                            {isFetching? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
-                        </button>
+                    <button
+                        type="button"
+                        onClick={handleResendEmail}
+                        className="bg-[#EDF7FF] hover:bg-gray-202 flex cursorpointer flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base items-center justify-center font-dm-sans-medium text-[#00CDAE] w-full"
+                    >
+                        {isFetching? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
+                    </button>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
                       <Text
                         className="text-blue_gray-900_02 font-dm-sans-medium leading-[26px] text-sm w-auto"
                         >
                         {t('resetEmail.signInTrouble')}
                       </Text>
-                      <Text
-                        className="text-deep_purple-A400 cursorpointer hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto"
+                      <a href="mailto:support@digitalmorocco.net">
+                        <Text
+                          className=" text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer"
                         >
-                        {t('resetEmail.contactSupport')}
-                      </Text>
+                          {t('resetEmail.contactSupport')}
+                        </Text>
+                      </a>
                     </div>
                   </div>
                 </div>

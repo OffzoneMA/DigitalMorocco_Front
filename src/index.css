@@ -75,8 +75,15 @@ html {
 
 
 .cursorpointer *:hover::selection {
-  background-color: #2575F0 !important; 
   cursor: url('/src/Media/curs2.svg') , auto;
+}
+
+a:hover::selection ,a *:hover::selection {
+  background-color: #2575F0 !important; 
+}
+
+.textErrorSelection::selection {
+  background-color: #2575F0; 
 }
 
 /* a *:hover::selection {

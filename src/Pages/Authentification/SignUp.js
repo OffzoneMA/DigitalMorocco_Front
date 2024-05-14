@@ -183,7 +183,7 @@ const onSubmit = (data) => {
     <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto min-h-screen p-[42px] md:px-10 sm:px-5 w-full">
         <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
           <div className="flex flex-col items-center justify-center w-full cursorpointer">
-            <Link to="/digitalmorocco.net"><img
+            <Link to="https://digitalmorocco.net"><img
                 className="h-[50px] w-[183px]"
                 src={logo}
                 alt="logo"
@@ -317,7 +317,7 @@ const onSubmit = (data) => {
                           )}
                         </button>
                       </div>
-                      {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs leading-[15.62px] tracking-[0.01em] text-left text-[#555458] ">{t('signup.passwordValidation')}</span>}
+                      {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs leading-[15.62px] tracking-[0.01em] text-left text-[#555458]">{t('signup.passwordValidation')}</span>}
 
                     {(errors?.password || passwordValidation.minLength || passwordValidation.hasLowerCase || passwordValidation.hasUpperCase) &&
                       <>
@@ -415,7 +415,7 @@ const onSubmit = (data) => {
                           htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                         >
-                          {t('signup.terms1')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'>{t('signup.terms2')}</a> {t('signup.terms3')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'>{t('signup.terms4')} </a> {t('signup.terms5')}                      
+                          {t('signup.terms1')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                      
                         </label>
                     </div>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-2">
