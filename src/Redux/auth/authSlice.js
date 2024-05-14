@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { LoginUser, fetchUserInfo, registerUser } from './authAction'
 
-const userToken = localStorage.getItem('userToken')
-  ? localStorage.getItem('userToken')
+const userToken = sessionStorage.getItem('userToken')
+  ? sessionStorage.getItem('userToken')
   : null
+
+const userData = sessionStorage.getItem('userData')
+? sessionStorage.getItem('userData')
+: null
 
 const initialState = {
   loading: false,
   userInfo: null, 
   userToken, 
+  userData,
   error: null,
   success: false,
   userEmail: null,
@@ -19,10 +24,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('userToken') 
+      sessionStorage.removeItem('userToken') 
+      sessionStorage.removeItem('userData')
       state.loading = false
       state.userInfo = null
       state.userToken = null
+      state.userData = null
       state.error = null
     },
     setCredentials: (state, { payload }) => {

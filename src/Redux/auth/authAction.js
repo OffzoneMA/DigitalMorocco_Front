@@ -16,7 +16,7 @@ export const registerUser = createAsyncThunk(
         user,
         config
       )
-      data?.accessToken && localStorage.setItem('userToken', data.accessToken)
+      data?.accessToken && sessionStorage.setItem('userToken', data.accessToken)
 
       return data
 
@@ -45,7 +45,7 @@ export const LoginUser = createAsyncThunk(
         user,
         config
       )
-      data?.accessToken &&localStorage.setItem('userToken', data.accessToken)
+      data?.accessToken &&sessionStorage.setItem('userToken', data.accessToken)
       sessionStorage.setItem('userData', JSON.stringify(data.user));
       return data
     } catch (error) {

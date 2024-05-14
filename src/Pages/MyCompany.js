@@ -18,6 +18,7 @@ const MyCompany = () => {
   const [isSaved , setIsSaved] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [taxIdentfier, settaxIdentfier] = useState('');
+  const [corporateIdentfier,setcorporateIdentfier] = useState('');
   const [selectedCity , setSelectedCity] = useState(null);
   const [selectedSector, setselectedSector] = useState([]);
   const dataCountries = Country.getAllCountries();
@@ -70,19 +71,58 @@ const MyCompany = () => {
   );
   const formData = new FormData();
 
-  const onSubmit = (data) => {
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('logo', imgFile); 
-    formData.append('companyType', selectedSector);
-    formData.append('country', countryNameSelec);
-    formData.append('cityState', selectedCity);
+  const onSubmit = async (data) => {
+    try {
+      const token = sessionStorage.getItem("userToken");
+      const userData = JSON.parse(sessionStorage.getItem("userData"));
+      const userId = userData._id;
 
-    setIsSaved(true);
+      // Convertir l'image en base64
+      const reader = new FileReader();
+      reader.readAsDataURL(imgFile);
+      reader.onloadend = async () => {
+        const base64Image = reader.result;
 
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
+
+        // Créer un objet JSON avec les données et l'image base64
+        const requestData = {
+          companyName: data.companyName,
+          legalName: data.legalName,
+          contactEmail: data.contactEmail,
+          desc: data.description,
+          website: data.website,
+          taxIdentfier: taxIdentfier,
+          corporateNbr : corporateIdentfier,
+          companyType: selectedSector,
+          country: countryNameSelec,
+          city: selectedCity,
+          logo: base64Image, // Ajouter l'image base64
+        };
+        setIsSaved(true);
+        console.log(requestData)
+        fetch(`http://localhost:5000/members/company/${userId}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then(response => response.json())
+          .then(responseData => {
+            console.log("Réponse du serveur :", responseData);
+          }
+
+          )
+          .catch(error => {
+            console.error("Erreur lors de l'envoi du formulaire :", error);
+          });
+        setIsSaved(true);
+
+      };
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du formulaire :", error);
+      // Affichez une erreur à l'utilisateur si nécessaire
     }
   };
 
@@ -326,11 +366,12 @@ const MyCompany = () => {
                 </Text>
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
+                                    {...register("taxIdentfier", { required: {value:true , message:"Company taxIdentfier is required"} })}
+
                     className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="name"
-                    value={taxIdentfier}
-                    onChange={e => handleChange(e, settaxIdentfier)}
+                    
                     placeholder="0000 - 0000 - 0000"
                   />
                 </div>
@@ -344,10 +385,12 @@ const MyCompany = () => {
                 </Text>
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
+                    {...register("corporateIdentfier", { required: {value:true , message:"Company corporateIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="name"
                     placeholder="0000 - 0000 - 0000"
+                    
                   />
                 </div>
               </div>

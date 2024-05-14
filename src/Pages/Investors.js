@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import{Text } from "../Components/Text";
+import{ Text } from "../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
 import { IoFlashOffOutline } from "react-icons/io5";
@@ -13,6 +13,7 @@ import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import { Country } from "country-state-city";
 import { InvestorsData } from "../data/tablesData";
+import axios from 'axios';
 
 const Investors = () => {
   const navigate = useNavigate();
@@ -30,10 +31,32 @@ const Investors = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
-  const data = InvestorsData;
+  const [investors, setInvestors] = useState([]);
+
+
+  useEffect(() => {
+    const fetchInvestorRequests = async () => {
+      try {
+        const token = sessionStorage.getItem("userToken");
+        const response = await axios.get(`http://localhost:5000/investors`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+      });
+        console.log(response.data)
+        setInvestors(response.data.investors);
+      } catch (error) {
+        console.error('Error fetching investor requests:', error);
+      }
+    };
+
+    fetchInvestorRequests();
+  }, []);
+  const data = investors;
+
 
   const filteredData = data.filter(item => {
-    const keywordMatch = item.InvestorName.toLowerCase().includes(keywords.toLowerCase());
+    const keywordMatch = item.owner.displayName.toLowerCase().includes(keywords.toLowerCase());
   
     if (filterApply) {
       const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
@@ -89,7 +112,7 @@ const Investors = () => {
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-            <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+            <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <Text
                 className="text-3xl font-bold leading-11 text-gray-900 w-full"
                 size="txtDmSansBold32"
@@ -114,8 +137,8 @@ const Investors = () => {
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-            <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-col gap-5 md:flex-row text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+            <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
+              <div className="flex flex-col gap-5 md:flex-row text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
                 <Text
                 style={{whiteSpace:"nowrap"}}
                   className="text-lg leading-7 text-left text-gray-900 pt-1 w-auto "
@@ -238,8 +261,8 @@ const Investors = () => {
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
                         <div className="py-3 px-3 flex items-center" >
-                            <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.InvestorName}</span>
+                            {/* <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/> */}
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.owner.displayName}</span>
                         </div>
                         {profilVerified && (
                           <div className="overlay-content-invPro w-full flex">
@@ -248,11 +271,11 @@ const Investors = () => {
                         </div>
                     </td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
-                      style={{ whiteSpace: 'nowrap' }}>{item.Type}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfInvestment}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfExits}</td>
+                      style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfInvestment}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfExits}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6" 
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.Location}</td>
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {item.PreferredInvestmentIndustry}

@@ -84,7 +84,7 @@ const SidebarNav = () => {
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursor-pointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex">
     <img src="images/img_simple_logo.svg" className={`text-4xl rounded cursor-pointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => navigate("/")}/>
-  <Link to="/">
+  <Link to="/Home">
     <img src="images/img_simple_logo_text.svg" className={`origin-left ${!open && "scale-0"}`}/>
   </Link>
 </div>

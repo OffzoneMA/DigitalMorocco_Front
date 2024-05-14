@@ -75,8 +75,8 @@ export default function SignIn() {
     <div className="bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col font-dmsans items-center justify-start mx-auto p-[42px] md:px-10 sm:px-5 min-h-screen w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto w-full">
           <div className="flex flex-col items-center justify-center w-full">
-          <Link to="/"><img
-              className="h-[50px] w-[183px]"
+          <Link to="/Home"><img
+              className="h-[50px] w-[183pxcccc]"
               src="images/img_logo2.svg"
               alt="logo"
             />

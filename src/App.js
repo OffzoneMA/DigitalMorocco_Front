@@ -47,17 +47,22 @@ import PastEvents from './Pages/PastEvents';
 import ChoosePlan from './Pages/ChoosePlan';
 import Notifications from './Pages/Notifications';
 import CustomCalendar from './Components/CustomCalendar';
+import { isAuthenticated } from './Services/UserAuth';
+import GuardedConnectedUserRoute from './GuardedRoutes/GuardedConnectedUserRoute';
 
 function App() {
+ 
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
  
     <BrowserRouter>   
-      <div className='font-DmSans  overflow-hidden'>
+      <div className='font-DmSans overflow-hidden'>
        
-        <div className='  min-h-screen '>
+        <div className='min-h-screen'>
       <Routes>
+        
         <Route element={<DashbordLayout />}>
+        <Route element={<GuardedConnectedUserRoute />}>
             <Route path="/Dashboard" element={<Dashbord />} />
             <Route path="/Users" element={<Users />} />
             <Route path="/Investors" element={<Investors />} />
@@ -81,6 +86,7 @@ function App() {
             <Route path="/ChoosePlan" element={<ChoosePlan />} />
             <Route path="/History" element={<History />} />
             <Route path="/Notification" element={<Notifications />} />
+            </Route>
         </Route>
         <Route element={<Layout />}>
         <Route path="/Home" element={<Home />} />
