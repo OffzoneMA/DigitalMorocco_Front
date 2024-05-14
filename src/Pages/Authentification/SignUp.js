@@ -139,7 +139,7 @@ export default function SignUp() {
 
   const onSubmit = (data) => {
     userTrigger(data.email).then(() => {
-      if (!userData && !userError) {
+      if (!userData) {
         dispatch(registerUser(data));
       } else {
         console.log('Cet e-mail est déjà utilisé par un autre utilisateur.');
@@ -312,7 +312,7 @@ export default function SignUp() {
                     {(errors?.password || passwordValidation.minLength || passwordValidation.hasLowerCase || passwordValidation.hasUpperCase) &&
                       <>
                         <span className=''>
-                        <ul style={{ listStyle: "none", paddingLeft: 0 }} className='flex flex-wrap items-center gap-4' >
+                        <ul style={{ listStyle: "none", paddingLeft: 0 }} className='flex flex-wrap items-center gap-4 mt-1' >
                           <li className={`text-[#555458] items-center justify-start text-xs flex ${errors.password?.type === 'minLength' ? 'error' : 'valid'}`}>
                               {!passwordValidation.minLength  || getValues('password')==''  ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -408,7 +408,7 @@ export default function SignUp() {
                           {t('signup.terms1')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'>{t('signup.terms2')}</a> {t('signup.terms3')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'>{t('signup.terms4')} </a> {t('signup.terms5')}                      
                         </label>
                     </div>
-                    <div className="flex flex-row items-start justify-start m-auto w-full">
+                    <div className="flex flex-row items-start justify-start m-auto w-full mt-2">
                         <label htmlFor={`offers`} className="cursorpointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
                           <input
                             id={`offers`}

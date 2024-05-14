@@ -210,7 +210,7 @@ export default function ResetPassword() {
                         {t('resetEmail.signInTrouble')}
                       </Text>
                       <Text
-                        className="text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer-green"
+                        className="text-deep_purple-A400 hover:text-[#00CDAE] leading-[26px] font-dm-sans-bold text-sm w-auto cursorpointer"
                       >
                         <a href="mailto:support@digitalmorocco.net">{t('resetEmail.contactSupport')}</a>
                       </Text>
