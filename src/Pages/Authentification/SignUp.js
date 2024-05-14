@@ -64,15 +64,13 @@ export default function SignUp() {
       toast.success("Successfuly !")
       dispatch(setUserEmail(userInfo?.email));
       localStorage.setItem('userEmail', userInfo?.email);
-      trigger(userInfo?._id).then((payload) => {
-        if(payload?.isSuccess) {
-          if (payload?.data) {
+      trigger(userInfo?._id).then(() => {
+          if (data) {
             setSending(false);
             setTimeout(() => navigate('/VerificationEmail'), 2500);
           } else {
             console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
           }
-        }
       }
       )
     }
@@ -144,6 +142,11 @@ const onSubmit = (data) => {
       if (payload?.data) {
         openModal();
       } else {
+        dispatch(registerUser(data));
+      }
+    }
+    else {
+      if(payload?.error?.status == 404) {
         dispatch(registerUser(data));
       }
     }
