@@ -138,7 +138,7 @@ export default function SignUp() {
 
   const onSubmit = (data) => {
     userTrigger(data.email).then(() => {
-      if (!userData && userError) {
+      if (!userData) {
         dispatch(registerUser(data));
       } else {
           openModal();
