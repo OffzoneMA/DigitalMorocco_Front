@@ -18,6 +18,8 @@ import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 
 import axios from 'axios';
+import Loading from "../Components/Loading";
+import { FaUsers } from "react-icons/fa";
 
 const Investors = () => {
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ const Investors = () => {
   const itemsPerPage = 8;
   const itemsToShow = 4;
   const [investors, setInvestors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -49,8 +52,10 @@ const Investors = () => {
       });
         console.log(response.data)
         setInvestors(response.data.investors);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching investor requests:', error);
+        setLoading(false);
       }
     };
 
@@ -127,8 +132,8 @@ const Investors = () => {
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-            <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-col gap-5 md:flex-row items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+            <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
+              <div className="flex flex-col gap-5 md:flex-row items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
                 <TableTitle
                   style={{whiteSpace:"nowrap"}}
                   >
@@ -243,11 +248,28 @@ const Investors = () => {
                     <th className="p-3 text-left text-gray700 font-medium">Location</th>
                     <th className="p-3 text-left text-gray700 font-medium">Preferred Investment Industry</th>
                   </tr>
-                  </thead>
-                  { pageData?.length > 0 ?
-                  <tbody className="items-center w-full ">
-                   {
-                      (pageData.map((item, index) => (
+                  </thead><tbody className="items-center w-full ">
+                  { loading ? (
+                     <div className="flex items-center justify-center w-full h-full">
+                     <Loading />
+                 </div> ) : pageData.length === 0 ? (
+                  <div style={{
+                    height: "300px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginRight: "-800px",
+                  }}>
+                    <div >
+                      <FaUsers size={18} className="mr-2 w-4 h-4" style={{ color: "#98a2b3" }} />
+                    </div>
+                    <div>
+                      <span>No investors</span>
+                    </div>
+                  </div>
+                )                 
+                 : ( pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate("/InvestorDetails")}>
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
@@ -273,11 +295,11 @@ const Investors = () => {
                       </td>
 
                     </tr>
-                  ))) }
-                  </tbody>
-                  : 
-                  ""
+                  ))
+                ) 
                 }
+                  
+                </tbody>
                 </table>
                 {isSubscribe &&
                 (
@@ -306,19 +328,6 @@ const Investors = () => {
 
                 </div>
                 )}
-                
-                {!pageData?.length>0 && (
-                  <div className="flex flex-col items-center text-gray700 w-full py-28">
-                    <IoFlashOffOutline  size={40} />
-                    <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto py-4"
-                      size=""
-                    >
-                      No matching data identified
-                    </Text>
-                  </div>
-                )}
-                
               </div>
               {pageData?.length>0 && (
                 <div className='w-full flex items-center p-4'>
