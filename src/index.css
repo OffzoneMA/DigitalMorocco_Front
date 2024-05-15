@@ -457,14 +457,15 @@ input::-ms-clear {
   transition-duration: 300ms;
 }
 
-
-.ReactModal__Content:focus {
-  border: none !important;
+.ReactModal__Content , .ReactModal__Content--after-open {
+  border: transparent !important;
   background: transparent !important;
+  border-color: transparent !important;
 }
 
-.ReactModal__Content--after-open:focus {
-  border: none !important;
+.ReactModal__Content:focus , .ReactModal__Content--after-open:focus{
+  border: transparent !important;
   background: transparent !important;
-  padding-left: 20px !important;
+  border-color: transparent !important;
+
 }

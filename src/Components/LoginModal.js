@@ -13,7 +13,8 @@ const LoginModal = (props) => {
     appElement={document.getElementById("root")}
     className="m-auto w-auto max-w-[640px] "
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
-    // style={{content: {border: 'none', borderColor:'transparent' , background: 'transparent' , paddingLeft: '20px'}}}
+    shouldFocusAfterRender={false}
+    shouldReturnFocusAfterClose={false}
     {...props}
   >
     <div className="max-h-[97vh] overflow-y-auto w-full">
