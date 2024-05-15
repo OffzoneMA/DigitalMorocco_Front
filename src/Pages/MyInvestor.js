@@ -1,24 +1,33 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import{Text } from "../Components/Text";
-import { BiFilterAlt } from "react-icons/bi";
-import { useSearchParams , useNavigate} from "react-router-dom";
-import { IoFlashOffOutline } from "react-icons/io5";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Text } from "../Components/Text";
 import TablePagination from "../Components/TablePagination";
-import {companyType} from "../data/companyType";
-import SimpleSelect from "../Components/SimpleSelect";
-import MultipleSelect from "../Components/MultipleSelect";
-import { Country } from "country-state-city";
+import Loading from "../Components/Loading";
+import { IoFlashOffOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { FiDelete } from "react-icons/fi";
-import { InvestorsData } from "../data/tablesData";
+import { BiFilterAlt } from "react-icons/bi";
+import MultipleSelect from "../Components/MultipleSelect";
+import SimpleSelect from "../Components/SimpleSelect";
+import { Country } from "country-state-city";
+import {companyType} from "../data/companyType";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 
 
 const MyInvestors = () => {
+  const [investors, setInvestors] = useState([]);
+  const [filteredInvestors, setFilteredInvestors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData._id;
+  const [noInvestors, setNoInvestors] = useState(false);
+  const [cur, setCur] = useState(1);
+  const itemsPerPage = 8;
+  const itemsToShow = 4;
   const navigate = useNavigate();
-  const { userInfo } = useSelector((state) => state.auth) 
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
@@ -26,16 +35,43 @@ const MyInvestors = () => {
   const [location, setLocation] = useState('');
   const [industries, setIndustries] = useState([]);
   const dataCountries = Country.getAllCountries();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteRow , setDeleteRow] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [cur, setCur] = useState(1);
-  const itemsPerPage = 6;
-  const itemsToShow = 4;
-  const data = InvestorsData;
+
+
+  useEffect(() => {
+    fetchInvestors(currentPage);
+  }, [currentPage]); // Écouter les changements de la page courante
+
+  const fetchInvestors = async () => {
+    try {
+      const token = sessionStorage.getItem("userToken");
+      const response = await axios.get(`http://localhost:5000/investors`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setInvestors(response.data.investors);
+      const filteredInvestors = response.data.investors.filter(investor => investor.owner?._id === userId);
+      setFilteredInvestors(filteredInvestors);
+      
+      setLoading(false);
+      
+      if (filteredInvestors.length === 0) {
+        setNoInvestors(true);
+      } else {
+        setNoInvestors(false);
+      }
+    } catch (error) {
+      console.error("Error fetching investors:", error);
+      setLoading(false);
+    }
+  };
+
+  const data = filteredInvestors;
+  console.log(filteredInvestors)
+
 
   const filteredData = data.filter(item => {
-    const keywordMatch = item.InvestorName.toLowerCase().includes(keywords.toLowerCase());
+    const keywordMatch = item.owner.displayName.toLowerCase().includes(keywords.toLowerCase());
   
     if (filterApply) {
       const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
@@ -46,7 +82,8 @@ const MyInvestors = () => {
   
       return keywordMatch && typeMatch && locationMatch && industryMatch;
     }
-      return keywordMatch;
+  
+    return keywordMatch;
   });
 
   const clearFilter = () => {
@@ -85,7 +122,9 @@ const MyInvestors = () => {
   const companySectorData = companyType.map(
     item => ({ label: item, value: item })
   );
-    return (
+
+  return (
+    
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -221,19 +260,22 @@ const MyInvestors = () => {
                   <tbody className="items-center w-full ">
                    {
                       (pageData.map((item, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                    <td className="py-3 px-3 w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
-                        <div className="flex items-center" >
-                            <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.InvestorName}</span>
+                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate("/InvestorDetails")}>
+                    <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
+                        <div className="relative flex">
+                        <div className="py-3 px-3 flex items-center" >
+                            {/* <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/> */}
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.owner.displayName}</span>
+                        </div>
+                       
                         </div>
                     </td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-center text-sm font-normal leading-6"
-                      style={{ whiteSpace: 'nowrap'}}>{item.Type}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfInvestment}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfExits}</td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6"
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.Location}</td>
+                      <td className="py-3 px-3 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
+                      style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfInvestment}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfExits}</td>
+                      <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6" 
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {item.PreferredInvestmentIndustry}
@@ -246,9 +288,11 @@ const MyInvestors = () => {
                   ""
                 }
                 </table>
+                
+                
                 {!pageData?.length>0 && (
                   <div className="flex flex-col items-center text-gray700 w-full py-28">
-                    <IoFlashOffOutline  size={40} className="text-gray500" />
+                    <IoFlashOffOutline  size={40} />
                     <Text
                       className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto py-4"
                       size=""
@@ -274,6 +318,7 @@ const MyInvestors = () => {
           </div>
         </div>
     </div>
-    )
-}
+  );
+};
+
 export default MyInvestors;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text } from "../Components/Text";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
@@ -10,10 +10,12 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { useSearchParams ,useNavigate } from "react-router-dom";
 import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal"; 
-import { CompanyLegalData } from "../data/tablesData";
+import axios from "axios";
+import Loading from "../Components/Loading";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
+
 
 const CompanyLegal = () => {
   const navigate = useNavigate();
@@ -21,17 +23,35 @@ const CompanyLegal = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
-  
   const [document , setDocument] = useState(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
   const itemsPerPage = 7;
   const pagesToShow = 4;
-  const data = CompanyLegalData;
-
+  const data ='';
+  const [legalDocuments, setLegalDocuments] = useState([]);
   const totalTablePages = Math.ceil(data.length / itemsPerPage);
+  const [loading, setLoading] = useState(true);
+  const [documentId, setDocumentId] = useState(null); 
+
+
+  useEffect(() => {
+    
+    fetchLegalDocuments();
+}, []);
+
+const fetchLegalDocuments = async () => {
+  try {
+      const response = await axios.get("http://localhost:5000/members/legal-documents");
+      console.log(response.data)
+      setLegalDocuments(response.data);
+      setLoading(false);
+     
+  } catch (error) {
+      console.error("Error fetching legal documents:", error);
+      setLoading(false); 
+  }  };
 
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
@@ -45,8 +65,8 @@ const CompanyLegal = () => {
     }
   }
 
-  const documentData = getPageData();
-
+  const documentData = legalDocuments;
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -58,30 +78,80 @@ const CompanyLegal = () => {
   const openEditModal = (doc) => {
     setIsEditModalOpen(true);
     setDocument(doc);
+  
   };
 
   const closeEditModal = () => {
     setIsEditModalOpen(false);
     setDocument(null);
+
   };
 
     const openDeleteModal = (rowData) => {
       setIsDeleteModalOpen(true);
       setDeleteRow(rowData);
+      setDocumentId(rowData?._id);
     };
   
     const closeDeleteModal = () => {
       setIsDeleteModalOpen(false);
       setDeleteRow(null);
+      setDocumentId(null);
     };
 
-    const handleDelete = () => {
-      console.log(deleteRow?.name);
+    const handleDelete = async () => {
+      try {
+        const token = sessionStorage.getItem("userToken");
+        await axios.delete(`http://localhost:5000/members/legal-documents/${documentId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        await fetchLegalDocuments();
+        closeDeleteModal();
+        console.log("succees")
+      } catch (error) {
+        console.error("Error deleting employee:", error);
+      }
     };
+
+    const handleAddDocument = async (formData) => {
+      try {
+          const userData = JSON.parse(sessionStorage.getItem("userData"));
+          const userId = userData._id;
+          
+          const response = await axios.post(`http://localhost:5000/members/${userId}/legal-documents`, formData);
+          
+          if (response.status === 201) {
+              console.log("Document ajouté avec succès");
+              fetchLegalDocuments();
+              closeModal();
+          } else {
+              console.error("Échec de l'ajout du document");
+          }
+      } catch (error) {
+          console.error("Error:", error);
+      }
+  };
+
+  const handleEditDocument = async (documentId,ownerId, formData) => {
+    try {
+      console.log(documentId, formData)
+      const response = await axios.put(`http://localhost:5000/members/${ownerId}/legal-documents/${documentId}`, formData);
+      console.log("Document updated successfully");
+      fetchLegalDocuments();
+      closeEditModal();
+    } catch (error) {
+      console.error("Error updating document:", error);
+    
+    }
+  };  
+  
 
   return (
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
-      <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-12 pt-8 rounded-tl-[40px] w-full">
+    <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader
@@ -91,8 +161,8 @@ const CompanyLegal = () => {
           </div>
           <SearchInput className={'min-w-[25%]'}/>
         </div>
-      </div>
-      <div className="flex flex-col items-start justify-start w-full">
+    </div>
+    <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
@@ -173,26 +243,11 @@ const CompanyLegal = () => {
             )}
           </div>
         </div>
-      </div>
-
-      <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal}/>
-      <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document}/>
-      <DeleteModal isOpen={isDeleteModalOpen}
-        onRequestClose={closeDeleteModal} title="Delete" 
-        onDelete={handleDelete}
-        content={
-          <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
-            <Text
-              className="font-DmSans text-center text-base font-normal leading-6"
-              size=""
-            >
-              This will <span className="text-red-500">immediately and permanently</span> delete document.
-              <br/>
-              Are you sure you want to delete this?
-            </Text>
-          </div>
-        }/>
     </div>
+    <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal} onSubmit={handleAddDocument} />
+    <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document} onSubmit={handleEditDocument} />
+    <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title="Delete" onDelete={() => handleDelete()} content={<div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full"><Text className="font-DmSans text-center text-base font-normal leading-6" size="">This will <span className="text-red-500">immediately and permanently</span> delete document.<br />Are you sure you want to delete this?</Text></div>} />
+</div>
   );
 };
 

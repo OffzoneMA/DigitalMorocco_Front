@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import{Text } from "../Components/Text";
+import{ Text } from "../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
 import { IoFlashOffOutline } from "react-icons/io5";
@@ -17,6 +17,7 @@ import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 
+import axios from 'axios';
 
 const Investors = () => {
   const navigate = useNavigate();
@@ -34,10 +35,32 @@ const Investors = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
-  const data = InvestorsData;
+  const [investors, setInvestors] = useState([]);
+
+
+  useEffect(() => {
+    const fetchInvestorRequests = async () => {
+      try {
+        const token = sessionStorage.getItem("userToken");
+        const response = await axios.get(`http://localhost:5000/investors`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+      });
+        console.log(response.data)
+        setInvestors(response.data.investors);
+      } catch (error) {
+        console.error('Error fetching investor requests:', error);
+      }
+    };
+
+    fetchInvestorRequests();
+  }, []);
+  const data = investors;
+
 
   const filteredData = data.filter(item => {
-    const keywordMatch = item.InvestorName.toLowerCase().includes(keywords.toLowerCase());
+    const keywordMatch = item.owner.displayName.toLowerCase().includes(keywords.toLowerCase());
   
     if (filterApply) {
       const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
@@ -229,8 +252,8 @@ const Investors = () => {
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
                         <div className="py-3 px-3 flex items-center" >
-                            <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.InvestorName}</span>
+                            {/* <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/> */}
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.owner.displayName}</span>
                         </div>
                         {profilVerified && (
                           <div className="overlay-content-invPro w-full flex">
@@ -239,11 +262,11 @@ const Investors = () => {
                         </div>
                     </td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
-                      style={{ whiteSpace: 'nowrap' }}>{item.Type}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfInvestment}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfExits}</td>
+                      style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfInvestment}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfExits}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6" 
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.Location}</td>
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {item.PreferredInvestmentIndustry}

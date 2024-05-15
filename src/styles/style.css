@@ -1,0 +1,42 @@
+
+.notfound {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+  
+  .notfound .notfound2 {
+    position: block;
+    left: 50%;
+    top: 50%;
+    padding: 10px;
+    
+  
+  }
+  
+  .notfound2 {
+    max-width: 410px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  
+  .notfound2 h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #000;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 0;
+  }
+  
+  .notfound2 p {
+    font-family: 'Montserrat', sans-serif;
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    margin-top: 0px;
+  }
+ 
+  
