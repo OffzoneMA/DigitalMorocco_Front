@@ -458,3 +458,13 @@ input::-ms-clear {
 }
 
 
+.ReactModal__Content:focus {
+  border: none !important;
+  background: transparent !important;
+}
+
+.ReactModal__Content--after-open:focus {
+  border: none !important;
+  background: transparent !important;
+  padding-left: 20px !important;
+}

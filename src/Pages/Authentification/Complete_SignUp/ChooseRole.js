@@ -55,7 +55,7 @@ const ChooseRole = () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
-      navigate('/SignIn');
+      // navigate('/SignIn');
       // Redirection ves site officiel
     };
 
@@ -68,7 +68,8 @@ const ChooseRole = () => {
     const confirmRole = () => {
       const formData = new FormData();
       formData.append('role', selectedOption);
-      addNewRequest({ formdata: formData, userId: UserId })
+      // addNewRequest({ formdata: formData, userId: UserId })
+      openModal();
     }
 
   return (
