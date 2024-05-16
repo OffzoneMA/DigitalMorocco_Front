@@ -178,7 +178,7 @@ const ChooseRole = () => {
                 </div>
               </div>
               <div onClick={() => handleGridClick(3 , 'partner')} 
-              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] w-[382.67px] cursorpointer hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
+              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-[22px] items-center justify-start w-auto">
                   <Text
                     className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
