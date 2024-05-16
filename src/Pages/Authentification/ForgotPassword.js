@@ -86,7 +86,7 @@ export default function ForgotPassword(){
               </a>
             </div>
             <div className="flex flex-col font-dmsans gap-[42px] items-center justify-start mb-[368px]  w-auto w-full ">
-              <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
+              <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src="images/img_logo.svg"

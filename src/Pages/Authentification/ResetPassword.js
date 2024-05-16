@@ -73,7 +73,7 @@ export default function ResetPassword() {
         <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto p-[33px] sm:px-5 w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-auto w-full">
-              <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
+              <a href='https://digitalmorocco.net'target='_blank' className="flex flex-col items-center justify-center">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}
@@ -131,7 +131,7 @@ export default function ResetPassword() {
                         />
                         <button
                           type="button"
-                          className="absolute top-0 right-0 h-full px-3 flex items-center"
+                          className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
                           onClick={togglePasswordVisibility}
                         >
                           {showPassword ? (
@@ -171,7 +171,7 @@ export default function ResetPassword() {
                       ></input>
                       <button
                           type="button"
-                          className="absolute top-0 right-0 h-full px-3 flex items-center"
+                          className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
                           onClick={toggleConfPasswordVisibility}
                         >
                           {showConfPassword ? (

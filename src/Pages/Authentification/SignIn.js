@@ -100,7 +100,7 @@ export default function SignIn() {
     <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto p-[42px] md:px-10 sm:px-5 min-h-screen w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto w-full">
           <div className="flex flex-col items-center justify-center w-full ">
-            <Link to="https://digitalmorocco.net"><img
+            <Link to="https://digitalmorocco.net" target='_blank'><img
                 className="h-[50px] w-[183px]"
                 src={logo}
                 alt="logo"
@@ -199,9 +199,6 @@ export default function SignIn() {
                       autoComplete='off'
                       placeholder={t('signin.emailPlaceholder')}
                     />
-                    {(errors?.email?.message && getValues('email')?.length > 0) &&
-                    <span className="text-errorColor text-sm">{errors?.email?.message}</span>
-                    }
                   </div>
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
                     <div className="relative w-full">
@@ -223,7 +220,7 @@ export default function SignIn() {
                       />
                       <button
                         type="button"
-                        className="absolute top-0 right-0 h-full px-3 flex items-center"
+                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
                         onClick={togglePasswordVisibility}
                       >
                         {showPassword ? (
@@ -238,7 +235,7 @@ export default function SignIn() {
                         )}
                       </button>
                     </div>
-                    {((errors?.password?.message && getValues('password')?.length > 0) || (errors?.email?.message && getValues('email')?.length > 0)) &&<span className="text-errorColor text-sm ">{t('signup.emailPattern')}</span>}
+                    {((errors?.password?.message && getValues('password')?.length > 0) || (errors?.email && getValues('email')?.length > 0)) &&<span className="text-errorColor text-sm ">{t('signup.emailPattern')}</span>}
                   </div>
                   <div className="flex flex-row gap-2.5 items-center justify-between  w-full">
                     <div className="flex flex-row flex-1 items-center justify-start m-auto w-auto">

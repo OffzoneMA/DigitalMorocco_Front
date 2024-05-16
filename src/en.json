@@ -174,5 +174,6 @@
     "chooserole.confirmed.m5":"Need assistance? If you have any questions or suggestions, feel free to contact our support team at",
     "chooserole.confirmed.m6":"support@digitalmorocco.com.",
     "chooserole.confirmed.button":"Confirm my Selection",
-    "chooserole.confirmed.button1":"Confirmed"
+    "chooserole.confirmed.button1":"Confirmed",
+    "chooserole.signout": "Sign out"
   }
