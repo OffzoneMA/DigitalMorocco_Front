@@ -16,6 +16,7 @@ import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 
 import axios from 'axios';
+import Loading from "../Components/Loading";
 
 const InvestorRequestHistory = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,6 +29,7 @@ const InvestorRequestHistory = () => {
   const itemsPerPage = 7;
   const itemsToShow = 4;
   const [investorRequests, setInvestorRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchInvestorRequests = async () => {
@@ -35,8 +37,10 @@ const InvestorRequestHistory = () => {
         const response = await axios.get('http://localhost:5000/investors/investor-requests');
         console.log(response.data)
         setInvestorRequests(response.data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching investor requests:', error);
+        setLoading(false);
       }
     };
 
@@ -95,8 +99,8 @@ const InvestorRequestHistory = () => {
             </div>
             <div className="flex flex-col items-start justify-start w-full">
                 <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-                <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <div className="flex flex-row gap-4 flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+                <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
+                    <div className="flex flex-row gap-4 flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
                       <TableTitle
                       style={{whiteSpace: 'nowrap'}}
                         >
@@ -155,12 +159,21 @@ const InvestorRequestHistory = () => {
                     <th className="p-3 text-left text-gray700 font-medium">Attachment</th>
                     <th className="p-3 text-left text-gray700 font-medium">Notes</th>
                   </tr>
-                </thead>
-                {pageData?.length > 0 ? (
-                  <tbody className="items-center w-full ">
-                    {pageData.map((item, index) => (
+                </thead><tbody className="items-center w-full ">
+                {loading ? (
+                     <div className="flex items-center justify-center w-full h-full">
+                     <Loading />
+                 </div> ) : pageData.length === 0 ? (
+                  <div className="flex flex-col items-center text-gray700 w-full py-28">
+                  <IoFlashOffOutline size={40} className="text-gray500" />
+                  <Text className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto py-4" size="">No matching data identified</Text>
+                </div>
+                )                 
+                 :                  
+                    pageData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                        <td className="py-3 px-3 w-auto text-gray500 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>{new Date(item.dateCreated).toLocaleString('en-US', {
+                        <td className="py-3 px-3 w-auto text-gray500 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>
+                          {new Date(item.dateCreated).toLocaleString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
@@ -176,16 +189,11 @@ const InvestorRequestHistory = () => {
                         <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.attachment}</td>
                         <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.note}</td>
                       </tr>
-                    ))}
-                  </tbody>
-                ) : ""}
+                    ))
+                 
+               } </tbody>
               </table>
-              {!pageData?.length > 0 && (
-                <div className="flex flex-col items-center text-gray700 w-full py-28">
-                  <IoFlashOffOutline size={40} className="text-gray500" />
-                  <Text className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto py-4" size="">No matching data identified</Text>
-                </div>
-              )}
+              
             </div>
             {pageData?.length > 0 && (
               <div className='w-full flex items-center p-4'>

@@ -47,10 +47,9 @@ const fetchLegalDocuments = async () => {
       console.log(response.data)
       setLegalDocuments(response.data);
       setLoading(false);
-     
   } catch (error) {
       console.error("Error fetching legal documents:", error);
-      setLoading(false); 
+      setLoading(false);
   }  };
 
   const getPageData = () => {
@@ -164,8 +163,8 @@ const fetchLegalDocuments = async () => {
     </div>
     <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
+            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
                 <TableTitle
                   >
                   Legal Document
@@ -189,9 +188,24 @@ const fetchLegalDocuments = async () => {
                   <th className="p-3 w-auto"></th>
                 </tr>
                 </thead>
-                { documentData?.length > 0 ?
                 <tbody className="font-DmSans text-sm font-normal leading-6">
-                {documentData.map((document, index) => (
+                {
+                loading ? (
+                     <div className="flex items-center justify-center w-full h-full">
+                     <Loading />
+                 </div>
+                  ) : !documentData?.length>0 ? (
+                    <div className="flex flex-col items-center w-full text-gray500 py-28">
+                    <AiOutlineFileSearch size={30} c />
+                    <Text
+                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                      size=""
+                    >
+                      No Document Available
+                    </Text>
+                  </div>
+                  )
+                  : (documentData.map((document, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                     <td className="py-3 px-3" onClick={()=>openEditModal(document)}>
                       <div className="flex flex-row space-x-3 items-center">
@@ -199,7 +213,17 @@ const fetchLegalDocuments = async () => {
                         <span className="text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-3 text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.lastModified}</td>
+                    <td className="py-4 px-3 text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      
+                      {new Date(document.lastModifiedDate).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+      })}
+                      </td>
                     <td className="py-3 px-3 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <img src={document.ownerImg} alt="owner" className="h-9 w-9 mr-2 rounded-full"/>
@@ -214,22 +238,12 @@ const fetchLegalDocuments = async () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))
+                  )}
                 </tbody>
-                :
-                ""}
+                
               </table>
-              {!documentData?.length>0 && (
-                  <div className="flex flex-col items-center w-full text-gray500 py-28">
-                    <AiOutlineFileSearch size={30} c />
-                    <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
-                      size=""
-                    >
-                      No Document Available
-                    </Text>
-                  </div>
-                )}
+             
             </div>
             {documentData?.length>0 && (
               <div className='w-full flex items-center p-4'>
