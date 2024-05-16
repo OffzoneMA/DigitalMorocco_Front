@@ -21,7 +21,7 @@ export default function PasswordResetSucces() {
         <>
           <div className="bg-gray-100 flex flex-col font-DmSans items-center min-h-screen justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mb-[213px] w-auto w-full">
-              <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
+              <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}

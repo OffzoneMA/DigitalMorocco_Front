@@ -48,7 +48,7 @@ export default function SocialSignUp() {
     <>
     <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto pt-[80px] p-[42px] md:px-10 sm:px-5 w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
-          <a href='https://digitalmorocco.net' className="flex flex-col items-center justify-center w-full">
+          <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center">
             <img
               className="h-[50px] w-[183px]"
               src={logo}
@@ -78,22 +78,25 @@ export default function SocialSignUp() {
                           // message: t('signup.fullNameRequired'),
                         },
                         minLength: {
-                          value: 3,
+                          value: 5,
                           // message: t('signup.fullNameShort'),
                         },
                         maxLength: {
                           value: 50,
                           // message: t('signup.fullNameLong'),
                         },
+                        validate: {
+                          correct: v => /^([a-zA-ZÀ-ÖØ-öø-ÿ]{2,}\s)+[a-zA-ZÀ-ÖØ-öø-ÿ]{2,}$/.test(v)
+                        }
                         
                       })}
                         id="displayName"
                       name="displayName"
                       placeholder={t('signup.enterFullName')}
-                      className={`bg-white w-full leading-[18.23px] border border-solid !focus:border !focus:border-solid ${errors?.displayName ? 'border-errorColor' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.displayName ? ' focus:border-errorColor' : ' focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.displayName ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full leading-[18.23px] border border-solid !focus:border !focus:border-solid ${errors?.displayName ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[12px] ${errors?.displayName ? ' focus:border-errorColor' : ' focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.displayName ? 'errorColor' : 'gray-801'}`}
                       type="text"
                     ></input>
-                    {errors?.displayName?.message &&<span className="text-red-400 text-sm">{errors?.displayName?.message}</span>}
+                    {(errors?.displayName && getValues('displayName')?.length > 0) &&<span className="text-red-400 text-sm">{t('signup.emailPattern')}</span>}
                   </div>
                   <div className="flex flex-col mt-4 mb-1 gap-2.5 justify-start w-full">
                     <Text
@@ -122,7 +125,7 @@ export default function SocialSignUp() {
                           htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                         >
-                          {t('signup.terms1')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                      
+                          {t('signup.terms1')} <a href='https://digitalmorocco.net/terms' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='https://digitalmorocco.net/privacy' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                      
                         </label>
                     </div>
                   </div>

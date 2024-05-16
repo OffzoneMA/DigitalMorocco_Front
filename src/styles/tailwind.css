@@ -35,10 +35,10 @@ input:focus, textarea:focus{
 li:focus-visible{
   outline: none;
 }
-
+/* 
 li:hover{
   cursor: pointer;
-}
+} */
 
 .tab-panel--selected { animation-name: tabPanel; animation-duration: 300ms; animation-timing-function: linear; }
 @keyframes tabPanel { from { opacity: 0; } to { opacity: 1; } }
