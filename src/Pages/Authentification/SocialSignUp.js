@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import {Text } from '../../Components/Text'
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate  , useLocation} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import EmailExistModal from '../../Components/EmailExistModal';
 import logo from '../../Media/img_logo.svg';
@@ -11,11 +11,12 @@ import logo from '../../Media/img_logo.svg';
 
 export default function SocialSignUp() {
   const { t, i18n } = useTranslation();
-
+  const location = useLocation();
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const formButtonRef = useRef();
+  const socialType = location.state?.socialType;
 
 
   const onButtonClick = (inputref) => {
@@ -40,8 +41,15 @@ export default function SocialSignUp() {
   const navigate = useNavigate()
 
   const onSubmit = (data) => {
-    console.log(data)
-    openModal();
+    const userSocialInfos = {
+      fullName: data?.displayName,
+      socialType
+    };
+
+    sessionStorage.setItem('userSocialInfos', JSON.stringify(userSocialInfos));
+
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/${socialType}`;
+
   };
 
   return (

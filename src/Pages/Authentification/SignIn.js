@@ -2,6 +2,7 @@ import React, { useEffect, useState , useRef } from 'react'
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom';
 import { LoginUser } from '../../Redux/auth/authAction';
 import { useNavigate , Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
@@ -12,13 +13,16 @@ import googleLogo  from '../../Media/img_flatcoloriconsgoogle.svg';
 import faceBookLogo from '../../Media/img_logosfacebook.svg';
 import linkLogo from '../../Media/img_link.svg';
 import LoginModal from '../../Components/LoginModal';
+import EmailExistModal from '../../Components/EmailExistModal';
 
 
 export default function SignIn() {
   const { t, i18n } = useTranslation();
-
+  const [searchParams] = useSearchParams();
+  const [errorSocial, seterrorSocial] = useState(searchParams.get('error') ? searchParams.get('error')  :null)
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [Mount, setMount] = useState(true)
   const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch()
@@ -44,6 +48,15 @@ export default function SignIn() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openErrorModal = () => {
+    setIsErrorModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+    navigate('/SignIn');
   };
 
   useEffect(() => {
@@ -85,6 +98,15 @@ export default function SignIn() {
     window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook`;
   };
 
+  useEffect(() => {
+    if(errorSocial) {
+      if (errorSocial === "An account already exists with this email") {
+        openErrorModal();
+      } else {
+        toast.error(errorSocial || 'Oops, something went wrong!')
+      }
+    }
+  }, [error]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -300,6 +322,9 @@ export default function SignIn() {
     </div>
     <LoginModal isOpen={isModalOpen}
         onRequestClose={closeModal}/>
-    </>
+
+    <EmailExistModal isOpen={isErrorModalOpen}
+            onRequestClose={closeErrorModal}/>
+        </>
   )
 }

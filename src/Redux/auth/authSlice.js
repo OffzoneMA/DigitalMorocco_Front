@@ -9,9 +9,13 @@ const userData = sessionStorage.getItem('userData')
 ? sessionStorage.getItem('userData')
 : null
 
-  const userEmail = localStorage.getItem('userEmail')
-  ? localStorage.getItem('userEmail')
-  : null
+const userEmail = localStorage.getItem('userEmail')
+? localStorage.getItem('userEmail')
+: null
+
+const userSocialInfos = sessionStorage.getItem('userSocialInfos')
+? sessionStorage.getItem('userSocialInfos')
+: null
 
 const initialState = {
   loading: false,
@@ -20,7 +24,8 @@ const initialState = {
   userData,
   error: null,
   success: false,
-  userEmail
+  userEmail,
+  userSocialInfos
 }
 
 const authSlice = createSlice({
@@ -30,11 +35,15 @@ const authSlice = createSlice({
     logout: (state) => {
       sessionStorage.removeItem('userToken') 
       sessionStorage.removeItem('userData')
+      sessionStorage.removeItem('userSocialInfos')
+      localStorage.removeItem('userEmail')
       state.loading = false
       state.userInfo = null
       state.userToken = null
       state.userData = null
       state.error = null
+      state.userEmail = null
+      state.userSocialInfos = null
     },
     setCredentials: (state, { payload }) => {
       state.userInfo = payload

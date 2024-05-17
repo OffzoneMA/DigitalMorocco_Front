@@ -3,16 +3,15 @@ import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
 import { useTranslation } from 'react-i18next';
 import emailError from '../Media/emailError.svg';
+import Popup from 'reactjs-popup';
 
 const EmailExistModal = (props) => {
   const {t} = useTranslation();
 
   return (
-    <ModalProvider
-    appElement={document.getElementById("root")}
-    className="m-auto !w-[80%] max-w-[640px] shadow-modalbs"
-    overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
-    {...props}
+    <Popup
+    open={props?.isOpen}
+    onClose={props?.onRequestClose}
   >
     <div className="max-h-[97vh] overflow-y-auto sm:w-full md:w-full">
       <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5  rounded-[14px] w-full">
@@ -62,7 +61,7 @@ const EmailExistModal = (props) => {
         </div>
       </div>
     </div>
-  </ModalProvider>
+  </Popup>
   );
 };
 

@@ -11,26 +11,52 @@ import investorImage from '../../../Media/img_investor.svg';
 import companyImage from '../../../Media/img_company.svg';
 import { useAddNewRequestMutation } from '../../../Services/Auth';
 import { authApi } from "../../../Services/Auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useSearchParams } from "react-router-dom";
+import TestPopup from "../../../Components/TestPopup";
+import { useUpdateFullNameMutation } from "../../../Services/User.Service";
 
 
 const ChooseRole = () => {
     const { t, i18n } = useTranslation();
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const [selectedOption, setSelectedOption] = useState('');
     const { userInfo } = useSelector((state) => state.auth)
     const { userEmail } = useSelector((state) => state.auth)
     const [UserId, setUserId] = useState(userInfo?._id)
     const [selectedGrid, setSelectedGrid] = useState(null);
-    const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
+    const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery();
+    const [updateFullName] = useUpdateFullNameMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showLogout , setShowLogout] = useState(false);
     const [addNewRequest, response] = useAddNewRequestMutation()
+    const {userSocialInfos} = useSelector((state) => state.auth)
 
     const handleGridClick = (gridId , option) => {
       setSelectedGrid(gridId);
       setSelectedOption(option);
     };
+
+    useEffect(() => {
+      const socialId = searchParams.get('socialId');
+
+      if (socialId && socialId.trim() !== '') {
+        const updatedUserSocialInfos = {
+            ...userSocialInfos,
+            socialId: socialId
+        };
+
+        sessionStorage.setItem('userSocialInfos', JSON.stringify(updatedUserSocialInfos));
+
+        updateFullName({
+          fullName: userSocialInfos.fullName,
+          socialId: socialId,
+          socialType: userSocialInfos.socialType
+        });
+    }
+  }, [searchParams, userSocialInfos]); 
+
+  console.log(userSocialInfos)
 
     useEffect(() => {
       if (userInfo) {
@@ -56,7 +82,8 @@ const ChooseRole = () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
-      // navigate('/SignIn');
+      // window.location.href = 'https://digital-morocco-landing-page.vercel.app';
+      window.open('https://digital-morocco-landing-page.vercel.app', '_blank');
       // Redirection ves site officiel
     };
 
@@ -75,7 +102,7 @@ const ChooseRole = () => {
 
   return (
     <>
-      <div className="bg-white-A700 flex flex-col font-DmSans sm:gap-10 md:gap-10 gap-[84px] items-center justify-start mx-auto pb-[246px] w-full min-h-screen">
+      <div className={`bg-white-A700 flex flex-col font-DmSans ${selectedGrid ? 'gap-[20px]': 'gap-[84px]'} items-center justify-start mx-auto pb-[246px] w-full min-h-screen`}>
         <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between px-20 md:px-[100px] py-5 w-full relative">
           <a href="https://digitalmorocco.net" target='_blank'>
             <img
@@ -101,8 +128,8 @@ const ChooseRole = () => {
             }
           </div>
         </div>
-        <div className="px-20 flex justify-end w-full">
         {selectedGrid && 
+        <div className="px-20 flex justify-end w-full h-[52px]">
           <button 
           className="bg-teal-A700 cursorpointer leading-[20.83px] ml-auto my-3 max-w-[264px] flex flex-row gap-6 h-[52px] items-center justify-center px-[24px] py-[13px] rounded-[200px] w-auto hover:bg-greenbtnhoverbg hover:svg-translate" 
           onClick={confirmRole}
@@ -116,10 +143,9 @@ const ChooseRole = () => {
               <path d="M11 15L15 11M15 11L11 7M15 11H7M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           )}
-        </button>
-        
-        }
+          </button>
         </div>
+        }
         <div className="flex flex-col gap-[42px] items-center justify-start max-w-[1232px] m-auto w-full">
           <Text
             className="text-[22px] text-blue_gray-900 text-center font-dm-sans-medium leading-[32px] w-auto"
@@ -205,7 +231,7 @@ const ChooseRole = () => {
       </div>
       <div>
       </div>
-      <RoleConfirmedModal isOpen={isModalOpen}
+      <TestPopup isOpen={isModalOpen}
         onRequestClose={closeModal}/>
     </>
   );

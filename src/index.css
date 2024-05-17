@@ -476,3 +476,26 @@ input::-ms-clear {
   border-color: transparent !important;
 
 }
+
+
+
+.popup-content {
+  margin: auto;
+  background: transparent;
+  width: 90%;
+  max-width: 640px;
+}
+.popup-arrow {
+  color: rgb(255, 255, 255);
+}
+[role='tooltip'].popup-content {
+  width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+}
+
+.popup-overlay {
+  background: #1d2838c1;
+}
+[data-popup='tooltip'].popup-overlay {
+  background: transparent;
+}

@@ -3,21 +3,18 @@ import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
 import { IoCloseOutline } from "react-icons/io5";
 import { useTranslation } from 'react-i18next';
+import Popup from 'reactjs-popup';
 
 import confirmImage from '../Media/img_role_confirmed.svg'
 
-const RoleConfirmedModal = (props) => {
+const TestPopup = (props) => {
   const {t} = useTranslation();
 
   return (
-    <ModalProvider
-    appElement={document.getElementById("root")}
+    <Popup
+    open={props?.isOpen}
+    onClose={props?.onRequestClose}
     className="m-auto w-auto max-w-[640px] "
-    overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
-    style={{content : {border: 'none' ,background: 'transparent'}}}
-    shouldFocusAfterRender={false}
-    shouldReturnFocusAfterClose={false}
-    {...props}
   >
     <div className="max-h-[97vh] overflow-y-auto sm:w-full md:w-full">
       <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start p-5 rounded-[14px] w-full">
@@ -73,8 +70,8 @@ const RoleConfirmedModal = (props) => {
         </div>
       </div>
     </div>
-  </ModalProvider>
+  </Popup>
   );
 };
 
-export default RoleConfirmedModal;
+export default TestPopup;

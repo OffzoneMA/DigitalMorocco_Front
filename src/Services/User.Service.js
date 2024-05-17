@@ -22,7 +22,15 @@ export const userApi = createApi({
                 }
             },
         }),
+
+        updateFullName: builder.mutation({
+            query: (payload) => ({
+              url: '/updateFullName',
+              method: 'PUT',
+              body: payload,
+            }),
+          }),
     }),
 })
 
-export const { useUpdateUserMutation } = userApi
+export const { useUpdateUserMutation , useUpdateFullNameMutation } = userApi

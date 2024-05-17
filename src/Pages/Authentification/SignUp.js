@@ -31,6 +31,7 @@ export default function SignUp() {
   const [hasLowerCase, setHasLowerCase] = useState(false);
   const [hasUpperCase, setHasUpperCase] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [socialType ,  setSocialType] = useState('');
   const [sending , setSending] = useState(false);
 
 
@@ -140,7 +141,6 @@ export default function SignUp() {
 };
 
 
-
 const onSubmit = (data) => {
   userTrigger(data.email).then((payload)=> {
     if(payload?.isSuccess) {
@@ -158,8 +158,9 @@ const onSubmit = (data) => {
   });
 };
 
-  const socialSignUp = () => {
-    navigate('/SocialSignUp')
+  const socialSignUp = (type) => {
+    setSocialType(type)
+    navigate('/SocialSignUp', { state: { socialType: type } });
   }
 
   const handleGoogleButtonClick = () => {
@@ -470,7 +471,7 @@ const onSubmit = (data) => {
                 <div className="flex flex-col gap-3 items-center justify-start w-full">
                   <Button
                     className=" text-[#37363B] border border-gray-300 text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
-                    onClick={socialSignUp}
+                    onClick={() => socialSignUp('google')}
                     leftIcon={
                       <img
                         className="h-6 mr-2.5"
@@ -486,7 +487,7 @@ const onSubmit = (data) => {
                   </Button>
                   <Button
                     className=" text-[#37363B] text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
-                    onClick={socialSignUp}
+                    onClick={() => socialSignUp('linkedin')}
                     leftIcon={
                       <img
                         className="h-6 mr-2.5"
@@ -502,7 +503,7 @@ const onSubmit = (data) => {
                   </Button>
                   <Button
                     className="text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
-                    onClick={socialSignUp}
+                    onClick={() => socialSignUp('facebook')}
                     leftIcon={
                       <img
                         className="h-6 mr-2.5"
