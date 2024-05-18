@@ -14,18 +14,26 @@ import faceBookLogo from '../../Media/img_logosfacebook.svg';
 import linkLogo from '../../Media/img_link.svg';
 import LoginModal from '../../Components/LoginModal';
 import EmailExistModal from '../../Components/EmailExistModal';
+import { authApi } from '../../Services/Auth';
+import { setCredentials } from '../../Redux/auth/authSlice';
 
 
 export default function SignIn() {
   const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
   const [errorSocial, seterrorSocial] = useState(searchParams.get('error') ? searchParams.get('error')  :null)
+  const [auth, setAuth] = useState(searchParams.get('auth') ? searchParams.get('auth')  :null)
   const { loading, userInfo, error } = useSelector((state) => state.auth)
+  const {  userToken } = useSelector((state) => state.auth)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [Mount, setMount] = useState(true)
   const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch()
+  const [getUserDetails , { data, isSuccess, isError, detailsError }] = authApi.endpoints.getUserDetails.useLazyQuery();
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 3;
+
   const {
     register,
     handleSubmit,
@@ -58,6 +66,43 @@ export default function SignIn() {
     setIsErrorModalOpen(false);
     navigate('/SignIn');
   };
+
+  useEffect(() => {
+
+    if(auth) {
+      sessionStorage.setItem('userToken', auth)
+
+      if (userToken) {
+        getUserDetails().then((payload) => {
+          if(payload?.isSuccess) {
+            if(payload?.data && Object.keys(payload.data).length > 0){
+              dispatch(setCredentials(payload.data));
+              sessionStorage.setItem('userData', payload.data)
+              navigate('/SignIn');
+            }
+            else if (retryCount < maxRetries) {
+              window.location.reload()
+              setRetryCount(retryCount + 1);
+              getUserDetails().then((payload) => {
+                if(payload?.isSuccess) {
+                  if(payload?.data && Object.keys(payload.data).length > 0){
+                    dispatch(setCredentials(payload.data));
+                    sessionStorage.setItem('userData', payload.data)
+                    navigate('/SignIn');
+                  }
+                }
+              });
+            } 
+          }
+        });
+      }  
+    }
+
+}, [auth , userToken]); 
+
+// useEffect(() => {
+  
+// }, [userToken]);
 
   useEffect(() => {
     if (Mount) { setMount(false) }

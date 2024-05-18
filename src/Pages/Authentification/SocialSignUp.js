@@ -41,12 +41,11 @@ export default function SocialSignUp() {
   const navigate = useNavigate()
 
   const onSubmit = (data) => {
-    const userSocialInfos = {
-      fullName: data?.displayName,
-      socialType
-    };
+    // const userSocialInfos = {
+    //   fullName: data?.displayName 
+    // };
 
-    sessionStorage.setItem('userSocialInfos', JSON.stringify(userSocialInfos));
+    sessionStorage.setItem('userSocialInfos', data?.displayName);
 
     window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/${socialType}`;
 

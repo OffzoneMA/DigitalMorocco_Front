@@ -53,8 +53,8 @@ const authSlice = createSlice({
       state.error = null
       state.success = false
     },
-    setUserEmail: (state, action) => {
-      state.userEmail = action.payload;
+    setUserEmail: (state, { payload }) => {
+      state.userInfo = payload;
     },
   },
   extraReducers: {

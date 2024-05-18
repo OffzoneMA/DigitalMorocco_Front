@@ -14,14 +14,19 @@ import { authApi } from "../../../Services/Auth";
 import { useNavigate , useSearchParams } from "react-router-dom";
 import TestPopup from "../../../Components/TestPopup";
 import { useUpdateFullNameMutation } from "../../../Services/User.Service";
+import { setCredentials } from "../../../Redux/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 
 const ChooseRole = () => {
     const { t, i18n } = useTranslation();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [auth, setAuth] = useState(searchParams.get('auth') ? searchParams.get('auth')  :null)
     const [selectedOption, setSelectedOption] = useState('');
     const { userInfo } = useSelector((state) => state.auth)
+    const {userToken} = useSelector((state) =>state.auth)
     const { userEmail } = useSelector((state) => state.auth)
     const [UserId, setUserId] = useState(userInfo?._id)
     const [selectedGrid, setSelectedGrid] = useState(null);
@@ -30,7 +35,10 @@ const ChooseRole = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showLogout , setShowLogout] = useState(false);
     const [addNewRequest, response] = useAddNewRequestMutation()
+    const [getUserDetails , { data, isSuccess, isError, error }] = authApi.endpoints.getUserDetails.useLazyQuery();
     const {userSocialInfos} = useSelector((state) => state.auth)
+    const [retryCount, setRetryCount] = useState(0);
+    const maxRetries = 3;
 
     const handleGridClick = (gridId , option) => {
       setSelectedGrid(gridId);
@@ -38,26 +46,62 @@ const ChooseRole = () => {
     };
 
     useEffect(() => {
-      const socialId = searchParams.get('socialId');
 
-      if (socialId && socialId.trim() !== '') {
-        const updatedUserSocialInfos = {
-            ...userSocialInfos,
-            socialId: socialId
-        };
-
-        sessionStorage.setItem('userSocialInfos', JSON.stringify(updatedUserSocialInfos));
-
-        updateFullName({
-          fullName: userSocialInfos.fullName,
-          socialId: socialId,
-          socialType: userSocialInfos.socialType
-        });
-    }
-  }, [searchParams, userSocialInfos]); 
-
-  console.log(userSocialInfos)
-
+      if(auth) {
+        sessionStorage.setItem('userToken', auth)
+  
+        if (userToken) {
+          getUserDetails().then((payload) => {
+            if(payload?.isSuccess) {
+              if(payload?.data && Object.keys(payload.data).length > 0){
+                dispatch(setCredentials(payload.data));
+                sessionStorage.setItem('userData', payload.data)
+                if (userSocialInfos) {
+                  updateFullName({ userId: payload.data._id, payload: {fullName: userSocialInfos} })
+                    .unwrap()
+                    .then((updatedData) => {
+                      console.log('FullName updated', updatedData);
+                      sessionStorage.setItem('userData', JSON.stringify(updatedData));
+                      dispatch(setCredentials(updatedData));
+                    })
+                    .catch((updateError) => {
+                      console.error('Error updating full name:', updateError);
+                    });
+                }
+                navigate('/ChooseRole')
+              }
+              else if (retryCount < maxRetries) {
+                window.location.reload()
+                setRetryCount(retryCount + 1);
+                getUserDetails().then((payload) => {
+                  if(payload?.isSuccess) {
+                    if(payload?.data && Object.keys(payload.data).length > 0){
+                      dispatch(setCredentials(payload.data));
+                      sessionStorage.setItem('userData', payload.data)
+                      if (userSocialInfos) {
+                        updateFullName({ userId: payload.data._id, payload: {fullName: userSocialInfos} })
+                          .unwrap()
+                          .then((updatedData) => {
+                            console.log('FullName updated', updatedData);
+                            sessionStorage.setItem('userData', JSON.stringify(updatedData));
+                            dispatch(setCredentials(updatedData));
+                          })
+                          .catch((updateError) => {
+                            console.error('Error updating full name:', updateError);
+                          });
+                      }
+                      navigate('/ChooseRole')
+                    }
+                  }
+                });
+              } 
+            }
+          });
+        }  
+      }
+  
+  }, [auth , userToken , userSocialInfos]); 
+  
     useEffect(() => {
       if (userInfo) {
         setUserId(userInfo?._id);
@@ -82,6 +126,7 @@ const ChooseRole = () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
+      navigate('/ChooseRole')
       // window.location.href = 'https://digital-morocco-landing-page.vercel.app';
       window.open('https://digital-morocco-landing-page.vercel.app', '_blank');
       // Redirection ves site officiel
@@ -96,8 +141,8 @@ const ChooseRole = () => {
     const confirmRole = () => {
       const formData = new FormData();
       formData.append('role', selectedOption);
-      // addNewRequest({ formdata: formData, userId: UserId })
-      openModal();
+      addNewRequest({ formdata: formData, userId: UserId })
+      // openModal();
     }
 
   return (
