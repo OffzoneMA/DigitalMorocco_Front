@@ -1,5 +1,6 @@
 import React , {useState , useRef , useEffect} from "react";
 import { useSelector } from "react-redux";
+import axios from 'axios';
 import { Text } from "../../../Components/Text";
 import { Button } from "../../../Components/Button";
 import { useTranslation } from "react-i18next";
@@ -27,6 +28,7 @@ const ChooseRole = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const { userInfo } = useSelector((state) => state.auth)
     const {userToken} = useSelector((state) =>state.auth)
+    const [token , setToken] = useState(sessionStorage.setItem('userToken', auth))
     const { userEmail } = useSelector((state) => state.auth)
     const [UserId, setUserId] = useState(userInfo?._id)
     const [selectedGrid, setSelectedGrid] = useState(null);
@@ -46,61 +48,46 @@ const ChooseRole = () => {
     };
 
     useEffect(() => {
-
-      if(auth) {
+      if (auth) {
+        console.log('Fetching user details with token:', auth);
         sessionStorage.setItem('userToken', auth)
-  
-        if (userToken) {
-          getUserDetails().then((payload) => {
-            if(payload?.isSuccess) {
-              if(payload?.data && Object.keys(payload.data).length > 0){
-                dispatch(setCredentials(payload.data));
-                sessionStorage.setItem('userData', payload.data)
-                if (userSocialInfos) {
-                  updateFullName({ userId: payload.data._id, payload: {fullName: userSocialInfos} })
-                    .unwrap()
-                    .then((updatedData) => {
-                      console.log('FullName updated', updatedData);
-                      sessionStorage.setItem('userData', JSON.stringify(updatedData));
-                      dispatch(setCredentials(updatedData));
-                    })
-                    .catch((updateError) => {
-                      console.error('Error updating full name:', updateError);
-                    });
-                }
-                navigate('/ChooseRole')
-              }
-              else if (retryCount < maxRetries) {
-                window.location.reload()
-                setRetryCount(retryCount + 1);
-                getUserDetails().then((payload) => {
-                  if(payload?.isSuccess) {
-                    if(payload?.data && Object.keys(payload.data).length > 0){
-                      dispatch(setCredentials(payload.data));
-                      sessionStorage.setItem('userData', payload.data)
-                      if (userSocialInfos) {
-                        updateFullName({ userId: payload.data._id, payload: {fullName: userSocialInfos} })
-                          .unwrap()
-                          .then((updatedData) => {
-                            console.log('FullName updated', updatedData);
-                            sessionStorage.setItem('userData', JSON.stringify(updatedData));
-                            dispatch(setCredentials(updatedData));
-                          })
-                          .catch((updateError) => {
-                            console.error('Error updating full name:', updateError);
-                          });
-                      }
-                      navigate('/ChooseRole')
-                    }
-                  }
-                });
-              } 
+        setToken(auth)
+        axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
+            headers: {
+                'Authorization': `Bearer ${auth}`
             }
-          });
-        }  
-      }
+        })
+        .then((response) => {
+            const payload = response.data;
+            console.log('User details fetched successfully', payload);
+            if (payload) {
+                dispatch(setCredentials(payload));
+                sessionStorage.setItem('userData', payload);
+                if (userSocialInfos) {
+                  console.log('Updating full name with:', userSocialInfos);
+                  updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos } })
+                      .unwrap()
+                      .then((updatedData) => {
+                          console.log('FullName updated', updatedData);
+                          dispatch(setCredentials(updatedData));
+                          sessionStorage.setItem('userData', updatedData);
+                          // navigate('/ChooseRole');
+                      })
+                      .catch((updateError) => {
+                          console.error('Error updating full name:', updateError);
+                          navigate('/ChooseRole'); 
+                      });
+              }
+                navigate('/ChooseRole');
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching user details:', error);
+        });
+    }
   
-  }, [auth , userToken , userSocialInfos]); 
+  }, [auth , dispatch, navigate, userSocialInfos]); 
+
   
     useEffect(() => {
       if (userInfo) {

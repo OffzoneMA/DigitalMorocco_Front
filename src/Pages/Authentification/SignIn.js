@@ -16,6 +16,7 @@ import LoginModal from '../../Components/LoginModal';
 import EmailExistModal from '../../Components/EmailExistModal';
 import { authApi } from '../../Services/Auth';
 import { setCredentials } from '../../Redux/auth/authSlice';
+import axios from 'axios';
 
 
 export default function SignIn() {
@@ -68,41 +69,30 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-
-    if(auth) {
+    if (auth) {
+      console.log('Fetching user details with token:', auth);
       sessionStorage.setItem('userToken', auth)
-
-      if (userToken) {
-        getUserDetails().then((payload) => {
-          if(payload?.isSuccess) {
-            if(payload?.data && Object.keys(payload.data).length > 0){
-              dispatch(setCredentials(payload.data));
-              sessionStorage.setItem('userData', payload.data)
-              navigate('/SignIn');
-            }
-            else if (retryCount < maxRetries) {
-              window.location.reload()
-              setRetryCount(retryCount + 1);
-              getUserDetails().then((payload) => {
-                if(payload?.isSuccess) {
-                  if(payload?.data && Object.keys(payload.data).length > 0){
-                    dispatch(setCredentials(payload.data));
-                    sessionStorage.setItem('userData', payload.data)
-                    navigate('/SignIn');
-                  }
-                }
-              });
-            } 
+      axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
+          headers: {
+              'Authorization': `Bearer ${auth}`
           }
-        });
-      }  
-    }
+      })
+      .then((response) => {
+          const payload = response.data;
+          console.log('User details fetched successfully', payload);
+          if (payload) {
+              dispatch(setCredentials(payload));
+              sessionStorage.setItem('userData', payload);
+              navigate('/SignIn');
+          }
+      })
+      .catch((error) => {
+          console.error('Error fetching user details:', error);
+      });
+  }
 
-}, [auth , userToken]); 
+}, [auth , dispatch, navigate]); 
 
-// useEffect(() => {
-  
-// }, [userToken]);
 
   useEffect(() => {
     if (Mount) { setMount(false) }
