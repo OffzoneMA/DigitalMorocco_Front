@@ -12,6 +12,7 @@ import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import axios from "axios";
 import { format } from "date-fns";
+import moment from "moment/moment";
 
 const NewEmployee = () => {
   const navigate = useNavigate();
@@ -29,12 +30,12 @@ const NewEmployee = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const formButtonRef = useRef();
   const location = useLocation();
-  const { employee } = location.state;
+  const { employee } = location.state || {};
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     workEmail: '',
-    personalEmail: '', // Vous devez déterminer comment obtenir cette valeur
+    personalEmail: '',
     address: '',
     country: '',
     cityState: '',
@@ -45,7 +46,6 @@ const NewEmployee = () => {
     department: '',
     startDate: '',
     photo: '',
-    // Autres champs du formulaire avec des valeurs vides
   });
 
 
@@ -70,12 +70,9 @@ const NewEmployee = () => {
       });
     }
     if (isSaved) {
-      // Rediriger vers "/Employees" après 2 secondes
       const redirectTimer = setTimeout(() => {
         navigate("/Employees");
       }, 1000);
-
-      // Nettoyer le timer lorsque le composant se démonte
       return () => clearTimeout(redirectTimer);
     }
   }, [isSaved, navigate, location.state]);
@@ -109,8 +106,8 @@ const NewEmployee = () => {
       const token = sessionStorage.getItem("userToken");
       const userData = JSON.parse(sessionStorage.getItem("userData"));
       const userId = userData._id;
+      console.log(userId)
 
-      // Convertir l'image en base64
       const reader = new FileReader();
       reader.readAsDataURL(imgFile);
       reader.onloadend = async () => {
@@ -128,22 +125,21 @@ const NewEmployee = () => {
           department: selectedDepartment.name,
           country: selectedCountry?.name,
           cityState: selectedCity?.name,
-          startDate: selectedDate,
+          startDate: moment(selectedDate, 'DD/MM/YYYY').toDate(),
           photo: base64Image, 
         };
         if (location.state && location.state.employee) {
-          const employeeId = employee._id;
-        // Requête PUT pour la mise à jour de l'employé existant
-        await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, requestData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+            const employeeId = employee._id;
+          await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, requestData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
         }
 
-        console.log(requestData)
-        fetch(`http://localhost:5000/members/employees/${userId}`, {
+        else{
+          fetch(`http://localhost:5000/members/employees/${userId}`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -160,6 +156,8 @@ const NewEmployee = () => {
           .catch(error => {
             console.error("Erreur lors de l'envoi du formulaire :", error);
           });
+        }
+        
         setIsSaved(true);
 
       };
@@ -204,7 +202,6 @@ const NewEmployee = () => {
     { name: 'Information Technology' },
     { name: 'Operations' },
   ];
-
     
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
@@ -230,7 +227,7 @@ const NewEmployee = () => {
                 className="text-lg leading-7 text-gray-900_01 pt-1"
                 size="txtDmSansMedium16"
               >
-                Add Employee
+                  {employee? "Edit Employee": "Add Employee"} 
               </Text>
               {isSaved? 
               <button
@@ -438,7 +435,7 @@ const NewEmployee = () => {
                       className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
                       name="personalTaxIdentifierNumber"
-                      value={formData.personalTaxIdentifierNumber ? formData.personalTaxIdentifierNumber : "None"}
+                      value={formData.personalTaxIdentifierNumber}
                       onChange={(e) =>handleChange(e, "personalTaxIdentifierNumber")}
                       
                       placeholder="0000 - 0000 - 0000"
