@@ -21,9 +21,9 @@ export default function VerificationEmail() {
 
   const handleResendEmail = async () => {
     try {
-      await userTrigger(userEmail).then((payload) => {
+      await userTrigger(userInfo?.email).then((payload) => {
         if (payload?.isSuccess) {
-          trigger(userData?._id);
+          trigger(userInfo?._id);
         }
       })
     } catch (error) {
@@ -38,7 +38,7 @@ export default function VerificationEmail() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+console.log(userInfo)
   useEffect(() => {
     const checkAccountVerification = async () => {
       if (userInfo) {
@@ -54,26 +54,27 @@ export default function VerificationEmail() {
             }, 2000);
           }
         })
-      } else {
-        if (userEmail) {
-          userTrigger(userEmail).then((payload) => {
-            if (payload?.isSuccess && payload?.data?.status === 'verified') {
-              toast.success("Account Verified !");
-              setTimeout(() => {
-                if (!payload?.data?.role) {
-                  navigate('/ChooseRole');
-                } else {
-                  navigate('/SignIn');
-                }
-              }, 2000);
-            }
-          } )
-        } else {
-          console.log('user Email not found')
-          console.log(userEmail)
-        }
-
       }
+      //  else {
+      //   if (userEmail) {
+      //     userTrigger(userEmail).then((payload) => {
+      //       if (payload?.isSuccess && payload?.data?.status === 'verified') {
+      //         toast.success("Account Verified !");
+      //         setTimeout(() => {
+      //           if (!payload?.data?.role) {
+      //             navigate('/ChooseRole');
+      //           } else {
+      //             navigate('/SignIn');
+      //           }
+      //         }, 2000);
+      //       }
+      //     } )
+      //   } else {
+      //     console.log('user Email not found')
+      //     console.log(userEmail)
+      //   }
+
+      // }
     };
   
     checkAccountVerification();
@@ -83,7 +84,7 @@ export default function VerificationEmail() {
     }, 5000); 
   
     return () => clearInterval(interval); 
-  }, [userInfo ,userEmail]);
+  }, [userInfo]);
   
   
 

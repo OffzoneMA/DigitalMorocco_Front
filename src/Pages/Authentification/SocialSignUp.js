@@ -84,17 +84,6 @@ export default function SocialSignUp() {
                           value: true,
                           // message: t('signup.fullNameRequired'),
                         },
-                        minLength: {
-                          value: 5,
-                          // message: t('signup.fullNameShort'),
-                        },
-                        maxLength: {
-                          value: 50,
-                          // message: t('signup.fullNameLong'),
-                        },
-                        validate: {
-                          correct: v => /^([a-zA-ZÀ-ÖØ-öø-ÿ]{2,}\s)+[a-zA-ZÀ-ÖØ-öø-ÿ]{2,}$/.test(v)
-                        }
                         
                       })}
                         id="displayName"

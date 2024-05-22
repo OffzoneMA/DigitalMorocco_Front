@@ -17,6 +17,8 @@ import TestPopup from "../../../Components/TestPopup";
 import { useUpdateFullNameMutation } from "../../../Services/User.Service";
 import { setCredentials } from "../../../Redux/auth/authSlice";
 import { useDispatch } from "react-redux";
+import Popup from 'reactjs-popup';
+
 
 
 const ChooseRole = () => {
@@ -41,6 +43,21 @@ const ChooseRole = () => {
     const {userSocialInfos} = useSelector((state) => state.auth)
     const [retryCount, setRetryCount] = useState(0);
     const maxRetries = 3;
+
+    const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowLogout(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
     const handleGridClick = (gridId , option) => {
       setSelectedGrid(gridId);
@@ -143,21 +160,23 @@ const ChooseRole = () => {
               alt="logo"
             />
           </a>
-          <div className="flex flex-row gap-[21px] items-start justify-start w-auto relative">
+          <div className="flex flex-row gap-[21px] items-start justify-start w-[40px] h-full relative"   ref={dropdownRef}>
             <button className="btnUserProfil cursorpointer" onClick={() => setShowLogout(!showLogout)}>
             <svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="1" y="1.78027" width="38" height="38" rx="19" stroke="#1F2545" strokeWidth="2"/>
               <path d="M11 28.7803C13.3358 26.3029 16.507 24.7803 20 24.7803C23.493 24.7803 26.6642 26.3029 29 28.7803M24.5 16.2803C24.5 18.7656 22.4853 20.7803 20 20.7803C17.5147 20.7803 15.5 18.7656 15.5 16.2803C15.5 13.795 17.5147 11.7803 20 11.7803C22.4853 11.7803 24.5 13.795 24.5 16.2803Z" stroke="#303030" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             </button>
-            {showLogout && 
-            <button class="absolute cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] border border-gray-201 top-[46px] right-0 w-[248px] rounded-[6px]  h-[46px] flex items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 15L19 10M19 10L14 5M19 10H7M10 15C10 15.93 10 16.395 9.89778 16.7765C9.62038 17.8117 8.81173 18.6204 7.77646 18.8978C7.39496 19 6.92997 19 6 19H5.5C4.10218 19 3.40326 19 2.85195 18.7716C2.11687 18.4672 1.53284 17.8831 1.22836 17.1481C1 16.5967 1 15.8978 1 14.5V5.5C1 4.10217 1 3.40326 1.22836 2.85195C1.53284 2.11687 2.11687 1.53284 2.85195 1.22836C3.40326 1 4.10218 1 5.5 1H6C6.92997 1 7.39496 1 7.77646 1.10222C8.81173 1.37962 9.62038 2.18827 9.89778 3.22354C10 3.60504 10 4.07003 10 5" stroke="#203668" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span class="flex items-center font-dm-sans-regular text-base leading-[26px] transition-colors duration-100">{t('chooserole.signout')}</span>
-            </button>
-            }
+            {showLogout && (
+              <div className="absolute top-0 right-0 w-[248px] ">
+                <button className="absolute cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[46px] border border-gray-201 w-[248px] rounded-[6px]  h-[46px] flex items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 15L19 10M19 10L14 5M19 10H7M10 15C10 15.93 10 16.395 9.89778 16.7765C9.62038 17.8117 8.81173 18.6204 7.77646 18.8978C7.39496 19 6.92997 19 6 19H5.5C4.10218 19 3.40326 19 2.85195 18.7716C2.11687 18.4672 1.53284 17.8831 1.22836 17.1481C1 16.5967 1 15.8978 1 14.5V5.5C1 4.10217 1 3.40326 1.22836 2.85195C1.53284 2.11687 2.11687 1.53284 2.85195 1.22836C3.40326 1 4.10218 1 5.5 1H6C6.92997 1 7.39496 1 7.77646 1.10222C8.81173 1.37962 9.62038 2.18827 9.89778 3.22354C10 3.60504 10 4.07003 10 5" stroke="#203668" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  <span className="flex items-center font-dm-sans-regular text-base leading-[26px] transition-colors duration-100">{t('chooserole.signout')}</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
         {selectedGrid && 

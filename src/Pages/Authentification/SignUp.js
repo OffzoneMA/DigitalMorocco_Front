@@ -42,7 +42,7 @@ export default function SignUp() {
     reset, getValues,
     watch,
     formState: { errors },
-  } = useForm({ mode: 'onChange' });
+  } = useForm();
 
   const navigate = useNavigate()
   const formButtonRef = useRef();
@@ -78,7 +78,7 @@ export default function SignUp() {
   useEffect(() => {
     if (Mount) { setMount(false) }
    else{ if (userInfo) {
-      toast.success("Successfuly !")
+      // toast.success("Successfuly !")
       dispatch(setUserEmail(userInfo?.email));
       setUser(userInfo)
       localStorage.setItem('userEmail', userInfo?.email);
@@ -214,18 +214,6 @@ const onSubmit = (data) => {
                           value: true,
                           // message: t('signup.fullNameRequired'),
                         },
-                        minLength: {
-                          value: 3,
-                          // message: t('signup.fullNameShort'),
-                        },
-                        maxLength: {
-                          value: 50,
-                          // message: t('signup.fullNameLong'),
-                        },
-                        validate: {
-                          correct: v => /^([a-zA-ZÀ-ÖØ-öø-ÿ]{2,}\s)+[a-zA-ZÀ-ÖØ-öø-ÿ]{2,}$/.test(v)
-                        }
-                        
                       })}
                         id="displayName"
                       name="displayName"
@@ -246,10 +234,9 @@ const onSubmit = (data) => {
                       {...register("email", {
                         required: {
                           value: true,
-                          // message: t('signup.emailRequired'),
                         },
                         minLength: {
-                          value: 8,
+                          value: 2,
                           // message: t('signup.emailMinLength'),
                         },
                         maxLength: {
@@ -385,9 +372,9 @@ const onSubmit = (data) => {
                           </li>
                         </ul>
                         </span>
-                        <span className="text-errorColor font-dm-sans-regular text-sm mt-1">
+                        {/* <span className="text-errorColor font-dm-sans-regular text-sm mt-1">
                         { getValues('password') !=='' && getPasswordErrorMessage()}
-                        </span>
+                        </span> */}
                       </>
                     }
                     </div>

@@ -10,21 +10,23 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   const [selectedOptions, setSelectedOptions] = useState(selectedOptionsDfault);
   const [searchValue, setSearchValue] = useState("");
   const dropdownRef = useRef(null);
+  const parentRef = useRef(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
 
   const toggleDropdown = () => {
     if (isOpen) {
       setTimeout(() => {
-        setIsOpen(false); // Ferme le dropdown après un court délai
+        setIsOpen(false); 
       }, 0);
     } else {
-      setIsOpen(true); // Ouvre le dropdown
+      setIsOpen(true); 
     }
   };
   
   
   
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && isOpen) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false); // Ferme le dropdown seulement si il est ouvert
     }
   };
@@ -91,9 +93,6 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
     const valueToCheck = investor[valuekey] ? investor[valuekey].toLowerCase() : "";
     return valueToCheck.includes(searchValue.toLowerCase());
   });
-  
-  const parentRef = useRef(null);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
 
 
   // useEffect(() => {

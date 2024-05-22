@@ -16,6 +16,19 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
     setIsOpen(!isOpen);
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     setSelectedOptionVal(option);

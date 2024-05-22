@@ -29,7 +29,7 @@ export default function ResetPasswordEmail() {
       // setTimeout(() => navigate(0), 1000)
     }
     if (error ) {
-    toast.error(error?.data?.message)
+    // toast.error(error?.data?.message)
     }
 
   }, [isSuccess , error])

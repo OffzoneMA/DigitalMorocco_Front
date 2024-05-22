@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import { useUpdateProjectMutation } from "../Services/Member.Service";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
+import SimpleSelect from "../Components/SimpleSelect";
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -49,7 +50,6 @@ const CreateProject = () => {
     };
   }, [div1Ref, div2Ref]);
    
-  console.log(maxDivHeight)
   
 
   const { projectId } = useParams();
@@ -67,11 +67,12 @@ const CreateProject = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
   const [fundingValue , setFundingValue] = useState(editedProject?.funding?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
+  const [raisedValue , setRaisedValue] = useState(editedProject?.funding?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
   const [droppedFiles, setDroppedFiles] = useState([]);
   const [allFiles, setAllFiles] = useState([]);
-
+  const [selectedPublication , setSelectedPublication] = useState('');
   const [selectedTeamsMembers , setSelectedTeamsMember] = useState([]);
   const [selectedStages , setSelectedStages] = useState([]);
   const [addProjet, addResponse] = useCreateProjectMutation()
@@ -79,6 +80,7 @@ const CreateProject = () => {
   const mutation = projectId ? updateProject : addProjet;
   const response = projectId ? updateResponse : addResponse;
 
+  console.log(selectedPublication)
 
   useEffect(() => {
     if (editedProject?.milestones) {
@@ -131,10 +133,10 @@ const CreateProject = () => {
   }, [editedProject]);
   
   
-  const formatFunding = (value) => {
+  const formatFunding = (value , setField) => {
     let formattedValue = value.replace(/\D/g, '');
     formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    setFundingValue(formattedValue);
+    setField(formattedValue);
   };
 
   const inputRefs = useRef([React.createRef()]);
@@ -261,7 +263,8 @@ const handleFileInputChange = (event, index) => {
 
     const updatedData = {
         ...data,
-        funding: fundingValue
+        funding: fundingValue,
+        totalRaised : raisedValue
     };
     // const selectedStagesNames = selectedStages.map(stage => stage.name);
 
@@ -481,11 +484,57 @@ const StageData = stage.map(
                         name="funding"
                         type="text"
                         value={fundingValue}
-                        onChange={(e)=> formatFunding(e.target.value)}
+                        onChange={(e)=> formatFunding(e.target.value , setFundingValue)}
                         placeholder="Enter Funding Target"
                       />
                     </div>
                     {errors.funding && <span className="text-sm font-DmSans text-red-500">{errors.funding?.message}</span>}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Total Raised
+                    </Text>
+                    <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                      <BiDollar size={18}/>
+                      <input
+                        {...register("totalRaised", { required: {value:true , message: "Project Funding Target is required"} })}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                        name="totalRaised"
+                        type="text"
+                        value={raisedValue}
+                        onChange={(e)=> formatFunding(e.target.value , setRaisedValue)}
+                        placeholder="Enter Total Raised"
+                      />
+                    </div>
+                    {errors.funding && <span className="text-sm font-DmSans text-red-500">{errors.funding?.message}</span>}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Project publication
+                    </Text>
+                    <SimpleSelect id='publication'
+                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={editedProject?.publication}
+                    setSelectedOptionVal={setSelectedPublication} searchable={false}
+                    placeholder={"Select Type of Publication"}
+                    content={
+                      (option) => {
+                        return (
+                          <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                            >
+                              {option}
+                            </Text>
+                          </div>
+                        );
+                      }
+                    } />               
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text

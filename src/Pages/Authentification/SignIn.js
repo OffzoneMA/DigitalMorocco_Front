@@ -70,7 +70,6 @@ export default function SignIn() {
 
   useEffect(() => {
     if (auth) {
-      console.log('Fetching user details with token:', auth);
       sessionStorage.setItem('userToken', auth)
       axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
           headers: {
@@ -79,7 +78,6 @@ export default function SignIn() {
       })
       .then((response) => {
           const payload = response.data;
-          console.log('User details fetched successfully', payload);
           if (payload) {
               dispatch(setCredentials(payload));
               sessionStorage.setItem('userData', payload);
@@ -87,7 +85,6 @@ export default function SignIn() {
           }
       })
       .catch((error) => {
-          console.error('Error fetching user details:', error);
       });
   }
 
@@ -100,11 +97,11 @@ export default function SignIn() {
       if (userInfo) {
         setTimeout(() =>{
           if(userInfo?.status === 'notVerified') {
-            toast.error("Account not Verified !")
+            // toast.error("Account not Verified !")
             navigate('/VerificationEmail')
           }
           else {
-            toast.success("Logged In")
+            // toast.success("Logged In")
             if (!userInfo?.role) { navigate('/ChooseRole') }
             else{
               // navigate('/Dashboard')
@@ -115,7 +112,7 @@ export default function SignIn() {
         }, 2000)
       }
       if (error) {
-        toast.error(error)
+        // toast.error(error)
       }
     }
 
@@ -241,7 +238,7 @@ export default function SignIn() {
                           value: true,
                         },
                         minLength: {
-                          value: 8,
+                          value: 2,
                         },
                         maxLength: {
                           value: 120,
@@ -250,7 +247,7 @@ export default function SignIn() {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         },
                       })}
-                      className={`bg-white w-full border border-solid ${errors?.email ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.email ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${errors?.email ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full border border-solid ${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .')) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .'))? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .')) ? 'errorColor' : 'gray-801'}`}
                       id="email"
                       name="email"
                       autoComplete='off'
@@ -262,10 +259,6 @@ export default function SignIn() {
                       <input
                         {...register("password", {
                           required: t('signup.passwordRequired'),
-                          minLength: {
-                            value: 8,
-                            message: t('signup.passwordMinLength'),
-                          },
                         })}
                         id="password"
                         name="password"
@@ -273,7 +266,7 @@ export default function SignIn() {
                         type={showPassword ? "text" : "password"}
                         placeholder={t('signup.enterPassword')}
                         style={{ appearance: 'none' }}
-                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'errorColor' : 'gray-801'}`}
                       />
                       <button
                         type="button"
@@ -292,7 +285,7 @@ export default function SignIn() {
                         )}
                       </button>
                     </div>
-                    {((errors?.password?.message && getValues('password')?.length > 0) || (errors?.email && getValues('email')?.length > 0)) &&<span className="text-errorColor text-sm ">{t('signup.emailPattern')}</span>}
+                    {((errors?.password?.message && getValues('password')?.length > 0) || (errors?.email && getValues('email')?.length > 0) || (getValues('password')?.length > 0 && getValues('email')?.length > 0 && error)) &&<span className="text-errorColor text-sm ">{t('signup.emailPattern')}</span>}
                   </div>
                   <div className="flex flex-row gap-2.5 items-center justify-between  w-full">
                     <div className="flex flex-row flex-1 items-center justify-start m-auto w-auto">
