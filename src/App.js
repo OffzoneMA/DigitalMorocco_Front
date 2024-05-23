@@ -81,7 +81,7 @@ function App() {
             <Route path="/Participate" element={<Events />} />
             <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
             <Route path="/PastEvent" element={<PastEvents />} />
-            <Route path="/UpcomingEventDetails" element={<UpcomingEventDetails />} />
+            <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/Subscription" element={<Subscription />} />
             <Route path="/ChoosePlan" element={<ChoosePlan />} />

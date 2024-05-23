@@ -264,7 +264,8 @@ const handleFileInputChange = (event, index) => {
     const updatedData = {
         ...data,
         funding: fundingValue,
-        totalRaised : raisedValue
+        totalRaised : raisedValue,
+        visbility: selectedPublication
     };
     // const selectedStagesNames = selectedStages.map(stage => stage.name);
 
@@ -519,7 +520,7 @@ const StageData = stage.map(
                       Project publication
                     </Text>
                     <SimpleSelect id='publication'
-                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={editedProject?.publication}
+                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={editedProject?.visbility}
                     setSelectedOptionVal={setSelectedPublication} searchable={false}
                     placeholder={"Select Type of Publication"}
                     content={

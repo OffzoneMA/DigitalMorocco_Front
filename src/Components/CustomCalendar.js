@@ -64,6 +64,19 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
       }
     }, [show]);
 
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setShow(false);
+        }
+      };
+    
+      useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, []);
+
     return(
         <div ref={parentRef}  className={`relative ${className}`} >
                 <div className={`flex w-full rounded-md p-2 border border-solid `} onFocus={()=>setShow(true)}>

@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate  , useLocation} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import EmailExistModal from '../../Components/EmailExistModal';
+import EmailExistModal from '../../Components/EmailExistModalOrConfirmation';
 import logo from '../../Media/img_logo.svg';
 
 

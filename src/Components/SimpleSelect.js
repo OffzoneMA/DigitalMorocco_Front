@@ -66,11 +66,11 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className="flex md:flex-1 w-full items-center rounded-md p-2 border border-solid cursor-pointer"
+        className="flex md:flex-1 w-full items-center rounded-md p-2 border border-solid cursorpointer-green"
         onClick={toggleDropdown}
       >
         <input
-          className={`!placeholder:text-blue_gray-300 pr-1 !text-gray700 font-manrope font-normal cursor-pointer leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+          className={`!placeholder:text-blue_gray-300 pr-1 !text-gray700 font-manrope font-normal cursorpointer-green leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
           name="target"
           type="text"
           placeholder={placeholder}
@@ -103,7 +103,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
             {filteredData.map((option, index) => (
               <div
                 key={index}
-                className={`flex items-center w-full px-3 text-left cursor-pointer hover:bg-gray-100 ${itemClassName}`}
+                className={`flex items-center w-full px-3 text-left cursorpointer-green hover:bg-gray-100 ${itemClassName}`}
                 onClick={() => handleOptionClick(option)}
               >
                 {content(option)}

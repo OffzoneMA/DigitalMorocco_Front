@@ -126,20 +126,20 @@ export const memberApi = createApi({
             body: payload,
         }),
         }),
-          createEmployee: builder.mutation({
+        createEmployee: builder.mutation({
             query: (payload) => ({
               url: '/employee',
               method: 'POST',
               body: payload,
             }),
-          }),
-          createCompany: builder.mutation({
+        }),
+        createCompany: builder.mutation({
             query: (logo) => ({
               url: '/company',
               method: 'POST',
               body: logo,
             }),
-          }),
+        }),
     }),
 })
 

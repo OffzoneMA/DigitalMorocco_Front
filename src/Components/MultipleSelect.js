@@ -140,11 +140,11 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   return (
     <div id='drop_root' className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className="flex md:flex-1 w-full items-center rounded-md p-2 border border-solid cursor-pointer"
+        className="flex md:flex-1 w-full items-center rounded-md p-2 border border-solid cursorpointer-green"
         onClick={toggleDropdown}
       >
         <input
-          className={`!placeholder:text-blue_gray-300 pr-1 !text-gray700 cursor-pointer font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+          className={`!placeholder:text-blue_gray-300 pr-1 !text-gray700 cursorpointer-green font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
           name="target"
           type="text"
           placeholder={placeholder}
@@ -177,13 +177,13 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
             {filteredData.map((option, index) => (
               <div
                 key={index}
-                className={`flex items-center justify-start px-3 cursor-pointer hover:bg-gray-100 `}
+                className={`flex items-center justify-start px-3 cursorpointer-green hover:bg-gray-100 `}
                 onClick={() => {
                       handleOptionClick(option);
                   }}
               >
                 <div className={`flex items-center space-x-3 w-full text-left ${itemClassName}`} >
-                  <label htmlFor={`check_${index}`} className="cursor-pointer relative inline-flex items-center">
+                  <label htmlFor={`check_${index}`} className="cursorpointer-green relative inline-flex items-center">
                     <input
                         id={`check_${index}`}
                         type="checkbox"

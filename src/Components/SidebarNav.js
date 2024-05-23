@@ -10,7 +10,9 @@ import { PiFolderThin, PiHourglassLowFill } from "react-icons/pi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { IoNotificationsOutline, IoSettingsOutline } from "react-icons/io5";
 import { useNavigate, Link } from "react-router-dom";
-
+import coinsIcon from '../Media/credits_img.svg';
+import questionImg from '../Media/question.svg';
+import Popup from "reactjs-popup";
 
 
 const SidebarNav = () => {
@@ -80,7 +82,7 @@ const SidebarNav = () => {
     }
     
   return (
-    <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-64" : "w-20"} duration-300 relative`}>
+    <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursor-pointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex">
     <img src="/images/img_simple_logo.svg" className={`text-4xl rounded cursor-pointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => navigate("/")}/>
@@ -167,7 +169,7 @@ const SidebarNav = () => {
       </span>
     </div></>
     )}
-    <div className="border-t border-blue_gray-601 flex px-1 py-3 items-center">
+    <div className="border-t border-blue_gray-601 flex px-1 py-5 items-center">
       <img
         src="/images/img_avatar.svg"
         alt=""
@@ -191,6 +193,37 @@ const SidebarNav = () => {
       }}>
       <IoNotificationsOutline size={20} className={`text-white-A700 ${notifOpen? 'text-blue_gray-801' :""}`}/>
       </div>
+    </div>
+    <div className={`border border-[#475467] py-[12px] ${ open ? "px-[16px]" : "px-[7px]"} rounded-[200px] flex flex-row items-center justify-between`}>
+      <div className="flex gap-2 items-center">
+        <img src={coinsIcon} className="min-w-[23px] w-[23px] h-[23px]"/>
+        {open &&
+          <span className="text-sm font-dm-sans-medium text-teal-A700">1865</span>
+        }
+      </div>
+      {/* <img src={questionImg} /> */}
+      <Popup
+      className="text-[#2C3462] creditQuestion"
+        trigger={open => (
+          <button className="button ml-2"><img src={questionImg} /></button>
+        )}
+        position="bottom center"
+        on={['hover', 'focus']}
+        closeOnDocumentClick
+      >
+      <div className="w-[228px] h-[50px] px-[18px] py-2.5 bg-[#2C3462] rounded-lg justify-center items-center flex">
+        <div className="grow shrink basis-0 h-[30px] justify-center items-center flex">
+          <div className="w-48 text-[#D0D5DD] text-[8px] font-dm-sans-regular">
+            Explore a new dimension of flexibility: add credits at your convenience with just a click on the "Manage" button, and stay in control of your experience.
+          </div>
+        </div>
+        </div>
+      </Popup>
+      {open && 
+        <button className={`px-3 py-2 bg-teal-A700 rounded-[100px] justify-center items-center flex`}>
+        <span className="text-white-A700 text-sm font-dm-sans-medium">Manage</span>
+      </button>
+      }
     </div>
   </div>
 

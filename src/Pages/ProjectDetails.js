@@ -184,7 +184,7 @@ const ProjectDetails = () => {
                     </div>
                     <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                       <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
-                        USD 0
+                      {`${data?.currency || 'USD'} ${formatNumber(data?.totalRaised) || 0}`}
                       </Text>
                     </div>
                   </div>
@@ -196,7 +196,7 @@ const ProjectDetails = () => {
                     </div>
                     <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                       <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
-                        {`${data?.currency} ${formatNumber(data?.funding)}`}
+                        {`${data?.currency || 'USD'} ${formatNumber(data?.funding) || 0}`}
                       </Text>
                     </div>
                   </div>

@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
+import creditsImg from '../Media/credits_img.svg';
 
 
 
@@ -153,65 +154,80 @@ const { userInfo } = useSelector((state) => state.auth)
                   </button>
 
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pt-8 w-full">
-                    <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 pt-8 w-full">
+                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                      <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
+                        <img src={creditsImg} className="w-[28px] h-[28px] " />
+                      </div>
+                      <Text
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                        >
+                        Total Credits
+                      </Text>
+                      <Text
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        >
+                        Upgrade your account or buy credits
+                      </Text>
+                    </div>
+                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-teal-50 ">
                         <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                       </div>
                       <Text
-                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Create Project
                       </Text>
                       <Text
-                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        Make sure that you have already created projects
                       </Text>
                     </div>
-                    <div className="flex flex-col gap-4  items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                    <div className="flex flex-col gap-3  items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-blue-51">
                         <TiFlashOutline size={28} className="text-blue-701" />
                       </div>
                       <Text
-                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Investors
                       </Text>
                       <Text
-                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        Start sending requests to investors
                       </Text>
                     </div>
-                    <div className="flex flex-col gap-4  items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                    <div className="flex flex-col gap-3  items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-orange-51">
                         <HiOutlineSpeakerphone size={28} className="text-amber-601"  />
                       </div>
                       <Text
-                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Events
                       </Text>
                       <Text
-                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        Buy your tickets and join our special events
                       </Text>
                     </div>
-                    <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-violet-100">
                         <BiBuildings size={28} className="text-blue-601" />
                       </div>
                       <Text
-                        className=" text-[18px] font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         My Company
                       </Text>
                       <Text
-                        className=" text-sm font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        Create a profile for your company
                       </Text>
                     </div>
                 </div>
@@ -313,7 +329,7 @@ const { userInfo } = useSelector((state) => state.auth)
                        </div>
                        {prjectdata.length >0 ? 
                         prjectdata.map((item, index) => (
-                            <div className="flex flex-col px-6 w-full">
+                        <div key={index} className="flex flex-col px-6 w-full">
                             <div className="flex flex-row items-center gap-3 py-2 justify-start w-full">
                                 <Text
                                     className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal text-left"
@@ -326,24 +342,24 @@ const { userInfo } = useSelector((state) => state.auth)
                                 </div>
                             </div>
                             <div className=" flex-row gap-px grid grid-cols-3 py-2 w-full">
-                            <div className="flex flex-col items-start justify-start">
-                                <div className="flex flex-col items-center justify-start w-auto">
-                                    <Text
-                                    className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                                    size="txtDMSansBold12"
-                                    >
-                                    Target{" "}
-                                    </Text>
-                                </div>
-                                <div className="flex flex-col items-start justify-center py-4 w-full">
-                                <Text
-                                    className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                                    size="txtDMSansMedium22"
-                                >
-                                    {item.target}
-                                </Text>
-                                </div>
-                            </div>
+                              <div className="flex flex-col items-start justify-start">
+                                  <div className="flex flex-col items-center justify-start w-auto">
+                                      <Text
+                                      className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                                      size="txtDMSansBold12"
+                                      >
+                                      Target{" "}
+                                      </Text>
+                                  </div>
+                                  <div className="flex flex-col items-start justify-center py-4 w-full">
+                                  <Text
+                                      className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
+                                      size="txtDMSansMedium22"
+                                  >
+                                      {item.target}
+                                  </Text>
+                                  </div>
+                              </div>
                             <div className="flex flex-col items-start justify-start w-auto">
                                 <div className="flex flex-col items-center justify-start w-auto">
                                     <Text
@@ -380,8 +396,8 @@ const { userInfo } = useSelector((state) => state.auth)
                                 </Text>
                                 </div>
                             </div>
-                            </div>
-                            </div>
+                          </div>
+                        </div>
                         ))
                         :
                         <div className="flex flex-col items-center text-gray-600  w-full py-28">
@@ -417,9 +433,9 @@ const { userInfo } = useSelector((state) => state.auth)
                                 <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Status</th>
                             </tr>
                             </thead>
+                            <tbody className="items-center w-full ">
                             {Requestdata.length >0 ?
                             Requestdata.map((item, index) => (
-                            <tbody className="items-center w-full ">
                               <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
                                 <td className="py-4 px-3 w-auto text-gray-600  text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center" >
@@ -438,10 +454,10 @@ const { userInfo } = useSelector((state) => state.auth)
                                     </div>
                                 </td>
                               </tr>
-                            </tbody>
                              ))
                             :
                             ""}
+                            </tbody>
                           </table>
                        </div>
                        {!Requestdata?.length>0 && (
