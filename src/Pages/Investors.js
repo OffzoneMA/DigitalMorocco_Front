@@ -42,6 +42,7 @@ const Investors = () => {
 
 
   useEffect(() => {
+    const token = sessionStorage.getItem("userToken");
     const fetchInvestorRequests = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
@@ -59,7 +60,22 @@ const Investors = () => {
       }
     };
 
+    const checkSubscriptionStatus = async () => {
+      try {
+          const userData = JSON.parse(sessionStorage.getItem("userData"));
+          const userId = userData._id;
+          const response = await axios.get(`http://localhost:5000/members/check-subscription-status/${userId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+          });
+          console.log(response.data)
+          setIsSubscribe(response.data.result);
+      } catch (error) {
+          console.error('Error checking subscription status:', error);
+      }
+  };
+    checkSubscriptionStatus();
     fetchInvestorRequests();
+    
   }, []);
   const data = investors;
 
