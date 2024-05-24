@@ -157,7 +157,9 @@ module.exports = {
           roleCardbs: [
             '0px 4px 6px -4px #1018280D',
             '0px 12px 16px -4px #1018281A'
-          ]
+          ],
+          langbs: ['0px 12px 16px -4px rgba(16, 24, 40, 0.10)'
+          , '0px 4px 6px -2px rgba(16, 24, 40, 0.05)'],
         },
 
     },
