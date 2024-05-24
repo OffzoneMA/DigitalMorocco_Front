@@ -30,8 +30,9 @@ export default function LanguageHeader() {
         <div className='  relative px-10 py-10 '>
 
           {/* Lang */}
-          <div className='hover:scale-105 transition-all ease-in-out duration-200 border border-[#F2F4F7] cursorpointer absolute right-0 top-10 p-3 shadow-langbs bg-white-A700 rounded-l-md inline '>
-            <a className='cursorpointer' onClick={handleFlagClick}>
+          <div className='hover:scale-105 transition-all ease-in-out duration-200 border border-[#F2F4F7] cursorpointer absolute right-0 top-10 p-3 shadow-langbs bg-white-A700 rounded-l-md inline ' 
+           onClick={handleFlagClick}>
+            <a className='cursorpointer'>
             {/* Change the image source based on the current language */}
             <img
                 src={
