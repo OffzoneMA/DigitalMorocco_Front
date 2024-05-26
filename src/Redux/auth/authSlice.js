@@ -54,7 +54,7 @@ const authSlice = createSlice({
       state.success = false
     },
     setUserEmail: (state, { payload }) => {
-      state.userInfo = payload;
+      state.userEmail = payload;
     },
   },
   extraReducers: {

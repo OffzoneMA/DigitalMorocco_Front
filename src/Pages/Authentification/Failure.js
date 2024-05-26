@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import EmailExistModal from '../../Components/EmailExistModal';
+import EmailExistModal from '../../Components/EmailExistModalOrConfirmation';
 
 export default function Failure() {
   const [searchParams] = useSearchParams();

@@ -1,4 +1,4 @@
-import React , {useRef , useEffect} from 'react'
+import React , {useRef , useState , useEffect} from 'react'
 import { Text } from "../../Components/Text";
 import toast, { Toaster } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
@@ -7,11 +7,14 @@ import { useSendForgotPasswordMutation } from '../../Services/Auth';
 import logo from '../../Media/img_logo.svg';
 import verifyImage from '../../Media/img_verify.svg';
 import { useNavigate } from 'react-router-dom';
+import EmailExistModalOrConfirmation from '../../Components/EmailExistModalOrConfirmation';
+import checkVerifyImg from '../../Media/check-verified-02.svg';
 
 
 export default function ResetPasswordEmail() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { userEmail } = useSelector((state) => state.auth)
   const [sendForgotPassword, { isLoading , isSuccess , error}] = useSendForgotPasswordMutation()
 
@@ -23,10 +26,17 @@ export default function ResetPasswordEmail() {
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Successfuly !")
-      // setTimeout(() => navigate(0), 1000)
+      openModal();
     }
     if (error ) {
     // toast.error(error?.data?.message)
@@ -85,9 +95,9 @@ export default function ResetPasswordEmail() {
                       <button
                           type="button"
                           onClick={handleResendEmail}
-                          className="bg-teal-A700 flex flex-row gap-6 h-[52px] hover:bg-greenbtnhoverbg cursorpointer items-center justify-center px-6 py-[14px] rounded-[26px] text-base font-dm-sans-medium text-white-A700 w-auto"
+                          className={`flex flex-row gap-6 h-[52px]  cursorpointer ${isLoading ? 'disabled bg-greenbtnhoverbg' : 'bg-teal-A700 hover:bg-greenbtnhoverbg'} items-center justify-center px-6 py-[14px] rounded-[26px] text-base font-dm-sans-medium text-white-A700 w-auto`}
                       >
-                          {isLoading? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
+                          {isLoading ? t("all.sending") : t('resetEmail.resendEmail') }
                       </button>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
                       <Text
@@ -108,6 +118,30 @@ export default function ResetPasswordEmail() {
               </div>
             </div>
           </div>
+          <EmailExistModalOrConfirmation isOpen={isModalOpen}
+            onRequestClose={closeModal} content={
+              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+            <img
+              className="h-[80px] w-[80px]"
+              src={checkVerifyImg}
+              alt="successtick"
+            />
+            <div className="flex flex-col gap-5 items-center justify-start w-full">
+              <Text
+                className="leading-[26.00px] font-dm-sans-medium text-[18px] text-gray-801 text-center "
+              >
+                  {t('verification.confirmTitle')}
+              </Text>
+              <Text
+                className="leading-[26.00px] font-dm-sans-regular  text-gray-801 text-center text-sm"
+              >
+                <>
+                  {t('verification.confirmMsg')}
+                </>
+              </Text>
+            </div>
+          </div>
+            }/>
         </>
       );
 }

@@ -92,6 +92,7 @@
     "signup.passwordUpperCaseVal": "Lettre majuscule",
     "signup.SpecialCharVal": "1 Caractère spécial",
     "signup.passwordValidation": "Le mot de passe doit contenir un minimum de 8 caractères, comprenant à la fois des lettres majuscules et minuscules, ainsi qu'au moins un caractère spécial.",
+    "signup.passwordValidation1": "Le mot de passe doit comporter au minimum 8 caractères, inclure au moins une lettre majuscule et un caractère spécial !",
     "signup.accordance": "Conformément à la loi 09-08, vous avez le droit d'accéder, de rectifier et de vous opposer au traitement de vos données personnelles.",
     "signup.accordance1": "Ce traitement a été autorisé par la CNDP sous le numéro",
     "signup.terms": "J'accepte les <span style='color: blue;'>CGU</span> et la <span style='color: blue;'>Politique de confidentialité</span> de Digital Morocco.",
@@ -129,6 +130,8 @@
     "verification.resendButton": "Renvoyer l'e-mail",
     "verification.troubleRegistering": "Rencontrez-vous des problèmes pour vous inscrire?",
     "verification.contactSupport": "Contactez le support",
+    "verification.confirmTitle":"Un e-mail a été envoyé avec succès !",
+    "verification.confirmMsg":"Veuillez vérifier votre boîte de réception et suivre les instructions pour terminer le processus. Si vous ne le recevez pas, assurez-vous de vérifier votre dossier de courrier indésirable.",
     "backToLogin": "Retour à la connexion",
     "forgot.forgotPassword": "Mot de passe oublié ?",
     "forgot.enterEmailAddress": "Entrez votre adresse e-mail pour réinitialiser votre mot de passe",
@@ -175,6 +178,7 @@
     "chooserole.confirmed.m6": "support@digitalmorocco.com.",
     "chooserole.confirmed.button":"Confirmer mon choix",
     "chooserole.confirmed.button1":"Confirmé",
-    "chooserole.signout": "Déconnexion"
+    "chooserole.signout": "Déconnexion",
+    "all.sending":"Envoi en cours..."
 
   }

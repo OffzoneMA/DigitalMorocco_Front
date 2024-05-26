@@ -18,6 +18,7 @@ import { useUpdateFullNameMutation } from "../../../Services/User.Service";
 import { setCredentials } from "../../../Redux/auth/authSlice";
 import { useDispatch } from "react-redux";
 import Popup from 'reactjs-popup';
+import ConfirmedModal from "../../../Components/ConfirmedModal";
 
 
 
@@ -182,12 +183,12 @@ const ChooseRole = () => {
         {selectedGrid && 
         <div className="px-20 flex justify-end w-full h-[52px]">
           <button 
-          className="bg-teal-A700 cursorpointer leading-[20.83px] ml-auto my-3 max-w-[264px] flex flex-row gap-6 h-[52px] items-center justify-center px-[24px] py-[13px] rounded-[200px] w-auto hover:bg-greenbtnhoverbg hover:svg-translate" 
+          className={`cursorpointer leading-[20.83px] ml-auto my-3 max-w-[264px] flex flex-row gap-6 h-[52px] items-center justify-center px-[24px] py-[13px] rounded-[200px] w-auto ${ response?.isLoading ? 'bg-greenbtnhoverbg' : 'bg-teal-A700 hover:bg-greenbtnhoverbg  hover:svg-translate'} hover:bg-greenbtnhoverbg hover:svg-translate`} 
           onClick={confirmRole}
           type="button"
         >
           <span className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
-            {isModalOpen ? t('chooserole.confirmed.button1') : t('chooserole.confirmed.button')}
+            {isModalOpen ? t('chooserole.confirmed.button1') : response?.isLoading ? t("all.sending") : t('chooserole.confirmed.button')}
           </span>
           {!isModalOpen && (
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform transform">
@@ -282,7 +283,7 @@ const ChooseRole = () => {
       </div>
       <div>
       </div>
-      <TestPopup isOpen={isModalOpen}
+      <ConfirmedModal isOpen={isModalOpen}
         onRequestClose={closeModal}/>
     </>
   );

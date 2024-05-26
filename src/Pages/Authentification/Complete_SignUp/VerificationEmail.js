@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import toast , {Toaster} from 'react-hot-toast';
 import logo from '../../../Media/img_logo.svg';
 import verifyImage from '../../../Media/img_verify.svg';
+import checkVerifyImg from '../../../Media/check-verified-02.svg';
+import EmailExistModalOrConfirmation from '../../../Components/EmailExistModalOrConfirmation';
 
 
 export default function VerificationEmail() {
@@ -17,7 +19,7 @@ export default function VerificationEmail() {
   const { userEmail } = useSelector((state) => state.auth)
   const [User, setUser] = useState(userInfo);
   const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
-  const [trigger, { data, isFetching, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [trigger, { data, isLoading: sendLoding, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
   const handleResendEmail = async () => {
     try {
@@ -38,13 +40,12 @@ export default function VerificationEmail() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-console.log(userInfo)
+
   useEffect(() => {
     const checkAccountVerification = async () => {
       if (userInfo) {
         userTrigger(userInfo?.email).then((payload) => {
           if (payload?.isSuccess && payload?.data?.status === 'verified') {
-            toast.success("Account Verified !");
             setTimeout(() => {
               if (!payload?.data?.role) {
                 navigate('/ChooseRole');
@@ -89,15 +90,14 @@ console.log(userInfo)
   
 
   useEffect(() => {
-    if (data) {
-      toast.success("Email Send")
+    if (isSuccess) {
+      openModal();
     }
     if (sendError && sendError?.data?.name === "CastError") {
-      toast.error('User not found !')
       console.log(sendError)
     }
 
-  }, [isFetching])
+  }, [isSuccess , sendError])
 
 
   const formButtonRef = useRef();
@@ -144,9 +144,9 @@ console.log(userInfo)
                     <button
                         type="button"
                         onClick={handleResendEmail}
-                        className="bg-[#EDF7FF] hover:bg-gray-202 flex cursorpointer flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base items-center justify-center font-dm-sans-medium text-[#00CDAE] w-full"
+                        className={`flex cursorpointer ${(sendLoding || isLoading) ? 'disabled bg-gray-202 ' : 'bg-[#EDF7FF] hover:bg-gray-202'} flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base items-center justify-center font-dm-sans-medium text-[#00CDAE] w-full`}
                     >
-                        {isFetching? t('forgot.resetPasswordSend') :t('resetEmail.resendEmail') }
+                        {(sendLoding || isLoading ) ? t("all.sending") : t('resetEmail.resendEmail') }
                     </button>
                     <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
                       <Text
@@ -167,6 +167,30 @@ console.log(userInfo)
               </div>
             </div>
           </div>
+          <EmailExistModalOrConfirmation isOpen={isModalOpen}
+            onRequestClose={closeModal} content={
+              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+            <img
+              className="h-[80px] w-[80px]"
+              src={checkVerifyImg}
+              alt="successtick"
+            />
+            <div className="flex flex-col gap-5 items-center justify-start w-full">
+              <Text
+                className="leading-[26.00px] font-dm-sans-medium text-[18px] text-gray-801 text-center "
+              >
+                  {t('verification.confirmTitle')}
+              </Text>
+              <Text
+                className="leading-[26.00px] font-dm-sans-regular  text-gray-801 text-center text-sm"
+              >
+                <>
+                  {t('verification.confirmMsg')}
+                </>
+              </Text>
+            </div>
+          </div>
+            }/>
         </>
       );
 }

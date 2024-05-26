@@ -12,6 +12,10 @@ import { BiPurchaseTagAlt } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
+import { format, parse } from 'date-fns';
+import { fr , enUS } from 'date-fns/locale';
+import { useGetEventByIdQuery } from "../Services/Event.Service";
+import { useParams } from "react-router-dom";
 
 
 const UpcomingEventDetails = () => {
@@ -19,13 +23,23 @@ const UpcomingEventDetails = () => {
   const location = useLocation();
   const past = location.state ? location.state.past : false;
 
+  const { id } = useParams();
+  const eventFromState = location.state ? location.state.event : null;
+  
+  const { data: eventFromApi, error, isLoading } = useGetEventByIdQuery(id, {
+    skip: !!eventFromState,
+  });
+
+  const event = eventFromState || eventFromApi;
+
+
     function formatText(text) {
         const paragraphs = text.split('.').map((paragraph, index) => (
           <p key={index} className="mb-4">{paragraph.trim()}</p>
         ));
       
         return (
-          <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray700 pl-8">
+          <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray700 pl-8">
             {paragraphs}
           </Text>
         );
@@ -39,40 +53,101 @@ const UpcomingEventDetails = () => {
     And more broadly, we want to improve the awareness and adoption of Salesforce in Morocco and Africa because we are convinced of its advantages in terms of CRM, marketing tools and other innovative technologies`; 
 
     const sponsors = [
-      {logo:"images/spon_logo0.svg"}, 
-      {logo:"images/spon_logo1.svg"}, 
-      {logo:"images/spon_logo2.svg"}, 
-      {logo:"images/spon_logo3.svg"}, 
-      {logo:"images/spon_logo4.svg"}, 
-      {logo:"images/spon_logo5.svg"}, 
-      {logo:"images/spon_logo6.svg"}, 
-      {logo:"images/spon_logo7.svg"}, 
-      {logo:"images/spon_logo8.svg"}, 
-      {logo:"images/spon_logo9.svg"}, 
+      {logo:"/images/spon_logo0.svg"}, 
+      {logo:"/images/spon_logo1.svg"}, 
+      {logo:"/images/spon_logo2.svg"}, 
+      {logo:"/images/spon_logo3.svg"}, 
+      {logo:"/images/spon_logo4.svg"}, 
+      {logo:"/images/spon_logo5.svg"}, 
+      {logo:"/images/spon_logo6.svg"}, 
+      {logo:"/images/spon_logo7.svg"}, 
+      {logo:"/images/spon_logo8.svg"}, 
+      {logo:"/images/spon_logo9.svg"}, 
     ];
     const attendance = [
-      {image:"images/img_avatar_1.png"}, 
-      {image:"images/img_avatar_2.png"}, 
-      {image:"images/img_avatar_3.png"}, 
-      {image:"images/img_avatar_4.png"}, 
-      {image:"images/img_avatar_5.png"}, 
-      {image:"images/img_avatar_12.png"},
-      {image:"images/img_avatar_7.png"}, 
-      {image:"images/img_avatar_8.png"}, 
-      {image:"images/img_avatar_9.png"}, 
-      {image:"images/img_avatar_10.png"}, 
-      {image:"images/img_avatar_11.png"}, 
-      {image:"images/img_avatar_12.png"}, 
+      {image:"/images/img_avatar_1.png"}, 
+      {image:"/images/img_avatar_2.png"}, 
+      {image:"/images/img_avatar_3.png"}, 
+      {image:"/images/img_avatar_4.png"}, 
+      {image:"/images/img_avatar_5.png"}, 
+      {image:"/images/img_avatar_12.png"},
+      {image:"/images/img_avatar_7.png"}, 
+      {image:"/images/img_avatar_8.png"}, 
+      {image:"/images/img_avatar_9.png"}, 
+      {image:"/images/img_avatar_10.png"}, 
+      {image:"/images/img_avatar_11.png"}, 
+      {image:"/images/img_avatar_12.png"}, 
     ];
+
+    const formattedTime = (time, language) => {
+      const parsedTime = parse(time, 'h:mm a', new Date());
+      // if (language === 'fr-FR') {
+      //   return format(parsedTime, 'H', { locale: fr }) + 'h';
+      // }
+      return format(parsedTime, 'h a', { locale: enUS }).toLowerCase();
+    };
+
+    function formatEventDate(startDate, endDate) {
+    
+      if (!startDate || !endDate ) {
+          return 'Coming Soon';
+      }
+      else {
+
+          const startDateTime = new Date(startDate);
+          const endDateTime = new Date(endDate);
+
+          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
+              const formattedDate = format(startDateTime, 'EEEE, MMMM d, yyyy', { locale: enUS });
+              return `${formattedDate}`;
+          } else {
+              const formattedStartDate = format(startDateTime,'EEE, MMM d, yyyy', { locale: enUS });
+              return `${formattedStartDate}`;
+          }
+
+          }
+  }
+
+  function formatEventTime(startDate, endDate, startTime, endTime) {
+  
+      if (!startDate || !endDate || !startTime || !endTime || startTime=='' || endTime=='' ) {
+          return '24 hours a day, 7 days a week';
+      }
+      else {
+          const formattedStartTimev = formattedTime(startTime, '');
+          const formattedEndTimev = formattedTime(endTime, '');
+
+          const startDateTime = new Date(startDate);
+          const endDateTime = new Date(endDate);
+
+          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
+              const gmtOffset = startDateTime.getTimezoneOffset() / 60; 
+
+              console.log(gmtOffset)
+              const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
+              // if(language =='fr-FR') {
+              //     return `De ${formattedStartTimev} à ${formattedEndTimev} GMT${gmt}`
+              // }
+              return `${formattedStartTimev} - ${formattedEndTimev} ${gmt}`;
+          } else {
+              
+              const parsedTime = parse(startTime, 'h:mm a', new Date());
+              // if (language === 'fr-FR') {
+              //   return format(parsedTime, 'H:mm', { locale: fr }).replace(':', 'h');
+              // }
+              return format(parsedTime, 'h:mm a', { locale: enUS }).toUpperCase();            }
+
+      }
+  }
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-                <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
+                <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {past? 'Past Event' : 'Upcoming Event'}
+                    {event?.status == 'past' ? 'Past Event' : 'Upcoming Event'}
                   </PageHeader>
                 </div>
                 <SearchInput className={'min-w-[25%]'}/>
@@ -80,23 +155,23 @@ const UpcomingEventDetails = () => {
               <div className="flex flex-col items-start justify-start w-full">
                   <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 pt-6 pb-9">
                     <img
-                      src={`images/event0.jpeg`}
+                      src={event?.headerImage}
                       alt="vector_three"
                       className="w-full md:h-[180px] md:w-[240px] rounded-[12px]"
                     />
                     <div className="flex flex-col gap-3 flex-1">
                         <div className="flex flex-row justify-between items-start  w-full">
                             <Text
-                                className="font-DmSans text-lg font-medium leading-7 text-left text-blue_gray-903 w-full"
+                                className=" text-lg font-medium leading-7 text-left text-blue_gray-903 w-full"
                                 >
-                                Monthly #FirstFridayFair Business, Data & Technology Virtual Event
+                                { event?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
                             </Text>
-                            {!past &&
+                            {event?.status == 'upcoming' &&
                             <button
-                              className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center px-4 py-2 rounded-md w-auto cursor-pointer"
+                              className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center px-4 py-2 rounded-md w-auto cursorpointer-green"
                               type="button"
                               >
-                              <span style={{ whiteSpace: 'nowrap' }} className="text-sm font-DmSans font-medium leading-[18.23px]">
+                              <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-medium leading-[18.23px]">
                                   Buy Ticket
                               </span>
                             </button>
@@ -105,27 +180,25 @@ const UpcomingEventDetails = () => {
                       <div className="flex flex-row gap-3 items-center text-left">
                           <MdOutlineDateRange  size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-gray-801 font-DmSans text-base font-normal leading-6"
+                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
                           >
-                          {/* {rowData?.dateTime} */}
-                          Friday, Sept 1, 2023 
+                          {formatEventDate(event?.startDate , event?.endDate)}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center  text-left">
                           <IoMdTime  size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-gray-801 font-DmSans text-base font-normal leading-6"
+                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
                           >
-                          {/* {rowData?.dateTime} */}
-                          8am - 9pm +01 
+                          {formatEventTime(event?.startDate , event?.endDate , event?.startTime? event?.startTime : '', event?.endTime? event?.endTime : '')}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center text-left">
                           <BiMap  size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-gray-801 font-DmSans text-base font-normal leading-6"
+                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
                           >
-                          Digital October, Moscow
+                          {event?.physicalLocation || "Online Only"}
                           </Text>
                       </div>
                       {past? (
@@ -143,9 +216,11 @@ const UpcomingEventDetails = () => {
                         <div className="flex flex-row gap-3 items-center  text-left">
                           <PiTagBold    size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-blue_gray-601 font-DmSans text-base font-normal leading-6"
+                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
                           >
-                          $29.00
+                          {event?.price !== undefined && event?.price !== null ? 
+                            (event.price === 0 ? 'Free' : `$ ${(event.price).toFixed(2)}`) : 
+                            'Free'}
                           </Text>
                       </div>
                       )}
@@ -153,7 +228,7 @@ const UpcomingEventDetails = () => {
                     </div>
                   </div> 
                   <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-200 pb-8">
-                    <Text className="font-DmSans text-lg font-semibold leading-8 text-left text-blue_gray-903">
+                    <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
                         Overview
                     </Text>
                     <div className="flex flex-col gap-7 w-full">
@@ -161,26 +236,26 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <HiOutlineSpeakerphone size={20} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                                 Organized by
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                North Africa Dreamin
+                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                {event?.organizedBy || 'North Africa Dreamin'}
                                 </Text>
                               </div>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <BiMap  size={20} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                                 Location
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                Farah Hotel, Casablanca
+                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                { event?.physicalLocation || 'Online Only'}
                                 </Text>
                               </div>
                             </div>
@@ -189,24 +264,28 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange  size={20} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                                 Start Date
                                 </Text>
                               </div>
-                              <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                              Fri, Sep 1, 2023  07:00AM
+                              <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              {event?.startDate ? format(event?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.startTime || ''}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange   size={20} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                                 End Date
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                Fri, Sep 1, 2023  18:30AM
+                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                {event?.endDate 
+                                  ? format(new Date(event?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
+                                  : event?.startDate 
+                                    ? format(new Date(event?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
+                                    : 'Coming Soon'} {event?.endTime || ''}
                                 </Text>
                               </div>
                             </div>
@@ -215,24 +294,24 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <BiPurchaseTagAlt    size={20} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                                 Industry
                                 </Text>
                               </div>
-                              <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
                               Artificial Intelligence (AI), Finance, FinTech, Salesforce
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <TbCopy   size={20} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                                 Event Type
                                 </Text>
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
-                                <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                Meetup, Networking, Conference
+                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                { event?.category || 'Meetup, Networking, Conference'}
                                 </Text>
                               </div>
                             </div>
@@ -241,19 +320,23 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                               <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                                 Description
                                 </Text>
                               </div>
-                              {formatText(descp)}
+                              <div className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                {event?.description.split('\n').map((line , index) =>
+                                  <p key={index} className="mb-4">{line}</p>
+                                ) }
+                              </div>
                             </div>
                         </div>
-                        {past &&
+                        {event?.statue == 'past' &&
                         <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                           <div className="flex flex-row gap-3 items-center">
                           <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
-                            <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                            <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
                             Attendance
                             </Text>
                           </div>
@@ -269,7 +352,7 @@ const UpcomingEventDetails = () => {
                                 />
                               ))}
                               {attendance.length > 10 && (
-                                <Text className="text-gray700 font-DmSans text-lg font-bold leading-26 tracking-wide text-left">
+                                <Text className="text-gray700  text-lg font-bold leading-26 tracking-wide text-left">
                                   + {attendance.length - 10}
                                 </Text>
                               )}
@@ -282,7 +365,7 @@ const UpcomingEventDetails = () => {
                     </div>
                   </div> 
                   <div className="flex flex-col gap-6 pt-9 w-full pb-8">
-                    <Text className="font-DmSans text-lg font-semibold leading-8 text-left text-blue_gray-903">
+                    <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
                     Sponsor
                     </Text>
                     <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-10 w-full items-center">

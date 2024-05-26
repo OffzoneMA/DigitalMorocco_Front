@@ -62,7 +62,7 @@ function App() {
       <Routes>
         
         <Route element={<DashbordLayout />}>
-        <Route element={<GuardedConnectedUserRoute />}>
+          <Route element={<GuardedConnectedUserRoute />}>
             <Route path="/Dashboard" element={<Dashbord />} />
             <Route path="/Users" element={<Users />} />
             <Route path="/Investors" element={<Investors />} />
@@ -81,42 +81,40 @@ function App() {
             <Route path="/Participate" element={<Events />} />
             <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
             <Route path="/PastEvent" element={<PastEvents />} />
-            <Route path="/UpcomingEventDetails" element={<UpcomingEventDetails />} />
+            <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/Subscription" element={<Subscription />} />
             <Route path="/ChoosePlan" element={<ChoosePlan />} />
             <Route path="/History" element={<History />} />
             <Route path="/Notification" element={<Notifications />} />
-            </Route>
+          </Route>
         </Route>
         <Route element={<Layout />}>
-        <Route path="/Home" element={<Home />} />
-        <Route   path="/Pricing" element={<Pricing />} />
-        <Route   path="/ContactUs" element={<ContactUs/>}/>
-        <Route   path="/About-Us" element={<AboutUs/>}/>
-        <Route   path="/About-Us/Explore" element={<Explore/>}/>
-        <Route path="/Failure" element={<Failure/>}/>
-        <Route path="/Success" element={<Success/>}/>
+          <Route   path="/SignIn" element={<SignIn />} />
+          <Route   path="/" element={<SignIn />} />
+          <Route   path="/SignUp" element={<SignUp />} />
+          <Route   path="/SocialSignUp" element={<SocialSignUp />} />
+          <Route path="/VerificationCode" element={<VerificationCode />} />
+          <Route path="/VerificationEmail" element={<VerificationEmail />} />
+          <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
+          <Route path="/ForgotPassword" element={<ForgotPassword />} />
+          <Route path="/ResetPassword" element={<ResetPassword />} />
+          <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
+          <Route path="/ChooseRole" element={<ChooseRole />} />
+          <Route path="/Home" element={<Home />} />
+          <Route   path="/Pricing" element={<Pricing />} />
+          <Route   path="/ContactUs" element={<ContactUs/>}/>
+          <Route   path="/About-Us" element={<AboutUs/>}/>
+          <Route   path="/About-Us/Explore" element={<Explore/>}/>
+          <Route path="/Failure" element={<Failure/>}/>
+          <Route path="/Success" element={<Success/>}/>
         
           {/* User Member Routes*/}
           <Route element={<GuardedUserMemberRoutes />}>
             <Route path="/Payement_Success" element={<PaySuccess />} />
             <Route path="/Payement_Failed" element={<PayFailed />} />
           </Route>
-          </Route>
-        <Route   path="/SignIn" element={<SignIn />} />
-        <Route   path="/" element={<SignIn />} />
-        <Route   path="/SignUp" element={<SignUp />} />
-        <Route   path="/SocialSignUp" element={<SocialSignUp />} />
-
-        
-        <Route path="/VerificationCode" element={<VerificationCode />} />
-        <Route path="/VerificationEmail" element={<VerificationEmail />} />
-        <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
-        <Route path="/ForgotPassword" element={<ForgotPassword />} />
-        <Route path="/ResetPassword" element={<ResetPassword />} />
-        <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
-        <Route path="/ChooseRole" element={<ChooseRole />} />
+        </Route>
       </Routes>
       </div>
 

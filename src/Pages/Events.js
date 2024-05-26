@@ -20,10 +20,12 @@ import ReactDOMServer from 'react-dom/server';
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
-
+import Loader from "../Components/Loader";
+import { useGetEventsQuery } from "../Services/Event.Service";
 
 const Events = () => {
   const navigate = useNavigate();
+  const {data : eventsDT , error, isLoading , refetch } = useGetEventsQuery();
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
