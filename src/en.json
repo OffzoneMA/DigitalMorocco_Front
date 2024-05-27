@@ -119,6 +119,8 @@
     "signin.congrate":"Congratulations! You are now part of our",
     "signin.congrate1":"privileged list!",
     "signin.congrate2":"We are excited to welcome you to our platform upon its launch. Stay tuned to your email inbox for the next steps, and be sure to follow us on our social media channels.",
+    "signin.emailRSNotFound":"We couldn't find your account in our system!",
+    "signin.emailRSNotFoundMsg":"Please confirm your details and try again. If you haven't already signed up, we encourage you to do so now.",
     "verifyEmail": "Verify your email",
     "verifyEmailMsg": "Kindly check your inbox",
     "verification.instructions": "An email has been sent to you. Please follow the instructions provided in the message to finalize the verification of your email address.",

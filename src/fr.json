@@ -119,6 +119,8 @@
     "signin.congrate":"Félicitations ! Vous faites désormais partie de notre",
     "signin.congrate1":"liste privilégiée !",
     "signin.congrate2":"Nous sommes impatients de vous accueillir sur notre plateforme dès son lancement. Restez à l'affût de votre boîte e-mail pour les prochaines étapes, et ne manquez pas de nous suivre sur nos réseaux sociaux.",
+    "signin.emailRSNotFound":"Nous n'avons pas trouvé votre compte dans notre système !",
+    "signin.emailRSNotFoundMsg":"Veuillez vérifier vos informations et réessayer. Si vous n'avez pas encore créé de compte, nous vous encourageons à le faire dès maintenant.",
     "verifyEmail": "Vérifiez votre adresse e-mail",
     "verifyEmailMsg": "Veuillez vérifier votre boîte de réception",
     "verification.instructions": "Nous vous avons envoyé un e-mail. Suivez les instructions fournies dans ce message pour finaliser la vérification de votre adresse e-mail.",

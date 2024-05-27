@@ -22,7 +22,7 @@ export default function ResetPassword() {
         formState: { errors },
         getValues,
         watch,
-  } = useForm({mode: 'onTouched'});
+  } = useForm();
     
   const navigate = useNavigate()
 
