@@ -128,7 +128,7 @@ const Users = () => {
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader
               >
-              Company
+              Users
             </PageHeader>
           </div>
           <SearchInput className={'min-w-[25%]'}/>
@@ -138,9 +138,8 @@ const Users = () => {
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
             <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
-                <TableTitle
-                  >
-                  Users
+                <TableTitle>
+                  List of Unverified  Users
                 </TableTitle>
               
             </div>
