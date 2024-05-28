@@ -162,7 +162,7 @@ const Employees = () => {
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} bg-white border-b`}>
                         <td className="py-4 px-6 text-center text-zinc-900" style={{ display: 'flex', flexWrap: 'nowrap', alignContent: 'center', justifyContent: 'space-evenly', alignItems: 'center' }}>
                           <img src={`data:image/png;base64,${employee.photo}`} alt="Employee Photo" style={{ width: '60px', height: '60px', borderRadius: '50%' }} />
-                          {employee.lastName} {employee.firstName}
+                           {employee.fullName}
                         </td>
                         <td className="py-4 px-6 text-center text-zinc-900">{employee.email}</td>
                         <td className="py-4 px-6 text-center text-zinc-900">{employee.jobTitle}</td>
