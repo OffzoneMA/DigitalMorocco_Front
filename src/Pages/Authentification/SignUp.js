@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../Redux/auth/authAction';
 import { setUserEmail } from '../../Redux/auth/authSlice';
 import { useSendOTPMutation } from '../../Services/Auth';
-import { useNavigate , Link } from 'react-router-dom';
+import { useNavigate , Link , useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import logo from '../../Media/img_logo.svg';
 import googleLogo  from '../../Media/img_flatcoloriconsgoogle.svg';
@@ -19,10 +19,12 @@ import EmailExistModalOrConfirmation from '../../Components/EmailExistModalOrCon
 
 export default function SignUp() {
   const { t, i18n } = useTranslation();
-
+  const [searchParams] = useSearchParams();
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const [user , setUser] = useState(userInfo);
+  const [errorSocial, seterrorSocial] = useState(searchParams.get('error') ? searchParams.get('error')  :null)
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [Mount, setMount] = useState(true)
   const [sendOTP] = useSendOTPMutation();
   const [trigger, { data, isLoading, status , isSuccess , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
@@ -163,21 +165,29 @@ const onSubmit = (data) => {
     navigate('/SocialSignUp', { state: { socialType: type } });
   }
 
-  const handleGoogleButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google`;
-  };
-
-  const handleLinkedinButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/linkedin`;
-  };
-
-  const handleFacebookButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook`;
-  };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const openErrorModal = () => {
+    setIsErrorModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+    navigate('/SignUp');
+  };
+
+  useEffect(() => {
+    if(errorSocial) {
+      if (errorSocial === "An account already exists with this email") {
+        openErrorModal();
+      } 
+      else {
+        // toast.error(errorSocial || 'Oops, something went wrong!')
+      }
+    }
+  }, [error]);
 
   return (
     <>
@@ -291,6 +301,7 @@ const onSubmit = (data) => {
                           style={{ appearance: 'none' }}
                           className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${errors?.password ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.password ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                         />
+                        {getValues('password')?.length > 0 && 
                         <button
                           type="button"
                           className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
@@ -307,6 +318,8 @@ const onSubmit = (data) => {
                             </svg>                            
                           )}
                         </button>
+                        }
+                        
                       </div>
                       {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs leading-[15.62px] tracking-[0.01em] text-left text-[#555458]">{t('signup.passwordValidation')}</span>}
 
@@ -532,6 +545,9 @@ const onSubmit = (data) => {
 
     <EmailExistModalOrConfirmation isOpen={isModalOpen}
                       onRequestClose={closeModal}
+                      />
+    <EmailExistModalOrConfirmation isOpen={isErrorModalOpen}
+                      onRequestClose={closeErrorModal}
                       />
     </>
 

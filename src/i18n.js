@@ -11,7 +11,7 @@ const resources = Object.keys(languages).reduce((acc, lang) => {
   return acc;
 }, {});
 
-const userLanguage = navigator.language || navigator.userLanguage;
+const userLanguage = localStorage.getItem('language') || navigator.language || navigator.userLanguage;
 const defaultLanguage = 'en';
 
 i18n
@@ -21,7 +21,7 @@ i18n
     lng: userLanguage || defaultLanguage,
     fallbackLng: 'en',
     detection: {
-      order: ['navigator'],
+      order: ['localStorage', 'navigator'],
     },
     interpolation: {
       escapeValue: false,

@@ -457,7 +457,7 @@ input::-ms-clear {
   transition-duration: 300ms;
 }
 
-.btnUserProfil:hover svg>path {
+.btnUserProfil:hover >#profileBtn>svg>path {
   stroke: #00CDAE; 
 }
 .btnUserProfil:hover svg>rect {

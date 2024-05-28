@@ -17,6 +17,7 @@ import EmailExistModalOrConfirmation from '../../Components/EmailExistModalOrCon
 import { authApi } from '../../Services/Auth';
 import { setCredentials } from '../../Redux/auth/authSlice';
 import axios from 'axios';
+import emailError from '../../Media/emailError.svg';
 
 
 export default function SignIn() {
@@ -28,6 +29,7 @@ export default function SignIn() {
   const {  userToken } = useSelector((state) => state.auth)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [isExistErrorModalOpen, setIsExistErrorModalOpen] = useState(false);
   const [Mount, setMount] = useState(true)
   const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch()
@@ -65,6 +67,15 @@ export default function SignIn() {
 
   const closeErrorModal = () => {
     setIsErrorModalOpen(false);
+    navigate('/SignIn');
+  };
+
+  const openExistErrorModal = () => {
+    setIsExistErrorModalOpen(true);
+  };
+
+  const closeExistErrorModal = () => {
+    setIsExistErrorModalOpen(false);
     navigate('/SignIn');
   };
 
@@ -119,22 +130,29 @@ export default function SignIn() {
   }, [userInfo])
 
   const handleGoogleButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google`;
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google/signin`;
   };
 
   const handleLinkedinButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/linkedin`;
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/linkedin/signin`;
   };
 
   const handleFacebookButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook`;
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook/signin`;
   };
+
 
   useEffect(() => {
     if(errorSocial) {
       if (errorSocial === "An account already exists with this email") {
         openErrorModal();
-      } else {
+      } else if(errorSocial === "No account exists with this email") {
+        openExistErrorModal();
+      } 
+      else if(errorSocial === "This account is not registered using Google") {
+        openExistErrorModal();
+      } 
+      else {
         toast.error(errorSocial || 'Oops, something went wrong!')
       }
     }
@@ -359,6 +377,32 @@ export default function SignIn() {
 
     <EmailExistModalOrConfirmation isOpen={isErrorModalOpen}
             onRequestClose={closeErrorModal}/>
+
+    <EmailExistModalOrConfirmation isOpen={isExistErrorModalOpen}
+            onRequestClose={closeExistErrorModal} content={
+              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+            <img
+              className="h-[80px] w-[80px]"
+              src={emailError}
+              alt="successtick"
+            />
+            <div className="flex flex-col gap-5 items-center justify-start w-full">
+              <Text
+                className="leading-[26.00px] font-dm-sans-medium text-[18px] text-gray-801 text-center "
+              >
+                  {t('signin.emailRSNotFound')}
+              </Text>
+              <Text
+                className="leading-[26.00px] font-dm-sans-regular  text-gray-801 text-center text-sm"
+              >
+                <>
+                  {t('signin.emailRSNotFoundMsg')}
+                </>
+              </Text>
+            </div>
+          </div>
+            } />
         </>
+        
   )
 }
