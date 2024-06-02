@@ -103,19 +103,15 @@ const NewEmployee = () => {
       const userData = JSON.parse(sessionStorage.getItem("userData"));
       const userId = userData._id;
       const employeeId = employee?._id;
-  
-      // Préparer les données de la demande
       const updatedFields = {};
       const currentData = employee || {};
   
-      // Vérifiez chaque champ et ajoutez-le à updatedFields si modifié
       Object.keys(formData).forEach(field => {
         if (formData[field] !== currentData[field]) {
           updatedFields[field] = formData[field];
         }
       });
   
-      // Gérer le téléchargement de l'image
       if (imgFile) {
         const reader = new FileReader();
         reader.readAsDataURL(imgFile);
@@ -125,7 +121,6 @@ const NewEmployee = () => {
             updatedFields.photo = base64Image;
           }
   
-          // Ajouter des champs sélectionnés
           updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
           updatedFields.level = selectedLevel?.level || currentData.level;
           updatedFields.department = selectedDepartment?.name || currentData.department;
@@ -134,7 +129,7 @@ const NewEmployee = () => {
           updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
   
           if (employeeId) {
-            // Mettre à jour l'employé existant
+         
             await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -142,7 +137,7 @@ const NewEmployee = () => {
               },
             });
           } else {
-            // Créer un nouvel employé
+          
             await fetch(`http://localhost:5000/members/employees/${userId}`, {
               method: 'POST',
               headers: {
@@ -156,7 +151,7 @@ const NewEmployee = () => {
           setIsSaved(true);
         };
       } else {
-        // Ajouter des champs sélectionnés
+      
         updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
         updatedFields.level = selectedLevel?.level || currentData.level;
         updatedFields.department = selectedDepartment?.name || currentData.department;
@@ -165,7 +160,6 @@ const NewEmployee = () => {
         updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
   
         if (employeeId) {
-          // Mettre à jour l'employé existant
           await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -173,7 +167,6 @@ const NewEmployee = () => {
             },
           });
         } else {
-          // Créer un nouvel employé
           await fetch(`http://localhost:5000/members/employees/${userId}`, {
             method: 'POST',
             headers: {

@@ -20,7 +20,7 @@ import PasswordResetSucces from './Pages/Authentification/PasswordResetSucces';
 import Explore from './Pages/Explore';
 import ForgotPassword from './Pages/Authentification/ForgotPassword';
 import ChooseRole from './Pages/Authentification/Complete_SignUp/ChooseRole';
-import { I18nextProvider } from 'react-i18next'; // Import I18nextProvider
+import { I18nextProvider } from 'react-i18next'; 
 import i18n from './i18n';
 import Layout from './Components/Layout';
 import SocialSignUp from './Pages/Authentification/SocialSignUp';
