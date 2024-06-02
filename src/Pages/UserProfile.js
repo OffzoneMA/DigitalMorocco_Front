@@ -199,19 +199,57 @@ export default function UserProfile() {
   // };
   
   
-  const onSubmit2 = (data) => {
-    console.log("Form 2 Data:", data);
-    setIsForm2Saved(true);
-  };
+  const onSubmit2 = async (data) => {
+    try {
+        const passwordData = {
+            currentPassword: data.currentPassword,
+            newPassword: data.newPassword,
+        };
+        console.log(passwordData);
+        
+        const response = await axios.put(`http://localhost:5000/users/${userId}/changePassword`, passwordData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.data.success) {
+            const userResponse = await axios.get(`http://localhost:5000/users/UserInfo`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (userResponse.data) {
+                const updatedUserData = userResponse.data;
+
+                sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
+            
+                setIsForm2Saved(true);
+                console.log("Password changed and user data updated successfully!");
+            } else {
+                console.error("Error fetching updated user data.");
+            }
+        } else {
+            console.error("Error changing password:", response.data.message);
+        }
+    } catch (error) {
+        console.error("Error changing password:", error);
+    }
+};
+
   const onSubmit3 = (data) => {
     const formData = { ...data, language: selectedLanguage, region: selectedRegion };
     console.log("Form 3 Data:", formData);
     setIsForm3Saved(true);
   };
+
   const openDeleteModal = (rowData) => {
     setIsDeleteModalOpen(true);
     setDeleteRow(rowData);
   };
+
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
   };
