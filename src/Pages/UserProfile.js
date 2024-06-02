@@ -38,7 +38,7 @@ export default function UserProfile() {
   const [isForm2Saved , setIsForm2Saved] = useState(false);
   const [isForm3Saved , setIsForm3Saved] = useState(false);
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const allCountries = Country.getAllCountries();
