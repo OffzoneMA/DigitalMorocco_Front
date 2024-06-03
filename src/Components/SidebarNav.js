@@ -16,7 +16,7 @@ import Popup from "reactjs-popup";
 import { logout, setCredentials } from "../Redux/auth/authSlice";
 
 const SidebarNav = () => {
-  const { userInfo } = useSelector((state) => state.auth)
+  const { loading, userInfo, error } = useSelector((state) => state.auth)
     const [open, setOpen] = useState(true);
     const dispatch = useDispatch()
     const [submenuOpen, setSubmenuOpen] = useState({

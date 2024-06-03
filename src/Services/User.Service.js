@@ -32,8 +32,16 @@ export const userApi = createApi({
                     body: payload,
                 }
             },
-          })
+        }),
+        getAllUsers: builder.query({
+            query: () => {
+                return {
+                    url: '/AllUsers',
+                    method: 'GET',
+                }
+            },
+        }),
     }),
 })
 
-export const { useUpdateUserMutation , useUpdateFullNameMutation } = userApi
+export const { useUpdateUserMutation , useUpdateFullNameMutation , useGetAllUsersQuery} = userApi

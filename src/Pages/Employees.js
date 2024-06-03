@@ -25,7 +25,7 @@ const Employees = () => {
   }, [currentPage]);
 
   const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userData._id;
+  const userId = userData?._id;
 
   const fetchMembers = async (page) => {
     try {

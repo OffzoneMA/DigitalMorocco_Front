@@ -1,233 +1,233 @@
 export const documentsData = [
   {
     id: 1,
-    uploadDate: "Jun 6, 2023 02:37:22 PM",
+    uploadDate: "Mar 6, 2024 02:37:22 PM",
     documentName: "Business Plan.pdf",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar.png",
     shareWith: "Investors",
-    action: "Jun 16, 2023 02:37:22 PM",
+    action: "Mar 16, 2024 02:37:22 PM",
     title: "Business Plan"
   },
   {
     id: 2,
-    uploadDate: "Jun 4, 2023 11:20:56 AM",
-    documentName: "Pitch Deck - Q1 2023.pptx",
+    uploadDate: "Mar 4, 2024 11:20:56 AM",
+    documentName: "Pitch Deck - Q1 2024.pptx",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar.png",
     shareWith: "Investors",
     action: "",
-    title: "Pitch Deck - Q1 2023"
+    title: "Pitch Deck - Q1 2024"
   },
   {
     id: 3,
-    uploadDate: "Jun 14, 2023 11:20:56 AM",
-    documentName: "Investor Pitch Deck - Jun 2023.pdf",
+    uploadDate: "Mar 14, 2024 11:20:56 AM",
+    documentName: "Investor Pitch Deck - Mar 2024.pdf",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar.png",
     shareWith: "Investors",
-    action: "Jun 28, 2023 04:01:11 PM",
-    title: "Investor Pitch Deck - Jun 2023"
+    action: "Mar 28, 2024 04:01:11 PM",
+    title: "Investor Pitch Deck - Mar 2024"
   },
   {
     id: 4,
-    uploadDate: "Jun 1, 2023 10:45:08 AM",
+    uploadDate: "Mar 1, 2024 10:45:08 AM",
     documentName: "Quality Assurance (QA) Plan",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_4.png",
     shareWith: "Investors",
-    action: "Jun 22, 2023 12:45:15 PM",
+    action: "Mar 22, 2024 12:45:15 PM",
     title: "Quality Assurance (QA) Plan"
   },
   {
     id: 5,
-    uploadDate: "Jun 10, 2023 11:20:56 AM",
+    uploadDate: "Mar 10, 2024 11:20:56 AM",
     documentName: "Marketing Strategy.pdf",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_4.png",
     shareWith: "Marketing Team",
-    action: "Jun 30, 2023 11:20:56 PM",
+    action: "Mar 30, 2024 11:20:56 PM",
     title: "Marketing Strategy"
   },
   {
     id: 6,
-    uploadDate: "Jun 22, 2023 12:45:15 PM",
-    documentName: "Partnership Agreement - DM (2023).pdf",
+    uploadDate: "Mar 22, 2024 12:45:15 PM",
+    documentName: "Partnership Agreement - DM (2024).pdf",
     uploadBy: "Cameron Williamson",
     uploadByImage: "images/img_avatar_7.png",
     shareWith: "Partners",
-    action: "Jun 22, 2023 12:45:15 PM",
-    title: "Partnership Agreement - DM (2023)"
+    action: "Mar 22, 2024 12:45:15 PM",
+    title: "Partnership Agreement - DM (2024)"
   },
   {
     id: 7,
-    uploadDate: "Jul 5, 2023 09:30:45 AM",
+    uploadDate: "Jul 5, 2024 09:30:45 AM",
     documentName: "Financial Forecast.xlsx",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar.png",
     shareWith: "Investors",
-    action: "Jul 15, 2023 09:30:45 AM",
+    action: "Jul 15, 2024 09:30:45 AM",
     title: "Financial Forecast"
   },
   {
     id: 8,
-    uploadDate: "Jul 10, 2023 03:45:12 PM",
-    documentName: "Product Roadmap - Q3 2023.docx",
+    uploadDate: "Jul 10, 2024 03:45:12 PM",
+    documentName: "Product Roadmap - Q3 2024.docx",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_4.png",
     shareWith: "Product Team",
-    action: "Jul 20, 2023 03:45:12 PM",
-    title: "Product Roadmap - Q3 2023"
+    action: "Jul 20, 2024 03:45:12 PM",
+    title: "Product Roadmap - Q3 2024"
   },
   {
     id: 9,
-    uploadDate: "Jul 12, 2023 11:55:30 AM",
+    uploadDate: "Jul 12, 2024 11:55:30 AM",
     documentName: "User Feedback Analysis.pdf",
     uploadBy: "Cameron Williamson",
     uploadByImage: "images/img_avatar_7.png",
     shareWith: "Product Managers",
-    action: "Jul 26, 2023 11:55:30 AM",
+    action: "Jul 26, 2024 11:55:30 AM",
     title: "User Feedback Analysis"
   },
   {
     id: 10,
-    uploadDate: "Jul 8, 2023 02:15:10 PM",
-    documentName: "Sales Presentation - July 2023.pptx",
+    uploadDate: "Jul 8, 2024 02:15:10 PM",
+    documentName: "Sales Presentation - July 2024.pptx",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar.png",
     shareWith: "Sales Team",
-    action: "Jul 18, 2023 02:15:10 PM",
-    title: "Sales Presentation - July 2023"
+    action: "Jul 18, 2024 02:15:10 PM",
+    title: "Sales Presentation - July 2024"
   },
   {
     id: 11,
-    uploadDate: "Jul 17, 2023 10:10:05 AM",
+    uploadDate: "Jul 17, 2024 10:10:05 AM",
     documentName: "HR Policies and Procedures",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_4.png",
     shareWith: "HR Department",
-    action: "Jul 27, 2023 10:10:05 AM",
+    action: "Jul 27, 2024 10:10:05 AM",
     title: "HR Policies and Procedures"
   },
   {
     id: 12,
-    uploadDate: "Jul 19, 2023 04:20:30 PM",
+    uploadDate: "Jul 19, 2024 04:20:30 PM",
     documentName: "Customer Survey Results.xlsx",
     uploadBy: "Cameron Williamson",
     uploadByImage: "images/img_avatar_7.png",
     shareWith: "Marketing Team",
-    action: "Jul 29, 2023 04:20:30 PM",
+    action: "Jul 29, 2024 04:20:30 PM",
     title: "Customer Survey Results"
   },
   {
     id: 13,
-    uploadDate: "Jul 14, 2023 12:30:15 PM",
+    uploadDate: "Jul 14, 2024 12:30:15 PM",
     documentName: "Legal Compliance Checklist",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar.png",
     shareWith: "Legal Team",
-    action: "Jul 24, 2023 12:30:15 PM",
+    action: "Jul 24, 2024 12:30:15 PM",
     title: "Legal Compliance Checklist"
   },
   {
     id: 14,
-    uploadDate: "Jul 21, 2023 11:40:50 AM",
+    uploadDate: "Jul 21, 2024 11:40:50 AM",
     documentName: "IT Infrastructure Plan",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_4.png",
     shareWith: "IT Department",
-    action: "Jul 31, 2023 11:40:50 AM",
+    action: "Jul 31, 2024 11:40:50 AM",
     title: "IT Infrastructure Plan"
   },
   {
     id: 15,
-    uploadDate: "Jul 23, 2023 03:55:25 PM",
+    uploadDate: "Jul 23, 2024 03:55:25 PM",
     documentName: "Employee Training Manual",
     uploadBy: "Cameron Williamson",
     uploadByImage: "images/img_avatar_7.png",
     shareWith: "Training Team",
-    action: "Aug 2, 2023 03:55:25 PM",
+    action: "May 2, 2024 03:55:25 PM",
     title: "Employee Training Manual"
   },
   {
     id: 16,
-    uploadDate: "Jul 25, 2023 09:15:40 AM",
-    documentName: "Budget Proposal - Q4 2023.pdf",
+    uploadDate: "Jul 25, 2024 09:15:40 AM",
+    documentName: "Budget Proposal - Q4 2024.pdf",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar.png",
     shareWith: "Finance Team",
-    action: "Aug 4, 2023 09:15:40 AM",
-    title: "Budget Proposal - Q4 2023"
+    action: "May 4, 2024 09:15:40 AM",
+    title: "Budget Proposal - Q4 2024"
   },
   {
     id: 17,
-    uploadDate: "Jul 27, 2023 02:35:10 PM",
+    uploadDate: "Jul 27, 2024 02:35:10 PM",
     documentName: "Market Research Report",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_4.png",
     shareWith: "Strategy Team",
-    action: "Aug 7, 2023 02:35:10 PM",
+    action: "May 7, 2024 02:35:10 PM",
     title: "Market Research Report"
   },
   {
     id: 18,
-    uploadDate: "Jul 29, 2023 10:50:55 AM",
-    documentName: "Client Contracts - 2023",
+    uploadDate: "Jul 29, 2024 10:50:55 AM",
+    documentName: "Client Contracts - 2024",
     uploadBy: "Cameron Williamson",
     uploadByImage: "images/img_avatar_7.png",
     shareWith: "Legal Team",
-    action: "Aug 9, 2023 10:50:55 AM",
-    title: "Client Contracts - 2023"
+    action: "May 9, 2024 10:50:55 AM",
+    title: "Client Contracts - 2024"
   },
   {
     id: 19,
-    uploadDate: "Jul 31, 2023 04:05:20 PM",
+    uploadDate: "Jul 31, 2024 04:05:20 PM",
     documentName: "Product Specifications - V2",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar_12.png",
     shareWith: "Product Managers",
-    action: "Aug 11, 2023 04:05:20 PM",
+    action: "May 11, 2024 04:05:20 PM",
     title: "Product Specifications - V2"
   },
   {
     id: 20,
-    uploadDate: "Aug 2, 2023 11:15:35 AM",
+    uploadDate: "May 2, 2024 11:15:35 AM",
     documentName: "Employee Satisfaction Survey",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_7.png",
     shareWith: "HR Department",
-    action: "Aug 12, 2023 11:15:35 AM",
+    action: "May 12, 2024 11:15:35 AM",
     title: "Employee Satisfaction Survey"
   },
   {
     id: 21,
-    uploadDate: "Aug 4, 2023 03:25:10 PM",
-    documentName: "Project Timeline - Q4 2023",
+    uploadDate: "May 4, 2024 03:25:10 PM",
+    documentName: "Project Timeline - Q4 2024",
     uploadBy: "Cameron Williamson",
     uploadByImage: "images/img_avatar_1.png",
     shareWith: "Project Managers",
-    action: "Aug 14, 2023 03:25:10 PM",
-    title: "Project Timeline - Q4 2023"
+    action: "May 14, 2024 03:25:10 PM",
+    title: "Project Timeline - Q4 2024"
   },
   {
     id: 22,
-    uploadDate: "Aug 6, 2023 09:40:45 AM",
+    uploadDate: "May 6, 2024 09:40:45 AM",
     documentName: "Business Development Plan",
     uploadBy: "Annette Black",
     uploadByImage: "images/img_avatar_2.png",
     shareWith: "Business Development Team",
-    action: "Aug 16, 2023 09:40:45 AM",
+    action: "May 16, 2024 09:40:45 AM",
     title: "Business Development Plan"
   },
   {
     id: 23,
-    uploadDate: "Aug 8, 2023 02:50:30 PM",
-    documentName: "Social Media Strategy - Q4 2023",
+    uploadDate: "May 8, 2024 02:50:30 PM",
+    documentName: "Social Media Strategy - Q4 2024",
     uploadBy: "Darlene Robertson",
     uploadByImage: "images/img_avatar_3.png",
     shareWith: "Marketing Team",
-    action: "Aug 18, 2023 02:50:30 PM",
-    title: "Social Media Strategy - Q4 2023"
+    action: "May 18, 2024 02:50:30 PM",
+    title: "Social Media Strategy - Q4 2024"
   }  
 ];
 
@@ -587,8 +587,8 @@ export const CompanyLegalData = [
     {
         id: 1,
         title: "Marketing Plan",
-        name: "Marketing Plan-Q2 [2023].pdf",
-        lastModified: "Jun 6 2023 02:37:22 PM",
+        name: "Marketing Plan-Q2 [2024].pdf",
+        lastModified: "Mar 6 2024 02:37:22 PM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -596,7 +596,7 @@ export const CompanyLegalData = [
         id: 2,
         title: "Non-Disclosure Agreement (NDA)",
         name: "Non-Disclosure Agreement (NDA).pdf",
-        lastModified: "Jun 16 2023 02:37:22 PM",
+        lastModified: "Mar 16 2024 02:37:22 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
@@ -604,15 +604,15 @@ export const CompanyLegalData = [
         id: 3,
         title: "Employment Contract",
         name: "Employment Contract_ Annette Black.pdf",
-        lastModified: "Jun 4,2023 12:05:58 AM",
+        lastModified: "Mar 4,2024 12:05:58 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
     {
         id: 4,
         title: "Investor Pitch Deck",
-        name: "Investor Pitch Deck Jun 2023.pdf",
-        lastModified: "Jun 28,2023 04:01 PM",
+        name: "Investor Pitch Deck Mar 2024.pdf",
+        lastModified: "Mar 28,2024 04:01 PM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -620,15 +620,15 @@ export const CompanyLegalData = [
         id: 5,
         title: "Mou Digital Morocco",
         name: "Mou Digital Morocco.pdf",
-        lastModified: "Jun 14 2023 11:20:58 AM",
+        lastModified: "Mar 14 2024 11:20:58 AM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
     {
         id: 6,
         title: "Partnership Agreement DM",
-        name: "Partnership Agreement DM (2023).pdf",
-        lastModified: "Jun 30 2023 12:20:56 PM",
+        name: "Partnership Agreement DM (2024).pdf",
+        lastModified: "Mar 30 2024 12:20:56 PM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
@@ -636,7 +636,7 @@ export const CompanyLegalData = [
         id: 7,
         title: "Employee Handbook",
         name: "Employee Handbook.pdf",
-        lastModified: "Jun 22 2023 12:45:15 PM",
+        lastModified: "Mar 22 2024 12:45:15 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
@@ -644,15 +644,15 @@ export const CompanyLegalData = [
         id: 8,
         title: "Quality Assurance (QA) Plan",
         name: "Quality Assurance (QA) Plan.pdf",
-        lastModified: "Jun 1 2023 10:45:08 AM",
+        lastModified: "Mar 1 2024 10:45:08 AM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
     {
         id: 9,
         title: "Business Proposal",
-        name: "Business Proposal Q3 2023.pdf",
-        lastModified: "Jul 10 2023 09:30:45 AM",
+        name: "Business Proposal Q3 2024.pdf",
+        lastModified: "Jul 10 2024 09:30:45 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -660,7 +660,7 @@ export const CompanyLegalData = [
         id: 10,
         title: "Terms of Service",
         name: "Terms of Service.pdf",
-        lastModified: "Jul 20 2023 03:45:12 PM",
+        lastModified: "Jul 20 2024 03:45:12 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
@@ -668,15 +668,15 @@ export const CompanyLegalData = [
         id: 11,
         title: "Project Scope",
         name: "Project Scope Annette Black.pdf",
-        lastModified: "Jul 12 2023 11:55:30 AM",
+        lastModified: "Jul 12 2024 11:55:30 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
     {
         id: 12,
         title: "Financial Report",
-        name: "Financial Report Jul 2023.pdf",
-        lastModified: "Jul 26 2023 11:55:30 AM",
+        name: "Financial Report Jul 2024.pdf",
+        lastModified: "Jul 26 2024 11:55:30 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -684,7 +684,7 @@ export const CompanyLegalData = [
         id: 13,
         title: "Trademark Agreement",
         name: "Trademark Agreement.pdf",
-        lastModified: "Jul 8 2023 02:15:10 PM",
+        lastModified: "Jul 8 2024 02:15:10 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
@@ -692,23 +692,23 @@ export const CompanyLegalData = [
         id: 14,
         title: "Service Level Agreement (SLA)",
         name: "Service Level Agreement SLA.pdf",
-        lastModified: "Jul 29 2023 04:20:30 PM",
+        lastModified: "Jul 29 2024 04:20:30 PM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
     {
         id: 15,
         title: "Marketing Strategy",
-        name: "Marketing Strategy Q3 2023.pdf",
-        lastModified: "Jul 14 2023 12:30:15 PM",
+        name: "Marketing Strategy Q3 2024.pdf",
+        lastModified: "Jul 14 2024 12:30:15 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
     {
         id: 16,
         title: "Product Roadmap",
-        name: "Product Roadmap Jul 2023.pdf",
-        lastModified: "Jul 31 2023 11:40:50 AM",
+        name: "Product Roadmap Jul 2024.pdf",
+        lastModified: "Jul 31 2024 11:40:50 AM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
@@ -716,15 +716,15 @@ export const CompanyLegalData = [
         id: 17,
         title: "Data Protection Policy",
         name: "Data Protection Policy.pdf",
-        lastModified: "Jul 23 2023 03:55:25 PM",
+        lastModified: "Jul 23 2024 03:55:25 PM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
     {
         id: 18,
         title: "Sales Agreement",
-        name: "Sales Agreement Jul 2023.pdf",
-        lastModified: "Aug 2 2023 11:15:35 AM",
+        name: "Sales Agreement Jul 2024.pdf",
+        lastModified: "May 2 2024 11:15:35 AM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
@@ -732,23 +732,23 @@ export const CompanyLegalData = [
         id: 19,
         title: "User Guide",
         name: "User Guide.pdf",
-        lastModified: "Jul 25 2023 09:15:40 AM",
+        lastModified: "Jul 25 2024 09:15:40 AM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
     {
         id: 20,
         title: "Project Charter",
-        name: "Project Charter Aug 2023.pdf",
-        lastModified: "Aug 4 2023 03:25:10 PM",
+        name: "Project Charter May 2024.pdf",
+        lastModified: "May 4 2024 03:25:10 PM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
     {
         id: 21,
         title: "Risk Assessment",
-        name: "Risk Assessment Jul 2023.pdf",
-        lastModified: "Jul 27 2023 02:35:10 PM",
+        name: "Risk Assessment Jul 2024.pdf",
+        lastModified: "Jul 27 2024 02:35:10 PM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -756,15 +756,15 @@ export const CompanyLegalData = [
         id: 22,
         title: "Code of Conduct",
         name: "Code of Conduct.pdf",
-        lastModified: "Aug 6 2023 09:40:45 AM",
+        lastModified: "May 6 2024 09:40:45 AM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
     {
         id: 23,
         title: "Business Case",
-        name: "Business Case Aug 2023.pdf",
-        lastModified: "Aug 8 2023 02:50:30 PM",
+        name: "Business Case May 2024.pdf",
+        lastModified: "May 8 2024 02:50:30 PM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
@@ -772,15 +772,15 @@ export const CompanyLegalData = [
         id: 24,
         title: "Training Manual",
         name: "Training Manual.pdf",
-        lastModified: "Aug 10 2023 11:05:15 AM",
+        lastModified: "May 10 2024 11:05:15 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
     {
         id: 25,
         title: "IT Policy",
-        name: "IT Policy Aug 2023.pdf",
-        lastModified: "Aug 12 2023 11:15:35 AM",
+        name: "IT Policy May 2024.pdf",
+        lastModified: "May 12 2024 11:15:35 AM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
@@ -788,15 +788,15 @@ export const CompanyLegalData = [
         id: 26,
         title: "Agile Manifesto",
         name: "Agile Manifesto.pdf",
-        lastModified: "Aug 14 2023 03:25:10 PM",
+        lastModified: "May 14 2024 03:25:10 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
     {
         id: 27,
         title: "Privacy Policy",
-        name: "Privacy Policy Aug 2023.pdf",
-        lastModified: "Aug 16 2023 09:40:45 AM",
+        name: "Privacy Policy May 2024.pdf",
+        lastModified: "May 16 2024 09:40:45 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -804,7 +804,7 @@ export const CompanyLegalData = [
         id: 28,
         title: "Cybersecurity Policy",
         name: "Cybersecurity Policy.pdf",
-        lastModified: "Aug 18 2023 02:50:30 PM",
+        lastModified: "May 18 2024 02:50:30 PM",
         owner: "Cameron Williamson",
         ownerImg: "images/img_avatar_3.png"
     },
@@ -812,7 +812,7 @@ export const CompanyLegalData = [
         id: 29,
         title: "Workplace Safety Manual",
         name: "Workplace Safety Manual.pdf",
-        lastModified: "Aug 20 2023 11:05:15 AM",
+        lastModified: "May 20 2024 11:05:15 AM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
@@ -820,7 +820,7 @@ export const CompanyLegalData = [
         id: 30,
         title: "Conflict of Interest Policy",
         name: "Conflict of Interest Policy.pdf",
-        lastModified: "Aug 22 2023 03:25:10 PM",
+        lastModified: "May 22 2024 03:25:10 PM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     }
@@ -1017,7 +1017,7 @@ export const InvestorsData = [
 
 export const InvestorsRequestData = [
     {
-        date: "Jul 22, 2023 10:30 AM",
+        date: "Jul 22, 2024 10:30 AM",
         investorName: "Venture Catalysts",
         communicationStatus: "Initial email sent",
         status: "In Progress",
@@ -1025,7 +1025,7 @@ export const InvestorsRequestData = [
         notes: "Meeting Scheduled"
       },
       {
-        date: "Jul 18, 2023 03:32 AM",
+        date: "Jul 18, 2024 03:32 AM",
         investorName: "Startup Funding Club",
         communicationStatus: "Phone call",
         status: "Approved",
@@ -1033,7 +1033,7 @@ export const InvestorsRequestData = [
         notes: "Positive Feedback"
       },
       {
-        date: "Jun 24, 2023 09:06 AM",
+        date: "Mar 24, 2024 09:06 AM",
         investorName: "XYZ Combinator",
         communicationStatus: "Rejection email",
         status: "Rejected",
@@ -1041,7 +1041,7 @@ export const InvestorsRequestData = [
         notes: "Not Interested"
       },
       {
-        date: "Jun 06, 2023 01:32 PM",
+        date: "Mar 06, 2024 01:32 PM",
         investorName: "Techstars Atlanta",
         communicationStatus: "Ongoing discussions",
         status: "In Progress",
@@ -1049,7 +1049,7 @@ export const InvestorsRequestData = [
         notes: "Awaiting Response"
       },
       {
-        date: "Mar 26, 2023 10:44 AM",
+        date: "Mar 26, 2024 10:44 AM",
         investorName: "Urban-X Accelerator",
         communicationStatus: "Initial contact call",
         status: "Approved",
@@ -1057,7 +1057,7 @@ export const InvestorsRequestData = [
         notes: ""
       },
       {
-        date: "Mar 23, 2023 03:12 PM",
+        date: "Mar 23, 2024 03:12 PM",
         investorName: "Misk500 Accelerator",
         communicationStatus: "Follow-up email",
         status: "Rejected",
@@ -1065,7 +1065,7 @@ export const InvestorsRequestData = [
         notes: "Not a good fit"
       },
       {
-        date: "Mar 16, 2023 06:44 PM",
+        date: "Mar 16, 2024 06:44 PM",
         investorName: "Brendan Wallace",
         communicationStatus: "Initial discussion",
         status: "In Progress",
@@ -1073,7 +1073,7 @@ export const InvestorsRequestData = [
         notes: "Awaiting Response"
       },
       {
-        date: "Feb 28, 2023 11:05 AM",
+        date: "Feb 28, 2024 11:05 AM",
         investorName: "NextLevel Management",
         communicationStatus: "Phone call",
         status: "In Progress",
@@ -1081,7 +1081,7 @@ export const InvestorsRequestData = [
         notes: "Awaiting Response"
       },
       {
-        date: "Feb 14, 2023 02:30 PM",
+        date: "Feb 14, 2024 02:30 PM",
         investorName: "Sequoia Capital",
         communicationStatus: "Initial email sent",
         status: "In Progress",
@@ -1089,7 +1089,7 @@ export const InvestorsRequestData = [
         notes: "Meeting Scheduled"
     },
     {
-        date: "Jan 28, 2023 09:45 AM",
+        date: "Jan 28, 2024 09:45 AM",
         investorName: "Accel",
         communicationStatus: "Phone call",
         status: "Approved",
@@ -1097,7 +1097,7 @@ export const InvestorsRequestData = [
         notes: "Positive Feedback"
     },
     {
-        date: "Jan 10, 2023 11:20 AM",
+        date: "Jan 10, 2024 11:20 AM",
         investorName: "Greylock Partners",
         communicationStatus: "Rejection email",
         status: "Rejected",
@@ -1161,7 +1161,7 @@ export const InvestorsRequestData = [
         notes: "Positive Feedback"
     },
     {
-        date: "Aug 30, 2022 05:15 PM",
+        date: "May 30, 2022 05:15 PM",
         investorName: "Insight Partners",
         communicationStatus: "Rejection email",
         status: "Rejected",
@@ -1169,7 +1169,7 @@ export const InvestorsRequestData = [
         notes: "Not Interested"
     },
     {
-        date: "Aug 22, 2022 10:20 AM",
+        date: "May 22, 2022 10:20 AM",
         investorName: "CRV",
         communicationStatus: "Ongoing discussions",
         status: "In Progress",
@@ -1185,7 +1185,7 @@ export const InvestorsRequestData = [
         notes: ""
     },
     {
-        date: "Jun 30, 2022 11:55 AM",
+        date: "Mar 30, 2022 11:55 AM",
         investorName: "Redpoint Ventures",
         communicationStatus: "Follow-up email",
         status: "Rejected",
@@ -1193,7 +1193,7 @@ export const InvestorsRequestData = [
         notes: "Not a good fit"
     },
     {
-        date: "Jun 14, 2022 04:30 PM",
+        date: "Mar 14, 2022 04:30 PM",
         investorName: "Accelerator",
         communicationStatus: "Initial discussion",
         status: "In Progress",
@@ -1256,7 +1256,7 @@ export const eventData = [
     eventName: "Monthly #FirstFridayFair Business, Data & Tech (Virtual Event)",
     organizer: "Jefferson Capital",
     logo:"images/img_inv.svg",
-    dateTime: "Jan 11, 2023  01:49 pm",
+    dateTime: "Jan 11, 2024  01:49 pm",
     eventType: "Ongoing Event",
     location: "Casablanca"
   },
@@ -1265,7 +1265,7 @@ export const eventData = [
     eventName: "Women Who Network - Virtual Speed Networking Event",
     organizer: "Startup Funding Club",
     logo:"images/img_inv1.svg" ,
-    dateTime: "Mar 13, 2023  08:05 am",
+    dateTime: "Mar 13, 2024  08:05 am",
     eventType: "Upcoming Event",
     location: "Casablanca"
   },
@@ -1274,7 +1274,7 @@ export const eventData = [
     eventName: "Workshop: Découvre Laravel: Introduction au Framework PHP",
     organizer: "GoMyCode",
     logo:"images/img_inv12.svg" ,
-    dateTime: "Feb 21, 2023  03:05 pm",
+    dateTime: "Feb 21, 2024  03:05 pm",
     eventType: "Upcoming Event",
     location: "Rabat"
   },
@@ -1283,7 +1283,7 @@ export const eventData = [
     eventName: "Next Big Investment Opportunity in North Africa",
     organizer: "XYZ Combinator",
     logo:"images/img_inv2.svg" ,
-    dateTime: "Jan 1, 2023  01:49 pm",
+    dateTime: "Jan 1, 2024  01:49 pm",
     eventType: "Upcoming Event",
     location: "Marrakech"
   },
@@ -1292,7 +1292,7 @@ export const eventData = [
     eventName: "Tech Hackathon",
     organizer: "North Africa Dreamin’",
     logo:"images/img_inv8.png" ,
-    dateTime: "Aug 3, 2023  12:10 am",
+    dateTime: "May 3, 2024  12:10 am",
     eventType: "Past Event",
     location: "Agadir"
   },
@@ -1301,7 +1301,7 @@ export const eventData = [
     eventName: "Generative AI for startups. Next generation startups",
     organizer: "Business Connect",
     logo:"images/img_inv9.png" ,
-    dateTime: "Feb 21, 2023  03:05 pm",
+    dateTime: "Feb 21, 2024  03:05 pm",
     eventType: "Past Event",
     location: "Tangier"
   },
@@ -1310,7 +1310,7 @@ export const eventData = [
     eventName: "Digital Marketing Workshop",
     organizer: "Karizma Consulting Group",
     logo:"images/img_inv10.png" ,
-    dateTime: "Oct 13, 2023  08:05 am",
+    dateTime: "Oct 13, 2024  08:05 am",
     eventType: "Upcoming Event",
     location: "Fez"
   },
@@ -1328,7 +1328,7 @@ export const eventData = [
     eventName: "Artificial Intelligence in Healthcare Summit",
     organizer: "MedTech Innovators",
     logo: "images/img_inv3.svg",
-    dateTime: "Apr 5, 2023 02:30 pm",
+    dateTime: "Apr 5, 2024 02:30 pm",
     eventType: "Ongoing Event",
     location: "Tetouan"
 },
@@ -1337,7 +1337,7 @@ export const eventData = [
     eventName: "E-commerce Masterclass",
     organizer: "Online Business Academy",
     logo: "images/img_inv4.svg",
-    dateTime: "May 15, 2023 09:00 am",
+    dateTime: "May 15, 2024 09:00 am",
     eventType: "Upcoming Event",
     location: "Meknes"
 },
@@ -1346,7 +1346,7 @@ export const eventData = [
     eventName: "Blockchain Technology Seminar",
     organizer: "CryptoHub",
     logo: "images/img_inv5.svg",
-    dateTime: "Jun 20, 2023 03:00 pm",
+    dateTime: "Mar 20, 2024 03:00 pm",
     eventType: "Past Event",
     location: "Essaouira"
 },
@@ -1355,7 +1355,7 @@ export const eventData = [
     eventName: "Startup Pitch Competition",
     organizer: "Morocco Startup Hub",
     logo: "images/img_inv6.svg",
-    dateTime: "Jul 10, 2023 10:00 am",
+    dateTime: "Jul 10, 2024 10:00 am",
     eventType: "Upcoming Event",
     location: "El Jadida"
 },
@@ -1364,7 +1364,7 @@ export const eventData = [
     eventName: "Mobile App Development Workshop",
     organizer: "AppMasters",
     logo: "images/img_inv7.svg",
-    dateTime: "Aug 25, 2023 04:00 pm",
+    dateTime: "May 25, 2024 04:00 pm",
     eventType: "Ongoing Event",
     location: "Chefchaouen"
 },
@@ -1373,7 +1373,7 @@ export const eventData = [
     eventName: "Fintech Conference",
     organizer: "Finance Futures",
     logo: "images/img_inv8.png",
-    dateTime: "Sep 15, 2023 11:00 am",
+    dateTime: "Sep 15, 2024 11:00 am",
     eventType: "Past Event",
     location: "Taza"
 },
@@ -1382,7 +1382,7 @@ export const eventData = [
     eventName: "Cloud Computing Symposium",
     organizer: "CloudTech Solutions",
     logo: "images/img_inv9.png",
-    dateTime: "Oct 10, 2023 02:30 pm",
+    dateTime: "Oct 10, 2024 02:30 pm",
     eventType: "Upcoming Event",
     location: "Beni Mellal"
 },
@@ -1391,7 +1391,7 @@ export const eventData = [
     eventName: "Digital Transformation Workshop",
     organizer: "Tech Innovators",
     logo: "images/img_inv10.png",
-    dateTime: "Nov 20, 2023 09:00 am",
+    dateTime: "Nov 20, 2024 09:00 am",
     eventType: "Ongoing Event",
     location: "Nador"
 },
@@ -1400,7 +1400,7 @@ export const eventData = [
     eventName: "Social Media Marketing Summit",
     organizer: "Marketing Masters",
     logo: "images/img_inv11.svg",
-    dateTime: "Dec 5, 2023 03:00 pm",
+    dateTime: "Dec 5, 2024 03:00 pm",
     eventType: "Past Event",
     location: "Al Hoceima"
 },
@@ -1454,7 +1454,7 @@ export const eventData = [
     eventName: "Virtual Reality Symposium",
     organizer: "VR World",
     logo: "images/img_inv2.svg",
-    dateTime: "Jun 20, 2024 03:00 pm",
+    dateTime: "Mar 20, 2024 03:00 pm",
     eventType: "Past Event",
     location: "Taroudant"
 },
@@ -1472,7 +1472,7 @@ export const eventData = [
     eventName: "E-commerce Expo",
     organizer: "EcomExpo",
     logo: "images/img_inv12.svg",
-    dateTime: "Aug 25, 2024 04:00 pm",
+    dateTime: "May 25, 2024 04:00 pm",
     eventType: "Ongoing Event",
     location: "Sefrou"
 },
@@ -1509,7 +1509,7 @@ export const UpcomingEvents = [
   {
     image: "images/event0.jpeg",
     name: 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event',
-    date: 'Fri, Sep 1, 2023',
+    date: 'Fri, Sep 1, 2024',
     time: '11:00 AM',
     location: 'Virtual Event, Online Only',
     price: '$0.00',
@@ -1670,7 +1670,7 @@ export const UpcomingEvents = [
 },
 {
   image: "images/event3.jpeg",
-  name: 'VR & AR Conference - Moscow Edition Focusing on Virtual Reality and Augmented Reality',
+  name: 'VR & AR Conference - Moscow Edition Focusing on Virtual Reality and Maymented Reality',
   date: 'Sun, Nov 10, 2024',
   time: '9:00 AM - 5:00 PM',
   location: 'Mail.ru Group, Moscow',
@@ -1728,7 +1728,7 @@ export const PastEvents = [
   {
     image: "images/event0.jpeg",
     name: 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event',
-    date: 'Fri, Sep 1, 2023',
+    date: 'Fri, Sep 1, 2024',
     time: '11:00 AM',
     location: 'Virtual Event [Online Only]',
     price: '$0.00',
@@ -1925,7 +1925,7 @@ export const PastEvents = [
 },
 {
     image: "images/event2.jpeg",
-    name: 'VR & AR Conference - Moscow Edition Focusing on Virtual Reality and Augmented Reality',
+    name: 'VR & AR Conference - Moscow Edition Focusing on Virtual Reality and Maymented Reality',
     date: 'Sun, Nov 10, 2024',
     time: '9:00 AM - 5:00 PM',
     location: 'Mail.ru Group, Moscow',
@@ -1995,35 +1995,35 @@ export const historyData = [
   {
     image:"images/img_avatar.png",
     name: 'Annette Black',
-    date: 'Jun 6, 2023 02:37:22 PM',
+    date: 'Mar 6, 2024 02:37:22 PM',
     action: 'Shared Document',
-    actionTitle:"Investor Pitch Deck - Jun 2023.pdf"
+    actionTitle:"Investor Pitch Deck - Mar 2024.pdf"
   },
   {
     image:"images/img_avatar_1.png",
     name: 'Darlene Robertson',
-    date: 'Jun 16, 2023 02:37:22 PM',
+    date: 'Mar 16, 2024 02:37:22 PM',
     action: 'Send Contact Request to',
     actionTitle:"XYZ Combinator"
   },
   {
     image:"images/img_avatar.png",
     name: 'Annette Black',
-    date: 'Jun 4, 2023 11:20:56 AM',
+    date: 'Mar 4, 2024 11:20:56 AM',
     action: 'Uploaded Document',
-    actionTitle:"Partnership Agreement - DM (2023).pdf"
+    actionTitle:"Partnership Agreement - DM (2024).pdf"
   },
   {
     image:"images/img_avatar.png",
     name: 'Annette Black',
-    date: 'Jun 28, 2023 04:01 PM',
+    date: 'Mar 28, 2024 04:01 PM',
     action: 'Register an Event',
     actionTitle:"Generative Al for startups. Next generation startups"
   },
   {
     image:"images/img_avatar_1.png",
     name: 'Darlene Robertson',
-    date: 'Jun 14, 2023 11:20:56 AM',
+    date: 'Mar 14, 2024 11:20:56 AM',
     action: 'Create Project',
     actionTitle:"Lorem Ipsum Project - Angel Round Investment",
     actionTitle2:"and save as Draft"
@@ -2031,14 +2031,14 @@ export const historyData = [
   {
     image:"images/img_avatar_1.png",
     name: 'Darlene Robertson',
-    date: 'Jun 30, 2023 11:20:56 PM',
+    date: 'Mar 30, 2024 11:20:56 PM',
     action: 'Attending Event',
     actionTitle:"Next Big Investment Opportunity in North Africa"
   },
   {
     image:"images/img_avatar_4.png",
     name: 'Cameron Williamson',
-    date: 'Jun 22, 2023 12:45:15 PM',
+    date: 'Mar 22, 2024 12:45:15 PM',
     action: 'Shared Document',
     actionTitle:"Marketing Plan.pdf",
     actionTitle2:"to Marketing team"
@@ -2046,28 +2046,28 @@ export const historyData = [
   {
     image:"images/img_avatar_2.png",
     name: 'Gregory Turner',
-    date: 'Aug 12, 2023 10:00:00 AM',
+    date: 'May 12, 2024 10:00:00 AM',
     action: 'Sent Proposal to',
     actionTitle:"Potential Investor"
 },
 {
     image:"images/img_avatar_3.png",
     name: 'Linda Garcia',
-    date: 'Aug 16, 2023 01:50:45 PM',
+    date: 'May 16, 2024 01:50:45 PM',
     action: 'Updated Project',
     actionTitle:"Status to In Progress"
 },
 {
     image:"images/img_avatar_4.png",
     name: 'Cameron Williamson',
-    date: 'Aug 21, 2023 12:30:20 PM',
+    date: 'May 21, 2024 12:30:20 PM',
     action: 'Received Feedback on',
     actionTitle:"Marketing Campaign"
 },
 {
     image:"images/img_avatar_5.png",
     name: 'Trevor Evans',
-    date: 'Aug 25, 2023 02:45:15 PM',
+    date: 'May 25, 2024 02:45:15 PM',
     action: 'Attended Conference on',
     actionTitle:"Digital Marketing"
 },

@@ -49,6 +49,8 @@ import Notifications from './Pages/Notifications';
 import VerificationEmail from './Pages/Authentification/Complete_SignUp/VerificationEmail';
 import { isAuthenticated } from './Services/UserAuth';
 import GuardedConnectedUserRoute from './GuardedRoutes/GuardedConnectedUserRoute';
+import GuardedAdminRoute from './GuardedRoutes/GuardedAdminRoute';
+import Dashboard_Admin from './Pages/Dashboard_Admin/Dashboard';
 
 function App() {
  
@@ -87,6 +89,9 @@ function App() {
             <Route path="/ChoosePlan" element={<ChoosePlan />} />
             <Route path="/History" element={<History />} />
             <Route path="/Notification" element={<Notifications />} />
+          </Route>
+          <Route element={<GuardedAdminRoute />}>
+            <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
           </Route>
         </Route>
         <Route element={<Layout />}>
