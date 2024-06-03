@@ -146,8 +146,8 @@ const ChooseRole = () => {
     const confirmRole = () => {
       const formData = new FormData();
       formData.append('role', selectedOption);
-      addNewRequest({ formdata: formData, userId: UserId })
-      // openModal();
+      // addNewRequest({ formdata: formData, userId: UserId })
+      openModal();
     }
 
     const handleMouseEnter = () => {
@@ -297,7 +297,12 @@ const ChooseRole = () => {
       <div>
       </div>
       <ConfirmedModal isOpen={isModalOpen}
-        onRequestClose={closeModal}/>
+        onRequestClose={closeModal}
+        m1={t('chooserole.confirmed.m1')}
+        m2={t('chooserole.confirmed.m2')}
+        m3={t('chooserole.confirmed.m3')}
+        m4={t('chooserole.confirmed.m4')}
+        />
     </>
   );
 };

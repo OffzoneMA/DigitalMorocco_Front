@@ -7,7 +7,8 @@ import { ImFileText2 } from "react-icons/im";
 import { IoMdAdd } from "react-icons/io";
 import { useForm } from "react-hook-form";
 import { GrAttachment } from "react-icons/gr";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useLocation} from "react-router-dom";
+import { useSelector } from 'react-redux';
 import {stage} from "../data/stage"
 import MultipleSelect from "../Components/MultipleSelect";
 import { stage as stagesData } from "../data/stage";
@@ -50,88 +51,111 @@ const CreateProject = () => {
     };
   }, [div1Ref, div2Ref]);
    
-  
+  const { loading, userInfo } = useSelector((state) => state.auth)
 
+
+  const location = useLocation();
   const { projectId } = useParams();
-  const { data: editedProject, error, isLoading } = useGetProjectByIdQuery(projectId);
-  const { register, handleSubmit, formState: { errors } } = useForm(editedProject && {
-    defaultValues: {
-      name: editedProject?.name,
-      details: editedProject?.details,
-  }
-  });
   const navigate = useNavigate();
+  const [project, setProject] = useState(location.state?.project || null);
+  const { data: fetchedProject, error, isLoading } = useGetProjectByIdQuery(projectId, {
+    skip: Boolean(project || !projectId),
+  });
+  const { register, handleSubmit, formState: { errors } } = useForm(project !=null && {
+    defaultValues: {
+      name: project?.name,
+      details: project?.details,
+    }
+  });
+
+  const [Mount, setMount] = useState(true)
 
   const [focusedMilestone, setFocusedMilestone] = useState(null);
   const [milestones, setMilestones] = useState([]);
+  const [teamData , setTeamData ]= useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
-  const [fundingValue , setFundingValue] = useState(editedProject?.funding?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
-  const [raisedValue , setRaisedValue] = useState(editedProject?.funding?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
+  const [fundingValue, setFundingValue] = useState('');
+  const [raisedValue, setRaisedValue] = useState('');
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
   const [droppedFiles, setDroppedFiles] = useState([]);
   const [allFiles, setAllFiles] = useState([]);
-  const [selectedPublication , setSelectedPublication] = useState('');
-  const [selectedTeamsMembers , setSelectedTeamsMember] = useState([]);
-  const [selectedStages , setSelectedStages] = useState([]);
-  const [addProjet, addResponse] = useCreateProjectMutation()
-  const [updateProject , updateResponse] = useUpdateProjectMutation();
+  const [selectedPublication, setSelectedPublication] = useState('');
+  const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
+  const [selectedStages, setSelectedStages] = useState([]);
+  const [addProjet, addResponse] = useCreateProjectMutation();
+  const [updateProject, updateResponse] = useUpdateProjectMutation();
   const mutation = projectId ? updateProject : addProjet;
   const response = projectId ? updateResponse : addResponse;
 
-  console.log(selectedPublication)
+    /**
+   * Utility function to format numbers with spaces as thousand separators.
+   * 
+   * @param {number|string} number - The number to be formatted.
+   * @returns {string} The formatted number as a string.
+   */
+  function formatNumber(number) {
+    if (number !== null && number !== undefined) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+    return '';
+  }
 
   useEffect(() => {
-    if (editedProject?.milestones) {
-      const initialFormattedMilestones = editedProject.milestones.map((milestone, index) => ({
-        id: index + 1, 
+    if (userInfo && userInfo?.member) {
+      setTeamData(userInfo?.member?.listEmployee);
+    }
+    else {
+      const userData = JSON.parse(sessionStorage.getItem('userData'));
+      if(userData && userData?.member) {
+        setTeamData(userData?.member?.listEmployee);
+      }
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (fetchedProject && !project) {
+      setProject(fetchedProject);
+    }
+  }, [fetchedProject, project]);
+
+  useEffect(() => {
+    if (project) {
+      setFundingValue(formatNumber(project.funding));
+      setRaisedValue(formatNumber(project.raised));
+
+      const initialFormattedMilestones = project.milestones?.map((milestone, index) => ({
+        id: index + 1,
         name: milestone.name,
         dueDate: new Date(milestone.dueDate)
-      }));
+      })) 
       setMilestones(initialFormattedMilestones);
-    } else {
-      setMilestones([{ id: 1, name: '', dueDate: '' }]);
-    }
 
-    if (editedProject?.documents) {
-      const otherDocuments = editedProject.documents.filter(document => document.documentType === "other");
-      const initialDocumentDivs = otherDocuments.map((document, index) => ({
-        id: index + 1,
-      }));
-      setDocumentDivs(initialDocumentDivs);
-    } else {
-      setDocumentDivs([{ id: 1 }]);
-    }
-  }, [editedProject]); 
-  useEffect(() => {
-    const initializeFileNames = () => {
-      const initialFileNames = {};
-      editedProject?.documents?.forEach(document => {
-        const { name, documentType } = document;
-        if (!initialFileNames[documentType]) {
-          initialFileNames[documentType] = ''; 
-        }
-        initialFileNames[documentType]= name 
-      });
-      setFileNames(initialFileNames);
-    };
-    initializeFileNames();
-  }, [editedProject]);
-
-  useEffect(() => {
-    if (editedProject?.documents) {
-      const otherDocuments = editedProject.documents.filter(document => document.documentType === "other");
-      const initialDroppedFiles = otherDocuments.map((document, index) => ({
+      const otherDocuments = project.documents?.filter(document => document.documentType === "other") || [];
+      setDocumentDivs(otherDocuments.map((_, index) => ({ id: index + 1 })));
+      setDroppedFiles(otherDocuments.map((document, index) => ({
         name: document.name,
         index: index
-      }));
-      setDroppedFiles(initialDroppedFiles);
-    } else {
-      setDroppedFiles([]);
+      })));
+
+      const initialFileNames = {};
+      project.documents?.forEach(document => {
+        if (!initialFileNames[document.documentType]) {
+          initialFileNames[document.documentType] = '';
+        }
+        initialFileNames[document.documentType] = document.name;
+      });
+      setFileNames(initialFileNames);
+
+      setSelectedStages(project?.stages || []);
     }
-  }, [editedProject]);
-  
+    else{
+      setMilestones([{ id: 1, name: '', dueDate: '' }]);
+    }
+  }, [project]);
+
+  console.log(milestones)
   
   const formatFunding = (value , setField) => {
     let formattedValue = value.replace(/\D/g, '');
@@ -154,28 +178,23 @@ const CreateProject = () => {
     setFocusedMilestone(null);
   };
 
-  const addMilestone = () => {
-    const newId = milestones.length + 1;
-    setMilestones([...milestones, { id: newId, name: '', dueDate: '' }]);
+  const handleMilestoneChange = (e, id, field) => {
+    const updatedMilestones = milestones.map(milestone => 
+      milestone.id === id ? { ...milestone, [field]: e.target.value } : milestone
+    );
+    setMilestones(updatedMilestones);
   };
 
-  const handleMilestoneChange = (e, id, field) => {
-    const { value } = e.target;
-    setMilestones(prevData => prevData.map(milestone => {
-      if (milestone.id === id) {
-        return { ...milestone, [field]: value };
-      }
-      return milestone;
-    }));
-  };
   const handleMilestoneDateChange = (id, field, value) => {
-    setMilestones(prevData => prevData.map(milestone => {
-      if (milestone.id === id) {
-        return { ...milestone, [field]: value };
-      }
-      return milestone;
-    }));
-};
+    const updatedMilestones = milestones.map(milestone => 
+      milestone.id === id ? { ...milestone, [field]: value } : milestone
+    );
+    setMilestones(updatedMilestones);
+  };
+
+  const addMilestone = () => {
+    setMilestones([...milestones, { id: milestones.length + 1, name: '', dueDate: '' }]);
+  };
 
   const addDocumentDiv = () => {
     const newId = documentDivs.length + 1;
@@ -261,20 +280,31 @@ const handleFileInputChange = (event, index) => {
   const onSubmit = (data) => {
     const fundingValue = parseFloat(data.funding.replace(/\s/g, ''));
 
+    const totalRaisedValue = parseFloat(data.totalRaised.replace(/\s/g, ''));
+
     const updatedData = {
         ...data,
         funding: fundingValue,
-        totalRaised : raisedValue,
+        totalRaised : totalRaisedValue,
         visbility: selectedPublication
     };
-    // const selectedStagesNames = selectedStages.map(stage => stage.name);
 
     const formattedMilestones = milestones.map(({ id, ...rest }) => rest);
 
     const formDataContent = {
         ...updatedData,
         stages: selectedStages,
-        listMember: selectedTeamsMembers.map(({ id, ...rest }) => rest),
+        listMember: selectedTeamsMembers.map(member => ({
+          employee: member?._id,
+          fullName: member?.fullName,
+          personalEmail: member?.personalEmail,
+          workEmail: member?.workEmail,
+          jobTitle: member?.jobTitle,
+          status: member?.status,
+          image: member?.image,
+          photo: member?.photo,
+        })),
+        
         milestones: formattedMilestones
     };
 
@@ -303,21 +333,25 @@ const handleFileInputChange = (event, index) => {
 };
 
 useEffect(() => {
-  response.isError && response.log(response.error?.data.message)
-  if (response.isSuccess) {
+  if (Mount) { setMount(false) }
+  else {
+    if (response.isSuccess) {
       setTimeout(() => {
           navigate((0))
       }, 3000)
       navigate("/Projects")
+    }else {
+      response.isError && console.log(response.error)
+    }
   }
-
-}, [response.isLoading]);
+  
+}, [response]);
 
 const onButtonClick = (inputref) => {
   inputref.current.click();
 };
 
-  const teamMembersdataList = [
+const teamMembersdataList = [
     {
       id: 1,
       imageSrc: '/images/img_avatar.png',
@@ -391,7 +425,6 @@ const StageData = stage.map(
                 </Text>
                 <button 
                   className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
-                  onClick={() => onButtonClick(formButtonRef)}
                   ref={formButtonRef}
                   type="submit"
               >
@@ -444,24 +477,24 @@ const StageData = stage.map(
                     >
                       Team Member
                     </Text>
-                    <MultipleSelect id='teams' options={teamMembersdataList} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} 
-                    itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="name" optionkey="id"
+                    <MultipleSelect id='teams' options={teamData} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} 
+                    itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="_id"
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
-                          <img src={option.imageSrc} alt="teams" className="h-8 w-8 rounded-full"/>
+                          <img src={option.image} alt="teams" className="h-8 w-8 rounded-full"/>
                           <div className="flex flex-col gap-1.5 items-start justify-center w-full">
                             <Text
                               className="text-gray-900 text-sm w-auto"
                               size="txtDMSansRegular14Gray900"
                               >
-                              {option.name}
+                              {option.fullName}
                             </Text>
                             <Text
                               className="text-blue_gray-300 text-xs w-auto"
                               size="txtDMSansRegular12"
                               >
-                              {option.job}
+                              {option.jobTitle}
                             </Text>
                           </div>
                         </div>
@@ -470,7 +503,7 @@ const StageData = stage.map(
                     }/>
                     {selectedTeamsMembers.length==0 && <span className="text-sm font-DmSans text-red-500">Please select teams members</span>}
                   </div>
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                  <div className="flex flex-col gap-2 items-start justify-start w-full">
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -478,20 +511,20 @@ const StageData = stage.map(
                       Funding Target
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                      <BiDollar size={18}/>
+                      <BiDollar size={18} />
                       <input
-                        {...register("funding", { required: {value:true , message: "Project Funding Target is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                        {...register("funding", { required: { value: true, message: "Project Funding Target is required" } })}
+                        className="!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0"
                         name="funding"
                         type="text"
                         value={fundingValue}
-                        onChange={(e)=> formatFunding(e.target.value , setFundingValue)}
+                        onChange={(e) => formatFunding(e.target.value, setFundingValue)}
                         placeholder="Enter Funding Target"
                       />
                     </div>
-                    {errors.funding && <span className="text-sm font-DmSans text-red-500">{errors.funding?.message}</span>}
+                    {errors.funding && <span className="text-sm font-DmSans text-red-500">{errors.funding.message}</span>}
                   </div>
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                  <div className="flex flex-col gap-2 items-start justify-start w-full">
                     <Text
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
@@ -499,18 +532,18 @@ const StageData = stage.map(
                       Total Raised
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                      <BiDollar size={18}/>
+                      <BiDollar size={18} />
                       <input
-                        {...register("totalRaised", { required: {value:true , message: "Project Funding Target is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                        {...register("totalRaised", { required: { value: true, message: "Total Raised is required" } })}
+                        className="!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0"
                         name="totalRaised"
                         type="text"
                         value={raisedValue}
-                        onChange={(e)=> formatFunding(e.target.value , setRaisedValue)}
+                        onChange={(e) => formatFunding(e.target.value, setRaisedValue)}
                         placeholder="Enter Total Raised"
                       />
                     </div>
-                    {errors.funding && <span className="text-sm font-DmSans text-red-500">{errors.funding?.message}</span>}
+                    {errors.totalRaised && <span className="text-sm font-DmSans text-red-500">{errors.totalRaised.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -520,7 +553,7 @@ const StageData = stage.map(
                       Project publication
                     </Text>
                     <SimpleSelect id='publication'
-                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={editedProject?.visbility}
+                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
                     setSelectedOptionVal={setSelectedPublication} searchable={false}
                     placeholder={"Select Type of Publication"}
                     content={
@@ -545,7 +578,7 @@ const StageData = stage.map(
                       Stage
                     </Text>
                     <MultipleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStages} 
-                    placeholder="Select Stage" selectedOptionsDfault={editedProject?.stages}
+                    placeholder="Select Stage" selectedOptionsDfault={project?.stages}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-1.5 items-center  w-full">
@@ -650,7 +683,7 @@ const StageData = stage.map(
                         className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
                         size=""
                       >
-                        {fileNames["pitchDeck"] || editedProject?.documents?.filter(document => document.documentType === 'pitchDeck').name}
+                        {fileNames["pitchDeck"] || project?.documents?.filter(document => document.documentType === 'pitchDeck').name}
                       </Text>
                     </div>
                     )}

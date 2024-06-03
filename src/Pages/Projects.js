@@ -113,9 +113,9 @@ const Projects = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} >
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursor-pointer" onClick={()=> navigate(`/Projectdetails/${item._id}`)}>{item.name}</td>
+                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursor-pointer" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>{item.name}</td>
                       <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.totalRaised)}`}</td>
+                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.totalRaised || 0)}`}</td>
                       <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages[0]}</td>
                       <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.milestones[0]?.name}</td>
                       <td className="py-3 px-3 items-center">

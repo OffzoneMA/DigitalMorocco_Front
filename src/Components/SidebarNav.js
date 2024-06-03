@@ -16,7 +16,7 @@ import Popup from "reactjs-popup";
 
 
 const SidebarNav = () => {
-  const { userInfo } = useSelector((state) => state.auth)
+  const { loading, userInfo, error } = useSelector((state) => state.auth)
     const [open, setOpen] = useState(true);
     const [submenuOpen, setSubmenuOpen] = useState({
       company: false,

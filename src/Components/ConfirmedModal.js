@@ -49,8 +49,13 @@ const ConfirmedModal = (props) => {
               >
                 <>
                   {props.m3}
-                  {/* <br />
-                  {t('chooserole.confirmed.m4')} */}
+                  {props?.m4 && 
+                  <>
+                    <br />
+                  {props.m4}
+                  </>
+                  }
+                  
                 </>
               </Text>
             </div>

@@ -23,7 +23,7 @@ const MyInvestors = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userData._id;
+  const userId = userData?._id;
   const [noInvestors, setNoInvestors] = useState(false);
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;

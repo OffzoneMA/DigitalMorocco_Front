@@ -115,8 +115,8 @@ export default function SignIn() {
             // toast.success("Logged In")
             if (!userInfo?.role) { navigate('/ChooseRole') }
             else{
-              // navigate('/Dashboard')
-              openModal();
+              navigate('/Dashboard')
+              // openModal();
             }
           }
         

@@ -503,3 +503,7 @@ input::-ms-clear {
 .creditQuestion-content {
   width: 228px;
 }
+
+.recharts-tooltip-cursor{
+  display: none !important;
+}

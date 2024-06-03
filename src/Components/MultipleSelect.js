@@ -85,7 +85,7 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
     }
   };
   
-  const filteredData = options.filter(investor => {
+  const filteredData = options?.filter(investor => {
     if (typeof investor === 'string') {
       return investor.toLowerCase().includes(searchValue.toLowerCase());
     }
@@ -174,7 +174,7 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
           </div>
          )}
           <div className="py-1">
-            {filteredData.map((option, index) => (
+            {filteredData?.map((option, index) => (
               <div
                 key={index}
                 className={`flex items-center justify-start px-3 cursorpointer-green hover:bg-gray-100 `}
