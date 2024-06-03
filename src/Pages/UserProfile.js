@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef} from 'react';
+import React, { useEffect, useState , useRef, useContext} from 'react';
 import { useSelector } from 'react-redux';
 import { useUpdateUserMutation } from '../Services/User.Service';
 import { useForm } from 'react-hook-form';
@@ -17,10 +17,11 @@ import { languages } from '../data/tablesData';
 import { regions } from '../data/tablesData';
 import { SlCheck } from "react-icons/sl";
 import PageHeader from "../Components/PageHeader";
-
+import axios from 'axios';
 
 export default function UserProfile() {
-  const { userInfo, loading } = useSelector((state) => state.auth)
+  const { userInfo } = useSelector((state) => state.auth)
+  console.log(userInfo)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
   const [name, setName] = useState(userInfo?.displayName);
@@ -32,12 +33,13 @@ export default function UserProfile() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-
   const [isConnect , setIsConnect] = useState(true);
-
   const [isForm1Saved , setIsForm1Saved] = useState(false);
   const [isForm2Saved , setIsForm2Saved] = useState(false);
   const [isForm3Saved , setIsForm3Saved] = useState(false);
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const allCountries = Country.getAllCountries();
   const selectedCountryName = selectedCountry? selectedCountry["name"] : '';
@@ -53,16 +55,64 @@ export default function UserProfile() {
     fileInputRef.current.click();
   };
 
-    useEffect(()=>{
-      setName(userInfo?.displayName)
-    },[userInfo])
+
   useEffect(() => {
-    responseUpdate?.error && toast.error("Something went wrong")
-    if(responseUpdate?.isSuccess) {
-    toast.success("Edited Successfuly !")
-      setIsEditing(false)
-  }
-  }, [responseUpdate.isLoading]);
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/users/UserInfo'); 
+        const data = response.data;
+        console.log("data",data)
+        setUser(data);
+        setValue('email', data.email);
+        setValue('username', data.username);
+        setValue('country', data.country);
+        setValue('city', data.city);
+        setValue('phoneNumber', data.phoneNumber);
+        setValue('website', data.website);
+        setValue('facebook', data.facebook);
+        setValue('instagram', data.instagram);
+        setValue('twitter', data.twitter);
+        setValue('linkedin', data.linkedin);
+        setValue('language', data.language);
+        setValue('region', data.region);
+      } catch (error) {
+        console.error('Failed to fetch user info', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!user) {
+      fetchUserInfo();
+    } else {
+      // Si les informations de l'utilisateur sont déjà disponibles
+      setValue('email', user.email);
+      setValue('username', user.username);
+      setValue('country', user.country);
+      setValue('city', user.city);
+      setValue('phoneNumber', user.phoneNumber);
+      setValue('website', user.website);
+      setValue('facebook', user.facebook);
+      setValue('instagram', user.instagram);
+      setValue('twitter', user.twitter);
+      setValue('linkedin', user.linkedin);
+      setValue('language', user.language);
+      setValue('region', user.region);
+      setLoading(false);
+    }
+  }, [setValue, user, setUser]);
+
+
+  //   useEffect(()=>{
+  //     setName(userInfo?.displayName)
+  //   },[userInfo])
+  // useEffect(() => {
+  //   responseUpdate?.error && toast.error("Something went wrong")
+  //   if(responseUpdate?.isSuccess) {
+  //   toast.success("Edited Successfuly !")
+  //     setIsEditing(false)
+  // }
+  // }, [responseUpdate.isLoading]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -174,6 +224,7 @@ export default function UserProfile() {
                       type="text"
                       name="firstName"
                       placeholder="First Name"
+                      
                     />
                   </div>
                   {errors1.firstName && <span className="text-sm font-DmSans text-red-500">{errors1.firstName?.message}</span>}

@@ -5,19 +5,20 @@ import { BiBuildings } from "react-icons/bi";
 import { GoRocket } from "react-icons/go";
 import { RiHome6Line, RiUser3Line } from "react-icons/ri";
 import { TiFlashOutline } from "react-icons/ti";
-import { useSelector } from 'react-redux';
+import { useSelector ,useDispatch} from 'react-redux';
 import { PiFolderThin, PiHourglassLowFill } from "react-icons/pi";
-import { HiOutlineTicket } from "react-icons/hi";
+import { HiOutlineLogout, HiOutlineTicket } from "react-icons/hi";
 import { IoNotificationsOutline, IoSettingsOutline } from "react-icons/io5";
 import { useNavigate, Link } from "react-router-dom";
 import coinsIcon from '../Media/credits_img.svg';
 import questionImg from '../Media/question.svg';
 import Popup from "reactjs-popup";
-
+import { logout, setCredentials } from "../Redux/auth/authSlice";
 
 const SidebarNav = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
     const [open, setOpen] = useState(true);
+    const dispatch = useDispatch()
     const [submenuOpen, setSubmenuOpen] = useState({
       company: false,
       investor: false,
@@ -171,7 +172,7 @@ const SidebarNav = () => {
     )}
     <div className="border-t border-blue_gray-601 flex px-1 py-5 items-center">
       <img
-        src="/images/img_avatar.svg"
+        src={`data:image/png;base64,${userData?.photo}`}
         alt=""
         className="w-9 h-9 rounded-full bg-cover"
       />
@@ -225,9 +226,24 @@ const SidebarNav = () => {
       </button>
       }
     </div>
+
+    <div className="group flex text-base font-dm-sans-regular leading-6 rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center justify-center gap-x-2 mt-3"
+      onClick={() => {
+        dispatch(logout());
+        navigate('/SignIn');
+      }}>
+      <HiOutlineLogout size={22} className="text-light_blue-100 group-hover:text-red-500" />
+      <span className="origin-left duration-200 flex-1">
+        SignOut
+      </span>
+    </div>
+
+
+    </div>
+    
   </div>
 
-</div>
+
 
   );
 };

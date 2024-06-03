@@ -32,20 +32,18 @@ const NewEmployee = () => {
   const location = useLocation();
   const { employee } = location.state || {};
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    workEmail: '',
-    personalEmail: '',
-    address: '',
-    country: '',
-    cityState: '',
-    personalTaxIdentifierNumber: '',
-    phoneNumber: '',
-    jobTitle: '',
-    level: '',
-    department: '',
-    startDate: '',
-    photo: '',
+    fullName: employee?.fullName || '',
+    email: employee?.email || '',
+    address: employee?.address || '',
+    country: employee?.country || '',
+    cityState: employee?.cityState || '',
+    personalTaxIdentifierNumber: employee?.personalTaxIdentifierNumber || '',
+    phoneNumber: employee?.phoneNumber || '',
+    jobTitle: employee?.jobTitle || '',
+    level: employee?.level || '',
+    department: employee?.department || '',
+    startDate: employee?.startDate || '',
+    photo: employee?.photo || '',
   });
 
 
@@ -53,10 +51,9 @@ const NewEmployee = () => {
     if (location.state && location.state.employee) {
       console.log(employee)
       setFormData({
-        firstName: employee.firstName,
-        lastName: employee.lastName,
-        workEmail: employee.email,
-        personalEmail: employee.email, 
+        fullName: employee.fullName,
+        email: employee.email,
+        email: employee.email, 
         address: employee.address,
         country: employee.country,
         cityState: employee.cityState,
@@ -100,72 +97,165 @@ const NewEmployee = () => {
     setImgFile(file);
   };
 
-
   const onSubmit = async (data) => {
     try {
       const token = sessionStorage.getItem("userToken");
       const userData = JSON.parse(sessionStorage.getItem("userData"));
       const userId = userData._id;
-      console.log(userId)
-
-      const reader = new FileReader();
-      reader.readAsDataURL(imgFile);
-      reader.onloadend = async () => {
-        const base64Image = reader.result;
-
-        const requestData = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          address: data.address,
-          email: data.workEmail,
-          personalTaxIdentifierNumber: data.personalTaxIdentifierNumber,
-          phoneNumber: data.phoneNumber,
-          jobTitle: selectedJobTitle.title,
-          level: selectedLevel.level,
-          department: selectedDepartment.name,
-          country: selectedCountry?.name,
-          cityState: selectedCity?.name,
-          startDate: moment(selectedDate, 'DD/MM/YYYY').toDate(),
-          photo: base64Image, 
+      const employeeId = employee?._id;
+  
+      // Préparer les données de la demande
+      const updatedFields = {};
+      const currentData = employee || {};
+  
+      // Vérifiez chaque champ et ajoutez-le à updatedFields si modifié
+      Object.keys(formData).forEach(field => {
+        if (formData[field] !== currentData[field]) {
+          updatedFields[field] = formData[field];
+        }
+      });
+  
+      // Gérer le téléchargement de l'image
+      if (imgFile) {
+        const reader = new FileReader();
+        reader.readAsDataURL(imgFile);
+        reader.onloadend = async () => {
+          const base64Image = reader.result;
+          if (base64Image !== currentData.photo) {
+            updatedFields.photo = base64Image;
+          }
+  
+          // Ajouter des champs sélectionnés
+          updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
+          updatedFields.level = selectedLevel?.level || currentData.level;
+          updatedFields.department = selectedDepartment?.name || currentData.department;
+          updatedFields.country = selectedCountry?.name || currentData.country;
+          updatedFields.cityState = selectedCity?.name || currentData.cityState;
+          updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
+  
+          if (employeeId) {
+            // Mettre à jour l'employé existant
+            await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            });
+          } else {
+            // Créer un nouvel employé
+            await fetch(`http://localhost:5000/members/employees/${userId}`, {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(updatedFields),
+            });
+          }
+  
+          setIsSaved(true);
         };
-        if (location.state && location.state.employee) {
-            const employeeId = employee._id;
-          await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, requestData, {
+      } else {
+        // Ajouter des champs sélectionnés
+        updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
+        updatedFields.level = selectedLevel?.level || currentData.level;
+        updatedFields.department = selectedDepartment?.name || currentData.department;
+        updatedFields.country = selectedCountry?.name || currentData.country;
+        updatedFields.cityState = selectedCity?.name || currentData.cityState;
+        updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
+  
+        if (employeeId) {
+          // Mettre à jour l'employé existant
+          await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           });
-        }
-
-        else{
-          fetch(`http://localhost:5000/members/employees/${userId}`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData),
-        })
-          .then(response => response.json())
-          .then(responseData => {
-            console.log("Réponse du serveur :", responseData);
-          }
-
-          )
-          .catch(error => {
-            console.error("Erreur lors de l'envoi du formulaire :", error);
+        } else {
+          // Créer un nouvel employé
+          await fetch(`http://localhost:5000/members/employees/${userId}`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedFields),
           });
         }
-        
+  
         setIsSaved(true);
-
-      };
+      }
     } catch (error) {
       console.error("Erreur lors de l'envoi du formulaire :", error);
       // Affichez une erreur à l'utilisateur si nécessaire
     }
   };
+  
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const token = sessionStorage.getItem("userToken");
+  //     const userData = JSON.parse(sessionStorage.getItem("userData"));
+  //     const userId = userData._id;
+  //     const employeeId = employee._id;
+
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(imgFile);
+  //     reader.onloadend = async () => {
+  //       const base64Image = reader.result;
+
+  //       const requestData = {
+  //         fullName: data.fullName,
+  //         address: data.address,
+  //         email: data.email,
+  //         personalTaxIdentifierNumber: data.personalTaxIdentifierNumber,
+  //         phoneNumber: data.phoneNumber,
+  //         jobTitle: selectedJobTitle.title,
+  //         level: selectedLevel.level,
+  //         department: selectedDepartment.name,
+  //         country: selectedCountry?.name,
+  //         cityState: selectedCity?.name,
+  //         startDate: moment(selectedDate, 'DD/MM/YYYY').toDate(),
+  //         photo: base64Image, 
+  //       };
+  //       if (location.state && location.state.employee) {
+            
+  //         await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, requestData, {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             'Content-Type': 'application/json',
+  //           },
+  //         });
+  //       }
+
+  //       else{
+  //         fetch(`http://localhost:5000/members/employees/${userId}`, {
+  //         method: 'POST',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify(requestData),
+  //       })
+  //         .then(response => response.json())
+  //         .then(responseData => {
+  //           console.log("Réponse du serveur :", responseData);
+  //         }
+
+  //         )
+  //         .catch(error => {
+  //           console.error("Erreur lors de l'envoi du formulaire :", error);
+  //         });
+  //       }
+        
+  //       setIsSaved(true);
+
+  //     };
+  //   } catch (error) {
+  //     console.error("Erreur lors de l'envoi du formulaire :", error);
+  //     // Affichez une erreur à l'utilisateur si nécessaire
+  //   }
+  // };
 
 
   const employeeLevels = [
@@ -255,83 +345,44 @@ const NewEmployee = () => {
                     className="text-base text-gray-900_01 w-auto"
                     size="txtDMSansLablel"
                   >
-                    First Name
+                    Full Name
                   </Text>
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
-                      {...register("firstName", { required: { value: true, message: "Employee First Name is required" } })}
+                      {...register("fullName", { required: { value: true, message: "Employee First Name is required" } })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent !border-0`}
                       type="text"
-                      name="firstName"
+                      name="fullName"
                       placeholder="first Name"
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     />
                   </div>
-                  {errors.firstName && <span className="text-sm font-DmSans text-red-500">{errors.firstName?.message}</span>}
+                  {errors.fullName && <span className="text-sm font-DmSans text-red-500">{errors.fullName?.message}</span>}
                 </div>
+
 
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-gray-900_01 w-auto"
                     size="txtDMSansLablel"
                   >
-                    Last Name
+                    Email
                   </Text>
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
-                      {...register("lastName", { required: { value: true, message: "Employee Last Name is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent !border-0`}
-                      type="text"
-                      name="lastName"
-                      placeholder="Last Name"
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    />
-                  </div>
-                  {errors.lastName && <span className="text-sm font-DmSans text-red-500">{errors.lastName?.message}</span>}
-                </div>
-
-                <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                  <Text
-                    className="text-base text-gray-900_01 w-auto"
-                    size="txtDMSansLablel"
-                  >
-                    Work Email
-                  </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                    <input
-                      {...register("workEmail", { required: { value: true, message: "Employee Work Email is required" } })}
+                      {...register("email", { required: { value: true, message: "Employee Work Email is required" } })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
-                      name="workEmail"
+                      name="email"
                       placeholder="Enter Work Email"
-                      value={formData.workEmail}
-                      onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
                   </div>
-                  {errors.workEmail && <span className="text-sm font-DmSans text-red-500">{errors.workEmail?.message}</span>}
+                  {errors.email && <span className="text-sm font-DmSans text-red-500">{errors.email?.message}</span>}
                 </div>
-                <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                  <Text
-                    className="text-base text-gray-900_01 w-auto"
-                    size="txtDMSansLablel"
-                  >
-                    Personal Email
-                  </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                    <input
-                      {...register("personalEmail", { required: { value: true, message: "Employee personalEmail is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                      type="text"
-                      name="personalEmail"
-                      placeholder="Enter Personal Email"
-                      value={formData.personalEmail}
-                      onChange={(e) => setFormData({ ...formData, personalEmail: e.target.value })}
-                    />
-                  </div>
-                  {errors.personalEmail && <span className="text-sm font-DmSans text-red-500">{errors.personalEmail?.message}</span>}
-                </div>
+             
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-gray-900_01 w-auto"
