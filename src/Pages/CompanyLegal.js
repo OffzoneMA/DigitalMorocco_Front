@@ -29,15 +29,14 @@ const CompanyLegal = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 7;
   const pagesToShow = 4;
-  const data ='';
   const [legalDocuments, setLegalDocuments] = useState([]);
+  const data =legalDocuments;
   const totalTablePages = Math.ceil(data.length / itemsPerPage);
   const [loading, setLoading] = useState(true);
   const [documentId, setDocumentId] = useState(null); 
 
 
   useEffect(() => {
-    
     fetchLegalDocuments();
 }, []);
 
@@ -64,7 +63,7 @@ const fetchLegalDocuments = async () => {
     }
   }
 
-  const documentData = legalDocuments;
+  const documentData = getPageData();
   
   const openModal = () => {
     setIsModalOpen(true);
@@ -109,7 +108,6 @@ const fetchLegalDocuments = async () => {
         
         await fetchLegalDocuments();
         closeDeleteModal();
-        console.log("succees")
       } catch (error) {
         console.error("Error deleting employee:", error);
       }
@@ -121,9 +119,7 @@ const fetchLegalDocuments = async () => {
           const userId = userData._id;
           
           const response = await axios.post(`http://localhost:5000/members/${userId}/legal-documents`, formData);
-          
           if (response.status === 201) {
-              console.log("Document ajouté avec succès");
               fetchLegalDocuments();
               closeModal();
           } else {
@@ -134,13 +130,18 @@ const fetchLegalDocuments = async () => {
       }
   };
 
-  const handleEditDocument = async (documentId,ownerId, formData) => {
+  const handleEditDocument = async (formData) => {
     try {
-      console.log(documentId, formData)
+      
+      const documentId=formData._id;
+      const ownerId = formData.ownerId;
       const response = await axios.put(`http://localhost:5000/members/${ownerId}/legal-documents/${documentId}`, formData);
-      console.log("Document updated successfully");
-      fetchLegalDocuments();
-      closeEditModal();
+      if (response.status === 200) {
+        fetchLegalDocuments();
+        closeEditModal();
+    } else {
+        console.error("Échec de l'edit du document");
+    }    
     } catch (error) {
       console.error("Error updating document:", error);
     

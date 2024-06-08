@@ -618,6 +618,7 @@ const onSubmit3 = async () => {
               <span className="text-sm leading-[18.33px]">Connect</span> </button> </div> 
               <button className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
               Save </button> </div>
+
                 <form onSubmit={handleSubmit3(onSubmit3)} 
                 className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'> 
                 <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" > 
@@ -660,6 +661,7 @@ const onSubmit3 = async () => {
                       Saved</span> </button>
                       )
                     } </form> 
+
                     <div className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'> 
                       <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" > 
                       Delete Your Account </Text> 
