@@ -33,7 +33,8 @@ const NewEmployee = () => {
   const { employee } = location.state || {};
   const [formData, setFormData] = useState({
     fullName: employee?.fullName || '',
-    email: employee?.email || '',
+    workEmail: employee?.workEmail || '',
+    personalEmail: employee?.personalEmail || '',
     address: employee?.address || '',
     country: employee?.country || '',
     cityState: employee?.cityState || '',
@@ -52,8 +53,8 @@ const NewEmployee = () => {
       console.log(employee)
       setFormData({
         fullName: employee.fullName,
-        email: employee.email,
-        email: employee.email, 
+        workEmail: employee.workEmail,
+        personalEmail: employee.personalEmail, 
         address: employee.address,
         country: employee.country,
         cityState: employee.cityState,
@@ -103,19 +104,15 @@ const NewEmployee = () => {
       const userData = JSON.parse(sessionStorage.getItem("userData"));
       const userId = userData._id;
       const employeeId = employee?._id;
-  
-      // Préparer les données de la demande
       const updatedFields = {};
       const currentData = employee || {};
   
-      // Vérifiez chaque champ et ajoutez-le à updatedFields si modifié
       Object.keys(formData).forEach(field => {
         if (formData[field] !== currentData[field]) {
           updatedFields[field] = formData[field];
         }
       });
   
-      // Gérer le téléchargement de l'image
       if (imgFile) {
         const reader = new FileReader();
         reader.readAsDataURL(imgFile);
@@ -125,7 +122,6 @@ const NewEmployee = () => {
             updatedFields.photo = base64Image;
           }
   
-          // Ajouter des champs sélectionnés
           updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
           updatedFields.level = selectedLevel?.level || currentData.level;
           updatedFields.department = selectedDepartment?.name || currentData.department;
@@ -134,7 +130,7 @@ const NewEmployee = () => {
           updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
   
           if (employeeId) {
-            // Mettre à jour l'employé existant
+         
             await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -142,7 +138,7 @@ const NewEmployee = () => {
               },
             });
           } else {
-            // Créer un nouvel employé
+          
             await fetch(`http://localhost:5000/members/employees/${userId}`, {
               method: 'POST',
               headers: {
@@ -156,7 +152,7 @@ const NewEmployee = () => {
           setIsSaved(true);
         };
       } else {
-        // Ajouter des champs sélectionnés
+      
         updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
         updatedFields.level = selectedLevel?.level || currentData.level;
         updatedFields.department = selectedDepartment?.name || currentData.department;
@@ -165,7 +161,6 @@ const NewEmployee = () => {
         updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
   
         if (employeeId) {
-          // Mettre à jour l'employé existant
           await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -173,7 +168,6 @@ const NewEmployee = () => {
             },
           });
         } else {
-          // Créer un nouvel employé
           await fetch(`http://localhost:5000/members/employees/${userId}`, {
             method: 'POST',
             headers: {
@@ -367,22 +361,44 @@ const NewEmployee = () => {
                     className="text-base text-gray-900_01 w-auto"
                     size="txtDMSansLablel"
                   >
-                    Email
+                   Work Email
                   </Text>
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
-                      {...register("email", { required: { value: true, message: "Employee Work Email is required" } })}
+                      {...register("workEmail", { required: { value: true, message: "Employee Work Email is required" } })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="text"
-                      name="email"
+                      name="workEmail"
                       placeholder="Enter Work Email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      value={formData.workEmail}
+                      onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}                    
                     />
                   </div>
-                  {errors.email && <span className="text-sm font-DmSans text-red-500">{errors.email?.message}</span>}
+                  {errors.workEmail && <span className="text-sm font-DmSans text-red-500">{errors.workEmail?.message}</span>}            
+                </div>
+
+                <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                  <Text
+                    className="text-base text-gray-900_01 w-auto"
+                    size="txtDMSansLablel"
+                  >
+                   Personal Email
+                  </Text>
+                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
+                    <input
+                      {...register("personalEmail", { required: { value: true, message: "Employee Personal Email is required" } })}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      type="text"
+                      name="personalEmail"
+                      placeholder="Enter Personal Email"
+                      value={formData.personalEmail}
+                      onChange={(e) => setFormData({ ...formData, personalEmail: e.target.value })}                    
+                    />
+                  </div>
+                  {errors.personalEmail && <span className="text-sm font-DmSans text-red-500">{errors.personalEmail?.message}</span>}            
                 </div>
              
+
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-gray-900_01 w-auto"

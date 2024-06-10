@@ -187,7 +187,7 @@ const SidebarNav = () => {
     )}
     <div className="border-t border-blue_gray-601 flex px-1 py-5 items-center">
       <img
-        src={userData?.photo ? `data:image/png;base64,${userData?.photo}` : userImg}
+        src={`${userData?.image}`}
         alt=""
         className="w-9 h-9 rounded-full bg-cover"
       />
