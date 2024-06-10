@@ -90,9 +90,9 @@ function App() {
             <Route path="/History" element={<History />} />
             <Route path="/Notification" element={<Notifications />} />
           </Route>
-          {/* <Route element={<GuardedAdminRoute />}> */}
+          <Route element={<GuardedAdminRoute />}>
             <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
-          {/* </Route> */}
+          </Route>
         </Route>
         <Route element={<Layout />}>
           <Route   path="/SignIn" element={<SignIn />} />
