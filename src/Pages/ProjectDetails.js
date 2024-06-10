@@ -113,7 +113,7 @@ useEffect(() => {
     <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
+          <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
             <PageHeader
               >
                 Projects
@@ -132,7 +132,7 @@ useEffect(() => {
               </TableTitle>
               <div className="flex  flex-row gap-3 items-center justify-end">
                 <button
-                  className="bg-light_blue-100 md:text-sm text-base font-medium leading-5 text-blue-500 flex flex-row items-center ml-auto p-2 cursor-pointer rounded-md font-DmSans"
+                  className="bg-light_blue-100 md:text-sm text-base font-dm-sans-medium leading-5 text-blue-500 flex flex-row items-center ml-auto p-2 cursorpointer rounded-md"
                   onClick={openModal}
                   type="button"
                 >
@@ -141,7 +141,7 @@ useEffect(() => {
                 </button>
 
                 <button
-                  className="bg-light_blue-100 text-blue-500 cursor-pointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md"
+                  className="bg-light_blue-100 text-blue-500 cursorpointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md"
                   onClick={openDeleteModal}
                   type="button"
                 >
@@ -149,7 +149,7 @@ useEffect(() => {
                   <span className="font-DmSans md:text-sm text-base font-medium leading-5">Delete Project</span>
                 </button>
                 <button
-                  className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursor-pointer items-center ml-auto p-2 rounded-md"
+                  className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursorpointer items-center ml-auto p-2 rounded-md"
                   onClick={() => navigate(`/Editproject/${projectId}` , { state: { project: project }})}
                   type="button"
                 >
@@ -274,11 +274,11 @@ useEffect(() => {
                         Project Milestone
                       </Text>
                       <button
-                        className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursor-pointer ml-auto p-[7px] rounded-md w-auto"
+                        className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer ml-auto p-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
                         type="button"
                     >
-                        <span className="cursor-pointer font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
+                        <span className="cursorpointer font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
                     </button>
 
                     </div>
@@ -313,7 +313,7 @@ useEffect(() => {
                           onChange={(e) => setSearchValue(e.target.value)}
                         />
                         <img
-                          className="cursor-pointer mr-1.5 my-px"
+                          className="mr-1.5 my-px"
                           src="/images/img_search_blue_gray_700_01.svg"
                           alt=""
                         />

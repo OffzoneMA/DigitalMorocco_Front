@@ -15,8 +15,6 @@ import questionImg from '../Media/question.svg';
 import Popup from "reactjs-popup";
 import { logout, setCredentials } from "../Redux/auth/authSlice";
 import userImg from '../Media/img_avatar_1.png';
-import simpleLogo from '../Media/img_simple_logo.svg';
-import simpleLogoText from '../Media/img_simple_logo_text.svg';
 
 const SidebarNav = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
@@ -33,11 +31,10 @@ const SidebarNav = () => {
 
     const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
 
-    const [activeParent, setActiveParent] = useState('');
-
     const navigate=useNavigate()
 
     const userData = JSON.parse(sessionStorage.getItem('userData'));
+
 
     const setSubmenu = (submenuName, isOpen) => {
       setSubmenuOpen(prevState => ({
@@ -85,18 +82,14 @@ const SidebarNav = () => {
     if (userData?.role === "Admin") {
       Menus.push({ title: "Users", src: <RiUser3Line size={22} className="text-light_blue-100"/> , link:"Users" });
     }
-
-    const isSubmenuActive = (submenuName) => {
-      return Menus.find((menu) => menu.title === submenuName)?.child.some((child) => child.link === activeMenu);
-    };
     
   return (
     <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer-green ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex">
-    <img src={simpleLogo} className={`text-4xl rounded cursorpointer-green block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => navigate("/")}/>
+    <img src="/images/img_simple_logo.svg" className={`text-4xl rounded cursorpointer-green block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => navigate("/")}/>
   <Link to="/">
-    <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`}/>
+    <img src="/images/img_simple_logo_text.svg" className={`origin-left ${!open && "scale-0"}`}/>
   </Link>
 </div>
   <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
@@ -106,9 +99,8 @@ const SidebarNav = () => {
         onClick={() => {
           (Menu.submenu && setSubmenu(Menu.title, !submenuOpen[Menu.title]))
           navigate( Menu.link)
-          setActiveParent(Menu.title)
           setActiveMenu(Menu.title);}}
-          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === Menu.link || activeParent === Menu.title)? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
+          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === Menu.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
         >
           {Menu.src}
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
@@ -128,9 +120,8 @@ const SidebarNav = () => {
             <li
               key={i}
               onClick={() => {
-                setActiveMenu(el.link)
-                setActiveParent(Menu.title)
-                navigate(el.link);}}
+                navigate(el.link)
+                setActiveMenu(el.link);}}
               className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
             >
               <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
@@ -144,11 +135,8 @@ const SidebarNav = () => {
   </ul>
   <div className=" text-base font-dm-sans-regular leading-6">
     <div
-      onClick={() => {setSettingsOpen(!settingsOpen)
-              setActiveParent("settings")
-              setActiveMenu("settings");
-      }}
-      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer-green ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
+    onClick={() => {setSettingsOpen(!settingsOpen)}}
+      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
     >
       <IoSettingsOutline size={22} className="text-light_blue-100"/>
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
@@ -164,7 +152,6 @@ const SidebarNav = () => {
       <div
       onClick={() => {
         navigate("/UserProfile")
-        setActiveParent("settings")
         setActiveMenu("My Profil");}}
       className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "My Profil"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
     >
@@ -176,9 +163,8 @@ const SidebarNav = () => {
     <div
       onClick={() => {
         navigate("/Subscription")
-        setActiveParent("settings")
         setActiveMenu("Subscription & Billing");}}
-      className={`  mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription & Billing" || activeMenu === "ChoosePlan")? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+      className={`  mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "Subscription & Billing"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       Subscription & Billing
@@ -201,13 +187,13 @@ const SidebarNav = () => {
         <span className="text-white-A700">{userData?.displayName? userData?.displayName : "Camille Olivia"}</span>
         </div>
       </div>
-      <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer-green`} 
+      <div className={`flex ${notifOpen? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer-green`} 
       onClick={()=> {
         setNotifOpen(true)
         navigate('/Notification')
         setActiveMenu("Notification")
       }}>
-      <IoNotificationsOutline size={20} className={`text-white-A700 ${activeMenu === "Notification"? 'text-blue_gray-801' :""}`}/>
+      <IoNotificationsOutline size={20} className={`text-white-A700 ${notifOpen? 'text-blue_gray-801' :""}`}/>
       </div>
     </div>
     {userData?.role?.toLowerCase() == 'member' &&

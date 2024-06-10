@@ -1,9 +1,7 @@
 import React, { useState , useRef , useEffect} from "react";
-import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
-import { TbTicketOff } from "react-icons/tb";
 import { BsThreeDots } from "react-icons/bs";
 import { FiDelete } from "react-icons/fi";
 import { HiOutlineQrcode } from "react-icons/hi";
@@ -13,19 +11,22 @@ import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import ViewTicketModal from "../Components/ViewTicketModal";
 import DownloadTicket from "../Components/DownloadTicket";
-import { eventData } from "../data/tablesData";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import ReactDOMServer from 'react-dom/server';
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 import Loader from "../Components/Loader";
-import { useGetEventsQuery } from "../Services/Event.Service";
+import { useGetEventsForUserQuery} from "../Services/Event.Service";
+import ticketEmptyImg from '../Media/ticket_empty.svg';
+import format from "date-fns/format";
+import DownloadTicket1 from "../Components/DownloadTicket1";
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ReactDOM from 'react-dom';
 
 const Events = () => {
   const navigate = useNavigate();
-  const {data : eventsDT , error, isLoading , refetch } = useGetEventsQuery();
+  const {data : eventsParticipate , error , isLoading , refetch } = useGetEventsForUserQuery();
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
@@ -45,14 +46,25 @@ const Events = () => {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const [ticketDataRow , setTicketDataRow] = useState(null);
 
-
-  const toggleDropdown = (index, event) => {
+  const toggleDropdownClick = (index, event) => {
     event.stopPropagation();
     if (openDropdownIndexes.includes(index)) {
       setOpenDropdownIndexes(openDropdownIndexes.filter((i) => i !== index));
     } else {
       setOpenDropdownIndexes([...openDropdownIndexes, index]);
     }
+  };
+
+  const toggleDropdown = (index, event) => {
+    event.stopPropagation();
+    setOpenDropdownIndexes([...openDropdownIndexes, index]);
+  };
+
+  const toggleDropdownClose = (index, event) => {
+    event.stopPropagation();
+    if (openDropdownIndexes.includes(index)) {
+      setOpenDropdownIndexes(openDropdownIndexes.filter((i) => i !== index));
+    } 
   };
 
   const isDropdownOpen = (index) => {
@@ -83,15 +95,15 @@ const Events = () => {
     setDownloadFile(false);
   };
 
-  const events = eventData;
+  const events = eventsParticipate;
 
-  const filteredData = events.filter(item => {
-    const keywordMatch = item.eventName.toLowerCase().includes(keywords.toLowerCase());
+  const filteredData = events?.filter(item => {
+    const keywordMatch = item.title.toLowerCase().includes(keywords.toLowerCase());
   
     if (filterApply) {
-      const typeMatch = eventName.length === 0 || eventName.some(category => item.eventName.includes(category));
+      const typeMatch = eventName.length === 0 || eventName.some(category => item.title.includes(category));
   
-      const locationMatch = !location || item.location.toLowerCase().includes(location.toLowerCase());
+      const locationMatch = !location || item.physicalLocation.toLowerCase().includes(location.toLowerCase());
   
       return keywordMatch && typeMatch && locationMatch;
     }
@@ -106,12 +118,12 @@ const Events = () => {
     seteventName([]);
     setLocation('');
   }
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredData.slice(startIndex, endIndex);
+    return filteredData?.slice(startIndex, endIndex);
   };
 
   const pageData = getPageData();
@@ -146,7 +158,6 @@ const Events = () => {
   const handleDownloadTicket = (rowData , index) => {
     setRowData(rowData);
     if (!componentRef.current) {
-      console.error('Le composant ref est null');
       return;
     }
     const content = componentRef.current;
@@ -165,6 +176,49 @@ const Events = () => {
           pdf.save("download.pdf");
         });
   };
+
+  const renderDropdown = (index , item) => {
+    const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
+    const triggerRect = triggerElement.getBoundingClientRect();
+  
+    return ReactDOM.createPortal(
+      <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
+        <div className="mt-4 px-3 px-4 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
+          <div className="flex flex-row gap-3 items-center cursorpointer-green" onClick={() => openTicketModal(item)}>
+            <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
+            <Text
+              className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+            >
+              View Ticket
+            </Text>
+          </div>
+          <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
+              {({ blob, url, loading, error }) => ( 
+              loading ? 
+              <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green">
+                <FiDownload size={18} className="text-blue-A400 "/>
+                  <Text
+                    className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                  >
+                    Download
+                  </Text>
+              </div>
+              :
+              <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green" >
+                <FiDownload size={18} className="text-blue-A400 "/>
+                  <Text
+                    className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                  >
+                    Download
+                  </Text>
+              </div>
+              )}
+          </PDFDownloadLink>
+        </div>
+      </div>,
+      document.getElementById('root')
+    );
+  }
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
@@ -235,7 +289,7 @@ const Events = () => {
                     )}
                       {filter ?
                       (<button
-                        className="bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                        className="bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
                         onClick={() => setFilterApply(true)}
                         type="button"
                     >
@@ -246,7 +300,7 @@ const Events = () => {
                     </button>
                     ):
                       (<button
-                        className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                        className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
                         onClick={() => setFilter(true)}
                         type="button"
                     >
@@ -259,7 +313,7 @@ const Events = () => {
                       }
                         {filterApply && (
                           <button
-                          className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer"
+                          className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursorpointer-green"
                           onClick={clearFilter}
                           type="button"
                       >
@@ -274,12 +328,12 @@ const Events = () => {
                   <table className=" w-full">
                     <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] ">
-                      <th className="p-3 text-left text-gray700 font-medium">Event Name</th>
-                      <th className="p-3 text-left text-gray700 font-medium">Organize by</th>
-                      <th className="p-3 text-left text-gray700 font-medium">Date</th>
-                      <th className="p-3 text-left text-gray700 font-medium"></th>
-                      <th className="p-3 text-left text-gray700 font-medium">Location</th>
-                      <th className="p-3 text-left text-gray700 font-medium"></th>
+                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Event Name</th>
+                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Organize by</th>
+                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Date</th>
+                      <th className="px-[18px] py-3 text-left text-gray700 font-medium"></th>
+                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Location</th>
+                      <th className="px-[18px] py-3 text-left text-gray700 font-medium"></th>
                     </tr>
                     </thead>
                     
@@ -288,59 +342,83 @@ const Events = () => {
                         (pageData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''}  w-full`} >
                       <td className="w-auto text-gray-801 font-DmSans text-sm font-normal leading-6">
-                          <div className="py-3 px-3 flex items-center" >
-                              <img src={item.image} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
-                              <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.eventName}</span>
+                          <div className="px-[18px] py-4 flex items-center" >
+                              <img src={item.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
+                              <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
                           </div>
                       </td>
-                        <td className="py-3 px-3 text-gray-801 font-DmSans text-sm font-normal leading-6" 
+                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6" 
                         style={{ whiteSpace: 'nowrap' }}>
                           <div className="flex items-center" >
-                              <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.organizer}</span>
+                              <img src={item.organizerLogo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.organizername}</span>
                           </div>
                         </td>
-                        <td className="py-3 px-3 text-gray-801 font-DmSans text-sm font-normal leading-6">{item.dateTime}</td>
-                        <td className="py-3 px-3  text-gray-801 font-DmSans text-sm font-normal leading-6"
+                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6">
+                          {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy')} ${item?.startTime?.toLowerCase()}` : 'Coming Soon'}
+                        </td>                        
+                        <td className="px-[18px] py-4  text-gray-801 font-DmSans text-sm font-normal leading-6"
                          style={{whiteSpace:"nowrap"}}>
-                          <div style={{whiteSpace:"nowrap"}} className={`flex flex-row space-x-2 items-center px-2 font-DmSans text-sm font-normal leading-6 text-white-A700 rounded-full ${
-                          item.eventType === 'Past Event' ? 'bg-orange-501' :
-                            item.eventType === 'Upcoming Event' ? 'bg-indigo-500' :
-                              item.eventType === 'Ongoing Event' ? 'bg-green-501 ' : ''
+                          <div style={{whiteSpace:"nowrap" , textDecoration: 'capitalize'}} className={`flex flex-row space-x-2 items-center px-2 capitalize font-DmSans text-sm font-normal leading-6 text-white-A700 rounded-full ${
+                          item.status === 'past' ? 'bg-orange-501' :
+                            item.status === 'upcoming' ? 'bg-indigo-500' :
+                              item.status === 'Ongoing' ? 'bg-green-501 ' : ''
                         } inline-flex`}>
-                          {item.eventType}
+                          {`${item.status} Event` }
                         </div>
                           </td>
-                        <td className="py-3 px-3 text-gray-801 font-DmSans text-sm font-normal leading-6" 
-                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
-                        <td className="py-3 px-3 text-gray-801 font-DmSans text-sm font-normal leading-6"
+                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6" 
+                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.physicalLocation || 'Virtual'}</td>
+                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6"
                           >
-                            <div ref={dropdownRef} className="relative">
-                              <div className="dropdown">
-                                <BsThreeDots className="mr-4"
+                            <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >
+                              <div className="dropdown relative">
+                                <BsThreeDots className="mr-4 relative"
+                                id={`dropdown-trigger-${index}`}
                                   size={18} 
-                                  onClick={(e) => toggleDropdown(index, e)} 
+                                  onClick={(e) =>toggleDropdownClick(index, e) }
                                 />
-                                {isDropdownOpen(index) && (
-                                  <div className="absolute top-5 px-3  right-0 z-10 px-4 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
-                                    <div className="flex flex-row gap-3 items-center cursor-pointer" onClick={() => openTicketModal(item)}>
-                                      <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
-                                      <Text
-                                        className="text-gray-801 font-DmSans text-sm font-normal leading-6"
-                                      >
-                                        View Ticket
-                                      </Text>
+                                {/* {isDropdownOpen(index) && (
+                                  
+                                  ReactDOM.createPortal(
+                                  <div className="absolute top-[100%] right-0 z-50">
+                                    <div className="mt-4 px-3 px-4 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
+                                      <div className="flex flex-row gap-3 items-center cursorpointer-green" onClick={() => openTicketModal(item)}>
+                                        <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
+                                        <Text
+                                          className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                                        >
+                                          View Ticket
+                                        </Text>
+                                      </div>
+                                      <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
+                                          {({ blob, url, loading, error }) => ( 
+                                          loading ? 
+                                          <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green">
+                                            <FiDownload size={18} className="text-blue-A400 "/>
+                                              <Text
+                                                className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                                              >
+                                                Download
+                                              </Text>
+                                          </div>
+                                          :
+                                          <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green" >
+                                            <FiDownload size={18} className="text-blue-A400 "/>
+                                              <Text
+                                                className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                                              >
+                                                Download
+                                              </Text>
+                                          </div>
+                                          )}
+                                      </PDFDownloadLink>
                                     </div>
-                                    <div className="flex flex-row gap-3 items-center pt-5 cursor-pointer" onClick={()=>handleDownloadTicket(item , index)}>
-                                    <FiDownload size={18} className="text-blue-A400 "/>
-                                      <Text
-                                        className="text-gray-801 font-DmSans text-sm font-normal leading-6"
-                                      >
-                                        Download
-                                      </Text>
-                                    </div>
-                                  </div>
-                                )}
+                                  </div>,
+                                  document.getElementById('root')
+                                )
+                                )} */}
+                                {isDropdownOpen(index) && renderDropdown(index , item)}
                               </div>
                             </div>
                         </td>
@@ -359,9 +437,14 @@ const Events = () => {
                     />              
                   </div>
                 </div>
-                : 
+                : (
+                  isLoading ? 
+                  <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                    <Loader />
+                  </div>
+                  :
                   <div className="flex flex-col items-center h-screen w-full py-28 gap-5">
-                    <TbTicketOff  size={40} className="rotate-[180deg] text-gray500" />
+                    <img src={ticketEmptyImg} />
                     <Text
                       className="font-DmSans text-sm font-normal leading-6 text-gray700 w-auto py-4"
                       size=""
@@ -376,8 +459,9 @@ const Events = () => {
                         >
                           Browse Upcoming Event
                         </button>
+                    </div>
                   </div>
-                  </div>
+                )
               }
               </div>
             </div>

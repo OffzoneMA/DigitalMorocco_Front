@@ -66,6 +66,13 @@ export const eventApi = createApi({
             }),
             invalidatesTags: ['Event'],
         }),
+        getEventsForUser: builder.query({
+            query: () => ({
+                url: '/authuser',
+                method: 'GET',
+              }),
+              providesTags: ['Event'],
+        }),
     }),
 })
 
@@ -76,5 +83,5 @@ export const {
     useUpdateEventMutation,
     useDeleteEventMutation,
     useGetAllEventsByUserQuery,
-    useAddAttendeeToEventMutation,
+    useAddAttendeeToEventMutation, useGetEventsForUserQuery
   } = eventApi;

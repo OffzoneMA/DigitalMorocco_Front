@@ -15,6 +15,7 @@ import Loading from "../Components/Loading";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
+import { CompanyLegalData } from "../data/tablesData";
 
 
 const CompanyLegal = () => {
@@ -31,7 +32,7 @@ const CompanyLegal = () => {
   const pagesToShow = 4;
   const data ='';
   const [legalDocuments, setLegalDocuments] = useState([]);
-  const totalTablePages = Math.ceil(data.length / itemsPerPage);
+  const totalTablePages = Math.ceil(CompanyLegalData.length / itemsPerPage);
   const [loading, setLoading] = useState(true);
   const [documentId, setDocumentId] = useState(null); 
 
@@ -41,11 +42,11 @@ const CompanyLegal = () => {
     fetchLegalDocuments();
 }, []);
 
-const fetchLegalDocuments = async () => {
+const fetchLegalDocuments = () => {
   try {
-      const response = await axios.get("http://localhost:5000/members/legal-documents");
-      console.log(response.data)
-      setLegalDocuments(response.data);
+      // const response = await axios.get("http://localhost:5000/members/legal-documents");
+      // console.log(response.data)
+      setLegalDocuments(CompanyLegalData);
       setLoading(false);
   } catch (error) {
       console.error("Error fetching legal documents:", error);
@@ -55,8 +56,11 @@ const fetchLegalDocuments = async () => {
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
+    return CompanyLegalData.slice(startIndex, endIndex);
   };
+
+
+  
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalTablePages) {
@@ -64,7 +68,7 @@ const fetchLegalDocuments = async () => {
     }
   }
 
-  const documentData = legalDocuments;
+  const documentData = getPageData();
   
   const openModal = () => {
     setIsModalOpen(true);
@@ -77,7 +81,6 @@ const fetchLegalDocuments = async () => {
   const openEditModal = (doc) => {
     setIsEditModalOpen(true);
     setDocument(doc);
-  
   };
 
   const closeEditModal = () => {
@@ -214,15 +217,15 @@ const fetchLegalDocuments = async () => {
                       </div>
                     </td>
                     <td className="py-4 px-3 text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      
-                      {new Date(document.lastModifiedDate).toLocaleString('en-US', {
+                      {document.lastModified}
+                      {/* {new Date(document.lastModifiedDate).toLocaleString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
         hour12: true
-      })}
+      })} */}
                       </td>
                     <td className="py-3 px-3 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">

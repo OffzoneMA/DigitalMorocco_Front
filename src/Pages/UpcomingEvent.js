@@ -35,29 +35,44 @@ const UpcomingEvents = () => {
     setCurrentPage(Number(searchParams.get("page")) || 1);
 }, [searchParams]);
 
-function formatEventDateTime(startDate, endDate, startTime, endTime) {
-    
-  if (!startDate || !endDate || !startTime || !endTime || startTime=='' || endTime=='' ) {
-      return 'Coming Soon';
+function parseTime(time) {
+  let parsedTime;
+  try {
+    parsedTime = parse(time, 'hh:mm a', new Date());
+  } catch (error) {
+    parsedTime = parse(time, 'h:mm a', new Date());
   }
-  else {
-      const formattedStartTimev = format(parse(startTime, 'h:mm a', new Date()), 'ha', { locale: enUS }).toLowerCase();
-      const formattedEndTimev = format(parse(endTime, 'h:mm a', new Date()), 'ha', { locale: enUS }).toLowerCase();
+  return parsedTime;
+}
 
-      const startDateTime = new Date(startDate);
-      const endDateTime = new Date(endDate);
+function formatEventDateTime(startDate, endDate, startTime, endTime) {
+  if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
+    return 'Coming Soon';
+  }
 
-      if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-          const formattedDate = format(startDateTime, 'EEEE, MMMM d', { locale: enUS });
-          const gmtOffset = startDateTime.getUTCHours(); 
-          const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
-          return `${formattedDate}\u00A0\u00A0 • \u00A0\u00A0${formattedStartTimev} - ${formattedEndTimev} ${gmt}`;
-      } else {
-          const formattedStartDate = format(startDateTime, 'EEE, MMM d, yyyy', { locale: enUS });
-          return `${formattedStartDate}\u00A0\u00A0 • \u00A0\u00A0${startTime.toUpperCase()}`;
-      }
+  try {
+    const parsedStartTime = parseTime(startTime);
+    const parsedEndTime = parseTime(endTime);
 
-          }
+    const formattedStartTime = format(parsedStartTime, 'ha', { locale: enUS }).toLowerCase();
+    const formattedEndTime = format(parsedEndTime, 'ha', { locale: enUS }).toLowerCase();
+
+    const startDateTime = new Date(startDate);
+    const endDateTime = new Date(endDate);
+
+    if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
+      const formattedDate = format(startDateTime, 'EEEE, MMMM d', { locale: enUS });
+      const gmtOffset = startDateTime.getTimezoneOffset() / 60; // Obtenez l'offset en heures
+      const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
+      return `${formattedDate}\u00A0\u00A0 • \u00A0\u00A0${formattedStartTime} - ${formattedEndTime}`;
+    } else {
+      const formattedStartDate = format(startDateTime, 'EEE, MMM d, yyyy', { locale: enUS });
+      return `${formattedStartDate}\u00A0\u00A0 • \u00A0\u00A0${startTime.toUpperCase()}`;
+    }
+  } catch (error) {
+    console.error('Error formatting date/time:', error);
+    return 'Invalid Date/Time';
+  }
 }
   
     return (

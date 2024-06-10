@@ -10,6 +10,9 @@ import Swal from "sweetalert2";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
+import { FiEdit3, FiSave } from "react-icons/fi";
+import { HiOutlineTrash } from "react-icons/hi";
+
 
 
 const Employees = () => {
@@ -108,7 +111,7 @@ const Employees = () => {
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
-            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
+            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-3 px-5">
               <TableTitle
                   >
                   Team members
@@ -123,15 +126,15 @@ const Employees = () => {
               </button>
             </div>
             <div className="bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
-              <table className="w-full text-sm text-left text-zinc-500" style={{ borderWidth: "1px", borderBlockStartColor: "#dadde1" }}>
-                <thead className="text-xs text-zinc-700 uppercase border-gray-200 ">
+              <table className="w-full text-sm text-left text-zinc-500">
+                <thead className="text-xs text-gray700 ">
                   <tr className="text-sm leading-6 " >
-                    <th scope="col" className="py-3 px-6 text-center">Name</th>
-                    <th scope="col" className="py-3 px-6 text-center">Email Address</th>
-                    <th scope="col" className="py-3 px-6 text-center">Title</th>
-                    <th scope="col" className="py-3 px-6 text-center">Type</th>
-                    <th scope="col" className="py-3 px-6 text-left">Status</th>
-                    <th scope="col" className="py-3 px-6 text-center"></th>
+                    <th scope="col" className="py-3 px-3 text-left">Name</th>
+                    <th scope="col" className="py-3 px-3 text-left">Email Address</th>
+                    <th scope="col" className="py-3 px-3 text-left">Title</th>
+                    <th scope="col" className="py-3 px-3 text-left">Type</th>
+                    <th scope="col" className="py-3 px-3 text-left">Status</th>
+                    <th scope="col" className="py-3 px-3 text-left"></th>
                   </tr>
                 </thead>
                 <tbody >
@@ -159,18 +162,18 @@ const Employees = () => {
 
                   ) : (
                     filteredEmployees.map((employee, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} bg-white border-b`}>
-                        <td className="py-4 px-6 text-center text-zinc-900" style={{ display: 'flex', flexWrap: 'nowrap', alignContent: 'center', justifyContent: 'space-evenly', alignItems: 'center' }}>
-                          <img src={`data:image/png;base64,${employee.photo}`} alt="Employee Photo" style={{ width: '60px', height: '60px', borderRadius: '50%' }} />
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} bg-white `}>
+                        <td className="py-3 px-3 text-left text-blue_gray-601" style={{ display: 'flex', gap:'12px', flexWrap: 'nowrap', alignContent: 'start',  alignItems: 'center' }}>
+                          <img src={`${employee.image}`} alt="Employee Photo" style={{ width: '36px', height: '36px', borderRadius: '50%' }} />
                            {employee.fullName}
                         </td>
-                        <td className="py-4 px-6 text-center text-zinc-900">{employee.email}</td>
-                        <td className="py-4 px-6 text-center text-zinc-900">{employee.jobTitle}</td>
-                        <td className="py-4 px-6 text-center text-zinc-900">{employee.level}</td>
-                        <td className="py-4 px-6 text-zinc-900">
+                        <td className="py-3 px-3 text-left text-blue_gray-601">{employee.workEmail}</td>
+                        <td className="py-3 px-3 text-left text-blue_gray-601">{employee.jobTitle}</td>
+                        <td className="py-3 px-3 text-left text-blue_gray-601">{employee.level}</td>
+                        <td className="py-3 px-3 text-blue_gray-601 capitalize">
                           {employee.status === 'active' ? (
-                            <div className="flex items-center px-2 py-0.5 rounded-full h-8 text-center" style={{ width: "4.5rem", backgroundColor: "#ecfdf3" }}>
-                              <span className="bg-green-500 h-2 w-2 rounded-full mr-1"></span>
+                            <div className="flex items-center px-2 py-0.5 rounded-full h-8 text-left" style={{ width: "4.5rem", backgroundColor: "#ecfdf3" }}>
+                              <span className="bg-green-500 h-2 w-2 rounded-full mr-1.5"></span>
                               <span className="text-green-800 text-xs font-semibold" style={{ color: "#027847" }}>{employee.status}</span>
                             </div>
                           ) : (
@@ -180,10 +183,10 @@ const Employees = () => {
                             </div>
                           )}
                         </td>
-                        <td className="py-4 px-6 ">
+                        <td className="py-3 px-3 ">
                           <div style={{ display: 'flex', flexWrap: 'nowrap', alignContent: 'center', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <FaTrashAlt size={18} className="mr-2 w-4 h-4" style={{ color: "#98a2b3" }} onClick={() => handleDeleteEmployee(employee._id)} />
-                            <FaPencilAlt size={18} className="mr-2 w-4 h-4" style={{ color: "#98a2b3" }} onClick={() => handleEditEmployee(employee._id)} />
+                            <HiOutlineTrash size={17} className="mr-1" style={{ color: "#98a2b3" }} onClick={() => handleDeleteEmployee(employee._id)} />
+                            <FiEdit3 size={17} className="mr-2 " style={{ color: "#98a2b3" }} onClick={() => handleEditEmployee(employee._id)} />
                           </div>
                         </td>
                       </tr>
@@ -192,7 +195,7 @@ const Employees = () => {
                 </tbody>
               </table>
               <div className='w-full flex items-center p-4'>
-                <TablePagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                <TablePagination currentPage={1} totalPages={1} itemsToShow={5} onPageChange={handlePageChange} />
               </div>
             </div>
           </div>

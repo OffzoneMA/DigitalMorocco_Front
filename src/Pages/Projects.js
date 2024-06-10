@@ -17,6 +17,8 @@ import Loader from "../Components/Loader";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
+import fileSearchImg from '../Media/file-search.svg';
+
 
 
 const Projects = () => {
@@ -89,7 +91,7 @@ const Projects = () => {
                   >
                   Project List
                 </TableTitle>
-                <button className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto text-sm font-medium leading-[18.23px]" 
+                <button className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto text-sm font-medium leading-[18.23px]" 
                 onClick={() => navigate('/CreateProject')}>
                   <FaRegPlusSquare size={18} className="mr-2" />
                   <span style={{ whiteSpace: 'nowrap' }}>New Project</span>
@@ -99,13 +101,13 @@ const Projects = () => {
                 <table className=" w-full">
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] ">
-                    <th scope="col" className="p-3 text-left text-gray700 font-medium">Project Name</th>
-                    <th scope="col" className="p-3 text-left text-gray700 font-medium">Target</th>
-                    <th scope="col" className="p-3 text-left text-gray700 font-medium">Raised</th>
-                    <th scope="col" className="p-3 text-left text-gray700 font-medium">Stage</th>
-                    <th scope="col" className="p-3 text-left text-gray700 font-medium">Milestone</th>
-                    <th scope="col" className="p-3 text-left text-gray700 font-medium">Status</th>
-                    <th scope="col" className="p-3 "></th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Project Name</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Target</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Raised</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Stage</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Milestone</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Status</th>
+                    <th scope="col" className="px-[18px] py-3 "></th>
                   </tr>
                   </thead>
                   { pageData?.length > 0 ?
@@ -113,12 +115,12 @@ const Projects = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} >
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursor-pointer" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>{item.name}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.totalRaised || 0)}`}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages[0]}</td>
-                      <td className="py-3 px-3 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.milestones[0]?.name}</td>
-                      <td className="py-3 px-3 items-center">
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursorpointer" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>{item.name}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.totalRaised || 0)}`}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages[0]}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.milestones[0]?.name}</td>
+                      <td className="px-[18px] py-4 items-center">
                         <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
                           item.status === 'Active' ? 'bg-emerald-50 text-green-700' :
                             item.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
@@ -128,10 +130,10 @@ const Projects = () => {
                           {item.status}
                         </div>
                       </td>
-                      <td className="py-3 px-3 ">
-                        <div className="flex flex-row space-x-3 px-3 items-center">
+                      <td className="py-4 px-4 ">
+                        <div className="flex flex-row space-x-4 items-center">
                           <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)}  className="text-blue_gray-301"/>
-                          <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> navigate(`/EditProject/${item._id}`)} />
+                          <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> navigate(`/EditProject/${item._id}` , {state: { project: item }})} />
                         </div>
                       </td>
                     </tr>
@@ -148,7 +150,7 @@ const Projects = () => {
                 ) : (
                   !pageData?.length > 0 && (
                     <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
-                      <AiOutlineFileSearch size={30} />
+                    <img src={fileSearchImg} />
                       <Text
                         className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
                         size=""

@@ -51,11 +51,11 @@ export const memberApi = createApi({
             },
         }),
         getAllProjects: builder.query({
-            query: () => {
+            query: ({ visibility, status, date }={}) => {
                 return {
                     url: '/projects',
                     method: 'GET',
-                    
+                    params: { visibility, status , date },
                 }
             },
         }),

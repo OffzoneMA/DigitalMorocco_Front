@@ -149,7 +149,7 @@ export default function SignIn() {
       } else if(errorSocial === "No account exists with this email") {
         openExistErrorModal();
       } 
-      else if(errorSocial === "This account is not registered using Google") {
+      else if(errorSocial === "This account is not registered using this Social network") {
         openExistErrorModal();
       } 
       else {

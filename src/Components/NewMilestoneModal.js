@@ -45,7 +45,7 @@ const NewMilestoneModal = (props) => {
   return (
     <ModalProvider
       appElement={document.getElementById("root")}
-      className="m-auto w-[65%] md:w-[45%] lg:w-[40%] xl:w-[40%] 2xl:w-[35%]"
+      className="m-auto w-[95%] md:w-[100%] max-w-[540px]"
       overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
       {...props}
     >
@@ -96,29 +96,6 @@ const NewMilestoneModal = (props) => {
                         className={' w-full'} 
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                {/* <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-gray-301">
-                  <input
-                    {...register("dueDate", { required: {value:true , message: "Due date is required"} })}
-                    type="text"
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-[18.2px] tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                    name="dueDate"
-                    placeholder="Due Date"
-                    onFocus={(e) => {
-                      setIsFocused(true);
-                      e.target.type = 'date';
-                    }}
-                    onBlur={(e) => {
-                      setIsFocused(false);
-                      e.target.type = 'text';
-                    }}
-                  />
-                  <MdOutlineDateRange
-                    size={20}
-                    className={`${
-                      isFocused ? 'hidden' : ''
-                    } text-blue_gray-300`}
-                  />
-                </div> */}
                 {errors.dueDate && <span className=" text-sm font-DmSans text-red-500">{errors.dueDate?.message}</span>}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>

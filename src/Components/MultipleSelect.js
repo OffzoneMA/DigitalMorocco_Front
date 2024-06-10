@@ -13,6 +13,16 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   const parentRef = useRef(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
 
+  useEffect(() => {
+    if(selectedOptionsDfault.length > 0) {
+      if (selectedOptionsDfault.length !== selectedOptions.length) {
+        setSelectedOptions(selectedOptionsDfault);
+      }
+    }
+  }, [selectedOptionsDfault]); 
+  
+
+
   const toggleDropdown = () => {
     if (isOpen) {
       setTimeout(() => {
@@ -128,14 +138,15 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   // };  
 
   const isSelected = (option) => {
-    if(optionkey) {
+    if (optionkey) {
       const optionValue = option[optionkey];
-      return selectedOptions.some(selectedOption => selectedOption[optionkey] === optionValue);
+      const selectedOptionValues = selectedOptions.map(selectedOption => selectedOption[optionkey]);
+      return selectedOptionValues.includes(optionValue);
+    } else {
+      return selectedOptions.includes(option);
     }
-  else{
-    return selectedOptions.some(selectedOption => selectedOption === option);
-  }
   };
+  
 
   return (
     <div id='drop_root' className={`relative flex flex-col md:flex-1 w-full ${className}`}>

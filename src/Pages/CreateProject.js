@@ -58,6 +58,9 @@ const CreateProject = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(location.state?.project || null);
+  const [projectName , setProjectName] = useState('');
+  const [projectDetails , setProjectDetails] = useState('');
+  const [projectPublication , setProjectPublication] = useState('');
   const { data: fetchedProject, error, isLoading } = useGetProjectByIdQuery(projectId, {
     skip: Boolean(project || !projectId),
   });
@@ -83,6 +86,7 @@ const CreateProject = () => {
   const [allFiles, setAllFiles] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState('');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
+  const [selectedProjectTeamsMembers, setSelectedProjectTeamsMember] = useState([]);
   const [selectedStages, setSelectedStages] = useState([]);
   const [addProjet, addResponse] = useCreateProjectMutation();
   const [updateProject, updateResponse] = useUpdateProjectMutation();
@@ -103,22 +107,55 @@ const CreateProject = () => {
   }
 
   useEffect(() => {
-    if (userInfo && userInfo?.member) {
-      setTeamData(userInfo?.member?.listEmployee);
-    }
-    else {
+    if (userInfo && userInfo.member) {
+      setTeamData(userInfo.member.listEmployee.map(employee => {
+        const { _id, ...rest } = employee;
+        return rest;
+      }));
+    } else {
       const userData = JSON.parse(sessionStorage.getItem('userData'));
-      if(userData && userData?.member) {
-        setTeamData(userData?.member?.listEmployee);
+      if (userData && userData.member) {
+        setTeamData(userData.member.listEmployee.map(employee => {
+          const { _id, ...rest } = employee;
+          return rest;
+        }));
       }
     }
   }, [userInfo]);
+  
 
   useEffect(() => {
     if (fetchedProject && !project) {
       setProject(fetchedProject);
     }
   }, [fetchedProject, project]);
+
+
+  useEffect(() => {
+    let listEmployee;
+    if (userInfo?.member?.listEmployee) {
+      listEmployee = userInfo.member.listEmployee.map(employee => {
+        const { _id, ...rest } = employee;
+        return rest;
+      });
+    } else {
+      const userData = JSON.parse(sessionStorage.getItem('userData'));
+      listEmployee = userData?.member?.listEmployee?.map(employee => {
+        const { _id, ...rest } = employee;
+        return rest;
+      }) || [];
+    }
+  
+    if (project != null) {
+      const selectedProjectMembers = listEmployee?.filter(emp => {
+        return project.listMember?.some(member => member.workEmail === emp.workEmail);
+      });
+  
+      setSelectedTeamsMember(selectedProjectMembers);
+      setSelectedProjectTeamsMember(selectedProjectMembers);
+    }
+  }, [project, userInfo]);
+  
 
   useEffect(() => {
     if (project) {
@@ -155,7 +192,6 @@ const CreateProject = () => {
     }
   }, [project]);
 
-  console.log(milestones)
   
   const formatFunding = (value , setField) => {
     let formattedValue = value.replace(/\D/g, '');
@@ -319,9 +355,9 @@ const handleFileInputChange = (event, index) => {
     });
     
     // Afficher les données de formData dans la console
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]); 
-    }
+    // for (var pair of formData.entries()) {
+    //     console.log(pair[0] + ', ' + pair[1]); 
+    // }
     if (projectId) {
       mutation({
         projectId,
@@ -424,7 +460,7 @@ const StageData = stage.map(
                   Create New Project
                 </Text>
                 <button 
-                  className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto" 
+                  className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer rounded-md w-auto" 
                   ref={formButtonRef}
                   type="submit"
               >
@@ -450,7 +486,7 @@ const StageData = stage.map(
                         placeholder="Enter Project Name"
                       />
                     </div>
-                    {errors.name && <span className="text-sm font-DmSans text-red-500">{errors.name?.message}</span>}
+                    {errors.name && <span className="text-sm font-dm-sans-regular text-red-500">{errors.name?.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -468,7 +504,7 @@ const StageData = stage.map(
                         placeholder="Write your project detals here"
                       />
                     </div>
-                    {errors.details && <span className="text-sm font-DmSans text-red-500">{errors.details?.message}</span>}
+                    {errors.details && <span className="text-sm font-dm-sans-regular text-red-500">{errors.details?.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -477,8 +513,8 @@ const StageData = stage.map(
                     >
                       Team Member
                     </Text>
-                    <MultipleSelect id='teams' options={teamData} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} 
-                    itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="_id"
+                    <MultipleSelect id='teams' options={teamData} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
+                    itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="workEmail" 
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
@@ -501,7 +537,7 @@ const StageData = stage.map(
                         );
                       }
                     }/>
-                    {selectedTeamsMembers.length==0 && <span className="text-sm font-DmSans text-red-500">Please select teams members</span>}
+                    {/* {selectedTeamsMembers.length==0 && <span className="text-sm font-dm-sans-regular text-red-500">Please select teams members</span>} */}
                   </div>
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
                     <Text
@@ -522,7 +558,7 @@ const StageData = stage.map(
                         placeholder="Enter Funding Target"
                       />
                     </div>
-                    {errors.funding && <span className="text-sm font-DmSans text-red-500">{errors.funding.message}</span>}
+                    {errors.funding && <span className="text-sm font-dm-sans-regular text-red-500">{errors.funding.message}</span>}
                   </div>
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
                     <Text
@@ -543,7 +579,7 @@ const StageData = stage.map(
                         placeholder="Enter Total Raised"
                       />
                     </div>
-                    {errors.totalRaised && <span className="text-sm font-DmSans text-red-500">{errors.totalRaised.message}</span>}
+                    {errors.totalRaised && <span className="text-sm font-dm-sans-regular text-red-500">{errors.totalRaised.message}</span>}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -561,7 +597,7 @@ const StageData = stage.map(
                         return (
                           <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                             >
                               {option}
                             </Text>
@@ -583,7 +619,7 @@ const StageData = stage.map(
                       ( option) =>{ return (
                         <div className="flex  py-1.5 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {option}
                             </Text>
@@ -591,7 +627,7 @@ const StageData = stage.map(
                         );
                       }
                     }/>
-                    {/* {selectedStages.length==0 && <span className="text-sm font-DmSans text-red-500">Please select stages</span>}  */}
+                    {/* {selectedStages.length==0 && <span className="text-sm font-dm-sans-regular text-red-500">Please select stages</span>}  */}
                     
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -619,7 +655,7 @@ const StageData = stage.map(
                       />
                       {/* {index === milestones.length - 1 && ( */}
                       <button
-                        className="bg-light_blue-100 text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[6px] rounded-md w-[15%] cursor-pointer"
+                        className="bg-light_blue-100 text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[6px] rounded-md w-[15%] cursorpointer"
                         style={{ whiteSpace: 'nowrap' }}
                         onClick={addMilestone}
                         type="button"
@@ -654,7 +690,7 @@ const StageData = stage.map(
                     >
                       Upload Pitch Deck
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed cursor-pointer bg-blue_gray-50" 
+                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed cursorpointer bg-blue_gray-50" 
                     onClick={()=> onButtonClick(inputRef)}>
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
@@ -666,7 +702,7 @@ const StageData = stage.map(
                         name="name"
                       />
                       <label
-                        className="font-manrope text-sm leading-18 tracking-wide text-left w-auto"
+                        className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
                         {isDragging ? <span className="text-blue_gray-300">Drop Pitch Deck file here</span> :
                         <>
@@ -680,7 +716,7 @@ const StageData = stage.map(
                       <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
                       <GrAttachment size={16} className="mr-2" />
                       <Text
-                        className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                        className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
                         size=""
                       >
                         {fileNames["pitchDeck"] || project?.documents?.filter(document => document.documentType === 'pitchDeck').name}
@@ -697,7 +733,7 @@ const StageData = stage.map(
                     >
                       Upload Business Plan
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 cursor-pointer border border-dashed bg-blue_gray-50" 
+                    <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 cursorpointer border border-dashed bg-blue_gray-50" 
                     onClick={()=> onButtonClick(inputRef1)}>
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
@@ -709,7 +745,7 @@ const StageData = stage.map(
                         name="name"
                       />
                       <label
-                        className="font-manrope text-sm leading-18 tracking-wide text-left w-auto"
+                        className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
                         {isDragging ? <span className="text-blue_gray-300">Drop Business Plan file here</span> :
                         <>
@@ -723,7 +759,7 @@ const StageData = stage.map(
                       <div className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
                       <GrAttachment size={16} className="mr-2" />
                       <Text
-                        className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                        className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
                         size=""
                       >
                         {fileNames["businessPlan"]}
@@ -731,7 +767,7 @@ const StageData = stage.map(
                     </div>
                     )}
                   </div>
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}
+                  <div className={`flex flex-col gap-2 items-start cursorpointer justify-start w-full`}
                        onDragOver={handleDragOver}
                        onDrop={(event) => handleDrop1(event, "financialProjection")}>
                     <Text
@@ -752,7 +788,7 @@ const StageData = stage.map(
                         name="name"
                       />
                       <label
-                        className="font-manrope text-sm leading-18 tracking-wide text-left w-auto"
+                        className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
                         {isDragging ? <span className="text-blue_gray-300">Drop Financial Projection file here</span> :
                         <>
@@ -766,7 +802,7 @@ const StageData = stage.map(
                       <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
                       <GrAttachment size={16} className="mr-2" />
                       <Text
-                        className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                        className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base  leading-6 tracking-normal w-auto "
                         size=""
                       >
                         {fileNames["financialProjection"]}
@@ -780,7 +816,7 @@ const StageData = stage.map(
                       Upload Other Document
                     </Text>
                     <div
-                      className="flex md:flex-1 w-full md:w-full cursor-pointer rounded-md px-2 py-3 border border-dashed bg-blue_gray-50"
+                      className="flex md:flex-1 w-full md:w-full cursorpointer rounded-md px-2 py-3 border border-dashed bg-blue_gray-50"
                       onDragOver={(event) => event.preventDefault()}
                       onDrop={(event) => handleDrop(event, index)}
                       onClick={() => inputRefs.current[index]?.current?.click()}
@@ -794,7 +830,7 @@ const StageData = stage.map(
                         name={`file-${index}`}
                         onChange={(event) => handleFileInputChange(event, index)}
                       />
-                      <label className="font-manrope text-sm leading-18 tracking-wide text-left w-auto">
+                      <label className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto">
                       {isDragging ? <span className="text-blue_gray-300">Drop file here</span> :
                         <>
                           <span className="text-blue_gray-300"> Drag and drop a file here or </span>
@@ -811,7 +847,7 @@ const StageData = stage.map(
                           <div key={fileIndex} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
                             <GrAttachment size={16} className="mr-2" />
                             <Text
-                              className="flex-1 text-blue-A400 font-DmSans text-sm lg:text-base font-normal leading-6 tracking-normal w-auto "
+                              className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
                               size=""
                             >
                               {file.name}
@@ -824,7 +860,7 @@ const StageData = stage.map(
                   </div>
                   ))}
                   <button
-                    className="flex w-full text-base text-blue-500 font-dmsans font-medium leading-[18px] rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
+                    className="flex w-full text-base text-blue-500 font-dmsans font-medium leading-[18px] cursorpointer rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
                     onClick={addDocumentDiv}
                     type="button"
                   >

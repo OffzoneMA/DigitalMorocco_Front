@@ -77,11 +77,12 @@ const Investors = () => {
     fetchInvestorRequests();
     
   }, []);
-  const data = investors;
+
+  const data = InvestorsData;
 
 
   const filteredData = data.filter(item => {
-    const keywordMatch = item.owner.displayName.toLowerCase().includes(keywords.toLowerCase());
+    const keywordMatch = item.InvestorName.toLowerCase().includes(keywords.toLowerCase());
   
     if (filterApply) {
       const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
@@ -290,8 +291,8 @@ const Investors = () => {
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
                         <div className="py-3 px-3 flex items-center" >
-                            {/* <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/> */}
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.owner.displayName}</span>
+                            <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.InvestorName}</span>
                         </div>
                         {profilVerified && (
                           <div className="overlay-content-invPro w-full flex">
@@ -299,12 +300,12 @@ const Investors = () => {
                         )}
                         </div>
                     </td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
-                      style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfInvestment}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfExits}</td>
+                      <td className="py-3 px-3 text-gray500 font-DmSans text-left text-sm font-normal leading-6" 
+                      style={{ whiteSpace: 'nowrap' }}>{item.Type}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfInvestment}</td>
+                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.NumberOfExits}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6" 
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.Location}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {item.PreferredInvestmentIndustry}

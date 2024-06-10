@@ -3,12 +3,17 @@ import { BiChevronDown } from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 
-const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchable = true, searchLabel='Search', setSelectedOptionVal ,content , itemClassName='',className='' }) => {
+const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchable = true, searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',className='' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const [searchValue, setSearchValue] = useState("");
   const dropdownRef = useRef(null);
   const parentRef = useRef(null);
+
+  useEffect(() => {
+    setSelectedOption(selectedOptionsDfault);
+  }, [selectedOptionsDfault]);
+
 
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
 

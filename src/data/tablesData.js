@@ -652,7 +652,7 @@ export const CompanyLegalData = [
         id: 9,
         title: "Business Proposal",
         name: "Business Proposal Q3 2024.pdf",
-        lastModified: "Jul 10 2024 09:30:45 AM",
+        lastModified: "Apr 10 2024 09:30:45 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -660,7 +660,7 @@ export const CompanyLegalData = [
         id: 10,
         title: "Terms of Service",
         name: "Terms of Service.pdf",
-        lastModified: "Jul 20 2024 03:45:12 PM",
+        lastModified: "Apr 20 2024 03:45:12 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
@@ -668,7 +668,7 @@ export const CompanyLegalData = [
         id: 11,
         title: "Project Scope",
         name: "Project Scope Annette Black.pdf",
-        lastModified: "Jul 12 2024 11:55:30 AM",
+        lastModified: "Apr 12 2024 11:55:30 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -676,7 +676,7 @@ export const CompanyLegalData = [
         id: 12,
         title: "Financial Report",
         name: "Financial Report Jul 2024.pdf",
-        lastModified: "Jul 26 2024 11:55:30 AM",
+        lastModified: "May 26 2024 11:55:30 AM",
         owner: "Annette Black",
         ownerImg: "images/img_avatar.png"
     },
@@ -684,146 +684,146 @@ export const CompanyLegalData = [
         id: 13,
         title: "Trademark Agreement",
         name: "Trademark Agreement.pdf",
-        lastModified: "Jul 8 2024 02:15:10 PM",
+        lastModified: "May 8 2024 02:15:10 PM",
         owner: "Darlene Robertson",
         ownerImg: "images/img_avatar_4.png"
     },
-    {
-        id: 14,
-        title: "Service Level Agreement (SLA)",
-        name: "Service Level Agreement SLA.pdf",
-        lastModified: "Jul 29 2024 04:20:30 PM",
-        owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
-    },
-    {
-        id: 15,
-        title: "Marketing Strategy",
-        name: "Marketing Strategy Q3 2024.pdf",
-        lastModified: "Jul 14 2024 12:30:15 PM",
-        owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
-    },
-    {
-        id: 16,
-        title: "Product Roadmap",
-        name: "Product Roadmap Jul 2024.pdf",
-        lastModified: "Jul 31 2024 11:40:50 AM",
-        owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
-    },
-    {
-        id: 17,
-        title: "Data Protection Policy",
-        name: "Data Protection Policy.pdf",
-        lastModified: "Jul 23 2024 03:55:25 PM",
-        owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
-    },
-    {
-        id: 18,
-        title: "Sales Agreement",
-        name: "Sales Agreement Jul 2024.pdf",
-        lastModified: "May 2 2024 11:15:35 AM",
-        owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
-    },
-    {
-        id: 19,
-        title: "User Guide",
-        name: "User Guide.pdf",
-        lastModified: "Jul 25 2024 09:15:40 AM",
-        owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
-    },
-    {
-        id: 20,
-        title: "Project Charter",
-        name: "Project Charter May 2024.pdf",
-        lastModified: "May 4 2024 03:25:10 PM",
-        owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
-    },
-    {
-        id: 21,
-        title: "Risk Assessment",
-        name: "Risk Assessment Jul 2024.pdf",
-        lastModified: "Jul 27 2024 02:35:10 PM",
-        owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
-    },
-    {
-        id: 22,
-        title: "Code of Conduct",
-        name: "Code of Conduct.pdf",
-        lastModified: "May 6 2024 09:40:45 AM",
-        owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
-    },
-    {
-        id: 23,
-        title: "Business Case",
-        name: "Business Case May 2024.pdf",
-        lastModified: "May 8 2024 02:50:30 PM",
-        owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
-    },
-    {
-        id: 24,
-        title: "Training Manual",
-        name: "Training Manual.pdf",
-        lastModified: "May 10 2024 11:05:15 AM",
-        owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
-    },
-    {
-        id: 25,
-        title: "IT Policy",
-        name: "IT Policy May 2024.pdf",
-        lastModified: "May 12 2024 11:15:35 AM",
-        owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
-    },
-    {
-        id: 26,
-        title: "Agile Manifesto",
-        name: "Agile Manifesto.pdf",
-        lastModified: "May 14 2024 03:25:10 PM",
-        owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
-    },
-    {
-        id: 27,
-        title: "Privacy Policy",
-        name: "Privacy Policy May 2024.pdf",
-        lastModified: "May 16 2024 09:40:45 AM",
-        owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
-    },
-    {
-        id: 28,
-        title: "Cybersecurity Policy",
-        name: "Cybersecurity Policy.pdf",
-        lastModified: "May 18 2024 02:50:30 PM",
-        owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
-    },
-    {
-        id: 29,
-        title: "Workplace Safety Manual",
-        name: "Workplace Safety Manual.pdf",
-        lastModified: "May 20 2024 11:05:15 AM",
-        owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
-    },
-    {
-        id: 30,
-        title: "Conflict of Interest Policy",
-        name: "Conflict of Interest Policy.pdf",
-        lastModified: "May 22 2024 03:25:10 PM",
-        owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
-    }
+    // {
+    //     id: 14,
+    //     title: "Service Level Agreement (SLA)",
+    //     name: "Service Level Agreement SLA.pdf",
+    //     lastModified: "Jul 29 2024 04:20:30 PM",
+    //     owner: "Cameron Williamson",
+    //     ownerImg: "images/img_avatar_3.png"
+    // },
+    // {
+    //     id: 15,
+    //     title: "Marketing Strategy",
+    //     name: "Marketing Strategy Q3 2024.pdf",
+    //     lastModified: "Jul 14 2024 12:30:15 PM",
+    //     owner: "Darlene Robertson",
+    //     ownerImg: "images/img_avatar_4.png"
+    // },
+    // {
+    //     id: 16,
+    //     title: "Product Roadmap",
+    //     name: "Product Roadmap Jul 2024.pdf",
+    //     lastModified: "Jul 31 2024 11:40:50 AM",
+    //     owner: "Cameron Williamson",
+    //     ownerImg: "images/img_avatar_3.png"
+    // },
+    // {
+    //     id: 17,
+    //     title: "Data Protection Policy",
+    //     name: "Data Protection Policy.pdf",
+    //     lastModified: "Jul 23 2024 03:55:25 PM",
+    //     owner: "Annette Black",
+    //     ownerImg: "images/img_avatar.png"
+    // },
+    // {
+    //     id: 18,
+    //     title: "Sales Agreement",
+    //     name: "Sales Agreement Jul 2024.pdf",
+    //     lastModified: "May 2 2024 11:15:35 AM",
+    //     owner: "Cameron Williamson",
+    //     ownerImg: "images/img_avatar_3.png"
+    // },
+    // {
+    //     id: 19,
+    //     title: "User Guide",
+    //     name: "User Guide.pdf",
+    //     lastModified: "Jul 25 2024 09:15:40 AM",
+    //     owner: "Darlene Robertson",
+    //     ownerImg: "images/img_avatar_4.png"
+    // },
+    // {
+    //     id: 20,
+    //     title: "Project Charter",
+    //     name: "Project Charter May 2024.pdf",
+    //     lastModified: "May 4 2024 03:25:10 PM",
+    //     owner: "Cameron Williamson",
+    //     ownerImg: "images/img_avatar_3.png"
+    // },
+    // {
+    //     id: 21,
+    //     title: "Risk Assessment",
+    //     name: "Risk Assessment Jul 2024.pdf",
+    //     lastModified: "Jul 27 2024 02:35:10 PM",
+    //     owner: "Annette Black",
+    //     ownerImg: "images/img_avatar.png"
+    // },
+    // {
+    //     id: 22,
+    //     title: "Code of Conduct",
+    //     name: "Code of Conduct.pdf",
+    //     lastModified: "May 6 2024 09:40:45 AM",
+    //     owner: "Darlene Robertson",
+    //     ownerImg: "images/img_avatar_4.png"
+    // },
+    // {
+    //     id: 23,
+    //     title: "Business Case",
+    //     name: "Business Case May 2024.pdf",
+    //     lastModified: "May 8 2024 02:50:30 PM",
+    //     owner: "Cameron Williamson",
+    //     ownerImg: "images/img_avatar_3.png"
+    // },
+    // {
+    //     id: 24,
+    //     title: "Training Manual",
+    //     name: "Training Manual.pdf",
+    //     lastModified: "May 10 2024 11:05:15 AM",
+    //     owner: "Annette Black",
+    //     ownerImg: "images/img_avatar.png"
+    // },
+    // {
+    //     id: 25,
+    //     title: "IT Policy",
+    //     name: "IT Policy May 2024.pdf",
+    //     lastModified: "May 12 2024 11:15:35 AM",
+    //     owner: "Cameron Williamson",
+    //     ownerImg: "images/img_avatar_3.png"
+    // },
+    // {
+    //     id: 26,
+    //     title: "Agile Manifesto",
+    //     name: "Agile Manifesto.pdf",
+    //     lastModified: "May 14 2024 03:25:10 PM",
+    //     owner: "Darlene Robertson",
+    //     ownerImg: "images/img_avatar_4.png"
+    // },
+    // {
+    //     id: 27,
+    //     title: "Privacy Policy",
+    //     name: "Privacy Policy May 2024.pdf",
+    //     lastModified: "May 16 2024 09:40:45 AM",
+    //     owner: "Annette Black",
+    //     ownerImg: "images/img_avatar.png"
+    // },
+    // {
+    //     id: 28,
+    //     title: "Cybersecurity Policy",
+    //     name: "Cybersecurity Policy.pdf",
+    //     lastModified: "May 18 2024 02:50:30 PM",
+    //     owner: "Cameron Williamson",
+    //     ownerImg: "images/img_avatar_3.png"
+    // },
+    // {
+    //     id: 29,
+    //     title: "Workplace Safety Manual",
+    //     name: "Workplace Safety Manual.pdf",
+    //     lastModified: "May 20 2024 11:05:15 AM",
+    //     owner: "Darlene Robertson",
+    //     ownerImg: "images/img_avatar_4.png"
+    // },
+    // {
+    //     id: 30,
+    //     title: "Conflict of Interest Policy",
+    //     name: "Conflict of Interest Policy.pdf",
+    //     lastModified: "May 22 2024 03:25:10 PM",
+    //     owner: "Annette Black",
+    //     ownerImg: "images/img_avatar.png"
+    // }
 ];
 
 export const InvestorsData = [
@@ -1017,7 +1017,7 @@ export const InvestorsData = [
 
 export const InvestorsRequestData = [
     {
-        date: "Jul 22, 2024 10:30 AM",
+        date: "May 22, 2024 10:30 AM",
         investorName: "Venture Catalysts",
         communicationStatus: "Initial email sent",
         status: "In Progress",
@@ -1025,7 +1025,7 @@ export const InvestorsRequestData = [
         notes: "Meeting Scheduled"
       },
       {
-        date: "Jul 18, 2024 03:32 AM",
+        date: "May 18, 2024 03:32 AM",
         investorName: "Startup Funding Club",
         communicationStatus: "Phone call",
         status: "Approved",

@@ -10,7 +10,7 @@ const ConfirmedModal = (props) => {
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
-    className="m-auto w-[65%] md:w-[45%] lg:w-[40%] xl:w-[40%] 2xl:w-[35%] max-w-[620px]"
+    className="m-auto w-[100%] max-w-[620px]"
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
     {...props}
   >
