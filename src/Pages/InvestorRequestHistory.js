@@ -47,11 +47,11 @@ const InvestorRequestHistory = () => {
     fetchInvestorRequests();
   }, []);
 
-  const data = InvestorsRequestData;
+  const data = investorRequests;
   const filteredData = data.filter(item => {
-    const keywordMatch = item.investorName.toLowerCase().includes(keywords.toLowerCase());
+    const keywordMatch = item.user.toLowerCase().includes(keywords.toLowerCase());
     if (filterApply) {
-      const investorNameMatch = user.length === 0 || user.includes(item.investorName);
+      const investorNameMatch = user.length === 0 || user.includes(item.user);
       const statusMatch = status.length === 0 || status.includes(item.status);
       return keywordMatch && investorNameMatch && statusMatch;
     }
@@ -173,22 +173,21 @@ const InvestorRequestHistory = () => {
                     pageData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
                         <td className="py-3 px-3 w-auto text-gray500 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>
-                          {/* {new Date(item.dateCreated).toLocaleString('en-US', {
+                          {new Date(item.dateCreated).toLocaleString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
         hour12: true
-      })} */} {item.date}
-      </td>
-                        <td className="py-3 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>{item.investorName}</td>
+      })}</td>
+                        <td className="py-3 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>{item.user}</td>
                         <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.communicationStatus}</td>
                         <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">
                           <div style={{ whiteSpace: "nowrap" }} className={`flex flex-row space-x-2 items-center py-0.5 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${item.status === 'Approved' ? 'bg-emerald-50 text-green-700' : item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''} inline-flex`}>{item.status}</div>
                         </td>
                         <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.attachment}</td>
-                        <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.notes}</td>
+                        <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.note}</td>
                       </tr>
                     ))
                  
