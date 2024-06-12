@@ -12,7 +12,7 @@ export default function Success() {
   useEffect(()=>{
     if (searchParams.get('auth')) {
       dispatch(logout())
-      localStorage.setItem('userToken', searchParams.get('auth'))
+      sessionStorage.setItem('userToken', searchParams.get('auth'))
       navigate('/')
       navigate(0);
     }

@@ -37,12 +37,13 @@ export default function Pagination({ nbrPages }) {
 
     return (
         <div className='w-full flex items-center justify-center py-5'>
-            <div className='flex '>
+            <div className='flex font-dm-sans-medium text-[16px]'>
             <button
+            disabled={current <2 }
                 onClick={() => {
                     setSearchParams({ page: (current - 1 )})
                     setCurrent(current-1)}}
-                    className={`flex gap-2 text-gray500 border-gray-300 text-sm  items-center justify-center border border-r-0 px-2 py-2 rounded-l-full ${current <2 && 'invisible'}`}
+                    className={`flex gap-2 text-gray500 border-gray-300 text-base  items-center justify-center border border-r-0 px-[16px] py-[14px] rounded-l-full ${current <2 && 'disabled'}`}
             >
                 <ArrowLeftIcon className='h-4 w-4 ' />
                 Prev
@@ -59,17 +60,18 @@ export default function Pagination({ nbrPages }) {
                             setSearchParams({ page: el })
                             setCurrent(el)
                         }}
-                        className={` px-4  border border-gray-300 ${current == el ? 'text-white bg-gray700' : 'text-gray700 bg-white'}`}
+                        className={` px-4 w-[51px] border border-gray-300 ${current == el ? 'text-white-A700 bg-gray700' : 'text-gray700 bg-white'}`}
                 >
                      {el}
                 </button>
             ))}
             <button
+            disabled={current === nbrPages}
                 onClick={() => {
                         setSearchParams({ page: (parseInt(current)  + 1) })
                     setCurrent(current + 1)
                 }}
-                    className={`flex gap-2 text-gray500 border-gray-300 text-sm items-center justify-center border border-l-0 px-2 py-2 rounded-r-full ${current ==nbrPages && 'invisible'}`}
+                    className={`flex gap-2 text-gray500 border-gray-300 text-sm items-center justify-center border border-l-0 px-[16px] py-[14px] rounded-r-full ${current === nbrPages ? 'disabled' : ''}`}
             >
                 Next
                     <ArrowRightIcon className='h-4 w-4 ' />

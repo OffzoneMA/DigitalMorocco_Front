@@ -13,9 +13,28 @@ import ProgressBar from "../Components/ProgressBar";
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { IoFlashOffOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+import creditsImg from '../Media/credits_img.svg';
+import { useGetAllProjectsQuery } from "../Services/Member.Service";
+import Loader from "../Components/Loader";
+import fileSearchImg from '../Media/file-search.svg';
+
 
 
 const Dashbord = () => {
+const { userInfo } = useSelector((state) => state.auth)
+  
+  const status = 'Active'
+  const navigate = useNavigate();
+  const userData = JSON.parse(sessionStorage.getItem('userData'));
+
+  const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
+
+  const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
+        .slice(0, 0);
 
     const chartData = [
         { name: 'Jan', value: 150 },
@@ -42,33 +61,33 @@ const Dashbord = () => {
       ];
       
     const Requestdata = [
-        {
-          date: "Jul 22, 2023 10:30 AM",
-          investorName: "Venture Catalysts",
-          communicationStatus: "Initial email sent",
-          status: "In Progress",
-          attachment: "Pitch Deck",
-          notes: "Meeting Scheduled",
-          logo:"images/img_inv.svg",
-        },
-        {
-          date: "Jul 18, 2023 03:32 AM",
-          investorName: "Startup Funding Club",
-          communicationStatus: "Phone call",
-          status: "Approved",
-          attachment: "Proposal",
-          notes: "Positive Feedback",
-          logo:"images/img_inv1.svg"
-        },
-        {
-          date: "Jun 24, 2023 09:06 AM",
-          investorName: "XYZ Combinator",
-          communicationStatus: "Rejection email",
-          status: "Rejected",
-          attachment: "Financials",
-          notes: "Not Interested",
-          logo:"images/img_inv2.svg"
-        },
+        // {
+        //   date: "Jul 22, 2023 10:30 AM",
+        //   investorName: "Venture Catalysts",
+        //   communicationStatus: "Initial email sent",
+        //   status: "In Progress",
+        //   attachment: "Pitch Deck",
+        //   notes: "Meeting Scheduled",
+        //   logo:"images/img_inv.svg",
+        // },
+        // {
+        //   date: "Jul 18, 2023 03:32 AM",
+        //   investorName: "Startup Funding Club",
+        //   communicationStatus: "Phone call",
+        //   status: "Approved",
+        //   attachment: "Proposal",
+        //   notes: "Positive Feedback",
+        //   logo:"images/img_inv1.svg"
+        // },
+        // {
+        //   date: "Jun 24, 2023 09:06 AM",
+        //   investorName: "XYZ Combinator",
+        //   communicationStatus: "Rejection email",
+        //   status: "Rejected",
+        //   attachment: "Financials",
+        //   notes: "Not Interested",
+        //   logo:"images/img_inv2.svg"
+        // },
     ];
 
     const prjectdata = [
@@ -93,41 +112,27 @@ const Dashbord = () => {
       };
       
       const off = gradientOffset(); 
+
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
                 <div className="flex flex-col md:flex-row gap-5 items-start justify-start pb-2 w-full">
-                    <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
-                        <Text
-                        className="text-3xl font-bold leading-11 text-gray-900 w-full"
-                        size="txtDMSansBold32"
+                    <div className="flex flex-1 h-full items-start justify-start w-auto">
+                        <PageHeader
                         >
-                        Welcome back, Olivia
-                        </Text>
+                        Welcome back, {userData?.displayName? userData?.displayName : 'Olivia'}
+                        </PageHeader>
                     </div>
-                    <div className="flex flex-row w-full md:w-[50%] ml-auto md:justify-end gap-4">
-                        <div className="flex w-auto  md:w-[40%] rounded-md p-2 border border-solid">
-                            <img
-                            className="cursor-pointer h-[18px] mr-1.5 my-px"
-                            src="images/img_search_blue_gray_700_01.svg"
-                            alt="search"
-                            />
-                            <input
-                            className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                            type="text"
-                            name="search"
-                            placeholder="Search..."
-                            />
-                        </div>
-                        <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
-                            <FaRegPlusSquare  size={18} className="mr-2"/>
-                            <button
-                            type="submit"
-                            className="text-base text-white-A700"
-                            >
-                            Create Project
-                            </button>
-                        </div>
+                    <div className="flex flex-row w-full md:w-[45%] ml-auto md:justify-end gap-4">
+                        <SearchInput className={'min-w-[30%]'}/>
+                        <button 
+                        style={{whiteSpace: 'nowrap'}}
+                          className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] cursorpointer-green rounded-md w-auto" 
+                          onClick={() => navigate("/CreateProject")}
+                      >
+                          <FaRegPlusSquare size={18} className="mr-2" />
+                          Create Project
+                      </button>
                     </div>
                 </div>
                 <div className="flex pb-6">
@@ -143,86 +148,138 @@ const Dashbord = () => {
                      </div>
                      <div className="flex flex-col p-3 items-center gap-1 ml-3">
                      <Text
-                        className="font-DmSans text-[22px] font-medium leading-8 text-white-A700 tracking-normal w-full"
+                        className=" text-[22px] font-dm-sans-medium leading-8 text-white-A700 tracking-normal w-full"
                         >
                         Upgrade your account and get full access to Digital Morocco
                     </Text>
                     <Text
-                        className="text-sm font-normal leading-[26px] tracking-normal font-DmSans text-white-A700 w-full"
+                        className="text-sm font-dm-sans-regular leading-[26px] tracking-normal  text-white-A700 w-full"
                         >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </Text>
                     </div>
-                    <div className="flex items-center justify-end bg-teal-A700 rounded-md w-auto ml-auto p-2">
-                       <HiOutlineSparkles  size={18} className=" text-blue_gray-901 mr-2"/>
-                        <button
-                        type="submit"
-                        className="text-base text-blue_gray-901"
-                        >
-                        Upgrade Membership
-                        </button>
-                    </div>
+                    <button className="flex items-center text-base text-blue_gray-901 justify-end bg-teal-A700 rounded-md w-auto ml-auto cursorpointer p-2" onClick={() => '' }>
+                      <HiOutlineSparkles size={18} className="text-blue_gray-901 mr-2" />
+                      Upgrade Membership
+                  </button>
+
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pt-8 w-full">
-                    <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 pt-8 w-full">
+                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                      <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
+                        <img src={creditsImg} className="w-[28px] h-[28px] " />
+                      </div>
+                      <Text
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                        >
+                        Total Credits
+                      </Text>
+                      {userData?.member?.credits >0 ?
+                        <Text
+                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
+                        >
+                        {userData?.member?.credits}
+                      </Text>
+                      :
+                      <Text
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        >
+                        Upgrade your account or buy credits
+                      </Text>
+                      }
+                    </div>
+                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-teal-50 ">
                         <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Create Project
                       </Text>
-                      <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                      {userData?.member?.projectCount >0 ?
+                        <Text
+                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        {userData?.member?.projectCount < 10  ?   `0${userData?.member?.projectCount}`: userData?.member?.projectCount}
                       </Text>
+                      :
+                      <Text
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        >
+                        Make sure that you have already created projects
+                      </Text>
+                      }
                     </div>
-                    <div className="flex flex-col gap-4  items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                    <div className="flex flex-col gap-3  items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-blue-51">
                         <TiFlashOutline size={28} className="text-blue-701" />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Investors
                       </Text>
-                      <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                      {userData?.member?.investorsRequestsAccepted?.length >0 ?
+                        <Text
+                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        {userData?.member?.investorsRequestsAccepted
+}
                       </Text>
+                      :
+                      <Text
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        >
+                        Start sending requests to investors
+                      </Text>
+                      }
                     </div>
-                    <div className="flex flex-col gap-4  items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                    <div className="flex flex-col gap-3  items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-orange-51">
                         <HiOutlineSpeakerphone size={28} className="text-amber-601"  />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         Events
                       </Text>
-                      <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                      {userData?.eventCount >0 ?
+                        <Text
+                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        {userData?.eventCount < 10 ? `0${userData?.eventCount}` : userData?.eventCount}
                       </Text>
+                      :
+                      <Text
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        >
+                        Buy your tickets and join our special events
+                      </Text>
+                      }
                     </div>
-                    <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 py-7 px-5">
+                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
                       <div className="rounded-[6px] p-2 bg-violet-100">
                         <BiBuildings size={28} className="text-blue-601" />
                       </div>
                       <Text
-                        className="font-DmSans text-[18px] font-medium leading-7 tracking-normal text-gray-900_01"
+                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                         >
                         My Company
                       </Text>
-                      <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] tracking-normal text-blue_gray-301"
+                      {userData?.member?.companyName ?
+                        <Text
+                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
                         >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                        01
                       </Text>
+                      :
+                      <Text
+                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                        >
+                        Create a profile for your company
+                      </Text>
+                      }
                     </div>
                 </div>
                 
@@ -234,12 +291,12 @@ const Dashbord = () => {
                      </div>
                      <div className="flex flex-col p-3 items-center gap-1 ml-2">
                         <Text
-                            className="font-DmSans ext-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                            className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                             >
                            The Top Markets
                         </Text>
                         <Text
-                            className="text-sm font-normal leading-[26px] text-blue_gray-301 tracking-normal font-DmSans w-full"
+                            className="text-sm font-dm-sans-regular leading-[26px] text-blue_gray-301 tracking-normal  w-full"
                             >
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit
                         </Text>
@@ -252,8 +309,8 @@ const Dashbord = () => {
                         ))
                     ) : (
                         <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                            <AiOutlineFileSearch size={30} />
-                            <Text className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto" size="">
+                            <img src={fileSearchImg} />
+                            <Text className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto" size="">
                                 Data not available
                             </Text>
                         </div>
@@ -267,12 +324,12 @@ const Dashbord = () => {
                      </div>
                      <div className="flex flex-col p-3 items-center gap-1 ml-2">
                         <Text
-                            className="font-DmSans ext-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                            className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                             >
                            Investment Volume 
                         </Text>
                         <Text
-                            className="text-sm font-normal leading-[26px] text-blue_gray-301 tracking-normal font-DmSans w-full"
+                            className="text-sm font-dm-sans-regular leading-[26px] text-blue_gray-301 tracking-normal  w-full"
                             >
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit
                         </Text>
@@ -295,9 +352,9 @@ const Dashbord = () => {
                         </div>
                         :
                         <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                            <AiOutlineFileSearch size={30} />
+                            <img src={fileSearchImg} />
                             <Text
-                            className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                            className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
                             Data not available
@@ -315,45 +372,50 @@ const Dashbord = () => {
                         </div>
                         <div className="flex flex-col p-3 items-center ml-2">
                             <Text
-                                className="font-DmSans text-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                                className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                                 >
                             Active Projects
                             </Text>
                         </div>
                        </div>
-                       {prjectdata.length >0 ? 
-                        prjectdata.map((item, index) => (
-                            <div className="flex flex-col px-6 w-full">
+                       {isLoading ? (
+                        <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                            <Loader />
+                        </div>
+                         ) : (
+                        recentProjects?.length > 0 ? 
+                        recentProjects.map((item, index) => (
+                          <div key={index} className="flex flex-col px-6 w-full">
                             <div className="flex flex-row items-center gap-3 py-2 justify-start w-full">
                                 <Text
-                                    className="font-DmSans text-base font-medium leading-8 text-gray-900_01 tracking-normal text-left"
+                                    className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal text-left"
                                     >
-                                {item.project}
+                                {item.name}
                                 </Text>
-                                <div className={`flex flex-row space-x-2 bg-emerald-50 text-green-700 items-center py-1 px-2 font-DmSans text-sm font-normal leading-6 rounded-full`}>
+                                <div className={`flex flex-row space-x-2 bg-emerald-50 text-green-700 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full`}>
                                 <GoDotFill size={12} className="mr-2"/>
-                                {item.stage}
+                                {item.stages?.[0]}
                                 </div>
                             </div>
                             <div className=" flex-row gap-px grid grid-cols-3 py-2 w-full">
-                            <div className="flex flex-col items-start justify-start">
-                                <div className="flex flex-col items-center justify-start w-auto">
-                                    <Text
-                                    className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
-                                    size="txtDMSansBold12"
-                                    >
-                                    Target{" "}
-                                    </Text>
-                                </div>
-                                <div className="flex flex-col items-start justify-center py-4 w-full">
-                                <Text
-                                    className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
-                                    size="txtDMSansMedium22"
-                                >
-                                    {item.target}
-                                </Text>
-                                </div>
-                            </div>
+                              <div className="flex flex-col items-start justify-start">
+                                  <div className="flex flex-col items-center justify-start w-auto">
+                                      <Text
+                                      className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                                      size="txtDMSansBold12"
+                                      >
+                                      Target{" "}
+                                      </Text>
+                                  </div>
+                                  <div className="flex flex-col items-start justify-center py-4 w-full">
+                                  <Text
+                                      className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
+                                      size="txtDMSansMedium22"
+                                  >
+                                     {item.currency} {item.funding}
+                                  </Text>
+                                  </div>
+                              </div>
                             <div className="flex flex-col items-start justify-start w-auto">
                                 <div className="flex flex-col items-center justify-start w-auto">
                                     <Text
@@ -368,7 +430,7 @@ const Dashbord = () => {
                                     className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
                                     size="txtDMSansMedium22"
                                 >
-                                    {item.stage}
+                                    {item.stages?.[0]}
                                 </Text>
                                 </div>
                             </div>
@@ -386,24 +448,26 @@ const Dashbord = () => {
                                     className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
                                     size="txtDMSansMedium22"
                                 >
-                                    {item.totalRaised}
+                                    {item.currency} {item?.totalRaised || 0}
                                 </Text>
                                 </div>
                             </div>
-                            </div>
-                            </div>
-                        ))
-                        :
-                        <div className="flex flex-col items-center text-gray-600  w-full py-28">
-                            <IoFlashOffOutline size={30} />
-                            <Text
-                            className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
-                            size=""
-                            >
-                            No Active Project
-                            </Text>
+                          </div>
                         </div>
-                       }
+                        )) : (
+                            <div className="flex flex-col items-center text-gray-600 w-full py-28">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
+                              <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                                <Text
+                                    className="text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
+                                    size=""
+                                >
+                                    No Active Project
+                                </Text>
+                            </div>
+                        )
+                       )}
                     </div>
                     <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 ">
                       <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-200 w-full">
@@ -412,7 +476,7 @@ const Dashbord = () => {
                         </div>
                         <div className="flex flex-col p-3 items-center ml-2">
                             <Text
-                                className="font-DmSans ext-base font-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                                className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                                 >
                             Lastest Request
                             </Text>
@@ -422,24 +486,24 @@ const Dashbord = () => {
                           <table className=" w-full">
                             <thead className="">
                             <tr className="bg-white-A700 text-sm leading-6 ">
-                                <th className="p-3 text-left text-blue_gray-800_01 font-medium">Investor Name</th>
-                                <th className="p-3 text-left text-blue_gray-800_01 font-medium">Communication Status</th>
-                                <th className="p-3 text-left text-blue_gray-800_01 font-medium">Status</th>
+                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Investor Name</th>
+                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Communication Status</th>
+                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Status</th>
                             </tr>
                             </thead>
+                            <tbody className="items-center w-full ">
                             {Requestdata.length >0 ?
                             Requestdata.map((item, index) => (
-                            <tbody className="items-center w-full ">
                               <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                                <td className="py-4 px-3 w-auto text-gray-600 font-DmSans text-sm font-normal leading-6">
+                                <td className="py-4 px-3 w-auto text-gray-600  text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center" >
                                         <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
                                         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.investorName}</span>
                                     </div>
                                 </td>
-                                <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">{item.communicationStatus}</td>
-                                <td className="py-4 px-3 text-gray-600 font-DmSans text-sm font-normal leading-6">
-                                    <div className={`flex flex-row space-x-2 items-center py-1 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${
+                                <td className="py-4 px-3 text-gray-600  text-sm font-dm-sans-regular leading-6">{item.communicationStatus}</td>
+                                <td className="py-4 px-3 text-gray-600  text-sm font-dm-sans-regular leading-6">
+                                    <div className={`flex flex-row space-x-2 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full ${
                                     item.status === 'Approved' ? 'bg-emerald-50 text-green-700' :
                                         item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' :
                                         item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''
@@ -448,17 +512,19 @@ const Dashbord = () => {
                                     </div>
                                 </td>
                               </tr>
-                            </tbody>
                              ))
                             :
                             ""}
+                            </tbody>
                           </table>
                        </div>
                        {!Requestdata?.length>0 && (
                        <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                            <IoFlashOffOutline size={30} />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
+                          <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
                             <Text
-                            className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                            className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
                             No Request Yet

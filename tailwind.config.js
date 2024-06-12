@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
     theme: {
     extend: {
@@ -11,7 +12,16 @@ module.exports = {
         },
       
         fontFamily: {
-        'DmSans': ['DM Sans', 'sans-serif'] , inter: "Inter", manrope: "Manrope"
+        'DmSans': ['DM Sans'] , inter:['Inter'] , manrope: ['Manrope'],
+        'montserrat-medium': ['Montserrat-Medium'],
+        'dm-sans-regular': ['DMSans-Regular'],
+        'dm-sans-medium': ['DMSans-Medium'],
+        'dm-sans-bold': ['DMSans-Bold'],
+        'Montserrat-regular': ['Montserrat-Regular' ],
+        'Montserrat-medium': ['Montserrat-Medium' ],
+        'Montserrat-bold': ['Montserrat-Bold' ],
+        'Montserrat-semiBold': ['Montserrat-SemiBold' ],
+        'Avenir-next-LTPro': ['AvenirNextLTPro']
         },
         colors:{
           blue: {
@@ -22,6 +32,9 @@ module.exports = {
             200: "#6ca3f5",
             300: "#6ca6fd",
             500: "#2a94f4",
+            501: "#2575F0",
+            502: "#478BF3",
+            503:"#2E90FA",
             601: "#3016C0",
             700: "#1976d2",
             701: "#235DBD",
@@ -31,17 +44,25 @@ module.exports = {
             "50_01": "#dae7fc",
             "100_01": "#b2cdf8",
           },
-          red: { 300: "#ec7373", 400: "#ef4352", "300_01": "#f97066" ,600: "#e02d3c" },
-          green: { 100: "#ECFDF3",A200:"#25DAC5" ,500: "#4caf50", A700: "#1dc86d" },
-          light_blue: { 100: "#EDF7FF", 200:"#6CA3F5" ,900: "#0e538c", "900_01": "#006699" },
+          red: { 300: "#ec7373", 400: "#ef4352",501:"#EF4352",502:"#E85555", "300_01": "#f97066" ,600: "#e02d3c" ,601: "#E02D3C" },
+          green: { 100: "#ECFDF3",A200:"#25DAC5" ,500: "#4caf50", A700: "#1dc86d" , 501:"#12B76A"},
+          light_blue: {51:"#EFF8FF", 100: "#EDF7FF", 200:"#6CA3F5" ,900: "#0e538c", "900_01": "#006699" },
         yellow: { A200: "#faff05" ,900: "#eb8425" },
         gray: {
           50: "#f8f9fb",
           100: "#f2f3f6",
+          101:"#F2F4F7",
+          201: "#E4E7EC",
+          202: "#E5E5E6",
           300: "#dcdcdb",
+          301: "#D0D5DD",
+          401: "#A9ACB0",
           500: "#a7a6a8",
           700: "#555458",
+          701:"#262D33",
+          801: "#1D2939",
           900: "#1d1c21",
+          901: "#1D1C21",
           "500_33": "#aaaaaa33",
           "900_0c": "#1018280c",
           "900_66": "#15143866",
@@ -63,6 +84,7 @@ module.exports = {
           601: "#475467",
           700: "#455c6c",
           800: "#3c4959",
+          801: "#1F2545",
           900: "#303030",
           901: "#1f2545",
           902: "#39447e",
@@ -80,14 +102,16 @@ module.exports = {
           "900_03": "#1d2939",
           "800_01": "#344053",
         },
-        deep_purple: { A400: "#482be7",400: "#7e56d8", A200: "#7f57f1"  },
-        teal: { 800: "#027947" ,400: "#3aada1", A700: "#00cdae", A400: "#37e288", A300: "#35d8bf" },
+        purple: {51:"#F9F5FF",},
+        violet:{501:"#7F56D9"},
+        deep_purple: {51:"#F9F5FF", A400: "#482be7",400: "#7e56d8", A200: "#7f57f1"  },
+        teal: { 800: "#027947" ,400: "#3aada1", 401:"#35D8BF", A700: "#00cdae", A400: "#37e288", A300: "#35d8bf" },
         amber: { 300: "#ffd851", 500: "#ffc107", 601: "#DB7712" },
         white: { A700: "#ffffff"},
         black: { 900: "#000000", "900_1e": "#0000001e" ,"900_05": "#00000005"},
         deep_orange: { A400: "#ff3d00" },
-        indigo: { 50: "#e4e6eb", 900: "#203668" , "50_7e": "#e4e6eb7e" },
-        orange: { 50: "#ffefde" ,51:"#FFF8EB" },
+        indigo: { 50: "#e4e6eb" ,501:"#6172F3", 900: "#203668" , "50_7e": "#e4e6eb7e" },
+        orange: { 50: "#ffefde" ,51:"#FFF8EB" , 501: "#F4A118"},
         light_green: { 50: "#ebfdf2" },
         gold:'#FAB818',
         bronze:'#EAC696',
@@ -97,8 +121,15 @@ module.exports = {
         bleu1:'#3417B0',
         bleu2:'#1E0E62',
         col1:'#00CDAE',
+        bg_plan:"#E8FFF81F",
+        bord:"#AAAAAA33",
+        greenbtnhoverbg: '#01A395',
         color1:'#1E0E62',
         color2:'#15143966',
+        borderColor: "#D9D9D9",
+        focusColor: "#53B1FD",
+        placehColor: "#A7A6A8",
+        errorColor: "#EC7373",
     
         "dark-purple": "#081A51",
         "light-white": "rgba(255,255,255,0.17)"
@@ -107,6 +138,28 @@ module.exports = {
           bs: "0px 3px  3px 0px #0000001e",
           bs1: "0px 4px  6px -2px #1018280c",
           bs2: "0px 2.77px  2px 0px #00000005",
+          bs3: "0px 0px 13px 0px #CEE0FCE8",
+          inputBs: "0px 0px 0px 4px #007FFF21",
+          inputBsError: "0px 0px 0px 4px #E8555521",
+          formbs: [
+              '0px 4px 6px -2px #1018280D',
+              '0px 12px 16px -4px #1018281A',
+              '0px 1px 0px 0px #FFFFFF99 inset'
+          ],
+          modalbs: [
+            '0px 2.77px 2.21px 0px #00000005', 
+            '0px 6.65px 5.32px 0px #00000007', 
+            '0px 12.52px 10.02px 0px #00000009', 
+            '0px 22.34px 17.87px 0px #0000000B', 
+            '0px 41.78px 33.42px 0px #0000000D', 
+            '0px 100px 80px 0px #00000012'],
+          checkErrorbs : '0px 4px 12px 2px #EC737340',
+          roleCardbs: [
+            '0px 4px 6px -4px #1018280D',
+            '0px 12px 16px -4px #1018281A'
+          ],
+          langbs: ['0px 12px 16px -4px rgba(16, 24, 40, 0.10)'
+          , '0px 4px 6px -2px rgba(16, 24, 40, 0.05)'],
         },
 
     },

@@ -10,7 +10,7 @@ const ConfirmedModal = (props) => {
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
-    className="m-auto w-[65%] md:w-[45%] lg:w-[40%] xl:w-[40%] 2xl:w-[35%] max-w-[620px]"
+    className="m-auto w-[100%] max-w-[620px]"
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
     {...props}
   >
@@ -49,8 +49,13 @@ const ConfirmedModal = (props) => {
               >
                 <>
                   {props.m3}
-                  {/* <br />
-                  {t('chooserole.confirmed.m4')} */}
+                  {props?.m4 && 
+                  <>
+                    <br />
+                  {props.m4}
+                  </>
+                  }
+                  
                 </>
               </Text>
             </div>
@@ -59,13 +64,13 @@ const ConfirmedModal = (props) => {
             className="leading-[160.00%] text-blue_gray-500 text-center text-xs w-full px-16 pt-4"
             size="txtDMSansRegular12Bluegray500"
           >
-            <span className="text-blue_gray-500 font-dmsans font-normal">
+            <span className="text-blue_gray-500 font-DmSans font-normal">
               {`Need Assistance? If you have any questions or need assistance, feel free to contact our support team at`}
             </span>
-            <span className="text-blue_gray-500 font-dmsans font-normal">
+            <span className="text-blue_gray-500 font-DmSans font-normal">
               {" "}
             </span>
-            <span className="text-blue-A400 font-dmsans font-normal">
+            <span className="text-blue-A400 font-DmSans font-normal">
             {`support@digitalmorocco.com`}
             </span>
           </Text>

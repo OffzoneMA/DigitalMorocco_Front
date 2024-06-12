@@ -14,6 +14,7 @@ const Sidebar22 = () => {
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const Menus = [
     { title: "Dashboard", src: <RiHome6Line size={22} /> },
+    { title: "Users", src: <RiUser3Line size={22} /> , link:"Users" },
     { title: "Projects", src: <GoRocket size={22} /> },
     {
       title: "Company", src: <BiBuildings size={22} />,

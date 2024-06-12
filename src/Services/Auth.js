@@ -28,6 +28,9 @@ export const authApi = createApi({
         method: 'GET',
       }),
     }),
+    getUserByEmail: builder.query({
+      query: (email) => `/${email}`,
+    }),
     addNewRequest: builder.mutation({
       query: (payload) => ({
         url: '/complete_signup/' +payload.userId,
@@ -67,4 +70,5 @@ export const authApi = createApi({
   }),
 })
 
-export const { useGetUserDetailsQuery,useSendEmailVerificationQuery,useAddNewRequestMutation  , useResetPasswordMutation , useSendForgotPasswordMutation ,useVerifyOTPMutation, useSendOTPMutation } = authApi
+export const { useGetUserDetailsQuery,useSendEmailVerificationQuery,useAddNewRequestMutation  , 
+  useResetPasswordMutation , useSendForgotPasswordMutation ,useVerifyOTPMutation, useSendOTPMutation , useGetUserByEmailQuery} = authApi

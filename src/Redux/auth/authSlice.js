@@ -1,17 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { LoginUser, fetchUserInfo, registerUser } from './authAction'
 
-const userToken = localStorage.getItem('userToken')
-  ? localStorage.getItem('userToken')
+const userToken = sessionStorage.getItem('userToken')
+  ? sessionStorage.getItem('userToken')
   : null
+
+const userData = sessionStorage.getItem('userData')
+? sessionStorage.getItem('userData')
+: null
+
+const userEmail = localStorage.getItem('userEmail')
+? localStorage.getItem('userEmail')
+: null
+
+const userSocialInfos = sessionStorage.getItem('userSocialInfos')
+? sessionStorage.getItem('userSocialInfos')
+: null
 
 const initialState = {
   loading: false,
   userInfo: null, 
   userToken, 
+  userData,
   error: null,
   success: false,
-  userEmail: null,
+  userEmail,
+  userSocialInfos
 }
 
 const authSlice = createSlice({
@@ -19,11 +33,17 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('userToken') 
+      sessionStorage.removeItem('userToken') 
+      sessionStorage.removeItem('userData')
+      sessionStorage.removeItem('userSocialInfos')
+      localStorage.removeItem('userEmail')
       state.loading = false
       state.userInfo = null
       state.userToken = null
+      state.userData = null
       state.error = null
+      state.userEmail = null
+      state.userSocialInfos = null
     },
     setCredentials: (state, { payload }) => {
       state.userInfo = payload
@@ -33,8 +53,8 @@ const authSlice = createSlice({
       state.error = null
       state.success = false
     },
-    setUserEmail: (state, action) => {
-      state.userEmail = action.payload;
+    setUserEmail: (state, { payload }) => {
+      state.userEmail = payload;
     },
   },
   extraReducers: {
@@ -67,6 +87,7 @@ const authSlice = createSlice({
           state.loading = false
           state.userToken = payload.accessToken
           state.userInfo = payload.user
+          state.userEmail = payload.user.email
           state.success = true 
         },
         [registerUser.rejected]: (state, { payload }) => {

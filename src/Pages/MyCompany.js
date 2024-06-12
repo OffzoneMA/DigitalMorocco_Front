@@ -1,14 +1,19 @@
-import React, { useState , useMemo  } from "react";
+import React, { useState , useMemo , useRef } from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
 import { CheckPicker, SelectPicker } from "rsuite";
+import MultipleSelect from "../Components/MultipleSelect";
+import SimpleSelect from "../Components/SimpleSelect";
 import { IoImageOutline } from "react-icons/io5";
 import 'rsuite/SelectPicker/styles/index.css';
 import 'rsuite/CheckPicker/styles/index.css';
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
 import {companyType} from "../data/companyType";
+import PageHeader from "../Components/PageHeader";
+import SearchInput from "../Components/SeachInput";
+
 
 const MyCompany = () => {
   const [logoFile, setLogoFile] = useState(null);
@@ -16,27 +21,33 @@ const MyCompany = () => {
   const [isSaved , setIsSaved] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [taxIdentfier, settaxIdentfier] = useState('');
+  const [corporateIdentfier,setcorporateIdentfier] = useState('');
   const [selectedCity , setSelectedCity] = useState(null);
   const [selectedSector, setselectedSector] = useState([]);
   const dataCountries = Country.getAllCountries();
   const [selectedCountry , setSelectedCountry] = useState(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const formRef = useRef();
+  const formButtonRef = useRef();
 
-  const countryNameSelec = selectedCountry? Country.getCountryByCode(selectedCountry)["name"] : "";
+  const countryNameSelec = selectedCountry? selectedCountry["name"] : "";
 
-  const handleChange = (e , setValue) => {
+  const handleChange = (e, setValue) => {
     const formattedValue = e.target.value
-      .replace(/\D/g, '') 
-      .replace(/(\d{0,4})(\d{0,4})(\d{0,4})/, (match, p1, p2, p3) => {
-        let formatted = '';
-        if (p1) formatted += p1;
-        if (p2) formatted += ' - ' + p2;
-        if (p3) formatted += ' - ' + p3;
-        return formatted;
-      });
+      // Supprime tous les caractères non numériques
+      .replace(/\D/g, '')
+      // Insère un tiret entre chaque groupe de quatre chiffres
+      .replace(/(\d{4})/g, '$1 - ')
+      // Supprime le dernier espace et tiret s'il y en a un
+      .replace(/ - $/, '');
+  
+    setValue(formattedValue);
+  };
+  
 
-      setValue(formattedValue);
+  const onButtonClick = (buttonRef) => {
+    buttonRef.current.click();
   };
 
   const handleDragOver = (event) => {
@@ -63,67 +74,90 @@ const MyCompany = () => {
   );
   const formData = new FormData();
 
-  const onSubmit = (data) => {
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    });
-    formData.append('logo', imgFile); 
-    formData.append('companyType', selectedSector);
-    formData.append('country', countryNameSelec);
-    formData.append('cityState', selectedCity);
+  const onSubmit = async (data) => {
+    try {
+      const token = sessionStorage.getItem("userToken");
+      const userData = JSON.parse(sessionStorage.getItem("userData"));
+      const userId = userData._id;
 
-    setIsSaved(true);
+      // Convertir l'image en base64
+      const reader = new FileReader();
+      reader.readAsDataURL(imgFile);
+      reader.onloadend = async () => {
+        const base64Image = reader.result;
 
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
+
+        // Créer un objet JSON avec les données et l'image base64
+        const requestData = {
+          companyName: data.companyName,
+          legalName: data.legalName,
+          contactEmail: data.contactEmail,
+          desc: data.description,
+          website: data.website,
+          taxIdentfier: taxIdentfier,
+          corporateNbr : corporateIdentfier,
+          companyType: selectedSector,
+          country: countryNameSelec,
+          city: selectedCity,
+          logo: base64Image, // Ajouter l'image base64
+        };
+        setIsSaved(true);
+        console.log(requestData)
+        fetch(`http://localhost:5000/members/company/${userId}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then(response => response.json())
+          .then(responseData => {
+            console.log("Réponse du serveur :", responseData);
+          }
+
+          )
+          .catch(error => {
+            console.error("Erreur lors de l'envoi du formulaire :", error);
+          });
+        setIsSaved(true);
+
+      };
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du formulaire :", error);
+      // Affichez une erreur à l'utilisateur si nécessaire
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 font-dmsans h-full items-start justify-start w-auto">
-            <Text
-              className="text-3xl font-bold leading-11 text-gray-900 w-full"
-              size="txtDMSansBold32"
-            >
-              Company
-            </Text>
-          </div>
-          <div className="flex  w-[25%] rounded-md p-2 border border-solid">
-            <img
-              className="cursor-pointer h-[18px] mr-1.5 my-px"
-              src="images/img_search_blue_gray_700_01.svg"
-              alt="search"
-            />
-            <input
-              className={`!placeholder:text-blue_gray-300 !text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search..."
-            />
-          </div>
-          {isSaved? 
-              <div className="bg-teal-A700 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
-                <BsCheck2Circle  size={18} className="mr-2"/>
-                <button
-                  type="submit"
-                  className="text-base text-white-A700"
-                >
-                  Saved
-                </button>
-              </div>  
-              :
-            <div className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto">
-              <FiSave  size={18} className="mr-2"/>
-              <button
-                type="submit"
-                className="text-base text-white-A700"
+          <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
+            <PageHeader
               >
-                Save
+              Company
+            </PageHeader>
+          </div>
+          <SearchInput className={'min-w-[25%]'}/>
+          {isSaved? 
+              <button
+                className="bg-teal-A700 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                type="submit"
+              >
+                <BsCheck2Circle size={18} className="mr-2" />
+                Saved
               </button>
-            </div>
+              :
+              <button
+                ref={formButtonRef}
+                className="bg-blue-501 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                onClick={() => onButtonClick(formButtonRef)}
+                type="submit"
+                >
+                <FiSave size={18} className="mr-2" />
+                Save
+              </button>          
             }
         </div>
       </div>
@@ -245,14 +279,20 @@ const MyCompany = () => {
                 >
                   Country
                 </Text>
-                <SelectPicker size="md" data={dataCountries} name="country"
-                            //  valueKey="name"
-                            labelKey="name" valueKey="isoCode"
-                            value={selectedCountry}
-                            onChange={setSelectedCountry}
-                            menuClassName="w-auto"
-                            className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
-                            placeholder="Select Country"/>
+                <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setSelectedCountry} 
+                    placeholder="Select Country" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
               {/* {selectedCountry==null && <span className="text-sm font-DmSans text-red-500">Company country is required</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -262,13 +302,20 @@ const MyCompany = () => {
                 >
                   City/State
                 </Text>
-                <SelectPicker size="md" data={City.getCitiesOfCountry(selectedCountry)}
-                          value={selectedCity} 
-                          onChange={setSelectedCity}
-                          labelKey="name"
-                          valueKey="name"
-                            className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                            placeholder="Select City"/>
+                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry['isoCode']): []} onSelect={""} searchLabel='Select City' setSelectedOptionVal={setSelectedCity} 
+                    placeholder="Select City" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                 {/* {selectedCity==null && <span className="text-sm font-DmSans text-red-500">Company city/state is required</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -278,10 +325,20 @@ const MyCompany = () => {
                 >
                   Company Sector
                 </Text>
-                <CheckPicker size="md" data={companySectorData} searchable={false}
-                    value={selectedSector} onChange={setselectedSector}
-                    className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                    placeholder="Select Company Sector"/>
+                <MultipleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setselectedSector} 
+                    placeholder="Select Company Sector"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
+                              >
+                               {option}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
                     {/* {selectedSector==null && <span className="text-sm font-DmSans text-red-500">Company Sector is required</span>} */}
 
               </div>
@@ -294,11 +351,12 @@ const MyCompany = () => {
                 </Text>
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
+                                    {...register("taxIdentfier", { required: {value:true , message:"Company taxIdentfier is required"} })}
+
                     className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="name"
-                    value={taxIdentfier}
-                    onChange={e => handleChange(e, settaxIdentfier)}
+                    
                     placeholder="0000 - 0000 - 0000"
                   />
                 </div>
@@ -312,10 +370,12 @@ const MyCompany = () => {
                 </Text>
                 <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
+                    {...register("corporateIdentfier", { required: {value:true , message:"Company corporateIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="text"
                     name="name"
                     placeholder="0000 - 0000 - 0000"
+                    
                   />
                 </div>
               </div>
@@ -332,7 +392,7 @@ const MyCompany = () => {
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}>
                   {logoFile ? (
-                    <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-auto py-[50px]" />
+                    <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[150px]" />
                   ) : (
                   <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[50px] rounded-md w-full">
                     <IoImageOutline />

@@ -8,7 +8,7 @@ const DeleteModal = (props) => {
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
-    className="m-auto w-[65%] md:w-[45%] lg:w-[45%] xl:w-[40%] 2xl:w-[35%]"
+    className="m-auto w-[95%] md:w-[100%] max-w-[540px] outline-none"
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
     {...props}
   >
@@ -16,8 +16,7 @@ const DeleteModal = (props) => {
       <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 md:px-8 sm:px-8 rounded-[14px] w-full">
         <div className="flex flex-row items-center justify-between w-full ">
             <Text
-                className="leading-[28px] max-w-[460px] md:max-w-full text-center text-lg"
-                size="txtDMSansBold16"
+                className="leading-7 max-w-[460px] md:max-w-full text-center text-lg font-medium font-DmSans"
               >
                 {props.title}
               </Text>
@@ -40,13 +39,13 @@ const DeleteModal = (props) => {
             </div>
             <div className="flex flex-row gap-5 items-center justify-between w-auto">
               <button 
-              className="cursor-pointer font-medium h-11 leading-[normal] min-w-[93px] rounded-md p-2.5 text-base text-center bg-indigo-50 text-blue_gray-700"
+              className="cursorpointer-green font-medium h-11 leading-[normal] min-w-[93px] rounded-md p-2.5 text-base text-center bg-indigo-50 text-blue_gray-700"
               onClick={props.onRequestClose}>
                 Cancel
               </button>
               <button 
               onClick={props.onDelete}
-              className="cursor-pointer font-medium h-11 leading-[normal] rounded-md p-2.5 min-w-[127px] bg-red-400 text-white-A700 text-base text-center">
+              className="cursorpointer-green font-medium h-11 leading-[normal] rounded-md p-2.5 min-w-[127px] bg-red-400 text-white-A700 text-base text-center">
                 Delete Now
               </button>
             </div>

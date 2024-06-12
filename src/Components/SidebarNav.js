@@ -1,28 +1,43 @@
 import React, { useState } from "react";
-import { BsArrowLeftShort, BsChevronDown, BsDot } from "react-icons/bs";
+import { BsArrowLeftShort, BsDot } from "react-icons/bs";
+import { BiChevronDown } from "react-icons/bi";
 import { BiBuildings } from "react-icons/bi";
 import { GoRocket } from "react-icons/go";
-import { RiHome6Line } from "react-icons/ri";
+import { RiHome6Line, RiUser3Line } from "react-icons/ri";
 import { TiFlashOutline } from "react-icons/ti";
-import { useSelector } from 'react-redux';
+import { useSelector ,useDispatch} from 'react-redux';
 import { PiFolderThin, PiHourglassLowFill } from "react-icons/pi";
-import { HiOutlineTicket } from "react-icons/hi";
+import { HiOutlineLogout, HiOutlineTicket } from "react-icons/hi";
 import { IoNotificationsOutline, IoSettingsOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
+import coinsIcon from '../Media/credits_img.svg';
+import questionImg from '../Media/question.svg';
+import Popup from "reactjs-popup";
+import { logout, setCredentials } from "../Redux/auth/authSlice";
+import userImg from '../Media/img_avatar_1.png';
+import simpleLogo from '../Media/img_simple_logo.svg';
+import simpleLogoText from '../Media/img_simple_logo_text.svg';
 
 const SidebarNav = () => {
-  const { userInfo } = useSelector((state) => state.auth)
+  const { loading, userInfo, error } = useSelector((state) => state.auth)
     const [open, setOpen] = useState(true);
+    const dispatch = useDispatch()
     const [submenuOpen, setSubmenuOpen] = useState({
       company: false,
       investor: false,
+      event: false,
       // Ajoutez d'autres sous-menus si nécessaire
     });
-    
+    const [settingsOpen , setSettingsOpen] = useState(false);
+    const [notifOpen , setNotifOpen] = useState(false);
+
     const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
 
+    const [activeParent, setActiveParent] = useState('');
+
     const navigate=useNavigate()
+
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
 
     const setSubmenu = (submenuName, isOpen) => {
       setSubmenuOpen(prevState => ({
@@ -32,11 +47,12 @@ const SidebarNav = () => {
     };
     
     const Menus = [
-      { title: "Dashboard", src: <RiHome6Line size={22} /> , link:"Dashboard" },
-      { title: "Projects", src: <GoRocket size={22} />, link:"Projects" },
+      { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link:"Dashboard" },
+      
+      { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" },
       //(userInfo?.member || userInfo?.partner) && 
       {
-        title: "Company", src: <BiBuildings size={22} />,
+        title: "Company", src: <BiBuildings size={22} className="text-light_blue-100"/>,
         submenu: true,
         child: [
           //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
@@ -46,7 +62,7 @@ const SidebarNav = () => {
         ]
       }
       ,
-      { title: "Investor", src: <TiFlashOutline size={22} /> ,link:"Investors" ,
+      { title: "Investor", src: <TiFlashOutline size={22} className="text-light_blue-100"/> ,
       submenu: true,
       child: [
         //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
@@ -55,51 +71,69 @@ const SidebarNav = () => {
         { title: "Request History", src: '', link: "InvestorRequestsHistoty" },
       ]
       },
-      { title: "Event", src: <HiOutlineTicket size={22} /> ,link:"Event" },
-      { title: "Document", src: <PiFolderThin size={22}  /> , link:"Document"},
-      { title: "History", src: <PiHourglassLowFill size={22} /> , link:"History" },
+      { title: "Event", src: <HiOutlineTicket size={22} className="text-light_blue-100"/>  ,
+      submenu: true,
+      child: [
+        { title: "Participate", src: '', link: "Participate" },
+        { title: "Upcoming Event", src: '', link: "UpcomingEvent" },
+        { title: "Past Event", src: '', link: "PastEvent" },
+      ]},
+      { title: "Document", src: <PiFolderThin size={22}  className="text-light_blue-100"/> , link:"Document"},
+      { title: "History", src: <PiHourglassLowFill size={22} className="text-light_blue-100"/> , link:"History" },
   
     ];
+    if (userData?.role === "Admin") {
+      Menus.push({ title: "Users", src: <RiUser3Line size={22} className="text-light_blue-100"/> , link:"Users" });
+    }
+
+    const isSubmenuActive = (submenuName) => {
+      return Menus.find((menu) => menu.title === submenuName)?.child.some((child) => child.link === activeMenu);
+    };
+    
   return (
-    <div className={`bg-blue_gray-901 flex flex-col h-screen p-5 pt-8 ${open ? "w-64" : "w-20"} duration-300 relative`}>
-    <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursor-pointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
+    <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
+    <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer-green ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex">
-      <img src="images/img_simple_logo.svg" className={`text-4xl rounded cursor-pointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo"/>
-      <img src="images/img_simple_logo_text.svg" className={`origin-left ${!open && "scale-0"}`}/>
-    </div>
-  <ul className="font-dmsans text-base font-normal leading-6 pt-3 flex-1">
+    <img src={simpleLogo} className={`text-4xl rounded cursorpointer-green block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => navigate("/")}/>
+  <Link to="/">
+    <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`}/>
+  </Link>
+</div>
+  <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
     {Menus.map((Menu, index) => (
       Menu && <div key={index} >
         <li
         onClick={() => {
+          (Menu.submenu && setSubmenu(Menu.title, !submenuOpen[Menu.title]))
           navigate( Menu.link)
+          setActiveParent(Menu.title)
           setActiveMenu(Menu.title);}}
-          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === Menu.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center  gap-x-3 mt-3 `}
+          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === Menu.link || activeParent === Menu.title)? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
         >
           {Menu.src}
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
                     {Menu.title}
                 </span>
-          {Menu.submenu && (
+          {submenuOpen[`${Menu.title}`] && (
             open ? (
-              <BsChevronDown className={`${submenuOpen[`${Menu.title}`] && "rotate-180"}`} onClick={() => {setSubmenu(Menu.title, !submenuOpen[Menu.title])}} />
+              <BiChevronDown size={22} fontWeight={700} className={``} onClick={() => {setSubmenu(Menu.title, !submenuOpen[Menu.title])}} />
             ) : (
-              <BsDot size={18} className="text-gray-500" />
+              ""
             )
           )}
-        </li
-          >
+        </li>
         { Menu.submenu  && submenuOpen[Menu.title] && (
 
           Menu.child.map((el, i) => (
             <li
               key={i}
               onClick={() => {
-                navigate(el.link)
-                setActiveMenu(el.link);}}
-              className={`font-dmsans text-base font-normal leading-6 ${!open && 'w-fit'}  flex rounded-md py-2 px-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-300 items-center gap-x-2 ml-6 mt-1 `}
+                setActiveMenu(el.link)
+                setActiveParent(Menu.title)
+                navigate(el.link);}}
+              className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === el.link ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
             >
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
+              <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
                         {el.title}
                     </span>
 
@@ -108,19 +142,52 @@ const SidebarNav = () => {
       </div>
     ))}
   </ul>
-  <div className="font-dmsans text-base font-normal leading-6">
+  <div className=" text-base font-dm-sans-regular leading-6">
     <div
-      className={` ${!open && 'w-fit'} flex rounded-md p-2 mb-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-300 items-center  gap-x-3 mt-3 `}
+      onClick={() => {setSettingsOpen(!settingsOpen)
+              setActiveParent("settings")
+              setActiveMenu("settings");
+      }}
+      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer-green ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
     >
-      <IoSettingsOutline size={22}/>
+      <IoSettingsOutline size={22} className="text-light_blue-100"/>
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
-                    Settings
-                </span>
+          Settings
+      </span>
+      {(open && settingsOpen)  ? (
+              <BiChevronDown size={22} className={``}  />
+            ) : (
+""      )}
+    </div>
+    {settingsOpen && (
+      <>
+      <div
+      onClick={() => {
+        navigate("/UserProfile")
+        setActiveParent("settings")
+        setActiveMenu("My Profil");}}
+      className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "My Profil"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+    >
+      <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
+      My Profil
+      </span>
 
     </div>
-    <div className="border-t flex px-2 py-3 items-center">
+    <div
+      onClick={() => {
+        navigate("/Subscription")
+        setActiveParent("settings")
+        setActiveMenu("Subscription & Billing");}}
+      className={`  mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription & Billing" || activeMenu === "ChoosePlan")? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+    >
+      <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
+      Subscription & Billing
+      </span>
+    </div></>
+    )}
+    <div className="border-t border-blue_gray-601 flex px-1 py-5 items-center">
       <img
-        src="images/img_avatar.svg"
+        src={`${userData?.image}`}
         alt=""
         className="w-9 h-9 rounded-full bg-cover"
       />
@@ -131,14 +198,69 @@ const SidebarNav = () => {
   `}
       >
         <div className="leading-4">
-          <span className=" text-white-A700">Camille Olivia</span>
+        <span className="text-white-A700">{userData?.displayName? userData?.displayName : "Camille Olivia"}</span>
         </div>
       </div>
-      <IoNotificationsOutline size={26} className="text-white-A700"/>
+      <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer-green`} 
+      onClick={()=> {
+        setNotifOpen(true)
+        navigate('/Notification')
+        setActiveMenu("Notification")
+      }}>
+      <IoNotificationsOutline size={20} className={`text-white-A700 ${activeMenu === "Notification"? 'text-blue_gray-801' :""}`}/>
+      </div>
     </div>
+    {userData?.role?.toLowerCase() == 'member' &&
+    <div className={`border border-[#475467] py-[12px] ${ open ? "px-[16px]" : "px-[7px]"} rounded-[200px] flex flex-row items-center justify-between`}>
+      <div className="flex gap-2 items-center">
+        <img src={coinsIcon} className="min-w-[23px] w-[23px] h-[23px]"/>
+        {open &&
+          <span className="text-sm font-dm-sans-medium text-teal-A700">{userData?.member?.credits || 0}</span>
+        }
+      </div>
+      {/* <img src={questionImg} /> */}
+      <Popup
+      className="text-[#2C3462] creditQuestion"
+        trigger={open => (
+          <button className="button ml-2"><img src={questionImg} /></button>
+        )}
+        position="bottom center"
+        on={['hover', 'focus']}
+        closeOnDocumentClick
+      >
+      <div className="w-[228px] h-[50px] px-[18px] py-2.5 bg-[#2C3462] rounded-lg justify-center items-center flex">
+        <div className="grow shrink basis-0 h-[30px] justify-center items-center flex">
+          <div className="w-48 text-[#D0D5DD] text-[8px] font-dm-sans-regular">
+            Explore a new dimension of flexibility: add credits at your convenience with just a click on the "Manage" button, and stay in control of your experience.
+          </div>
+        </div>
+        </div>
+      </Popup>
+      {open && 
+        <button className={`px-3 py-2 bg-teal-A700 rounded-[100px] justify-center items-center flex`}>
+        <span className="text-white-A700 text-sm font-dm-sans-medium">Manage</span>
+      </button>
+      }
+    </div>
+    }
+
+    <div className="group flex text-base font-dm-sans-regular leading-6 rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center justify-center gap-x-2 mt-3"
+      onClick={() => {
+        dispatch(logout());
+        navigate('/SignIn');
+      }}>
+      <HiOutlineLogout size={22} className="text-light_blue-100 group-hover:text-red-500" />
+      <span className="origin-left duration-200 flex-1">
+        SignOut
+      </span>
+    </div>
+
+
+    </div>
+    
   </div>
 
-</div>
+
 
   );
 };

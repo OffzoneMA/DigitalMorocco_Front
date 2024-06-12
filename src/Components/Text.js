@@ -3,14 +3,14 @@ import React from "react";
 const sizeClasses = {
   txtDmSansMedium16Bluegray500: "font-DmSans font-medium",
   txtDmSansBold14: "font-bold font-DmSans",
-  txtDMSansCardHeader: "font-dmsans text-18 font-medium leading-7",
-  txtDMSansCardHeader16:"font-dmsans text-base font-medium leading-7",
+  txtDMSansCardHeader: "font-DmSans text-18 font-medium leading-7",
+  txtDMSansCardHeader16:"font-DmSans text-base font-medium leading-7",
   txtDMSansLablel:"font-DmSans font-normal leading-6",
-  txtDMDashHeader:"font-dmsans text-32 font-bold leading-10",
+  txtDMDashHeader:"font-DmSans text-32 font-bold leading-10",
   txtDmSansRegular13Gray700: "font-DmSans font-normal",
   txtDmSansBold16: "font-bold font-DmSans",
-  txtDMSansH5500:"font-dmsans text-lg font-medium leading-8",
-  txtDMSansH6500:"font-dmsans text-base font-medium leading-7",
+  txtDMSansH5500:"font-DmSans text-lg font-medium leading-8",
+  txtDMSansH6500:"font-DmSans text-base font-medium leading-7",
   txtDmSansBold32: "font-bold font-DmSans",
   txtDmSansBold12: "font-bold font-DmSans",
   txtDmSansRegular14Gray90001: "font-DmSans font-normal",
@@ -33,7 +33,7 @@ const sizeClasses = {
   txtDmSansRegular16: "font-DmSans font-normal",
   txtDmSansMedium16WhiteA700: "font-DmSans font-medium",
   txtDmSansMedium18: "font-DmSans font-medium",
-  txtDMSansDocuments:"font-dmsans text-base font-normal leading-6"
+  txtDMSansDocuments:"font-DmSans text-base font-normal leading-6"
 };
 
 const Text = ({ children, className = "", size, as, ...restProps }) => {

@@ -41,12 +41,21 @@ export const memberApi = createApi({
                 }
             },
         }),
+        updateProject: builder.mutation({
+            query: ({ projectId, payload }) => {
+                return {
+                    url: '/project/'+projectId,
+                    method: 'PUT',
+                    body: payload,
+                }
+            },
+        }),
         getAllProjects: builder.query({
-            query: () => {
+            query: ({ visibility, status, date }={}) => {
                 return {
                     url: '/projects',
                     method: 'GET',
-                    
+                    params: { visibility, status , date },
                 }
             },
         }),
@@ -84,7 +93,58 @@ export const memberApi = createApi({
                 method: 'GET',
             }},
         }),
+        deleteLegalDocument: builder.mutation({
+            query: (documentId) => ({
+              url: `/${documentId}/legal-document`,
+              method: 'DELETE',
+            }),
+        }),
+        updateLegalDocument: builder.mutation({
+        query: ({ documentId, payload }) => ({
+            url: `/${documentId}/legal-document`,
+            method: 'PUT',
+            body: payload,
+        }),
+        }),
+        createLegalDocument: builder.mutation({
+        query: (payload) => ({
+            url: '/legal-document',
+            method: 'POST',
+            body: payload,
+        }),
+        }),
+        deleteEmployee: builder.mutation({
+        query: (employeeId) => ({
+            url: `/${employeeId}/employee`,
+            method: 'DELETE',
+        }),
+        }),
+        updateEmployee: builder.mutation({
+        query: ({ employeeId, payload }) => ({
+            url: `/${employeeId}/employee`,
+            method: 'PUT',
+            body: payload,
+        }),
+        }),
+        createEmployee: builder.mutation({
+            query: (payload) => ({
+              url: '/employee',
+              method: 'POST',
+              body: payload,
+            }),
+        }),
+        createCompany: builder.mutation({
+            query: (logo) => ({
+              url: '/company',
+              method: 'POST',
+              body: logo,
+            }),
+        }),
     }),
 })
 
-export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllProjectsQuery,useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,useGetAllMembersQuery} = memberApi
+export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllProjectsQuery,
+    useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,
+    useGetAllMembersQuery , useUpdateEmployeeMutation, useUpdateProjectMutation, useUpdateLegalDocumentMutation,
+    useCreateCompanyMutation, useCreateLegalDocumentMutation, useCreateEmployeeMutation,
+    useDeleteEmployeeMutation, useDeleteLegalDocumentMutation } = memberApi

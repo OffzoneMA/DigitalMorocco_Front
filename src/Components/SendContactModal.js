@@ -4,8 +4,7 @@ import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuUploadCloud } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { SelectPicker } from "rsuite";
-import 'rsuite/SelectPicker/styles/index.css';
+import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
 
@@ -94,17 +93,16 @@ const SendContactModal = (props) => {
         <>
       <ModalProvider
         appElement={document.getElementById("root")}
-        className="m-auto w-[65%] md:w-[45%] lg:w-[40%] xl:w-[40%] 2xl:w-[35%]"
+        className="m-auto w-[65%] md:w-[50%] lg:w-[45%] xl:w-[45%] 2xl:w-[40%]"
         overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
         {...props}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="max-h-[99vh] w-full md:w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-h-screen w-full md:w-full">
           <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
             <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-              <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
+              <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text
-                  className="md:text-xl text-[18px] text-gray-900 w-full"
-                  size="txtDMSansCardHeader16"
+                  className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-gray-900 w-full"
                 >
                   Send Contact Request
                 </Text>
@@ -123,11 +121,20 @@ const SendContactModal = (props) => {
                 >
                   Project
                 </Text>
-                <SelectPicker size="md" data={projects}
-                    labelKey="name" valueKey="id" 
-                    value={selectedProject} onChange={setSelectedProject}
-                    className="w-full !placeholder:text-blue_gray-300 font-manrope font-normal leading-18 tracking-wide"
-                    placeholder="Select Project"/>
+                <SimpleSelect id='project' options={projects} onSelect={""} searchLabel='Search Project' setSelectedOptionVal={setSelectedProject} 
+                    placeholder="Select Project" valuekey="name"
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              >
+                               {option.name}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -164,8 +171,8 @@ const SendContactModal = (props) => {
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
                   {preview? (
-                    <div className="flex flex-col items-center text-blue-700 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-10">
-                    <Text className="flex flex-row font-dmsans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
+                    <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12">
+                    <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
                     <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {files.name}
                     </Text>
                     <div className="bg-white-A700 text-blue-700 border border-solid border-blue-500 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
@@ -181,14 +188,14 @@ const SendContactModal = (props) => {
                       <button
                         onClick={() =>onButtonClick(inputRef)}
                         type="button"
-                        className="text-base "
+                        className="font-DmSans text-sm font-medium leading-[26px] "
                       >
                         update your document
                       </button>
                     </div>
                 </div>) :
                   (   
-                <div className="flex flex-col items-center text-blue-700 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-7">
+                <div className="flex flex-col items-center text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12">
                   <LuUploadCloud  size={24} className=" mr-2"/>
                   <input
                           ref={inputRef}
@@ -198,7 +205,7 @@ const SendContactModal = (props) => {
                           type="file"
                           name="name"
                         />
-                  <Text className="font-dmsans text-base items-center font-normal leading-6 tracking-normal">
+                  <Text className="text-sm leading-[26px] items-center font-normal tracking-normal">
                     Drop file or <span className="" onClick={()=> onButtonClick(inputRef)}>click here to upload your document</span>  
                   </Text>
                 </div>
