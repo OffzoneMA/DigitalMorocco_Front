@@ -74,6 +74,7 @@ export default function UserProfile() {
             Authorization: `Bearer ${token}`,
           },
         });
+        
           const data = response.data;
           const nameParts = data.displayName.split(' ');
           const firstName = nameParts.slice(0, -1).join(' ');
@@ -92,10 +93,10 @@ export default function UserProfile() {
           setValue('phoneNumber', data.phoneNumber);
           setValue('website', data.website);
           setValue('address', data.address);
-          setValue('facebook', data.facebook);
+          setValue('facebook', data.facebookId);
           setValue('instagram', data.instagram);
           setValue('twitter', data.twitter);
-          setValue('linkedin', data.linkedin);
+          setValue('linkedin', data.linkedinId);
           setValue('language', data.language);
           setValue('region', data.region);
           
@@ -573,51 +574,6 @@ const onSubmit3 = async () => {
               )
         } 
         </form> 
-        <div className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'> 
-        <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" > 
-        Social Links </Text> 
-        <div className='flex flex-row w-full justify-between items-center'>
-          <div className='flex flex-row gap-2 items-center'> 
-          <AiFillFacebook size={32} /> 
-          <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" > 
-          Facebook </Text> </div> 
-          <button className={` ${isConnect ? 'text-red-502 border-red-502 ' : 'text-blue-501 border-blue-501 '} flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px]`}
-          type="submit" > 
-          <span className="text-sm leading-[18.33px]"> 
-          {isConnect ? "Disconnected" : "Connect"}
-            </span> </button> </div> 
-          <div className='flex flex-row w-full justify-between items-center'>
-            <div className='flex flex-row gap-2 items-center'>
-            <AiOutlineInstagram size={32} />
-              <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" >
-              Instagram </Text> </div> 
-              <button className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501" type="submit" >
-                <span className="text-sm leading-[18.33px]">Connect</span>
-              </button>
-          </div> 
-          <div className='flex flex-row w-full justify-between items-center'> 
-          <div className='flex flex-row gap-2 items-center'> <FaSquareXTwitter size={27} /> 
-          <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" >
-            Twitter (X) </Text> </div> 
-          <button className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501" type="submit" > 
-          <span className="text-sm leading-[18.33px]">Connect</span> </button> </div> 
-          <div className='flex flex-row w-full justify-between items-center'> 
-          <div className='flex flex-row gap-2 items-center text-left'> 
-          <AiFillLinkedin size={35} className='' /> 
-          <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" > 
-          LinkedIn </Text> </div> 
-          <button className={` ${isConnect ? 'text-red-502 border-red-502 ' : 'text-blue-501 border-blue-501 '} flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px]`} type="submit" > 
-          <span className="text-sm leading-[18.33px]">
-            {isConnect ? "Disconnected" : "Connect"}
-            </span> </button> </div> 
-            <div className='flex flex-row w-full justify-between items-center'> 
-            <div className='flex flex-row gap-2 items-center'> <AiFillYoutube size={32} /> 
-            <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" > 
-            Youtube </Text> </div> 
-            <button className="text-blue-501 flex flex-row items-center justify-center py-2 px-4 gap-3 rounded-md border-[1.3px] border-blue-501" type="submit" >
-              <span className="text-sm leading-[18.33px]">Connect</span> </button> </div> 
-              <button className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
-              Save </button> </div>
 
                 <form onSubmit={handleSubmit3(onSubmit3)} 
                 className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'> 

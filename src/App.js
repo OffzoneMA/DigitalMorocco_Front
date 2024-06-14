@@ -51,6 +51,7 @@ import { isAuthenticated } from './Services/UserAuth';
 import GuardedConnectedUserRoute from './GuardedRoutes/GuardedConnectedUserRoute';
 import GuardedAdminRoute from './GuardedRoutes/GuardedAdminRoute';
 import Dashboard_Admin from './Pages/Dashboard_Admin/Dashboard';
+import SubscribePlan from './Pages/SubscribePlan';
 
 function App() {
  
@@ -89,6 +90,7 @@ function App() {
             <Route path="/ChoosePlan" element={<ChoosePlan />} />
             <Route path="/History" element={<History />} />
             <Route path="/Notification" element={<Notifications />} />
+            <Route path="/SubscribePlan" element={<SubscribePlan />} />
           </Route>
           <Route element={<GuardedAdminRoute />}>
             <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
