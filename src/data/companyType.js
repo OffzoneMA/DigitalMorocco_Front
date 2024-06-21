@@ -6,4 +6,5 @@ export const companyType = [
    "CRM",
    "Travel",
    "HRM",
+   "OTHER"
 ];

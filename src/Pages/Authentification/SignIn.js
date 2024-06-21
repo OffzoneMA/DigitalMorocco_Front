@@ -101,7 +101,7 @@ export default function SignIn() {
 
 }, [auth , dispatch, navigate]); 
 
-
+console.log('test user' , userInfo)
   useEffect(() => {
     if (Mount) { setMount(false) }
     else {
@@ -166,6 +166,19 @@ export default function SignIn() {
     dispatch(LoginUser(values))
   }
 
+  const handleRememberMe = (isChecked) => {
+    if (isChecked) {
+      localStorage.setItem('rememberMe', 'true');
+    } else {
+      localStorage.removeItem('rememberMe');
+    }
+  };
+  
+  const handleCheckboxChange = (event) => {
+    const isChecked = event.target.checked;
+    handleRememberMe(isChecked);
+  };
+
 
   return (
     <>
@@ -215,7 +228,7 @@ export default function SignIn() {
                   {t('signin.linkedinSignIn')}
                 </div>
               </Button>
-              <Button
+              {/* <Button
                 className=" text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleFacebookButtonClick}
                 leftIcon={
@@ -230,7 +243,7 @@ export default function SignIn() {
                 <div className="w-[200px] font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]">
                   {t('signin.facebookSignIn')}
                 </div>
-              </Button>
+              </Button> */}
             </div>
             <div className="flex sm:flex-row flex-row gap-2.5 items-center justify-start py-2.5 w-full">
               <div className="bg-gray-300 h-px w-[46%]" />

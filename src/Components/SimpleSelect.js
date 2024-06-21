@@ -71,7 +71,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className="flex md:flex-1 w-full items-center rounded-md p-2 border border-solid cursorpointer-green"
+        className="flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] cursorpointer-green"
         onClick={toggleDropdown}
       >
         <input
@@ -87,7 +87,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
       </div>
       {isOpen && (
          ReactDOM.createPortal(
-        <div ref={dropdownRef} className="absolute w-full  mt-1 py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[340px] z-10" role="menu" 
+        <div ref={dropdownRef} className="absolute w-full  mt-1 py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[310px] z-10" role="menu" 
         style={dropdownPosition}>
             {searchable && (
             <div className='flex w-full px-3'>
@@ -108,7 +108,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
             {filteredData.map((option, index) => (
               <div
                 key={index}
-                className={`flex items-center w-full px-3 text-left cursorpointer-green hover:bg-gray-100 ${itemClassName}`}
+                className={`flex items-center w-full px-3 text-left cursorpointer-green hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
                 onClick={() => handleOptionClick(option)}
               >
                 {content(option)}

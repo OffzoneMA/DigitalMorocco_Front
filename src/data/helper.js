@@ -14,3 +14,19 @@ export function formatNumber(number) {
   }
   return '';
 }
+
+export function getLocalStorageItemWithExpiration(key) {
+  const now = new Date().getTime();
+  const expirationDate = localStorage.getItem('expirationDate');
+  
+  if (expirationDate && now > expirationDate) {
+    // Si la date d'expiration est passée, supprimer les données
+    localStorage.removeItem('rememberMe');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('expirationDate');
+    return null;
+  }
+  
+  return localStorage.getItem(key);
+}

@@ -507,7 +507,7 @@ const onSubmit = (data) => {
                       {t('signup.linkedinSignUp')}
                     </div>
                   </Button>
-                  <Button
+                  {/* <Button
                     className="text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                     onClick={() => socialSignUp('facebook')}
                     leftIcon={
@@ -522,7 +522,7 @@ const onSubmit = (data) => {
                     <div className="w-[210px] font-medium leading-[normal] text-left text-sm tracking-[0.14px]">
                       {t('signup.facebookSignUp')}
                     </div>
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>

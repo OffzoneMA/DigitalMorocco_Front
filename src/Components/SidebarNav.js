@@ -103,14 +103,16 @@ const SidebarNav = () => {
     {Menus.map((Menu, index) => (
       Menu && <div key={index} >
         <li
-        onClick={() => {
+          onClick={() => {
           (Menu.submenu && setSubmenu(Menu.title, !submenuOpen[Menu.title]))
           navigate( Menu.link)
           setActiveParent(Menu.title)
           setActiveMenu(Menu.title);}}
-          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === Menu.link || activeParent === Menu.title)? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
+          className={` ${!open && 'w-fit'} flex rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || activeParent === Menu.title)? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `}
         >
-          {Menu.src}
+          <span className={`duration-200 ${activeMenu === Menu.link || activeParent === Menu.title ? "active-icon-color" : "hover-active-color"}`}>
+            {Menu.src}
+          </span>
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
                     {Menu.title}
                 </span>
@@ -148,9 +150,9 @@ const SidebarNav = () => {
               setActiveParent("settings")
               setActiveMenu("settings");
       }}
-      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer-green ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
+      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer-green ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
     >
-      <IoSettingsOutline size={22} className="text-light_blue-100"/>
+      <IoSettingsOutline size={22} className={`text-light_blue-100 ${activeMenu === "settings" || activeParent === "settings" ? "active-icon-color" : "hover-active-color"}`} />
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
           Settings
       </span>
@@ -187,7 +189,7 @@ const SidebarNav = () => {
     )}
     <div className="border-t border-blue_gray-601 flex px-1 py-5 items-center">
       <img
-        src={`${userData?.image}`}
+        src={`${userData?.image || userImg}`}
         alt=""
         className="w-9 h-9 rounded-full bg-cover"
       />

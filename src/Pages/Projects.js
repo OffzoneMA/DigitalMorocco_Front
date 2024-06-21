@@ -91,7 +91,7 @@ const Projects = () => {
                   >
                   Project List
                 </TableTitle>
-                <button className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto text-sm font-medium leading-[18.23px]" 
+                <button className="bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto text-sm font-medium leading-[18.23px]" 
                 onClick={() => navigate('/CreateProject')}>
                   <FaRegPlusSquare size={18} className="mr-2" />
                   <span style={{ whiteSpace: 'nowrap' }}>New Project</span>

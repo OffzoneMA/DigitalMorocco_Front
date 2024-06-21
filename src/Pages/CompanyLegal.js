@@ -41,11 +41,11 @@ const CompanyLegal = () => {
     fetchLegalDocuments();
 }, []);
 
-const fetchLegalDocuments = () => {
+const fetchLegalDocuments = async () => {
   try {
-      // const response = await axios.get("http://localhost:5000/members/legal-documents");
-      // console.log(response.data)
-      setLegalDocuments(CompanyLegalData);
+      const response = await axios.get("http://localhost:5000/members/legal-documents");
+      console.log(response.data)
+      setLegalDocuments(response.data);
       setLoading(false);
   } catch (error) {
       console.error("Error fetching legal documents:", error);
@@ -55,7 +55,7 @@ const fetchLegalDocuments = () => {
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return CompanyLegalData.slice(startIndex, endIndex);
+    return data?.slice(startIndex, endIndex);
   };
 
 
