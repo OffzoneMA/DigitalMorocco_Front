@@ -61,6 +61,7 @@ const ChoosePlan = lazy(() => import('./Pages/ChoosePlan'));
 const Notifications = lazy(() => import('./Pages/Notifications'));
 const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationEmail'));
 
+import SubscribePlan from './Pages/SubscribePlan';
 
 function App() {
 
@@ -127,7 +128,8 @@ function App() {
                 <Route path="/ChoosePlan" element={<ChoosePlan />} />
                 <Route path="/History" element={<History />} />
                 <Route path="/Notification" element={<Notifications />} />
-              </Route>
+                <Route path="/SubscribePlan" element={<SubscribePlan />} />
+          </Route>
               <Route element={<GuardedAdminRoute />}>
                 <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
               </Route>

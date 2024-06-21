@@ -51,7 +51,7 @@ const Investors = () => {
             Authorization: `Bearer ${token}`,
           }
       });
-        console.log(response.data)
+        console.log("invst",response.data)
         setInvestors(response.data.investors);
         setLoading(false);
       } catch (error) {
@@ -67,7 +67,7 @@ const Investors = () => {
           const response = await axios.get(`http://localhost:5000/members/check-subscription-status/${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
           });
-          console.log(response.data)
+          console.log("subs",response)
           setIsSubscribe(response.data.result);
       } catch (error) {
           console.error('Error checking subscription status:', error);
@@ -77,6 +77,8 @@ const Investors = () => {
     fetchInvestorRequests();
     
   }, []);
+
+  
   const data = investors;
 
 
@@ -268,24 +270,7 @@ const Investors = () => {
                   { loading ? (
                      <div className="flex items-center justify-center w-full h-full">
                      <Loading />
-                 </div> ) : pageData.length === 0 ? (
-                  <div style={{
-                    height: "300px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginRight: "-800px",
-                  }}>
-                    <div >
-                      <FaUsers size={18} className="mr-2 w-4 h-4" style={{ color: "#98a2b3" }} />
-                    </div>
-                    <div>
-                      <span>No investors</span>
-                    </div>
-                  </div>
-                )                 
-                 : ( pageData.map((item, index) => (
+                 </div> ) :  ( pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate("/InvestorDetails")}>
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
@@ -317,33 +302,7 @@ const Investors = () => {
                   
                 </tbody>
                 </table>
-                {isSubscribe &&
-                (
-                  <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
-                  <BsEyeSlash size={35} className="text-gray500 "/>
-                  <Text
-                    className="font-DmSans text-[22px] font-medium leading-8 text-gray-900_01 w-auto pt-4"
-                    size=""
-                  >
-                    View all 261,765 Investors
-                  </Text>
-                  <Text
-                    className="font-DmSans text-sm font-medium leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
-                    size=""
-                  >
-                    Upgrade to <a className="text-blue-500" href="/DigitalMoroccoPro">Digital Morocco Pro</a>,  and get access all search results, save to custom lists and get connected with investors
-                  </Text>
-                  <button
-                    className="bg-blue-A400 text-white-A700 flex flex-row items-center p-2 rounded-md cursor-pointer"
-                    onClick={() => navigate('/ChoosePlan')}
-                    type="button"
-                  >
-                    <TiFlashOutline size={25} className="mr-2" />
-                    <span className="text-sm font-DmSans font-medium leading-[18.23px] text-white-A700">Upgrade Membership</span>
-                  </button>
-
-                </div>
-                )}
+                
               </div>
               {pageData?.length>0 && (
                 <div className='w-full flex items-center p-4'>
