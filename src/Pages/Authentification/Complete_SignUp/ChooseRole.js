@@ -65,11 +65,12 @@ const ChooseRole = () => {
       setSelectedOption(option);
     };
 
+    console.log("Token choose" , sessionStorage.getItem('userToken'))
+
     useEffect(() => {
       if (auth) {
-        console.log('Fetching user details with token:', auth);
+        console.log("aauth choose" , auth)
         sessionStorage.setItem('userToken', auth)
-        setToken(auth)
         axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
             headers: {
                 'Authorization': `Bearer ${auth}`
@@ -77,10 +78,9 @@ const ChooseRole = () => {
         })
         .then((response) => {
             const payload = response.data;
-            console.log('User details fetched successfully', payload);
             if (payload) {
-                dispatch(setCredentials(payload));
-                sessionStorage.setItem('userData', payload);
+                dispatch(setCredentials(JSON.stringify(payload)));
+                sessionStorage.setItem('userData', JSON.stringify(payload));
                 if (userSocialInfos) {
                   console.log('Updating full name with:', userSocialInfos);
                   updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos } })
@@ -133,7 +133,7 @@ const ChooseRole = () => {
       setSelectedOption('');
       navigate('/ChooseRole')
       // window.location.href = 'https://digital-morocco-landing-page.vercel.app';
-      window.open('https://digital-morocco-landing-page.vercel.app', '_blank');
+      window.open('https://digitalmorocco.net', '_blank');
       // Redirection ves site officiel
     };
 
@@ -184,7 +184,10 @@ const ChooseRole = () => {
             {showLogout && (
               <div className="absolute top-[100%] right-0 w-[248px]">
                 <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] flex items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red" 
-                onClick={( ) => dispatch(logout())}>
+                onClick={() => {
+                  dispatch(logout());
+                  navigate('/SignIn');
+                }} >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14 15L19 10M19 10L14 5M19 10H7M10 15C10 15.93 10 16.395 9.89778 16.7765C9.62038 17.8117 8.81173 18.6204 7.77646 18.8978C7.39496 19 6.92997 19 6 19H5.5C4.10218 19 3.40326 19 2.85195 18.7716C2.11687 18.4672 1.53284 17.8831 1.22836 17.1481C1 16.5967 1 15.8978 1 14.5V5.5C1 4.10217 1 3.40326 1.22836 2.85195C1.53284 2.11687 2.11687 1.53284 2.85195 1.22836C3.40326 1 4.10218 1 5.5 1H6C6.92997 1 7.39496 1 7.77646 1.10222C8.81173 1.37962 9.62038 2.18827 9.89778 3.22354C10 3.60504 10 4.07003 10 5" stroke="#203668" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

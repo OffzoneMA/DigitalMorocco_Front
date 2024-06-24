@@ -88,11 +88,15 @@ export default function SignIn() {
           }
       })
       .then((response) => {
+        console.log("social data" , response.data)
           const payload = response.data;
           if (payload) {
-              dispatch(setCredentials(payload));
-              sessionStorage.setItem('userData', payload);
-              navigate('/SignIn');
+              sessionStorage.setItem('userToken', auth)
+              dispatch(setCredentials(JSON.stringify(payload)));
+              sessionStorage.setItem('userData', JSON.stringify(payload));
+                navigate('/SignIn') 
+                openModal();
+              
           }
       })
       .catch((error) => {
@@ -101,11 +105,10 @@ export default function SignIn() {
 
 }, [auth , dispatch, navigate]); 
 
-console.log('test user' , userInfo)
   useEffect(() => {
     if (Mount) { setMount(false) }
     else {
-      if (userInfo) {
+      if (userInfo && !auth) {
         setTimeout(() =>{
           if(userInfo?.status === 'notVerified') {
             // toast.error("Account not Verified !")
@@ -113,7 +116,9 @@ console.log('test user' , userInfo)
           }
           else {
             // toast.success("Logged In")
-            if (!userInfo?.role) { navigate('/ChooseRole') }
+            if (!userInfo?.role) { 
+              navigate('/ChooseRole') 
+            }
             else{
               // navigate('/Dashboard')
               openModal();
