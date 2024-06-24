@@ -15,11 +15,10 @@ export const investorApi = createApi({
     endpoints: (builder) => ({
         getAllInvestors: builder.query({
             query: (arg) => {
-                const { page } = arg;
                 return {
                     url: '/',
                     method: 'GET',
-                    params: { page },
+                    params: arg,
                 }
             },
         }),

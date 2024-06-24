@@ -27,8 +27,8 @@ const ProjectDetails = () => {
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
   useEffect(() => {
     const setMaxHeight = () => {
-      const div1Height = div1Ref.current.clientHeight;
-      const div2Height = div2Ref.current.clientHeight;
+      const div1Height = div1Ref.current?.clientHeight;
+      const div2Height = div2Ref.current?.clientHeight;
       const maxHeight = Math.max(div1Height + 50, div2Height + 50);
       if (window.innerWidth >= 768) { 
         dividerRef.current.style.height = `${maxHeight}px`;
@@ -361,7 +361,7 @@ useEffect(() => {
     </div>
     <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone} rowData={project}/>
 
-    <ShareToInvestorModal isOpen={isModalOpen} onRequestClose={closeModal}/>
+    <ShareToInvestorModal isOpen={isModalOpen} projectId={projectId} onRequestClose={closeModal}/>
 
     <DeleteModal isOpen={isDeleteModalOpen}
     onRequestClose={closeDeleteModal} title="Delete Project" 

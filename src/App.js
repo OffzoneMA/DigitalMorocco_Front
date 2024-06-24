@@ -15,6 +15,8 @@ import ConnectedUserRoute from './GuardedRoutes/ConnectedUserRoute';
 import Loader from './Components/Loader';
 import Layout from './Components/Layout';
 import DashbordLayout from "./Components/DashbordLayout";
+import SubscribePlan from './Pages/SubscribePlan';
+
 
 // Utiliser React.lazy pour le code splitting
 const Home = lazy(() => import('./Pages/Home'));
@@ -60,8 +62,6 @@ const PastEvents = lazy(() => import('./Pages/PastEvents'));
 const ChoosePlan = lazy(() => import('./Pages/ChoosePlan'));
 const Notifications = lazy(() => import('./Pages/Notifications'));
 const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationEmail'));
-
-import SubscribePlan from './Pages/SubscribePlan';
 
 function App() {
 
