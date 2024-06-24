@@ -96,6 +96,13 @@ export default function SignIn() {
               sessionStorage.setItem('userData', JSON.stringify(payload));
                 navigate('/SignIn') 
                 openModal();
+                // if (payload?.role?.toLowerCase() == "admin") { 
+                //   navigate('/Dashboard_Admin') 
+                // }
+                // else{
+                //   navigate('/Dashboard')
+                //   // openModal();
+                // }
               
           }
       })
@@ -120,8 +127,14 @@ export default function SignIn() {
               navigate('/ChooseRole') 
             }
             else{
-              // navigate('/Dashboard')
               openModal();
+              // if (userInfo?.role?.toLowerCase() == "admin") { 
+              //   navigate('/Dashboard_Admin') 
+              // }
+              // else{
+              //   navigate('/Dashboard')
+              //   // openModal();
+              // }
             }
           }
         
