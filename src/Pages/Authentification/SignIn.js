@@ -95,14 +95,14 @@ export default function SignIn() {
               dispatch(setCredentials(JSON.stringify(payload)));
               sessionStorage.setItem('userData', JSON.stringify(payload));
                 navigate('/SignIn') 
-                openModal();
-                // if (payload?.role?.toLowerCase() == "admin") { 
-                //   navigate('/Dashboard_Admin') 
-                // }
-                // else{
-                //   navigate('/Dashboard')
-                //   // openModal();
-                // }
+                // openModal();
+                if (payload?.role?.toLowerCase() == "admin") { 
+                  navigate('/Dashboard_Admin') 
+                }
+                else{
+                  // navigate('/Dashboard')
+                  openModal();
+                }
               
           }
       })
