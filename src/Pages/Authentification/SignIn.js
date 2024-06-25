@@ -127,14 +127,13 @@ export default function SignIn() {
               navigate('/ChooseRole') 
             }
             else{
-              openModal();
-              // if (userInfo?.role?.toLowerCase() == "admin") { 
-              //   navigate('/Dashboard_Admin') 
-              // }
-              // else{
-              //   navigate('/Dashboard')
-              //   // openModal();
-              // }
+              if (userInfo?.role?.toLowerCase() == "admin") { 
+                navigate('/Dashboard_Admin') 
+              }
+              else{
+                // navigate('/Dashboard')
+                openModal();
+              }
             }
           }
         

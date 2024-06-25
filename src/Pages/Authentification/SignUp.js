@@ -397,7 +397,7 @@ const onSubmit = (data) => {
                       className="font-Avenir-next-LTPro leading-[16.8px] text-[12px] text-[#585E66] w-full"
                     >
                       {t('signup.accordance')} <br/>
-                      {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>en cours.</span>
+                      {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>D-W-266/2024.</span>
                     </Text>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-4">
                         <label htmlFor={`acceptTerms`} className="cursorpointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
@@ -419,7 +419,7 @@ const onSubmit = (data) => {
                           htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                         >
-                          {t('signup.terms1')} <a href='https://digitalmorocco.net/terms' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='https://digitalmorocco.net/privacy' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a>.                     
+                          {t('signup.terms1')} <a href='https://digitalmorocco.net/terms' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='https://digitalmorocco.net/privacy' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                     
                         </label>
                     </div>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-2">
