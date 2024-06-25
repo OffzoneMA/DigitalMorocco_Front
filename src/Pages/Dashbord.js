@@ -116,18 +116,18 @@ const { userInfo } = useSelector((state) => state.auth)
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-                <div className="flex flex-col md:flex-row gap-5 items-start justify-start pb-2 w-full">
-                    <div className="flex flex-1 h-full items-start justify-start w-auto">
+                <div className="flex flex-row flex-wrap gap-5 items-start justify-between pb-2 w-full">
+                    <div className="flex h-full items-start justify-start w-auto">
                         <PageHeader
                         >
                         Welcome back, {userData?.displayName? userData?.displayName : 'Olivia'}
                         </PageHeader>
                     </div>
-                    <div className="flex flex-row w-full md:w-[45%] ml-auto md:justify-end gap-4">
+                    <div className="flex flex-row flew-wrap w-auto gap-4">
                         <SearchInput className={'min-w-[30%]'}/>
                         <button 
                         style={{whiteSpace: 'nowrap'}}
-                          className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center p-[7px] cursorpointer-green rounded-md w-auto" 
+                          className="bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row md:h-auto items-center p-[7px] cursorpointer-green rounded-md w-auto" 
                           onClick={() => navigate("/CreateProject")}
                       >
                           <FaRegPlusSquare size={18} className="mr-2" />
@@ -137,152 +137,151 @@ const { userInfo } = useSelector((state) => state.auth)
                 </div>
                 <div className="flex pb-6">
                      <Text
-                        className="text-lg font-inter text-gray-500 leading-6 tracking-normal w-full"
+                        className="text-sm md:text-base lg:text-lg font-inter text-gray-500 leading-6 tracking-normal w-full"
                         >
                         Track, manage and forecast your customers and orders.
                     </Text>
                 </div>
-                <div className="flex flex-row bg-blue-A400 items-center rounded-[12px] px-5 py-3  w-full flex-1">
-                    <div className="flex rounded-md bg-teal-50 p-3">
-                       <LiaUnlockAltSolid size={28} className="text-blue-A400 transform scale-x-[-1]"/>
-                     </div>
-                     <div className="flex flex-col p-3 items-center gap-1 ml-3">
-                     <Text
-                        className=" text-[22px] font-dm-sans-medium leading-8 text-white-A700 tracking-normal w-full"
-                        >
-                        Upgrade your account and get full access to Digital Morocco
-                    </Text>
-                    <Text
+                <div className="flex flex-row flex-wrap bg-blue-A400 justify-between items-center rounded-[12px] px-5 py-3  w-full flex-1">
+                    <div className="flex flex-row flex-wrap items-center">
+                      <div className="flex rounded-md bg-teal-50 p-2 md:p-2.5 lg:p-3">
+                        <LiaUnlockAltSolid className="text-[22px] md:text-[26px] lg-text-[28px] text-blue-A400 transform scale-x-[-1]"/>
+                      </div>
+                      <div className="flex flex-col p-3 gap-1 ml-3">
+                      <Text
+                          className="text-base md:text-[18px] lg:text-[22px] font-dm-sans-medium leading-8 text-white-A700 tracking-normal w-full"
+                          >
+                          Upgrade your account and get full access to Digital Morocco
+                      </Text>
+                      <Text
                         className="text-sm font-dm-sans-regular leading-[26px] tracking-normal  text-white-A700 w-full"
                         >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit
                     </Text>
+                      </div>
                     </div>
-                    <button className="flex items-center text-base text-blue_gray-901 justify-end bg-teal-A700 rounded-md w-auto ml-auto cursorpointer p-2" onClick={() => '' }>
+                    <button className="flex items-center text-base text-blue_gray-901 bg-teal-A700 rounded-md w-auto cursorpointer p-2" onClick={() => '' }>
                       <HiOutlineSparkles size={18} className="text-blue_gray-901 mr-2" />
                       Upgrade Membership
                   </button>
-
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 pt-8 w-full">
-                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
-                      <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
-                        <img src={creditsImg} className="w-[28px] h-[28px] " />
-                      </div>
+                <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                    <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
+                      <img src={creditsImg} className="w-[28px] h-[28px]" />
+                    </div>
+                    <Text
+                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                    >
+                      Total Credits
+                    </Text>
+                    {userData?.member?.credits > 0 ? (
                       <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        Total Credits
-                      </Text>
-                      {userData?.member?.credits >0 ?
-                        <Text
-                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
-                        >
+                        className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
+                      >
                         {userData?.member?.credits}
                       </Text>
-                      :
+                    ) : (
                       <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
+                        className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                      >
                         Upgrade your account or buy credits
                       </Text>
-                      }
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                    <div className="rounded-[6px] p-2 bg-teal-50">
+                      <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                     </div>
-                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
-                      <div className="rounded-[6px] p-2 bg-teal-50 ">
-                        <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
-                      </div>
+                    <Text
+                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                    >
+                      Create Project
+                    </Text>
+                    {userData?.member?.projectCount > 0 ? (
                       <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        Create Project
+                        className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
+                      >
+                        {userData?.member?.projectCount < 10 ? `0${userData?.member?.projectCount}` : userData?.member?.projectCount}
                       </Text>
-                      {userData?.member?.projectCount >0 ?
-                        <Text
-                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
-                        >
-                        {userData?.member?.projectCount < 10  ?   `0${userData?.member?.projectCount}`: userData?.member?.projectCount}
-                      </Text>
-                      :
+                    ) : (
                       <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
+                        className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                      >
                         Make sure that you have already created projects
                       </Text>
-                      }
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                    <div className="rounded-[6px] p-2 bg-blue-51">
+                      <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
-                    <div className="flex flex-col gap-3  items-center rounded-[12px] border border-gray-200 py-7 px-5">
-                      <div className="rounded-[6px] p-2 bg-blue-51">
-                        <TiFlashOutline size={28} className="text-blue-701" />
-                      </div>
+                    <Text
+                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                    >
+                      Investors
+                    </Text>
+                    {userData?.member?.investorsRequestsAccepted?.length > 0 ? (
                       <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        Investors
+                        className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
+                      >
+                        {userData?.member?.investorsRequestsAccepted}
                       </Text>
-                      {userData?.member?.investorsRequestsAccepted?.length >0 ?
-                        <Text
-                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
-                        >
-                        {userData?.member?.investorsRequestsAccepted
-}
-                      </Text>
-                      :
+                    ) : (
                       <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
+                        className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                      >
                         Start sending requests to investors
                       </Text>
-                      }
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                    <div className="rounded-[6px] p-2 bg-orange-51">
+                      <HiOutlineSpeakerphone size={28} className="text-amber-601" />
                     </div>
-                    <div className="flex flex-col gap-3  items-center rounded-[12px] border border-gray-200 py-7 px-5">
-                      <div className="rounded-[6px] p-2 bg-orange-51">
-                        <HiOutlineSpeakerphone size={28} className="text-amber-601"  />
-                      </div>
+                    <Text
+                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                    >
+                      Events
+                    </Text>
+                    {userData?.eventCount > 0 ? (
                       <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        Events
-                      </Text>
-                      {userData?.eventCount >0 ?
-                        <Text
-                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
-                        >
+                        className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
+                      >
                         {userData?.eventCount < 10 ? `0${userData?.eventCount}` : userData?.eventCount}
                       </Text>
-                      :
+                    ) : (
                       <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
+                        className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                      >
                         Buy your tickets and join our special events
                       </Text>
-                      }
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                    <div className="rounded-[6px] p-2 bg-violet-100">
+                      <BiBuildings size={28} className="text-blue-601" />
                     </div>
-                    <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-5">
-                      <div className="rounded-[6px] p-2 bg-violet-100">
-                        <BiBuildings size={28} className="text-blue-601" />
-                      </div>
+                    <Text
+                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                    >
+                      My Company
+                    </Text>
+                    {userData?.member?.companyName ? (
                       <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        My Company
-                      </Text>
-                      {userData?.member?.companyName ?
-                        <Text
-                        className=" text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3] "
-                        >
+                        className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
+                      >
                         01
                       </Text>
-                      :
+                    ) : (
                       <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
+                        className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                      >
                         Create a profile for your company
                       </Text>
-                      }
-                    </div>
+                    )}
+                  </div>
                 </div>
-                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 w-full">
                   <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200  px-6">
                     <div className="flex flex-row items-center w-full">
@@ -483,40 +482,45 @@ const { userInfo } = useSelector((state) => state.auth)
                         </div>
                        </div>
                        <div className="flex flex-col w-full">
-                          <table className=" w-full">
-                            <thead className="">
-                            <tr className="bg-white-A700 text-sm leading-6 ">
-                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Investor Name</th>
-                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Communication Status</th>
-                                <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody className="items-center w-full ">
-                            {Requestdata.length >0 ?
-                            Requestdata.map((item, index) => (
-                              <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                                <td className="py-4 px-3 w-auto text-gray-600  text-sm font-dm-sans-regular leading-6">
-                                    <div className="flex items-center" >
-                                        <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
-                                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.investorName}</span>
+                       <table className="w-full">
+                        <thead>
+                          <tr className="bg-white-A700 text-sm leading-6">
+                            <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Investor Name</th>
+                            <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Communication Status</th>
+                            <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody className="items-center w-full">
+                          {Requestdata.length > 0
+                            ? Requestdata.map((item, index) => (
+                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
+                                  <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
+                                    <div className="flex items-center">
+                                      <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2" />
+                                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.investorName}</span>
                                     </div>
-                                </td>
-                                <td className="py-4 px-3 text-gray-600  text-sm font-dm-sans-regular leading-6">{item.communicationStatus}</td>
-                                <td className="py-4 px-3 text-gray-600  text-sm font-dm-sans-regular leading-6">
-                                    <div className={`flex flex-row space-x-2 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full ${
-                                    item.status === 'Approved' ? 'bg-emerald-50 text-green-700' :
-                                        item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' :
-                                        item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''
-                                    } inline-flex`}>
-                                    {item.status}
+                                  </td>
+                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item.communicationStatus}</td>
+                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
+                                    <div
+                                      className={`flex flex-row space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
+                                        item.status === 'Approved'
+                                          ? 'bg-emerald-50 text-green-700'
+                                          : item.status === 'In Progress'
+                                          ? 'bg-blue-101 text-blue-600'
+                                          : item.status === 'Rejected'
+                                          ? 'bg-rose-100 text-red-500'
+                                          : ''
+                                      } inline-flex`}
+                                    >
+                                      {item.status}
                                     </div>
-                                </td>
-                              </tr>
-                             ))
-                            :
-                            ""}
-                            </tbody>
-                          </table>
+                                  </td>
+                                </tr>
+                              ))
+                            : ""}
+                        </tbody>
+                      </table>
                        </div>
                        {!Requestdata?.length>0 && (
                        <div className="flex flex-col items-center text-gray-600 w-full py-28">

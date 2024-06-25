@@ -11,6 +11,8 @@ import { partnerApi } from '../Services/Partner.Service'
 import { investorApi } from '../Services/Investor.Service'
 import { projectApi } from '../Services/Project.Service'
 import { eventApi } from '../Services/Event.Service'
+import LogRocket from 'logrocket';
+
 
 const store = configureStore({
   reducer: {
@@ -34,7 +36,7 @@ const store = configureStore({
       .concat([authApi.middleware, adminApi.middleware, memberApi.middleware,
          subsApi.middleware, userLogApi.middleware, subscriptionLogApi.middleware
         , userApi.middleware, partnerApi.middleware, investorApi.middleware , projectApi.middleware ,
-        eventApi.middleware
+        eventApi.middleware , LogRocket.reduxMiddleware()
         ]) ,
 })
 export default store

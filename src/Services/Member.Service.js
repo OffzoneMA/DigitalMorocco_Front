@@ -140,6 +140,13 @@ export const memberApi = createApi({
               body: logo,
             }),
         }),
+        shareProject: builder.mutation({
+            query: ({ projectId, investorIds }) => ({
+              url: '/share-project',
+              method: 'POST',
+              body: { projectId, investorIds },
+            }),
+        }),
     }),
 })
 
@@ -147,4 +154,4 @@ export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllProjec
     useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,
     useGetAllMembersQuery , useUpdateEmployeeMutation, useUpdateProjectMutation, useUpdateLegalDocumentMutation,
     useCreateCompanyMutation, useCreateLegalDocumentMutation, useCreateEmployeeMutation,
-    useDeleteEmployeeMutation, useDeleteLegalDocumentMutation } = memberApi
+    useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutation} = memberApi

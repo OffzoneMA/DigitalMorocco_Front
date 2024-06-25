@@ -20,6 +20,7 @@ import { useUpdateProjectMutation } from "../Services/Member.Service";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import SimpleSelect from "../Components/SimpleSelect";
+import fundImg from '../Media/funding.svg';
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -64,7 +65,7 @@ const CreateProject = () => {
   const { data: fetchedProject, error, isLoading } = useGetProjectByIdQuery(projectId, {
     skip: Boolean(project || !projectId),
   });
-  const { register, handleSubmit, formState: { errors } } = useForm(project !=null && {
+  const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm(project !=null && {
     defaultValues: {
       name: project?.name,
       details: project?.details,
@@ -78,7 +79,7 @@ const CreateProject = () => {
   const [teamData , setTeamData ]= useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
-  const [fundingValue, setFundingValue] = useState('');
+  const [fundingValue, setFundingValue] = useState(null);
   const [raisedValue, setRaisedValue] = useState('');
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
@@ -87,7 +88,8 @@ const CreateProject = () => {
   const [selectedPublication, setSelectedPublication] = useState('');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
   const [selectedProjectTeamsMembers, setSelectedProjectTeamsMember] = useState([]);
-  const [selectedStages, setSelectedStages] = useState([]);
+  // const [selectedStages, setSelectedStages] = useState([]);
+  const [selectedStage, setSelectedStage] = useState("");
   const [addProjet, addResponse] = useCreateProjectMutation();
   const [updateProject, updateResponse] = useUpdateProjectMutation();
   const mutation = projectId ? updateProject : addProjet;
@@ -185,7 +187,7 @@ const CreateProject = () => {
       });
       setFileNames(initialFileNames);
 
-      setSelectedStages(project?.stages || []);
+      setSelectedStage(project?.stage || []);
     }
     else{
       setMilestones([{ id: 1, name: '', dueDate: '' }]);
@@ -193,10 +195,20 @@ const CreateProject = () => {
   }, [project]);
 
   
-  const formatFunding = (value , setField) => {
+  const formatFunding = (value ) => {
     let formattedValue = value.replace(/\D/g, '');
     formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    setField(formattedValue);
+    setRaisedValue(formattedValue);
+    setValue("totalRaised", formattedValue, { shouldValidate: true }); // Update form value and trigger validation
+    trigger("totalRaised"); // Manually trigger validation
+  };
+
+  const formatFundingValue = (value) => {
+    let formattedValue = value.replace(/\D/g, '');
+    formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    setFundingValue(formattedValue);
+    setValue("funding", formattedValue, { shouldValidate: true }); // Update form value and trigger validation
+    trigger("funding"); // Manually trigger validation
   };
 
   const inputRefs = useRef([React.createRef()]);
@@ -329,7 +341,7 @@ const handleFileInputChange = (event, index) => {
 
     const formDataContent = {
         ...updatedData,
-        stages: selectedStages,
+        stage: selectedStage,
         listMember: selectedTeamsMembers.map(member => ({
           employee: member?._id,
           fullName: member?.fullName,
@@ -460,7 +472,7 @@ const StageData = stage.map(
                   Create New Project
                 </Text>
                 <button 
-                  className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer rounded-md w-auto" 
+                  className="bg-blue-A400 hover:bg-[#235DBD] text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer rounded-md w-auto" 
                   ref={formButtonRef}
                   type="submit"
               >
@@ -477,16 +489,14 @@ const StageData = stage.map(
                     >
                       Project Name
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="name"
                         placeholder="Enter Project Name"
                       />
-                    </div>
-                    {errors.name && <span className="text-sm font-dm-sans-regular text-red-500">{errors.name?.message}</span>}
+                    {/* {errors.name && <span className="text-sm font-dm-sans-regular text-red-500">{errors.name?.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -495,16 +505,14 @@ const StageData = stage.map(
                     >
                       Project Details
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="details"
                         rows={5}
                         placeholder="Write your project detals here"
                       />
-                    </div>
-                    {errors.details && <span className="text-sm font-dm-sans-regular text-red-500">{errors.details?.message}</span>}
+                    {/* {errors.details && <span className="text-sm font-dm-sans-regular text-red-500">{errors.details?.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -546,19 +554,19 @@ const StageData = stage.map(
                     >
                       Funding Target
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                      <BiDollar size={18} />
+                    <div className="relative flex items-center w-full">
+                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2"/>
                       <input
                         {...register("funding", { required: { value: true, message: "Project Funding Target is required" } })}
-                        className="!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0"
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="funding"
                         type="text"
                         value={fundingValue}
-                        onChange={(e) => formatFunding(e.target.value, setFundingValue)}
+                        onChange={(e) => formatFundingValue(e.target.value)}
                         placeholder="Enter Funding Target"
                       />
                     </div>
-                    {errors.funding && <span className="text-sm font-dm-sans-regular text-red-500">{errors.funding.message}</span>}
+                    {/* {errors.funding && <span className="text-sm font-dm-sans-regular text-red-500">{errors.funding.message}</span>} */}
                   </div>
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
                     <Text
@@ -567,19 +575,19 @@ const StageData = stage.map(
                     >
                       Total Raised
                     </Text>
-                    <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                      <BiDollar size={18} />
+                    <div className="relative flex items-center w-full">
+                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2"/>
                       <input
-                        {...register("totalRaised", { required: { value: true, message: "Total Raised is required" } })}
-                        className="!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0"
+                        {...register("totalRaised", { required: { value: true, message: "Project Funding Target is required" } })}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="totalRaised"
                         type="text"
                         value={raisedValue}
-                        onChange={(e) => formatFunding(e.target.value, setRaisedValue)}
+                        onChange={(e) => formatFunding(e.target.value)}
                         placeholder="Enter Total Raised"
                       />
                     </div>
-                    {errors.totalRaised && <span className="text-sm font-dm-sans-regular text-red-500">{errors.totalRaised.message}</span>}
+                    {/* {errors.totalRaised && <span className="text-sm font-dm-sans-regular text-red-500">{errors.totalRaised.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -613,16 +621,12 @@ const StageData = stage.map(
                     >
                       Stage
                     </Text>
-                    <MultipleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStages} 
-                    placeholder="Select Stage" selectedOptionsDfault={project?.stages}
+                    <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStage} 
+                    placeholder="Select Stage" selectedOptionsDfault={project?.stage}
                     content={
                       ( option) =>{ return (
-                        <div className="flex  py-1.5 items-center  w-full">
-                            <Text
-                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
-                              >
+                          <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto py-2 items-center  w-full">
                                {option}
-                            </Text>
                            </div>
                         );
                       }
@@ -639,9 +643,9 @@ const StageData = stage.map(
                     </Text>
                     {milestones.map((milestone, index) => (
                     <div key={milestone.id} className={`flex flex-row gap-2 items-start justify-start w-full`}>
-                      <div className="flex md:flex-1 w-[55%] rounded-md p-2 border border-solid">
+                      <div className="flex md:flex-1 w-[55%]">
                         <input
-                          className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                          className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
                           name={`name-${milestone.id}`}
                           placeholder="Enter your project milestone"
                           value={milestone.name}
@@ -655,7 +659,7 @@ const StageData = stage.map(
                       />
                       {/* {index === milestones.length - 1 && ( */}
                       <button
-                        className="bg-light_blue-100 text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[6px] rounded-md w-[15%] cursorpointer"
+                        className="bg-light_blue-100 hover:bg-[#E2E2EE] text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[7px] rounded-md w-[15%] cursorpointer"
                         style={{ whiteSpace: 'nowrap' }}
                         onClick={addMilestone}
                         type="button"
@@ -860,7 +864,7 @@ const StageData = stage.map(
                   </div>
                   ))}
                   <button
-                    className="flex w-full text-base text-blue-500 font-dmsans font-medium leading-[18px] cursorpointer rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 items-center justify-center"
+                    className="flex w-full text-base text-blue-500 font-dmsans font-medium leading-[18px] cursorpointer rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 hover:bg-[#E2E2EE] items-center justify-center"
                     onClick={addDocumentDiv}
                     type="button"
                   >

@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React , {useState , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { IoSearch } from "react-icons/io5";
 import { Text } from "./Text";
@@ -6,12 +6,20 @@ import { FaCheck } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import ConfirmedModal from "./ConfirmedModal";
+import { useGetAllInvestorsQuery } from "../Services/Investor.Service";
+import Loader from "./Loader";
+import fileSearchImg from '../Media/file-search.svg';
+import { useShareProjectMutation } from "../Services/Member.Service";
 
 
 const ShareToInvestorModal = (props) => {
+  const [Mount, setMount] = useState(true)
   const [selectedInvestors, setSelectedInvestors] = useState([]);
+  const projectId = props?.projectId;
   const [searchValue, setSearchValue] = useState("");
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
+  const { data : investorsData, error, isLoading , refetch } = useGetAllInvestorsQuery();
+  const [shareProject, { data: shareData, isLoading: shareLoding, isSuccess: shareSuccess , isError, error: shareError }] = useShareProjectMutation();
 
   const handleInvestorSelection = (id) => {
     setSelectedInvestors(prevSelectedInvestors => {
@@ -23,6 +31,8 @@ const ShareToInvestorModal = (props) => {
     });
   };
 
+  console.log(shareData)
+
   const openModal  = () =>  {
     setIsConfirmedModalOpen(true);
     props.onRequestClose();
@@ -33,25 +43,46 @@ const ShareToInvestorModal = (props) => {
   };
 
   
-  const investorsData = [
-    { id: 1, logo: "/images/img_inv.svg", name: "Venture Catalysts" },
-    { id: 2, logo: "/images/img_inv1.svg", name: "Startup Funding Club" },
-    { id: 3, logo: "/images/img_inv2.svg", name: "XYZ Combinator" },
-    { id: 4, logo: "/images/img_inv3.svg", name: "Techstars Atlanta" },
-    { id: 5, logo: "/images/img_inv4.svg", name: "Urban-X Accelerator" },
-    { id: 6, logo: "/images/img_inv5.svg", name: "Misk500 Accelerator" },
-    { id: 7, logo: "/images/img_inv6.svg", name: "Brendan Wallace" },
-    { id: 8, logo: "/images/img_inv7.svg", name: "NextLevel Management" },
-    { id: 9, logo: "/images/img_inv7.svg", name: "NextLevel Management" },
-];
+//   const investorsData = [
+//     { id: 1, logo: "/images/img_inv.svg", name: "Venture Catalysts" },
+//     { id: 2, logo: "/images/img_inv1.svg", name: "Startup Funding Club" },
+//     { id: 3, logo: "/images/img_inv2.svg", name: "XYZ Combinator" },
+//     { id: 4, logo: "/images/img_inv3.svg", name: "Techstars Atlanta" },
+//     { id: 5, logo: "/images/img_inv4.svg", name: "Urban-X Accelerator" },
+//     { id: 6, logo: "/images/img_inv5.svg", name: "Misk500 Accelerator" },
+//     { id: 7, logo: "/images/img_inv6.svg", name: "Brendan Wallace" },
+//     { id: 8, logo: "/images/img_inv7.svg", name: "NextLevel Management" },
+//     { id: 9, logo: "/images/img_inv7.svg", name: "NextLevel Management" },
+// ];
 
-const filteredInvestors = investorsData.filter(investor =>
+const filteredInvestors = investorsData?.investors.filter(investor =>
   investor.name.toLowerCase().includes(searchValue.toLowerCase())
 );
 
-const onSubmit = () => {
-  openModal();
+const onSubmit = async () => {
+  try {
+    await shareProject({ projectId , selectedInvestors });
+  } catch (err) {
+    console.error('Failed to share project:', err);
+  }
 };
+
+useEffect(() => {
+  if (Mount) { setMount(false) }
+  else {
+    if (shareSuccess) {
+      setTimeout(() =>{
+            openModal();
+      }, 2000)
+    }
+    if (shareError) {
+        console.log(shareError)
+    }
+  }
+
+}, [])
+
+console.log(investorsData?.investors)
 
 
   return (
@@ -90,26 +121,61 @@ const onSubmit = () => {
             <IoSearch size={18} className="text-gray-400 z-20 hover:text-gray-500"/>
           </div>
           <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
-            {filteredInvestors.map((item, index) => (
-              <div key={index} className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3 cursorpointer-green" 
-              onClick={() => handleInvestorSelection(item.id)}>
-                <label htmlFor={`check_inv_${index}`} className={`cursorpointer relative inline-flex items-center ${selectedInvestors.includes(item.id) ? 'animation' : ''}`}>
-                  <input id={`check_inv_${index}`}
-                        type="checkbox"
-                        checked={selectedInvestors.includes(item.id)}
-                        onChange={() => handleInvestorSelection(item.id)}
-                        className={`peer appearance-none w-[20px] h-[20px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-300 rounded-[6px] focus:ring-blue-500`}/>
-
-                  <svg width="11" height="8" viewBox="0 0 11 7" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903">
-                    <path d="M1.5 3.5L4.14706 6L9.5 1" stroke="#1E0E62" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </label>
-                <img src={item.logo} alt="investors" className="h-8 w-8 rounded-full"/>
-                <Text className="text-sm text-gray-900_01 leading-6 tracking-normal font-dm-sans-regular">
-                  {item.name}
+            {isLoading ? (
+              <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                <Loader />
+              </div>
+            ) : filteredInvestors?.length === 0 ? (
+              <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                <img src={fileSearchImg} alt="No Project Created" />
+                <Text className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto">
+                  No Project Created
                 </Text>
               </div>
-            ))}
+            ) : (
+              filteredInvestors?.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3 cursor-pointer-green"
+                  onClick={() => handleInvestorSelection(item._id)}
+                >
+                  <label
+                    htmlFor={`check_inv_${index}`}
+                    className={`cursor-pointer relative inline-flex items-center ${
+                      selectedInvestors.includes(item._id) ? 'animation' : ''
+                    }`}
+                  >
+                    <input
+                      id={`check_inv_${index}`}
+                      type="checkbox"
+                      checked={selectedInvestors.includes(item._id)}
+                      onChange={() => handleInvestorSelection(item._id)}
+                      className={`peer appearance-none w-[20px] h-[20px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-300 rounded-[6px] focus:ring-blue-500`}
+                    />
+                    <svg
+                      width="11"
+                      height="8"
+                      viewBox="0 0 11 7"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"
+                    >
+                      <path
+                        d="M1.5 3.5L4.14706 6L9.5 1"
+                        stroke="#1E0E62"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </label>
+                  <img src={item.image} alt="investors" className="h-8 w-8 rounded-full" />
+                  <Text className="text-sm text-gray-900_01 leading-6 tracking-normal font-dm-sans-regular">
+                    {item.name}
+                  </Text>
+                </div>
+              ))
+            )}
           </div>
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
                 <button 

@@ -88,11 +88,22 @@ export default function SignIn() {
           }
       })
       .then((response) => {
+        console.log("social data" , response.data)
           const payload = response.data;
           if (payload) {
-              dispatch(setCredentials(payload));
-              sessionStorage.setItem('userData', payload);
-              navigate('/SignIn');
+              sessionStorage.setItem('userToken', auth)
+              dispatch(setCredentials(JSON.stringify(payload)));
+              sessionStorage.setItem('userData', JSON.stringify(payload));
+                navigate('/SignIn') 
+                openModal();
+                // if (payload?.role?.toLowerCase() == "admin") { 
+                //   navigate('/Dashboard_Admin') 
+                // }
+                // else{
+                //   navigate('/Dashboard')
+                //   // openModal();
+                // }
+              
           }
       })
       .catch((error) => {
@@ -101,11 +112,10 @@ export default function SignIn() {
 
 }, [auth , dispatch, navigate]); 
 
-
   useEffect(() => {
     if (Mount) { setMount(false) }
     else {
-      if (userInfo) {
+      if (userInfo && !auth) {
         setTimeout(() =>{
           if(userInfo?.status === 'notVerified') {
             // toast.error("Account not Verified !")
@@ -113,10 +123,18 @@ export default function SignIn() {
           }
           else {
             // toast.success("Logged In")
-            if (!userInfo?.role) { navigate('/ChooseRole') }
+            if (!userInfo?.role) { 
+              navigate('/ChooseRole') 
+            }
             else{
-              navigate('/Dashboard')
-              // openModal();
+              openModal();
+              // if (userInfo?.role?.toLowerCase() == "admin") { 
+              //   navigate('/Dashboard_Admin') 
+              // }
+              // else{
+              //   navigate('/Dashboard')
+              //   // openModal();
+              // }
             }
           }
         
@@ -165,6 +183,19 @@ export default function SignIn() {
   async function onSubmit(values) {
     dispatch(LoginUser(values))
   }
+
+  const handleRememberMe = (isChecked) => {
+    if (isChecked) {
+      localStorage.setItem('rememberMe', 'true');
+    } else {
+      localStorage.removeItem('rememberMe');
+    }
+  };
+  
+  const handleCheckboxChange = (event) => {
+    const isChecked = event.target.checked;
+    handleRememberMe(isChecked);
+  };
 
 
   return (
@@ -215,7 +246,7 @@ export default function SignIn() {
                   {t('signin.linkedinSignIn')}
                 </div>
               </Button>
-              <Button
+              {/* <Button
                 className=" text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleFacebookButtonClick}
                 leftIcon={
@@ -230,7 +261,7 @@ export default function SignIn() {
                 <div className="w-[200px] font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]">
                   {t('signin.facebookSignIn')}
                 </div>
-              </Button>
+              </Button> */}
             </div>
             <div className="flex sm:flex-row flex-row gap-2.5 items-center justify-start py-2.5 w-full">
               <div className="bg-gray-300 h-px w-[46%]" />

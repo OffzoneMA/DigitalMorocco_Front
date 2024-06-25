@@ -35,6 +35,10 @@ const authSlice = createSlice({
     logout: (state) => {
       sessionStorage.removeItem('userToken') 
       sessionStorage.removeItem('userData')
+      localStorage.removeItem('userToken') 
+      localStorage.removeItem('userData')
+      localStorage.removeItem('expirationDate');
+      localStorage.removeItem('rememberMe');
       sessionStorage.removeItem('userSocialInfos')
       localStorage.removeItem('userEmail')
       state.loading = false
@@ -47,6 +51,9 @@ const authSlice = createSlice({
     },
     setCredentials: (state, { payload }) => {
       state.userInfo = payload
+    },
+    setToken: (state, { payload }) => {
+      state.userToken = payload
     },
     resetState: (state) => {
       state.loading = false
@@ -99,5 +106,5 @@ const authSlice = createSlice({
   },
 
 })
-export const { logout, setCredentials,resetState ,setUserEmail  } = authSlice.actions
+export const { logout, setCredentials,resetState ,setUserEmail  , setToken} = authSlice.actions
 export default authSlice.reducer

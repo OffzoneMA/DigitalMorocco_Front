@@ -1,59 +1,98 @@
+import React, { Suspense, lazy  , useEffect} from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import './App.css';
-import Home from './Pages/Home';
-import SignIn from './Pages/Authentification/SignIn';
-import SignUp from './Pages/Authentification/SignUp';
-import Failure from './Pages/Authentification/Failure';
-import Success from './Pages/Authentification/Success';
-import Subscription from './Pages/Subscription';
-import GuardedUserMemberRoutes from './GuardedRoutes/GuardedUserMemberRoutes';
-import UserProfile from './Pages/UserProfile';
-import Pricing from './Pages/Pricing';
-import ContactUs from './Pages/ContactUs';
-import PaySuccess from './Pages/Payment/PaySuccess';
-import PayFailed from './Pages/Payment/PayFailed';
-import VerificationCode from './Pages/Authentification/Complete_SignUp/VerificationCode';
-import AboutUs from './Pages/AboutUs';
-import ResetPasswordEmail from './Pages/Authentification/ResetPasswordEmail';
-import ResetPassword from './Pages/Authentification/ResetPassword';
-import PasswordResetSucces from './Pages/Authentification/PasswordResetSucces';
-import Explore from './Pages/Explore';
-import ForgotPassword from './Pages/Authentification/ForgotPassword';
-import ChooseRole from './Pages/Authentification/Complete_SignUp/ChooseRole';
 import { I18nextProvider } from 'react-i18next'; 
 import i18n from './i18n';
-import Layout from './Components/Layout';
-import SocialSignUp from './Pages/Authentification/SocialSignUp';
-import DashbordLayout from "./Components/DashbordLayout";
-import Projects from "./Pages/Projects";
-import CreateProject from "./Pages/CreateProject";
-import ProjectDetails from "./Pages/ProjectDetails";
-import CompanyLegal from "./Pages/CompanyLegal";
-import MyCompany from "./Pages/MyCompany";
-import Employees from "./Pages/Employees";
-import NewEmployee from "./Pages/NewEmployee";
-import Dashbord from './Pages/Dashbord';
-import Investors from './Pages/Investors';
-import InvestorDetails from './Pages/InvestorDetails';
-import InvestorRequestHistory from './Pages/InvestorRequestHistory';
-import MyInvestors from './Pages/MyInvestor';
-import Documents from './Pages/Documents';
-import Events from './Pages/Events';
-import History from './Pages/History';
-import Users from './Pages/Users';
-import UpcomingEvents from './Pages/UpcomingEvent';
-import UpcomingEventDetails from './Pages/UpcomingEventDetails';
-import PastEvents from './Pages/PastEvents';
-import ChoosePlan from './Pages/ChoosePlan';
-import Notifications from './Pages/Notifications';
-import VerificationEmail from './Pages/Authentification/Complete_SignUp/VerificationEmail';
-import { isAuthenticated } from './Services/UserAuth';
 import GuardedConnectedUserRoute from './GuardedRoutes/GuardedConnectedUserRoute';
 import GuardedAdminRoute from './GuardedRoutes/GuardedAdminRoute';
 import Dashboard_Admin from './Pages/Dashboard_Admin/Dashboard';
+import LogRocket from 'logrocket';
+import setupLogRocketReact from 'logrocket-react';
+import { getLocalStorageItemWithExpiration } from './data/helper';
+import { setCredentials , setToken } from './Redux/auth/authSlice';
+import ConnectedUserRoute from './GuardedRoutes/ConnectedUserRoute';
+import Loader from './Components/Loader';
+import Layout from './Components/Layout';
+import DashbordLayout from "./Components/DashbordLayout";
+import SubscribePlan from './Pages/SubscribePlan';
+
+
+// Utiliser React.lazy pour le code splitting
+const Home = lazy(() => import('./Pages/Home'));
+const SignIn = lazy(() => import('./Pages/Authentification/SignIn'));
+const SignUp = lazy(() => import('./Pages/Authentification/SignUp'));
+const Failure = lazy(() => import('./Pages/Authentification/Failure'));
+const Success = lazy(() => import('./Pages/Authentification/Success'));
+const Subscription = lazy(() => import('./Pages/Subscription'));
+const GuardedUserMemberRoutes = lazy(() => import('./GuardedRoutes/GuardedUserMemberRoutes'));
+const UserProfile = lazy(() => import('./Pages/UserProfile'));
+const Pricing = lazy(() => import('./Pages/Pricing'));
+const ContactUs = lazy(() => import('./Pages/ContactUs'));
+const PaySuccess = lazy(() => import('./Pages/Payment/PaySuccess'));
+const PayFailed = lazy(() => import('./Pages/Payment/PayFailed'));
+const VerificationCode = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationCode'));
+const AboutUs = lazy(() => import('./Pages/AboutUs'));
+const ResetPasswordEmail = lazy(() => import('./Pages/Authentification/ResetPasswordEmail'));
+const ResetPassword = lazy(() => import('./Pages/Authentification/ResetPassword'));
+const PasswordResetSucces = lazy(() => import('./Pages/Authentification/PasswordResetSucces'));
+const Explore = lazy(() => import('./Pages/Explore'));
+const ForgotPassword = lazy(() => import('./Pages/Authentification/ForgotPassword'));
+const ChooseRole = lazy(() => import('./Pages/Authentification/Complete_SignUp/ChooseRole'));
+const SocialSignUp = lazy(() => import('./Pages/Authentification/SocialSignUp'));
+const Projects = lazy(() => import('./Pages/Projects'));
+const CreateProject = lazy(() => import('./Pages/CreateProject'));
+const ProjectDetails = lazy(() => import('./Pages/ProjectDetails'));
+const CompanyLegal = lazy(() => import('./Pages/CompanyLegal'));
+const MyCompany = lazy(() => import('./Pages/MyCompany'));
+const Employees = lazy(() => import('./Pages/Employees'));
+const NewEmployee = lazy(() => import('./Pages/NewEmployee'));
+const Dashbord = lazy(() => import('./Pages/Dashbord'));
+const Investors = lazy(() => import('./Pages/Investors'));
+const InvestorDetails = lazy(() => import('./Pages/InvestorDetails'));
+const InvestorRequestHistory = lazy(() => import('./Pages/InvestorRequestHistory'));
+const MyInvestors = lazy(() => import('./Pages/MyInvestor'));
+const Documents = lazy(() => import('./Pages/Documents'));
+const Events = lazy(() => import('./Pages/Events'));
+const History = lazy(() => import('./Pages/History'));
+const Users = lazy(() => import('./Pages/Users'));
+const UpcomingEvents = lazy(() => import('./Pages/UpcomingEvent'));
+const UpcomingEventDetails = lazy(() => import('./Pages/UpcomingEventDetails'));
+const PastEvents = lazy(() => import('./Pages/PastEvents'));
+const ChoosePlan = lazy(() => import('./Pages/ChoosePlan'));
+const Notifications = lazy(() => import('./Pages/Notifications'));
+const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationEmail'));
 
 function App() {
- 
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const rememberMe = getLocalStorageItemWithExpiration('rememberMe');
+
+    if (rememberMe) {
+      console.log('rem' , rememberMe)
+      const userToken = getLocalStorageItemWithExpiration('userToken');
+      const userData = getLocalStorageItemWithExpiration('userData');
+
+      if (userToken && userData) {
+        // Mettre à jour sessionStorage
+        sessionStorage.setItem('userToken', userToken);
+        sessionStorage.setItem('userData', userData);
+        dispatch(setCredentials(JSON.parse(userData)));
+        dispatch(setToken(userToken));
+      }
+    } else {
+      const userToken = sessionStorage.getItem('userToken');
+      const userData = sessionStorage.getItem('userData');
+
+      if (userToken && userData) {
+        dispatch(setCredentials(JSON.parse(userData)));
+        dispatch(setToken(userToken));
+      }
+    }
+  }, [dispatch]);
+
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
  
@@ -61,66 +100,72 @@ function App() {
       <div className='font-DmSans overflow-hidden'>
        
         <div className='min-h-screen'>
-      <Routes>
-        
-        <Route element={<DashbordLayout />}>
-          <Route element={<GuardedConnectedUserRoute />}>
-            <Route path="/Dashboard" element={<Dashbord />} />
-            <Route path="/Users" element={<Users />} />
-            <Route path="/Investors" element={<Investors />} />
-            <Route path="/MyInvestors" element={<MyInvestors />} />
-            <Route path="/InvestorDetails" element={<InvestorDetails />} />
-            <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
-            <Route path="/Projects" element={<Projects />} />
-            <Route path="/Createproject" element={<CreateProject />} />
-            <Route path="/Editproject/:projectId" element={<CreateProject />} />
-            <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
-            <Route path="/CompanyLegal" element={<CompanyLegal />} />
-            <Route path="/MyCompany" element={<MyCompany />} />
-            <Route path="/Employees" element={<Employees />} />
-            <Route path="/NewEmployee" element={<NewEmployee />} />
-            <Route path="/Document" element={<Documents />} />
-            <Route path="/Participate" element={<Events />} />
-            <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
-            <Route path="/PastEvent" element={<PastEvents />} />
-            <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
-            <Route path="/UserProfile" element={<UserProfile />} />
-            <Route path="/Subscription" element={<Subscription />} />
-            <Route path="/ChoosePlan" element={<ChoosePlan />} />
-            <Route path="/History" element={<History />} />
-            <Route path="/Notification" element={<Notifications />} />
+        <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>
+          <Routes>
+            <Route element={<DashbordLayout />}>
+              <Route element={<GuardedConnectedUserRoute />}>
+                <Route path="/Dashboard" element={<Dashbord />} />
+                <Route path="/Users" element={<Users />} />
+                <Route path="/Investors" element={<Investors />} />
+                <Route path="/MyInvestors" element={<MyInvestors />} />
+                <Route path="/InvestorDetails" element={<InvestorDetails />} />
+                <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
+                <Route path="/Projects" element={<Projects />} />
+                <Route path="/Createproject" element={<CreateProject />} />
+                <Route path="/Editproject/:projectId" element={<CreateProject />} />
+                <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
+                <Route path="/CompanyLegal" element={<CompanyLegal />} />
+                <Route path="/MyCompany" element={<MyCompany />} />
+                <Route path="/Employees" element={<Employees />} />
+                <Route path="/NewEmployee" element={<NewEmployee />} />
+                <Route path="/Document" element={<Documents />} />
+                <Route path="/Participate" element={<Events />} />
+                <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
+                <Route path="/PastEvent" element={<PastEvents />} />
+                <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
+                <Route path="/UserProfile" element={<UserProfile />} />
+                <Route path="/Subscription" element={<Subscription />} />
+                <Route path="/ChoosePlan" element={<ChoosePlan />} />
+                <Route path="/History" element={<History />} />
+                <Route path="/Notification" element={<Notifications />} />
+                <Route path="/SubscribePlan" element={<SubscribePlan />} />
           </Route>
-          <Route element={<GuardedAdminRoute />}>
-            <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
-          </Route>
-        </Route>
-        <Route element={<Layout />}>
-          <Route   path="/SignIn" element={<SignIn />} />
-          <Route   path="/" element={<SignIn />} />
-          <Route   path="/SignUp" element={<SignUp />} />
-          <Route   path="/SocialSignUp" element={<SocialSignUp />} />
-          <Route path="/VerificationCode" element={<VerificationCode />} />
-          <Route path="/VerificationEmail" element={<VerificationEmail />} />
-          <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
-          <Route path="/ForgotPassword" element={<ForgotPassword />} />
-          <Route path="/ResetPassword" element={<ResetPassword />} />
-          <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
-          <Route path="/ChooseRole" element={<ChooseRole />} />
-          <Route path="/Home" element={<Home />} />
-          <Route   path="/Pricing" element={<Pricing />} />
-          <Route   path="/ContactUs" element={<ContactUs/>}/>
-          <Route   path="/About-Us" element={<AboutUs/>}/>
-          <Route   path="/About-Us/Explore" element={<Explore/>}/>
-          <Route path="/Failure" element={<Failure/>}/>
-          <Route path="/Success" element={<Success/>}/>
-        
-          {/* User Member Routes*/}
-          <Route element={<GuardedUserMemberRoutes />}>
-            <Route path="/Payement_Success" element={<PaySuccess />} />
-            <Route path="/Payement_Failed" element={<PayFailed />} />
-          </Route>
-        </Route>
-      </Routes>
+              <Route element={<GuardedAdminRoute />}>
+                <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
+              </Route>
+            </Route>
+            <Route element={<Layout />}>
+              <Route element={<ConnectedUserRoute />}>
+                <Route   path="/SignIn" element={<SignIn />} />
+                <Route   path="/" element={<SignIn />} />
+                <Route   path="/SignUp" element={<SignUp />} />
+                <Route   path="/SocialSignUp" element={<SocialSignUp />} />
+              </Route>
+              <Route path="/VerificationCode" element={<VerificationCode />} />
+              <Route path="/VerificationEmail" element={<VerificationEmail />} />
+              <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
+              <Route path="/ForgotPassword" element={<ForgotPassword />} />
+              <Route path="/ResetPassword" element={<ResetPassword />} />
+              <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
+              <Route path="/ChooseRole" element={<ChooseRole />} />
+
+              <Route path="/Home" element={<Home />} />
+              <Route   path="/Pricing" element={<Pricing />} />
+              <Route   path="/ContactUs" element={<ContactUs/>}/>
+              <Route   path="/About-Us" element={<AboutUs/>}/>
+              <Route   path="/About-Us/Explore" element={<Explore/>}/>
+              <Route path="/Failure" element={<Failure/>}/>
+              <Route path="/Success" element={<Success/>}/>
+            
+              {/* User Member Routes*/}
+              <Route element={<GuardedUserMemberRoutes />}>
+                <Route path="/Payement_Success" element={<PaySuccess />} />
+                <Route path="/Payement_Failed" element={<PayFailed />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Suspense>
+
       </div>
 
 </div>

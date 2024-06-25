@@ -28,6 +28,7 @@ export default function ChoosePlan() {
             </Text>
           </div>
         </div>
+
         <div className="flex flex-col items-start py-6 w-full h-full gap-3">
             <Text
                 className="text-base font-bold leading-6 text-gray-900_01 w-full"
@@ -113,6 +114,7 @@ export default function ChoosePlan() {
                             <button
                             type="button"
                             className="text-base leading-[24px] font-medium text-white-A700"
+                            onClick={() => navigate('/subscribePlan')}
                             >
                             Get started
                             </button>
@@ -303,6 +305,7 @@ export default function ChoosePlan() {
                 </div>
             </div>
         </div>
+        
       </div>
     </div>
   )

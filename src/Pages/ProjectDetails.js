@@ -27,8 +27,8 @@ const ProjectDetails = () => {
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
   useEffect(() => {
     const setMaxHeight = () => {
-      const div1Height = div1Ref.current.clientHeight;
-      const div2Height = div2Ref.current.clientHeight;
+      const div1Height = div1Ref.current?.clientHeight;
+      const div2Height = div2Ref.current?.clientHeight;
       const maxHeight = Math.max(div1Height + 50, div2Height + 50);
       if (window.innerWidth >= 768) { 
         dividerRef.current.style.height = `${maxHeight}px`;
@@ -125,117 +125,116 @@ useEffect(() => {
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start px-5 w-full">
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex flex-col md:flex-row justify-between items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
-              <TableTitle
-              >
-                {project?.name? project?.name : `Lorem Ipsum Project - Angel Round Investment`}
-              </TableTitle>
-              <div className="flex  flex-row gap-3 items-center justify-end">
-                <button
-                  className="bg-light_blue-100 md:text-sm text-base font-dm-sans-medium leading-5 text-blue-500 flex flex-row items-center ml-auto p-2 cursorpointer rounded-md"
-                  onClick={openModal}
-                  type="button"
-                >
-                  <HiOutlineShare size={18} className="mr-2" />
-                  Share to Investor
-                </button>
-
-                <button
-                  className="bg-light_blue-100 text-blue-500 cursorpointer flex flex-row md:h-auto items-center ml-auto p-2 rounded-md"
-                  onClick={openDeleteModal}
-                  type="button"
-                >
-                  <RiDeleteBinLine size={18} className="mr-2" />
-                  <span className="font-DmSans md:text-sm text-base font-medium leading-5">Delete Project</span>
-                </button>
-                <button
-                  className="bg-light_blue-100 text-blue-500 flex flex-row md:h-auto cursorpointer items-center ml-auto p-2 rounded-md"
-                  onClick={() => navigate(`/Editproject/${projectId}` , { state: { project: project }})}
-                  type="button"
-                >
-                  <FiEdit3 size={18} className="mr-2" />
-                  <span className="font-DmSans md:text-sm text-base font-medium leading-5">Edit Project</span>
-                </button>
-              </div>
+          <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
+            <div className="flex items-center">
+              <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
             </div>
+            <div className="flex flex-wrap gap-3 items-center ">
+              <button
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] md:text-sm text-base font-dm-sans-medium leading-5 text-blue-500 flex items-center p-2 cursorpointer-green rounded-md"
+                onClick={openModal}
+                type="button"
+                style={{whiteSpace: 'nowrap'}}
+              >
+                <HiOutlineShare size={18} className="md:mr-2" />
+                <span className="hidden md:inline-block">Share to Investor</span>
+              </button>
+              <button
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-blue-500 cursorpointer-green flex items-center p-2 rounded-md"
+                onClick={openDeleteModal}
+                type="button"
+                style={{whiteSpace: 'nowrap'}}
+              >
+                <RiDeleteBinLine size={18} className="md:mr-2" />
+                <span className="hidden md:inline-block">Delete Project</span>
+              </button>
+              <button
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-blue-500 flex items-center cursorpointer-green p-2 rounded-md"
+                onClick={() => navigate(`/Editproject/${projectId}`, { state: { project: project } })}
+                type="button"
+                style={{whiteSpace: 'nowrap'}}
+              >
+                <FiEdit3 size={18} className="md:mr-2" />
+                <span className="hidden md:inline-block">Edit Project</span>
+              </button>
+            </div>
+          </div>
               <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-200 justify-start py-5 w-full">
-                <div
-                  className=" flex-row py-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 w-full"
-                 >
-                  <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
-                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
-                        Total Raised
-                      </Text>
-                    </div>
-                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
+              <div className="flex flex-wrap py-2 w-full">
+                <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                      Total Raised
+                    </Text>
+                  </div>
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl" size="txtDMSansMedium22">
                       {`${project?.currency || 'USD'} ${formatNumber(project?.totalRaised) || 0}`}
-                      </Text>
-                    </div>
+                    </Text>
                   </div>
-                  <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
-                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
-                        Target
-                      </Text>
-                    </div>
-                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl" size="txtDMSansMedium22">
-                        {`${project?.currency || 'USD'} ${formatNumber(project?.funding) || 0}`}
-                      </Text>
-                    </div>
+                </div>
+                <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 max-w-full min-w-[150px] basis-[150px]	shrink grow">
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                      Target
+                    </Text>
                   </div>
-                  <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
-                        Stage
-                      </Text>
-                    </div>
-                    <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                      <Text className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto">
-                        {project?.stages[0] ? project?.stages[0] : "Angel Round"}
-                      </Text>
-                    </div>
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl" size="txtDMSansMedium22">
+                      {`${project?.currency || 'USD'} ${formatNumber(project?.funding) || 0}`}
+                    </Text>
                   </div>
-                  <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
-                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
-                        Status
-                      </Text>
-                    </div>
-                    <div className="flex flex-row items-start justify-start w-full">
-                      <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
-                        project?.status === 'Active' ? 'bg-emerald-50 text-green-700' :
-                        project?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
-                        project?.status === 'Stand by' ? 'bg-gray-200 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
-                      }`} style={{whiteSpace: 'nowrap'}}>
-                        <BsDot size={28} className="" />
-                        <label className="font-inter text-sm font-medium leading-[20px] text-center">
-                          {project?.status ? project?.status : 'Active'}
-                        </label>
-                      </div>
-                    </div>
+                </div>
+                <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                      Stage
+                    </Text>
                   </div>
-                  <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 w-full">
-                    <div className="bg-white-A700 flex flex-col items-start justify-start  w-full">
-                      <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
-                        publication
-                      </Text>
-                    </div>
-                    <div className="flex flex-row items-start justify-start w-full">
-                      <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
-                        project?.visbility?.toLowerCase() === 'public' ? 'bg-emerald-50 text-green-700' :
-                        project?.visbility?.toLowerCase() === 'private' ? 'bg-[#FFEEEA] text-[#FF5733] ' : 'bg-emerald-50 text-green-700'
-                      }`} style={{whiteSpace: 'nowrap' , textDecoration: 'capitalise'}}>
-                        <BsDot size={28} className="" />
-                        <label className="font-inter text-sm font-medium leading-[20px] text-center">
-                          {project?.visbility ? project?.visbility : 'Public'}
-                        </label>
-                      </div>
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl w-auto">
+                      {project?.stages[0] ? project?.stages[0] : "Angel Round"}
+                    </Text>
+                  </div>
+                </div>
+                <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                      Status
+                    </Text>
+                  </div>
+                  <div className="flex flex-row items-start justify-start w-full">
+                    <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
+                      project?.status === 'Active' ? 'bg-emerald-50 text-green-700' :
+                      project?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
+                      project?.status === 'Stand by' ? 'bg-gray-200 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
+                    }`} style={{whiteSpace: 'nowrap'}}>
+                      <BsDot size={28} className="" />
+                      <label className="font-inter text-sm font-medium leading-[20px] text-center">
+                        {project?.status ? project?.status : 'Active'}
+                      </label>
                     </div>
                   </div>
                 </div>
+                <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                      Publication
+                    </Text>
+                  </div>
+                  <div className="flex flex-row items-start justify-start w-full">
+                    <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
+                      project?.visbility?.toLowerCase() === 'public' ? 'bg-emerald-50 text-green-700' :
+                      project?.visbility?.toLowerCase() === 'private' ? 'bg-[#FFEEEA] text-[#FF5733]' : 'bg-emerald-50 text-green-700'
+                    }`} style={{whiteSpace: 'nowrap', textDecoration: 'capitalize'}}>
+                      <BsDot size={28} className="" />
+                      <label className="font-inter text-sm font-medium leading-[20px] text-center">
+                        {project?.visbility ? project?.visbility : 'Public'}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               </div>
               <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-[50px] items-start justify-start px-[18px] py-5 w-full">
                 <div ref={div1Ref} className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
@@ -274,11 +273,11 @@ useEffect(() => {
                         Project Milestone
                       </Text>
                       <button
-                        className="bg-white-A700 text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer ml-auto p-[7px] rounded-md w-auto"
+                        className="bg-white-A700 hover:bg-[#235DBD] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer-green ml-auto p-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
                         type="button"
                     >
-                        <span className="cursorpointer font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
+                        <span className="cursorpointer-green font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
                     </button>
 
                     </div>
@@ -362,7 +361,7 @@ useEffect(() => {
     </div>
     <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone} rowData={project}/>
 
-    <ShareToInvestorModal isOpen={isModalOpen} onRequestClose={closeModal}/>
+    <ShareToInvestorModal isOpen={isModalOpen} projectId={projectId} onRequestClose={closeModal}/>
 
     <DeleteModal isOpen={isDeleteModalOpen}
     onRequestClose={closeDeleteModal} title="Delete Project" 

@@ -172,16 +172,14 @@ const MyCompany = () => {
                 >
                   Company Name
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("companyName", { required: {value:true , message: "Company name is required"} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.companyName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="companyName"
                     placeholder="Your Company Name"
                   />
-                </div>
-                {errors.companyName && <span className="text-sm font-DmSans text-red-500">{errors.companyName?.message}</span>}
+                {/* {errors.companyName && <span className="text-sm font-DmSans text-red-500">{errors.companyName?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -190,16 +188,14 @@ const MyCompany = () => {
                 >
                   Legal Name
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("legalName", { required: {value:true , message:"Company Legal name is required"} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.legalName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="legalName"
                     placeholder="Your Company Legal Name"
                   />
-                </div>
-                {errors.legalName && <span className="text-sm font-DmSans text-red-500">{errors.legalName?.message}</span>}
+                {/* {errors.legalName && <span className="text-sm font-DmSans text-red-500">{errors.legalName?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -208,15 +204,13 @@ const MyCompany = () => {
                 >
                   Description
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <textarea
                     {...register("description", { required: false })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] ${errors?.description ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     name="description"
                     rows={4}
                     placeholder="Write your company’s short description here"
                   />
-                </div>
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -225,16 +219,14 @@ const MyCompany = () => {
                 >
                   Website
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                   {...register("website", { required: {value:true , message:"Company website is required"} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="website"
                     placeholder="Your Company Website"
                   />
-                </div>
-                {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>}
+                {/* {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -243,16 +235,14 @@ const MyCompany = () => {
                 >
                   Contact Email
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="contactEmail"
                     placeholder="Your Company email"
                   />
-                </div>
-                {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>}
+                {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -261,16 +251,14 @@ const MyCompany = () => {
                 >
                   Address
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("address", { required: {value:true , message:"Company address is required"} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="address"
                     placeholder="Your Company address"
                   />
-                </div>
-                {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>}
+                {/* {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -325,7 +313,7 @@ const MyCompany = () => {
                 >
                   Company Sector
                 </Text>
-                <MultipleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setselectedSector} 
+                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setselectedSector} 
                     placeholder="Select Company Sector"
                     content={
                       ( option) =>{ return (
@@ -349,17 +337,13 @@ const MyCompany = () => {
                 >
                   Tax Identifier Number
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
-                                    {...register("taxIdentfier", { required: {value:true , message:"Company taxIdentfier is required"} })}
-
-                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    {...register("taxIdentfier", { required: {value:true , message:"Company taxIdentfier is required"} })}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.taxIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="name"
-                    
                     placeholder="0000 - 0000 - 0000"
                   />
-                </div>
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
@@ -368,16 +352,14 @@ const MyCompany = () => {
                 >
                   Corporate Identifier Number
                 </Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                   <input
                     {...register("corporateIdentfier", { required: {value:true , message:"Company corporateIdentfier is required"} })}
-                    className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.corporateIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="name"
                     placeholder="0000 - 0000 - 0000"
                     
                   />
-                </div>
               </div>
             </div>
             <div className="flex flex-col items-start justify-start md:w-[35%] lg:w-[35%] w-full">
@@ -388,13 +370,13 @@ const MyCompany = () => {
                 >
                   Company Logo
                 </Text>
-                <div className="bg-white-A700 border border-blue_gray-100_01 border-solid flex flex-col items-center justify-center rounded-md w-full"
+                <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full"
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}>
                   {logoFile ? (
                     <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[150px]" />
                   ) : (
-                  <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[50px] rounded-md w-full">
+                  <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
                     <IoImageOutline />
                     <div className="flex flex-col items-start justify-start w-auto">
                       <Text

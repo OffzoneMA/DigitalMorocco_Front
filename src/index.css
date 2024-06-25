@@ -105,6 +105,20 @@ a:hover::selection ,a *:hover::selection {
   animation: element-animation-even 400ms;
 }
 
+/*Sidebar*/
+.hover-active-color:hover>* , .hover-active-color:hover>*>*{
+  color: #3aada1 !important; /* Teal color on hover */
+}
+
+.active-icon-color , .active-icon-color>* {
+  color: #3aada1 !important; /* Teal color on active */
+}
+
+/*Select*/
+.hover-select-color:hover>* , .hover-select-color:hover>*>*{
+  color: #35D8BF !important; /* Teal color on hover */
+}
+
 @keyframes element-animation {
   0% {
       opacity: 0;
@@ -424,7 +438,7 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
 .animate_loader {
   width: 69px;
   height: 30px;
-  --c: radial-gradient(farthest-side, #766DF4 90%, #0000);
+  --c: radial-gradient(farthest-side, #a19bf7 90%, #0000);
   background: var(--c), var(--c), var(--c), var(--c);
   background-size: 12px 12px;
   background-repeat: no-repeat;

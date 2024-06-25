@@ -341,21 +341,17 @@ const NewEmployee = () => {
                   >
                     Full Name
                   </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("fullName", { required: { value: true, message: "Employee First Name is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent !border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.fullName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="fullName"
                       placeholder="first Name"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     />
-                  </div>
-                  {errors.fullName && <span className="text-sm font-DmSans text-red-500">{errors.fullName?.message}</span>}
+                  {/* {errors.fullName && <span className="text-sm font-DmSans text-red-500">{errors.fullName?.message}</span>} */}
                 </div>
-
-
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-gray-900_01 w-auto"
@@ -363,18 +359,16 @@ const NewEmployee = () => {
                   >
                    Work Email
                   </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("workEmail", { required: { value: true, message: "Employee Work Email is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.workEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="workEmail"
                       placeholder="Enter Work Email"
                       value={formData.workEmail}
                       onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}                    
                     />
-                  </div>
-                  {errors.workEmail && <span className="text-sm font-DmSans text-red-500">{errors.workEmail?.message}</span>}            
+                  {/* {errors.workEmail && <span className="text-sm font-DmSans text-red-500">{errors.workEmail?.message}</span>}             */}
                 </div>
 
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -384,21 +378,17 @@ const NewEmployee = () => {
                   >
                    Personal Email
                   </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("personalEmail", { required: { value: true, message: "Employee Personal Email is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.personalEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="personalEmail"
                       placeholder="Enter Personal Email"
                       value={formData.personalEmail}
                       onChange={(e) => setFormData({ ...formData, personalEmail: e.target.value })}                    
                     />
-                  </div>
-                  {errors.personalEmail && <span className="text-sm font-DmSans text-red-500">{errors.personalEmail?.message}</span>}            
+                  {/* {errors.personalEmail && <span className="text-sm font-DmSans text-red-500">{errors.personalEmail?.message}</span>}             */}
                 </div>
-             
-
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-gray-900_01 w-auto"
@@ -406,18 +396,16 @@ const NewEmployee = () => {
                   >
                     Phone Number
                   </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("phoneNumber", { required: { value: true, message: "Employee Phone Number is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.phoneNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="phoneNumber"
                       placeholder="+212 - "
                       value={formData.phoneNumber}
                       onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                     />
-                  </div>
-                  {errors.phoneNumber && <span className="text-sm font-DmSans text-red-500">{errors.phoneNumber?.message}</span>}
+                  {/* {errors.phoneNumber && <span className="text-sm font-DmSans text-red-500">{errors.phoneNumber?.message}</span>} */}
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
@@ -426,18 +414,16 @@ const NewEmployee = () => {
                   >
                     Address
                   </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("address", { required: { value: true, message: "Employee address is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="address"
                       placeholder="Enter Address of Employee"
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     />
-                  </div>
-                  {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>}
+                  {/* {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>} */}
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
@@ -496,10 +482,9 @@ const NewEmployee = () => {
                   >
                     Personal Tax Identifier Number
                   </Text>
-                  <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                     <input
                       {...register("personalTaxIdentifierNumber", { required: { value: true, message: "Employee Personal Tax Identifier Number is required" } })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.personalTaxIdentifierNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="personalTaxIdentifierNumber"
                       value={formData.personalTaxIdentifierNumber}
@@ -508,35 +493,31 @@ const NewEmployee = () => {
                       placeholder="0000 - 0000 - 0000"
 
                     />
-                  </div>
-                  {errors.personalTaxIdentifierNumber && <span className="text-sm font-DmSans text-red-500">{errors.personalTaxIdentifierNumber?.message}</span>}
+                  {/* {errors.personalTaxIdentifierNumber && <span className="text-sm font-DmSans text-red-500">{errors.personalTaxIdentifierNumber?.message}</span>} */}
                 </div>
               </div>
               <div className="flex py-5 flex-col items-start justify-start w-full md:w-[35%] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] 3xl:w-[35%]">
                 <div className="flex flex-col gap-6 items-start justify-start w-full">
 
-                <div className="bg-white-A700 border border-blue_gray-100_01 border-solid flex flex-col items-center justify-center rounded-md w-full">
-  <label htmlFor="fileInput" className="cursor-pointer">
-    {imgFile ? (
-      <img src={URL.createObjectURL(imgFile)} alt="Uploaded Logo" className="rounded-md w-full py-[5px] h-[200px]" />
-    ) : formData.photo ? (
-      <img src={`data:image/png;base64,${formData.photo}`} alt="Employee Photo" className="rounded-md w-full py-[5px] h-[200px]" />
-    ) : (
-      <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[100px] rounded-md w-full">
-        <PiUserSquare size={24} radius={8} className="" />
-        <div className="flex flex-col items-start justify-start w-auto">
-          <Text className="text-[13px] text-base leading-6 tracking-normal w-auto">
-            Upload Your Logo
-          </Text>
-        </div>
-      </div>
-    )}
-  </label>
-  <input id="fileInput" type="file" onChange={handleFileChange} className="hidden" />
-</div>
-
-
-
+                  <div className="bg-white-A700 border border-blue_gray-100_01 h-[261px] border-solid flex flex-col items-center justify-center rounded-md w-full">
+                    <label htmlFor="fileInput" className="cursor-pointer">
+                      {imgFile ? (
+                        <img src={URL.createObjectURL(imgFile)} alt="Uploaded Logo" className="rounded-md w-full py-[5px] h-[200px]" />
+                      ) : formData.photo ? (
+                        <img src={`data:image/png;base64,${formData.photo}`} alt="Employee Photo" className="rounded-md w-full py-[5px] h-[200px]" />
+                      ) : (
+                        <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[100px] rounded-md w-full">
+                          <PiUserSquare size={24} radius={8} className="" />
+                          <div className="flex flex-col items-start justify-start w-auto">
+                            <Text className="text-[13px] text-base leading-6 tracking-normal w-auto">
+                              Upload Your Logo
+                            </Text>
+                          </div>
+                        </div>
+                      )}
+                    </label>
+                    <input id="fileInput" type="file" onChange={handleFileChange} className="hidden" />
+                  </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"

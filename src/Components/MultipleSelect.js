@@ -151,7 +151,7 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   return (
     <div id='drop_root' className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className="flex md:flex-1 w-full items-center rounded-md p-2 border border-solid cursorpointer-green"
+        className="flex md:flex-1 w-full items-center rounded-md px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] cursorpointer-green"
         onClick={toggleDropdown}
       >
         <input

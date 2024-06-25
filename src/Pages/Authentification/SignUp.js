@@ -397,7 +397,7 @@ const onSubmit = (data) => {
                       className="font-Avenir-next-LTPro leading-[16.8px] text-[12px] text-[#585E66] w-full"
                     >
                       {t('signup.accordance')} <br/>
-                      {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>D-W-266/2024.</span>
+                      {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>en cours.</span>
                     </Text>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-4">
                         <label htmlFor={`acceptTerms`} className="cursorpointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
@@ -419,7 +419,7 @@ const onSubmit = (data) => {
                           htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                         >
-                          {t('signup.terms1')} <a href='https://digitalmorocco.net/terms' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='https://digitalmorocco.net/privacy' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                      
+                          {t('signup.terms1')} <a href='https://digitalmorocco.net/terms' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='https://digitalmorocco.net/privacy' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a>.                     
                         </label>
                     </div>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-2">
@@ -507,7 +507,7 @@ const onSubmit = (data) => {
                       {t('signup.linkedinSignUp')}
                     </div>
                   </Button>
-                  <Button
+                  {/* <Button
                     className="text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                     onClick={() => socialSignUp('facebook')}
                     leftIcon={
@@ -522,7 +522,7 @@ const onSubmit = (data) => {
                     <div className="w-[210px] font-medium leading-[normal] text-left text-sm tracking-[0.14px]">
                       {t('signup.facebookSignUp')}
                     </div>
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>
