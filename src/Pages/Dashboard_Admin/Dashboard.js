@@ -190,67 +190,60 @@ const Dashboard_Admin = () => {
                         Track, manage and forecast your customers and orders.
                     </Text>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pt-8 w-full">
-                    <div className={`flex flex-col gap-3 items-center rounded-[12px] border animation  py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role == 'member' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`} onClick={() => handleGridClick(1 , 'member')}>
-                      <div className="rounded-[6px] p-2 bg-teal-50 ">
-                        <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
-                      </div>
-                      <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        Start Up
-                      </Text>
-                      <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
-                        Total registered startups
-                      </Text>
-                      <Text
-                        className=" text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium"
-                        >
-                        {members?.length}
-                      </Text>
+                <div className="flex flex-wrap justify-center gap-10 pt-8 w-full">
+                  <div
+                    className={`flex flex-col basis-[180px] grow gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'member' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
+                    onClick={() => handleGridClick(1, 'member')}
+                  >
+                    <div className="rounded-[6px] p-2 bg-teal-50">
+                      <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                     </div>
-                    <div onClick={() => handleGridClick(2 , 'investor')} className={`flex flex-col gap-3  items-center rounded-[12px] border animation  hover:border-blue-503 hover:shadow-roleCardbs ${role == 'investor' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'} py-7 px-5`}>
-                      <div className="rounded-[6px] p-2 bg-blue-51">
-                        <TiFlashOutline size={28} className="text-blue-701" />
-                      </div>
-                      <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        Investors
-                      </Text>
-                      <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
-                        Total registered Investors
-                      </Text>
-                      <Text
-                        className=" text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium"
-                        >
-                        {investors?.length}
-                      </Text>
+                    <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+                      Start Up
+                    </Text>
+                    <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
+                      Total registered startups
+                    </Text>
+                    <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
+                      {members?.length}
+                    </Text>
+                  </div>
+
+                  <div
+                    className={`flex flex-col basis-[180px] grow gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'investor' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
+                    onClick={() => handleGridClick(2, 'investor')}
+                  >
+                    <div className="rounded-[6px] p-2 bg-blue-51">
+                      <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
-                    <div onClick={() => handleGridClick(3 , 'partner')} className={`flex flex-col gap-3 items-center rounded-[12px] border animation  hover:border-blue-503 hover:shadow-roleCardbs ${role == 'partner' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'} py-7 px-5`}>
-                      <div className="rounded-[6px] p-2 bg-violet-100">
-                        <BiBuildings size={28} className="text-blue-601" />
-                      </div>
-                      <Text
-                        className=" text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
-                        >
-                        Partners
-                      </Text>
-                      <Text
-                        className=" text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                        >
-                        Total registered Partners
-                      </Text>
-                      <Text
-                        className=" text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium"
-                        >
-                        {partners?.length}
-                      </Text>
+                    <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+                      Investors
+                    </Text>
+                    <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
+                      Total registered Investors
+                    </Text>
+                    <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
+                      {investors?.length}
+                    </Text>
+                  </div>
+
+                  <div
+                    className={`flex flex-col basis-[180px] grow gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'partner' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
+                    onClick={() => handleGridClick(3, 'partner')}
+                  >
+                    <div className="rounded-[6px] p-2 bg-violet-100">
+                      <BiBuildings size={28} className="text-blue-601" />
                     </div>
+                    <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+                      Partners
+                    </Text>
+                    <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
+                      Total registered Partners
+                    </Text>
+                    <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
+                      {partners?.length}
+                    </Text>
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 gap-10 pt-8 w-full">
                    <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 px-6">

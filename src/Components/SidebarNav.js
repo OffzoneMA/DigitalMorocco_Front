@@ -31,7 +31,7 @@ const SidebarNav = () => {
     const [settingsOpen , setSettingsOpen] = useState(false);
     const [notifOpen , setNotifOpen] = useState(false);
 
-    const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
+    const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "Dashboard");
 
     const [activeParent, setActiveParent] = useState('');
 
@@ -49,8 +49,8 @@ const SidebarNav = () => {
     const Menus = [
       { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link:"Dashboard" },
       
-      { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" },
-      //(userInfo?.member || userInfo?.partner) && 
+      (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" },
+      (!userData?.role?.toLowerCase() === "admin") && 
       {
         title: "Company", src: <BiBuildings size={22} className="text-light_blue-100"/>,
         submenu: true,
@@ -62,7 +62,8 @@ const SidebarNav = () => {
         ]
       }
       ,
-      { title: "Investor", src: <TiFlashOutline size={22} className="text-light_blue-100"/> ,
+      (!userData?.role?.toLowerCase() === "admin") && { 
+      title: "Investor", src: <TiFlashOutline size={22} className="text-light_blue-100"/> ,
       submenu: true,
       child: [
         //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
@@ -78,7 +79,7 @@ const SidebarNav = () => {
         { title: "Upcoming Event", src: '', link: "UpcomingEvent" },
         { title: "Past Event", src: '', link: "PastEvent" },
       ]},
-      { title: "Document", src: <PiFolderThin size={22}  className="text-light_blue-100"/> , link:"Document"},
+      (!userData?.role?.toLowerCase() === "admin") && { title: "Document", src: <PiFolderThin size={22}  className="text-light_blue-100"/> , link:"Document"},
       { title: "History", src: <PiHourglassLowFill size={22} className="text-light_blue-100"/> , link:"History" },
   
     ];
