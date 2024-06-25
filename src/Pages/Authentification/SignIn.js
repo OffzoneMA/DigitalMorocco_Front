@@ -94,7 +94,7 @@ export default function SignIn() {
               sessionStorage.setItem('userToken', auth)
               dispatch(setCredentials(JSON.stringify(payload)));
               sessionStorage.setItem('userData', JSON.stringify(payload));
-                navigate('/SignIn') 
+                // navigate('/SignIn') 
                 // openModal();
                 if (payload?.role?.toLowerCase() == "admin") { 
                   navigate('/Dashboard_Admin') 
