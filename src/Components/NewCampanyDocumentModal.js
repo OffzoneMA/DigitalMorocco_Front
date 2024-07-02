@@ -15,6 +15,7 @@ const NewCampanyDocumentModal = (props) => {
   const [files, setFiles] = useState(null);
   const [preview , setPreview] = useState(null);
   const documentFile = props?.documentFile? props.documentFile : null;
+
  
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -101,11 +102,11 @@ const NewCampanyDocumentModal = (props) => {
             <div className="flex flex-col gap-2 items-start justify-start w-full">
                 <Text className="text-base text-gray-900_01 w-auto" size="txtDMSansLablel">Upload Document</Text>
                 <div
-                    className={`${(preview || documentFile?.id) ? "border-dashed" : "border-solid"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border`}
+                    className={`${(preview || documentFile?._id) ? "border-dashed" : "border-solid"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border`}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
                 >
-                    {(preview || documentFile?.id) ? (
+                    {(preview || documentFile?._id) ? (
                         <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
                             <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-[26px] tracking-normal items-center">
                                 <IoDocumentTextOutline size={16} className="mr-2" />

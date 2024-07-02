@@ -21,6 +21,7 @@ import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import SimpleSelect from "../Components/SimpleSelect";
 import fundImg from '../Media/funding.svg';
+import axios from "axios";
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -94,6 +95,7 @@ const CreateProject = () => {
   const [updateProject, updateResponse] = useUpdateProjectMutation();
   const mutation = projectId ? updateProject : addProjet;
   const response = projectId ? updateResponse : addResponse;
+  const [members, setMembers] = useState([]);
 
     /**
    * Utility function to format numbers with spaces as thousand separators.
@@ -108,61 +110,87 @@ const CreateProject = () => {
     return '';
   }
 
-  useEffect(() => {
-    if (userInfo && userInfo.member) {
-      setTeamData(userInfo.member.listEmployee.map(employee => {
-        const { _id, ...rest } = employee;
-        return rest;
-      }));
-    } else {
-      const userData = JSON.parse(sessionStorage.getItem('userData'));
-      if (userData && userData.member) {
-        setTeamData(userData.member.listEmployee.map(employee => {
-          const { _id, ...rest } = employee;
-          return rest;
-        }));
-      }
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (userInfo && userInfo.member) {
+  //     setTeamData(userInfo.member.listEmployee?.map(employee => {
+  //       const { _id, ...rest } = employee;
+  //       return rest;
+  //     }));
+  //   } else {
+  //     const userData = JSON.parse(sessionStorage.getItem('userData'));
+  //     if (userData && userData.member) {
+  //       setTeamData(userData.member.listEmployee?.map(employee => {
+  //         const { _id, ...rest } = employee;
+  //         return rest;
+  //       }));
+  //     }
+  //   }
+  // }, [userInfo]);
   
-
+console.log(userInfo)
   useEffect(() => {
     if (fetchedProject && !project) {
       setProject(fetchedProject);
     }
   }, [fetchedProject, project]);
 
+  const fetchMembers = async (userId) => {
+    try {
+      const token = sessionStorage.getItem("userToken");
+      const response = await axios.get(`http://localhost:5000/members/employees`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      const filteredEmployees = response.data.filter(employee => employee.owner === userId);
+      setMembers(filteredEmployees);
+      console.log(filteredEmployees);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
+  };
+
+  useEffect(() => {
+    let userId;
+    if (userInfo && userInfo._id) {
+      userId = userInfo._id;
+    } else {
+      const userData = JSON.parse(sessionStorage.getItem('userData'));
+      if (userData && userData._id) {
+        userId = userData._id;
+      }
+    }
+
+    if (userId) {
+      fetchMembers(userId);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     let listEmployee;
-    if (userInfo?.member?.listEmployee) {
-      listEmployee = userInfo.member.listEmployee.map(employee => {
+
+    if (members.length > 0) {
+      listEmployee = members.map(employee => {
         const { _id, ...rest } = employee;
         return rest;
       });
-    } else {
-      const userData = JSON.parse(sessionStorage.getItem('userData'));
-      listEmployee = userData?.member?.listEmployee?.map(employee => {
-        const { _id, ...rest } = employee;
-        return rest;
-      }) || [];
-    }
-  
+    } 
     if (project != null) {
       const selectedProjectMembers = listEmployee?.filter(emp => {
         return project.listMember?.some(member => member.workEmail === emp.workEmail);
       });
-  
+
       setSelectedTeamsMember(selectedProjectMembers);
       setSelectedProjectTeamsMember(selectedProjectMembers);
     }
-  }, [project, userInfo]);
+  }, [project, members]);
   
 
   useEffect(() => {
     if (project) {
       setFundingValue(formatNumber(project.funding));
-      setRaisedValue(formatNumber(project.raised));
+      setRaisedValue(formatNumber(project.totalRaised));
 
       const initialFormattedMilestones = project.milestones?.map((milestone, index) => ({
         id: index + 1,
@@ -521,12 +549,12 @@ const StageData = stage.map(
                     >
                       Team Member
                     </Text>
-                    <MultipleSelect id='teams' options={teamData} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
+                    <MultipleSelect id='teams' options={members} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
                     itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="workEmail" 
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
-                          <img src={option.image} alt="teams" className="h-8 w-8 rounded-full"/>
+                          <img src={`data:image/png;base64,${option.photo}` || option?.image || `/images/img_avatar_2.png`} alt="teams" className="h-8 w-8 rounded-full"/>
                           <div className="flex flex-col gap-1.5 items-start justify-center w-full">
                             <Text
                               className="text-gray-900 text-sm w-auto"

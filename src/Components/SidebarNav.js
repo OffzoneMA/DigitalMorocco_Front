@@ -47,11 +47,10 @@ const SidebarNav = () => {
     };
     
     const Menus = [
-      { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link:"Dashboard" },
+      { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": "Dashboard" },
       
       (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" },
-      (!userData?.role?.toLowerCase() === "admin") && 
-      {
+      (userData?.role?.toLowerCase() === "member") && {
         title: "Company", src: <BiBuildings size={22} className="text-light_blue-100"/>,
         submenu: true,
         child: [
@@ -62,7 +61,7 @@ const SidebarNav = () => {
         ]
       }
       ,
-      (!userData?.role?.toLowerCase() === "admin") && { 
+      (userData?.role?.toLowerCase() === "member") && { 
       title: "Investor", src: <TiFlashOutline size={22} className="text-light_blue-100"/> ,
       submenu: true,
       child: [
@@ -79,7 +78,7 @@ const SidebarNav = () => {
         { title: "Upcoming Event", src: '', link: "UpcomingEvent" },
         { title: "Past Event", src: '', link: "PastEvent" },
       ]},
-      (!userData?.role?.toLowerCase() === "admin") && { title: "Document", src: <PiFolderThin size={22}  className="text-light_blue-100"/> , link:"Document"},
+      (userData?.role?.toLowerCase() === "member") && { title: "Document", src: <PiFolderThin size={22}  className="text-light_blue-100"/> , link:"Document"},
       { title: "History", src: <PiHourglassLowFill size={22} className="text-light_blue-100"/> , link:"History" },
   
     ];

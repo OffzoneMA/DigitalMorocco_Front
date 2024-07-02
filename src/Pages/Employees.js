@@ -160,7 +160,7 @@ const Employees = () => {
                         
                         <td className="py-3 px-3 text-gray-900_01">
                       <div className="flex items-center " style={{}}>
-                        <img src={`data:image/png;base64,${employee.photo}`} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
+                        <img src={ employee?.image || `data:image/png;base64,${employee.photo}`} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{employee.fullName}</span>
                       </div>
                     </td>

@@ -1,5 +1,6 @@
 import React , {useState , useRef , useEffect} from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { Text } from "../../../Components/Text";
 import { Button } from "../../../Components/Button";
@@ -24,6 +25,7 @@ import { logout } from "../../../Redux/auth/authSlice";
 
 const ChooseRole = () => {
     const { t, i18n } = useTranslation();
+    const location = useLocation();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -52,6 +54,14 @@ const ChooseRole = () => {
       setShowLogout(false);
     }
   };
+
+  useEffect(() => {
+    if (!UserId) {
+      const params = new URLSearchParams(location.search);
+      const userIdFromUrl = params.get('user_id');
+      setUserId(userIdFromUrl);
+    }
+  }, [location, UserId]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -132,7 +142,6 @@ const ChooseRole = () => {
       setSelectedGrid(null);
       setSelectedOption('');
       navigate('/ChooseRole')
-      // window.location.href = 'https://digital-morocco-landing-page.vercel.app';
       window.open('https://digitalmorocco.net', '_blank');
       // Redirection ves site officiel
     };
@@ -147,7 +156,6 @@ const ChooseRole = () => {
       const formData = new FormData();
       formData.append('role', selectedOption);
       addNewRequest({ formdata: formData, userId: UserId })
-      // openModal();
     }
 
     const handleMouseEnter = () => {

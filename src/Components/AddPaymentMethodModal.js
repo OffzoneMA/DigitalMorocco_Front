@@ -11,7 +11,7 @@ const AddPaymentMethodModal = (props) => {
 
   const paymentMethods = [
     { id: 1, name: 'Mastercard', image: 'images/img_mastercard.svg', icon: "images/img_mastercard_icon.svg", info: 'Mastercard information' },
-    { id: 2, name: 'Visa', image: 'images/img_visa.svg',icon: "images/img_mastercard_icon.svg", info: 'Visa information' },
+    { id: 2, name: 'Visa', image: 'images/img_visa.svg',icon: "images/img_visa.svg", info: 'Visa information' },
     { id: 3, name: 'Paypal', image: 'images/img_paypal.svg', info: 'Paypal information' },
     { id: 4, name: 'Google Pay', image: 'images/img_googlepay.svg', info: 'Google Pay information' },
     { id: 5, name: 'Apple Pay', image: 'images/img_applepay.svg', info: 'Apple Pay information' },
@@ -39,6 +39,11 @@ const AddPaymentMethodModal = (props) => {
     }
     return '';
   };
+
+  const updateClick = () => {
+    props?.onRequestClose();
+    props?.updateMethode();
+  }
 
   return (
     <ModalProvider
@@ -142,6 +147,7 @@ const AddPaymentMethodModal = (props) => {
                     Cancel
                   </button>
                   <button
+                  onClick={updateClick}
                     type="button"
                     className="flex-1 bg-blue-501 text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
                   >

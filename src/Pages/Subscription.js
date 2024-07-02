@@ -28,7 +28,8 @@ export default function Subscription() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const token = sessionStorage.getItem("userToken");
   const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userData._id;
+  const userId = userData?._id;
+  const [methodeDef ,  setMethodeDef] = useState(false);
   // useEffect(() => {
   //   response.isError && navigate("/Payement_Failed")
   //   if (response.isSuccess) {
@@ -69,6 +70,10 @@ export default function Subscription() {
   const closePaymentModal = () => {
     setIsPaymentModalOpen(false);
   };
+
+  const updateMethode = () => {
+    setMethodeDef(true)
+  }
 
   const data = [
     {
@@ -174,6 +179,34 @@ export default function Subscription() {
               </button>
             </div>
           </div>
+          {methodeDef ? 
+            <div className="flex flex-col w-full md:w-1/3 lg:w-1/4 gap-6">
+            <Text className="font-DmSans text-lg font-medium leading-7 text-left w-full">
+              Payment and Billing
+            </Text>
+            <div className="flex flex-row w-full rounded-[12px] border py-4 px-4 border-gray-301 gap-4">
+              <div className="flex rounded-md px-3 py-3.5 bg-gray-201 items-center">
+                <img src="images/img_visa.svg" />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Text className="font-DmSans text-sm font-medium leading-[18px] text-left text-[#101828]_01 w-full">
+                  •••• •••• •••• 1234
+                </Text>
+                <Text className="font-DmSans text-xs font-normal leading-[15.62px] text-gray500 text-left w-full">
+                  expired 08/26
+                </Text>
+              </div>
+            </div>
+            <button
+              className="bg-blue-A400 text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 rounded-md w-full"
+              onClick={openPaymentModal}
+              type="button"
+            >
+              <IoWalletOutline size={22} />
+              Change Payment Method
+            </button>
+          </div>
+          :
           <div className="flex flex-col md:w-1/3 lg:w-1/4 gap-7">
             <Text className="font-DmSans text-lg font-medium leading-7 text-left w-full">
               Payment and Billing
@@ -187,6 +220,7 @@ export default function Subscription() {
               Add Payment Method
             </button>
           </div>
+          }   
         </div>
         ) : ( 
           <div className="flex flex-col md:flex-row items-start py-6 w-full h-full md:min-h-[540px] gap-8">
@@ -228,7 +262,7 @@ export default function Subscription() {
                     </div>
                   ))}
                   <Text className="font-DmSans text-lg font-medium leading-8 pt-1 text-left w-full text-gray-801">
-                    $9.99/month, ends on May 17, 2024
+                    $9.99/month, ends on July 28, 2024
                   </Text>
                 </div>
                 <Text className="font-DmSans text-base font-bold leading-6 text-left w-full text-[#101828]_01">
@@ -336,7 +370,7 @@ export default function Subscription() {
         )}
       </div>
       <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal}/>
-      <AddPaymentMethodModal isOpen={isPaymentModalOpen}  onRequestClose={closePaymentModal}/>
+      <AddPaymentMethodModal isOpen={isPaymentModalOpen}  onRequestClose={closePaymentModal} updateMethode={updateMethode}/>
     </div>
   )
 }

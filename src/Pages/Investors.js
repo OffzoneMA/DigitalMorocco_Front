@@ -51,7 +51,7 @@ const Investors = () => {
             Authorization: `Bearer ${token}`,
           }
       });
-        console.log("invst",response.data)
+        console.log(response.data)
         setInvestors(response.data.investors);
         setLoading(false);
       } catch (error) {
@@ -67,7 +67,7 @@ const Investors = () => {
           const response = await axios.get(`http://localhost:5000/members/check-subscription-status/${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
           });
-          console.log("subs",response)
+          console.log(response.data)
           setIsSubscribe(response.data.result);
       } catch (error) {
           console.error('Error checking subscription status:', error);
@@ -77,15 +77,13 @@ const Investors = () => {
     fetchInvestorRequests();
     
   }, []);
-
-  
-  const data = investors;
+  const data = isSubscribe?  investors : InvestorsData;
 
 
-  const filteredData = data.filter(item => {
+  const filteredData = isSubscribe? data.filter(item => {
     const keywordMatch = item.owner.displayName.toLowerCase().includes(keywords.toLowerCase());
   
-    if (filterApply) {
+    if (filterApply && isSubscribe) {
       const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
   
       const locationMatch = !location || item.Location.toLowerCase().includes(location["name"].toLowerCase());
@@ -96,7 +94,7 @@ const Investors = () => {
     }
   
     return keywordMatch;
-  });
+  }) : data;
 
   const clearFilter = () => {
     setFilter(false); 
@@ -270,13 +268,30 @@ const Investors = () => {
                   { loading ? (
                      <div className="flex items-center justify-center w-full h-full">
                      <Loading />
-                 </div> ) :  ( pageData.map((item, index) => (
+                 </div> ) : pageData.length === 0 ? (
+                  <div style={{
+                    height: "300px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginRight: "-800px",
+                  }}>
+                    <div >
+                      <FaUsers size={18} className="mr-2 w-4 h-4" style={{ color: "#98a2b3" }} />
+                    </div>
+                    <div>
+                      <span>No investors</span>
+                    </div>
+                  </div>
+                )                 
+                 : ( pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate("/InvestorDetails")}>
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
                         <div className="py-3 px-3 flex items-center" >
-                            {/* <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/> */}
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.owner.displayName}</span>
+                            <img src={item.image} className="rounded-full h-8 w-8  mr-2"/>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{isSubscribe? item.owner.displayName : item.InvestorName}</span>
                         </div>
                         {profilVerified && (
                           <div className="overlay-content-invPro w-full flex">
@@ -302,7 +317,33 @@ const Investors = () => {
                   
                 </tbody>
                 </table>
-                
+                {!isSubscribe &&
+                (
+                  <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
+                  <BsEyeSlash size={35} className="text-gray500 "/>
+                  <Text
+                    className="font-DmSans text-[22px] font-medium leading-8 text-gray-900_01 w-auto pt-4"
+                    size=""
+                  >
+                    View all 261,765 Investors
+                  </Text>
+                  <Text
+                    className="font-DmSans text-sm font-medium leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
+                    size=""
+                  >
+                    Upgrade to <a className="text-blue-500" href="/DigitalMoroccoPro">Digital Morocco Pro</a>,  and get access all search results, save to custom lists and get connected with investors
+                  </Text>
+                  <button
+                    className="bg-blue-A400 text-white-A700 flex flex-row items-center p-2 rounded-md cursor-pointer"
+                    onClick={() => navigate('/ChoosePlan')}
+                    type="button"
+                  >
+                    <TiFlashOutline size={25} className="mr-2" />
+                    <span className="text-sm font-DmSans font-medium leading-[18.23px] text-white-A700">Upgrade Membership</span>
+                  </button>
+
+                </div>
+                )}
               </div>
               {pageData?.length>0 && (
                 <div className='w-full flex items-center p-4'>

@@ -150,6 +150,8 @@ const fetchLegalDocuments = async () => {
     
     }
   };  
+
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
   
 
   return (
@@ -218,19 +220,18 @@ const fetchLegalDocuments = async () => {
                       </div>
                     </td>
                     <td className="py-4 px-3 text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {document.lastModified}
-                      {/* {new Date(document.lastModifiedDate).toLocaleString('en-US', {
+                      {new Date(document.lastModifiedDate).toLocaleString('en-US', {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
         hour12: true
-      })} */}
+      })}
                       </td>
                     <td className="py-3 px-3 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
-                        <img src={document.ownerImg} alt="owner" className="h-9 w-9 mr-2 rounded-full"/>
+                        <img src={document?.ownerImg || userData?.image} alt="owner" className="h-9 w-9 mr-2 rounded-full"/>
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.owner}</span>
                       </div>
                     </td>

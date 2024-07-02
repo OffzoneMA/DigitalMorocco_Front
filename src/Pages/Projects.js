@@ -118,7 +118,7 @@ const Projects = () => {
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursorpointer" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>{item.name}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.totalRaised || 0)}`}</td>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages[0]}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages?.[0] || item?.stage}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.milestones[0]?.name}</td>
                       <td className="px-[18px] py-4 items-center">
                         <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${

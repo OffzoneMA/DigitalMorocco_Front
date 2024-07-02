@@ -193,7 +193,7 @@ useEffect(() => {
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl w-auto">
-                      {project?.stages[0] ? project?.stages[0] : "Angel Round"}
+                      {project?.stages?.[0] ? project?.stages?.[0] : project?.stage}
                     </Text>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ useEffect(() => {
                         <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-3 grid-cols-1 gap-5 items-center justify-between my-0 w-full">
                           {filteredTeamMembers?.map((item, index) => (
                             <TeamMemberItem key={index} 
-                            imageSrc={item?.image}
+                            imageSrc={`data:image/png;base64,${item?.photo}` || item?.image || `/images/img_avatar_2.png`}
                             name={item?.fullName}
                             job={item?.jobTitle} />
                           ))}

@@ -37,6 +37,8 @@ export default function SignIn() {
   const [retryCount, setRetryCount] = useState(0);
   const maxRetries = 3;
 
+  console.log(error)
+
   const {
     register,
     handleSubmit,
@@ -100,7 +102,7 @@ export default function SignIn() {
                   navigate('/Dashboard_Admin') 
                 }
                 else{
-                  // navigate('/Dashboard')
+                  navigate('/Dashboard')
                   openModal();
                 }
               
@@ -131,8 +133,8 @@ export default function SignIn() {
                 navigate('/Dashboard_Admin') 
               }
               else{
-                // navigate('/Dashboard')
-                openModal();
+                navigate('/Dashboard')
+                // openModal();
               }
             }
           }
@@ -141,6 +143,7 @@ export default function SignIn() {
       }
       if (error) {
         // toast.error(error)
+        console.log(error)
       }
     }
 

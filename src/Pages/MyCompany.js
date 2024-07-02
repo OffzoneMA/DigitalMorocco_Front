@@ -341,7 +341,7 @@ const MyCompany = () => {
                     {...register("taxIdentfier", { required: {value:true , message:"Company taxIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.taxIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
-                    name="name"
+                    name="taxIdentfier"
                     placeholder="0000 - 0000 - 0000"
                   />
               </div>
@@ -356,7 +356,7 @@ const MyCompany = () => {
                     {...register("corporateIdentfier", { required: {value:true , message:"Company corporateIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.corporateIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
-                    name="name"
+                    name="corporateIdentfier"
                     placeholder="0000 - 0000 - 0000"
                     
                   />
