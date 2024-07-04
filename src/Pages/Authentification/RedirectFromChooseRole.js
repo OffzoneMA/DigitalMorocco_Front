@@ -3,6 +3,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../Components/Text';
 import logo from '../../Media/img_logo.svg'
+import confirmImage from '../../Media/img_role_confirmed.svg';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../Redux/auth/authSlice';
@@ -69,55 +70,49 @@ const RedirectFromChooseRole = () => {
             </div>
             </div>
             <div className="bg-white-A700 flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[14px] w-full">
-                <div className="flex flex-col gap-6 items-center justify-start w-full">
-                <div className="flex flex-col gap-[38px] items-center justify-start w-auto px-[45px] w-full">
-                    <img
-                    className="h-[172px] w-[172px]"
-                    src="images/img_role_confirmed.svg"
-                    alt="successtick"
-                    />
-                    <div className="flex flex-col gap-5 items-center justify-start w-auto sm:w-full">
-                    <Text
-                        className="leading-[28.00px] max-w-[460px] md:max-w-full text-blue_gray-900_03 text-center text-lg"
-                        size="txtDMSansMedium18"
-                    >
-                        <span className="text-blue_gray-900_03 font-DmSans text-base font-semibold leading-7">
-                        {t('chooserole.confirmed.m1')}
-                        </span>
-                        <br/>
-                        <span className="text-blue-A400 font-DmSans text-base font-semibold leading-7">
-                        {t('chooserole.confirmed.m2')}
-                        </span>
-                    </Text>
-                    <Text
-                        className="font-DmSans text-sm font-normal leading-6 text-blue_gray-900_03 text-center"
-                        size="txtDMSansRegular14Bluegray90003"
-                    >
-                        <>
-                        {t('chooserole.confirmed.m3')}
-                        <>
-                            <br />
-                            {t('chooserole.confirmed.m4')}
-                        </>
-                        </>
-                    </Text>
-                    </div>
-                </div>
-                <Text
-                    className="leading-[160.00%] text-blue_gray-500 text-center text-xs w-full px-16 pt-4"
-                    size="txtDMSansRegular12Bluegray500"
-                >
-                    <span className="text-blue_gray-500 font-DmSans font-normal">
-                    {`Need Assistance? If you have any questions or need assistance, feel free to contact our support team at`}
-                    </span>
-                    <span className="text-blue_gray-500 font-DmSans font-normal">
-                    {" "}
-                    </span>
-                    <span className="text-blue-A400 font-DmSans font-normal">
-                    {`support@digitalmorocco.com`}
-                    </span>
-                </Text>
-                </div>
+            <div className="flex flex-col gap-6 items-center justify-start w-full ">
+          <div className="flex flex-col gap-[38px] items-center justify-start w-auto max-w-[460px] px-3 w-full">
+            <img
+              className="h-[172px] w-[172px]"
+              src={confirmImage}
+              alt="successtick"
+            />
+            <div className="flex flex-col gap-5 items-center justify-start w-auto ">
+              <Text
+                className="leading-[28.00px] font-dm-sans-medium text-gray-801 text-center text-[18px] "
+              >
+                <span className=" font-dm-sans-medium">
+                  {t('signin.congrate')}{" "}
+                </span> <br/>
+                <span className="text-blue-A400 font-dm-sans-medium">
+                  {t('signin.congrate1')}
+                </span>
+              </Text>
+              <Text
+                className="flex flex-col gap-4 font-dm-sans-regular leading-[26.00px] text-gray-801 text-center text-sm"
+              >
+                <>
+                  {t('signin.congrate2')}
+                  <br/>
+                  <span className=''>{t('chooserole.confirmed.m4')}</span>
+                </>
+              </Text>
+            </div>
+          </div>
+          <Text
+            className="leading-[160.00%] font-dm-sans-regular text-blue_gray-500 text-center text-xs w-full sm:px-16 pt-4"
+          >
+            <span className="text-blue_gray-500 font-dm-sans-regular">
+              {t('chooserole.confirmed.m5')}
+            </span>
+            <span className="text-blue_gray-500 font-dm-sans-regular">
+              {" "}
+            </span>
+            <span className="text-blue-A400 font-dm-sans-regular">
+              {t('chooserole.confirmed.m6')}
+            </span>
+          </Text>
+        </div>
             </div>
         </div>
     );
