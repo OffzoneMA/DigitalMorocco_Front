@@ -11,7 +11,9 @@ const ConnectedUserRoute = () => {
       } else {
         return <Navigate to="/ChooseRole" />;
       }
-    } 
+    } else if(userData?.status === 'pending') {
+      return <Navigate to="/RedirectFromSignIn" />;
+    }
   } else {
     return <Outlet />;
   }

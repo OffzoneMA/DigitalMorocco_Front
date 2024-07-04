@@ -62,6 +62,7 @@ const PastEvents = lazy(() => import('./Pages/PastEvents'));
 const ChoosePlan = lazy(() => import('./Pages/ChoosePlan'));
 const Notifications = lazy(() => import('./Pages/Notifications'));
 const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationEmail'));
+const RedirectFromChooseRole = lazy(() => import('./Pages/Authentification/RedirectFromChooseRole'));
 
 function App() {
 
@@ -129,17 +130,21 @@ function App() {
                 <Route path="/History" element={<History />} />
                 <Route path="/Notification" element={<Notifications />} />
                 <Route path="/SubscribePlan" element={<SubscribePlan />} />
-          </Route>
+              </Route>
               <Route element={<GuardedAdminRoute />}>
                 <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
               </Route>
             </Route>
             <Route element={<Layout />}>
+            <Route element={<GuardedConnectedUserRoute />}>
+              <Route path="/RedirectFromChooseRole" element={<RedirectFromChooseRole />} />
+            </Route>
               <Route element={<ConnectedUserRoute />}>
                 <Route   path="/SignIn" element={<SignIn />} />
                 <Route   path="/" element={<SignIn />} />
                 <Route   path="/SignUp" element={<SignUp />} />
                 <Route   path="/SocialSignUp" element={<SocialSignUp />} />
+                <Route path="/ChooseRole" element={<ChooseRole />} />
               </Route>
               <Route path="/VerificationCode" element={<VerificationCode />} />
               <Route path="/VerificationEmail" element={<VerificationEmail />} />
@@ -147,7 +152,6 @@ function App() {
               <Route path="/ForgotPassword" element={<ForgotPassword />} />
               <Route path="/ResetPassword" element={<ResetPassword />} />
               <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
-              <Route path="/ChooseRole" element={<ChooseRole />} />
 
               <Route path="/Home" element={<Home />} />
               <Route   path="/Pricing" element={<Pricing />} />

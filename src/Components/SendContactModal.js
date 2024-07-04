@@ -7,11 +7,12 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
+import { useGetAllProjectsQuery } from "../Services/Member.Service";
 
 const SendContactModal = (props) => {
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
-
+    const { data, error, isLoading , refetch } = useGetAllProjectsQuery();
     const inputRef = useRef(null);
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
@@ -93,7 +94,7 @@ const SendContactModal = (props) => {
         <>
       <ModalProvider
         appElement={document.getElementById("root")}
-        className="m-auto w-[65%] md:w-[50%] lg:w-[45%] xl:w-[45%] 2xl:w-[40%]"
+        className="m-auto w-[95%] md:w-[100%] max-w-[640px]"
         overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
         {...props}
       >
@@ -121,7 +122,7 @@ const SendContactModal = (props) => {
                 >
                   Project
                 </Text>
-                <SimpleSelect id='project' options={projects} onSelect={""} searchLabel='Search Project' setSelectedOptionVal={setSelectedProject} 
+                <SimpleSelect id='project' options={data} onSelect={""} searchLabel='Search Project' setSelectedOptionVal={setSelectedProject} 
                     placeholder="Select Project" valuekey="name"
                     content={
                       ( option) =>{ return (
@@ -195,7 +196,8 @@ const SendContactModal = (props) => {
                     </div>
                 </div>) :
                   (   
-                <div className="flex flex-col items-center text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12">
+                <div className="flex flex-col items-center text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12"
+                 onClick={()=> onButtonClick(inputRef)} >
                   <LuUploadCloud  size={24} className=" mr-2"/>
                   <input
                           ref={inputRef}
@@ -206,7 +208,7 @@ const SendContactModal = (props) => {
                           name="name"
                         />
                   <Text className="text-sm leading-[26px] items-center font-normal tracking-normal">
-                    Drop file or <span className="" onClick={()=> onButtonClick(inputRef)}>click here to upload your document</span>  
+                    Drop file or <span className="" >click here to upload your document</span>  
                   </Text>
                 </div>
                   )

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
 import { FiEdit3, FiSave } from "react-icons/fi";
@@ -34,6 +34,10 @@ const Projects = () => {
   const itemsPerPage = 6;
   const itemsToShow = 4;
   // const data = projectsData;
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const totalPages = Math.ceil(data?.length / itemsPerPage);
 

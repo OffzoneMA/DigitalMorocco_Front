@@ -101,8 +101,11 @@ export default function SignIn() {
                 if (payload?.role?.toLowerCase() == "admin") { 
                   navigate('/Dashboard_Admin') 
                 }
+                else if(payload?.status?.toLowerCase() == "pending") {
+                  navigate('/RedirectFromChooseRole')
+                }
                 else{
-                  navigate('/Dashboard')
+                  // navigate('/Dashboard')
                   openModal();
                 }
               
@@ -132,9 +135,12 @@ export default function SignIn() {
               if (userInfo?.role?.toLowerCase() == "admin") { 
                 navigate('/Dashboard_Admin') 
               }
+              else if(userInfo?.status?.toLowerCase() == "pending") {
+                navigate('/RedirectFromChooseRole')
+              }
               else{
-                navigate('/Dashboard')
-                // openModal();
+                // navigate('/Dashboard')
+                openModal();
               }
             }
           }

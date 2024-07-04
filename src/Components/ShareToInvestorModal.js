@@ -60,6 +60,7 @@ const filteredInvestors = investorsData?.investors.filter(investor =>
 );
 
 const onSubmit = async () => {
+  console.log(selectedInvestors)
   try {
     await shareProject({ projectId , selectedInvestors });
   } catch (err) {
@@ -81,8 +82,6 @@ useEffect(() => {
   }
 
 }, [])
-
-console.log(investorsData?.investors)
 
 
   return (

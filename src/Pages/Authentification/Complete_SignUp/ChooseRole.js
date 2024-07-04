@@ -75,8 +75,6 @@ const ChooseRole = () => {
       setSelectedOption(option);
     };
 
-    console.log("Token choose" , sessionStorage.getItem('userToken'))
-
     useEffect(() => {
       if (auth) {
         console.log("aauth choose" , auth)
@@ -96,9 +94,9 @@ const ChooseRole = () => {
                   updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos } })
                       .unwrap()
                       .then((updatedData) => {
-                          console.log('FullName updated', updatedData);
-                          dispatch(setCredentials(updatedData));
-                          sessionStorage.setItem('userData', updatedData);
+                          setUserId(updatedData?.user?._id)
+                          dispatch(setCredentials(JSON.stringify(updatedData?.user)));
+                          sessionStorage.setItem('userData', JSON.stringify(updatedData?.user));
                           // navigate('/ChooseRole');
                       })
                       .catch((updateError) => {
@@ -117,21 +115,38 @@ const ChooseRole = () => {
   }, [auth , dispatch, navigate, userSocialInfos]); 
 
   
+    // useEffect(() => {
+    //   if (userInfo) {
+    //     setUserId(userInfo?._id);
+    //   }else {
+    //     if (userEmail) {
+    //       userTrigger(userEmail).then(() => {
+    //         if (userData && userData.status === 'verified') {
+    //           setUserId(userData?._id)
+    //         }
+    //       }).catch(error => {
+    //         console.error("Error fetching user by email:", error);
+    //       });
+    //     }
+    //   }
+    // }, [userInfo, userEmail, userData]);
+
     useEffect(() => {
+      const storedUserData = JSON.parse(sessionStorage.getItem('userData'));
       if (userInfo) {
         setUserId(userInfo?._id);
-      } else {
-        if (userEmail) {
-          userTrigger(userEmail).then(() => {
-            if (userData && userData.status === 'verified') {
-              setUserId(userData?._id)
-            }
-          }).catch(error => {
-            console.error("Error fetching user by email:", error);
-          });
-        }
+      } else if (storedUserData) {
+        setUserId(storedUserData?._id);
+      } else if (userEmail) {
+        userTrigger(userEmail).then(() => {
+          if (userData && userData.status === 'verified') {
+            setUserId(userData?._id)
+          }
+        }).catch(error => {
+          console.error("Error fetching user by email:", error);
+        });
       }
-    }, [userInfo, userEmail, userData]);
+    }, [userInfo, userEmail, userTrigger]);
     
     const openModal = () => {
       setIsModalOpen(true);
@@ -141,7 +156,7 @@ const ChooseRole = () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
-      navigate('/ChooseRole')
+      navigate('/RedirectFromChooseRole')
       window.open('https://digitalmorocco.net', '_blank');
       // Redirection ves site officiel
     };
@@ -152,11 +167,18 @@ const ChooseRole = () => {
       }
      },[response.isSuccess])
 
-    const confirmRole = () => {
-      const formData = new FormData();
-      formData.append('role', selectedOption);
-      addNewRequest({ formdata: formData, userId: UserId })
-    }
+     const confirmRole = () => {
+        const storedUserData = sessionStorage.getItem('userData');
+        if (storedUserData) {
+          const parsedUserData = JSON.parse(storedUserData);
+          const formData = new FormData();
+          formData.append('role', selectedOption);
+      
+          addNewRequest({ formdata: formData, userId: parsedUserData?._id });
+        }  
+      
+    };
+  
 
     const handleMouseEnter = () => {
       setShowLogout(true);

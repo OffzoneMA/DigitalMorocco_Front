@@ -58,7 +58,7 @@ const onSubmit = () => {
     <>
     <ModalProvider
       appElement={document.getElementById("root")}
-      className="m-auto w-[55%] md:w-[45%] lg:w-[40%] xl:w-[35%] 2xl:w-[35%]"
+      className="m-auto w-[95%] md:w-[100%] max-w-[640px]"
       overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
       {...props}
     >

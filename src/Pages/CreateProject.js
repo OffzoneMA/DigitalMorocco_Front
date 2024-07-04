@@ -54,8 +54,6 @@ const CreateProject = () => {
   }, [div1Ref, div2Ref]);
    
   const { loading, userInfo } = useSelector((state) => state.auth)
-
-
   const location = useLocation();
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -66,15 +64,7 @@ const CreateProject = () => {
   const { data: fetchedProject, error, isLoading } = useGetProjectByIdQuery(projectId, {
     skip: Boolean(project || !projectId),
   });
-  const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm(project !=null && {
-    defaultValues: {
-      name: project?.name,
-      details: project?.details,
-    }
-  });
-
   const [Mount, setMount] = useState(true)
-
   const [focusedMilestone, setFocusedMilestone] = useState(null);
   const [milestones, setMilestones] = useState([]);
   const [teamData , setTeamData ]= useState([]);
@@ -97,18 +87,28 @@ const CreateProject = () => {
   const response = projectId ? updateResponse : addResponse;
   const [members, setMembers] = useState([]);
 
-    /**
+
+   /**
    * Utility function to format numbers with spaces as thousand separators.
    * 
    * @param {number|string} number - The number to be formatted.
    * @returns {string} The formatted number as a string.
    */
-  function formatNumber(number) {
+   function formatNumber(number) {
     if (number !== null && number !== undefined) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
     return '';
   }
+
+  const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm(project !=null && {
+    defaultValues: {
+      name: project?.name,
+      details: project?.details,
+      funding : formatNumber(project?.funding),
+      totalRaised : formatNumber(project?.totalRaised)
+    }
+  });
 
   // useEffect(() => {
   //   if (userInfo && userInfo.member) {
@@ -127,7 +127,6 @@ const CreateProject = () => {
   //   }
   // }, [userInfo]);
   
-console.log(userInfo)
   useEffect(() => {
     if (fetchedProject && !project) {
       setProject(fetchedProject);
@@ -145,7 +144,6 @@ console.log(userInfo)
       
       const filteredEmployees = response.data.filter(employee => employee.owner === userId);
       setMembers(filteredEmployees);
-      console.log(filteredEmployees);
     } catch (error) {
       console.error("Error fetching employees:", error);
     }
@@ -215,7 +213,7 @@ console.log(userInfo)
       });
       setFileNames(initialFileNames);
 
-      setSelectedStage(project?.stage || []);
+      setSelectedStage(project?.stage || '');
     }
     else{
       setMilestones([{ id: 1, name: '', dueDate: '' }]);
@@ -351,8 +349,8 @@ const handleFileInputChange = (event, index) => {
     setIsDragging(true);
   };
 
-  const formData = new FormData();
 
+  const formData = new FormData();
   const onSubmit = (data) => {
     const fundingValue = parseFloat(data.funding.replace(/\s/g, ''));
 
@@ -366,7 +364,6 @@ const handleFileInputChange = (event, index) => {
     };
 
     const formattedMilestones = milestones.map(({ id, ...rest }) => rest);
-
     const formDataContent = {
         ...updatedData,
         stage: selectedStage,
@@ -412,15 +409,14 @@ useEffect(() => {
   if (Mount) { setMount(false) }
   else {
     if (response.isSuccess) {
-      setTimeout(() => {
-          navigate((0))
-      }, 3000)
-      navigate("/Projects")
+      const redirectTimer = setTimeout(() => {
+        navigate("/Projects");
+      }, 1000);
+      return () => clearTimeout(redirectTimer);
     }else {
       response.isError && console.log(response.error)
     }
   }
-  
 }, [response]);
 
 const onButtonClick = (inputref) => {
@@ -554,7 +550,7 @@ const StageData = stage.map(
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
-                          <img src={`data:image/png;base64,${option.photo}` || option?.image || `/images/img_avatar_2.png`} alt="teams" className="h-8 w-8 rounded-full"/>
+                          <img src={ option?.image || `data:image/png;base64,${option.photo}` || `/images/img_avatar_2.png`} alt="teams" className="h-8 w-8 rounded-full"/>
                           <div className="flex flex-col gap-1.5 items-start justify-center w-full">
                             <Text
                               className="text-gray-900 text-sm w-auto"
@@ -650,7 +646,7 @@ const StageData = stage.map(
                       Stage
                     </Text>
                     <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStage} 
-                    placeholder="Select Stage" selectedOptionsDfault={project?.stage}
+                    placeholder="Select Stage" selectedOptionsDfault={project?.stage || ''}
                     content={
                       ( option) =>{ return (
                           <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto py-2 items-center  w-full">
