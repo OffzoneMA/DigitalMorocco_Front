@@ -106,7 +106,8 @@ export default function SignIn() {
                 }
                 else{
                   // navigate('/Dashboard')
-                  openModal();
+                  // openModal();
+                  navigate('/RedirectFromChooseRole')
                 }
               
           }
@@ -140,7 +141,8 @@ export default function SignIn() {
               }
               else{
                 // navigate('/Dashboard')
-                openModal();
+                // openModal();
+                navigate('/RedirectFromChooseRole')
               }
             }
           }
