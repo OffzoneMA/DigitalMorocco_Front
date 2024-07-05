@@ -21,18 +21,6 @@ export default function VerificationEmail() {
   const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [trigger, { data, isLoading: sendLoding, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
-  const handleResendEmail = async () => {
-    try {
-      await userTrigger(userInfo?.email).then((payload) => {
-        if (payload?.isSuccess) {
-          trigger(userInfo?._id);
-        }
-      })
-    } catch (error) {
-      console.error('Resend email request failed:', error);
-    }
-  };
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -87,17 +75,32 @@ export default function VerificationEmail() {
     return () => clearInterval(interval); 
   }, [userInfo]);
   
-  
-
-  useEffect(() => {
-    if (isSuccess) {
-      openModal();
+  const handleResendEmail = async () => {
+    try {
+      await userTrigger(userInfo?.email).then((payload) => {
+        if (payload?.isSuccess) {
+          trigger(userInfo?._id).then((response) => {
+            if (response.isSuccess) {
+              openModal(); 
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.error('Resend email request failed:', error);
     }
-    if (sendError && sendError?.data?.name === "CastError") {
-      console.log(sendError)
-    }
+  };
 
-  }, [isSuccess , sendError])
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     openModal();
+  //   }
+  //   if (sendError && sendError?.data?.name === "CastError") {
+  //     console.log(sendError)
+  //   }
+
+  // }, [isSuccess , sendError])
 
 
   const formButtonRef = useRef();

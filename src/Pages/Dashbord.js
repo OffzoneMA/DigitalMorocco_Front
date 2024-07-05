@@ -33,8 +33,7 @@ const { userInfo } = useSelector((state) => state.auth)
 
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
 
-  const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
-        .slice(0, 0);
+  const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))?.slice(0, 1);
 
     const chartData = [
         { name: 'Jan', value: 150 },
@@ -396,7 +395,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                 {item.stages?.[0]}
                                 </div>
                             </div>
-                            <div className=" flex-row gap-px grid grid-cols-3 py-2 w-full">
+                            <div className="flex flex-row gap-[25px]  py-2 w-full">
                               <div className="flex flex-col items-start justify-start">
                                   <div className="flex flex-col items-center justify-start w-auto">
                                       <Text

@@ -140,9 +140,9 @@ export default function SignIn() {
                 navigate('/RedirectFromChooseRole')
               }
               else{
-                // navigate('/Dashboard')
+                navigate('/Dashboard')
                 // openModal();
-                navigate('/RedirectFromChooseRole')
+                // navigate('/RedirectFromChooseRole')
               }
             }
           }

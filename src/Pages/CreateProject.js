@@ -9,7 +9,8 @@ import { useForm } from "react-hook-form";
 import { GrAttachment } from "react-icons/gr";
 import { useNavigate , useLocation} from "react-router-dom";
 import { useSelector } from 'react-redux';
-import {stage} from "../data/stage"
+import {stage} from "../data/stage";
+import { Country ,City } from 'country-state-city';
 import MultipleSelect from "../Components/MultipleSelect";
 import { stage as stagesData } from "../data/stage";
 import CustomCalendar from "../Components/CustomCalendar";
@@ -22,6 +23,10 @@ import SearchInput from "../Components/SeachInput";
 import SimpleSelect from "../Components/SimpleSelect";
 import fundImg from '../Media/funding.svg';
 import axios from "axios";
+import {companyType} from "../data/companyType";
+import { SelectPicker } from "rsuite";
+import 'rsuite/SelectPicker/styles/index.css';
+
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -79,6 +84,9 @@ const CreateProject = () => {
   const [selectedPublication, setSelectedPublication] = useState('');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
   const [selectedProjectTeamsMembers, setSelectedProjectTeamsMember] = useState([]);
+  const [selectedSector, setselectedSector] = useState([]);
+  const dataCountries = Country.getAllCountries();
+  const [selectedCountry , setSelectedCountry] = useState(null);
   // const [selectedStages, setSelectedStages] = useState([]);
   const [selectedStage, setSelectedStage] = useState("");
   const [addProjet, addResponse] = useCreateProjectMutation();
@@ -197,12 +205,14 @@ const CreateProject = () => {
       })) 
       setMilestones(initialFormattedMilestones);
 
-      const otherDocuments = project.documents?.filter(document => document.documentType === "other") || [];
-      setDocumentDivs(otherDocuments.map((_, index) => ({ id: index + 1 })));
-      setDroppedFiles(otherDocuments.map((document, index) => ({
-        name: document.name,
-        index: index
-      })));
+      const otherDocuments = project.documents?.filter(document => document.documentType === "other") || [{ id: 1 }];
+      if(otherDocuments?.length > 0) {
+        setDocumentDivs(otherDocuments.map((_, index) => ({ id: index + 1 })));
+        setDroppedFiles(otherDocuments.map((document, index) => ({
+          name: document.name,
+          index: index
+        })));
+      }
 
       const initialFileNames = {};
       project.documents?.forEach(document => {
@@ -214,13 +224,17 @@ const CreateProject = () => {
       setFileNames(initialFileNames);
 
       setSelectedStage(project?.stage || '');
+
+      // if (project?.country) {
+      //   const defaultCountry = dataCountries.find(country => country.name === project.country);
+      //   setSelectedCountry(defaultCountry);
+      // }
     }
     else{
       setMilestones([{ id: 1, name: '', dueDate: '' }]);
     }
   }, [project]);
 
-  
   const formatFunding = (value ) => {
     let formattedValue = value.replace(/\D/g, '');
     formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -356,11 +370,15 @@ const handleFileInputChange = (event, index) => {
 
     const totalRaisedValue = parseFloat(data.totalRaised.replace(/\s/g, ''));
 
+    const countryNameSelec = selectedCountry? selectedCountry["name"] : "";
+
     const updatedData = {
         ...data,
         funding: fundingValue,
         totalRaised : totalRaisedValue,
-        visbility: selectedPublication
+        visbility: selectedPublication,
+        sector: selectedSector,
+        country: countryNameSelec,
     };
 
     const formattedMilestones = milestones.map(({ id, ...rest }) => rest);
@@ -657,6 +675,66 @@ const StageData = stage.map(
                     }/>
                     {/* {selectedStages.length==0 && <span className="text-sm font-dm-sans-regular text-red-500">Please select stages</span>}  */}
                     
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Country
+                    </Text>
+                    <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setSelectedCountry} 
+                        placeholder="Select Country" valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""}
+                        content={
+                          ( option) =>{ return (
+                            <div className="flex  py-2 items-center  w-full">
+                                <Text
+                                  className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                                  >
+                                  {option.name}
+                                </Text>
+                              </div>
+                            );
+                          }
+                    }/>
+                    {/* <SelectPicker
+                      data={dataCountries}
+                      onChange={setSelectedCountry}
+                      placeholder="Select Country"
+                      valueKey="name"
+                      labelKey="name"
+                      renderMenuItem={(label, item) => (
+                        <div className="flex py-2 items-center w-full">
+                          <span className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto">
+                            {item?.name}
+                          </span>
+                        </div>
+                      )}
+                      style={{ width: 224 }}
+                      searchable={true}
+                    /> */}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Project Sector
+                    </Text>
+                    <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
+                        placeholder="Select Project Sector" selectedOptionsDfault={project?.sector || ''}
+                        content={
+                          ( option) =>{ return (
+                            <div className="flex  py-2 items-center  w-full">
+                                <Text
+                                  className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
+                                  >
+                                  {option}
+                                </Text>
+                              </div>
+                            );
+                          }
+                        }/>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text

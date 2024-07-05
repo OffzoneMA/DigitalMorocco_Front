@@ -156,7 +156,8 @@ const ChooseRole = () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
-      navigate('/RedirectFromChooseRole')
+      // navigate('/RedirectFromChooseRole');
+      navigate('/ChooseRole')
       window.open('https://digitalmorocco.net', '_blank');
       // Redirection ves site officiel
     };
@@ -168,6 +169,12 @@ const ChooseRole = () => {
      },[response.isSuccess])
 
      const confirmRole = () => {
+      if(UserId) {
+        const formData = new FormData();
+        formData.append('role', selectedOption);
+        addNewRequest({ formdata: formData, userId: UserId });
+      }
+      else{
         const storedUserData = sessionStorage.getItem('userData');
         if (storedUserData) {
           const parsedUserData = JSON.parse(storedUserData);
@@ -176,6 +183,7 @@ const ChooseRole = () => {
       
           addNewRequest({ formdata: formData, userId: parsedUserData?._id });
         }  
+      }
       
     };
   
@@ -261,7 +269,7 @@ const ChooseRole = () => {
               </Text>
             </div>
             <div className="flex flex-col items-center"> 
-            <div className="gap-[42px] grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+            <div className="flex items-center justify-center flex-wrap gap-[42px] w-full">
               <div onClick={() => handleGridClick(1 , 'member')} 
                 className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
                 <div className="flex flex-col gap-[22px] items-center justify-start w-auto">

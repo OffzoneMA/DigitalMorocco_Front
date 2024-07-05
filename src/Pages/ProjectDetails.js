@@ -325,7 +325,7 @@ useEffect(() => {
                         <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-3 grid-cols-1 gap-5 items-center justify-between my-0 w-full">
                           {filteredTeamMembers?.map((item, index) => (
                             <TeamMemberItem key={index} 
-                            imageSrc={`data:image/png;base64,${item?.photo}` || item?.image || `/images/img_avatar_2.png`}
+                            imageSrc={item?.image || `data:image/png;base64,${item?.photo}` || `/images/img_avatar_2.png`}
                             name={item?.fullName}
                             job={item?.jobTitle} />
                           ))}

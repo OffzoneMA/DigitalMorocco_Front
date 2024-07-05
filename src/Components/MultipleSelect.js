@@ -23,31 +23,24 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   
 
 
-  const toggleDropdown = () => {
-    if (isOpen) {
-      setTimeout(() => {
-        setIsOpen(false); 
-      }, 0);
-    } else {
-      setIsOpen(true); 
-    }
+  const toggleDropdown = (event) => {
+    event.stopPropagation(); // Stop event propagation to prevent handleClickOutside from being triggered
+    setIsOpen(prevState => !prevState);
   };
-  
-  
-  
+
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false); // Ferme le dropdown seulement si il est ouvert
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !parentRef.current.contains(event.target)) {
+      setIsOpen(false);
     }
   };
   
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
 
   // const handleOptionClick = (option) => {
   //   if (selectedOptions.some(selectedOption => selectedOption.id === option.id)) {
@@ -129,8 +122,20 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
 
   useEffect(() => {
     if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('scroll', calculateDropdownPosition, true);
+      window.addEventListener('resize', calculateDropdownPosition);
       calculateDropdownPosition();
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', calculateDropdownPosition, true);
+      window.removeEventListener('resize', calculateDropdownPosition);
     }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', calculateDropdownPosition, true);
+      window.removeEventListener('resize', calculateDropdownPosition);
+    };
   }, [isOpen]);
 
   // const isSelected = (option) => {

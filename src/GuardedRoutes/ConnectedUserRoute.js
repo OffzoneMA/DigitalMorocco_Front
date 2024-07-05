@@ -12,7 +12,7 @@ const ConnectedUserRoute = () => {
         return <Navigate to="/ChooseRole" />;
       }
     } else if(userData?.status === 'pending') {
-      return <Navigate to="/RedirectFromSignIn" />;
+      return <Navigate to="/RedirectFromChooseRole" />;
     }
   } else {
     return <Outlet />;
