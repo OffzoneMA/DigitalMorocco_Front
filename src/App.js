@@ -62,7 +62,7 @@ const PastEvents = lazy(() => import('./Pages/PastEvents'));
 const ChoosePlan = lazy(() => import('./Pages/ChoosePlan'));
 const Notifications = lazy(() => import('./Pages/Notifications'));
 const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationEmail'));
-const RedirectFromChooseRole = lazy(() => import('./Pages/Authentification/RedirectFromChooseRole'));
+const RedirectFromSignIn = lazy(() => import('./Pages/Authentification/RedirectFromSignIn'));
 
 function App() {
 
@@ -137,7 +137,7 @@ function App() {
             </Route>
             <Route element={<Layout />}>
             <Route element={<GuardedConnectedUserRoute />}>
-              <Route path="/RedirectFromChooseRole" element={<RedirectFromChooseRole />} />
+              <Route path="/RedirectFromSignIn" element={<RedirectFromSignIn />} />
             </Route>
               <Route element={<ConnectedUserRoute />}>
                 <Route   path="/SignIn" element={<SignIn />} />

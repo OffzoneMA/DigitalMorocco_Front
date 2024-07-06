@@ -152,15 +152,17 @@ const ChooseRole = () => {
       setIsModalOpen(true);
     };
   
-    const closeModal = () => {
+    const closeModal = async () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
-      // navigate('/RedirectFromChooseRole');
-      navigate('/ChooseRole')
-      dispatch(logout());
-      window.open('https://digitalmorocco.net');
-      // Redirection ves site officiel
+
+      // Perform logout and navigate
+      await dispatch(logout());
+      navigate('/ChooseRole');
+
+      // Redirect to external site
+      window.location.href = 'https://digitalmorocco.net';
     };
 
     useEffect(()=>{

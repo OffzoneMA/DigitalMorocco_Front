@@ -33,12 +33,12 @@ export default function Success() {
                       navigate('/Dashboard_Admin') 
                     }
                     else if(payload?.status?.toLowerCase() == "pending") {
-                      navigate('/RedirectFromChooseRole')
+                      navigate('/RedirectFromSignIn')
                     }
                     else{
                       // navigate('/Dashboard')
                       // openModal();
-                      navigate('/RedirectFromChooseRole')
+                      navigate('/RedirectFromSignIn')
                     }
                   
               }

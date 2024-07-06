@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../Redux/auth/authSlice';
 
-const RedirectFromChooseRole = () => {
+const RedirectFromSignIn = () => {
 
     const {t} = useTranslation();
     const navigate = useNavigate();
@@ -116,4 +116,4 @@ const RedirectFromChooseRole = () => {
     );
 }
 
-export default RedirectFromChooseRole;
+export default RedirectFromSignIn;

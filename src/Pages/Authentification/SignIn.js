@@ -137,12 +137,12 @@ export default function SignIn() {
                 navigate('/Dashboard_Admin') 
               }
               else if(userInfo?.status?.toLowerCase() == "pending") {
-                navigate('/RedirectFromChooseRole')
+                navigate('/RedirectFromSignIn')
               }
               else{
                 // navigate('/Dashboard')
                 // openModal();
-                navigate('/RedirectFromChooseRole')
+                navigate('/RedirectFromSignIn')
               }
             }
           }
