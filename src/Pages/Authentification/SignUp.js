@@ -108,6 +108,7 @@ export default function SignUp() {
       hasUpperCase: /[A-Z]/.test(value),
       hasLowerCase: /[a-z]/.test(value),
       hasSpecialChar: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value),
+      hasDigit: /\d/.test(value),
       minLength: value.length >= 8,
     };
   };
@@ -302,6 +303,9 @@ const onSubmit = (data) => {
                             validate: {
                               hasSpecialChar:  v => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(v),
                             },
+                            validate: {
+                              hasDigit:  v => /\d/.test(v),
+                            },
                             minLength: {
                               value: 8,
                               message: t('signup.passwordMinLengthVal')
@@ -337,7 +341,7 @@ const onSubmit = (data) => {
                       </div>
                       {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs leading-[15.62px] tracking-[0.01em] text-left text-[#555458]">{t('signup.passwordValidation')}</span>}
 
-                    {(errors?.password || passwordValidation.minLength || passwordValidation.hasLowerCase || passwordValidation.hasUpperCase) &&
+                    {(errors?.password || passwordValidation.minLength || passwordValidation.hasLowerCase || passwordValidation.hasUpperCase || passwordValidation.hasDigit) &&
                       <>
                         <span className=''>
                         <ul style={{ listStyle: "none", paddingLeft: 0 }} className='flex flex-wrap items-center gap-4 mt-1' >
@@ -395,6 +399,20 @@ const onSubmit = (data) => {
                               )}
                             <span className='ml-1'>
                               {t('signup.SpecialCharVal')}
+                            </span>
+                          </li>
+                          <li className={`text-[#555458] text-xs items-center justify-start flex ${errors.password?.type === "hasDigit" ? "error" : "valid"}`}>
+                              {!passwordValidation.hasDigit  || getValues('password')=='' ? (
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
+                                </svg> 
+                              ) : (
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
+                                </svg>
+                              )}
+                            <span className='ml-1'>
+                              {t('signup.number')}
                             </span>
                           </li>
                         </ul>

@@ -91,6 +91,7 @@
     "signup.passwordLowerCaseVal": "Lettre minuscule",
     "signup.passwordUpperCaseVal": "Lettre majuscule",
     "signup.SpecialCharVal": "1 Caractère spécial",
+    "signup.number":"1 Chiffre",
     "signup.passwordValidation": "Le mot de passe doit contenir un minimum de 8 caractères, comprenant à la fois des lettres majuscules et minuscules, ainsi qu'au moins un caractère spécial.",
     "signup.passwordValidation1": "Le mot de passe doit comporter au minimum 8 caractères, inclure au moins une lettre majuscule et un caractère spécial !",
     "signup.accordance": "Conformément à la loi 09-08, vous avez le droit d'accéder, de rectifier et de vous opposer au traitement de vos données personnelles.",
