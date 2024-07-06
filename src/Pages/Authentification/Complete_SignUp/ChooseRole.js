@@ -158,7 +158,8 @@ const ChooseRole = () => {
       setSelectedOption('');
       // navigate('/RedirectFromChooseRole');
       navigate('/ChooseRole')
-      window.open('https://digitalmorocco.net', '_blank');
+      dispatch(logout());
+      window.open('https://digitalmorocco.net');
       // Redirection ves site officiel
     };
 

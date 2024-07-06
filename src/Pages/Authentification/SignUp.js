@@ -16,6 +16,7 @@ import linkLogo from '../../Media/img_link.svg';
 import { authApi } from '../../Services/Auth';
 import { useGetUserByEmailQuery } from '../../Services/Auth';
 import EmailExistModalOrConfirmation from '../../Components/EmailExistModalOrConfirmation';
+import { languages } from '../../data/tablesData';
 
 export default function SignUp() {
   const { t, i18n } = useTranslation();
@@ -95,6 +96,10 @@ export default function SignUp() {
     setHasUpperCase(/[A-Z]/.test(password));
   };
 
+  const getLanguageLabelById = (id) => {
+    const language = languages.find(lang => lang.id === id);
+    return language ? language.label : null;
+  };
 
   const password = watch("password", "");
 
@@ -144,6 +149,15 @@ export default function SignUp() {
 
 
 const onSubmit = (data) => {
+  const languageId = localStorage.getItem('language');
+  
+  const languageLabel = getLanguageLabelById(languageId);
+  
+  // If language label is found, add it to the data object
+  if (languageLabel) {
+    data.language = languageLabel;
+  }
+
   userTrigger(data.email).then((payload)=> {
     if(payload?.isSuccess) {
       if (payload?.data) {
