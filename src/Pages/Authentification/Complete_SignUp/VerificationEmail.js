@@ -18,8 +18,9 @@ export default function VerificationEmail() {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const { userEmail } = useSelector((state) => state.auth)
   const [User, setUser] = useState(userInfo);
+  const [sendLoding , setSendLoding] = useState(false);
   const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
-  const [trigger, { data, isLoading: sendLoding, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [trigger, { data, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -79,8 +80,10 @@ export default function VerificationEmail() {
     try {
       await userTrigger(userInfo?.email).then((payload) => {
         if (payload?.isSuccess) {
-          trigger(userInfo?._id).then((response) => {
+          setSendLoding(true)
+          trigger({ userId: userInfo?._id, lang: localStorage.getItem('language')}).then((response) => {
             if (response.isSuccess) {
+              setSendLoding(false)
               openModal(); 
             }
           });

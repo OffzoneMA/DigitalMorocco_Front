@@ -21,7 +21,6 @@ export default function Success() {
               }
           })
           .then((response) => {
-            console.log("social data" , response.data)
               const payload = response.data;
               if (payload) {
                   sessionStorage.setItem('userToken', auth)

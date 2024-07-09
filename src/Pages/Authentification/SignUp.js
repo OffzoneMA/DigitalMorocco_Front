@@ -65,7 +65,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (user) {
-      trigger(userInfo?._id).then((payload) => {
+      trigger({ userId: userInfo?._id, lang: localStorage.getItem('language')}).then((payload) => {
         if (payload?.isSuccess) {
           setSending(false);
           setTimeout(() => navigate('/VerificationEmail'), 2500);
@@ -456,7 +456,7 @@ const onSubmit = (data) => {
                     </div>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-2">
                         <label htmlFor={`offers`} className="cursorpointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
-                          <input
+                          <input {...register("offers")}
                             id={`offers`}
                             type="checkbox"
                             name="offers"

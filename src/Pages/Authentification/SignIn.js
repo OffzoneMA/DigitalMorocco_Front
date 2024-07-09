@@ -90,7 +90,6 @@ export default function SignIn() {
           }
       })
       .then((response) => {
-        console.log("social data" , response.data)
           const payload = response.data;
           if (payload) {
               sessionStorage.setItem('userToken', auth)
@@ -181,7 +180,7 @@ export default function SignIn() {
         openExistErrorModal();
       } 
       else {
-        toast.error(errorSocial || 'Oops, something went wrong!')
+        console.log(errorSocial || 'Oops, something went wrong!')
       }
     }
   }, [error]);

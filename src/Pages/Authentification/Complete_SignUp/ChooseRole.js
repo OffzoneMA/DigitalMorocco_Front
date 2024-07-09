@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import Popup from 'reactjs-popup';
 import ConfirmedModal from "../../../Components/ConfirmedModal";
 import { logout } from "../../../Redux/auth/authSlice";
+import { languages } from "../../../data/tablesData";
 
 
 const ChooseRole = () => {
@@ -53,6 +54,11 @@ const ChooseRole = () => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowLogout(false);
     }
+  };
+
+  const getLanguageLabelById = (id) => {
+    const language = languages.find(lang => lang.id === id);
+    return language ? language.label : null;
   };
 
   useEffect(() => {
@@ -91,7 +97,10 @@ const ChooseRole = () => {
                 sessionStorage.setItem('userData', JSON.stringify(payload));
                 if (userSocialInfos) {
                   console.log('Updating full name with:', userSocialInfos);
-                  updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos } })
+                  const lang = localStorage.getItem('language')
+                  const languageLabel = getLanguageLabelById(lang);
+                  console.log(languageLabel)
+                  updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos , language: languageLabel} })
                       .unwrap()
                       .then((updatedData) => {
                           setUserId(updatedData?.user?._id)
@@ -152,14 +161,14 @@ const ChooseRole = () => {
       setIsModalOpen(true);
     };
   
-    const closeModal = async () => {
+    const closeModal =  () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
 
       // Perform logout and navigate
-      await dispatch(logout());
-      navigate('/ChooseRole');
+      dispatch(logout());
+      navigate('/SignIn');
 
       // Redirect to external site
       window.location.href = 'https://digitalmorocco.net';
@@ -174,7 +183,9 @@ const ChooseRole = () => {
      const confirmRole = () => {
       if(UserId) {
         const formData = new FormData();
+        const lang = localStorage.getItem('language')
         formData.append('role', selectedOption);
+        formData.append('language' , lang);
         addNewRequest({ formdata: formData, userId: UserId });
       }
       else{
@@ -182,8 +193,9 @@ const ChooseRole = () => {
         if (storedUserData) {
           const parsedUserData = JSON.parse(storedUserData);
           const formData = new FormData();
+          const lang = localStorage.getItem('language')
           formData.append('role', selectedOption);
-      
+          formData.append('language' , lang);
           addNewRequest({ formdata: formData, userId: parsedUserData?._id });
         }  
       }

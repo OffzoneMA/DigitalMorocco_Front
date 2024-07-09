@@ -19,8 +19,9 @@ export default function ResetPasswordEmail() {
   const [sendForgotPassword, { isLoading , isSuccess , error}] = useSendForgotPasswordMutation()
 
   const handleResendEmail = async () => {
+    const lang = localStorage.getItem('language');
     try {
-      await sendForgotPassword({email: userEmail});
+      await sendForgotPassword({email: userEmail , lang: lang});
     } catch (error) {
       console.error('Resend email request failed:', error);
     }

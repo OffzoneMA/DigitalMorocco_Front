@@ -50,10 +50,16 @@ export default function ForgotPassword(){
   }, [isSuccess , userError , error])
 
   async function onSubmit(values) {
+    const lang = localStorage.getItem('language');
+    const valuesWithLang = {
+      ...values,
+      lang
+    };
+
     try {
       userTrigger(values.email).then(async (payload) => {
         if (payload?.isSuccess) {
-          await sendForgotPassword(values);
+          await sendForgotPassword(valuesWithLang);
           dispatch(setUserEmail(values.email)); 
           localStorage.setItem('userEmail', values?.email);
         }
