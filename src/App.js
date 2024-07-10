@@ -16,6 +16,7 @@ import Loader from './Components/Loader';
 import Layout from './Components/Layout';
 import DashbordLayout from "./Components/DashbordLayout";
 import SubscribePlan from './Pages/SubscribePlan';
+import NotFound from './Pages/NotFound';
 
 
 // Utiliser React.lazy pour le code splitting
@@ -136,9 +137,9 @@ function App() {
               </Route>
             </Route>
             <Route element={<Layout />}>
-            <Route element={<GuardedConnectedUserRoute />}>
-              <Route path="/RedirectFromSignIn" element={<RedirectFromSignIn />} />
-            </Route>
+              <Route element={<GuardedConnectedUserRoute />}>
+                <Route path="/RedirectFromSignIn" element={<RedirectFromSignIn />} />
+              </Route>
               <Route element={<ConnectedUserRoute />}>
                 <Route   path="/SignIn" element={<SignIn />} />
                 <Route   path="/" element={<SignIn />} />
@@ -167,6 +168,7 @@ function App() {
                 <Route path="/Payement_Failed" element={<PayFailed />} />
               </Route>
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
 
