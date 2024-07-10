@@ -63,20 +63,20 @@ export default function SignUp() {
     setSending(true);
   };
 
-  useEffect(() => {
-    if (user) {
-      trigger({ userId: userInfo?._id, lang: localStorage.getItem('language')}).then((payload) => {
-        if (payload?.isSuccess) {
-          setSending(false);
-          setTimeout(() => navigate('/VerificationEmail'), 2500);
-          setUser(null);
-        } else {
-          console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
-        }
-    }
-    )
-    }
-  } ,[user])
+  // useEffect(() => {
+  //   if (user) {
+  //     trigger({ userId: userInfo?._id, lang: localStorage.getItem('language')}).then((payload) => {
+  //       if (payload?.isSuccess) {
+  //         setSending(false);
+  //         setTimeout(() => navigate('/VerificationEmail'), 2500);
+  //         setUser(null);
+  //       } else {
+  //         console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
+  //       }
+  //   }
+  //   )
+  //   }
+  // } ,[user])
 
   useEffect(() => {
     if (Mount) { setMount(false) }
@@ -85,6 +85,17 @@ export default function SignUp() {
       dispatch(setUserEmail(userInfo?.email));
       setUser(userInfo)
       localStorage.setItem('userEmail', userInfo?.email);
+      setTimeout(() => navigate('/VerificationEmail'), 1000);
+    //   trigger({ userId: userInfo?._id, lang: localStorage.getItem('language')}).then((payload) => {
+    //     if (payload?.isSuccess) {
+    //       setSending(false);
+    //       setTimeout(() => navigate('/VerificationEmail'), 2500);
+    //       setUser(null);
+    //     } else {
+    //       console.error('Une erreur s\'est produite lors de l\'envoi de l\'email de vérification:', triggerError);
+    //     }
+    //  }
+    // )
     }
   }
 
