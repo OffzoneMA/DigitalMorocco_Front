@@ -26,6 +26,7 @@ const SignIn = lazy(() => import('./Pages/Authentification/SignIn'));
 const SignUp = lazy(() => import('./Pages/Authentification/SignUp'));
 const Failure = lazy(() => import('./Pages/Authentification/Failure'));
 const Success = lazy(() => import('./Pages/Authentification/Success'));
+const SuccessSignUp = lazy(() => import('./Pages/Authentification/SuccessSignUp'))
 const Subscription = lazy(() => import('./Pages/Subscription'));
 const GuardedUserMemberRoutes = lazy(() => import('./GuardedRoutes/GuardedUserMemberRoutes'));
 const UserProfile = lazy(() => import('./Pages/UserProfile'));
@@ -184,6 +185,7 @@ function App() {
               <Route   path="/About-Us/Explore" element={<Explore/>}/>
               <Route path="/Failure" element={<Failure/>}/>
               <Route path="/Success" element={<Success/>}/>
+              <Route path="/SuccessSignUp" element={<SuccessSignUp/>}/>
             
               {/* User Member Routes*/}
               <Route element={<GuardedUserMemberRoutes />}>

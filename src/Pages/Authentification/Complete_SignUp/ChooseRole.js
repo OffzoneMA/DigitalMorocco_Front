@@ -182,6 +182,7 @@ const ChooseRole = () => {
      },[response.isSuccess])
 
      const confirmRole = () => {
+      openModal();
       if(UserId) {
         const formData = new FormData();
         const lang = localStorage.getItem('language')

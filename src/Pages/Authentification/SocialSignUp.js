@@ -49,7 +49,7 @@ export default function SocialSignUp() {
     sessionStorage.setItem('userSocialInfos', data?.displayName);
 
     window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/${socialType}/signup`;
-    setSending(false)
+    // setSending(false)
 
   };
 
