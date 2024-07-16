@@ -8,8 +8,11 @@ import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
+import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 
 const SendContactModal = (props) => {
+    const [createContactReqProject] = useCreateConatctReqProjectMutation();
+
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { data, error, isLoading , refetch } = useGetAllProjectsQuery();
@@ -66,17 +69,25 @@ const SendContactModal = (props) => {
     }
   
     const formData = new FormData();
+    console.log(selectedProject)
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
       formData.append('document', files); 
-      formData.append('project', selectedProject);
+      formData.append('projectId', selectedProject?._id);
+      formData.append('investorId' , props?.investorId)
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });
       for (let pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1]);
       }
-      openModal();
+      try {
+        const response = await createContactReqProject(formData).unwrap();
+        console.log('Contact request created successfully:', response);
+        openModal();
+      } catch (error) {
+        console.error('Failed to create contact request:', error);
+      }
     };
 
     const openModal  = () =>  {

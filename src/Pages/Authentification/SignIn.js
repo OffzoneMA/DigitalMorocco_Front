@@ -36,6 +36,7 @@ export default function SignIn() {
   const [getUserDetails , { data, isSuccess, isError, detailsError }] = authApi.endpoints.getUserDetails.useLazyQuery();
   const [retryCount, setRetryCount] = useState(0);
   const maxRetries = 3;
+  const [loginError , setLoginError] = useState("");
 
   console.log(error)
 
@@ -183,6 +184,28 @@ export default function SignIn() {
         console.log(errorSocial || 'Oops, something went wrong!')
       }
     }
+  }, [errorSocial]);
+
+  useEffect(() => {
+    if(error) {
+      if (error === "This email is registered through Google.") {
+        setLoginError("Login RS error");
+      } else if(error === "This email is registered through Linkedin.") {
+        setLoginError("Login RS error");
+      } 
+      else if(error === "This email is registered through Facebook.") {
+        setLoginError("Login RS error");
+      } 
+      else if(error === "This email is registered through another provider.") {
+        setLoginError("Login RS error");
+      }
+      else {
+        setLoginError("");
+      }
+    }
+    else {
+      setLoginError("");
+    }
   }, [error]);
 
   const togglePasswordVisibility = () => {
@@ -209,7 +232,7 @@ export default function SignIn() {
 
   return (
     <>
-    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto p-[42px] md:px-10 sm:px-5 min-h-screen w-full">
+    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto px-[12px] py-[30px] md:px-10 min-h-screen w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto w-full">
           <div className="flex flex-col items-center justify-center w-full ">
             <Link to="https://digitalmorocco.net" target='_blank'><img
@@ -305,7 +328,7 @@ export default function SignIn() {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         },
                       })}
-                      className={`bg-white w-full border border-solid ${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .')) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .'))? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .')) ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full border border-solid ${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error") )) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error" )))? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error"))) ? 'errorColor' : 'gray-801'}`}
                       id="email"
                       name="email"
                       autoComplete='off'
@@ -324,7 +347,7 @@ export default function SignIn() {
                         type={showPassword ? "text" : "password"}
                         placeholder={t('signup.enterPassword')}
                         style={{ appearance: 'none' }}
-                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'errorColor' : 'gray-801'}`}
+                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${(errors?.password || (getValues('password')?.length > 0 && (error == 'Wrong password !' || loginError == "Login RS error"))) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.password || (getValues('password')?.length > 0 && (error == 'Wrong password !' || loginError == "Login RS error"))) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${(errors?.password || (getValues('password')?.length > 0 && (error == 'Wrong password !' || loginError == "Login RS error" ) )) ? 'errorColor' : 'gray-801'}`}
                       />
                       <button
                         type="button"

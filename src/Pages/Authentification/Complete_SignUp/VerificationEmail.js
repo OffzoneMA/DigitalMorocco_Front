@@ -115,7 +115,7 @@ export default function VerificationEmail() {
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full">
             <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
@@ -140,7 +140,7 @@ export default function VerificationEmail() {
                 </Text>
                 <div className="flex flex-col gap-9 items-center justify-start w-full">
                     <Text
-                      className="leading-[26.00px] px-4 font-dm-sans-medium text-base text-[#667085] text-center"
+                      className="leading-[26.00px] md:px-4 font-dm-sans-medium text-base text-[#667085] text-center"
                     >
                       <>
                         {t('verification.instructions')}

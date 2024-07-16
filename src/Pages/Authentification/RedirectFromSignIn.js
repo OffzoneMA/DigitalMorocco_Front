@@ -69,48 +69,50 @@ const RedirectFromSignIn = () => {
                 )}
             </div>
             </div>
-            <div className="bg-white-A700 shadow-loginModalbsReduced border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 rounded-[14px] w-full">
-                <div className="flex flex-col gap-[38px] items-center justify-start w-auto max-w-[460px] px-3 w-full">
-                <img
-                  className="h-[172px] w-[172px]"
-                  src={confirmImage}
-                  alt="successtick"
-                />
-                <div className="flex flex-col gap-5 items-center justify-start w-auto ">
+            <div className='flex px-3 w-full items-center justify-center'>
+              <div className="bg-white-A700 shadow-loginModalbsReduced border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 rounded-[14px] w-full">
+                  <div className="flex flex-col gap-[38px] items-center justify-start w-auto max-w-[460px] px-3 w-full">
+                  <img
+                    className="h-[172px] w-[172px]"
+                    src={confirmImage}
+                    alt="successtick"
+                  />
+                  <div className="flex flex-col gap-5 items-center justify-start w-auto ">
+                    <Text
+                      className="leading-[28.00px] font-dm-sans-medium text-gray-801 text-center text-[18px] "
+                    >
+                      <span className=" font-dm-sans-medium">
+                        {t('signin.congrate')}{" "}
+                      </span> <br/>
+                      <span className="text-blue-A400 font-dm-sans-medium">
+                        {t('signin.congrate1')}
+                      </span>
+                    </Text>
+                    <Text
+                      className="flex flex-col gap-4 font-dm-sans-regular leading-[26.00px] text-gray-801 text-center text-sm"
+                    >
+                      <>
+                        {t('signin.congrate2')}
+                        <br/>
+                        <span className=''>{t('chooserole.confirmed.m4')}</span>
+                      </>
+                    </Text>
+                  </div>
+                  </div>
                   <Text
-                    className="leading-[28.00px] font-dm-sans-medium text-gray-801 text-center text-[18px] "
+                    className="leading-[160.00%] font-dm-sans-regular text-blue_gray-500 text-center text-xs w-full sm:px-16 pt-4"
                   >
-                    <span className=" font-dm-sans-medium">
-                      {t('signin.congrate')}{" "}
-                    </span> <br/>
-                    <span className="text-blue-A400 font-dm-sans-medium">
-                      {t('signin.congrate1')}
+                    <span className="text-blue_gray-500 font-dm-sans-regular">
+                      {t('chooserole.confirmed.m5')}
+                    </span>
+                    <span className="text-blue_gray-500 font-dm-sans-regular">
+                      {" "}
+                    </span>
+                    <span className="text-blue-A400 font-dm-sans-regular">
+                      {t('chooserole.confirmed.m6')}
                     </span>
                   </Text>
-                  <Text
-                    className="flex flex-col gap-4 font-dm-sans-regular leading-[26.00px] text-gray-801 text-center text-sm"
-                  >
-                    <>
-                      {t('signin.congrate2')}
-                      <br/>
-                      <span className=''>{t('chooserole.confirmed.m4')}</span>
-                    </>
-                  </Text>
-                </div>
-                </div>
-                <Text
-                  className="leading-[160.00%] font-dm-sans-regular text-blue_gray-500 text-center text-xs w-full sm:px-16 pt-4"
-                >
-                  <span className="text-blue_gray-500 font-dm-sans-regular">
-                    {t('chooserole.confirmed.m5')}
-                  </span>
-                  <span className="text-blue_gray-500 font-dm-sans-regular">
-                    {" "}
-                  </span>
-                  <span className="text-blue-A400 font-dm-sans-regular">
-                    {t('chooserole.confirmed.m6')}
-                  </span>
-                </Text>
+              </div>
             </div>
         </div>
     );

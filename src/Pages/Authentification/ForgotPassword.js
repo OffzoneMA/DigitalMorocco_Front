@@ -74,7 +74,7 @@ export default function ForgotPassword(){
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col font-manrope gap-4 mx-auto p-[30px] min-h-screen sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col font-manrope gap-4 mx-auto md:px-10 min-h-screen px-[12px] py-[30px] w-full">
             <div className={`self-start flex flex-col h-11 items-center justify-center w-auto`}>
               <a href="/SignIn" className="px-5 items-center self-start flex flex-col h-full w-full cursorpointer-green">
                 <div className="flex flex-row gap-3 items-center justify-center">
@@ -102,9 +102,9 @@ export default function ForgotPassword(){
               <div className="bg-white-A700 flex flex-col gap-8 items-center justify-start px-5  py-8 rounded-[12px] shadow-formbs max-w-[520px] w-full">
               <Toaster />
                 <p
-                  className="text-[22px] font-dm-sans-medium text-gray-901 leading-[32px] sm:text-lg md:text-xl w-auto"
+                  className="text-lg font-dm-sans-medium text-gray-901 leading-[32px] sm:text-lg md:text-[22px] w-auto"
                 >
-                  <Text className='text-[22px] font-dm-sans-medium' >{t('forgot.forgotPassword')} </Text>
+                  <Text className='text-lg md:text-[22px] font-dm-sans-medium' >{t('forgot.forgotPassword')} </Text>
                 </p>
                 <div className="flex flex-col gap-8 items-center justify-start w-full">
                   <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 items-center justify-start w-full">

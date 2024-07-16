@@ -17,6 +17,7 @@ import Layout from './Components/Layout';
 import DashbordLayout from "./Components/DashbordLayout";
 import SubscribePlan from './Pages/SubscribePlan';
 import NotFound from './Pages/NotFound';
+import { useLocation } from 'react-router-dom';
 
 
 // Utiliser React.lazy pour le code splitting
@@ -69,6 +70,16 @@ function App() {
 
   const dispatch = useDispatch();
 
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const lang = queryParams.get('lang');
+        if (lang) {
+            i18n.changeLanguage(lang);
+            localStorage.setItem('language', lang); 
+        }
+    }, []);
+
   useEffect(() => {
     const rememberMe = getLocalStorageItemWithExpiration('rememberMe');
 
@@ -95,6 +106,18 @@ function App() {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    const userDataString = sessionStorage.getItem('userData');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      // Vérifier si les cookies ne sont pas déjà définis
+      if (!document.cookie.includes('user=')) {
+        // Set cookie with user data
+        document.cookie = `user=${JSON.stringify(userData)}; path=/; secure; SameSite=None`;
+      }
+    }
+  }, []);
+
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
  
@@ -110,7 +133,7 @@ function App() {
                 <Route path="/Users" element={<Users />} />
                 <Route path="/Investors" element={<Investors />} />
                 <Route path="/MyInvestors" element={<MyInvestors />} />
-                <Route path="/InvestorDetails" element={<InvestorDetails />} />
+                <Route path="/InvestorDetails/:investorId" element={<InvestorDetails />} />
                 <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
                 <Route path="/Projects" element={<Projects />} />
                 <Route path="/Createproject" element={<CreateProject />} />
@@ -138,6 +161,7 @@ function App() {
             </Route>
             <Route element={<Layout />}>
               <Route element={<GuardedConnectedUserRoute />}>
+                <Route path="/ChooseRole" element={<ChooseRole />} />
                 <Route path="/RedirectFromSignIn" element={<RedirectFromSignIn />} />
               </Route>
               <Route element={<ConnectedUserRoute />}>
@@ -145,7 +169,6 @@ function App() {
                 <Route   path="/" element={<SignIn />} />
                 <Route   path="/SignUp" element={<SignUp />} />
                 <Route   path="/SocialSignUp" element={<SocialSignUp />} />
-                <Route path="/ChooseRole" element={<ChooseRole />} />
               </Route>
               <Route path="/VerificationCode" element={<VerificationCode />} />
               <Route path="/VerificationEmail" element={<VerificationEmail />} />

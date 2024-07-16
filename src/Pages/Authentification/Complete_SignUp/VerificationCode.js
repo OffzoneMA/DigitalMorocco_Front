@@ -53,7 +53,7 @@ export default function VerificationCode() {
 
       return (
         <>
-          <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full min-h-screen">
+          <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full min-h-screen">
             <div className="flex flex-col gap-[42px] items-center justify-start mb-[39px] w-auto w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
@@ -71,7 +71,7 @@ export default function VerificationCode() {
                 />
               </div>
                 <Text
-                  className="text-[22px] text-black-900 sm:text-lg md:text-xl w-auto"
+                  className="md:text-[22px] text-black-900 text-lg w-auto"
                   size="txtDMSansMedium22Black900"
                 >
                   {t('verifyEmail')}

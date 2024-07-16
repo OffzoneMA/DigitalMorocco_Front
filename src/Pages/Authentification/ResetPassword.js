@@ -71,7 +71,7 @@ export default function ResetPassword() {
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto p-[33px] sm:px-5 w-full">
+          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto md:px-10 px-5 py-[20px] md:py-[42px] w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-auto w-full">
               <a href='https://digitalmorocco.net'target='_blank' className="flex flex-col items-center justify-center">
                 <img
@@ -89,14 +89,14 @@ export default function ResetPassword() {
                   />
                 </div>
                 <Text
-                  className="text-[22px] font-dm-sans-medium text-gray-901 leading-8 w-auto"
+                  className="md:text-[22px] text-lg font-dm-sans-medium text-gray-901 leading-8 w-auto"
                   >
                   {t('resetPassword.resetPassword')}
                 </Text>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 items-center justify-start w-full">
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
                     <Text
-                      className="leading-[28.00px] w-full font-dm-sans-medium text-left text-gray-901 text-[18px] "
+                      className="leading-[28.00px] w-full font-dm-sans-medium text-left text-gray-901 text-lg "
                       >
                       {t('resetPassword.enterNewPassword')}
                     </Text>

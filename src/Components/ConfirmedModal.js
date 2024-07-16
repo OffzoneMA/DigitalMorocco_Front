@@ -27,7 +27,7 @@ const ConfirmedModal = (props) => {
           <div className="flex flex-col gap-[38px] items-center justify-start w-auto px-[45px] w-full">
             <img
               className="h-[172px] w-[172px]"
-              src="images/img_role_confirmed.svg"
+              src="/images/img_role_confirmed.svg"
               alt="successtick"
             />
             <div className="flex flex-col gap-5 items-center justify-start w-auto sm:w-full">

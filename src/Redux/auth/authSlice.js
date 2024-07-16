@@ -41,6 +41,7 @@ const authSlice = createSlice({
       localStorage.removeItem('rememberMe');
       sessionStorage.removeItem('userSocialInfos')
       localStorage.removeItem('userEmail')
+      document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       state.loading = false
       state.userInfo = null
       state.userToken = null

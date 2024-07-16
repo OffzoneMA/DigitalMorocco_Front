@@ -37,22 +37,23 @@ const Investors = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
+  const [totalPages , setTotalPages] = useState(0);
   const [investors, setInvestors] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const token = sessionStorage.getItem("userToken");
     const fetchInvestorRequests = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
-        const response = await axios.get(`http://localhost:5000/investors`, {
+        const response = await axios.get(`http://localhost:5000/investors?page=${cur}&pageSize=${itemsPerPage}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
       });
         console.log(response.data)
         setInvestors(response.data.investors);
+        setTotalPages(response.data?.totalPages)
         setLoading(false);
       } catch (error) {
         console.error('Error fetching investor requests:', error);
@@ -76,12 +77,12 @@ const Investors = () => {
     checkSubscriptionStatus();
     fetchInvestorRequests();
     
-  }, []);
+  },[cur, itemsPerPage]);
+
   const data = isSubscribe?  investors : InvestorsData;
 
-
   const filteredData = isSubscribe? data.filter(item => {
-    const keywordMatch = item.owner.displayName.toLowerCase().includes(keywords.toLowerCase());
+    const keywordMatch = item.owner?.displayName.toLowerCase().includes(keywords.toLowerCase());
   
     if (filterApply && isSubscribe) {
       const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
@@ -105,7 +106,7 @@ const Investors = () => {
   }
   
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
@@ -113,7 +114,7 @@ const Investors = () => {
     return filteredData.slice(startIndex, endIndex);
   };
 
-  const pageData = getPageData();
+  const pageData = filteredData;
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
@@ -286,12 +287,12 @@ const Investors = () => {
                   </div>
                 )                 
                  : ( pageData.map((item, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate("/InvestorDetails")}>
+                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}`)}>
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
                         <div className="py-3 px-3 flex items-center" >
                             <img src={item.image} className="rounded-full h-8 w-8  mr-2"/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{isSubscribe? item.owner.displayName : item.InvestorName}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{isSubscribe? item.owner?.displayName : item.InvestorName}</span>
                         </div>
                         {profilVerified && (
                           <div className="overlay-content-invPro w-full flex">
