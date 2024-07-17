@@ -1,5 +1,4 @@
 import React, { useState , useRef } from 'react';
-import { IoCloseOutline } from "react-icons/io5";
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../Components/Text';
 import logo from '../../Media/img_logo.svg'
@@ -16,12 +15,6 @@ const RedirectFromSignIn = () => {
     const [showLogout , setShowLogout] = useState(false);
 
     const dropdownRef = useRef(null);
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setShowLogout(false);
-    }
-  };
 
   const handleMouseEnter = () => {
     setShowLogout(true);
@@ -55,7 +48,7 @@ const RedirectFromSignIn = () => {
                 </button>
                 {showLogout && (
                 <div className="absolute top-[100%] right-0 w-[248px]">
-                    <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] flex items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red" 
+                    <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red"
                     onClick={() => {
                     dispatch(logout());
                     navigate('/SignIn');
@@ -71,7 +64,7 @@ const RedirectFromSignIn = () => {
             </div>
             <div className='flex px-3 w-full items-center justify-center'>
               <div className="bg-white-A700 shadow-loginModalbsReduced border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 rounded-[14px] w-full">
-                  <div className="flex flex-col gap-[38px] items-center justify-start w-auto max-w-[460px] px-3 w-full">
+                  <div className="flex flex-col gap-[38px] items-center justify-start max-w-[460px] px-3 w-full">
                   <img
                     className="h-[172px] w-[172px]"
                     src={confirmImage}

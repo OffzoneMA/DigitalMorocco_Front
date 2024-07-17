@@ -45,7 +45,6 @@ export default function Subscription() {
           const response = await axios.get(`http://localhost:5000/members/check-subscription-status/${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
           });
-          console.log("subs",response.data.result)
           setIsSubscribe(response.data.result);
       } catch (error) {
           console.error('Error checking subscription status:', error);

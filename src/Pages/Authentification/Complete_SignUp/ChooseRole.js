@@ -3,22 +3,17 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { Text } from "../../../Components/Text";
-import { Button } from "../../../Components/Button";
 import { useTranslation } from "react-i18next";
-import RoleConfirmedModal from "../../../Components/RoleConfirmedModal";
 import logo from '../../../Media/img_logo.svg';
-import userImage from '../../../Media/img_user03.svg';
 import startupImage from '../../../Media/img_startup.svg';
 import investorImage from '../../../Media/img_investor.svg';
 import companyImage from '../../../Media/img_company.svg';
 import { useAddNewRequestMutation } from '../../../Services/Auth';
 import { authApi } from "../../../Services/Auth";
 import { useNavigate , useSearchParams } from "react-router-dom";
-import TestPopup from "../../../Components/TestPopup";
 import { useUpdateFullNameMutation } from "../../../Services/User.Service";
 import { setCredentials } from "../../../Redux/auth/authSlice";
 import { useDispatch } from "react-redux";
-import Popup from 'reactjs-popup';
 import ConfirmedModal from "../../../Components/ConfirmedModal";
 import { logout } from "../../../Redux/auth/authSlice";
 import { languages } from "../../../data/tablesData";
@@ -34,7 +29,6 @@ const ChooseRole = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const { userInfo } = useSelector((state) => state.auth)
     const {userToken} = useSelector((state) =>state.auth)
-    const [token , setToken] = useState(sessionStorage.setItem('userToken', auth))
     const { userEmail } = useSelector((state) => state.auth)
     const [UserId, setUserId] = useState(userInfo?._id)
     const [selectedGrid, setSelectedGrid] = useState(null);
@@ -45,8 +39,6 @@ const ChooseRole = () => {
     const [addNewRequest, response] = useAddNewRequestMutation()
     const [getUserDetails , { data, isSuccess, isError, error }] = authApi.endpoints.getUserDetails.useLazyQuery();
     const {userSocialInfos} = useSelector((state) => state.auth)
-    const [retryCount, setRetryCount] = useState(0);
-    const maxRetries = 3;
 
     const dropdownRef = useRef(null);
 
@@ -83,7 +75,6 @@ const ChooseRole = () => {
 
     useEffect(() => {
       if (auth) {
-        console.log("aauth choose" , auth)
         sessionStorage.setItem('userToken', auth)
         axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
             headers: {
@@ -99,7 +90,6 @@ const ChooseRole = () => {
                   console.log('Updating full name with:', userSocialInfos);
                   const lang = localStorage.getItem('language')
                   const languageLabel = getLanguageLabelById(lang);
-                  console.log(languageLabel)
                   updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos , language: languageLabel} })
                       .unwrap()
                       .then((updatedData) => {
@@ -237,7 +227,7 @@ const ChooseRole = () => {
             </button>
             {showLogout && (
               <div className="absolute top-[100%] right-0 w-[248px]">
-                <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] flex items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red" 
+                <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red"
                 onClick={() => {
                   dispatch(logout());
                   navigate('/SignIn');
@@ -290,7 +280,7 @@ const ChooseRole = () => {
                 className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
                 <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
+                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                   >
                     {t('chooserole.startup')}
                   </Text>
@@ -310,7 +300,7 @@ const ChooseRole = () => {
               className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
+                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                     >
                     {t('chooserole.investor')}
                   </Text>
@@ -330,7 +320,7 @@ const ChooseRole = () => {
               className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
+                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                     >
                     {t('chooserole.company')}
                   </Text>

@@ -34,33 +34,12 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
     }
   };
   
-
-  // useEffect(() => {
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
-
-  // const handleOptionClick = (option) => {
-  //   if (selectedOptions.some(selectedOption => selectedOption.id === option.id)) {
-  //       setSelectedOptions(selectedOptions.filter((item) => item.id !== option.id));
-  //       setSelectedOptionVal(selectedOptions.filter((item) => item.id !== option.id));
-  //       console.log(selectedOptions)
-        
-  //     } else {
-  //       setSelectedOptions([...selectedOptions, option]);
-  //       setSelectedOptionVal([...selectedOptions, option]);
-  //     }
-  // };
-
   const handleOptionClick = (option) => {
     if(optionkey) {
       const optionValue = option[optionkey];
       if (selectedOptions.some(selectedOption => selectedOption[optionkey] === optionValue)) {
         setSelectedOptions(selectedOptions.filter((item) => item[optionkey] !== optionValue));
         setSelectedOptionVal(selectedOptions.filter((item) => item[optionkey] !== optionValue));
-        console.log(selectedOptions);
       } else {
         setSelectedOptions([...selectedOptions, option]);
         setSelectedOptionVal([...selectedOptions, option]);
@@ -69,7 +48,6 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
       if (selectedOptions.some(selectedOption => selectedOption === option)) {
         setSelectedOptions(selectedOptions.filter((item) => item !== option));
         setSelectedOptionVal(selectedOptions.filter((item) => item !== option));
-        console.log(selectedOptions);
       } else {
         setSelectedOptions([...selectedOptions, option]);
         setSelectedOptionVal([...selectedOptions, option]);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,7 @@ const LoginModal = (props) => {
           </div>
         </div>
         <div className="flex flex-col gap-6 items-center justify-start w-full ">
-          <div className="flex flex-col gap-[38px] items-center justify-start w-auto max-w-[460px] px-3 w-full">
+          <div className="flex flex-col gap-[38px] items-center justify-start max-w-[460px] px-3 w-full">
             <img
               className="h-[172px] w-[172px]"
               src={confirmImage}

@@ -1,23 +1,19 @@
-import React, { useState,useRef , useEffect} from "react";
-import{Text } from "../Components/Text"
-import { FiSave } from "react-icons/fi";
-import { BiDollar } from "react-icons/bi";
-import { MdOutlineDateRange, MdOutlineFileUpload } from "react-icons/md";
-import { ImFileText2 } from "react-icons/im";
-import { IoMdAdd } from "react-icons/io";
-import { useForm } from "react-hook-form";
-import { GrAttachment } from "react-icons/gr";
-import { useNavigate , useLocation} from "react-router-dom";
-import { useSelector } from 'react-redux';
-import {stage} from "../data/stage";
-import { Country ,City } from 'country-state-city';
+import React, {useEffect, useRef, useState} from "react";
+import {Text} from "../Components/Text"
+import {FiSave} from "react-icons/fi";
+import {MdOutlineFileUpload} from "react-icons/md";
+import {ImFileText2} from "react-icons/im";
+import {IoMdAdd} from "react-icons/io";
+import {useForm} from "react-hook-form";
+import {GrAttachment} from "react-icons/gr";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useSelector} from 'react-redux';
+import {stage, stage as stagesData} from "../data/stage";
+import {Country} from 'country-state-city';
 import MultipleSelect from "../Components/MultipleSelect";
-import { stage as stagesData } from "../data/stage";
 import CustomCalendar from "../Components/CustomCalendar";
-import { useCreateProjectMutation } from "../Services/Member.Service"; 
-import { useGetProjectByIdQuery } from "../Services/Project.Service";
-import { useParams } from "react-router-dom";
-import { useUpdateProjectMutation } from "../Services/Member.Service";
+import {useCreateProjectMutation, useUpdateProjectMutation} from "../Services/Member.Service";
+import {useGetProjectByIdQuery} from "../Services/Project.Service";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import SimpleSelect from "../Components/SimpleSelect";
@@ -60,16 +56,12 @@ const CreateProject = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(location.state?.project || null);
-  const [projectName , setProjectName] = useState('');
-  const [projectDetails , setProjectDetails] = useState('');
-  const [projectPublication , setProjectPublication] = useState('');
   const { data: fetchedProject, error, isLoading } = useGetProjectByIdQuery(projectId, {
     skip: Boolean(project || !projectId),
   });
   const [Mount, setMount] = useState(true)
   const [focusedMilestone, setFocusedMilestone] = useState(null);
   const [milestones, setMilestones] = useState([]);
-  const [teamData , setTeamData ]= useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
   const [fundingValue, setFundingValue] = useState(null);
@@ -84,7 +76,6 @@ const CreateProject = () => {
   const [selectedSector, setselectedSector] = useState([]);
   const dataCountries = Country.getAllCountries();
   const [selectedCountry , setSelectedCountry] = useState(null);
-  // const [selectedStages, setSelectedStages] = useState([]);
   const [selectedStage, setSelectedStage] = useState("");
   const [addProjet, addResponse] = useCreateProjectMutation();
   const [updateProject, updateResponse] = useUpdateProjectMutation();
@@ -256,13 +247,6 @@ const CreateProject = () => {
 
   const formButtonRef = useRef();
 
-  const handleFocus = (milestoneId) => {
-    setFocusedMilestone(milestoneId);
-  };
-  const handleBlur = () => {
-    setFocusedMilestone(null);
-  };
-
   const handleMilestoneChange = (e, id, field) => {
     const updatedMilestones = milestones.map(milestone => 
       milestone.id === id ? { ...milestone, [field]: e.target.value } : milestone
@@ -349,10 +333,7 @@ const handleFileInputChange = (event, index) => {
   
   function parseDateString(dateString) {
     const [day, month, year] = dateString.split('/');
-
-    const dateObject = new Date(`${year}-${month}-${day}`);
-
-    return dateObject;
+    return new Date(`${year}-${month}-${day}`);
 }
 
   const handleDragOver = (event) => {
@@ -405,11 +386,7 @@ const handleFileInputChange = (event, index) => {
     allFiles.forEach(({ file }) => {
         formData.append(`files`, file);
     });
-    
-    // Afficher les données de formData dans la console
-    // for (var pair of formData.entries()) {
-    //     console.log(pair[0] + ', ' + pair[1]); 
-    // }
+  
     if (projectId) {
       mutation({
         projectId,
@@ -438,57 +415,8 @@ const onButtonClick = (inputref) => {
   inputref.current.click();
 };
 
-const teamMembersdataList = [
-    {
-      id: 1,
-      imageSrc: '/images/img_avatar.png',
-      name: 'Annette Black',
-      job: 'Back End Developer',
-    },
-    {
-      id: 2,
-      imageSrc: '/images/img_avatar_62x62.png',
-      name: 'Dianne Russell',
-      job: 'Software Developer',
-    },
-    {
-      id: 3,
-      imageSrc: '/images/img_avatar_1.png',
-      name: 'Floyd Miles',
-      job: 'Software Development Manager',
-    },
-    {
-      id: 4,
-      imageSrc: '/images/img_avatar_2.png',
-      name: 'Kathryn Murphy',
-      job: 'Social Media Manager',
-    },
-    {
-      id: 5,
-      imageSrc: '/images/img_avatar_3.png',
-      name: 'Cameron Williamson',
-      job: 'Software Tester',
-    },
-    {
-      id: 6,
-      imageSrc: '/images/img_avatar_4.png',
-      name: 'Darlene Robertson',
-      job: 'Scrum Master',
-    },
-    {
-      id: 7,
-      imageSrc: '/images/img_avatar_5.png',
-      name: 'Ralph Edwards',
-      job: 'UI/UX Designer',
-    },
-];
-
-const StageData = stage.map(
-  item => ({ label: item, value: item })
-);
-
   return (
-      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
+      <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -530,7 +458,7 @@ const StageData = stage.map(
                     </Text>
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="name"
                         placeholder="Enter Project Name"
@@ -594,7 +522,7 @@ const StageData = stage.map(
                       Funding Target
                     </Text>
                     <div className="relative flex items-center w-full">
-                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2"/>
+                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("funding", { required: { value: true, message: "Project Funding Target is required" } })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
@@ -615,7 +543,7 @@ const StageData = stage.map(
                       Total Raised
                     </Text>
                     <div className="relative flex items-center w-full">
-                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2"/>
+                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("totalRaised", { required: { value: true, message: "Project Funding Target is required" } })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
@@ -664,7 +592,7 @@ const StageData = stage.map(
                     placeholder="Select Stage" selectedOptionsDfault={project?.stage || ''}
                     content={
                       ( option) =>{ return (
-                          <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto py-2 items-center  w-full">
+                          <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 py-2 items-center  w-full">
                                {option}
                            </div>
                         );

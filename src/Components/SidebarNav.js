@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BsArrowLeftShort, BsDot } from "react-icons/bs";
+import { BsArrowLeftShort } from "react-icons/bs";
 import { BiChevronDown } from "react-icons/bi";
 import { BiBuildings } from "react-icons/bi";
 import { GoRocket } from "react-icons/go";
@@ -13,7 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 import coinsIcon from '../Media/credits_img.svg';
 import questionImg from '../Media/question.svg';
 import Popup from "reactjs-popup";
-import { logout, setCredentials } from "../Redux/auth/authSlice";
+import { logout } from "../Redux/auth/authSlice";
 import userImg from '../Media/img_avatar_1.png';
 import simpleLogo from '../Media/img_simple_logo.svg';
 import simpleLogoText from '../Media/img_simple_logo_text.svg';
@@ -85,18 +85,13 @@ const SidebarNav = () => {
     if (userData?.role === "Admin") {
       Menus.push({ title: "Users", src: <RiUser3Line size={22} className="text-light_blue-100"/> , link:"Users" });
     }
-
-    const isSubmenuActive = (submenuName) => {
-      return Menus.find((menu) => menu.title === submenuName)?.child.some((child) => child.link === activeMenu);
-    };
-    
   return (
-    <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
+      <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer-green ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex">
     <img src={simpleLogo} className={`text-4xl rounded cursorpointer-green block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => navigate("/")}/>
   <Link to="/">
-    <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`}/>
+    <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`} alt={""}/>
   </Link>
 </div>
   <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
@@ -212,10 +207,10 @@ const SidebarNav = () => {
       <IoNotificationsOutline size={20} className={`text-white-A700 ${activeMenu === "Notification"? 'text-blue_gray-801' :""}`}/>
       </div>
     </div>
-    {userData?.role?.toLowerCase() == 'member' &&
+    {userData?.role?.toLowerCase() === 'member' &&
     <div className={`border border-[#475467] py-[12px] ${ open ? "px-[16px]" : "px-[7px]"} rounded-[200px] flex flex-row items-center justify-between`}>
       <div className="flex gap-2 items-center">
-        <img src={coinsIcon} className="min-w-[23px] w-[23px] h-[23px]"/>
+        <img src={coinsIcon} className="min-w-[23px] w-[23px] h-[23px]" alt={""}/>
         {open &&
           <span className="text-sm font-dm-sans-medium text-teal-A700">{userData?.member?.credits || 0}</span>
         }
@@ -224,7 +219,7 @@ const SidebarNav = () => {
       <Popup
       className="text-[#2C3462] creditQuestion"
         trigger={open => (
-          <button className="button ml-2"><img src={questionImg} /></button>
+          <button className="button ml-2"><img src={questionImg}  alt={""}/></button>
         )}
         position="bottom center"
         on={['hover', 'focus']}

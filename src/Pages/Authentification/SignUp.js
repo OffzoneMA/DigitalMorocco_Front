@@ -31,8 +31,6 @@ export default function SignUp() {
   const [trigger, { data, isLoading, status , isSuccess , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
   const [userTrigger ,{ data: userData, error: userError, isLoading: userFetching , isSuccess: userSucces} ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
-  const [hasLowerCase, setHasLowerCase] = useState(false);
-  const [hasUpperCase, setHasUpperCase] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [socialType ,  setSocialType] = useState('');
   const [sending , setSending] = useState(false);
@@ -100,12 +98,6 @@ export default function SignUp() {
   }
 
   }, [userInfo])
-
-  const handlePasswordChange = (e) => {
-    const password = e.target.value;
-    setHasLowerCase(/[a-z]/.test(password));
-    setHasUpperCase(/[A-Z]/.test(password));
-  };
 
   const getLanguageLabelById = (id) => {
     const language = languages.find(lang => lang.id === id);
@@ -227,7 +219,7 @@ const onSubmit = (data) => {
               />
             </Link>  
           </div>
-          <div className="bg-white-A700 shadow-formbs gap-5 md:gap-10 flex flex-col items-center justify-start px-6 px-6 py-8 rounded-[12px] w-full max-w-[520px]">
+          <div className="bg-white-A700 shadow-formbs gap-5 md:gap-10 flex flex-col items-center justify-start px-6 py-8 rounded-[12px] w-full max-w-[520px]">
             <div className="flex flex-col gap-4 items-center justify-start w-full">
               <Toaster />
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 items-center justify-start w-full">
@@ -452,7 +444,7 @@ const onSubmit = (data) => {
                             id={`acceptTerms`}
                             type="checkbox"
                             name="acceptTerms"
-                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border checked:shadow-none border-[0.5px]  ${(errors?.acceptTerms?.message && sending)? 'border-errorColor shadow-checkErrorbs': 'shadow-none border-[#303030]' } rounded-[4px]  relative`}
+                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 checked:shadow-none border-[0.5px]  ${(errors?.acceptTerms?.message && sending)? 'border-errorColor shadow-checkErrorbs': 'shadow-none border-[#303030]' } rounded-[4px]  relative`}
                           />
                           <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100">
                             <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
@@ -471,7 +463,7 @@ const onSubmit = (data) => {
                             id={`offers`}
                             type="checkbox"
                             name="offers"
-                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 border checked:shadow-none border-[0.5px] border-[#303030] rounded-[4px]  relative`}
+                            className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 checked:shadow-none border-[0.5px] border-[#303030] rounded-[4px]  relative`}
                           />
                           <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100">
                             <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
@@ -513,7 +505,7 @@ const onSubmit = (data) => {
               </div>
               <div className="flex flex-col gap-3 items-center justify-start w-full">
                 <Text
-                  className="text-[16px] font-dm-sans-medium leading-[25.6px] tracking-[0.01em] text-gray-901 w-auto"
+                  className="text-base font-dm-sans-medium leading-[25.6px] tracking-[0.01em] text-gray-901 w-auto"
                 >
                   {t('signup.registerSocial')}
                 </Text>

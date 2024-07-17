@@ -8,8 +8,7 @@ import { useForm } from "react-hook-form";
 import MultipleSelect from "./MultipleSelect";
 
 const NewDocumentModal = (props) => {
-    const [isFocused, setIsFocused] = useState(false);
-  
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [selectedMembers , setSelectedMembers] = useState([]);
 
@@ -26,7 +25,6 @@ const NewDocumentModal = (props) => {
     event.preventDefault();
     setFiles(event.dataTransfer.files[0]);
     setPreview(URL.createObjectURL(event.dataTransfer.files[0]))
-    console.log(files);
   };
 
   const onButtonClick = (inputref) => {

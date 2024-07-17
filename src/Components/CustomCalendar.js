@@ -1,17 +1,14 @@
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
-import React ,{useState , useEffect , useRef} from "react";
-import { MdOutlineDateRange } from "react-icons/md";
-import { FiChevronRight } from "react-icons/fi";
-import { FiChevronLeft } from "react-icons/fi";
+import React, {useEffect, useRef, useState} from "react";
+import {MdOutlineDateRange} from "react-icons/md";
 import ReactDOM from 'react-dom';
 
 
 const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue}) => {
     const formatDefaultValut = (defaultValue) => {
         if(defaultValue) {
-            const formattedDate = new Intl.DateTimeFormat('en-GB').format(defaultValue);
-            return formattedDate;
+            return new Intl.DateTimeFormat('en-GB').format(defaultValue);
         }
     }
 
@@ -60,7 +57,6 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
       // Ajustez la position et la largeur du dropdown lorsqu'il est ouvert
       if (show) {
         calculateDropdownPosition();
-        console.log(dropdownPosition)
       }
     }, [show]);
 

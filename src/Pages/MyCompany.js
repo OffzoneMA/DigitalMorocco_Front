@@ -1,8 +1,7 @@
-import React, { useState , useMemo , useRef } from "react";
+import React, { useState , useRef } from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
-import MultipleSelect from "../Components/MultipleSelect";
 import SimpleSelect from "../Components/SimpleSelect";
 import { IoImageOutline } from "react-icons/io5";
 import { Country ,City } from 'country-state-city';
@@ -65,11 +64,6 @@ const MyCompany = () => {
       setLogoFile(URL.createObjectURL(imageFile));
     }
   };
-  
-  const companySectorData = companyType.map(
-    item => ({ label: item, value: item })
-  );
-  const formData = new FormData();
 
   const onSubmit = async (data) => {
     try {
@@ -99,7 +93,6 @@ const MyCompany = () => {
           logo: base64Image, // Ajouter l'image base64
         };
         setIsSaved(true);
-        console.log(requestData)
         fetch(`http://localhost:5000/members/company/${userId}`, {
           method: 'POST',
           headers: {

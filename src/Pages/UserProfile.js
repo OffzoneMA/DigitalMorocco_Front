@@ -6,11 +6,6 @@ import toast from "react-hot-toast";
 import { Text } from '../Components/Text';
 import { PiUserBold } from "react-icons/pi";
 import SimpleSelect from '../Components/SimpleSelect';
-import { AiFillFacebook } from "react-icons/ai";
-import { AiOutlineInstagram } from "react-icons/ai";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { AiFillLinkedin } from "react-icons/ai";
-import { AiFillYoutube } from "react-icons/ai";
 import DeleteAccountModal from '../Components/DeleteAccountModal';
 import { Country, City } from 'country-state-city';
 import { languages } from '../data/tablesData';
@@ -83,7 +78,6 @@ export default function UserProfile() {
           const userCity=data.cityState;
           const language =data.language;
           const region = data.region;
-          console.log("data",data)
           setUser(data);
           setValue('email', data.email);
           setValue('firstName', firstName);
@@ -182,7 +176,6 @@ export default function UserProfile() {
             updatedFields.image = base64Image;
           }
           if (Object.keys(updatedFields).length > 0) {
-            console.log(updatedFields);
             const response = await axios.put(`http://localhost:5000/users/${userId}/updateProfile`, updatedFields, {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -199,7 +192,6 @@ export default function UserProfile() {
         };
       } else {
         if (Object.keys(updatedFields).length > 0) {
-          console.log(updatedFields);
           const response = await axios.put(`http://localhost:5000/users/${userId}/updateProfile`, updatedFields, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -241,7 +233,6 @@ export default function UserProfile() {
             currentPassword: data.currentPassword,
             newPassword: data.newPassword,
         };
-        console.log(passwordData);
         
         const response = await axios.put(`http://localhost:5000/users/${userId}/changePassword`, passwordData, {
             headers: {
@@ -286,8 +277,6 @@ const onSubmit3 = async () => {
     formData.region = selectedRegion.label;
   }
 
-  console.log("Form 3 Data:", formData);
-
   try {
       const response = await axios.put(
           `http://localhost:5000/users/${userId}/languageRegion`,
@@ -308,7 +297,6 @@ const onSubmit3 = async () => {
               ...userData,
               ...formData,
           };
-          console.log(updatedUserData);
           setUser(updatedUserData);
 
           // Mettre à jour les informations de l'utilisateur dans la session
@@ -337,7 +325,7 @@ const onSubmit3 = async () => {
         },
       });
       
-      if (response.status = 200) {
+      if (response.status == 200) {
         console.log('Account successfully deleted');
         closeDeleteModal();
         navigate("/SignIn");
@@ -384,7 +372,7 @@ const onSubmit3 = async () => {
   />
   <button className="text-blue-501 flex flex-row items-center justify-center p-2 gap-3 rounded-full border-[2px] border-blue-501 w-full"
     onClick={handleUploadClick} type="button" >
-    <img src="images/img_imageuserplus.svg" className="" alt="Upload Icon" />
+    <img src="/images/img_imageuserplus.svg" className="" alt="Upload Icon" />
     <span className="text-[13px]">
       Upload Photo
     </span>

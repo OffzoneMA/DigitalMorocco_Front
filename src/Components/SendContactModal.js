@@ -20,35 +20,6 @@ const SendContactModal = (props) => {
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
     const [selectedProject , setSelectedProject] = useState(null);
-
-    const projects = [
-      {
-        id: 1,
-        name: 'E-commerce Website',
-        description: 'Development of an e-commerce website for a clothing company.',
-        status: 'In progress',
-        deadline: '2024-06-30',
-        teamMembers: ['John Doe', 'Jane Smith', 'Alice Johnson'],
-      },
-      {
-        id: 2,
-        name: 'Task Management Application',
-        description: 'Creation of a task management application to improve team productivity.',
-        status: 'Completed',
-        deadline: '2024-04-15',
-        teamMembers: ['Bob Brown', 'Emily Wilson'],
-      },
-      {
-        id: 3,
-        name: 'Redesign of Institutional Website',
-        description: 'Complete redesign of the institutional website for a university to modernize its image.',
-        status: 'Pending',
-        deadline: '2024-08-31',
-        teamMembers: ['Alex Johnson', 'Sophia Lee', 'David Martinez'],
-      },
-    ];
-    
-
     const handleDragOver = (event) => {
       event.preventDefault();
     };
@@ -69,7 +40,6 @@ const SendContactModal = (props) => {
     }
   
     const formData = new FormData();
-    console.log(selectedProject)
 
     const onSubmit = async (data) => {
       formData.append('document', files); 
@@ -78,12 +48,10 @@ const SendContactModal = (props) => {
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
+      
       try {
         const response = await createContactReqProject(formData).unwrap();
-        console.log('Contact request created successfully:', response);
+        console.log('Contact request created successfully');
         openModal();
       } catch (error) {
         console.error('Failed to create contact request:', error);

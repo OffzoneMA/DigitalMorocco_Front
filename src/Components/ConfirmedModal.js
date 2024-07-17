@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
 import { IoCloseOutline } from "react-icons/io5";
@@ -24,7 +24,7 @@ const ConfirmedModal = (props) => {
           </div>
         </div>
         <div className="flex flex-col gap-6 items-center justify-start w-full">
-          <div className="flex flex-col gap-[38px] items-center justify-start w-auto px-[45px] w-full">
+          <div className="flex flex-col gap-[38px] items-center justify-start w-full px-[45px]">
             <img
               className="h-[172px] w-[172px]"
               src="/images/img_role_confirmed.svg"

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import{ Text } from "../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
-import { IoFlashOffOutline } from "react-icons/io5";
 import { FiDelete } from "react-icons/fi";
 import { BsEyeSlash } from "react-icons/bs";
 import { TiFlashOutline } from "react-icons/ti";
@@ -51,7 +50,6 @@ const Investors = () => {
             Authorization: `Bearer ${token}`,
           }
       });
-        console.log(response.data)
         setInvestors(response.data.investors);
         setTotalPages(response.data?.totalPages)
         setLoading(false);
@@ -68,7 +66,6 @@ const Investors = () => {
           const response = await axios.get(`http://localhost:5000/members/check-subscription-status/${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
           });
-          console.log(response.data)
           setIsSubscribe(response.data.result);
       } catch (error) {
           console.error('Error checking subscription status:', error);

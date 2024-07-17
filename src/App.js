@@ -85,7 +85,6 @@ function App() {
     const rememberMe = getLocalStorageItemWithExpiration('rememberMe');
 
     if (rememberMe) {
-      console.log('rem' , rememberMe)
       const userToken = getLocalStorageItemWithExpiration('userToken');
       const userData = getLocalStorageItemWithExpiration('userData');
 

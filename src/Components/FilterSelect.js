@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import React from 'react';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
 export default function FilterSelect({ title, options, selectedOptions, onChange }) {
  

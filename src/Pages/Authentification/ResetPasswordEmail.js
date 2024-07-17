@@ -1,6 +1,6 @@
-import React , {useRef , useState , useEffect} from 'react'
+import React , {useState , useEffect} from 'react'
 import { Text } from "../../Components/Text";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useSendForgotPasswordMutation } from '../../Services/Auth';
@@ -45,17 +45,10 @@ export default function ResetPasswordEmail() {
 
   }, [isSuccess , error])
 
-  const formButtonRef = useRef();
-
-  const onButtonClick = (inputref) => {
-    inputref.current.click();
-  };
-
-
     return (
         <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full">
-            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
+            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
@@ -121,7 +114,7 @@ export default function ResetPasswordEmail() {
           </div>
           <EmailExistModalOrConfirmation isOpen={isModalOpen}
             onRequestClose={closeModal} content={
-              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+              <div className="flex flex-col gap-[38px] items-center justify-start w-full">
             <img
               className="h-[80px] w-[80px]"
               src={checkVerifyImg}

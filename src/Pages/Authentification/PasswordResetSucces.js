@@ -11,16 +11,10 @@ export default function PasswordResetSucces() {
 
     const navigate = useNavigate()
 
-    const formButtonRef = useRef();
-
-    const onButtonClick = (inputref) => {
-      inputref.current.click();
-    };
-
-    return (
-        <>
+  return (
+      <>
           <div className="bg-gray-100 flex flex-col font-DmSans items-center min-h-screen justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full">
-            <div className="flex flex-col gap-[42px] items-center justify-start mb-[213px] w-auto w-full">
+            <div className="flex flex-col gap-[42px] items-center justify-start mb-[213px] w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"

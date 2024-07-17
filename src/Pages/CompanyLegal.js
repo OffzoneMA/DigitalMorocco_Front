@@ -15,8 +15,6 @@ import Loading from "../Components/Loading";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
-import { CompanyLegalData } from "../data/tablesData";
-
 
 const CompanyLegal = () => {
   const navigate = useNavigate();
@@ -44,7 +42,6 @@ const CompanyLegal = () => {
 const fetchLegalDocuments = async () => {
   try {
       const response = await axios.get("http://localhost:5000/members/legal-documents");
-      console.log(response.data)
       setLegalDocuments(response.data);
       setLoading(false);
   } catch (error) {
@@ -265,7 +262,7 @@ const fetchLegalDocuments = async () => {
     </div>
     <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal} onSubmit={handleAddDocument} />
     <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document} onSubmit={handleEditDocument} />
-    <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title="Delete" onDelete={() => handleDelete()} content={<div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full"><Text className="font-DmSans text-center text-base font-normal leading-6" size="">This will <span className="text-red-500">immediately and permanently</span> delete document.<br />Are you sure you want to delete this?</Text></div>} />
+    <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title="Delete" onDelete={() => handleDelete()} content={<div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full"><Text className="font-DmSans text-center text-base font-normal leading-6" size="">This will <span className="text-red-500">immediately and permanently</span> delete document.<br />Are you sure you want to delete this?</Text></div>} />
 </div>
   );
 };

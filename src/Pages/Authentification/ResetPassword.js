@@ -60,7 +60,6 @@ export default function ResetPassword() {
   async function onSubmit(values) {
     const token = extractTokenFromURL();
     const payload = { ...values, token };
-    console.log(payload);
 
     try {
        resetPassword(payload); 
@@ -72,8 +71,8 @@ export default function ResetPassword() {
     return (
         <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto md:px-10 px-5 py-[20px] md:py-[42px] w-full">
-            <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-auto w-full">
-              <a href='https://digitalmorocco.net'target='_blank' className="flex flex-col items-center justify-center">
+            <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-full">
+              <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}
@@ -110,17 +109,13 @@ export default function ResetPassword() {
                         <input
                           {...register("password", {
                             validate: {
-                              hasUpperCase: v => /[A-Z]/.test(v) ,
-                            },
-                            // validate: {
-                            //   hasLowerCase: v => /[a-z]/.test(v),
-                            // },
-                            minLength: {
-                              value: 8,
-                            },
-                            validate: {
-                              hasSpecialChar:  v => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(v),
-                            },
+                              hasUpperCase: v => /[A-Z]/.test(v),
+                              hasLowerCase: v => /[a-z]/.test(v),
+                              hasNumber: v => /\d/.test(v),
+                              hasSpecialChar: v => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(v),
+                              minLength: v => v.length >= 8,
+                            }
+
                           })}
                           id="password"
                           name="password"
@@ -161,7 +156,7 @@ export default function ResetPassword() {
                           value : true
                         },
                         validate: val => {
-                          if (watch('password') != val) {
+                          if (watch('password') !== val) {
                             return t('resetPassword.notMatch');
                           }
                         },

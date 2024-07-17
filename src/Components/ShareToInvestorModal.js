@@ -2,8 +2,6 @@ import React , {useState , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { IoSearch } from "react-icons/io5";
 import { Text } from "./Text";
-import { FaCheck } from "react-icons/fa";
-import { IoIosCheckmark } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import ConfirmedModal from "./ConfirmedModal";
 import { useGetInvestorsQuery } from "../Services/Investor.Service";
@@ -30,8 +28,6 @@ const ShareToInvestorModal = (props) => {
       }
     });
   };
-
-  console.log(shareData)
 
   const openModal  = () =>  {
     setIsConfirmedModalOpen(true);

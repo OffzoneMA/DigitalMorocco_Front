@@ -34,8 +34,6 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch()
   const [getUserDetails , { data, isSuccess, isError, detailsError }] = authApi.endpoints.getUserDetails.useLazyQuery();
-  const [retryCount, setRetryCount] = useState(0);
-  const maxRetries = 3;
   const [loginError , setLoginError] = useState("");
 
   console.log(error)
@@ -232,8 +230,8 @@ export default function SignIn() {
 
   return (
     <>
-    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto px-[12px] py-[30px] md:px-10 min-h-screen w-full">
-      <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto w-full">
+    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto px-[12px] py-[30px] md:px-10 min-h-screen w-full">
+      <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-full">
           <div className="flex flex-col items-center justify-center w-full ">
             <Link to="https://digitalmorocco.net" target='_blank'><img
                 className="h-[50px] w-[183px]"
@@ -242,7 +240,7 @@ export default function SignIn() {
               />
             </Link>  
           </div>
-          <div className="bg-white-A700 gap-5 md:gap-10 flex flex-col items-center justify-start px-6 px-6 py-8 rounded-[12px] shadow-formbs w-full max-w-[520px]">
+          <div className="bg-white-A700 gap-5 md:gap-10 flex flex-col items-center justify-start px-6 py-8 rounded-[12px] shadow-formbs w-full max-w-[520px]">
           <div className="flex flex-col gap-4 items-center justify-start w-full">
           <Toaster />
             <div className="flex flex-col gap-3 items-start justify-start w-full">
@@ -421,7 +419,7 @@ export default function SignIn() {
                         </Text>
                         <a
                             href="/SignUp"
-                            className="text-[#482BE7] cursorpointer hover:text-[#00CDAE]  text-sm w-auto font-dm-sans-bold"
+                            className="text-[#482BE7] cursorpointer hover:text-[#00CDAE]  text-sm w-auto sm:text-right font-dm-sans-bold"
                         >
                             <Text className=' font-dm-sans-bold'>{t('signin.createAccount')} </Text>
                         </a>
@@ -443,7 +441,7 @@ export default function SignIn() {
 
     <EmailExistModalOrConfirmation isOpen={isExistErrorModalOpen}
             onRequestClose={closeExistErrorModal} content={
-              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+              <div className="flex flex-col gap-[38px] items-center justify-start w-full">
             <img
               className="h-[80px] w-[80px]"
               src={emailError}

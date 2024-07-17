@@ -28,9 +28,7 @@ const Employees = () => {
   const pagesToShow = 4;
 
   const data = filteredEmployees;
-  console.log(data.length)
   const totalTablePages = Math.ceil(data.length / itemsPerPage);
-  console.log(totalTablePages);
 
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
@@ -54,7 +52,6 @@ const Employees = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
       setMembers(response.data);
       const filteredEmployees = response.data.filter(employee => employee.owner === userId);
       setFilteredEmployees(filteredEmployees);

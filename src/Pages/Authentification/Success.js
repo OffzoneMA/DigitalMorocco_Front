@@ -1,8 +1,7 @@
 import React, { useEffect , useState} from 'react';
-import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout, setCredentials } from "../../Redux/auth/authSlice";
+import { setCredentials } from "../../Redux/auth/authSlice";
 import Loader from '../../Components/Loader';
 import axios from 'axios';
 

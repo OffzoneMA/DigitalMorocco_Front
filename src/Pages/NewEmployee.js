@@ -24,11 +24,8 @@ const NewEmployee = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
-  const [taxIdentfier, settaxIdentfier] = useState('');
-  const countryVal = selectedCountry ? selectedCountry["name"] : "";
   const [isSaved, setIsSaved] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const formButtonRef = useRef();
   const location = useLocation();
   const { employee } = location.state || {};
   const [formData, setFormData] = useState({
@@ -50,7 +47,6 @@ const NewEmployee = () => {
 
   useEffect(() => {
     if (location.state && location.state.employee) {
-      console.log(employee)
       setFormData({
         fullName: employee.fullName,
         workEmail: employee.workEmail,
@@ -302,7 +298,7 @@ const NewEmployee = () => {
       </div>
       <div className="flex items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full" style={{ backgroundColor: "white" }}>
-          <form className="w-full border border-gray-200 rounded-lg shadow border-gray-300"
+          <form className="w-full border border-gray-200 rounded-lg shadow "
             onSubmit={handleSubmit(onSubmit)}
             encType="multipart/form-data"
           >

@@ -1,18 +1,17 @@
-import React , {useMemo , useRef , useState} from "react";
+import React , {useRef , useState} from "react";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import { default as ModalProvider } from "react-modal";
-import { LuUpload, LuUploadCloud } from "react-icons/lu";
+import { LuUploadCloud } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { City } from "country-state-city";
 import { useForm } from "react-hook-form";
 
 const NewCampanyDocumentModal = (props) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-
-  const cities = City.getAllCities();
-  const inputRef = useRef(null);
-  const [files, setFiles] = useState(null);
+    City.getAllCities();
+    const inputRef = useRef(null);
+    const [files, setFiles] = useState(null);
   const [preview , setPreview] = useState(null);
   const documentFile = props?.documentFile? props.documentFile : null;
 
@@ -25,7 +24,6 @@ const NewCampanyDocumentModal = (props) => {
     event.preventDefault();
     setFiles(event.dataTransfer.files[0]);
     setPreview(URL.createObjectURL(event.dataTransfer.files[0]))
-    // console.log("files",files);
   };
 
   const onButtonClick = (inputref) => {

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Text } from '../../../Components/Text';
 import { authApi } from '../../../Services/Auth';
 import { useNavigate } from 'react-router-dom';
-import toast , {Toaster} from 'react-hot-toast';
+import {Toaster} from 'react-hot-toast';
 import logo from '../../../Media/img_logo.svg';
 import verifyImage from '../../../Media/img_verify.svg';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
@@ -104,19 +104,11 @@ export default function VerificationEmail() {
   //   }
 
   // }, [isSuccess , sendError])
-
-
-  const formButtonRef = useRef();
-
-  const onButtonClick = (inputref) => {
-    inputref.current.click();
-  };
-
-
-    return (
-        <>
+  useRef();
+  return (
+      <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full">
-            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
+            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
@@ -150,7 +142,7 @@ export default function VerificationEmail() {
                     <button
                         type="button"
                         onClick={handleResendEmail}
-                        className={`flex cursorpointer ${(sendLoding || isLoading) ? 'disabled bg-gray-202 ' : 'bg-[#EDF7FF] hover:bg-gray-202'} flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base items-center justify-center font-dm-sans-medium text-[#00CDAE] w-full`}
+                        className={`flex cursorpointer ${(sendLoding || isLoading) ? 'disabled bg-gray-202 ' : 'bg-[#EDF7FF] hover:bg-gray-202'} flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base font-dm-sans-medium text-[#00CDAE] w-full`}
                     >
                         {(sendLoding || isLoading ) ? t("all.sending") : t('resetEmail.resendEmail') }
                     </button>
@@ -175,7 +167,7 @@ export default function VerificationEmail() {
           </div>
           <EmailExistModalOrConfirmation isOpen={isModalOpen}
             onRequestClose={closeModal} content={
-              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+              <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
             <img
               className="h-[80px] w-[80px]"
               src={checkVerifyImg}
