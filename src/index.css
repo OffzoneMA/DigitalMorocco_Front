@@ -7,57 +7,75 @@
 @import url('https://db.onlinewebfonts.com/c/09c6fa9769528ae2357e67e71c192ee0?family=AvenirNextLTPro-Heavy');
 @import url('https://fonts.cdnfonts.com/css/avenir-lt-pro');
 
+@layer base {
+  @font-face {
+    font-family: "DMSans-Regular";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: optional;
+    src: url("/public/fonts/DMSans-Regular.ttf") format("truetype");
+  }
+}
 
 @font-face{
   src: url("/public/fonts/AvenirNextLTPro-Regular.otf") format('truetype');
   font-family: "AvenirNextLTPro";
+  font-display: swap;
 }
 
 @font-face {
  font-family: 'Montserrat-Medium';
  src: url('/public/fonts/Montserrat-Medium.ttf') format('truetype');
+ font-display: swap;
 }
 
 @font-face {
  font-family: 'DMSans-Regular';
  src: url('/public/fonts/DMSans-Regular.ttf') format('truetype');
+ font-display: swap;
 }
 
 @font-face {
  font-family: 'DMSans-Medium';
  src: url('/public/fonts/DMSans-Medium.ttf') format('truetype');
+ font-display: swap;
 }
 
 @font-face {
  font-family: 'DMSans-Bold';
  src: url('/public/fonts/DMSans-Bold.ttf') format('truetype');
+ font-display: swap;
 }
 
 @font-face {
   font-family: 'Montserrat-Regular';
   src: url('/public/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Montserrat-Medium';
   src: url('/public/fonts/Montserrat-Medium.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Montserrat-Bold';
   src: url('/public/fonts/Montserrat-Bold.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Montserrat-SemiBold';
   src: url('/public/fonts/Montserrat-SemiBold.ttf') format('truetype');
+  font-display: swap;
 }
 
 
 
 html {
   overflow-x: hidden;
-  font-family: 'DMSans-Regular', sans-serif; 
+  font-family: 'DMSans-Regular'; 
   outline: none;
   /* cursor: url('/src/Media/curs.svg') , auto; */
 }

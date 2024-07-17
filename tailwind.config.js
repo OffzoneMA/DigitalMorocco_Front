@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: 'jit',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
+    // "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
     theme: {
     extend: {
@@ -12,6 +13,7 @@ module.exports = {
         },
       
         fontFamily: {
+         sans: ['DM Sans', 'sans-serif'],
         'DmSans': ['DM Sans'] , inter:['Inter'] , manrope: ['Manrope'],
         'montserrat-medium': ['Montserrat-Medium'],
         'dm-sans-regular': ['DMSans-Regular'],

@@ -24,9 +24,6 @@ import SimpleSelect from "../Components/SimpleSelect";
 import fundImg from '../Media/funding.svg';
 import axios from "axios";
 import {companyType} from "../data/companyType";
-import { SelectPicker } from "rsuite";
-import 'rsuite/SelectPicker/styles/index.css';
-
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -697,22 +694,6 @@ const StageData = stage.map(
                             );
                           }
                     }/>
-                    {/* <SelectPicker
-                      data={dataCountries}
-                      onChange={setSelectedCountry}
-                      placeholder="Select Country"
-                      valueKey="name"
-                      labelKey="name"
-                      renderMenuItem={(label, item) => (
-                        <div className="flex py-2 items-center w-full">
-                          <span className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto">
-                            {item?.name}
-                          </span>
-                        </div>
-                      )}
-                      style={{ width: 224 }}
-                      searchable={true}
-                    /> */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text

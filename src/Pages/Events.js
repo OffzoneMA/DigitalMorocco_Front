@@ -10,9 +10,6 @@ import TablePagination from "../Components/TablePagination";
 import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import ViewTicketModal from "../Components/ViewTicketModal";
-import DownloadTicket from "../Components/DownloadTicket";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
@@ -153,29 +150,6 @@ const Events = () => {
     "North Africa Dreamin"
   ];
 
-  const componentRef = useRef();
-
-  const handleDownloadTicket = (rowData , index) => {
-    setRowData(rowData);
-    if (!componentRef.current) {
-      return;
-    }
-    const content = componentRef.current;
-
-    const width = content.offsetWidth;
-        const height = content.offsetHeight;
-        const a4Width = 495;
-      
-        html2canvas(content, {width:width , height:height ,onclone: function (clonedDoc) {
-          clonedDoc.getElementById('tickettodownload').style.visibility  = 'visible';
-      }}).then((canvas) => {
-          const imgData = canvas.toDataURL("image/png");
-          const pdf = new jsPDF('p', 'pt', [a4Width , height]); 
-          const qrCodeSvg = content.querySelector('svg');
-          pdf.addImage(imgData, 'JPEG', 0, 0, a4Width, 410);
-          pdf.save("download.pdf");
-        });
-  };
 
   const renderDropdown = (index , item) => {
     const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
@@ -469,12 +443,6 @@ const Events = () => {
             <ViewTicketModal isOpen={isTicketModalOpen}
                       onRequestClose={closeTicketModal}
                       rowData={ticketDataRow}/>
-            <div id='tickettodownload' style={{ visibility: "hidden" }}>
-              <DownloadTicket
-                ref={componentRef}
-                rowData={rowData}
-              />
-            </div>
         </div>
     )
 }

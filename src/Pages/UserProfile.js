@@ -591,7 +591,6 @@ const onSubmit3 = async () => {
                   content={(option) => { return (<div className="flex  py-2 items-center  w-full"> 
                   <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto" > 
                   {option.label} </Text> </div>); }} /> 
-                  {/* <SelectPicker size="md" data={languages} value={selectedLanguage} onChange={setSelectedLanguage} valueKey='label' menuClassName="w-auto z-0 !text-gray700" className="w-[40%] z-0 !placeholder:text-blue_gray-301 !text-gray700 font-manrope font-normal leading-18" placeholder="Select Language"/> */} 
                   </div> <div className={`flex flex-row gap-14 items-center justify-start  w-full`}> 
                   <Text className="text-base text-gray-901 w-[130px]" size="txtDMSansLablel" > 
                   Select Region </Text> 
@@ -606,7 +605,6 @@ const onSubmit3 = async () => {
                   <div className="flex  py-2 items-center  w-full"> 
                   <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto" > 
                   {option.label} </Text> </div>); }} /> 
-                  {/* <SelectPicker size="md" data={regions} valueKey='label' value={selectedRegion} onChange={setSelectedRegion} menuClassName="w-auto" className="w-[40%] z-0 !placeholder:text-blue_gray-301 !text-gray700 font-manrope font-normal leading-18 tracking-wide" placeholder="Select Your Region"/> */}
                     </div>
                     {!isForm3Saved ? (
                     <button className="bg-blue-A400 font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" > 
