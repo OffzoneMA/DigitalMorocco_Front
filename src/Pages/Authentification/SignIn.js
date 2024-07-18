@@ -80,46 +80,11 @@ export default function SignIn() {
     navigate('/SignIn');
   };
 
-//   useEffect(() => {
-//     if (auth) {
-//       sessionStorage.setItem('userToken', auth)
-//       axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
-//           headers: {
-//               'Authorization': `Bearer ${auth}`
-//           }
-//       })
-//       .then((response) => {
-//           const payload = response.data;
-//           if (payload) {
-//               sessionStorage.setItem('userToken', auth)
-//               dispatch(setCredentials(JSON.stringify(payload)));
-//               sessionStorage.setItem('userData', JSON.stringify(payload));
-//                 // navigate('/SignIn') 
-//                 // openModal();
-//                 if (payload?.role?.toLowerCase() == "admin") { 
-//                   navigate('/Dashboard_Admin') 
-//                 }
-//                 else if(payload?.status?.toLowerCase() == "pending") {
-//                   navigate('/RedirectFromChooseRole')
-//                 }
-//                 else{
-//                   // navigate('/Dashboard')
-//                   // openModal();
-//                   navigate('/RedirectFromChooseRole')
-//                 }
-              
-//           }
-//       })
-//       .catch((error) => {
-//       });
-//   }
-
-// }, [auth , dispatch, navigate]); 
 
   useEffect(() => {
     if (Mount) { setMount(false) }
     else {
-      if (userInfo && !auth) {
+      if (userInfo) {
         setTimeout(() =>{
           if(userInfo?.status === 'notVerified') {
             // toast.error("Account not Verified !")
@@ -147,26 +112,9 @@ export default function SignIn() {
         
         }, 2000)
       }
-      if (error) {
-        // toast.error(error)
-        console.log(error)
-      }
     }
 
-  }, [userInfo])
-
-  const handleGoogleButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google/signin`;
-  };
-
-  const handleLinkedinButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/linkedin/signin`;
-  };
-
-  const handleFacebookButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook/signin`;
-  };
-
+  }, [userInfo, Mount])
 
   useEffect(() => {
     if(errorSocial) {
@@ -205,6 +153,19 @@ export default function SignIn() {
       setLoginError("");
     }
   }, [error]);
+
+
+  const handleGoogleButtonClick = () => {
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google/signin`;
+  };
+
+  const handleLinkedinButtonClick = () => {
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/linkedin/signin`;
+  };
+
+  const handleFacebookButtonClick = () => {
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook/signin`;
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -417,12 +378,12 @@ export default function SignIn() {
                         >
                             {t('signin.newToDigitalMorocco')}
                         </Text>
-                        <a
-                            href="/SignUp"
-                            className="text-[#482BE7] cursorpointer hover:text-[#00CDAE]  text-sm w-auto sm:text-right font-dm-sans-bold"
-                        >
-                            <Text className=' font-dm-sans-bold'>{t('signin.createAccount')} </Text>
-                        </a>
+                        <Link
+                          to="/SignUp"
+                          className="text-[#482BE7] cursor-pointer hover:text-[#00CDAE] text-sm w-auto sm:text-right font-dm-sans-bold"
+                      >
+                          <Text className="font-dm-sans-bold">{t('signin.createAccount')}</Text>
+                      </Link>
                     </div>
                   </div>
                 </div>

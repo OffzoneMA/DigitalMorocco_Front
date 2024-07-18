@@ -93,7 +93,7 @@
     "signup.SpecialCharVal": "1 Caractère spécial",
     "signup.number":"1 Chiffre",
     "signup.passwordValidation": "Le mot de passe doit contenir au minimum 8 caractères, comprenant des lettres majuscules et minuscules, au moins un chiffre, et au moins un caractère spécial.",
-    "signup.passwordValidation1": "Le mot de passe doit comporter au minimum 8 caractères, inclure au moins une lettre majuscule et un caractère spécial !",
+    "signup.passwordValidation1": "Le mot de passe doit comporter au minimum 8 caractères, inclure au moins une lettre majuscule, au moins un chiffre et un caractère spécial !",
     "signup.accordance": "Conformément à la loi 09-08, vous avez le droit d'accéder, de rectifier et de vous opposer au traitement de vos données personnelles.",
     "signup.accordance1": "Ce traitement a été autorisé par la CNDP sous le numéro",
     "signup.terms": "J'accepte les <span style='color: blue;'>CGU</span> et la <span style='color: blue;'>Politique de confidentialité</span>.",

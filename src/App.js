@@ -122,7 +122,7 @@ function App() {
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
  
     <BrowserRouter>   
-      <div className='font-DmSans overflow-hidden'>
+      <div className='font-dm-sans-regular overflow-hidden'>
        
         <div className='min-h-screen'>
         <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>

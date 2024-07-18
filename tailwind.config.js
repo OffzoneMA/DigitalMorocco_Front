@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   mode: 'jit',
   content: [
@@ -12,8 +14,8 @@ module.exports = {
         },
       
         fontFamily: {
-         'sans': ['DMSans-Regular'],
-        'DmSans': ['DMSans-Regular'] , inter:['Inter'] , manrope: ['Manrope'],
+         sans: ['DMSans-Regular' , ...defaultTheme.fontFamily.sans],
+         DmSans: ['DM Sans'] , inter:['Inter'] , manrope: ['Manrope'],
         'montserrat-medium': ['Montserrat-Medium'],
         'dm-sans-regular': ['DMSans-Regular'],
         'dm-sans-medium': ['DMSans-Medium'],

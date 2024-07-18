@@ -122,7 +122,7 @@ export default function ResetPassword() {
                           type={showPassword ? "text" : "password"}
                           placeholder={t('signup.enterPassword')}
                           style={{ appearance: 'none' }}
-                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${(errors?.password) ? 'border-errorColor focus:border-errorColor shadow-inputBsError' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${(errors?.password) ? 'border-errorColor focus:border-errorColor shadow-inputBsError' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                         />
                         <button
                           type="button"

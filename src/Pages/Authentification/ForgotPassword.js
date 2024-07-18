@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useSendForgotPasswordMutation } from '../../Services/Auth';
 import arrowLeftImage from '../../Media/img_arrowleft.svg';
 import { authApi } from '../../Services/Auth';
+import { Link } from 'react-router-dom';
 
 
 export default function ForgotPassword(){
@@ -76,7 +77,7 @@ export default function ForgotPassword(){
         <>
           <div className="bg-gray-100 flex flex-col font-manrope gap-4 mx-auto md:px-10 min-h-screen px-[12px] py-[30px] w-full">
             <div className={`self-start flex flex-col h-11 items-center justify-center w-auto`}>
-              <a href="/SignIn" className="px-5 items-center self-start flex flex-col h-full w-full cursorpointer-green">
+              <Link to="/SignIn" className="px-5 items-center self-start flex flex-col h-full w-full cursorpointer-green">
                 <div className="flex flex-row gap-3 items-center justify-center">
                     <img
                         className="h-[22px] w-[22px]"
@@ -89,7 +90,7 @@ export default function ForgotPassword(){
                         </Text>
                     </span>
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="flex flex-col font-dmsans gap-[42px] items-center justify-start mb-[368px]  w-full ">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
@@ -143,7 +144,7 @@ export default function ForgotPassword(){
                             id="email"
                             name="email"
                             placeholder={t('signup.enterEmailAddress')}
-                            className={`bg-white w-full border border-solid ${(errors?.email || userError) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[11px] ${(errors?.email || userError) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[16px] ${(errors?.email || userError) ? '!text-errorColor' : '!text-gray-801'}`}
+                            className={`bg-white w-full border border-solid ${(errors?.email || userError) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[11px] ${(errors?.email || userError) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[16px] ${(errors?.email || userError) ? '!text-errorColor' : '!text-gray-801'}`}
                             type="text"
                         />
                         <button

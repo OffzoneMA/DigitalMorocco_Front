@@ -18,6 +18,7 @@ import { useGetUserByEmailQuery } from '../../Services/Auth';
 import EmailExistModalOrConfirmation from '../../Components/EmailExistModalOrConfirmation';
 import { languages } from '../../data/tablesData';
 
+
 export default function SignUp() {
   const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -568,12 +569,12 @@ const onSubmit = (data) => {
             >
               <Text className=''>{t('signup.haveAccount')}</Text>
             </a>
-            <a
-              href="/SignIn"
+            <Link
+              to="/SignIn"
               className="text-[#482BE7] cursorpointer hover:text-[#00CDAE]  text-sm font-dm-sans-bold leading-[26px] w-auto"
             >
               <Text className=''>{t('signup.signIn')}</Text>
-            </a>
+            </Link>
           </div>
         </div>
     </div>
