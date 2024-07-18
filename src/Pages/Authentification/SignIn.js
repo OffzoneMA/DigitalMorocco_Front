@@ -80,41 +80,41 @@ export default function SignIn() {
     navigate('/SignIn');
   };
 
-  useEffect(() => {
-    if (auth) {
-      sessionStorage.setItem('userToken', auth)
-      axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
-          headers: {
-              'Authorization': `Bearer ${auth}`
-          }
-      })
-      .then((response) => {
-          const payload = response.data;
-          if (payload) {
-              sessionStorage.setItem('userToken', auth)
-              dispatch(setCredentials(JSON.stringify(payload)));
-              sessionStorage.setItem('userData', JSON.stringify(payload));
-                // navigate('/SignIn') 
-                // openModal();
-                if (payload?.role?.toLowerCase() == "admin") { 
-                  navigate('/Dashboard_Admin') 
-                }
-                else if(payload?.status?.toLowerCase() == "pending") {
-                  navigate('/RedirectFromChooseRole')
-                }
-                else{
-                  // navigate('/Dashboard')
-                  // openModal();
-                  navigate('/RedirectFromChooseRole')
-                }
+//   useEffect(() => {
+//     if (auth) {
+//       sessionStorage.setItem('userToken', auth)
+//       axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
+//           headers: {
+//               'Authorization': `Bearer ${auth}`
+//           }
+//       })
+//       .then((response) => {
+//           const payload = response.data;
+//           if (payload) {
+//               sessionStorage.setItem('userToken', auth)
+//               dispatch(setCredentials(JSON.stringify(payload)));
+//               sessionStorage.setItem('userData', JSON.stringify(payload));
+//                 // navigate('/SignIn') 
+//                 // openModal();
+//                 if (payload?.role?.toLowerCase() == "admin") { 
+//                   navigate('/Dashboard_Admin') 
+//                 }
+//                 else if(payload?.status?.toLowerCase() == "pending") {
+//                   navigate('/RedirectFromChooseRole')
+//                 }
+//                 else{
+//                   // navigate('/Dashboard')
+//                   // openModal();
+//                   navigate('/RedirectFromChooseRole')
+//                 }
               
-          }
-      })
-      .catch((error) => {
-      });
-  }
+//           }
+//       })
+//       .catch((error) => {
+//       });
+//   }
 
-}, [auth , dispatch, navigate]); 
+// }, [auth , dispatch, navigate]); 
 
   useEffect(() => {
     if (Mount) { setMount(false) }

@@ -104,7 +104,8 @@ export default function VerificationEmail() {
   //   }
 
   // }, [isSuccess , sendError])
-  useRef();
+  
+  
   return (
       <>
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full">

@@ -3,16 +3,11 @@
 @tailwind utilities;
 @tailwind screens;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Manrope:wght@200..800&display=swap');
-@import url('https://db.onlinewebfonts.com/c/09c6fa9769528ae2357e67e71c192ee0?family=AvenirNextLTPro-Heavy');
-@import url('https://fonts.cdnfonts.com/css/avenir-lt-pro');
-
 @layer base {
   @font-face {
     font-family: "DMSans-Regular";
     font-style: normal;
-    font-weight: 100 900;
-    font-display: optional;
+    font-display: swap;
     src: url("/public/fonts/DMSans-Regular.ttf") format("truetype");
   }
 }
