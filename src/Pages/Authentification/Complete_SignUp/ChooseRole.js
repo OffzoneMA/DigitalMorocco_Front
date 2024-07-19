@@ -259,7 +259,7 @@ const ChooseRole = () => {
           </button>
         </div>
         }
-        <div className="flex flex-col gap-[42px] items-center justify-start max-w-[1232px] px-[12px] m-auto w-full">
+        <div className="flex flex-col gap-[42px] items-center justify-start  px-[12px] m-auto w-full">
           <Text
             className="text-lg md:text-[22px] text-blue_gray-900 text-center font-dm-sans-medium leading-[32px] w-auto"
           >
@@ -277,7 +277,7 @@ const ChooseRole = () => {
             <div className="flex flex-col items-center w-full"> 
             <div className="flex items-center justify-center flex-wrap gap-10 w-full">
               <div onClick={() => handleGridClick(1 , 'member')} 
-                className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[372.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
+                className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
                 <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
                     className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
@@ -297,7 +297,7 @@ const ChooseRole = () => {
                 </div>
               </div>
               <div onClick={() => handleGridClick(2 , 'investor')} 
-              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[372.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
+              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
                     className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
@@ -317,7 +317,7 @@ const ChooseRole = () => {
                 </div>
               </div>
               <div onClick={() => handleGridClick(3 , 'partner')} 
-              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[372.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
+              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
                 <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
                     className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
