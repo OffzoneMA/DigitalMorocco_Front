@@ -60,8 +60,13 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
       }
     }, [show]);
 
+    const toggleDropdown = (event) => {
+      event.stopPropagation(); 
+      setShow(prevState => !prevState);
+    };
+
     const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !parentRef.current.contains(event.target)) {
           setShow(false);
         }
       };
@@ -74,8 +79,8 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
       }, []);
 
     return(
-        <div ref={parentRef}  className={`relative ${className}`} >
-                <div className={`flex w-full rounded-md px-[12px] py-[10px] h-[40px] border border-solid `} onFocus={()=>setShow(true)}>
+        <div className={`relative ${className}`} >
+                <div ref={parentRef} className={`flex w-full rounded-md px-[12px] py-[10px] h-[40px] border border-solid `} onClick={toggleDropdown}>
                     <input
                         type="text"
                         className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}

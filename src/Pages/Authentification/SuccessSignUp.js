@@ -15,6 +15,7 @@ export default function SuccessSignUp() {
   const { userInfo } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const [auth, setAuth] = useState(searchParams.get('auth'))
+  const [user_Id, setUser_Id] = useState(searchParams.get('user_id'))
   const [updateFullName] = useUpdateFullNameMutation();
   const [UserId, setUserId] = useState(userInfo?._id)
 
@@ -29,6 +30,24 @@ export default function SuccessSignUp() {
       sessionStorage.setItem('userToken', auth)
   }
 }, [auth]);  
+
+useEffect(() => {
+  const fetchUserInfo = async (id) => {
+    try {
+      const userInfo = await axios.get(`${process.env.REACT_APP_baseURL}/users/ById/${id}`);
+      sessionStorage.setItem('userData', JSON.stringify(userInfo.data));
+      navigate("/ChooseRole");
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
+
+  if (user_Id) {
+    fetchUserInfo(user_Id);
+  }
+}, [user_Id, navigate]); 
+
+
     
   useEffect(() => {
     if (auth) {

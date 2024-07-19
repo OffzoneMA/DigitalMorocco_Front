@@ -40,7 +40,6 @@ const MyCompany = () => {
   
     setValue(formattedValue);
   };
-  
 
   const onButtonClick = (buttonRef) => {
     buttonRef.current.click();
@@ -303,7 +302,7 @@ const MyCompany = () => {
                 >
                   Company Sector
                 </Text>
-                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setselectedSector} 
+                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
                     placeholder="Select Company Sector"
                     content={
                       ( option) =>{ return (

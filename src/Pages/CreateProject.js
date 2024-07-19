@@ -20,6 +20,7 @@ import SimpleSelect from "../Components/SimpleSelect";
 import fundImg from '../Media/funding.svg';
 import axios from "axios";
 import {companyType} from "../data/companyType";
+import { IoImageOutline } from "react-icons/io5";
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -66,6 +67,8 @@ const CreateProject = () => {
   const [documents, setDocuments] = useState([]);
   const [fundingValue, setFundingValue] = useState(null);
   const [raisedValue, setRaisedValue] = useState('');
+  const [logoFile, setLogoFile] = useState(null);
+  const [imgFile , setImgFile] = useState(null);
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
   const [droppedFiles, setDroppedFiles] = useState([]);
@@ -379,6 +382,8 @@ const handleFileInputChange = (event, index) => {
 
     formData.append('infos', JSON.stringify(formDataContent));
 
+    formData.append('logo' ,imgFile);
+
     documents.forEach(({ file, type }) => {
         formData.append(`${type}`, file);
     });
@@ -387,15 +392,15 @@ const handleFileInputChange = (event, index) => {
         formData.append(`files`, file);
     });
   
-    if (projectId) {
-      mutation({
-        projectId,
-        payload: formData,
-      });
-    } else {
-      mutation(formData);
-    }
-};
+    // if (projectId) {
+    //   mutation({
+    //     projectId,
+    //     payload: formData,
+    //   });
+    // } else {
+    //   mutation(formData);
+    // }
+  };
 
 useEffect(() => {
   if (Mount) { setMount(false) }
@@ -413,6 +418,19 @@ useEffect(() => {
 
 const onButtonClick = (inputref) => {
   inputref.current.click();
+};
+
+const handleDropLogo = (event) => {
+  event.preventDefault();
+  setIsDragging(false);
+  const droppedFiles = event.dataTransfer.files;
+
+
+  if (droppedFiles.length > 0) {
+    const imageFile = droppedFiles[0];
+    setImgFile(imageFile);
+    setLogoFile(URL.createObjectURL(imageFile));
+  }
 };
 
   return (
@@ -480,6 +498,38 @@ const onButtonClick = (inputref) => {
                         placeholder="Write your project detals here"
                       />
                     {/* {errors.details && <span className="text-sm font-dm-sans-regular text-red-500">{errors.details?.message}</span>} */}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Website
+                    </Text>
+                      <input
+                      {...register("website", { required: {value:true , message:"Project website is required"} })}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        type="text"
+                        name="website"
+                        placeholder="Project Website"
+                      />
+                    {/* {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>} */}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Contact Email
+                    </Text>
+                      <input
+                        {...register("contactEmail", { required: {value:true , message:"Project Contact Email is required"} })}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        type="text"
+                        name="contactEmail"
+                        placeholder="Enter Project email"
+                      />
+                    {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -561,31 +611,6 @@ const onButtonClick = (inputref) => {
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
                     >
-                      Project publication
-                    </Text>
-                    <SimpleSelect id='publication'
-                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
-                    setSelectedOptionVal={setSelectedPublication} searchable={false}
-                    placeholder={"Select Type of Publication"}
-                    content={
-                      (option) => {
-                        return (
-                          <div className="flex  py-2 items-center  w-full">
-                            <Text
-                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
-                            >
-                              {option}
-                            </Text>
-                          </div>
-                        );
-                      }
-                    } />               
-                  </div>
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
-                      size="txtDMSansLablel"
-                    >
                       Stage
                     </Text>
                     <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStage} 
@@ -650,6 +675,31 @@ const onButtonClick = (inputref) => {
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
                     >
+                      Project publication
+                    </Text>
+                    <SimpleSelect id='publication'
+                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
+                    setSelectedOptionVal={setSelectedPublication} searchable={false}
+                    placeholder={"Select Type of Publication"}
+                    content={
+                      (option) => {
+                        return (
+                          <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                            >
+                              {option}
+                            </Text>
+                          </div>
+                        );
+                      }
+                    } />               
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
                       Project Milestone
                     </Text>
                     {milestones.map((milestone, index) => (
@@ -688,6 +738,33 @@ const onButtonClick = (inputref) => {
                   {` `}
                 </div> */}
                 <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansCardHeader16"
+                    >
+                      Project Logo
+                    </Text>
+                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDropLogo}>
+                      {logoFile ? (
+                        <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[150px]" />
+                      ) : (
+                      <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
+                        <IoImageOutline />
+                        <div className="flex flex-col items-start justify-start w-auto">
+                          <Text
+                            className="text-[13px] text-base leading-6 tracking-normal w-auto"
+                            size="txtDMSansRegular13"
+                          >
+                          {isDragging? "Drop Your logo here" : "Upload Your Logo"}  
+                          </Text>
+                        </div>
+                      </div>
+                        )}
+                    </div>
+                  </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"
