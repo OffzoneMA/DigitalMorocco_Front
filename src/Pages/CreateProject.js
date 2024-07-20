@@ -67,7 +67,7 @@ const CreateProject = () => {
   const [documents, setDocuments] = useState([]);
   const [fundingValue, setFundingValue] = useState(null);
   const [raisedValue, setRaisedValue] = useState('');
-  const [logoFile, setLogoFile] = useState(null);
+  const [logoFile, setLogoFile] = useState(project?.logo || null);
   const [imgFile , setImgFile] = useState(null);
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
@@ -76,7 +76,7 @@ const CreateProject = () => {
   const [selectedPublication, setSelectedPublication] = useState('');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
   const [selectedProjectTeamsMembers, setSelectedProjectTeamsMember] = useState([]);
-  const [selectedSector, setselectedSector] = useState([]);
+  const [selectedSector, setselectedSector] = useState("");
   const dataCountries = Country.getAllCountries();
   const [selectedCountry , setSelectedCountry] = useState(null);
   const [selectedStage, setSelectedStage] = useState("");
@@ -104,6 +104,8 @@ const CreateProject = () => {
     defaultValues: {
       name: project?.name,
       details: project?.details,
+      website: project?.website,
+      contactEmail: project?.contactEmail,
       funding : formatNumber(project?.funding),
       totalRaised : formatNumber(project?.totalRaised)
     }
@@ -392,14 +394,14 @@ const handleFileInputChange = (event, index) => {
         formData.append(`files`, file);
     });
   
-    // if (projectId) {
-    //   mutation({
-    //     projectId,
-    //     payload: formData,
-    //   });
-    // } else {
-    //   mutation(formData);
-    // }
+    if (projectId) {
+      mutation({
+        projectId,
+        payload: formData,
+      });
+    } else {
+      mutation(formData);
+    }
   };
 
 useEffect(() => {
@@ -745,11 +747,11 @@ const handleDropLogo = (event) => {
                     >
                       Project Logo
                     </Text>
-                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full"
+                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full py-1"
                         onDragOver={handleDragOver}
                         onDrop={handleDropLogo}>
                       {logoFile ? (
-                        <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[150px]" />
+                        <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[148px]" />
                       ) : (
                       <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
                         <IoImageOutline />

@@ -62,11 +62,11 @@ export const memberApi = createApi({
 
         getAllConatctReq: builder.query({
             query: (arg) => {
-                const { page } = arg;
+                // const { page } = arg;
                 return {
                     url: '/ContactRequest',
                     method: 'GET',
-                    params: { page },
+                    params: { arg },
                 }
             },
         }),

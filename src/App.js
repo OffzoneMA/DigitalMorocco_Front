@@ -18,6 +18,7 @@ import DashbordLayout from "./Components/DashbordLayout";
 import SubscribePlan from './Pages/SubscribePlan';
 import NotFound from './Pages/NotFound';
 import { useLocation } from 'react-router-dom';
+import ScrollToTop from './Components/ScrollToTop';
 
 
 // Utiliser React.lazy pour le code splitting
@@ -123,7 +124,7 @@ function App() {
  
     <BrowserRouter>   
       <div className='font-dm-sans-regular overflow-hidden'>
-       
+       <ScrollToTop>
         <div className='min-h-screen'>
         <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>
           <Routes>
@@ -195,9 +196,8 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-
-      </div>
-
+        </div>
+      </ScrollToTop>
 </div>
     </BrowserRouter>    
   </I18nextProvider>
