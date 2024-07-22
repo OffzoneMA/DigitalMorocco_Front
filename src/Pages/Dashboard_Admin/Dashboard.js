@@ -35,8 +35,8 @@ const Dashboard_Admin = () => {
 
     useEffect(() => {
         if (users) {
-            const filteredUsers = users.filter(user => user.status === 'accepted' || user.status === 'pending');
-            
+            // const filteredUsers = users.filter(user => user.status === 'accepted' || user.status === 'pending');
+            const filteredUsers = users;
             const members = filteredUsers.filter(user => user.role === 'member');
             const investors = filteredUsers.filter(user => user.role === 'investor');
             const partners = filteredUsers.filter(user => user.role === 'partner');
@@ -90,7 +90,7 @@ const Dashboard_Admin = () => {
 
     useEffect(() => {
         if (users) {
-            const filteredUsers = users.filter(user => user.status === 'accepted' || user.status === 'pending');
+            const filteredUsers = users;
             const roleUsers = filteredUsers.filter(user => user.role === role);
 
             const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
