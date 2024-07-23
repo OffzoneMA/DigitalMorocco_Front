@@ -1,13 +1,9 @@
-import React, { useState , useMemo , useRef } from "react";
+import React, { useState , useRef } from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
-import { CheckPicker, SelectPicker } from "rsuite";
-import MultipleSelect from "../Components/MultipleSelect";
 import SimpleSelect from "../Components/SimpleSelect";
 import { IoImageOutline } from "react-icons/io5";
-import 'rsuite/SelectPicker/styles/index.css';
-import 'rsuite/CheckPicker/styles/index.css';
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
 import {companyType} from "../data/companyType";
@@ -44,7 +40,6 @@ const MyCompany = () => {
   
     setValue(formattedValue);
   };
-  
 
   const onButtonClick = (buttonRef) => {
     buttonRef.current.click();
@@ -68,11 +63,6 @@ const MyCompany = () => {
       setLogoFile(URL.createObjectURL(imageFile));
     }
   };
-  
-  const companySectorData = companyType.map(
-    item => ({ label: item, value: item })
-  );
-  const formData = new FormData();
 
   const onSubmit = async (data) => {
     try {
@@ -102,7 +92,6 @@ const MyCompany = () => {
           logo: base64Image, // Ajouter l'image base64
         };
         setIsSaved(true);
-        console.log(requestData)
         fetch(`http://localhost:5000/members/company/${userId}`, {
           method: 'POST',
           headers: {
@@ -313,7 +302,7 @@ const MyCompany = () => {
                 >
                   Company Sector
                 </Text>
-                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setselectedSector} 
+                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
                     placeholder="Select Company Sector"
                     content={
                       ( option) =>{ return (
@@ -341,7 +330,7 @@ const MyCompany = () => {
                     {...register("taxIdentfier", { required: {value:true , message:"Company taxIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.taxIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
-                    name="name"
+                    name="taxIdentfier"
                     placeholder="0000 - 0000 - 0000"
                   />
               </div>
@@ -356,7 +345,7 @@ const MyCompany = () => {
                     {...register("corporateIdentfier", { required: {value:true , message:"Company corporateIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.corporateIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
-                    name="name"
+                    name="corporateIdentfier"
                     placeholder="0000 - 0000 - 0000"
                     
                   />

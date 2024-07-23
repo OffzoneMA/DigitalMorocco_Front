@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
-import { FiEdit3, FiSave } from "react-icons/fi";
+import { FiEdit3 } from "react-icons/fi";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { BsDot } from "react-icons/bs";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useSearchParams , useNavigate} from "react-router-dom";
-import { AiOutlineFileSearch } from "react-icons/ai";
 import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal";
-import { projectsData } from "../data/tablesData";
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { formatNumber } from "../data/helper";
 import { useDeleteProjectMutation } from "../Services/Project.Service";
@@ -34,6 +32,10 @@ const Projects = () => {
   const itemsPerPage = 6;
   const itemsToShow = 4;
   // const data = projectsData;
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const totalPages = Math.ceil(data?.length / itemsPerPage);
 
@@ -118,7 +120,7 @@ const Projects = () => {
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6 cursorpointer" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>{item.name}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{`${item.currency} ${formatNumber(item.totalRaised || 0)}`}</td>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages[0]}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.stages?.[0] || item?.stage}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-DmSans text-sm font-normal leading-6">{item.milestones[0]?.name}</td>
                       <td className="px-[18px] py-4 items-center">
                         <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
@@ -150,7 +152,7 @@ const Projects = () => {
                 ) : (
                   !pageData?.length > 0 && (
                     <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
-                    <img src={fileSearchImg} />
+                    <img src={fileSearchImg}  alt={""}/>
                       <Text
                         className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
                         size=""
@@ -182,7 +184,7 @@ const Projects = () => {
             onRequestClose={closeDeleteModal} title="Delete Project" 
             onDelete={handleDelete}
             content={
-              <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
+              <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
                 <Text
                   className="font-DmSans text-center text-base font-normal leading-6"
                   size=""

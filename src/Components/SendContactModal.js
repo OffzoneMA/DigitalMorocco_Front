@@ -7,44 +7,19 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
+import { useGetAllProjectsQuery } from "../Services/Member.Service";
+import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 
 const SendContactModal = (props) => {
+    const [createContactReqProject] = useCreateConatctReqProjectMutation();
+
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
-
+    const { data, error, isLoading , refetch } = useGetAllProjectsQuery();
     const inputRef = useRef(null);
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
     const [selectedProject , setSelectedProject] = useState(null);
-
-    const projects = [
-      {
-        id: 1,
-        name: 'E-commerce Website',
-        description: 'Development of an e-commerce website for a clothing company.',
-        status: 'In progress',
-        deadline: '2024-06-30',
-        teamMembers: ['John Doe', 'Jane Smith', 'Alice Johnson'],
-      },
-      {
-        id: 2,
-        name: 'Task Management Application',
-        description: 'Creation of a task management application to improve team productivity.',
-        status: 'Completed',
-        deadline: '2024-04-15',
-        teamMembers: ['Bob Brown', 'Emily Wilson'],
-      },
-      {
-        id: 3,
-        name: 'Redesign of Institutional Website',
-        description: 'Complete redesign of the institutional website for a university to modernize its image.',
-        status: 'Pending',
-        deadline: '2024-08-31',
-        teamMembers: ['Alex Johnson', 'Sophia Lee', 'David Martinez'],
-      },
-    ];
-    
-
     const handleDragOver = (event) => {
       event.preventDefault();
     };
@@ -66,16 +41,21 @@ const SendContactModal = (props) => {
   
     const formData = new FormData();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
       formData.append('document', files); 
-      formData.append('project', selectedProject);
+      formData.append('projectId', selectedProject?._id);
+      formData.append('investorId' , props?.investorId)
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
+      
+      try {
+        const response = await createContactReqProject(formData).unwrap();
+        console.log('Contact request created successfully');
+        openModal();
+      } catch (error) {
+        console.error('Failed to create contact request:', error);
       }
-      openModal();
     };
 
     const openModal  = () =>  {
@@ -93,7 +73,7 @@ const SendContactModal = (props) => {
         <>
       <ModalProvider
         appElement={document.getElementById("root")}
-        className="m-auto w-[65%] md:w-[50%] lg:w-[45%] xl:w-[45%] 2xl:w-[40%]"
+        className="m-auto w-[95%] md:w-[100%] max-w-[640px]"
         overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
         {...props}
       >
@@ -121,7 +101,7 @@ const SendContactModal = (props) => {
                 >
                   Project
                 </Text>
-                <SimpleSelect id='project' options={projects} onSelect={""} searchLabel='Search Project' setSelectedOptionVal={setSelectedProject} 
+                <SimpleSelect id='project' options={data} onSelect={""} searchLabel='Search Project' setSelectedOptionVal={setSelectedProject} 
                     placeholder="Select Project" valuekey="name"
                     content={
                       ( option) =>{ return (
@@ -195,7 +175,8 @@ const SendContactModal = (props) => {
                     </div>
                 </div>) :
                   (   
-                <div className="flex flex-col items-center text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12">
+                <div className="flex flex-col items-center text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12"
+                 onClick={()=> onButtonClick(inputRef)} >
                   <LuUploadCloud  size={24} className=" mr-2"/>
                   <input
                           ref={inputRef}
@@ -206,7 +187,7 @@ const SendContactModal = (props) => {
                           name="name"
                         />
                   <Text className="text-sm leading-[26px] items-center font-normal tracking-normal">
-                    Drop file or <span className="" onClick={()=> onButtonClick(inputRef)}>click here to upload your document</span>  
+                    Drop file or <span className="" >click here to upload your document</span>  
                   </Text>
                 </div>
                   )

@@ -23,51 +23,23 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   
 
 
-  const toggleDropdown = () => {
-    if (isOpen) {
-      setTimeout(() => {
-        setIsOpen(false); 
-      }, 0);
-    } else {
-      setIsOpen(true); 
-    }
+  const toggleDropdown = (event) => {
+    event.stopPropagation(); // Stop event propagation to prevent handleClickOutside from being triggered
+    setIsOpen(prevState => !prevState);
   };
-  
-  
-  
+
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false); // Ferme le dropdown seulement si il est ouvert
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !parentRef.current.contains(event.target)) {
+      setIsOpen(false);
     }
   };
   
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  // const handleOptionClick = (option) => {
-  //   if (selectedOptions.some(selectedOption => selectedOption.id === option.id)) {
-  //       setSelectedOptions(selectedOptions.filter((item) => item.id !== option.id));
-  //       setSelectedOptionVal(selectedOptions.filter((item) => item.id !== option.id));
-  //       console.log(selectedOptions)
-        
-  //     } else {
-  //       setSelectedOptions([...selectedOptions, option]);
-  //       setSelectedOptionVal([...selectedOptions, option]);
-  //     }
-  // };
-
   const handleOptionClick = (option) => {
     if(optionkey) {
       const optionValue = option[optionkey];
       if (selectedOptions.some(selectedOption => selectedOption[optionkey] === optionValue)) {
         setSelectedOptions(selectedOptions.filter((item) => item[optionkey] !== optionValue));
         setSelectedOptionVal(selectedOptions.filter((item) => item[optionkey] !== optionValue));
-        console.log(selectedOptions);
       } else {
         setSelectedOptions([...selectedOptions, option]);
         setSelectedOptionVal([...selectedOptions, option]);
@@ -76,7 +48,6 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
       if (selectedOptions.some(selectedOption => selectedOption === option)) {
         setSelectedOptions(selectedOptions.filter((item) => item !== option));
         setSelectedOptionVal(selectedOptions.filter((item) => item !== option));
-        console.log(selectedOptions);
       } else {
         setSelectedOptions([...selectedOptions, option]);
         setSelectedOptionVal([...selectedOptions, option]);
@@ -129,8 +100,20 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
 
   useEffect(() => {
     if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('scroll', calculateDropdownPosition, true);
+      window.addEventListener('resize', calculateDropdownPosition);
       calculateDropdownPosition();
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', calculateDropdownPosition, true);
+      window.removeEventListener('resize', calculateDropdownPosition);
     }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', calculateDropdownPosition, true);
+      window.removeEventListener('resize', calculateDropdownPosition);
+    };
   }, [isOpen]);
 
   // const isSelected = (option) => {
@@ -151,7 +134,7 @@ const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholde
   return (
     <div id='drop_root' className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className="flex md:flex-1 w-full items-center rounded-md px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] cursorpointer-green"
+        className={`flex md:flex-1 w-full items-center rounded-md px-[12px] py-[10px] h-[40px] border ${isOpen ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green`}
         onClick={toggleDropdown}
       >
         <input

@@ -1,20 +1,18 @@
-import React, { useState  , useEffect , useRef} from "react";
-import { Text } from "../Components/Text";
-import { FiEdit3, FiSave } from "react-icons/fi";
-import { HiOutlineShare } from "react-icons/hi";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { GoDotFill } from "react-icons/go";
+import React, {useEffect, useRef, useState} from "react";
+import {Text} from "../Components/Text";
+import {FiEdit3} from "react-icons/fi";
+import {HiOutlineShare} from "react-icons/hi";
+import {RiDeleteBinLine} from "react-icons/ri";
 import ProjectTimelineItem from "../Components/ProjectTimelineItem";
 import TeamMemberItem from "../Components/TeamMemberItem";
 import ProjectDocumentItem from "../Components/ProjectDocumentItem";
 import ShareToInvestorModal from "../Components/ShareToInvestorModal";
 import NewMilestoneModal from "../Components/NewMilestoneModal";
 import DeleteModal from "../Components/DeleteModal";
-import { useNavigate  , useLocation} from "react-router-dom";
-import { BsDot } from "react-icons/bs";
-import { useGetProjectByIdQuery } from "../Services/Project.Service";
-import { useParams } from "react-router-dom";
-import { formatNumber } from "../data/helper";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {BsDot} from "react-icons/bs";
+import {useGetProjectByIdQuery} from "../Services/Project.Service";
+import {formatNumber} from "../data/helper";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import TableTitle from "../Components/TableTitle";
@@ -64,8 +62,7 @@ const ProjectDetails = () => {
   function formatDate(isoDate) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const date = new Date(isoDate);
-    const formattedDate = months[date.getMonth()] + ' ' + date.getFullYear();
-    return formattedDate;
+    return months[date.getMonth()] + ' ' + date.getFullYear();
 }
 
 useEffect(() => {
@@ -193,7 +190,7 @@ useEffect(() => {
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl w-auto">
-                      {project?.stages[0] ? project?.stages[0] : "Angel Round"}
+                      {project?.stages?.[0] ? project?.stages?.[0] : project?.stage}
                     </Text>
                   </div>
                 </div>
@@ -325,7 +322,7 @@ useEffect(() => {
                         <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-3 grid-cols-1 gap-5 items-center justify-between my-0 w-full">
                           {filteredTeamMembers?.map((item, index) => (
                             <TeamMemberItem key={index} 
-                            imageSrc={item?.image}
+                            imageSrc={item?.image || `data:image/png;base64,${item?.photo}` || `/images/img_avatar_2.png`}
                             name={item?.fullName}
                             job={item?.jobTitle} />
                           ))}
@@ -366,7 +363,7 @@ useEffect(() => {
     <DeleteModal isOpen={isDeleteModalOpen}
     onRequestClose={closeDeleteModal} title="Delete Project" 
     content={
-      <div className="flex flex-col gap-5 items-center justify-start w-auto py-4 w-full">
+      <div className="flex flex-col gap-5 items-center justify-start py-4 w-full">
         <Text
           className="font-DmSans text-center text-base font-normal leading-6"
           size=""

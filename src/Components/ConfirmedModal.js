@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
 import { IoCloseOutline } from "react-icons/io5";
@@ -15,7 +15,7 @@ const ConfirmedModal = (props) => {
     {...props}
   >
     <div className="max-h-[97vh] overflow-y-auto sm:w-full md:w-full">
-      <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[14px] w-full">
+      <div className="bg-white-A700 shadow-loginModalbs border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[14px] w-full">
         <div className="flex items-center justify-end pb-6 w-full ml-auto">
           <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
               <IoCloseOutline  className='text-blue_gray-500'
@@ -24,10 +24,10 @@ const ConfirmedModal = (props) => {
           </div>
         </div>
         <div className="flex flex-col gap-6 items-center justify-start w-full">
-          <div className="flex flex-col gap-[38px] items-center justify-start w-auto px-[45px] w-full">
+          <div className="flex flex-col gap-[38px] items-center justify-start w-full px-[45px]">
             <img
               className="h-[172px] w-[172px]"
-              src="images/img_role_confirmed.svg"
+              src="/images/img_role_confirmed.svg"
               alt="successtick"
             />
             <div className="flex flex-col gap-5 items-center justify-start w-auto sm:w-full">

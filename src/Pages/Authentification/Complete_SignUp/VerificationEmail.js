@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Text } from '../../../Components/Text';
 import { authApi } from '../../../Services/Auth';
 import { useNavigate } from 'react-router-dom';
-import toast , {Toaster} from 'react-hot-toast';
+import {Toaster} from 'react-hot-toast';
 import logo from '../../../Media/img_logo.svg';
 import verifyImage from '../../../Media/img_verify.svg';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
@@ -18,20 +18,9 @@ export default function VerificationEmail() {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const { userEmail } = useSelector((state) => state.auth)
   const [User, setUser] = useState(userInfo);
+  const [sendLoding , setSendLoding] = useState(false);
   const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
-  const [trigger, { data, isLoading: sendLoding, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
-
-  const handleResendEmail = async () => {
-    try {
-      await userTrigger(userInfo?.email).then((payload) => {
-        if (payload?.isSuccess) {
-          trigger(userInfo?._id);
-        }
-      })
-    } catch (error) {
-      console.error('Resend email request failed:', error);
-    }
-  };
+  const [trigger, { data, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -87,30 +76,40 @@ export default function VerificationEmail() {
     return () => clearInterval(interval); 
   }, [userInfo]);
   
-  
-
-  useEffect(() => {
-    if (isSuccess) {
-      openModal();
+  const handleResendEmail = async () => {
+    try {
+      await userTrigger(userInfo?.email).then((payload) => {
+        if (payload?.isSuccess) {
+          setSendLoding(true)
+          trigger({ userId: userInfo?._id, lang: localStorage.getItem('language')}).then((response) => {
+            if (response.isSuccess) {
+              setSendLoding(false)
+              openModal(); 
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.error('Resend email request failed:', error);
     }
-    if (sendError && sendError?.data?.name === "CastError") {
-      console.log(sendError)
-    }
-
-  }, [isSuccess , sendError])
-
-
-  const formButtonRef = useRef();
-
-  const onButtonClick = (inputref) => {
-    inputref.current.click();
   };
 
 
-    return (
-        <>
-          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
-            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     openModal();
+  //   }
+  //   if (sendError && sendError?.data?.name === "CastError") {
+  //     console.log(sendError)
+  //   }
+
+  // }, [isSuccess , sendError])
+  
+  
+  return (
+      <>
+          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full">
+            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
@@ -134,7 +133,7 @@ export default function VerificationEmail() {
                 </Text>
                 <div className="flex flex-col gap-9 items-center justify-start w-full">
                     <Text
-                      className="leading-[26.00px] px-4 font-dm-sans-medium text-base text-[#667085] text-center"
+                      className="leading-[26.00px] md:px-4 font-dm-sans-medium text-base text-[#667085] text-center"
                     >
                       <>
                         {t('verification.instructions')}
@@ -144,7 +143,7 @@ export default function VerificationEmail() {
                     <button
                         type="button"
                         onClick={handleResendEmail}
-                        className={`flex cursorpointer ${(sendLoding || isLoading) ? 'disabled bg-gray-202 ' : 'bg-[#EDF7FF] hover:bg-gray-202'} flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base items-center justify-center font-dm-sans-medium text-[#00CDAE] w-full`}
+                        className={`flex cursorpointer ${(sendLoding || isLoading) ? 'disabled bg-gray-202 ' : 'bg-[#EDF7FF] hover:bg-gray-202'} flex-row h-[52px] items-center justify-center px-6 rounded-[26px] text-base font-dm-sans-medium text-[#00CDAE] w-full`}
                     >
                         {(sendLoding || isLoading ) ? t("all.sending") : t('resetEmail.resendEmail') }
                     </button>
@@ -169,7 +168,7 @@ export default function VerificationEmail() {
           </div>
           <EmailExistModalOrConfirmation isOpen={isModalOpen}
             onRequestClose={closeModal} content={
-              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+              <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
             <img
               className="h-[80px] w-[80px]"
               src={checkVerifyImg}

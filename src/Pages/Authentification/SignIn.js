@@ -34,8 +34,9 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch()
   const [getUserDetails , { data, isSuccess, isError, detailsError }] = authApi.endpoints.getUserDetails.useLazyQuery();
-  const [retryCount, setRetryCount] = useState(0);
-  const maxRetries = 3;
+  const [loginError , setLoginError] = useState("");
+
+  console.log(error)
 
   const {
     register,
@@ -79,43 +80,11 @@ export default function SignIn() {
     navigate('/SignIn');
   };
 
-  useEffect(() => {
-    if (auth) {
-      sessionStorage.setItem('userToken', auth)
-      axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
-          headers: {
-              'Authorization': `Bearer ${auth}`
-          }
-      })
-      .then((response) => {
-        console.log("social data" , response.data)
-          const payload = response.data;
-          if (payload) {
-              sessionStorage.setItem('userToken', auth)
-              dispatch(setCredentials(JSON.stringify(payload)));
-              sessionStorage.setItem('userData', JSON.stringify(payload));
-                navigate('/SignIn') 
-                openModal();
-                // if (payload?.role?.toLowerCase() == "admin") { 
-                //   navigate('/Dashboard_Admin') 
-                // }
-                // else{
-                //   navigate('/Dashboard')
-                //   // openModal();
-                // }
-              
-          }
-      })
-      .catch((error) => {
-      });
-  }
-
-}, [auth , dispatch, navigate]); 
 
   useEffect(() => {
     if (Mount) { setMount(false) }
     else {
-      if (userInfo && !auth) {
+      if (userInfo) {
         setTimeout(() =>{
           if(userInfo?.status === 'notVerified') {
             // toast.error("Account not Verified !")
@@ -127,38 +96,25 @@ export default function SignIn() {
               navigate('/ChooseRole') 
             }
             else{
-              openModal();
-              // if (userInfo?.role?.toLowerCase() == "admin") { 
-              //   navigate('/Dashboard_Admin') 
-              // }
-              // else{
-              //   navigate('/Dashboard')
-              //   // openModal();
-              // }
+              if (userInfo?.role?.toLowerCase() == "admin") { 
+                navigate('/Dashboard_Admin') 
+              }
+              else if(userInfo?.status?.toLowerCase() == "pending") {
+                navigate('/RedirectFromSignIn')
+              }
+              else{
+                // navigate('/Dashboard')
+                // openModal();
+                navigate('/RedirectFromSignIn')
+              }
             }
           }
         
         }, 2000)
       }
-      if (error) {
-        // toast.error(error)
-      }
     }
 
-  }, [userInfo])
-
-  const handleGoogleButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google/signin`;
-  };
-
-  const handleLinkedinButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/linkedin/signin`;
-  };
-
-  const handleFacebookButtonClick = () => {
-    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook/signin`;
-  };
-
+  }, [userInfo, Mount])
 
   useEffect(() => {
     if(errorSocial) {
@@ -171,10 +127,45 @@ export default function SignIn() {
         openExistErrorModal();
       } 
       else {
-        toast.error(errorSocial || 'Oops, something went wrong!')
+        console.log(errorSocial || 'Oops, something went wrong!')
       }
     }
+  }, [errorSocial]);
+
+  useEffect(() => {
+    if(error) {
+      if (error === "This email is registered through Google.") {
+        setLoginError("Login RS error");
+      } else if(error === "This email is registered through Linkedin.") {
+        setLoginError("Login RS error");
+      } 
+      else if(error === "This email is registered through Facebook.") {
+        setLoginError("Login RS error");
+      } 
+      else if(error === "This email is registered through another provider.") {
+        setLoginError("Login RS error");
+      }
+      else {
+        setLoginError("");
+      }
+    }
+    else {
+      setLoginError("");
+    }
   }, [error]);
+
+
+  const handleGoogleButtonClick = () => {
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/google/signin`;
+  };
+
+  const handleLinkedinButtonClick = () => {
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/linkedin/signin`;
+  };
+
+  const handleFacebookButtonClick = () => {
+    window.location.href = `${process.env.REACT_APP_baseURL}/users/auth/facebook/signin`;
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -200,8 +191,8 @@ export default function SignIn() {
 
   return (
     <>
-    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center  md:bg-right md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto p-[42px] md:px-10 sm:px-5 min-h-screen w-full">
-      <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto w-full">
+    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto px-[12px] py-[30px] md:px-10 min-h-screen w-full">
+      <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-full">
           <div className="flex flex-col items-center justify-center w-full ">
             <Link to="https://digitalmorocco.net" target='_blank'><img
                 className="h-[50px] w-[183px]"
@@ -210,7 +201,7 @@ export default function SignIn() {
               />
             </Link>  
           </div>
-          <div className="bg-white-A700 gap-5 md:gap-10 flex flex-col items-center justify-start px-6 px-6 py-8 rounded-[12px] shadow-formbs w-full max-w-[520px]">
+          <div className="bg-white-A700 gap-5 md:gap-10 flex flex-col items-center justify-start px-6 py-8 rounded-[12px] shadow-formbs w-full max-w-[520px]">
           <div className="flex flex-col gap-4 items-center justify-start w-full">
           <Toaster />
             <div className="flex flex-col gap-3 items-start justify-start w-full">
@@ -296,7 +287,7 @@ export default function SignIn() {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         },
                       })}
-                      className={`bg-white w-full border border-solid ${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .')) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .'))? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${(errors?.email || (getValues('email')?.length > 0 && error == 'Wrong email .')) ? 'errorColor' : 'gray-801'}`}
+                      className={`bg-white w-full border border-solid ${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error") )) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error" )))? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error"))) ? 'errorColor' : 'gray-801'}`}
                       id="email"
                       name="email"
                       autoComplete='off'
@@ -315,7 +306,7 @@ export default function SignIn() {
                         type={showPassword ? "text" : "password"}
                         placeholder={t('signup.enterPassword')}
                         style={{ appearance: 'none' }}
-                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${(errors?.password || (getValues('password')?.length > 0 && error == 'Wrong password !')) ? 'errorColor' : 'gray-801'}`}
+                        className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full  border border-solid ${(errors?.password || (getValues('password')?.length > 0 && (error == 'Wrong password !' || loginError == "Login RS error"))) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.password || (getValues('password')?.length > 0 && (error == 'Wrong password !' || loginError == "Login RS error"))) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${(errors?.password || (getValues('password')?.length > 0 && (error == 'Wrong password !' || loginError == "Login RS error" ) )) ? 'errorColor' : 'gray-801'}`}
                       />
                       <button
                         type="button"
@@ -387,12 +378,12 @@ export default function SignIn() {
                         >
                             {t('signin.newToDigitalMorocco')}
                         </Text>
-                        <a
-                            href="/SignUp"
-                            className="text-[#482BE7] cursorpointer hover:text-[#00CDAE]  text-sm w-auto font-dm-sans-bold"
-                        >
-                            <Text className=' font-dm-sans-bold'>{t('signin.createAccount')} </Text>
-                        </a>
+                        <Link
+                          to="/SignUp"
+                          className="text-[#482BE7] cursor-pointer hover:text-[#00CDAE] text-sm w-auto sm:text-right font-dm-sans-bold"
+                      >
+                          <Text className="font-dm-sans-bold">{t('signin.createAccount')}</Text>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -411,7 +402,7 @@ export default function SignIn() {
 
     <EmailExistModalOrConfirmation isOpen={isExistErrorModalOpen}
             onRequestClose={closeExistErrorModal} content={
-              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+              <div className="flex flex-col gap-[38px] items-center justify-start w-full">
             <img
               className="h-[80px] w-[80px]"
               src={emailError}

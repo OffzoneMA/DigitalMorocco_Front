@@ -3,7 +3,6 @@ import axios from "axios";
 import { Text } from "../Components/Text";
 import TablePagination from "../Components/TablePagination";
 import Loading from "../Components/Loading";
-import { IoFlashOffOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import { FiDelete } from "react-icons/fi";
 import { BiFilterAlt } from "react-icons/bi";
@@ -67,8 +66,6 @@ const MyInvestors = () => {
   };
 
   const data = filteredInvestors;
-  console.log(filteredInvestors)
-
 
   const filteredData = data.filter(item => {
     const keywordMatch = item.owner.displayName.toLowerCase().includes(keywords.toLowerCase());
@@ -146,7 +143,7 @@ const MyInvestors = () => {
                   >
                   My Investors
                 </TableTitle>
-                <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
+                <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
                 (
                     <>

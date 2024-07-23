@@ -60,7 +60,6 @@ export default function ResetPassword() {
   async function onSubmit(values) {
     const token = extractTokenFromURL();
     const payload = { ...values, token };
-    console.log(payload);
 
     try {
        resetPassword(payload); 
@@ -71,9 +70,9 @@ export default function ResetPassword() {
 
     return (
         <>
-          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto p-[33px] sm:px-5 w-full">
-            <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-auto w-full">
-              <a href='https://digitalmorocco.net'target='_blank' className="flex flex-col items-center justify-center">
+          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto md:px-10 px-5 py-[20px] md:py-[42px] w-full">
+            <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-full">
+              <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}
@@ -89,14 +88,14 @@ export default function ResetPassword() {
                   />
                 </div>
                 <Text
-                  className="text-[22px] font-dm-sans-medium text-gray-901 leading-8 w-auto"
+                  className="md:text-[22px] text-lg font-dm-sans-medium text-gray-901 leading-8 w-auto"
                   >
                   {t('resetPassword.resetPassword')}
                 </Text>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 items-center justify-start w-full">
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
                     <Text
-                      className="leading-[28.00px] w-full font-dm-sans-medium text-left text-gray-901 text-[18px] "
+                      className="leading-[28.00px] w-full font-dm-sans-medium text-left text-gray-901 text-lg "
                       >
                       {t('resetPassword.enterNewPassword')}
                     </Text>
@@ -110,24 +109,20 @@ export default function ResetPassword() {
                         <input
                           {...register("password", {
                             validate: {
-                              hasUpperCase: v => /[A-Z]/.test(v) ,
-                            },
-                            // validate: {
-                            //   hasLowerCase: v => /[a-z]/.test(v),
-                            // },
-                            minLength: {
-                              value: 8,
-                            },
-                            validate: {
-                              hasSpecialChar:  v => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(v),
-                            },
+                              hasUpperCase: v => /[A-Z]/.test(v),
+                              hasLowerCase: v => /[a-z]/.test(v),
+                              hasNumber: v => /\d/.test(v),
+                              hasSpecialChar: v => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(v),
+                              minLength: v => v.length >= 8,
+                            }
+
                           })}
                           id="password"
                           name="password"
                           type={showPassword ? "text" : "password"}
                           placeholder={t('signup.enterPassword')}
                           style={{ appearance: 'none' }}
-                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${(errors?.password) ? 'border-errorColor focus:border-errorColor shadow-inputBsError' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
+                          className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white w-full border border-solid ${(errors?.password) ? 'border-errorColor focus:border-errorColor shadow-inputBsError' : 'border-borderColor focus:border-focusColor focus:shadow-inputBs'} rounded-full px-[18px] py-[12px] placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.password ? 'errorColor' : 'gray-801'}`}
                         />
                         <button
                           type="button"
@@ -161,7 +156,7 @@ export default function ResetPassword() {
                           value : true
                         },
                         validate: val => {
-                          if (watch('password') != val) {
+                          if (watch('password') !== val) {
                             return t('resetPassword.notMatch');
                           }
                         },

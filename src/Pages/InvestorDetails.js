@@ -20,23 +20,25 @@ import SendContactModal from "../Components/SendContactModal";
 import ConfirmedModal from "../Components/ConfirmedModal";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
+import { useParams } from "react-router-dom";
 
 
 const InvestorDetails = () => {
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+    const { investorId } = useParams();
 
   const [cur, setCur] = useState(1);
   const itemsPerPage = 4;
   const itemsToShow = 4;
 
   const data = [
-    {logo:"images/img_inv.svg", AnnouncementDate: "November 28, 2015", CompanyName: "Volante Technologies", Location: "Sydney, Australia", FundingRound: "Series B", MoneyRaised: "$48M" },
-    { logo:"images/img_inv1.svg" ,AnnouncementDate: "May 29, 2017", CompanyName: "New Era Cap", Location: "Abu Dhabi, UAE", FundingRound: "Venture Round", MoneyRaised: "$240M" },
-    {logo:"images/img_inv2.svg" , AnnouncementDate: "May 12, 2019", CompanyName: "Pay Joy", Location: "Rio de Janeiro, Brazil", FundingRound: "Series B", MoneyRaised: "$30M" },
-    {logo:"images/img_inv3.svg" , AnnouncementDate: "February 11, 2014", CompanyName: "Virtualitios", Location: "Mumbai, India", FundingRound: "Debt Financing", MoneyRaised: "$124M" },
-    {logo:"images/img_inv4.svg" , AnnouncementDate: "August 24, 2013", CompanyName: "Reliance", Location: "Bogotá, Colombia", FundingRound: "Corporate Round", MoneyRaised: "$214M" },
-    {logo:"images/img_inv5.svg", AnnouncementDate: "April 28, 2016", CompanyName: "Fleximize", Location: "London, United Kingdom", FundingRound: "Series C", MoneyRaised: "$16M" },
-    {logo:"images/img_inv6.svg", AnnouncementDate: "May 9, 2014", CompanyName: "DreamFarm WraithWatch", Location: "New York City, USA", FundingRound: "Debt Financing", MoneyRaised: "$8OM" }
+    {logo:"/images/img_inv.svg", AnnouncementDate: "November 28, 2015", CompanyName: "Volante Technologies", Location: "Sydney, Australia", FundingRound: "Series B", MoneyRaised: "$48M" },
+    { logo:"/images/img_inv1.svg" ,AnnouncementDate: "May 29, 2017", CompanyName: "New Era Cap", Location: "Abu Dhabi, UAE", FundingRound: "Venture Round", MoneyRaised: "$240M" },
+    {logo:"/images/img_inv2.svg" , AnnouncementDate: "May 12, 2019", CompanyName: "Pay Joy", Location: "Rio de Janeiro, Brazil", FundingRound: "Series B", MoneyRaised: "$30M" },
+    {logo:"/images/img_inv3.svg" , AnnouncementDate: "February 11, 2014", CompanyName: "Virtualitios", Location: "Mumbai, India", FundingRound: "Debt Financing", MoneyRaised: "$124M" },
+    {logo:"/images/img_inv4.svg" , AnnouncementDate: "August 24, 2013", CompanyName: "Reliance", Location: "Bogotá, Colombia", FundingRound: "Corporate Round", MoneyRaised: "$214M" },
+    {logo:"/images/img_inv5.svg", AnnouncementDate: "April 28, 2016", CompanyName: "Fleximize", Location: "London, United Kingdom", FundingRound: "Series C", MoneyRaised: "$16M" },
+    {logo:"/images/img_inv6.svg", AnnouncementDate: "May 9, 2014", CompanyName: "DreamFarm WraithWatch", Location: "New York City, USA", FundingRound: "Debt Financing", MoneyRaised: "$8OM" }
   ];
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -79,7 +81,7 @@ const InvestorDetails = () => {
                 <div className="flex flex-col md:flex-row justify-center items-start gap-8">
                       <div className="relative flex justify-center w-full md:w-[23%] p-5 border-blue_gray-100 border border-solid rounded-[10px]">
                         <img
-                          src="images/img_inv.svg"
+                          src="/images/img_inv.svg"
                           alt="vector_three"
                           className="h-[140px] w-[150px] "
                         />
@@ -422,7 +424,7 @@ const InvestorDetails = () => {
                     </div>
                 </div>
             </div>
-            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal}/>
+            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId}/>
         </div>
     )
 }
