@@ -1,6 +1,6 @@
-import React , {useRef , useState , useEffect} from 'react'
+import React , {useState , useEffect} from 'react'
 import { Text } from "../../Components/Text";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useSendForgotPasswordMutation } from '../../Services/Auth';
@@ -19,8 +19,9 @@ export default function ResetPasswordEmail() {
   const [sendForgotPassword, { isLoading , isSuccess , error}] = useSendForgotPasswordMutation()
 
   const handleResendEmail = async () => {
+    const lang = localStorage.getItem('language');
     try {
-      await sendForgotPassword({email: userEmail});
+      await sendForgotPassword({email: userEmail , lang: lang});
     } catch (error) {
       console.error('Resend email request failed:', error);
     }
@@ -44,17 +45,10 @@ export default function ResetPasswordEmail() {
 
   }, [isSuccess , error])
 
-  const formButtonRef = useRef();
-
-  const onButtonClick = (inputref) => {
-    inputref.current.click();
-  };
-
-
     return (
         <>
-          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full">
-            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-auto w-full">
+          <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full">
+            <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
@@ -72,19 +66,19 @@ export default function ResetPasswordEmail() {
                   />
                 </div>
                 <Text
-                  className="text-[22px] font-dm-sans-medium text-gray-901 leading-8 w-auto"
+                  className="text-lg md:text-[22px] font-dm-sans-medium text-gray-901 leading-8 w-auto"
                 >
                   {t('resetEmail.checkInbox')}
                 </Text>
                 <div className="flex flex-col gap-9 items-center justify-start w-full">
                   <div className="flex flex-col gap-6 items-center justify-start w-full">
                     <Text
-                      className="leading-[28.00px] font-dm-sans-medium text-center text-gray-901 text-[18px] "
+                      className="leading-[28.00px] font-dm-sans-medium text-center text-gray-901 text-lg "
                     >
                       {t('resetEmail.resetLinkSent')}
                     </Text>
                     <Text
-                      className="leading-[26.00px] font-dm-sans-medium text-[16px] text-gray500 text-center"
+                      className="leading-[26.00px] font-dm-sans-medium text-base text-gray500 text-center"
                     >
                       <>
                         {t('resetEmail.cantFindEmail')}
@@ -120,7 +114,7 @@ export default function ResetPasswordEmail() {
           </div>
           <EmailExistModalOrConfirmation isOpen={isModalOpen}
             onRequestClose={closeModal} content={
-              <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+              <div className="flex flex-col gap-[38px] items-center justify-start w-full">
             <img
               className="h-[80px] w-[80px]"
               src={checkVerifyImg}

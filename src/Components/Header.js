@@ -107,7 +107,7 @@ export default function Header() {
 
     <div className='w-screen absolute top-0 left-0 z-[100]'>
       <div className='relative w-full   '>
-        {location.pathname != '/ChooseRole' &&
+        {location.pathname !== '/ChooseRole' &&
           ["notVerified", "verified", "pending"].includes(userInfo?.status) &&
           <NavLink to="/ChooseRole" className="absolute left-1/2 top-[150%] transform -translate-x-1/2 -translate-y-1/2 bg-orange-400 text-white p-6 rounded-md shadow-lg z-50">
 
@@ -131,12 +131,12 @@ export default function Header() {
 
 
             <NavLink to="/">
-              <img src={location.pathname == "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14 2xl:h-18 3xl:h-20 ' />
+              <img src={location.pathname === "/" ? "/img/LogoWhite.png" : "/img/Logo.png"} alt="" className='h-8 sm:h-9 lg:h-14 2xl:h-18 3xl:h-20 ' />
             </NavLink>
 
 
 
-            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-10 text-sm xl:text-sm 2xl:text-lg 3xl:text-2xl ${location.pathname == "/" ? "text-white" : 'text-[#1f2545]'}   font-light `}  >
+            <div className={`hidden md:flex items-center  gap-3 xl:gap-9 3xl:gap-10 text-sm xl:text-sm 2xl:text-lg 3xl:text-2xl ${location.pathname === "/" ? "text-white" : 'text-[#1f2545]'}   font-light `}  >
               <NavLink to="/About-Us" className={({ isActive }) =>
 
 
@@ -185,7 +185,7 @@ export default function Header() {
                   <NavLink
                     to="/SignIn"
                     className={({ isActive }) =>
-                      (isActive ? activeLink : "") + (location.pathname == "/" ? "text-white border-white" :"text-[#1f2545] border-[#1f2545]")+  " px-4 py-2 rounded-full  border 3xl:px-6 3xl:py-4 3xl:text-xl "
+                      (isActive ? activeLink : "") + (location.pathname === "/" ? "text-white border-white" :"text-[#1f2545] border-[#1f2545]")+  " px-4 py-2 rounded-full  border 3xl:px-6 3xl:py-4 3xl:text-xl "
                     }
 
                   >
@@ -208,11 +208,11 @@ export default function Header() {
                     navigate('/SignIn')
                   }
                   }
-                  className={`px-2 py-1 rounded-full border ${(location.pathname == "/" ? "text-white border-white" : "text-[#1f2545] border-[#1f2545]") }`}
+                  className={`px-2 py-1 rounded-full border ${(location.pathname === "/" ? "text-white border-white" : "text-[#1f2545] border-[#1f2545]") }`}
                 >
                   {t('header.logOut')}
                 </button>}
-              {userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
+              {userInfo?.role !== "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
                 <NavLink to="/Complete_SignUp"
                   className={({ isActive }) =>
                     (isActive ? activeLink : "") + "px-3 py-2 rounded-full text-black    bg-[#bdfff5]"
@@ -250,15 +250,15 @@ export default function Header() {
               className="MenuButton cursor-pointer  flex flex-col items-center justify-center space-y-1 outline-0	md:hidden z-[150]"
             >
               <span
-                className={`w-8 h-1 ${location.pathname=="/" && !open ? "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `rotate-45`
+                className={`w-8 h-1 ${location.pathname==="/" && !open ? "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `rotate-45`
                   }`}
               ></span>
               <span
-                className={`w-8 h-1 ${location.pathname == "/" && !open ?  "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_2px] duration-500 ease-in-out ${open && `-translate-x-1`
+                className={`w-8 h-1 ${location.pathname === "/" && !open ?  "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_2px] duration-500 ease-in-out ${open && `-translate-x-1`
                   } ${open && `opacity-0`}`}
               ></span>
               <span
-                className={`w-8 h-1 ${location.pathname == "/" && !open ?  "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `-rotate-45`
+                className={`w-8 h-1 ${location.pathname === "/" && !open ?  "bg-white":"bg-black"}  rounded-full transform transition origin-[5px_3px] duration-500 ease-in-out ${open && `-rotate-45`
                   }`}
               ></span>
             </button>
@@ -341,7 +341,7 @@ export default function Header() {
                 }>
                 {t('header.pricing')}
               </NavLink>   
-              {userInfo && userInfo?.status == "accepted" &&
+              {userInfo && userInfo?.status === "accepted" &&
                 <NavLink to="/Dashboard"
                   className={({ isActive }) =>
                     isActive ? activeLink : ""
@@ -350,7 +350,7 @@ export default function Header() {
                 </NavLink>
               }
               
-              { userInfo?.role != "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
+              { userInfo?.role !== "Admin" && ["notVerified", "verified", "pending", "rejected"].includes(data?.status) &&
                 <NavLink to="/Complete_SignUp"
                   className={({ isActive }) =>
                     isActive ? activeLink : ""

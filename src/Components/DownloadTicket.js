@@ -1,11 +1,10 @@
 import { Text } from "./Text";
-import React, { useRef , useEffect, useState} from "react";
+import React from "react";
 import QRCode from 'qrcode.react';
 
 
 const DownloadTicket = React.forwardRef((props, ref) => {
-    console.log(props)
-    
+
     return(
         <>
         <div ref={ref} id="downloadTicketComponent" className='flex flex-col max-w-[900px] mx-auto border border-bord'>

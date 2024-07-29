@@ -1,29 +1,27 @@
 import React , {useState , useRef , useEffect} from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { Text } from "../../../Components/Text";
-import { Button } from "../../../Components/Button";
 import { useTranslation } from "react-i18next";
-import RoleConfirmedModal from "../../../Components/RoleConfirmedModal";
 import logo from '../../../Media/img_logo.svg';
-import userImage from '../../../Media/img_user03.svg';
 import startupImage from '../../../Media/img_startup.svg';
 import investorImage from '../../../Media/img_investor.svg';
 import companyImage from '../../../Media/img_company.svg';
 import { useAddNewRequestMutation } from '../../../Services/Auth';
 import { authApi } from "../../../Services/Auth";
 import { useNavigate , useSearchParams } from "react-router-dom";
-import TestPopup from "../../../Components/TestPopup";
 import { useUpdateFullNameMutation } from "../../../Services/User.Service";
 import { setCredentials } from "../../../Redux/auth/authSlice";
 import { useDispatch } from "react-redux";
-import Popup from 'reactjs-popup';
 import ConfirmedModal from "../../../Components/ConfirmedModal";
 import { logout } from "../../../Redux/auth/authSlice";
+import { languages } from "../../../data/tablesData";
 
 
 const ChooseRole = () => {
     const { t, i18n } = useTranslation();
+    const location = useLocation();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -31,7 +29,6 @@ const ChooseRole = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const { userInfo } = useSelector((state) => state.auth)
     const {userToken} = useSelector((state) =>state.auth)
-    const [token , setToken] = useState(sessionStorage.setItem('userToken', auth))
     const { userEmail } = useSelector((state) => state.auth)
     const [UserId, setUserId] = useState(userInfo?._id)
     const [selectedGrid, setSelectedGrid] = useState(null);
@@ -56,6 +53,19 @@ const ChooseRole = () => {
     }
   };
 
+  const getLanguageLabelById = (id) => {
+    const language = languages.find(lang => lang.id === id);
+    return language ? language.label : null;
+  };
+
+  useEffect(() => {
+    if (!UserId) {
+      const params = new URLSearchParams(location.search);
+      const userIdFromUrl = params.get('user_id');
+      setUserId(userIdFromUrl);
+    }
+  }, [location, UserId]);
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -68,76 +78,96 @@ const ChooseRole = () => {
       setSelectedOption(option);
     };
 
-    console.log("Token choose" , sessionStorage.getItem('userToken'))
+  //   useEffect(() => {
+  //     if (auth) {
+  //       sessionStorage.setItem('userToken', auth)
+  //       axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
+  //           headers: {
+  //               'Authorization': `Bearer ${auth}`
+  //           }
+  //       })
+  //       .then((response) => {
+  //           const payload = response.data;
+  //           if (payload) {
+  //               dispatch(setCredentials(JSON.stringify(payload)));
+  //               sessionStorage.setItem('userData', JSON.stringify(payload));
+  //               if (userSocialInfos) {
+  //                 console.log('Updating full name with:', userSocialInfos);
+  //                 const lang = localStorage.getItem('language')
+  //                 const languageLabel = getLanguageLabelById(lang);
+  //                 updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos , language: languageLabel} })
+  //                     .unwrap()
+  //                     .then((updatedData) => {
+  //                         setUserId(updatedData?.user?._id)
+  //                         dispatch(setCredentials(JSON.stringify(updatedData?.user)));
+  //                         sessionStorage.setItem('userData', JSON.stringify(updatedData?.user));
+  //                         // navigate('/ChooseRole');
+  //                     })
+  //                     .catch((updateError) => {
+  //                         console.error('Error updating full name:', updateError);
+  //                         navigate('/ChooseRole'); 
+  //                     });
+  //             }
+  //               navigate('/ChooseRole');
+  //           }
+  //       })
+  //       .catch((error) => {
+  //           console.error('Error fetching user details:', error);
+  //       });
+  //   }
+  
+  // }, [auth , dispatch, navigate, userSocialInfos]); 
+
+  
+    // useEffect(() => {
+    //   if (userInfo) {
+    //     setUserId(userInfo?._id);
+    //   }else {
+    //     if (userEmail) {
+    //       userTrigger(userEmail).then(() => {
+    //         if (userData && userData.status === 'verified') {
+    //           setUserId(userData?._id)
+    //         }
+    //       }).catch(error => {
+    //         console.error("Error fetching user by email:", error);
+    //       });
+    //     }
+    //   }
+    // }, [userInfo, userEmail, userData]);
 
     useEffect(() => {
-      if (auth) {
-        console.log("aauth choose" , auth)
-        sessionStorage.setItem('userToken', auth)
-        axios.get(`${process.env.REACT_APP_baseURL}/users/userInfo`, {
-            headers: {
-                'Authorization': `Bearer ${auth}`
-            }
-        })
-        .then((response) => {
-            const payload = response.data;
-            if (payload) {
-                dispatch(setCredentials(JSON.stringify(payload)));
-                sessionStorage.setItem('userData', JSON.stringify(payload));
-                if (userSocialInfos) {
-                  console.log('Updating full name with:', userSocialInfos);
-                  updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos } })
-                      .unwrap()
-                      .then((updatedData) => {
-                          console.log('FullName updated', updatedData);
-                          dispatch(setCredentials(updatedData));
-                          sessionStorage.setItem('userData', updatedData);
-                          // navigate('/ChooseRole');
-                      })
-                      .catch((updateError) => {
-                          console.error('Error updating full name:', updateError);
-                          navigate('/ChooseRole'); 
-                      });
-              }
-                navigate('/ChooseRole');
-            }
-        })
-        .catch((error) => {
-            console.error('Error fetching user details:', error);
-        });
-    }
-  
-  }, [auth , dispatch, navigate, userSocialInfos]); 
-
-  
-    useEffect(() => {
+      const storedUserData = JSON.parse(sessionStorage.getItem('userData'));
       if (userInfo) {
         setUserId(userInfo?._id);
-      } else {
-        if (userEmail) {
-          userTrigger(userEmail).then(() => {
-            if (userData && userData.status === 'verified') {
-              setUserId(userData?._id)
-            }
-          }).catch(error => {
-            console.error("Error fetching user by email:", error);
-          });
-        }
+      } else if (storedUserData) {
+        setUserId(storedUserData?._id);
+      } else if (userEmail) {
+        userTrigger(userEmail).then(() => {
+          if (userData && userData.status === 'verified') {
+            setUserId(userData?._id)
+          }
+        }).catch(error => {
+          console.error("Error fetching user by email:", error);
+        });
       }
-    }, [userInfo, userEmail, userData]);
+    }, [userInfo, userEmail, userTrigger]);
     
     const openModal = () => {
       setIsModalOpen(true);
     };
   
-    const closeModal = () => {
+    const closeModal =  () => {
       setIsModalOpen(false);
       setSelectedGrid(null);
       setSelectedOption('');
-      navigate('/ChooseRole')
-      // window.location.href = 'https://digital-morocco-landing-page.vercel.app';
-      window.open('https://digitalmorocco.net', '_blank');
-      // Redirection ves site officiel
+
+      // Perform logout and navigate
+      dispatch(logout());
+      // Redirect to external site
+      window.location.href = 'https://digitalmorocco.net';
+
+      // navigate('/SignIn');
+
     };
 
     useEffect(()=>{
@@ -146,12 +176,28 @@ const ChooseRole = () => {
       }
      },[response.isSuccess])
 
-    const confirmRole = () => {
-      const formData = new FormData();
-      formData.append('role', selectedOption);
-      addNewRequest({ formdata: formData, userId: UserId })
-      // openModal();
-    }
+     const confirmRole = () => {
+      if(UserId) {
+        const formData = new FormData();
+        const lang = localStorage.getItem('language')
+        formData.append('role', selectedOption);
+        formData.append('language' , lang);
+        addNewRequest({ formdata: formData, userId: UserId });
+      }
+      else{
+        const storedUserData = sessionStorage.getItem('userData');
+        if (storedUserData) {
+          const parsedUserData = JSON.parse(storedUserData);
+          const formData = new FormData();
+          const lang = localStorage.getItem('language')
+          formData.append('role', selectedOption);
+          formData.append('language' , lang);
+          addNewRequest({ formdata: formData, userId: parsedUserData?._id });
+        }  
+      }
+      
+    };
+  
 
     const handleMouseEnter = () => {
       setShowLogout(true);
@@ -164,7 +210,7 @@ const ChooseRole = () => {
   return (
     <>
       <div className={`bg-white-A700 flex flex-col font-DmSans ${selectedGrid ? 'gap-[20px]': 'gap-[84px]'} items-center justify-start mx-auto pb-[246px] w-full min-h-screen`}>
-        <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between px-20 md:px-[100px] py-5 w-full relative">
+        <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between px-20 pl-2 pr-12 md:px-[100px] py-5 w-full relative">
           <a href="https://digitalmorocco.net" target='_blank'>
             <img
               className="h-[47px] w-[180px]"
@@ -186,7 +232,7 @@ const ChooseRole = () => {
             </button>
             {showLogout && (
               <div className="absolute top-[100%] right-0 w-[248px]">
-                <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] flex items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red" 
+                <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red"
                 onClick={() => {
                   dispatch(logout());
                   navigate('/SignIn');
@@ -218,9 +264,9 @@ const ChooseRole = () => {
           </button>
         </div>
         }
-        <div className="flex flex-col gap-[42px] items-center justify-start max-w-[1232px] m-auto w-full">
+        <div className="flex flex-col gap-[42px] items-center justify-start  px-[12px] m-auto w-full">
           <Text
-            className="text-[22px] text-blue_gray-900 text-center font-dm-sans-medium leading-[32px] w-auto"
+            className="text-lg md:text-[22px] text-blue_gray-900 text-center font-dm-sans-medium leading-[32px] w-auto"
           >
             {t('chooserole.welcomeMessage')}
           </Text>
@@ -233,13 +279,13 @@ const ChooseRole = () => {
                 {t('chooserole.choosePathMessage2')}
               </Text>
             </div>
-            <div className="flex flex-col items-center"> 
-            <div className="gap-[42px] grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+            <div className="flex flex-col items-center w-full"> 
+            <div className="flex items-center justify-center flex-wrap gap-10 w-full">
               <div onClick={() => handleGridClick(1 , 'member')} 
-                className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
-                <div className="flex flex-col gap-[22px] items-center justify-start w-auto">
+                className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
+                <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
+                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                   >
                     {t('chooserole.startup')}
                   </Text>
@@ -256,10 +302,10 @@ const ChooseRole = () => {
                 </div>
               </div>
               <div onClick={() => handleGridClick(2 , 'investor')} 
-              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
-                <div className="flex flex-col gap-[22px] items-center justify-start w-auto">
+              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
+                <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
+                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                     >
                     {t('chooserole.investor')}
                   </Text>
@@ -276,10 +322,10 @@ const ChooseRole = () => {
                 </div>
               </div>
               <div onClick={() => handleGridClick(3 , 'partner')} 
-              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-16 sm:px-5 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
-                <div className="flex flex-col gap-[22px] items-center justify-start w-auto">
+              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
+                <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
                   <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 tracking-[2.00px] uppercase w-auto"
+                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                     >
                     {t('chooserole.company')}
                   </Text>

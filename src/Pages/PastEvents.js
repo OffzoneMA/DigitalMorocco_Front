@@ -1,13 +1,10 @@
 import React, { useState  ,useEffect} from "react";
 import { useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
 import { TbTicketOff } from "react-icons/tb";
 import { MdOutlineDateRange } from "react-icons/md";
 import { BiMap } from "react-icons/bi";
-import { PiTagBold } from "react-icons/pi";
 import Pagination from "../Components/Pagination";
-import { PastEvents as PastEventsData } from "../data/tablesData";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";

@@ -3,8 +3,8 @@ import React, {useState} from "react";
 import regularFont from '../fonts/DMSans-Regular.ttf';
 import mediumFont from '../fonts/DMSans-Medium.ttf'
 import boldFont from '../fonts/DMSans-Bold.ttf';
-import  QRCode from 'qrcode';
-import { PDFViewer, Document, Page, View, Text, Image, StyleSheet , Font } from '@react-pdf/renderer';
+import QRCode from 'qrcode';
+import {Document, Font, Image, Page, StyleSheet, Text, View} from '@react-pdf/renderer';
 
 
 Font.register({
@@ -148,9 +148,7 @@ const DownloadTicket1 = (props) => {
 
       const generateQRCodeImageSource = async (data) => {
         try {
-          const qrCodeDataURL = await QRCode.toDataURL(data);
-          
-          return qrCodeDataURL;
+          return await QRCode.toDataURL(data);
         } catch (error) {
           console.error('Erreur lors de la génération du code QR :', error);
           return ''; 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {  useSearchParams } from 'react-router-dom';
 import { ArrowLeftIcon,ArrowRightIcon } from '@heroicons/react/24/solid';
 
@@ -60,7 +60,7 @@ export default function Pagination({ nbrPages }) {
                             setSearchParams({ page: el })
                             setCurrent(el)
                         }}
-                        className={` px-4 w-[51px] border border-gray-300 ${current == el ? 'text-white-A700 bg-gray700' : 'text-gray700 bg-white'}`}
+                        className={` px-4 w-[51px] border border-gray-300 ${current === el ? 'text-white-A700 bg-gray700' : 'text-gray700 bg-white'}`}
                 >
                      {el}
                 </button>

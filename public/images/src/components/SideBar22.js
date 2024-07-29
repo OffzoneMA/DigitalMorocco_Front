@@ -38,7 +38,7 @@ const Sidebar22 = () => {
               <img src="images/img_simple_logo.svg" className={`text-4xl rounded cursor-pointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo"/>
               <img src="images/img_simple_logo_text.svg" className={`origin-left ${!open && "scale-0"}`}/>
             </div>
-          <ul className="font-dmsans text-base font-normal leading-6 pt-3 flex-1">
+          <ul className="font-DmSans text-base font-normal leading-6 pt-3 flex-1">
             {Menus.map((Menu, index) => (
               Menu && <div key={index} >
                 <li
@@ -62,7 +62,7 @@ const Sidebar22 = () => {
                   Menu.child.map((el, i) => (
                     <li
                       key={i}
-                      className={`font-dmsans text-base font-normal leading-6 ${!open && 'w-fit'}  flex rounded-md py-2 px-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-300 items-center gap-x-2 ml-5 mt-1 `}
+                      className={`font-DmSans text-base font-normal leading-6 ${!open && 'w-fit'}  flex rounded-md py-2 px-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-300 items-center gap-x-2 ml-5 mt-1 `}
                     >
                       <span className={`${!open && "hidden"} origin-left duration-200`}>
                                 {el.title}
@@ -73,7 +73,7 @@ const Sidebar22 = () => {
               </div>
             ))}
           </ul>
-          <div className="font-dmsans text-base font-normal leading-6">
+          <div className="font-DmSans text-base font-normal leading-6">
             <div
               className={` ${!open && 'w-fit'} flex rounded-md p-2 mb-4 cursor-pointer hover:bg-blue_gray-902 hover:text-teal-400 text-gray-300 items-center  gap-x-3 mt-3 `}
             >

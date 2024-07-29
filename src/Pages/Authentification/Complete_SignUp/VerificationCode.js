@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useRef } from 'react'
+import React, { useRef } from 'react'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom'
 import { Text } from '../../../Components/Text';
@@ -53,8 +53,8 @@ export default function VerificationCode() {
 
       return (
         <>
-          <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto p-[60px] md:px-10 sm:px-5 w-full min-h-screen">
-            <div className="flex flex-col gap-[42px] items-center justify-start mb-[39px] w-auto w-full">
+          <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] w-full min-h-screen">
+            <div className="flex flex-col gap-[42px] items-center justify-start mb-[39px]  w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
@@ -66,12 +66,12 @@ export default function VerificationCode() {
               <div className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[235px] w-[256px]"
-                  src="images/img_verify.svg"
+                  src="/images/img_verify.svg"
                   alt="logo"
                 />
               </div>
                 <Text
-                  className="text-[22px] text-black-900 sm:text-lg md:text-xl w-auto"
+                  className="md:text-[22px] text-black-900 text-lg w-auto"
                   size="txtDMSansMedium22Black900"
                 >
                   {t('verifyEmail')}
@@ -137,7 +137,7 @@ export default function VerificationCode() {
                          <FaSpinner className="animate-spin h-6 w-6 text-white-A700" /> :
                          <img
                         className="h-6 w-6"
-                        src="images/img_arrowright.svg"
+                        src="/images/img_arrowright.svg"
                         alt="arrowright"
                         />
                          }

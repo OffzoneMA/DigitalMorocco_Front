@@ -23,8 +23,8 @@ export const authApi = createApi({
       providesTags: ['user'],
     }),
     sendEmailVerification: builder.query({
-      query: (userId) => ({
-        url: '/sendverify/' + userId,
+      query: ({userId , lang}) => ({
+        url: `/sendverify/${userId}?lang=${lang}`,
         method: 'GET',
       }),
     }),
@@ -50,7 +50,7 @@ export const authApi = createApi({
       query: (payload) => ({
         url: '/forgot-password',
         method: 'POST',
-        body: { email: payload.email },
+        body: { email: payload.email , lang: payload?.lang },
       }),
     }),
     verifyOTP: builder.mutation({

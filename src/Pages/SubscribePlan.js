@@ -107,7 +107,7 @@ export default function SubscribePlan() {
             $99.99
         </Text>
         <Text className="font-DmSans text-lg font-medium leading-8 text-left text-gray-801 ml-2">
-            $89.99, ends on March 7, 2025
+            $89.99, ends on July 28, 2025
         </Text>
         <div className="inline-flex h-[24px] p-[2px_10px] justify-center items-center inline-flex rounded-[6px] bg-[#E1FFED] ml-6">
             <span className="text-[#00CDAE] text-center font-dm-sans text-[10px] font-bold leading-[24px]">
@@ -117,7 +117,7 @@ export default function SubscribePlan() {
     </div>
   ) : (
     <Text className="font-DmSans text-lg font-medium leading-8 pt-1 text-left w-full text-gray-801">
-      $9.99/month, ends on May 17, 2024
+      $9.99/month, ends on July 28, 2024
     </Text>
   )}
 

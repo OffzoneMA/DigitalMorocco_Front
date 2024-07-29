@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
-import { FiEdit3, FiSave } from "react-icons/fi";
+import { FiEdit3 } from "react-icons/fi";
 import { FiDownload } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi";
-import { useSearchParams , useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal";
@@ -28,7 +28,6 @@ const Documents = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
   const [dataRow , setDataRow] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
   const itemsPerPage = 5;
   const itemsToShow = 4;
@@ -143,7 +142,7 @@ const Documents = () => {
                       </td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">
                         <div className="flex items-center" >
-                            <img src={item.uploadByImage} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
+                            <img src={item.uploadByImage} className="rounded-full h-8 w-8 bg-gray-300 mr-2" alt={""}/>
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.uploadBy}</span>
                         </div>
                         </td>
@@ -201,7 +200,7 @@ const Documents = () => {
             onRequestClose={closeDeleteModal} title="Delete Document" 
             onDelete={handleDelete}
             content={
-              <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
+              <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
                 <Text
                   className="font-DmSans text-center text-base font-normal leading-6"
                   size=""

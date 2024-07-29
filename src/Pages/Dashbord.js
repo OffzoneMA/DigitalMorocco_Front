@@ -1,4 +1,4 @@
-import React, { useState , useMemo  } from "react";
+import React from "react";
 import { Text } from "../Components/Text";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { LiaUnlockAltSolid } from "react-icons/lia";
@@ -11,8 +11,6 @@ import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import ProgressBar from "../Components/ProgressBar";
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
-import { AiOutlineFileSearch } from "react-icons/ai";
-import { IoFlashOffOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import PageHeader from "../Components/PageHeader";
@@ -28,15 +26,16 @@ import { FaUserCircle } from "react-icons/fa";
 
 const Dashbord = () => {
 const { userInfo } = useSelector((state) => state.auth)
-  
   const status = 'Active'
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
 
+  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+console.log(userDetails)
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
-
-  const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
-        .slice(0, 0);
+  const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading} = useGetAllConatctReqQuery();
+  const Requestdata =  contactReqs?.ContactsHistory?.slice(0, 5)
+  const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))?.slice(0, 1);
 
     const chartData = [
         { name: 'Jan', value: 150 },
@@ -60,49 +59,7 @@ const { userInfo } = useSelector((state) => state.auth)
         { category: 'Cryptocurrency', percentage: 10.2 , filled:60},
         { category: 'Biotechnology', percentage: 8.4 , filled:40},
         { category: 'Big Data', percentage: 5.8 ,filled:30},
-      ];
-      
-    const Requestdata = [
-        // {
-        //   date: "Jul 22, 2023 10:30 AM",
-        //   investorName: "Venture Catalysts",
-        //   communicationStatus: "Initial email sent",
-        //   status: "In Progress",
-        //   attachment: "Pitch Deck",
-        //   notes: "Meeting Scheduled",
-        //   logo:"images/img_inv.svg",
-        // },
-        // {
-        //   date: "Jul 18, 2023 03:32 AM",
-        //   investorName: "Startup Funding Club",
-        //   communicationStatus: "Phone call",
-        //   status: "Approved",
-        //   attachment: "Proposal",
-        //   notes: "Positive Feedback",
-        //   logo:"images/img_inv1.svg"
-        // },
-        // {
-        //   date: "Jun 24, 2023 09:06 AM",
-        //   investorName: "XYZ Combinator",
-        //   communicationStatus: "Rejection email",
-        //   status: "Rejected",
-        //   attachment: "Financials",
-        //   notes: "Not Interested",
-        //   logo:"images/img_inv2.svg"
-        // },
-    ];
-
-    const prjectdata = [
-        {
-          project: 'Lorem Ipsum Project',
-          target: 'USD 5,000,000',
-          status: 'Active',
-          stage: 'Angel Round',
-          totalRaised: 'USD 0', 
-        },
-      ];
-      
-    
+      ]; 
 
       const gradientOffset = () => {
         const data = chartData;
@@ -170,18 +127,18 @@ const { userInfo } = useSelector((state) => state.auth)
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
                   <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
                     <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
-                      <img src={creditsImg} className="w-[28px] h-[28px]" />
+                      <img src={creditsImg} className="w-[28px] h-[28px]"  alt={""}/>
                     </div>
                     <Text
                       className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       Total Credits
                     </Text>
-                    {userData?.member?.credits > 0 ? (
+                    {userDetails?.member?.credits > 0 ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userData?.member?.credits}
+                        {userDetails?.member?.credits}
                       </Text>
                     ) : (
                       <Text
@@ -200,11 +157,11 @@ const { userInfo } = useSelector((state) => state.auth)
                     >
                       Create Project
                     </Text>
-                    {userData?.member?.projectCount > 0 ? (
+                    {userDetails?.member?.projectCount > 0 ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userData?.member?.projectCount < 10 ? `0${userData?.member?.projectCount}` : userData?.member?.projectCount}
+                        {userDetails?.member?.projectCount < 10 ? `0${userDetails?.member?.projectCount}` : userData?.member?.projectCount}
                       </Text>
                     ) : (
                       <Text
@@ -223,11 +180,11 @@ const { userInfo } = useSelector((state) => state.auth)
                     >
                       Investors
                     </Text>
-                    {userData?.member?.investorsRequestsAccepted?.length > 0 ? (
+                    {userDetails?.member?.investorsRequestsAccepted?.length > 0 ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userData?.member?.investorsRequestsAccepted}
+                        {userDetails?.member?.investorsRequestsAccepted}
                       </Text>
                     ) : (
                       <Text
@@ -246,11 +203,11 @@ const { userInfo } = useSelector((state) => state.auth)
                     >
                       Events
                     </Text>
-                    {userData?.eventCount > 0 ? (
+                    {userDetails?.eventCount > 0 ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userData?.eventCount < 10 ? `0${userData?.eventCount}` : userData?.eventCount}
+                        {userDetails?.eventCount < 10 ? `0${userDetails?.eventCount}` : userDetails?.eventCount}
                       </Text>
                     ) : (
                       <Text
@@ -269,7 +226,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     >
                       My Company
                     </Text>
-                    {userData?.member?.companyName ? (
+                    {userDetails?.member?.companyName ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
@@ -310,7 +267,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         ))
                     ) : (
                         <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                            <img src={fileSearchImg} />
+                            <img src={fileSearchImg}  alt={""}/>
                             <Text className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto" size="">
                                 Data not available
                             </Text>
@@ -353,7 +310,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         </div>
                         :
                         <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                            <img src={fileSearchImg} />
+                            <img src={fileSearchImg}  alt={""}/>
                             <Text
                             className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
                             size=""
@@ -398,7 +355,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                 {item.stages?.[0]}
                                 </div>
                             </div>
-                            <div className=" flex-row gap-px grid grid-cols-3 py-2 w-full">
+                            <div className="flex flex-row gap-[25px]  py-2 w-full">
                               <div className="flex flex-col items-start justify-start">
                                   <div className="flex flex-col items-center justify-start w-auto">
                                       <Text
@@ -493,7 +450,12 @@ const { userInfo } = useSelector((state) => state.auth)
                           </tr>
                         </thead>
                         <tbody className="items-center w-full">
-                          {Requestdata.length > 0
+                        {contactReqsLoading ? (
+                        <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                            <Loader />
+                        </div>
+                         ) :(
+                          Requestdata?.length > 0
                             ? Requestdata.map((item, index) => (
                                 <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
@@ -508,7 +470,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       </span>
                                     </div>
                                   </td>
-                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item.communicationStatus}</td>
+                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus}</td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div
                                       className={`flex flex-row space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
@@ -526,11 +488,12 @@ const { userInfo } = useSelector((state) => state.auth)
                                   </td>
                                 </tr>
                               ))
-                            : ""}
+                            : ""
+                         )}
                         </tbody>
                       </table>
                        </div>
-                       {!Requestdata?.length>0 && (
+                       {(!contactReqsLoading && !Requestdata?.length>0) && (
                        <div className="flex flex-col items-center text-gray-600 w-full py-28">
                         <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
                           <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

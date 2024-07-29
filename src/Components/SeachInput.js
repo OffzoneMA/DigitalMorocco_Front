@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { HiSearch } from "react-icons/hi"; // Importez l'icône de recherche
 
 const SearchInput = ({ setValue, className }) => {
   const [searchValue, setSearchValue] = useState("");

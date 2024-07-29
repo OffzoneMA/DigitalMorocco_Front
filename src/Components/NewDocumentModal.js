@@ -5,12 +5,10 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { useForm } from "react-hook-form";
-import { CheckPicker } from "rsuite";
 import MultipleSelect from "./MultipleSelect";
 
 const NewDocumentModal = (props) => {
-    const [isFocused, setIsFocused] = useState(false);
-  
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [selectedMembers , setSelectedMembers] = useState([]);
 
@@ -27,7 +25,6 @@ const NewDocumentModal = (props) => {
     event.preventDefault();
     setFiles(event.dataTransfer.files[0]);
     setPreview(URL.createObjectURL(event.dataTransfer.files[0]))
-    console.log(files);
   };
 
   const onButtonClick = (inputref) => {
@@ -179,23 +176,6 @@ const NewDocumentModal = (props) => {
                         );
                       }
                     }/>
-              {/* <CheckPicker size="md" data={membersdata} searchable={false}
-                            value={selectedMembers} onChange={setSelectedMembers}
-                            className="w-full !placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide"
-                            placeholder="Select name"
-                            renderMenuItem={( item) =>{ return (
-                              <div className="flex items-center justify-start space-x-3">
-                                <div className="flex flex-col gap-1.5 items-center justify-center w-full">
-                                  <Text
-                                    className="text-gray700 text-base font-DmSans font-medium leading-5 w-auto"
-                                    >
-                                     {item}
-                                  </Text>
-                                 </div>
-                              </div>
-                              );
-                            }
-                           }/> */}
             </div>
 
           </div>

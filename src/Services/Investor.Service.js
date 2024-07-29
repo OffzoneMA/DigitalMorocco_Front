@@ -22,6 +22,14 @@ export const investorApi = createApi({
                 }
             },
         }),
+        getInvestors: builder.query({
+            query: () => {
+                return {
+                    url: '/all',
+                    method: 'GET',
+                }
+            },
+        }),
         getAllConatctReq: builder.query({
             query: (arg) => {
                 const { page,status } = arg;
@@ -60,4 +68,6 @@ export const investorApi = createApi({
     }),
 })
 
-export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery} = investorApi
+export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery , 
+    useGetInvestorsQuery
+} = investorApi

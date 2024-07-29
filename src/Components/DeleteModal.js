@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
 import { IoCloseOutline } from "react-icons/io5";
@@ -28,8 +28,8 @@ const DeleteModal = (props) => {
         </div>
         <div className="bg-indigo-50 h-px w-full" />
         <div className="flex flex-col items-center justify-start w-full">
-          <div className="flex flex-col items-center justify-start w-auto px-5 w-full">
-            <div className="flex flex-col gap-2 items-center justify-start pb-4 w-auto w-full">
+          <div className="flex flex-col items-center justify-start  px-5 w-full">
+            <div className="flex flex-col gap-2 items-center justify-start pb-4 w-full">
               <Text
                 className=""
                 size=""

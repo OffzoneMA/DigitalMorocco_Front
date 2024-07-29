@@ -1,13 +1,9 @@
-import React, { useState , useMemo , useRef } from "react";
+import React, { useState , useRef } from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
-import { CheckPicker, SelectPicker } from "rsuite";
-import MultipleSelect from "../Components/MultipleSelect";
 import SimpleSelect from "../Components/SimpleSelect";
 import { IoImageOutline } from "react-icons/io5";
-import 'rsuite/SelectPicker/styles/index.css';
-import 'rsuite/CheckPicker/styles/index.css';
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
 import {companyType} from "../data/companyType";
@@ -57,7 +53,6 @@ const MyCompany = () => {
   
     setValue(formattedValue);
   };
-  
 
   const onButtonClick = (buttonRef) => {
     buttonRef.current.click();
@@ -81,11 +76,6 @@ const MyCompany = () => {
       setLogoFile(URL.createObjectURL(imageFile));
     }
   };
-  
-  const companySectorData = companyType.map(
-    item => ({ label: item, value: item })
-  );
-  const formData = new FormData();
 
   const onSubmit = async (data) => {
     try {
@@ -116,7 +106,6 @@ const MyCompany = () => {
           logo: base64Image, // Ajouter l'image base64
         };
         setIsSaved(true);
-        console.log(requestData)
         fetch(`http://localhost:5000/members/company/${userId}`, {
           method: 'POST',
           headers: {

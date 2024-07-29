@@ -28,6 +28,7 @@ const SignIn = lazy(() => import('./Pages/Authentification/SignIn'));
 const SignUp = lazy(() => import('./Pages/Authentification/SignUp'));
 const Failure = lazy(() => import('./Pages/Authentification/Failure'));
 const Success = lazy(() => import('./Pages/Authentification/Success'));
+const SuccessSignUp = lazy(() => import('./Pages/Authentification/SuccessSignUp'))
 const Subscription = lazy(() => import('./Pages/Subscription'));
 const GuardedUserMemberRoutes = lazy(() => import('./GuardedRoutes/GuardedUserMemberRoutes'));
 const UserProfile = lazy(() => import('./Pages/UserProfile'));
@@ -74,11 +75,20 @@ function App() {
 
   const dispatch = useDispatch();
 
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const lang = queryParams.get('lang');
+        if (lang) {
+            i18n.changeLanguage(lang);
+            localStorage.setItem('language', lang); 
+        }
+    }, []);
+
   useEffect(() => {
     const rememberMe = getLocalStorageItemWithExpiration('rememberMe');
 
     if (rememberMe) {
-      console.log('rem' , rememberMe)
       const userToken = getLocalStorageItemWithExpiration('userToken');
       const userData = getLocalStorageItemWithExpiration('userData');
 
@@ -99,6 +109,18 @@ function App() {
       }
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    const userDataString = sessionStorage.getItem('userData');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      // Vérifier si les cookies ne sont pas déjà définis
+      if (!document.cookie.includes('user=')) {
+        // Set cookie with user data
+        document.cookie = `user=${JSON.stringify(userData)}; path=/; secure; SameSite=None`;
+      }
+    }
+  }, []);
 
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}

@@ -1,26 +1,26 @@
-import React, { useState,useRef , useEffect} from "react";
-import{Text } from "../Components/Text"
-import { FiSave } from "react-icons/fi";
-import { BiDollar } from "react-icons/bi";
-import { MdOutlineDateRange, MdOutlineFileUpload } from "react-icons/md";
-import { ImFileText2 } from "react-icons/im";
-import { IoMdAdd } from "react-icons/io";
-import { useForm } from "react-hook-form";
-import { GrAttachment } from "react-icons/gr";
-import { useNavigate , useLocation} from "react-router-dom";
-import { useSelector } from 'react-redux';
-import {stage} from "../data/stage"
+import React, {useEffect, useRef, useState} from "react";
+import {Text} from "../Components/Text"
+import {FiSave} from "react-icons/fi";
+import {MdOutlineFileUpload} from "react-icons/md";
+import {ImFileText2} from "react-icons/im";
+import {IoMdAdd} from "react-icons/io";
+import {useForm} from "react-hook-form";
+import {GrAttachment} from "react-icons/gr";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useSelector} from 'react-redux';
+import {stage, stage as stagesData} from "../data/stage";
+import {Country} from 'country-state-city';
 import MultipleSelect from "../Components/MultipleSelect";
-import { stage as stagesData } from "../data/stage";
 import CustomCalendar from "../Components/CustomCalendar";
-import { useCreateProjectMutation } from "../Services/Member.Service"; 
-import { useGetProjectByIdQuery } from "../Services/Project.Service";
-import { useParams } from "react-router-dom";
-import { useUpdateProjectMutation } from "../Services/Member.Service";
+import {useCreateProjectMutation, useUpdateProjectMutation} from "../Services/Member.Service";
+import {useGetProjectByIdQuery} from "../Services/Project.Service";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import SimpleSelect from "../Components/SimpleSelect";
 import fundImg from '../Media/funding.svg';
+import axios from "axios";
+import {companyType} from "../data/companyType";
+import { IoImageOutline } from "react-icons/io5";
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -53,34 +53,22 @@ const CreateProject = () => {
   }, [div1Ref, div2Ref]);
    
   const { loading, userInfo } = useSelector((state) => state.auth)
-
-
   const location = useLocation();
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(location.state?.project || null);
-  const [projectName , setProjectName] = useState('');
-  const [projectDetails , setProjectDetails] = useState('');
-  const [projectPublication , setProjectPublication] = useState('');
   const { data: fetchedProject, error, isLoading } = useGetProjectByIdQuery(projectId, {
     skip: Boolean(project || !projectId),
   });
-  const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm(project !=null && {
-    defaultValues: {
-      name: project?.name,
-      details: project?.details,
-    }
-  });
-
   const [Mount, setMount] = useState(true)
-
   const [focusedMilestone, setFocusedMilestone] = useState(null);
   const [milestones, setMilestones] = useState([]);
-  const [teamData , setTeamData ]= useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
   const [fundingValue, setFundingValue] = useState(null);
   const [raisedValue, setRaisedValue] = useState('');
+  const [logoFile, setLogoFile] = useState(project?.logo || null);
+  const [imgFile , setImgFile] = useState(null);
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
   const [droppedFiles, setDroppedFiles] = useState([]);
@@ -88,81 +76,120 @@ const CreateProject = () => {
   const [selectedPublication, setSelectedPublication] = useState('');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
   const [selectedProjectTeamsMembers, setSelectedProjectTeamsMember] = useState([]);
-  // const [selectedStages, setSelectedStages] = useState([]);
+  const [selectedSector, setselectedSector] = useState("");
+  const dataCountries = Country.getAllCountries();
+  const [selectedCountry , setSelectedCountry] = useState(null);
   const [selectedStage, setSelectedStage] = useState("");
   const [addProjet, addResponse] = useCreateProjectMutation();
   const [updateProject, updateResponse] = useUpdateProjectMutation();
   const mutation = projectId ? updateProject : addProjet;
   const response = projectId ? updateResponse : addResponse;
+  const [members, setMembers] = useState([]);
 
-    /**
+
+   /**
    * Utility function to format numbers with spaces as thousand separators.
    * 
    * @param {number|string} number - The number to be formatted.
    * @returns {string} The formatted number as a string.
    */
-  function formatNumber(number) {
+   function formatNumber(number) {
     if (number !== null && number !== undefined) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
     return '';
   }
 
-  useEffect(() => {
-    if (userInfo && userInfo.member) {
-      setTeamData(userInfo.member.listEmployee.map(employee => {
-        const { _id, ...rest } = employee;
-        return rest;
-      }));
-    } else {
-      const userData = JSON.parse(sessionStorage.getItem('userData'));
-      if (userData && userData.member) {
-        setTeamData(userData.member.listEmployee.map(employee => {
-          const { _id, ...rest } = employee;
-          return rest;
-        }));
-      }
+  const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm(project !=null && {
+    defaultValues: {
+      name: project?.name,
+      details: project?.details,
+      website: project?.website,
+      contactEmail: project?.contactEmail,
+      funding : formatNumber(project?.funding),
+      totalRaised : formatNumber(project?.totalRaised)
     }
-  }, [userInfo]);
-  
+  });
 
+  // useEffect(() => {
+  //   if (userInfo && userInfo.member) {
+  //     setTeamData(userInfo.member.listEmployee?.map(employee => {
+  //       const { _id, ...rest } = employee;
+  //       return rest;
+  //     }));
+  //   } else {
+  //     const userData = JSON.parse(sessionStorage.getItem('userData'));
+  //     if (userData && userData.member) {
+  //       setTeamData(userData.member.listEmployee?.map(employee => {
+  //         const { _id, ...rest } = employee;
+  //         return rest;
+  //       }));
+  //     }
+  //   }
+  // }, [userInfo]);
+  
   useEffect(() => {
     if (fetchedProject && !project) {
       setProject(fetchedProject);
     }
   }, [fetchedProject, project]);
 
+  const fetchMembers = async (userId) => {
+    try {
+      const token = sessionStorage.getItem("userToken");
+      const response = await axios.get(`http://localhost:5000/members/employees`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      const filteredEmployees = response.data.filter(employee => employee.owner === userId);
+      setMembers(filteredEmployees);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
+  };
+
+  useEffect(() => {
+    let userId;
+    if (userInfo && userInfo._id) {
+      userId = userInfo._id;
+    } else {
+      const userData = JSON.parse(sessionStorage.getItem('userData'));
+      if (userData && userData._id) {
+        userId = userData._id;
+      }
+    }
+
+    if (userId) {
+      fetchMembers(userId);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     let listEmployee;
-    if (userInfo?.member?.listEmployee) {
-      listEmployee = userInfo.member.listEmployee.map(employee => {
+
+    if (members.length > 0) {
+      listEmployee = members.map(employee => {
         const { _id, ...rest } = employee;
         return rest;
       });
-    } else {
-      const userData = JSON.parse(sessionStorage.getItem('userData'));
-      listEmployee = userData?.member?.listEmployee?.map(employee => {
-        const { _id, ...rest } = employee;
-        return rest;
-      }) || [];
-    }
-  
+    } 
     if (project != null) {
       const selectedProjectMembers = listEmployee?.filter(emp => {
         return project.listMember?.some(member => member.workEmail === emp.workEmail);
       });
-  
+
       setSelectedTeamsMember(selectedProjectMembers);
       setSelectedProjectTeamsMember(selectedProjectMembers);
     }
-  }, [project, userInfo]);
+  }, [project, members]);
   
 
   useEffect(() => {
     if (project) {
       setFundingValue(formatNumber(project.funding));
-      setRaisedValue(formatNumber(project.raised));
+      setRaisedValue(formatNumber(project.totalRaised));
 
       const initialFormattedMilestones = project.milestones?.map((milestone, index) => ({
         id: index + 1,
@@ -171,12 +198,14 @@ const CreateProject = () => {
       })) 
       setMilestones(initialFormattedMilestones);
 
-      const otherDocuments = project.documents?.filter(document => document.documentType === "other") || [];
-      setDocumentDivs(otherDocuments.map((_, index) => ({ id: index + 1 })));
-      setDroppedFiles(otherDocuments.map((document, index) => ({
-        name: document.name,
-        index: index
-      })));
+      const otherDocuments = project.documents?.filter(document => document.documentType === "other") || [{ id: 1 }];
+      if(otherDocuments?.length > 0) {
+        setDocumentDivs(otherDocuments.map((_, index) => ({ id: index + 1 })));
+        setDroppedFiles(otherDocuments.map((document, index) => ({
+          name: document.name,
+          index: index
+        })));
+      }
 
       const initialFileNames = {};
       project.documents?.forEach(document => {
@@ -187,14 +216,18 @@ const CreateProject = () => {
       });
       setFileNames(initialFileNames);
 
-      setSelectedStage(project?.stage || []);
+      setSelectedStage(project?.stage || '');
+
+      // if (project?.country) {
+      //   const defaultCountry = dataCountries.find(country => country.name === project.country);
+      //   setSelectedCountry(defaultCountry);
+      // }
     }
     else{
       setMilestones([{ id: 1, name: '', dueDate: '' }]);
     }
   }, [project]);
 
-  
   const formatFunding = (value ) => {
     let formattedValue = value.replace(/\D/g, '');
     formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -218,13 +251,6 @@ const CreateProject = () => {
   const inputRef2 = useRef(null);
 
   const formButtonRef = useRef();
-
-  const handleFocus = (milestoneId) => {
-    setFocusedMilestone(milestoneId);
-  };
-  const handleBlur = () => {
-    setFocusedMilestone(null);
-  };
 
   const handleMilestoneChange = (e, id, field) => {
     const updatedMilestones = milestones.map(milestone => 
@@ -312,10 +338,7 @@ const handleFileInputChange = (event, index) => {
   
   function parseDateString(dateString) {
     const [day, month, year] = dateString.split('/');
-
-    const dateObject = new Date(`${year}-${month}-${day}`);
-
-    return dateObject;
+    return new Date(`${year}-${month}-${day}`);
 }
 
   const handleDragOver = (event) => {
@@ -323,22 +346,25 @@ const handleFileInputChange = (event, index) => {
     setIsDragging(true);
   };
 
-  const formData = new FormData();
 
+  const formData = new FormData();
   const onSubmit = (data) => {
     const fundingValue = parseFloat(data.funding.replace(/\s/g, ''));
 
     const totalRaisedValue = parseFloat(data.totalRaised.replace(/\s/g, ''));
 
+    const countryNameSelec = selectedCountry? selectedCountry["name"] : "";
+
     const updatedData = {
         ...data,
         funding: fundingValue,
         totalRaised : totalRaisedValue,
-        visbility: selectedPublication
+        visbility: selectedPublication,
+        sector: selectedSector,
+        country: countryNameSelec,
     };
 
     const formattedMilestones = milestones.map(({ id, ...rest }) => rest);
-
     const formDataContent = {
         ...updatedData,
         stage: selectedStage,
@@ -358,6 +384,8 @@ const handleFileInputChange = (event, index) => {
 
     formData.append('infos', JSON.stringify(formDataContent));
 
+    formData.append('logo' ,imgFile);
+
     documents.forEach(({ file, type }) => {
         formData.append(`${type}`, file);
     });
@@ -365,11 +393,7 @@ const handleFileInputChange = (event, index) => {
     allFiles.forEach(({ file }) => {
         formData.append(`files`, file);
     });
-    
-    // Afficher les données de formData dans la console
-    // for (var pair of formData.entries()) {
-    //     console.log(pair[0] + ', ' + pair[1]); 
-    // }
+  
     if (projectId) {
       mutation({
         projectId,
@@ -378,78 +402,41 @@ const handleFileInputChange = (event, index) => {
     } else {
       mutation(formData);
     }
-};
+  };
 
 useEffect(() => {
   if (Mount) { setMount(false) }
   else {
     if (response.isSuccess) {
-      setTimeout(() => {
-          navigate((0))
-      }, 3000)
-      navigate("/Projects")
+      const redirectTimer = setTimeout(() => {
+        navigate("/Projects");
+      }, 1000);
+      return () => clearTimeout(redirectTimer);
     }else {
       response.isError && console.log(response.error)
     }
   }
-  
 }, [response]);
 
 const onButtonClick = (inputref) => {
   inputref.current.click();
 };
 
-const teamMembersdataList = [
-    {
-      id: 1,
-      imageSrc: '/images/img_avatar.png',
-      name: 'Annette Black',
-      job: 'Back End Developer',
-    },
-    {
-      id: 2,
-      imageSrc: '/images/img_avatar_62x62.png',
-      name: 'Dianne Russell',
-      job: 'Software Developer',
-    },
-    {
-      id: 3,
-      imageSrc: '/images/img_avatar_1.png',
-      name: 'Floyd Miles',
-      job: 'Software Development Manager',
-    },
-    {
-      id: 4,
-      imageSrc: '/images/img_avatar_2.png',
-      name: 'Kathryn Murphy',
-      job: 'Social Media Manager',
-    },
-    {
-      id: 5,
-      imageSrc: '/images/img_avatar_3.png',
-      name: 'Cameron Williamson',
-      job: 'Software Tester',
-    },
-    {
-      id: 6,
-      imageSrc: '/images/img_avatar_4.png',
-      name: 'Darlene Robertson',
-      job: 'Scrum Master',
-    },
-    {
-      id: 7,
-      imageSrc: '/images/img_avatar_5.png',
-      name: 'Ralph Edwards',
-      job: 'UI/UX Designer',
-    },
-];
+const handleDropLogo = (event) => {
+  event.preventDefault();
+  setIsDragging(false);
+  const droppedFiles = event.dataTransfer.files;
 
-const StageData = stage.map(
-  item => ({ label: item, value: item })
-);
+
+  if (droppedFiles.length > 0) {
+    const imageFile = droppedFiles[0];
+    setImgFile(imageFile);
+    setLogoFile(URL.createObjectURL(imageFile));
+  }
+};
 
   return (
-      <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
+      <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -491,7 +478,7 @@ const StageData = stage.map(
                     </Text>
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="name"
                         placeholder="Enter Project Name"
@@ -519,14 +506,46 @@ const StageData = stage.map(
                       className="text-base text-gray-900_01 w-auto"
                       size="txtDMSansLablel"
                     >
+                      Website
+                    </Text>
+                      <input
+                      {...register("website", { required: {value:true , message:"Project website is required"} })}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        type="text"
+                        name="website"
+                        placeholder="Project Website"
+                      />
+                    {/* {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>} */}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Contact Email
+                    </Text>
+                      <input
+                        {...register("contactEmail", { required: {value:true , message:"Project Contact Email is required"} })}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        type="text"
+                        name="contactEmail"
+                        placeholder="Enter Project email"
+                      />
+                    {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
                       Team Member
                     </Text>
-                    <MultipleSelect id='teams' options={teamData} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
+                    <MultipleSelect id='teams' options={members} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
                     itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="workEmail" 
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
-                          <img src={option.image} alt="teams" className="h-8 w-8 rounded-full"/>
+                          <img src={ option?.image || `data:image/png;base64,${option.photo}` || `/images/img_avatar_2.png`} alt="teams" className="h-8 w-8 rounded-full"/>
                           <div className="flex flex-col gap-1.5 items-start justify-center w-full">
                             <Text
                               className="text-gray-900 text-sm w-auto"
@@ -555,7 +574,7 @@ const StageData = stage.map(
                       Funding Target
                     </Text>
                     <div className="relative flex items-center w-full">
-                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2"/>
+                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("funding", { required: { value: true, message: "Project Funding Target is required" } })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
@@ -576,7 +595,7 @@ const StageData = stage.map(
                       Total Raised
                     </Text>
                     <div className="relative flex items-center w-full">
-                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2"/>
+                      <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("totalRaised", { required: { value: true, message: "Project Funding Target is required" } })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
@@ -588,6 +607,70 @@ const StageData = stage.map(
                       />
                     </div>
                     {/* {errors.totalRaised && <span className="text-sm font-dm-sans-regular text-red-500">{errors.totalRaised.message}</span>} */}
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Stage
+                    </Text>
+                    <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStage} 
+                    placeholder="Select Stage" selectedOptionsDfault={project?.stage || ''}
+                    content={
+                      ( option) =>{ return (
+                          <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 py-2 items-center  w-full">
+                               {option}
+                           </div>
+                        );
+                      }
+                    }/>
+                    {/* {selectedStages.length==0 && <span className="text-sm font-dm-sans-regular text-red-500">Please select stages</span>}  */}
+                    
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Country
+                    </Text>
+                    <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setSelectedCountry} 
+                        placeholder="Select Country" valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""}
+                        content={
+                          ( option) =>{ return (
+                            <div className="flex  py-2 items-center  w-full">
+                                <Text
+                                  className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                                  >
+                                  {option.name}
+                                </Text>
+                              </div>
+                            );
+                          }
+                    }/>
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Project Sector
+                    </Text>
+                    <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
+                        placeholder="Select Project Sector" selectedOptionsDfault={project?.sector || ''}
+                        content={
+                          ( option) =>{ return (
+                            <div className="flex  py-2 items-center  w-full">
+                                <Text
+                                  className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
+                                  >
+                                  {option}
+                                </Text>
+                              </div>
+                            );
+                          }
+                        }/>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -613,26 +696,6 @@ const StageData = stage.map(
                         );
                       }
                     } />               
-                  </div>
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
-                      size="txtDMSansLablel"
-                    >
-                      Stage
-                    </Text>
-                    <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStage} 
-                    placeholder="Select Stage" selectedOptionsDfault={project?.stage}
-                    content={
-                      ( option) =>{ return (
-                          <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto py-2 items-center  w-full">
-                               {option}
-                           </div>
-                        );
-                      }
-                    }/>
-                    {/* {selectedStages.length==0 && <span className="text-sm font-dm-sans-regular text-red-500">Please select stages</span>}  */}
-                    
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
@@ -677,6 +740,33 @@ const StageData = stage.map(
                   {` `}
                 </div> */}
                 <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text
+                      className="text-base text-gray-900_01 w-auto"
+                      size="txtDMSansCardHeader16"
+                    >
+                      Project Logo
+                    </Text>
+                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full py-1"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDropLogo}>
+                      {logoFile ? (
+                        <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[148px]" />
+                      ) : (
+                      <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
+                        <IoImageOutline />
+                        <div className="flex flex-col items-start justify-start w-auto">
+                          <Text
+                            className="text-[13px] text-base leading-6 tracking-normal w-auto"
+                            size="txtDMSansRegular13"
+                          >
+                          {isDragging? "Drop Your logo here" : "Upload Your Logo"}  
+                          </Text>
+                        </div>
+                      </div>
+                        )}
+                    </div>
+                  </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-gray-900_01 w-auto"

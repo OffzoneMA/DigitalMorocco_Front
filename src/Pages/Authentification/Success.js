@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import React, { useEffect , useState} from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout, setCredentials } from "../../Redux/auth/authSlice";
+import { setCredentials } from "../../Redux/auth/authSlice";
+import Loader from '../../Components/Loader';
+import axios from 'axios';
 
 export default function Success() {
   const [searchParams] = useSearchParams();
@@ -47,8 +48,8 @@ export default function Success() {
     }, [auth , dispatch, navigate]);
      
     return (
-        <div className="flex flex-col items-center justify-start md:h-screen ">
-        <CheckCircleIcon className='h-40 w-40 text-blue-500'  />
+        <div className="flex flex-col items-center justify-center md:h-screen w-full">
+        <Loader/>
         </div>
       )
   

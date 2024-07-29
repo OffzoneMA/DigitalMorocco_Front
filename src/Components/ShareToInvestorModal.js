@@ -2,11 +2,9 @@ import React , {useState , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { IoSearch } from "react-icons/io5";
 import { Text } from "./Text";
-import { FaCheck } from "react-icons/fa";
-import { IoIosCheckmark } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import ConfirmedModal from "./ConfirmedModal";
-import { useGetAllInvestorsQuery } from "../Services/Investor.Service";
+import { useGetInvestorsQuery } from "../Services/Investor.Service";
 import Loader from "./Loader";
 import fileSearchImg from '../Media/file-search.svg';
 import { useShareProjectMutation } from "../Services/Member.Service";
@@ -18,7 +16,7 @@ const ShareToInvestorModal = (props) => {
   const projectId = props?.projectId;
   const [searchValue, setSearchValue] = useState("");
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-  const { data : investorsData, error, isLoading , refetch } = useGetAllInvestorsQuery();
+  const { data : investorsData, error, isLoading , refetch } = useGetInvestorsQuery();
   const [shareProject, { data: shareData, isLoading: shareLoding, isSuccess: shareSuccess , isError, error: shareError }] = useShareProjectMutation();
 
   const handleInvestorSelection = (id) => {
@@ -30,8 +28,6 @@ const ShareToInvestorModal = (props) => {
       }
     });
   };
-
-  console.log(shareData)
 
   const openModal  = () =>  {
     setIsConfirmedModalOpen(true);
@@ -61,7 +57,8 @@ const filteredInvestors = investorsData?.investors.filter(investor =>
 
 const onSubmit = async () => {
   try {
-    await shareProject({ projectId , selectedInvestors });
+    await shareProject({ projectId , investorIds: selectedInvestors });
+    openModal();
   } catch (err) {
     console.error('Failed to share project:', err);
   }
@@ -81,8 +78,6 @@ useEffect(() => {
   }
 
 }, [])
-
-console.log(investorsData?.investors)
 
 
   return (

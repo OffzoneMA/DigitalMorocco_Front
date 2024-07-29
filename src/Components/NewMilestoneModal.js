@@ -1,24 +1,19 @@
-import React, {useState , useEffect} from "react";
-import { default as ModalProvider } from "react-modal";
-import { Text } from "./Text";
-import { IoCloseOutline } from "react-icons/io5";
-import { MdOutlineDateRange } from "react-icons/md";
-import { useForm } from "react-hook-form";
+import React, {useEffect, useState} from "react";
+import {default as ModalProvider} from "react-modal";
+import {Text} from "./Text";
+import {IoCloseOutline} from "react-icons/io5";
+import {useForm} from "react-hook-form";
 import CustomCalendar from "./CustomCalendar";
-import { useAddMilestoneToProjectMutation } from "../Services/Project.Service";
+import {useAddMilestoneToProjectMutation} from "../Services/Project.Service";
 
 const NewMilestoneModal = (props) => {
-  const [isFocused, setIsFocused] = useState(false);
   const [selectedDate , setSelectedDate] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [addMilestoneToProject, {isSuccess, isLoading, isError, error }] = useAddMilestoneToProjectMutation();
 
   function parseDateString(dateString) {
     const [day, month, year] = dateString.split('/');
-
-    const dateObject = new Date(`${year}-${month}-${day}`);
-
-    return dateObject;
+    return new Date(`${year}-${month}-${day}`);
 }
   const onSubmit = async (data) => {
     try {

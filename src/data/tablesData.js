@@ -827,190 +827,190 @@ export const CompanyLegalData = [
 ];
 
 export const InvestorsData = [
-    {logo:"images/img_inv.svg", InvestorName: "Venture Catalysts", Type: "Venture Capital", NumberOfInvestment: 231, NumberOfExits: 89, Location: "Mumbai, India", PreferredInvestmentIndustry: "SaaS, Artificial Intelligence, Machine Learning" },
-    {logo:"images/img_inv1.svg" ,InvestorName: "Startup Funding Club", Type: "Angel", NumberOfInvestment: 104, NumberOfExits: 96, Location: "BB Bogotá, Colombia", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
-    {logo:"images/img_inv2.svg" , InvestorName: "Techstars Atlanta", Type: "Venture Capital", NumberOfInvestment: 123, NumberOfExits: 72, Location: "London, United Kingdom", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
-    {logo:"images/img_inv3.svg" , InvestorName: "Urban-X Accelerator", Type: "Accelerator", NumberOfInvestment: 254, NumberOfExits: 86, Location: "Cairo, Egypt", PreferredInvestmentIndustry: "Edutech, E-Learning, Corporate Training" },
-    {logo:"images/img_inv4.svg" ,  InvestorName: "Misk500 Accelerator", Type: "Accelerator", NumberOfInvestment: 342, NumberOfExits: 111, Location: "Sydney, Australia", PreferredInvestmentIndustry: "Big Data, SaaS, Crowdfunding" },
-    {logo:"images/img_inv5.svg", InvestorName: "Brendan Wallace", Type: "Angel", NumberOfInvestment: 213, NumberOfExits: 85, Location: "Abu Dhabi, UAE", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology, " },
+    {logo:"images/img_inv.svg", InvestorName: "Venture Catalysts", type: "Venture Capital", numberOfInvestment: 231, numberOfExits: 89, location: "Mumbai, India", PreferredInvestmentIndustry: "SaaS, Artificial Intelligence, Machine Learning" },
+    {logo:"images/img_inv1.svg" ,InvestorName: "Startup Funding Club", type: "Angel", numberOfInvestment: 104, numberOfExits: 96, location: "BB Bogotá, Colombia", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
+    {logo:"images/img_inv2.svg" , InvestorName: "Techstars Atlanta", type: "Venture Capital", numberOfInvestment: 123, numberOfExits: 72, location: "London, United Kingdom", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
+    {logo:"images/img_inv3.svg" , InvestorName: "Urban-X Accelerator", type: "Accelerator", numberOfInvestment: 254, numberOfExits: 86, location: "Cairo, Egypt", PreferredInvestmentIndustry: "Edutech, E-Learning, Corporate Training" },
+    {logo:"images/img_inv4.svg" ,  InvestorName: "Misk500 Accelerator", type: "Accelerator", numberOfInvestment: 342, numberOfExits: 111, location: "Sydney, Australia", PreferredInvestmentIndustry: "Big Data, SaaS, Crowdfunding" },
+    {logo:"images/img_inv5.svg", InvestorName: "Brendan Wallace", type: "Angel", numberOfInvestment: 213, numberOfExits: 85, location: "Abu Dhabi, UAE", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology, " },
     {
         logo: "images/img_inv11.svg",
         InvestorName: "BlueYard Capital",
-        Type: "Venture Capital",
-        NumberOfInvestment: 120,
-        NumberOfExits: 65,
-        Location: "Berlin, Germany",
+        type: "Venture Capital",
+        numberOfInvestment: 120,
+        numberOfExits: 65,
+        location: "Berlin, Germany",
         PreferredInvestmentIndustry: "Blockchain, Crypto, Fintech"
     },
     {
         logo: "images/img_inv12.svg",
         InvestorName: "500 Startups",
-        Type: "Accelerator",
-        NumberOfInvestment: 500,
-        NumberOfExits: 250,
-        Location: "San Francisco, USA",
+        type: "Accelerator",
+        numberOfInvestment: 500,
+        numberOfExits: 250,
+        location: "San Francisco, USA",
         PreferredInvestmentIndustry: "E-commerce, Healthtech, Mobile"
     },
     {
         logo: "images/img_inv2.svg",
         InvestorName: "Seedcamp",
-        Type: "Seed Fund",
-        NumberOfInvestment: 200,
-        NumberOfExits: 120,
-        Location: "London, United Kingdom",
+        type: "Seed Fund",
+        numberOfInvestment: 200,
+        numberOfExits: 120,
+        location: "London, United Kingdom",
         PreferredInvestmentIndustry: "Fintech, SaaS, Marketplace"
     },
     {
         logo: "images/img_inv3.svg",
         InvestorName: "Y Combinator",
-        Type: "Accelerator",
-        NumberOfInvestment: 2000,
-        NumberOfExits: 800,
-        Location: "Mountain View, USA",
+        type: "Accelerator",
+        numberOfInvestment: 2000,
+        numberOfExits: 800,
+        location: "Mountain View, USA",
         PreferredInvestmentIndustry: "Tech, Software, Consumer"
     },
     {
         logo: "images/img_inv8.png",
         InvestorName: "Sequoia Capital",
-        Type: "Venture Capital",
-        NumberOfInvestment: 400,
-        NumberOfExits: 250,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 400,
+        numberOfExits: 250,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Software, Healthcare, Consumer"
     },
     {
         logo: "images/img_inv9.png",
         InvestorName: "Accel",
-        Type: "Venture Capital",
-        NumberOfInvestment: 500,
-        NumberOfExits: 300,
-        Location: "Palo Alto, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 500,
+        numberOfExits: 300,
+        location: "Palo Alto, USA",
         PreferredInvestmentIndustry: "Cloud, AI, Security"
     },
     {
         logo: "images/img_inv10.png",
         InvestorName: "Greylock Partners",
-        Type: "Venture Capital",
-        NumberOfInvestment: 300,
-        NumberOfExits: 180,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 300,
+        numberOfExits: 180,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Enterprise, Consumer, AI"
     },
     {
         logo: "images/img_inv11.svg",
         InvestorName: "Benchmark",
-        Type: "Venture Capital",
-        NumberOfInvestment: 250,
-        NumberOfExits: 150,
-        Location: "San Francisco, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 250,
+        numberOfExits: 150,
+        location: "San Francisco, USA",
         PreferredInvestmentIndustry: "Consumer, Fintech, SaaS"
     },
     {
         logo: "images/img_inv2.svg",
         InvestorName: "Andreessen Horowitz",
-        Type: "Venture Capital",
-        NumberOfInvestment: 450,
-        NumberOfExits: 250,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 450,
+        numberOfExits: 250,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Bio, Crypto, Enterprise"
     },
     {
         logo: "images/img_inv3.svg",
         InvestorName: "Kleiner Perkins",
-        Type: "Venture Capital",
-        NumberOfInvestment: 300,
-        NumberOfExits: 200,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 300,
+        numberOfExits: 200,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Health, Green, AI"
     },
     {
         logo: "images/img_inv12.svg",
         InvestorName: "Lightspeed Venture Partners",
-        Type: "Venture Capital",
-        NumberOfInvestment: 350,
-        NumberOfExits: 220,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 350,
+        numberOfExits: 220,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Consumer, Fintech, SaaS"
     },
     {
         logo: "images/img_inv5.svg",
         InvestorName: "Bessemer Venture Partners",
-        Type: "Venture Capital",
-        NumberOfInvestment: 400,
-        NumberOfExits: 250,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 400,
+        numberOfExits: 250,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Cloud, Software, Health"
     },
     {
         logo: "images/img_inv.svg",
         InvestorName: "Founders Fund",
-        Type: "Venture Capital",
-        NumberOfInvestment: 200,
-        NumberOfExits: 120,
-        Location: "San Francisco, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 200,
+        numberOfExits: 120,
+        location: "San Francisco, USA",
         PreferredInvestmentIndustry: "Tech, Bio, Space"
     },
     {
         logo: "images/img_inv1.svg",
         InvestorName: "Insight Partners",
-        Type: "Venture Capital",
-        NumberOfInvestment: 250,
-        NumberOfExits: 150,
-        Location: "New York City, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 250,
+        numberOfExits: 150,
+        location: "New York City, USA",
         PreferredInvestmentIndustry: "SaaS, Tech, Healthcare"
     },
     {
         logo: "images/img_inv2.svg",
         InvestorName: "NEA",
-        Type: "Venture Capital",
-        NumberOfInvestment: 400,
-        NumberOfExits: 250,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 400,
+        numberOfExits: 250,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Tech, Healthcare, Consumer"
     },
     {
         logo: "images/img_inv8.png",
         InvestorName: "Greylock Partners",
-        Type: "Venture Capital",
-        NumberOfInvestment: 300,
-        NumberOfExits: 180,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 300,
+        numberOfExits: 180,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Enterprise, Consumer, AI"
     },
     {
         logo: "images/img_inv4.svg",
         InvestorName: "Redpoint Ventures",
-        Type: "Venture Capital",
-        NumberOfInvestment: 350,
-        NumberOfExits: 220,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 350,
+        numberOfExits: 220,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Consumer, SaaS, Fintech"
     },
     {
         logo: "images/img_inv5.svg",
         InvestorName: "CRV",
-        Type: "Venture Capital",
-        NumberOfInvestment: 250,
-        NumberOfExits: 150,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 250,
+        numberOfExits: 150,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Tech, Health, Consumer"
     },
     {
         logo: "images/img_inv.svg",
         InvestorName: "First Round Capital",
-        Type: "Venture Capital",
-        NumberOfInvestment: 300,
-        NumberOfExits: 200,
-        Location: "San Francisco, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 300,
+        numberOfExits: 200,
+        location: "San Francisco, USA",
         PreferredInvestmentIndustry: "Tech, Consumer, Health"
     },
     {
         logo: "images/img_inv1.svg",
         InvestorName: "Battery Ventures",
-        Type: "Venture Capital",
-        NumberOfInvestment: 400,
-        NumberOfExits: 250,
-        Location: "Menlo Park, USA",
+        type: "Venture Capital",
+        numberOfInvestment: 400,
+        numberOfExits: 250,
+        location: "Menlo Park, USA",
         PreferredInvestmentIndustry: "Consumer, Fintech, SaaS"
     }
 ];
@@ -1257,7 +1257,7 @@ export const eventData = [
     organizer: "Jefferson Capital",
     logo:"images/img_inv.svg",
     dateTime: "Jan 11, 2024  01:49 pm",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Casablanca"
   },
   {
@@ -1266,7 +1266,7 @@ export const eventData = [
     organizer: "Startup Funding Club",
     logo:"images/img_inv1.svg" ,
     dateTime: "Mar 13, 2024  08:05 am",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Casablanca"
   },
   {
@@ -1275,7 +1275,7 @@ export const eventData = [
     organizer: "GoMyCode",
     logo:"images/img_inv12.svg" ,
     dateTime: "Feb 21, 2024  03:05 pm",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Rabat"
   },
   {
@@ -1284,7 +1284,7 @@ export const eventData = [
     organizer: "XYZ Combinator",
     logo:"images/img_inv2.svg" ,
     dateTime: "Jan 1, 2024  01:49 pm",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Marrakech"
   },
   {
@@ -1293,7 +1293,7 @@ export const eventData = [
     organizer: "North Africa Dreamin’",
     logo:"images/img_inv8.png" ,
     dateTime: "May 3, 2024  12:10 am",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "Agadir"
   },
   {
@@ -1302,7 +1302,7 @@ export const eventData = [
     organizer: "Business Connect",
     logo:"images/img_inv9.png" ,
     dateTime: "Feb 21, 2024  03:05 pm",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "Tangier"
   },
   {
@@ -1311,7 +1311,7 @@ export const eventData = [
     organizer: "Karizma Consulting Group",
     logo:"images/img_inv10.png" ,
     dateTime: "Oct 13, 2024  08:05 am",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Fez"
   },
   {
@@ -1320,7 +1320,7 @@ export const eventData = [
     organizer: "DeepLearning.AI community",
     logo:"images/img_inv11.svg",
     dateTime: "Sep 4, 2021  12:14 am",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Ouarzazate"
   },
   {
@@ -1329,7 +1329,7 @@ export const eventData = [
     organizer: "MedTech Innovators",
     logo: "images/img_inv3.svg",
     dateTime: "Apr 5, 2024 02:30 pm",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Tetouan"
 },
 {
@@ -1338,7 +1338,7 @@ export const eventData = [
     organizer: "Online Business Academy",
     logo: "images/img_inv4.svg",
     dateTime: "May 15, 2024 09:00 am",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Meknes"
 },
 {
@@ -1347,7 +1347,7 @@ export const eventData = [
     organizer: "CryptoHub",
     logo: "images/img_inv5.svg",
     dateTime: "Mar 20, 2024 03:00 pm",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "Essaouira"
 },
 {
@@ -1356,7 +1356,7 @@ export const eventData = [
     organizer: "Morocco Startup Hub",
     logo: "images/img_inv6.svg",
     dateTime: "Jul 10, 2024 10:00 am",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "El Jadida"
 },
 {
@@ -1365,7 +1365,7 @@ export const eventData = [
     organizer: "AppMasters",
     logo: "images/img_inv7.svg",
     dateTime: "May 25, 2024 04:00 pm",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Chefchaouen"
 },
 {
@@ -1374,7 +1374,7 @@ export const eventData = [
     organizer: "Finance Futures",
     logo: "images/img_inv8.png",
     dateTime: "Sep 15, 2024 11:00 am",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "Taza"
 },
 {
@@ -1383,7 +1383,7 @@ export const eventData = [
     organizer: "CloudTech Solutions",
     logo: "images/img_inv9.png",
     dateTime: "Oct 10, 2024 02:30 pm",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Beni Mellal"
 },
 {
@@ -1392,7 +1392,7 @@ export const eventData = [
     organizer: "Tech Innovators",
     logo: "images/img_inv10.png",
     dateTime: "Nov 20, 2024 09:00 am",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Nador"
 },
 {
@@ -1401,7 +1401,7 @@ export const eventData = [
     organizer: "Marketing Masters",
     logo: "images/img_inv11.svg",
     dateTime: "Dec 5, 2024 03:00 pm",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "Al Hoceima"
 },
 {
@@ -1410,7 +1410,7 @@ export const eventData = [
     organizer: "SecureTech",
     logo: "images/img_inv12.svg",
     dateTime: "Jan 15, 2024 10:00 am",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Larache"
 },
 {
@@ -1419,7 +1419,7 @@ export const eventData = [
     organizer: "Data Experts",
     logo: "images/img_inv.svg",
     dateTime: "Feb 20, 2024 04:00 pm",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Khouribga"
 },
 {
@@ -1428,7 +1428,7 @@ export const eventData = [
     organizer: "EcoInnovate",
     logo: "images/img_inv1.svg",
     dateTime: "Mar 10, 2024 11:00 am",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "Asilah"
 },
 {
@@ -1437,7 +1437,7 @@ export const eventData = [
     organizer: "Morocco Accelerate",
     logo: "images/img_inv11.svg",
     dateTime: "Apr 15, 2024 02:30 pm",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Oujda"
 },
 {
@@ -1446,7 +1446,7 @@ export const eventData = [
     organizer: "IoT Innovators",
     logo: "images/img_inv12.svg",
     dateTime: "May 5, 2024 09:00 am",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Safi"
 },
 {
@@ -1455,7 +1455,7 @@ export const eventData = [
     organizer: "VR World",
     logo: "images/img_inv2.svg",
     dateTime: "Mar 20, 2024 03:00 pm",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "Taroudant"
 },
 {
@@ -1464,7 +1464,7 @@ export const eventData = [
     organizer: "AgriInnovate",
     logo: "images/img_inv3.svg",
     dateTime: "Jul 10, 2024 10:00 am",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Tan Tan"
 },
 {
@@ -1473,7 +1473,7 @@ export const eventData = [
     organizer: "EcomExpo",
     logo: "images/img_inv12.svg",
     dateTime: "May 25, 2024 04:00 pm",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Sefrou"
 },
 {
@@ -1482,7 +1482,7 @@ export const eventData = [
     organizer: "AeroTech",
     logo: "images/img_inv4.svg",
     dateTime: "Sep 15, 2024 11:00 am",
-    eventType: "Past Event",
+    eventtype: "Past Event",
     location: "El Kelaa des Sraghna"
 },
 {
@@ -1491,7 +1491,7 @@ export const eventData = [
     organizer: "EduInnovators",
     logo: "images/img_inv5.svg",
     dateTime: "Oct 10, 2024 02:30 pm",
-    eventType: "Upcoming Event",
+    eventtype: "Upcoming Event",
     location: "Berrechid"
 },
 {
@@ -1500,7 +1500,7 @@ export const eventData = [
     organizer: "EcoPower",
     logo: "images/img_inv6.svg",
     dateTime: "Nov 20, 2024 09:00 am",
-    eventType: "Ongoing Event",
+    eventtype: "Ongoing Event",
     location: "Tiznit"
 },
 ];

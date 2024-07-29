@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";

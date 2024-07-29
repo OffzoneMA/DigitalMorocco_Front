@@ -62,11 +62,11 @@ export const memberApi = createApi({
 
         getAllConatctReq: builder.query({
             query: (arg) => {
-                const { page } = arg;
+                // const { page } = arg;
                 return {
                     url: '/ContactRequest',
                     method: 'GET',
-                    params: { page },
+                    params: { arg },
                 }
             },
         }),
@@ -86,6 +86,17 @@ export const memberApi = createApi({
                 }
             },
         }),
+
+        createConatctReqProject: builder.mutation({
+            query: (payload) => {
+                return {
+                    url: '/sendContact',
+                    method: 'POST',
+                    body: payload
+                }
+            },
+        }),
+
         buySub: builder.mutation({
             query: (subid) => {
                 return {
@@ -154,4 +165,4 @@ export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllProjec
     useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,
     useGetAllMembersQuery , useUpdateEmployeeMutation, useUpdateProjectMutation, useUpdateLegalDocumentMutation,
     useCreateCompanyMutation, useCreateLegalDocumentMutation, useCreateEmployeeMutation,
-    useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutation} = memberApi
+    useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutation , useCreateConatctReqProjectMutation} = memberApi

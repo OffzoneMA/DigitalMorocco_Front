@@ -11,28 +11,22 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
   const parentRef = useRef(null);
 
   useEffect(() => {
-    setSelectedOption(selectedOptionsDfault);
+    setSelectedOption(selectedOptionsDfault || '');
   }, [selectedOptionsDfault]);
 
 
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const toggleDropdown = (event) => {
+    event.stopPropagation(); // Stop event propagation to prevent handleClickOutside from being triggered
+    setIsOpen(prevState => !prevState);
   };
 
   const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !parentRef.current.contains(event.target)) {
       setIsOpen(false);
     }
   };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
@@ -61,17 +55,34 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
     }
   };
 
+  // useEffect(() => {
+  //   // Ajustez la position et la largeur du dropdown lorsqu'il est ouvert
+  //   if (isOpen) {
+  //     calculateDropdownPosition();
+  //   }
+  // }, [isOpen]);
   useEffect(() => {
-    // Ajustez la position et la largeur du dropdown lorsqu'il est ouvert
     if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('scroll', calculateDropdownPosition, true);
+      window.addEventListener('resize', calculateDropdownPosition);
       calculateDropdownPosition();
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', calculateDropdownPosition, true);
+      window.removeEventListener('resize', calculateDropdownPosition);
     }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('scroll', calculateDropdownPosition, true);
+      window.removeEventListener('resize', calculateDropdownPosition);
+    };
   }, [isOpen]);
 
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className="flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] cursorpointer-green"
+        className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${isOpen ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green `}
         onClick={toggleDropdown}
       >
         <input

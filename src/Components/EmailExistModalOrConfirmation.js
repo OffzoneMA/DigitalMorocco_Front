@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text } from './Text';
-import {default as ModalProvider} from "react-modal";
 import { useTranslation } from 'react-i18next';
 import emailError from '../Media/emailError.svg';
 import Popup from 'reactjs-popup';
@@ -24,7 +23,7 @@ const EmailExistModalOrConfirmation = (props) => {
         </div>
         <div className="flex flex-col gap-6 items-center justify-start max-w-[460px]">
           {props?.content || 
-            <div className="flex flex-col gap-[38px] items-center justify-start w-auto  w-full">
+            <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
             <img
               className="h-[100px] w-[100px]"
               src={emailError}

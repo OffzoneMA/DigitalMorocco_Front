@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
+  mode: 'jit',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
     theme: {
     extend: {
@@ -12,7 +14,8 @@ module.exports = {
         },
       
         fontFamily: {
-        'DmSans': ['DM Sans'] , inter:['Inter'] , manrope: ['Manrope'],
+         sans: ['DMSans-Regular' , ...defaultTheme.fontFamily.sans],
+         DmSans: ['DM Sans'] , inter:['Inter'] , manrope: ['Manrope'],
         'montserrat-medium': ['Montserrat-Medium'],
         'dm-sans-regular': ['DMSans-Regular'],
         'dm-sans-medium': ['DMSans-Medium'],
@@ -160,6 +163,8 @@ module.exports = {
           ],
           langbs: ['0px 12px 16px -4px rgba(16, 24, 40, 0.10)'
           , '0px 4px 6px -2px rgba(16, 24, 40, 0.05)'],
+          loginModalbs: '0px 100px 80px 0px rgba(0, 0, 0, 0.07), 0px 41.778px 33.422px 0px rgba(0, 0, 0, 0.05), 0px 22.336px 17.869px 0px rgba(0, 0, 0, 0.04), 0px 12.522px 10.017px 0px rgba(0, 0, 0, 0.04), 0px 6.65px 5.32px 0px rgba(0, 0, 0, 0.03), 0px 2.767px 2.214px 0px rgba(0, 0, 0, 0.02)',
+          loginModalbsReduced: '0px 25px 20px 0px rgba(0, 0, 0, 0.07), 0px 10.889px 8.355px 0px rgba(0, 0, 0, 0.05), 0px 5.584px 4.467px 0px rgba(0, 0, 0, 0.04), 0px 3.261px 2.504px 0px rgba(0, 0, 0, 0.04), 0px 1.662px 1.33px 0px rgba(0, 0, 0, 0.03), 0px 0.692px 0.553px 0px rgba(0, 0, 0, 0.02)',
         },
 
     },

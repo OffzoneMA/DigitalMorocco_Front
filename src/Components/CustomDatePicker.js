@@ -3,7 +3,6 @@ import DatePicker from "tailwind-datepicker-react";
 import { MdOutlineDateRange } from "react-icons/md";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
-import ReactDOM from 'react-dom';
 
 
 const CustomDatePicker = ({setValue , className , onChangeDate}) => {
@@ -24,8 +23,6 @@ const CustomDatePicker = ({setValue , className , onChangeDate}) => {
 	const handleClose = (state) => {
 		setShow(state)
 	}
-
-    console.log(new Intl.Locale(userLanguage))
 
     function getWeekdayLocale(localeName = userLanguage || 'en', weekday = 'short') {
         const format = new Intl.DateTimeFormat(localeName, { weekday }).format;
@@ -79,41 +76,11 @@ useEffect(() => {
           });
         
       };
-      
-    //   useEffect(() => {
-    //     if (show) {
-    //         const customPickerElement = document.querySelector('.custom-picker');
-            
-    //         if (customPickerElement) {
-    //             // Créer un nouvel élément avec les mêmes propriétés
-    //             const portalElement = document.createElement('div');
-    //             portalElement.appendChild(customPickerElement);
-                                
-    //             // Appliquer les styles
-    //             portalElement.style.position = 'absolute';
-    //             portalElement.style.top = `${dropdownPosition.top}px`;
-    //             portalElement.style.right = `${dropdownPosition.right}px`;
-    //             portalElement.style.width = '292px';
-    
-    //             // Placer le nouvel élément dans le portal root
-    //             ReactDOM.createPortal(portalElement , document.body)
-    //         }
-    //     }
-    
-    //     // // Nettoyer le portal lors du démontage
-    //     // return () => {
-    //     //     const portalElement = document.querySelector('.custom-picker');
-    //     //     if (portalElement) {
-    //     //         portalElement.remove();
-    //     //     }
-    //     // };
-    // }, [show, dropdownPosition]);
-    
+
       useEffect(() => {
         // Ajustez la position et la largeur du dropdown lorsqu'il est ouvert
         if (show) {
           calculateDropdownPosition();
-          console.log(dropdownPosition)
         }
       }, [show]);
     
