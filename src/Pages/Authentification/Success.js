@@ -45,7 +45,8 @@ export default function Success() {
           });
       }
     
-    }, [auth , dispatch, navigate]); 
+    }, [auth , dispatch, navigate]);
+     
     return (
         <div className="flex flex-col items-center justify-center md:h-screen w-full">
         <Loader/>

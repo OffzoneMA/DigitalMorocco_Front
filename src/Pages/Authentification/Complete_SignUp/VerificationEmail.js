@@ -9,11 +9,14 @@ import logo from '../../../Media/img_logo.svg';
 import verifyImage from '../../../Media/img_verify.svg';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
 import EmailExistModalOrConfirmation from '../../../Components/EmailExistModalOrConfirmation';
+import { logout } from '../../../Redux/auth/authSlice';
+import { useDispatch } from 'react-redux';
 
 
 export default function VerificationEmail() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const { userEmail } = useSelector((state) => state.auth)
@@ -21,6 +24,12 @@ export default function VerificationEmail() {
   const [sendLoding , setSendLoding] = useState(false);
   const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [trigger, { data, status , isSuccess , error: sendError}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+
+  
+  /**
+    * Current Language
+  */
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -32,49 +41,47 @@ export default function VerificationEmail() {
 
   useEffect(() => {
     const checkAccountVerification = async () => {
-      if (userInfo) {
-        userTrigger(userInfo?.email).then((payload) => {
+      let userEmail = userInfo?.email;
+      // If userInfo is not defined, try getting it from sessionStorage
+      if (!userEmail) {
+        const storedUserData = localStorage.getItem('userEmail');
+        if (storedUserData) {
+          userEmail = storedUserData;
+        }
+      }
+      console.log(userEmail)
+      if (userEmail) {
+        try {
+          const payload = await userTrigger(userEmail);
           if (payload?.isSuccess && payload?.data?.status === 'verified') {
             setTimeout(() => {
               if (!payload?.data?.role) {
-                navigate('/ChooseRole');
+                // sessionStorage.setItem('firtSession' , true)
+                // navigate('/ChooseRole');
+                dispatch(logout());
+                sessionStorage.clear();
+                window.location.href = `https://digitalmorocco.net?lang=${currentLanguage}`;
               } else {
-                navigate('/SignIn');
+                // Perform logout and navigate
+                dispatch(logout());
+                window.location.href = `https://digitalmorocco.net?lang=${currentLanguage}`;
               }
             }, 2000);
           }
-        })
+        } catch (error) {
+          console.error('Error checking account verification:', error);
+        }
       }
-      //  else {
-      //   if (userEmail) {
-      //     userTrigger(userEmail).then((payload) => {
-      //       if (payload?.isSuccess && payload?.data?.status === 'verified') {
-      //         toast.success("Account Verified !");
-      //         setTimeout(() => {
-      //           if (!payload?.data?.role) {
-      //             navigate('/ChooseRole');
-      //           } else {
-      //             navigate('/SignIn');
-      //           }
-      //         }, 2000);
-      //       }
-      //     } )
-      //   } else {
-      //     console.log('user Email not found')
-      //     console.log(userEmail)
-      //   }
-
-      // }
     };
   
     checkAccountVerification();
   
     const interval = setInterval(() => {
       checkAccountVerification();
-    }, 5000); 
+    }, 1000); 
   
-    return () => clearInterval(interval); 
-  }, [userInfo]);
+    return () => clearInterval(interval);
+  }, [userInfo, navigate]);
   
   const handleResendEmail = async () => {
     try {

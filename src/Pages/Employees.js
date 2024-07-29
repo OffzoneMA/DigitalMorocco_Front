@@ -12,6 +12,7 @@ import DeleteModal from "../Components/DeleteModal";
 import { PiUsersThin } from "react-icons/pi";
 import { FiEdit3 } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi";
+import Loader from "../Components/Loader";
 
 const Employees = () => {
   const [employees, setMembers] = useState([]);
@@ -39,7 +40,7 @@ const Employees = () => {
 
   useEffect(() => {
     fetchMembers();
-  });
+  } , []);
 
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
@@ -143,15 +144,9 @@ const Employees = () => {
                   <th scope="col" className="p-3 w-auto"></th>
                   </tr>
                 </thead>
-                
-                  {pageData?.length > 0 ?
+                  {filteredEmployees?.length > 0 ?
                 <tbody className="font-DmSans text-sm font-normal leading-[26px] ">
-                  
-                  {loading ? (
-                     <div className="flex items-center justify-center w-full h-full">
-                     <Loading />
-                 </div>
-                  ) : (
+                  {(
                     filteredEmployees.map((employee, index) => (
                       <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                         
@@ -190,7 +185,12 @@ const Employees = () => {
                 :
                 ""}
               </table>
-              {!pageData?.length>0 && (
+              {loading ? (
+                     <div className="flex items-center justify-center w-full h-full py-32">
+                     <Loader />
+                 </div>
+                  ) :
+              (!filteredEmployees?.length>0 && (
                   <div className="flex flex-col items-center w-full text-gray500 py-28">
                     <PiUsersThin size={30} />
                     <Text
@@ -200,8 +200,8 @@ const Employees = () => {
                       No Team Mmembers 
                     </Text>
                   </div>
-                )}
-              {pageData?.length>0 && (
+                ))}
+              {filteredEmployees?.length>0 && (
                 <div className='w-full flex items-center p-4'>
                     <TablePagination
                       currentPage={cur}

@@ -62,7 +62,7 @@ const NewDocumentModal = (props) => {
     return (
       <ModalProvider
         appElement={document.getElementById("root")}
-        className="m-auto w-[65%] md:w-[45%] lg:w-[40%] xl:w-[40%] 2xl:w-[35%]"
+        className="m-auto w-[95%] max-w-[540px]"
         overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
         {...props}
       >

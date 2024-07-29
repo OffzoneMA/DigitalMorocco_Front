@@ -29,7 +29,7 @@ const Users = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const filteredUsers = response.data.filter(user => user.status === 'notVerified');
+      const filteredUsers = response.data.filter(user => user.status === 'pending');
       setUsers(filteredUsers);
       setLoading(false);
     } catch (error) {
@@ -139,7 +139,7 @@ const Users = () => {
           <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
             <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
                 <TableTitle>
-                  List of Unverified  Users
+                  List of UnApproved  Users
                 </TableTitle>
               
             </div>
@@ -147,35 +147,21 @@ const Users = () => {
               <table className="w-full border-collapse">
                 <thead>
                 <tr className="font-DmSans text-sm leading-6">
-                <th className="p-3 text-center text-blue_gray-800_01 font-medium ">Display Name</th>
-                    <th className="p-3 text-center text-blue_gray-800_01 font-medium ">Google ID</th>
-                    <th className="p-3 text-center text-blue_gray-800_01 font-medium ">LinkedIn ID</th>
-                    <th className="p-3 text-center text-blue_gray-800_01 font-medium ">Email</th>
-                    <th className="p-3 text-center text-blue_gray-800_01 font-medium ">Role</th>
-                    <th className="p-3 text-center text-blue_gray-800_01 font-medium ">Date Created</th>
-                    <th className="p-3 text-center text-blue_gray-800_01 font-medium ">Last Login</th>
-                    <th className="p-3 text-center text-blue_gray-800_01 font-medium ">Status</th>
+                <th className="p-3 text-left text-blue_gray-800_01 font-medium ">Display Name</th>
+                    <th className="p-3 text-left text-blue_gray-800_01 font-medium ">Google ID</th>
+                    <th className="p-3 text-left text-blue_gray-800_01 font-medium ">LinkedIn ID</th>
+                    <th className="p-3 text-left text-blue_gray-800_01 font-medium ">Email</th>
+                    <th className="p-3 text-left text-blue_gray-800_01 font-medium ">Role</th>
+                    <th className="p-3 text-left text-blue_gray-800_01 font-medium ">Date Created</th>
+                    <th className="p-3 text-left text-blue_gray-800_01 font-medium ">Last Login</th>
+                    <th className="p-3 text-left text-blue_gray-800_01 font-medium ">Status</th>
                   <th className="p-3 w-auto"></th>
                 </tr>
                 </thead>
+                { usersData?.length > 0 ?
                 <tbody className="font-DmSans text-sm font-normal leading-6">
                 {
-                loading ? (
-                     <div className="flex items-center justify-center w-full h-full">
-                     <Loading />
-                 </div>
-                  ) : !usersData?.length>0 ? (
-                    <div className="flex flex-col items-center w-full text-gray500 py-28">
-                    <AiOutlineFileSearch size={30} c />
-                    <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
-                      size=""
-                    >
-                      No Users Available
-                    </Text>
-                  </div>
-                  )
-                  : (usersData.map((user, index) => (
+                 usersData.map((user, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                     <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6" >
                         {renderTableCell(user.displayName)}
@@ -228,17 +214,52 @@ const Users = () => {
 
                     <td className="py-3 px-3 ">
                       <div className="flex flex-row space-x-3 px-3 items-center">
-                        <HiCheck size={17}  onClick={() => handleApproveUser(user._id, user.role)}  className="text-blue_gray-301" />
-                        <HiBan size={17} onClick={() => handleRejectUser(user._id, user.role)} className="text-blue_gray-301"/>
-                        
+                        <div className="w-[38px] h-8 px-3 py-2 bg-[#aeb6c5] rounded-md justify-end items-start gap-3 inline-flex" onClick={() => handleApproveUser(user._id, user.role)} >
+                          <div className="justify-center items-center gap-2 flex">
+                            <HiCheck size={17}  className="text-white-A700" />
+                          </div>
+                          {/* <div className="w-[100px] h-11 pl-2 pt-1.5 justify-end items-center inline-flex">
+                            <div className="w-[92px] h-[38px] relative flex-col justify-start items-start flex">
+                                <div className="w-[92px] h-[30px] px-[18px] py-2.5 bg-[#334080] rounded-md justify-start items-center gap-[105px] inline-flex">
+                                    <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-4 flex">
+                                        <div className="grow shrink basis-0 text-center text-white text-sm font-normal font-['DM Sans'] leading-relaxed">Approve</div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div> */}
+                        </div>
+                        <div className="w-[38px] h-8 px-3 py-2 bg-[#aeb6c5] rounded-md justify-end items-start gap-3 inline-flex" onClick={() => handleRejectUser(user._id, user.role)} >
+                          <div className="justify-center items-center gap-2 flex">
+                            <HiBan size={17} className="text-white-A700"/>
+                          </div>
+                        </div>                        
                       </div>
                     </td>
                   </tr>
                 ))
-                  )}
+                }
                 </tbody>
-                
+                :
+                ""
+                }
               </table>
+              {
+                loading ? (
+                     <div className="flex items-center justify-center w-full h-full">
+                     <Loading />
+                 </div>
+                  ) : !usersData?.length>0 && (
+                    <div className="flex flex-col items-center w-full text-gray500 py-28">
+                    <AiOutlineFileSearch size={30} />
+                    <Text
+                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                      size=""
+                    >
+                      No Users Available
+                    </Text>
+                  </div>
+                  )
+              }
              
             </div>
             

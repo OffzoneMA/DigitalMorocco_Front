@@ -39,8 +39,13 @@ const ChooseRole = () => {
     const [addNewRequest, response] = useAddNewRequestMutation()
     const [getUserDetails , { data, isSuccess, isError, error }] = authApi.endpoints.getUserDetails.useLazyQuery();
     const {userSocialInfos} = useSelector((state) => state.auth)
+    
+  /**
+   * Current Language
+  */
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
 
-    const dropdownRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

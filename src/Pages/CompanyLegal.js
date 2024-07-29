@@ -15,6 +15,7 @@ import Loading from "../Components/Loading";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
+import Loader from "../Components/Loader";
 
 const CompanyLegal = () => {
   const navigate = useNavigate();
@@ -191,24 +192,9 @@ const fetchLegalDocuments = async () => {
                   <th className="p-3 w-auto"></th>
                 </tr>
                 </thead>
+                {documentData?.length > 0 ?
                 <tbody className="font-DmSans text-sm font-normal leading-6">
-                {
-                loading ? (
-                     <div className="flex items-center justify-center w-full h-full">
-                     <Loading />
-                 </div>
-                  ) : !documentData?.length>0 ? (
-                    <div className="flex flex-col items-center w-full text-gray500 py-28">
-                    <AiOutlineFileSearch size={30} c />
-                    <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
-                      size=""
-                    >
-                      No Document Available
-                    </Text>
-                  </div>
-                  )
-                  : (documentData.map((document, index) => (
+                 {(documentData.map((document, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                     <td className="py-3 px-3" onClick={()=>openEditModal(document)}>
                       <div className="flex flex-row space-x-3 items-center">
@@ -243,9 +229,25 @@ const fetchLegalDocuments = async () => {
                 ))
                   )}
                 </tbody>
-                
+                :
+                ""}
               </table>
-             
+              {
+                loading ? (
+                     <div className="flex items-center justify-center w-full h-full py-32">
+                     <Loader />
+                 </div>
+                  ) : !documentData?.length>0 && (
+                  <div className="flex flex-col items-center w-full text-gray500 py-28">
+                    <AiOutlineFileSearch size={30} c />
+                    <Text
+                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                      size=""
+                    >
+                      No Document Available
+                    </Text>
+                  </div>
+                  )}
             </div>
             {documentData?.length>0 && (
               <div className='w-full flex items-center p-4'>
