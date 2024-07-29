@@ -100,7 +100,7 @@ export default function SignIn() {
                 navigate('/Dashboard_Admin') 
               }
               else if(userInfo?.role?.toLowerCase() == "member") {
-                navigate('/Dashboard')
+                navigate('/RedirectFromSignIn')
               }
               else if(userInfo?.status?.toLowerCase() == "pending") {
                 navigate('/RedirectFromSignIn')
