@@ -13,21 +13,34 @@ import { useForm } from "react-hook-form";
 import {companyType} from "../data/companyType";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
-
+import { useGetUserDetailsQuery } from "../Services/Auth";
 
 const MyCompany = () => {
-  const [logoFile, setLogoFile] = useState(null);
+  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+  const [logoFile, setLogoFile] = useState(userDetails?.member?.logo || '');
   const [imgFile , setImgFile] = useState(null);
   const [isSaved , setIsSaved] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [taxIdentfier, settaxIdentfier] = useState('');
-  const [corporateIdentfier,setcorporateIdentfier] = useState('');
+  const [taxIdentfier, settaxIdentfier] = useState(userDetails?.member?.taxNbr || '');
+  const [corporateIdentfier,setcorporateIdentfier] = useState(userDetails?.member?.corporateNbr || '');
   const [selectedCity , setSelectedCity] = useState(null);
-  const [selectedSector, setselectedSector] = useState([]);
+  const [selectedSector, setselectedSector] = useState(userDetails?.member?.companyType || '');
   const dataCountries = Country.getAllCountries();
-  const [selectedCountry , setSelectedCountry] = useState(null);
+  const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.member?.country));
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm(userDetails !=null && {
+    defaultValues: {
+      companyName: userDetails?.member?.companyName,
+      address: userDetails?.member?.address,
+      legalName: userDetails?.member?.legalName,
+      description: userDetails?.member?.desc,
+      website: userDetails?.member?.website,
+      contactEmail: userDetails?.member?.contactEmail,
+      taxIdentfier : userDetails?.member?.taxNbr,
+      corporateIdentfier : userDetails?.member?.corporateNbr
+    }
+  });
+
   const formRef = useRef();
   const formButtonRef = useRef();
 
@@ -94,6 +107,7 @@ const MyCompany = () => {
           contactEmail: data.contactEmail,
           desc: data.description,
           website: data.website,
+          address: data.address,
           taxIdentfier: taxIdentfier,
           corporateNbr : corporateIdentfier,
           companyType: selectedSector,
@@ -114,13 +128,15 @@ const MyCompany = () => {
           .then(response => response.json())
           .then(responseData => {
             console.log("Réponse du serveur :", responseData);
+            setIsSaved(true);
+            setTimeout(() => {
+              setIsSaved(false);
+          }, 5000); 
           }
-
           )
           .catch(error => {
             console.error("Erreur lors de l'envoi du formulaire :", error);
           });
-        setIsSaved(true);
 
       };
     } catch (error) {
@@ -268,7 +284,7 @@ const MyCompany = () => {
                   Country
                 </Text>
                 <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setSelectedCountry} 
-                    placeholder="Select Country" valuekey="name"
+                    placeholder="Select Country" valuekey="name" selectedOptionsDfault={userDetails?.member?.country? dataCountries.find(country => country.name === userDetails?.member?.country) : ""}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -290,8 +306,8 @@ const MyCompany = () => {
                 >
                   City/State
                 </Text>
-                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry['isoCode']): []} onSelect={""} searchLabel='Select City' setSelectedOptionVal={setSelectedCity} 
-                    placeholder="Select City" valuekey="name"
+                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry?.['isoCode']): []} onSelect={""} searchLabel='Select City' setSelectedOptionVal={setSelectedCity} 
+                    placeholder="Select City" valuekey="name" selectedOptionsDfault={userDetails?.member?.city? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userDetails?.member?.city) : ""}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -313,8 +329,8 @@ const MyCompany = () => {
                 >
                   Company Sector
                 </Text>
-                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setselectedSector} 
-                    placeholder="Select Company Sector"
+                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
+                    placeholder="Select Company Sector" selectedOptionsDfault={userDetails?.member?.companyType || ''}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -341,7 +357,9 @@ const MyCompany = () => {
                     {...register("taxIdentfier", { required: {value:true , message:"Company taxIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.taxIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
-                    name="name"
+                    name="taxIdentfier"
+                    value={taxIdentfier}
+                    onChange={e => handleChange(e, settaxIdentfier)}
                     placeholder="0000 - 0000 - 0000"
                   />
               </div>
@@ -356,7 +374,9 @@ const MyCompany = () => {
                     {...register("corporateIdentfier", { required: {value:true , message:"Company corporateIdentfier is required"} })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.corporateIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
-                    name="name"
+                    name="corporateIdentfier"
+                    value={corporateIdentfier}
+                    onChange={e => handleChange(e, setcorporateIdentfier)}
                     placeholder="0000 - 0000 - 0000"
                     
                   />

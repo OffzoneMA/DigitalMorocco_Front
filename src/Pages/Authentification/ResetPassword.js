@@ -11,7 +11,7 @@ import mailSendImage from '../../Media/img_mailsent.svg';
 
 export default function ResetPassword() {
   const { t } = useTranslation();
-  const [resetPassword, { isLoading , isSuccess , }] = useResetPasswordMutation()
+  const [resetPassword, { isLoading , isSuccess , error}] = useResetPasswordMutation()
   const [showPassword, setShowPassword] = useState(false); 
   const [showConfPassword, setShowConfPassword] = useState(false); 
 
@@ -30,8 +30,12 @@ export default function ResetPassword() {
     if (isSuccess) {
       setTimeout(() => navigate('/PasswordResetSucces'), 1000)
     }
+    else if(error) {
+      console.log(error)
+      setTimeout(() => navigate(`/SignIn?err=${error?.message}`), 1000)
+    }
 
-  }, [isSuccess , isLoading ])
+  }, [isSuccess , isLoading , error])
 
   const formButtonRef = useRef();
 
@@ -59,11 +63,13 @@ export default function ResetPassword() {
     
   async function onSubmit(values) {
     const token = extractTokenFromURL();
-    const payload = { ...values, token };
-    console.log(payload);
+    const language = localStorage.getItem('language');
+    const payload = { ...values, token ,language};
 
     try {
-       resetPassword(payload); 
+       await resetPassword(payload).then((payload) => {
+
+       }); 
     } catch (error) {
       console.log(error)
     }

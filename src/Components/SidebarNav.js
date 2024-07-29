@@ -34,6 +34,7 @@ const SidebarNav = () => {
     const [activeMenu, setActiveMenu] = useState(decodeURIComponent(window.location.hash.substring(1)) || "History");
 
     const [activeParent, setActiveParent] = useState('');
+    const [showLogout , setShowLogout] = useState(false);
 
     const navigate=useNavigate()
 
@@ -86,10 +87,14 @@ const SidebarNav = () => {
       Menus.push({ title: "Users", src: <RiUser3Line size={22} className="text-light_blue-100"/> , link:"Users" });
     }
 
-    const isSubmenuActive = (submenuName) => {
-      return Menus.find((menu) => menu.title === submenuName)?.child.some((child) => child.link === activeMenu);
+    const handleMouseEnter = () => {
+      setShowLogout(true);
     };
-    
+  
+    const handleMouseLeave = () => {
+      setShowLogout(false);
+    };
+
   return (
     <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer-green ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
@@ -187,33 +192,52 @@ const SidebarNav = () => {
       </span>
     </div></>
     )}
-    <div className="border-t border-blue_gray-601 flex px-1 py-5 items-center">
-      <img
-        src={`${userData?.image || userImg}`}
-        alt=""
-        className="w-9 h-9 rounded-full bg-cover"
-      />
-      <div
-        className={`
-      flex justify-between items-center
-      overflow-hidden transition-all ${open ? "w-52 ml-3" : "w-0"}
-  `}
-      >
-        <div className="leading-4">
-        <span className="text-white-A700">{userData?.displayName? userData?.displayName : "Camille Olivia"}</span>
+    <div className="flex flex-col relative" 
+     onMouseEnter={handleMouseEnter}
+     onMouseLeave={handleMouseLeave}>
+      <div className="border-t border-blue_gray-601 flex px-1 pt-5 items-center" >
+        <img
+          src={`${userData?.image || userImg}`}
+          alt=""
+          className="w-9 h-9 rounded-full bg-cover"
+        />
+        <div
+          className={`
+        flex justify-between items-center
+        overflow-hidden transition-all ${open ? "w-52 ml-3" : "w-0"}
+      `}
+        >
+          <div className="leading-4">
+          <span className="text-white-A700">{userData?.displayName? userData?.displayName : "Camille Olivia"}</span>
+          </div>
+        </div>
+        <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer-green`} 
+        onClick={()=> {
+          setNotifOpen(true)
+          navigate('/Notification')
+          setActiveMenu("Notification")
+        }}>
+        <IoNotificationsOutline size={20} className={`text-white-A700 ${activeMenu === "Notification"? 'text-blue_gray-801' :""}`}/>
         </div>
       </div>
-      <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer-green`} 
-      onClick={()=> {
-        setNotifOpen(true)
-        navigate('/Notification')
-        setActiveMenu("Notification")
-      }}>
-      <IoNotificationsOutline size={20} className={`text-white-A700 ${activeMenu === "Notification"? 'text-blue_gray-801' :""}`}/>
+      {showLogout && (
+      <div className="absolute top-full left-0 w-full">
+        <div className={`group flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md px-[10px] py-2.5 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`}
+          onClick={() => {
+            dispatch(logout());
+            navigate('/SignIn');
+          }}>
+          <HiOutlineLogout size={22} className="text-light_blue-100 group-hover:text-red-500" />
+          <span className="origin-left duration-200 flex-1">
+            SignOut
+          </span>
+        </div>
+        <div className="pb-5"></div>
       </div>
+      )}
     </div>
-    {userData?.role?.toLowerCase() == 'member' &&
-    <div className={`border border-[#475467] py-[12px] ${ open ? "px-[16px]" : "px-[7px]"} rounded-[200px] flex flex-row items-center justify-between`}>
+    {userData?.role?.toLowerCase() === 'member' &&
+    <div className={`border border-[#475467] py-[12px] ${ open ? "px-[16px]" : "px-[7px]"} rounded-[200px] flex flex-row items-center justify-between mt-5`}>
       <div className="flex gap-2 items-center">
         <img src={coinsIcon} className="min-w-[23px] w-[23px] h-[23px]"/>
         {open &&
@@ -245,19 +269,6 @@ const SidebarNav = () => {
       }
     </div>
     }
-
-    <div className="group flex text-base font-dm-sans-regular leading-6 rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center justify-center gap-x-2 mt-3"
-      onClick={() => {
-        dispatch(logout());
-        navigate('/SignIn');
-      }}>
-      <HiOutlineLogout size={22} className="text-light_blue-100 group-hover:text-red-500" />
-      <span className="origin-left duration-200 flex-1">
-        SignOut
-      </span>
-    </div>
-
-
     </div>
     
   </div>

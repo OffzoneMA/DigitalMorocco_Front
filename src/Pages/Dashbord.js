@@ -21,7 +21,9 @@ import creditsImg from '../Media/credits_img.svg';
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import Loader from "../Components/Loader";
 import fileSearchImg from '../Media/file-search.svg';
-
+import { useGetUserDetailsQuery } from "../Services/Auth";
+import { useGetAllConatctReqQuery } from "../Services/Member.Service";
+import { FaUserCircle } from "react-icons/fa";
 
 
 const Dashbord = () => {
@@ -496,8 +498,14 @@ const { userInfo } = useSelector((state) => state.auth)
                                 <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center">
-                                      <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2" />
-                                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.investorName}</span>
+                                      {item?.image ? (
+                                        <img src={item.image} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                                      ) : (
+                                        <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> // Placeholder icon
+                                      )}
+                                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {item?.investor?.name || 'Unknown Investor'}
+                                      </span>
                                     </div>
                                   </td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item.communicationStatus}</td>

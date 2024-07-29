@@ -16,7 +16,11 @@ import Loader from './Components/Loader';
 import Layout from './Components/Layout';
 import DashbordLayout from "./Components/DashbordLayout";
 import SubscribePlan from './Pages/SubscribePlan';
-
+import NotFound from './Pages/NotFound';
+import { useLocation } from 'react-router-dom';
+import ScrollToTop from './Components/ScrollToTop';
+import AutoLogout from './Components/AutoLogout ';
+import ResendVerificationLink from './Pages/Authentification/Complete_SignUp/ResendVerificationLink';
 
 // Utiliser React.lazy pour le code splitting
 const Home = lazy(() => import('./Pages/Home'));
@@ -62,6 +66,9 @@ const PastEvents = lazy(() => import('./Pages/PastEvents'));
 const ChoosePlan = lazy(() => import('./Pages/ChoosePlan'));
 const Notifications = lazy(() => import('./Pages/Notifications'));
 const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationEmail'));
+const RedirectFromSignIn = lazy(() => import('./Pages/Authentification/RedirectFromSignIn'));
+const ResendVerification = React.lazy(() => import('./Pages/Authentification/Complete_SignUp/ResendVerificationLink'));
+const VerifyFailure = React.lazy(() => import('./Pages/Authentification/VerifyFailure'));
 
 function App() {
 
@@ -97,78 +104,87 @@ function App() {
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
  
     <BrowserRouter>   
-      <div className='font-DmSans overflow-hidden'>
-       
-        <div className='min-h-screen'>
-        <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>
-          <Routes>
-            <Route element={<DashbordLayout />}>
-              <Route element={<GuardedConnectedUserRoute />}>
-                <Route path="/Dashboard" element={<Dashbord />} />
-                <Route path="/Users" element={<Users />} />
-                <Route path="/Investors" element={<Investors />} />
-                <Route path="/MyInvestors" element={<MyInvestors />} />
-                <Route path="/InvestorDetails" element={<InvestorDetails />} />
-                <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
-                <Route path="/Projects" element={<Projects />} />
-                <Route path="/Createproject" element={<CreateProject />} />
-                <Route path="/Editproject/:projectId" element={<CreateProject />} />
-                <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
-                <Route path="/CompanyLegal" element={<CompanyLegal />} />
-                <Route path="/MyCompany" element={<MyCompany />} />
-                <Route path="/Employees" element={<Employees />} />
-                <Route path="/NewEmployee" element={<NewEmployee />} />
-                <Route path="/Document" element={<Documents />} />
-                <Route path="/Participate" element={<Events />} />
-                <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
-                <Route path="/PastEvent" element={<PastEvents />} />
-                <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
-                <Route path="/UserProfile" element={<UserProfile />} />
-                <Route path="/Subscription" element={<Subscription />} />
-                <Route path="/ChoosePlan" element={<ChoosePlan />} />
-                <Route path="/History" element={<History />} />
-                <Route path="/Notification" element={<Notifications />} />
-                <Route path="/SubscribePlan" element={<SubscribePlan />} />
-          </Route>
-              <Route element={<GuardedAdminRoute />}>
-                <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
+      <AutoLogout>
+        <div className='font-dm-sans-regular overflow-hidden'>
+          <ScrollToTop>
+          <div className='min-h-screen'>
+          <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>
+            <Routes>
+              <Route element={<DashbordLayout />}>
+                <Route element={<GuardedConnectedUserRoute />}>
+                  <Route path="/Dashboard" element={<Dashbord />} />
+                  <Route path="/Users" element={<Users />} />
+                  <Route path="/Investors" element={<Investors />} />
+                  <Route path="/MyInvestors" element={<MyInvestors />} />
+                  <Route path="/InvestorDetails/:investorId" element={<InvestorDetails />} />
+                  <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
+                  <Route path="/Projects" element={<Projects />} />
+                  <Route path="/Createproject" element={<CreateProject />} />
+                  <Route path="/Editproject/:projectId" element={<CreateProject />} />
+                  <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
+                  <Route path="/CompanyLegal" element={<CompanyLegal />} />
+                  <Route path="/MyCompany" element={<MyCompany />} />
+                  <Route path="/Employees" element={<Employees />} />
+                  <Route path="/NewEmployee" element={<NewEmployee />} />
+                  <Route path="/Document" element={<Documents />} />
+                  <Route path="/Participate" element={<Events />} />
+                  <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
+                  <Route path="/PastEvent" element={<PastEvents />} />
+                  <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
+                  <Route path="/UserProfile" element={<UserProfile />} />
+                  <Route path="/Subscription" element={<Subscription />} />
+                  <Route path="/ChoosePlan" element={<ChoosePlan />} />
+                  <Route path="/History" element={<History />} />
+                  <Route path="/Notification" element={<Notifications />} />
+                  <Route path="/SubscribePlan" element={<SubscribePlan />} />
+                </Route>
+                <Route element={<GuardedAdminRoute />}>
+                  <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
+                </Route>
               </Route>
-            </Route>
-            <Route element={<Layout />}>
-              <Route element={<ConnectedUserRoute />}>
-                <Route   path="/SignIn" element={<SignIn />} />
-                <Route   path="/" element={<SignIn />} />
-                <Route   path="/SignUp" element={<SignUp />} />
-                <Route   path="/SocialSignUp" element={<SocialSignUp />} />
+              <Route element={<Layout />}>
+                <Route element={<GuardedConnectedUserRoute />}>
+                  <Route path="/ChooseRole" element={<ChooseRole />} />
+                  <Route path="/RedirectFromSignIn" element={<RedirectFromSignIn />} />
+                </Route>
+                <Route element={<ConnectedUserRoute />}>
+                  <Route   path="/SignIn" element={<SignIn />} />
+                  <Route   path="/" element={<SignIn />} />
+                  <Route   path="/SignUp" element={<SignUp />} />
+                  <Route   path="/SocialSignUp" element={<SocialSignUp />} />
+                </Route>
+                <Route path="/VerificationCode" element={<VerificationCode />} />
+                <Route path="/VerificationEmail" element={<VerificationEmail />} />
+                <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
+                <Route path="/ForgotPassword" element={<ForgotPassword />} />
+                <Route path="/ResetPassword" element={<ResetPassword />} />
+                <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
+                <Route path="/ResendVerificationLink" element={<ResendVerificationLink />} />
+
+                <Route path="/Home" element={<Home />} />
+                <Route   path="/Pricing" element={<Pricing />} />
+                <Route   path="/ContactUs" element={<ContactUs/>}/>
+                <Route   path="/About-Us" element={<AboutUs/>}/>
+                <Route   path="/About-Us/Explore" element={<Explore/>}/>
+                <Route path="/Failure" element={<Failure/>}/>
+                <Route path="/Success" element={<Success/>}/>
+                <Route path="/SuccessSignUp" element={<SuccessSignUp/>}/>
+                <Route path="/ResendVerification" element={<ResendVerification />} />
+                <Route path="/VerifyFailure" element={<VerifyFailure />} />
+              
+                {/* User Member Routes*/}
+                <Route element={<GuardedUserMemberRoutes />}>
+                  <Route path="/Payement_Success" element={<PaySuccess />} />
+                  <Route path="/Payement_Failed" element={<PayFailed />} />
+                </Route>
               </Route>
-              <Route path="/VerificationCode" element={<VerificationCode />} />
-              <Route path="/VerificationEmail" element={<VerificationEmail />} />
-              <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
-              <Route path="/ForgotPassword" element={<ForgotPassword />} />
-              <Route path="/ResetPassword" element={<ResetPassword />} />
-              <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
-              <Route path="/ChooseRole" element={<ChooseRole />} />
-
-              <Route path="/Home" element={<Home />} />
-              <Route   path="/Pricing" element={<Pricing />} />
-              <Route   path="/ContactUs" element={<ContactUs/>}/>
-              <Route   path="/About-Us" element={<AboutUs/>}/>
-              <Route   path="/About-Us/Explore" element={<Explore/>}/>
-              <Route path="/Failure" element={<Failure/>}/>
-              <Route path="/Success" element={<Success/>}/>
-            
-              {/* User Member Routes*/}
-              <Route element={<GuardedUserMemberRoutes />}>
-                <Route path="/Payement_Success" element={<PaySuccess />} />
-                <Route path="/Payement_Failed" element={<PayFailed />} />
-              </Route>
-            </Route>
-          </Routes>
-        </Suspense>
-
-      </div>
-
-</div>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          </div>
+          </ScrollToTop>
+        </div>
+      </AutoLogout>
     </BrowserRouter>    
   </I18nextProvider>
 
