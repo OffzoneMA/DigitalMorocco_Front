@@ -207,9 +207,9 @@ export default function SignIn() {
           <div className="bg-white-A700 gap-5 md:gap-10 flex flex-col items-center justify-start px-6 py-8 rounded-[12px] shadow-formbs w-full max-w-[520px]">
           <div className="flex flex-col gap-4 items-center justify-start w-full">
           <Toaster />
-            <div className="flex flex-col gap-3 items-start justify-start w-full">
+            <div className="flex flex-col gap-3 items-center justify-start w-full">
               <Button
-                className="border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
+                className="border text-left border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
                 onClick={handleGoogleButtonClick}
                 leftIcon={
                   <img
@@ -220,12 +220,12 @@ export default function SignIn() {
                 }
                 shape="round"
               >
-                <div className="w-[200px] font-dm-sans-medium  leading-[18.23px] text-left text-[14px] tracking-[0.14px]">
+                <div className=" font-dm-sans-medium  leading-[18.23px] text-left text-[14px] tracking-[0.14px]">
                 {t('signin.googleSignIn')}
                 </div>
               </Button>
               <Button
-                className="text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                className=" text-left text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleLinkedinButtonClick}
                 leftIcon={
                   <img
@@ -236,7 +236,7 @@ export default function SignIn() {
                 }
                 shape="round"
               >
-                <div className=" w-[200px] font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]">
+                <div className="font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]">
                   {t('signin.linkedinSignIn')}
                 </div>
               </Button>

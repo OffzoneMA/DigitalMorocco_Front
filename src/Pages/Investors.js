@@ -76,15 +76,15 @@ const Investors = () => {
     
   },[cur, itemsPerPage]);
 
-  const data = isSubscribe?  investors : InvestorsData;
+  const data = (isSubscribe && !loading)?  investors : InvestorsData;
 
-  const filteredData = isSubscribe? data.filter(item => {
+  const filteredData = (isSubscribe && !loading)? data.filter(item => {
     const keywordMatch = item.owner?.displayName.toLowerCase().includes(keywords.toLowerCase());
   
     if (filterApply && isSubscribe) {
-      const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
+      const typeMatch = investmentType.length === 0 || investmentType.includes(item.type);
   
-      const locationMatch = !location || item.Location.toLowerCase().includes(location["name"].toLowerCase());
+      const locationMatch = !location || item.location.toLowerCase().includes(location["name"].toLowerCase());
   
       const industryMatch = industries.length === 0 || industries.some(ind => item.PreferredInvestmentIndustry.includes(ind));
   
@@ -315,7 +315,7 @@ const Investors = () => {
                   
                 </tbody>
                 </table>
-                {!isSubscribe &&
+                {(!isSubscribe && !loading) &&
                 (
                   <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
                   <BsEyeSlash size={35} className="text-gray500 "/>

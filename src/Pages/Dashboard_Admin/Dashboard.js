@@ -196,6 +196,17 @@ const Dashboard_Admin = () => {
     setTimeFrame('week');
   }
 
+  const CustomTick = (props) => {
+    const { x, y, payload } = props;
+    return (
+        <g transform={`translate(${x},${y})`}>
+            <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">
+                {payload.value}
+            </text>
+        </g>
+    );
+};
+
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -329,8 +340,13 @@ const Dashboard_Admin = () => {
                 <div className="flex-grow">
                   <ResponsiveContainer width="100%" height={280}>
                     <AreaChart data={chartData} onClick={handleChartClick}>
-                      <XAxis dataKey="name" />
-                      <Tooltip content={<CustomTooltip />} />
+                      <XAxis dataKey="name" 
+                        // tick={<CustomTick />}
+                        // tickLine={{ stroke: 'blue', strokeWidth: 1 }} // Personnaliser les lignes de ticks
+                        // axisLine={{ stroke: 'green', strokeWidth: 2 }} // Personnaliser la ligne de l'axe
+                        // tickFormatter={(value) => `Prefix ${value}`} // Ajouter un préfixe aux labels
+                      />
+                      {/* <Tooltip content={<CustomTooltip />} /> */}
                       <defs>
                         <linearGradient id="colorvalue" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor={"#A9FCE5"} stopOpacity={0.8} />
