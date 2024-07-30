@@ -526,7 +526,7 @@ const onSubmit = (data) => {
                     }
                     shape="round"
                   >
-                    <div className="w-[210px] font-medium leading-[normal] text-left text-sm tracking-[0.14px]">
+                    <div className={`${currentLanguage === 'fr'? 'w-[196px] ' : 'w-[143px]'} font-dm-sans-medium  leading-[18.23px] text-left text-[14px] tracking-[0.14px]`}>
                       {t('signup.googleSignUp')}
                     </div>
                   </Button>
@@ -542,7 +542,7 @@ const onSubmit = (data) => {
                     }
                     shape="round"
                   >
-                    <div className="w-[210px] font-medium leading-[normal] text-left text-sm tracking-[0.14px]">
+                    <div className={`${currentLanguage === 'fr'? 'w-[196px] ' : 'w-[143px]'} font-dm-sans-medium  leading-[18.23px] text-left text-[14px] tracking-[0.14px]`}>
                       {t('signup.linkedinSignUp')}
                     </div>
                   </Button>
