@@ -179,23 +179,6 @@ const Dashboard_Admin = () => {
     return null;
   };
 
-   const handleChartClick = (data) => {
-    if (data && data.activeLabel) {
-      const clickedMonthAbbreviated = data.activeLabel;
-      const monthIndex = monthsOrder.indexOf(clickedMonthAbbreviated);
-      if (monthIndex !== -1) {
-        const clickedMonthFull = monthsOrder1[monthIndex];
-        setSelectedMonth(clickedMonthFull);
-        setTimeFrame('week');
-      }
-    }
-  };
-
-  const handleSelectMonth = (month)  => {
-    setSelectedMonth(month);
-    setTimeFrame('week');
-  }
-
   const CustomTick = (props) => {
     const { x, y, payload } = props;
     return (
