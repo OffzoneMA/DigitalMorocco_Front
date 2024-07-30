@@ -10,6 +10,9 @@ import checkVerifyImg from '../../../Media/check-verified-02.svg';
 import EmailExistModalOrConfirmation from '../../../Components/EmailExistModalOrConfirmation';
 import { authApi } from '../../../Services/Auth';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { logout } from "../../../Redux/auth/authSlice";
+
 
 const ResendVerificationLink = () => {
     const {t} = useTranslation();
@@ -18,6 +21,7 @@ const ResendVerificationLink = () => {
     const [trigger, { data, status , isSuccess , error: sendError , isLoading}] = authApi.endpoints.sendEmailVerification.useLazyQuery()
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const storedEmail = sessionStorage.getItem('email') || '';
     const storedUserId = sessionStorage.getItem('user_id') || '';
     const [message, setMessage] = useState('');
@@ -29,6 +33,11 @@ const ResendVerificationLink = () => {
     
       const closeModal = () => {
         setIsModalOpen(false);
+        // Perform logout and navigate
+        dispatch(logout());
+        sessionStorage.clear();
+        // Redirect to external site
+        window.location.href = 'https://digitalmorocco.net';
       };
 
       const handleResendEmail = async () => {

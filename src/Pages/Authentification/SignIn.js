@@ -36,7 +36,6 @@ export default function SignIn() {
   const [getUserDetails , { data, isSuccess, isError, detailsError }] = authApi.endpoints.getUserDetails.useLazyQuery();
   const [loginError , setLoginError] = useState("");
 
-  console.log(error)
 
   const {
     register,
@@ -45,6 +44,11 @@ export default function SignIn() {
     getValues,
     formState: { errors },
   } = useForm();
+
+  /**
+   * Current Language
+  */
+  const currentLanguage = localStorage.getItem('language') || 'en';
 
   const formButtonRef = useRef();
 
@@ -207,9 +211,9 @@ export default function SignIn() {
           <div className="bg-white-A700 gap-5 md:gap-10 flex flex-col items-center justify-start px-6 py-8 rounded-[12px] shadow-formbs w-full max-w-[520px]">
           <div className="flex flex-col gap-4 items-center justify-start w-full">
           <Toaster />
-            <div className="flex flex-col gap-3 items-start justify-start w-full">
+            <div className="self-stretch flex-col justify-start items-start gap-3 flex w-full">
               <Button
-                className="border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
+                className="h-[42px] px-20 py-3 border text-left border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
                 onClick={handleGoogleButtonClick}
                 leftIcon={
                   <img
@@ -220,12 +224,12 @@ export default function SignIn() {
                 }
                 shape="round"
               >
-                <div className="w-[200px] font-dm-sans-medium  leading-[18.23px] text-left text-[14px] tracking-[0.14px]">
+                <div className={`${currentLanguage === 'fr'? 'w-[185px] ' : 'w-[143px]'} font-dm-sans-medium  leading-[18.23px] text-left text-[14px] tracking-[0.14px]`}>
                 {t('signin.googleSignIn')}
                 </div>
               </Button>
               <Button
-                className="text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                className="h-[42px] px-20 py-3 text-left text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleLinkedinButtonClick}
                 leftIcon={
                   <img
@@ -236,12 +240,12 @@ export default function SignIn() {
                 }
                 shape="round"
               >
-                <div className=" w-[200px] font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]">
+                <div className={`${currentLanguage === 'fr'? 'w-[185px] ' : 'w-[143px]'} font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]`}>
                   {t('signin.linkedinSignIn')}
                 </div>
               </Button>
               {/* <Button
-                className=" text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                className="h-[42px] px-20 py-3 text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleFacebookButtonClick}
                 leftIcon={
                   <img
@@ -252,7 +256,7 @@ export default function SignIn() {
                 }
                 shape="round"
               >
-                <div className="w-[200px] font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]">
+                <div className="w-[150px] font-dm-sans-medium leading-[normal] text-left text-sm tracking-[0.14px]">
                   {t('signin.facebookSignIn')}
                 </div>
               </Button> */}

@@ -196,6 +196,34 @@ const Dashboard_Admin = () => {
     setTimeFrame('week');
   }
 
+  const CustomTick = (props) => {
+    const { x, y, payload } = props;
+    return (
+        <g transform={`translate(${x},${y})`}>
+            <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">
+                {payload.value}
+            </text>
+        </g>
+    );
+};
+
+   const handleChartClick = (data) => {
+    if (data && data.activeLabel) {
+      const clickedMonthAbbreviated = data.activeLabel;
+      const monthIndex = monthsOrder.indexOf(clickedMonthAbbreviated);
+      if (monthIndex !== -1) {
+        const clickedMonthFull = monthsOrder1[monthIndex];
+        setSelectedMonth(clickedMonthFull);
+        setTimeFrame('week');
+      }
+    }
+  };
+
+  const handleSelectMonth = (month)  => {
+    setSelectedMonth(month);
+    setTimeFrame('week');
+  }
+
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">

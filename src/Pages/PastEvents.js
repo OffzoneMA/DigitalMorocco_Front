@@ -8,7 +8,7 @@ import Pagination from "../Components/Pagination";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
-import { useGetEventsQuery } from "../Services/Event.Service";
+import { useGetEventsQuery , useGetAllPastEventsUserParticipateQuery } from "../Services/Event.Service";
 import Loader from "../Components/Loader";
 import { enUS } from "date-fns/locale";
 import { format, parse } from 'date-fns';
@@ -16,7 +16,7 @@ import { format, parse } from 'date-fns';
 
 const PastEvents = () => {
   const navigate = useNavigate();
-  const {data : eventsDT , error, isLoading , refetch } = useGetEventsQuery();
+  const {data : eventsDT , error, isLoading , refetch } = useGetAllPastEventsUserParticipateQuery();
 
   const itemsPerPage = 5;
     const [searchParams, setSearchParams] = useSearchParams();
@@ -25,7 +25,9 @@ const PastEvents = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const events =  eventsDT ? eventsDT?.events.filter(event => event.status === 'past') : [];
+  // const events =  eventsDT? eventsDT?.events.filter(event => event.status === 'past') : [];
+
+  const events =  eventsDT? eventsDT : [];
   
   const totalPages = Math.ceil(events.length / itemsPerPage);
 
@@ -34,6 +36,8 @@ const PastEvents = () => {
   useEffect(() => {
     setCurrentPage(Number(searchParams.get("page")) || 1);
 }, [searchParams]);
+
+console.log(events)
 
 function formatEventDateTime(startDate, endDate, startTime, endTime) {
     
@@ -105,7 +109,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                           {item.locationType == "online" ? 'Virtual Only' : item.physicalLocation }
                           </Text>
                       </div>
-                      {item.canParticipate && (
+                      {item.userParticipated && (
                         <button
                         className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 rounded-full"
                         type="button"

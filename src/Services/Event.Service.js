@@ -73,6 +73,13 @@ export const eventApi = createApi({
               }),
               providesTags: ['Event'],
         }),
+        getAllPastEventsUserParticipate: builder.query({
+            query: () => ({
+              url: `/past/participate`,
+              method: 'GET',
+            }),
+            providesTags: ['Event'],
+        }),
     }),
 })
 
@@ -83,5 +90,5 @@ export const {
     useUpdateEventMutation,
     useDeleteEventMutation,
     useGetAllEventsByUserQuery,
-    useAddAttendeeToEventMutation, useGetEventsForUserQuery
+    useAddAttendeeToEventMutation, useGetEventsForUserQuery, useGetAllPastEventsUserParticipateQuery
   } = eventApi;

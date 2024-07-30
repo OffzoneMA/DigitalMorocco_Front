@@ -125,7 +125,7 @@ console.log(userDetails)
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
                     <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
                       <img src={creditsImg} className="w-[28px] h-[28px]"  alt={""}/>
                     </div>
@@ -148,7 +148,7 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
                     <div className="rounded-[6px] p-2 bg-teal-50">
                       <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                     </div>
@@ -171,7 +171,7 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
                     <div className="rounded-[6px] p-2 bg-blue-51">
                       <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
@@ -194,7 +194,7 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
                     <div className="rounded-[6px] p-2 bg-orange-51">
                       <HiOutlineSpeakerphone size={28} className="text-amber-601" />
                     </div>
@@ -217,7 +217,7 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
                     <div className="rounded-[6px] p-2 bg-violet-100">
                       <BiBuildings size={28} className="text-blue-601" />
                     </div>
