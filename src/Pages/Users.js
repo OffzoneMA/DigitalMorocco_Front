@@ -10,6 +10,7 @@ import SearchInput from "../Components/SeachInput";
 import TableTitle from "../Components/TableTitle";
 import { HiBan, HiCheck } from "react-icons/hi";
 import Swal from "sweetalert2";
+import TablePagination from "../Components/TablePagination";
 
 
 const Users = () => {
@@ -17,6 +18,9 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const date = moment();
   const [loading, setLoading] = useState(true);
+  const [cur, setCur] = useState(1);
+  const itemsPerPage = 8;
+  const itemsToShow = 4;
 
   useEffect(() => {
     fetchUsers();
@@ -24,7 +28,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const response = await axios.get("http://localhost:5000/users/AllUsers", {
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/users/AllUsers`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,8 +42,6 @@ const Users = () => {
     }
   };
 
-
-
   const renderTableCell = (value) => {
     if (value instanceof Date || moment(value, moment.ISO_8601, true).isValid()) {
       return moment(value).format('YYYY-MM-DD HH:mm:ss');
@@ -47,8 +49,6 @@ const Users = () => {
     return value !== undefined ? value : "________";
   };
 
-
-  const usersData = users;
 
   const handleApproveUser = async (userId, role) => {
     const confirmation = await Swal.fire({
@@ -119,6 +119,22 @@ const Users = () => {
         }
       }
     };
+
+  const totalPages = Math.ceil(users?.length / itemsPerPage);
+console.log(totalPages)
+  const getPageData = () => {
+    const startIndex = (cur - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return users?.slice(startIndex, endIndex);
+  };
+
+  const usersData = getPageData();
+
+  function handlePageChange(page) {
+    if (page >= 1 && page <= totalPages) {
+      setCur(page);
+    }
+  }
   
 
   return (
@@ -262,7 +278,16 @@ const Users = () => {
               }
              
             </div>
-            
+            {usersData?.length>0 && (
+                <div className='w-full flex items-center p-4'>
+                <TablePagination
+                  currentPage={cur}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  itemsToShow={itemsToShow}
+                />              
+              </div>
+              )}
           </div>
         </div>
     </div>
