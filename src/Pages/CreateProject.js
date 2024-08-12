@@ -137,7 +137,7 @@ const CreateProject = () => {
   const fetchMembers = async (userId) => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`http://localhost:5000/members/employees`, {
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/employees`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

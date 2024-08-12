@@ -64,7 +64,7 @@ export default function UserProfile() {
   
     const UserInfo = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/users/UserInfo`, {
+        const response = await axios.get(`${process.env.REACT_APP_baseURL}/users/UserInfo`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -176,7 +176,7 @@ export default function UserProfile() {
             updatedFields.image = base64Image;
           }
           if (Object.keys(updatedFields).length > 0) {
-            const response = await axios.put(`http://localhost:5000/users/${userId}/updateProfile`, updatedFields, {
+            const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, updatedFields, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ export default function UserProfile() {
         };
       } else {
         if (Object.keys(updatedFields).length > 0) {
-          const response = await axios.put(`http://localhost:5000/users/${userId}/updateProfile`, updatedFields, {
+          const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, updatedFields, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ export default function UserProfile() {
             newPassword: data.newPassword,
         };
         
-        const response = await axios.put(`http://localhost:5000/users/${userId}/changePassword`, passwordData, {
+        const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/changePassword`, passwordData, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -242,7 +242,7 @@ export default function UserProfile() {
         });
 
         if (response.data.success) {
-            const userResponse = await axios.get(`http://localhost:5000/users/UserInfo`, {
+            const userResponse = await axios.get(`${process.env.REACT_APP_baseURL}/users/UserInfo`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -279,7 +279,7 @@ const onSubmit3 = async () => {
 
   try {
       const response = await axios.put(
-          `http://localhost:5000/users/${userId}/languageRegion`,
+          `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
           formData,
           {
               headers: {
@@ -318,7 +318,7 @@ const onSubmit3 = async () => {
 
   const handleDeleteAccount = async (email, password) => {
     try {      
-      const response = await axios.delete(`http://localhost:5000/users/${userId}`, {
+      const response = await axios.delete(`${process.env.REACT_APP_baseURL}/users/${userId}`, {
         data: { email, password },
         headers: {
           'Content-Type': 'application/json',

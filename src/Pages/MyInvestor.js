@@ -45,7 +45,7 @@ const MyInvestors = () => {
   const fetchInvestors = async () => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`http://localhost:5000/members/my-investors`, {
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/my-investors`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

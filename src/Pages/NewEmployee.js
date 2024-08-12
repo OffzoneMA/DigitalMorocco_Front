@@ -127,7 +127,7 @@ const NewEmployee = () => {
   
           if (employeeId) {
          
-            await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
+            await axios.put(`${process.env.REACT_APP_baseURL}/members/${userId}/employees/${employeeId}`, updatedFields, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ const NewEmployee = () => {
             });
           } else {
           
-            await fetch(`http://localhost:5000/members/employees/${userId}`, {
+            await fetch(`${process.env.REACT_APP_baseURL}/members/employees/${userId}`, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -157,14 +157,14 @@ const NewEmployee = () => {
         updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
   
         if (employeeId) {
-          await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, updatedFields, {
+          await axios.put(`${process.env.REACT_APP_baseURL}/members/${userId}/employees/${employeeId}`, updatedFields, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           });
         } else {
-          await fetch(`http://localhost:5000/members/employees/${userId}`, {
+          await fetch(`${process.env.REACT_APP_baseURL}/members/employees/${userId}`, {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -210,7 +210,7 @@ const NewEmployee = () => {
   //       };
   //       if (location.state && location.state.employee) {
             
-  //         await axios.put(`http://localhost:5000/members/${userId}/employees/${employeeId}`, requestData, {
+  //         await axios.put(`${process.env.REACT_APP_baseURL}/members/${userId}/employees/${employeeId}`, requestData, {
   //           headers: {
   //             Authorization: `Bearer ${token}`,
   //             'Content-Type': 'application/json',
@@ -219,7 +219,7 @@ const NewEmployee = () => {
   //       }
 
   //       else{
-  //         fetch(`http://localhost:5000/members/employees/${userId}`, {
+  //         fetch(`${process.env.REACT_APP_baseURL}/members/employees/${userId}`, {
   //         method: 'POST',
   //         headers: {
   //           Authorization: `Bearer ${token}`,

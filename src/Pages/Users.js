@@ -66,7 +66,7 @@ const Users = () => {
         const token = sessionStorage.getItem("userToken");
         console.log(userId)
         const response =  await axios.put(
-          `http://localhost:5000/users/approveUser/${userId}?role=${role}`,
+          `${process.env.REACT_APP_baseURL}/users/approveUser/${userId}?role=${role}`,
           {},
           {
             headers: {
@@ -102,7 +102,7 @@ const Users = () => {
         try {
           const token = sessionStorage.getItem("userToken");
           await axios.put(
-            `http://localhost:5000/users/RejectUser/${userId}?role=${role}`,
+            `${process.env.REACT_APP_baseURL}/users/RejectUser/${userId}?role=${role}`,
             {},
             {
               headers: {

@@ -48,7 +48,7 @@ const Investors = () => {
     const fetchInvestorRequests = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
-        const response = await axios.get(`http://localhost:5000/investors?page=${cur}&pageSize=${itemsPerPage}`, {
+        const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors?page=${cur}&pageSize=${itemsPerPage}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -66,7 +66,7 @@ const Investors = () => {
       try {
           const userData = JSON.parse(sessionStorage.getItem("userData"));
           const userId = userData._id;
-          const response = await axios.get(`http://localhost:5000/members/check-subscription-status/${userId}`, {
+          const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/check-subscription-status/${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
           });
           setIsSubscribe(response.data.result);

@@ -42,7 +42,7 @@ export default function Subscription() {
     const checkSubscriptionStatus = async () => {
       try {
           
-          const response = await axios.get(`http://localhost:5000/members/check-subscription-status/${userId}`, {
+          const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/check-subscription-status/${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
           });
           setIsSubscribe(response.data.result);

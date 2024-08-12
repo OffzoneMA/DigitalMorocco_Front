@@ -36,7 +36,7 @@ const InvestorRequestHistory = () => {
     const fetchInvestorRequests = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
-        const response = await axios.get('http://localhost:5000/members/ContactRequest', {
+        const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/ContactRequest`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

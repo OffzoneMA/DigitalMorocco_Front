@@ -48,7 +48,7 @@ const Employees = () => {
   const fetchMembers = async () => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`http://localhost:5000/members/employees`, {
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/employees`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -72,7 +72,7 @@ const Employees = () => {
   const handleDeleteEmployee = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
-        await axios.delete(`http://localhost:5000/members/employees/${employeId}`, {
+        await axios.delete(`${process.env.REACT_APP_baseURL}/members/employees/${employeId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

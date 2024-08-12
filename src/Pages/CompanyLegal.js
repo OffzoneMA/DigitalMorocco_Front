@@ -42,7 +42,7 @@ const CompanyLegal = () => {
 
 const fetchLegalDocuments = async () => {
   try {
-      const response = await axios.get("http://localhost:5000/members/legal-documents");
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/legal-documents`);
       setLegalDocuments(response.data);
       setLoading(false);
   } catch (error) {
@@ -101,7 +101,7 @@ const fetchLegalDocuments = async () => {
     const handleDelete = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
-        await axios.delete(`http://localhost:5000/members/legal-documents/${documentId}`, {
+        await axios.delete(`${process.env.REACT_APP_baseURL}/members/legal-documents/${documentId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -119,7 +119,7 @@ const fetchLegalDocuments = async () => {
           const userData = JSON.parse(sessionStorage.getItem("userData"));
           const userId = userData._id;
           
-          const response = await axios.post(`http://localhost:5000/members/${userId}/legal-documents`, formData);
+          const response = await axios.post(`${process.env.REACT_APP_baseURL}/members/${userId}/legal-documents`, formData);
           if (response.status === 201) {
               fetchLegalDocuments();
               closeModal();
@@ -136,7 +136,7 @@ const fetchLegalDocuments = async () => {
       
       const documentId=formData._id;
       const ownerId = formData.ownerId;
-      const response = await axios.put(`http://localhost:5000/members/${ownerId}/legal-documents/${documentId}`, formData);
+      const response = await axios.put(`${process.env.REACT_APP_baseURL}/members/${ownerId}/legal-documents/${documentId}`, formData);
       if (response.status === 200) {
         fetchLegalDocuments();
         closeEditModal();

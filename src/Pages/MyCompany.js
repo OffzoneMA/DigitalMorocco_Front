@@ -106,7 +106,7 @@ const MyCompany = () => {
           logo: base64Image, // Ajouter l'image base64
         };
         setIsSaved(true);
-        fetch(`http://localhost:5000/members/company/${userId}`, {
+        fetch(`${process.env.REACT_APP_baseURL}/members/company/${userId}`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
