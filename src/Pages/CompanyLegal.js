@@ -186,9 +186,9 @@ const fetchLegalDocuments = async () => {
               <table className="w-full border-collapse">
                 <thead>
                 <tr className="font-DmSans text-sm leading-6">
-                  <th className="p-3 text-left text-gray700 font-medium">Document Name</th>
-                  <th className="p-3 text-left text-gray700 font-medium">Last Modified</th>
-                  <th className="p-3 text-left text-gray700 font-medium">Owner</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Document Name</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Last Modified</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Owner</th>
                   <th className="p-3 w-auto"></th>
                 </tr>
                 </thead>

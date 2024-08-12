@@ -15,10 +15,11 @@ import { InvestorsData } from "../data/tablesData";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
-
+import Loader from "../Components/Loader";
 import axios from 'axios';
 import Loading from "../Components/Loading";
 import { FaUsers } from "react-icons/fa";
+import { useGetDistinctValuesQuery } from "../Services/Investor.Service";
 
 const Investors = () => {
   const navigate = useNavigate();
@@ -39,6 +40,8 @@ const Investors = () => {
   const [totalPages , setTotalPages] = useState(0);
   const [investors, setInvestors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { data : locationData, isLoading:locationLoading } = useGetDistinctValuesQuery('type');
+  console.log(locationData)
 
   useEffect(() => {
     const token = sessionStorage.getItem("userToken");
@@ -126,10 +129,6 @@ const Investors = () => {
     'Angel Club',
     'Family Business'
   ];
-
-  const companySectorData = companyType.map(
-    item => ({ label: item, value: item })
-  );
   
     return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
@@ -195,7 +194,7 @@ const Investors = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industrie' setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industrie' setSelectedOptionVal={setIndustries} 
                     placeholder="Select Industries"
                     content={
                       ( option) =>{ return (
@@ -255,35 +254,17 @@ const Investors = () => {
                 <table className=" w-full">
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-6">
-                    <th className="p-3 text-left text-gray700 font-medium">Investor Name</th>
-                    <th className="p-3 text-left text-gray700 font-medium">Type</th>
-                    <th className="p-3 text-center text-gray700 font-medium">Number of Investment</th>
-                    <th className="p-3 text-center text-gray700 font-medium">Number of Exits</th>
-                    <th className="p-3 text-left text-gray700 font-medium">Location</th>
-                    <th className="p-3 text-left text-gray700 font-medium">Preferred Investment Industry</th>
+                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Investor Name</th>
+                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Type</th>
+                    <th className="p-3 text-center text-gray700 font-DmSans font-medium">Number of Investment</th>
+                    <th className="p-3 text-center text-gray700 font-DmSans font-medium">Number of Exits</th>
+                    <th className="p-3 text-left text-gray700font-DmSans font-medium">Location</th>
+                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Preferred Investment Industry</th>
                   </tr>
-                  </thead><tbody className="items-center w-full ">
-                  { loading ? (
-                     <div className="flex items-center justify-center w-full h-full">
-                     <Loading />
-                 </div> ) : pageData.length === 0 ? (
-                  <div style={{
-                    height: "300px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginRight: "-800px",
-                  }}>
-                    <div >
-                      <FaUsers size={18} className="mr-2 w-4 h-4" style={{ color: "#98a2b3" }} />
-                    </div>
-                    <div>
-                      <span>No investors</span>
-                    </div>
-                  </div>
-                )                 
-                 : ( pageData.map((item, index) => (
+                  </thead>
+                  {(!loading && pageData?.length > 0) ? 
+                  <tbody className="items-center w-full ">
+                  {pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}`)}>
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
@@ -310,11 +291,27 @@ const Investors = () => {
 
                     </tr>
                   ))
-                ) 
-                }
-                  
+                  }
                 </tbody>
+                :
+                ""}
                 </table>
+                { loading ? (
+                     <div className="flex items-center justify-center w-full h-40 ">
+                     <Loader />
+                 </div> ) : pageData.length === 0 && (
+                  <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                    <div >
+                      <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <span>No matching data identified</span>
+                    </div>
+                  </div>
+                )
+                }              
                 {(!isSubscribe && !loading) &&
                 (
                   <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">

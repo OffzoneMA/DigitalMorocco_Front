@@ -163,7 +163,7 @@ const Users = () => {
                 {
                  usersData.map((user, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                    <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6" >
+                    <td className="py-3 px-3 text-left text-gray500 font-DmSans text-sm font-normal leading-6" >
                         {renderTableCell(user.displayName)}
                     </td>
                     

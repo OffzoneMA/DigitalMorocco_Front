@@ -1,4 +1,4 @@
-import React , { useRef , useState} from "react";
+import React , { useRef , useState , useEffect} from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { LuUploadCloud } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -6,21 +6,27 @@ import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { useForm } from "react-hook-form";
 import MultipleSelect from "./MultipleSelect";
+import { useCreateDocumentMutation } from "../Services/Document.Service";
+import { useNavigate } from "react-router-dom";
 
 const NewDocumentModal = (props) => {
-
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const [selectedMembers , setSelectedMembers] = useState([]);
-
-    const inputRef = useRef(null);
+  const [Mount, setMount] = useState(true)
+  const documentFile = props?.rowData? props.rowData : null;
+  const { register, handleSubmit, formState: { errors } , reset} = useForm({
+    defaultValues: {
+      title: documentFile?.title,
+    }});
+  const [selectedMembers , setSelectedMembers] = useState([]);
+  const [createDocument , response] = useCreateDocumentMutation(); 
+  const inputRef = useRef(null);
+  const navigate = useNavigate();
   const [files, setFiles] = useState(null);
   const [preview , setPreview] = useState(null);
-  const documentFile = props?.rowData? props.rowData : null;
 
   const handleDragOver = (event) => {
     event.preventDefault();
   };
-
+console.log(documentFile?.title)
   const handleDrop = (event) => {
     event.preventDefault();
     setFiles(event.dataTransfer.files[0]);
@@ -36,17 +42,47 @@ const NewDocumentModal = (props) => {
     setPreview(URL.createObjectURL(e.target.files[0]))
   }
 
+  const closeModal =() => {
+    props.onRequestClose();
+    setPreview(null)
+  }
+
   const formData = new FormData();
 
   const onSubmit = (data) => {
-    formData.append('document', files); 
+    formData.append('docFile', files); 
+    formData.append('documentData' , JSON.stringify(data));
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
     });
     for (let pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
+    formData.append('shareWithUsers', selectedMembers); 
+
+    try {
+      documentFile?._id ? 
+      props?.onSubmit({ id: documentFile._id, formData }).unwrap() : 
+      props?.onSubmit(formData).unwrap();
+    } catch (err) {
+        console.error('Failed to create document:', err);
+    }
   };
+
+  useEffect(() => {
+    if (Mount) { setMount(false) }
+    else {
+      if (props?.response?.isSuccess) {
+        props.onRequestClose()
+        const redirectTimer = setTimeout(() => {
+          navigate("/Document");
+        }, 1000);
+        return () => clearTimeout(redirectTimer);
+      }else {
+        response.isError && console.log(response.error)
+      }
+    }
+  }, [response]);
 
   const membersdata = [
     "Annette Black",
@@ -73,10 +109,10 @@ const NewDocumentModal = (props) => {
               <Text
                 className="md:text-lg text-[18px] leading-7 text-gray-900 font-medium w-full font-DmSans"
               >
-                {documentFile?.id? "Edit Document": "Upload New Document"} 
+                {documentFile?._id? "Edit Document": "Upload New Document"} 
               </Text>
             </div>
-            <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+            <div className="hover:bg-gray-200 rounded-full p-1" onClick={closeModal}>
                 <IoCloseOutline  className='text-blue_gray-500'
                                   size={20}
                 />
@@ -97,7 +133,7 @@ const NewDocumentModal = (props) => {
                   type="text"
                   name="title"
                   placeholder="Document Title"
-                  defaultValue={documentFile?.id? documentFile?.title :""}
+                  defaultValue={documentFile?.title}
                 />
               </div>
               {errors.title && <span className="text-sm font-DmSans text-red-500">{errors.title?.message} </span>}
@@ -109,13 +145,13 @@ const NewDocumentModal = (props) => {
               >
                 Upload Document
               </Text>
-                <div className={`${(preview || documentFile?.id)?  "border-dashed ": "border-solid"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
+                <div className={`${(preview || documentFile?._id)?  "border-dashed ": "border-solid"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
-                  {(preview || documentFile?.id) ? (
+                  {(preview || documentFile?._id) ? (
                     <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
                         <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
-                        <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {preview? files.name : documentFile?.id? documentFile?.documentName: ""}
+                        <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {preview? files.name : documentFile?._id? documentFile?.documentName: ""}
                         </Text>
                         <div className="bg-white-A700 text-blue-A400 border border-solid border-blue-500 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
                           <LuUploadCloud  size={18} className="mr-2"/>
@@ -137,7 +173,8 @@ const NewDocumentModal = (props) => {
                         </div>
                     </div>) :
                   (   
-                <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
+                <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14" 
+                onClick={()=> onButtonClick(inputRef)}>
                   <LuUploadCloud  size={24} className=" mr-2"/>
                   <input
                           ref={inputRef}
@@ -148,7 +185,7 @@ const NewDocumentModal = (props) => {
                           name="name"
                         />
                   <Text className="font-DmSans text-sm font-normal leading-[26px] tracking-normal">
-                    Drop file or <span className="" onClick={()=> onButtonClick(inputRef)}>click here to upload your document</span>  
+                    Drop file or <span className="" >click here to upload your document</span>  
                   </Text>
                 </div>
                   )
@@ -182,8 +219,8 @@ const NewDocumentModal = (props) => {
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
               <button type="reset" className="bg-gray-300 text-gray-700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg" 
-              onClick={() => setPreview(null)}>Cancel</button>
-              <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">Add Document</button>
+              onClick={closeModal}>Cancel</button>
+              <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">{documentFile?._id ? 'Edit Document' : 'Add Document'}</button>
             </div>
           </div>
         </div>

@@ -65,9 +65,12 @@ export const investorApi = createApi({
                 }
             },
         }),
+        getDistinctValues: builder.query({
+            query: (field) => `/distinct/${field}`,
+        }),
     }),
 })
 
 export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery , 
-    useGetInvestorsQuery
+    useGetInvestorsQuery , useGetDistinctValuesQuery
 } = investorApi

@@ -184,7 +184,7 @@ console.log(userDetails)
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userDetails?.member?.investorsRequestsAccepted}
+                        {userDetails?.member?.investorsRequestsAccepted?.length}
                       </Text>
                     ) : (
                       <Text
@@ -241,7 +241,7 @@ console.log(userDetails)
                     )}
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
                   <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200  px-6">
                     <div className="flex flex-row items-center w-full">
                      <div className="flex rounded-md bg-violet-100 p-2">
@@ -322,7 +322,7 @@ console.log(userDetails)
                     </div>
                    </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pt-8 w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
                     <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 ">
                       <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-200 w-full">
                         <div className="flex rounded-md bg-violet-100 p-2">
