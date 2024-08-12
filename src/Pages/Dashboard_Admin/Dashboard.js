@@ -207,6 +207,8 @@ const Dashboard_Admin = () => {
     setTimeFrame('week');
   }
 
+  console.log(chartData)
+
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -340,7 +342,8 @@ const Dashboard_Admin = () => {
                 <div className="flex-grow">
                   <ResponsiveContainer width="100%" height={280}>
                     <AreaChart data={chartData} onClick={handleChartClick}>
-                      <XAxis dataKey="name" 
+                      <XAxis dataKey="name" padding={{ left: timeFrame === 'week' ? 23 : 8, right: 0 }}
+                       tick={{ fontSize: 12 }}
                       />
                       <Tooltip content={<CustomTooltip />} />
                       <defs>
