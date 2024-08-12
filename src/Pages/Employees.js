@@ -136,11 +136,11 @@ const Employees = () => {
             <table className="w-full mx-auto table-auto">
               <thead>
                   <tr className="text-sm leading-6 " >
-                  <th className="p-3 text-left text-gray700 font-medium">Name</th>
-                  <th className="p-3 text-left text-gray700 font-medium">Email address</th>
-                  <th className="p-3 text-left text-gray700 font-medium">Title</th>
-                  <th className="p-3 text-left text-gray700 font-medium">Type</th>
-                  <th className="p-3 text-left text-gray700 font-medium">Status</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Name</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Email address</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Title</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Type</th>
+                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Status</th>
                   <th scope="col" className="p-3 w-auto"></th>
                   </tr>
                 </thead>

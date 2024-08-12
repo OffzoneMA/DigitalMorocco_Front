@@ -341,12 +341,8 @@ const Dashboard_Admin = () => {
                   <ResponsiveContainer width="100%" height={280}>
                     <AreaChart data={chartData} onClick={handleChartClick}>
                       <XAxis dataKey="name" 
-                        // tick={<CustomTick />}
-                        // tickLine={{ stroke: 'blue', strokeWidth: 1 }} // Personnaliser les lignes de ticks
-                        // axisLine={{ stroke: 'green', strokeWidth: 2 }} // Personnaliser la ligne de l'axe
-                        // tickFormatter={(value) => `Prefix ${value}`} // Ajouter un préfixe aux labels
                       />
-                      {/* <Tooltip content={<CustomTooltip />} /> */}
+                      <Tooltip content={<CustomTooltip />} />
                       <defs>
                         <linearGradient id="colorvalue" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor={"#A9FCE5"} stopOpacity={0.8} />

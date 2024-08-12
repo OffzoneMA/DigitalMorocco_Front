@@ -165,7 +165,7 @@ useEffect(() => {
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl" size="txtDMSansMedium22">
+                    <Text className="text-xl text-blue_gray-800 sm:text-base md:text-lg lg:text-xl" size="txtDMSansMedium22">
                       {`${project?.currency || 'USD'} ${formatNumber(project?.totalRaised) || 0}`}
                     </Text>
                   </div>

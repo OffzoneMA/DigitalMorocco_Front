@@ -331,7 +331,7 @@ const UpcomingEventDetails = () => {
                               </div>
                             </div>
                         </div>
-                        {event?.statue == 'past' &&
+                        {(event?.status == 'past' && event?.attendeesUsers?.length > 0) &&
                         <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                           <div className="flex flex-row gap-3 items-center">
@@ -341,19 +341,19 @@ const UpcomingEventDetails = () => {
                             </Text>
                           </div>
                           <div className="flex flex-row gap-3 w-full items-center pl-8">
-                          {attendance?.length > 0 && (
+                          {event?.attendeesUsers?.length > 0 && (
                             <>
-                              {attendance.slice(0, 10).map((item, index) => (
+                              {event?.attendeesUsers?.slice(0, 10).map((item, index) => (
                                 <img 
                                   key={index}
-                                  src={item.image}
+                                  src={item?.userId?.image}
                                   alt="vector_three"
                                   className="rounded-full w-12 h-12"
                                 />
                               ))}
-                              {attendance.length > 10 && (
+                              {event?.attendeesUsers?.length > 10 && (
                                 <Text className="text-gray700  text-lg font-bold leading-26 tracking-wide text-left">
-                                  + {attendance.length - 10}
+                                  + {event?.attendeesUsers?.length - 10}
                                 </Text>
                               )}
                             </>

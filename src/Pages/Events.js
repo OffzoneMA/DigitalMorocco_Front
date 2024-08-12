@@ -14,7 +14,7 @@ import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 import Loader from "../Components/Loader";
-import { useGetEventsForUserQuery} from "../Services/Event.Service";
+import { useGetEventsForUserQuery , useGetDistinctValuesByUserQuery} from "../Services/Event.Service";
 import ticketEmptyImg from '../Media/ticket_empty.svg';
 import format from "date-fns/format";
 import DownloadTicket1 from "../Components/DownloadTicket1";
@@ -23,7 +23,9 @@ import ReactDOM from 'react-dom';
 
 const Events = () => {
   const navigate = useNavigate();
+  const field = 'physicalLocation';
   const {data : eventsParticipate , error , isLoading , refetch } = useGetEventsForUserQuery();
+  const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
@@ -131,17 +133,6 @@ const Events = () => {
     }
   }
 
-  const locationsData = [
-    "Virtual",
-    "Casablanca",
-    "Rabat",
-    "Marrakech",
-    "Agadir",
-    "Tangier",
-    "Fez",
-    "Ouarzazate"
-  ];
-
   const eventNameData = [
     "Data & Tech",
     "Women Who Network",
@@ -231,7 +222,7 @@ const Events = () => {
                             onChange={e => setKeywords(e.target.value)}
                           />
                         </div>
-                        <MultipleSelect className="min-w-[180px] max-w-[400px] " id='investor' options={eventNameData} onSelect={""} searchLabel='Search Event' setSelectedOptionVal={seteventName} 
+                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={eventNameData} onSelect={""} searchLabel='Search Event' setSelectedOptionVal={seteventName} 
                           placeholder="Event Name"
                           content={
                             ( option) =>{ return (
@@ -245,7 +236,7 @@ const Events = () => {
                               );
                             }
                           }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[200px] " id='country' options={locationsData} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
                           placeholder="Location" 
                           content={
                             ( option) =>{ return (

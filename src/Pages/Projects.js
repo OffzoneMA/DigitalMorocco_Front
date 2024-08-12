@@ -103,12 +103,12 @@ const Projects = () => {
                 <table className=" w-full">
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] ">
-                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Project Name</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Target</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Raised</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Stage</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Milestone</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-gray700 font-medium">Status</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344053] font-DmSans font-medium">Project Name</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344053] font-DmSans font-medium">Target</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344053] font-DmSans font-medium">Raised</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344053] font-DmSans font-medium">Stage</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344053] font-DmSans font-medium">Milestone</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344053] font-DmSans font-medium">Status</th>
                     <th scope="col" className="px-[18px] py-3 "></th>
                   </tr>
                   </thead>

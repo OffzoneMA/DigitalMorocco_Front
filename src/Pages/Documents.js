@@ -16,12 +16,16 @@ import { documentsData } from "../data/tablesData";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
-
+import { useGetDocumentsForUserQuery , useCreateDocumentMutation , useUpdateDocumentMutation , useDeleteDocumentMutation} from "../Services/Document.Service";
+import Loader from "../Components/Loader";
 
 const Documents = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
-
+  const { data: documents, error, isLoading , refetch} = useGetDocumentsForUserQuery();
+  const [createDocument, createResponse] = useCreateDocumentMutation(); 
+  const [updateDocument, updateResponse] = useUpdateDocumentMutation();
+  const [deleteDocument, deleteResponse] = useDeleteDocumentMutation();  
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isNewModalOpen, setIsNewModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -31,14 +35,13 @@ const Documents = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 5;
   const itemsToShow = 4;
-  const data = documentsData;
-
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const data = documents;
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
   const getPageData = () => {
     const startIndex = (cur - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
+    return data?.slice(startIndex, endIndex);
   };
 
   const pageData = getPageData();
@@ -64,6 +67,7 @@ const Documents = () => {
 
   const closeNewModal = () => {
     setIsNewModalOpen(false);
+    refetch();
   };
   const openEditModal = (rowData) => {
     setIsEditModalOpen(true);
@@ -73,6 +77,7 @@ const Documents = () => {
   const closeEditModal = () => {
     setIsEditModalOpen(false);
     setDataRow(null);
+    refetch();
   };
 
   const openShareModal = (rowData) => {
@@ -87,6 +92,13 @@ const Documents = () => {
 
   const handleDelete = () => {
     console.log(deleteRow?.projectName);
+    try {
+      deleteDocument(deleteRow?._id).unwrap();
+      closeDeleteModal();
+      refetch();
+    } catch (error) {
+      console.log(error)
+    }
   };
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
@@ -128,7 +140,7 @@ const Documents = () => {
                     <th className="p-3 text-left text-blue_gray-800_01 font-medium">Action</th>
                   </tr>
                   </thead>
-                  { pageData?.length > 0 ?
+                  { (pageData?.length > 0 && !isLoading) ?
                   <tbody className="items-center w-full ">
                    {
                       (pageData.map((item, index) => (
@@ -142,8 +154,8 @@ const Documents = () => {
                       </td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">
                         <div className="flex items-center" >
-                            <img src={item.uploadByImage} className="rounded-full h-8 w-8 bg-gray-300 mr-2" alt={""}/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.uploadBy}</span>
+                            <img src={item?.owner?.image} className="rounded-full h-8 w-8 bg-gray-300 mr-2" alt={""}/>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.owner?.displayName}</span>
                         </div>
                         </td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.shareWith}</td>
@@ -161,9 +173,17 @@ const Documents = () => {
                   ""
                 }
                 </table>
-                {!pageData?.length>0 && (
+                {isLoading && (
+                     <div className="flex items-center justify-center w-full h-full py-32">
+                      <Loader />
+                     </div>)
+                }
+                {(!isLoading && !pageData?.length>0) && (
                   <div className="flex flex-col items-center  w-full py-28">
-                    <AiOutlineFileSearch size={30} className="text-gray500"/>
+                    <svg width="29" height="32" viewBox="0 0 29 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+
                     <Text
                       className="font-DmSans text-sm font-normal leading-6 text-gray700 w-auto"
                       size=""
@@ -188,10 +208,10 @@ const Documents = () => {
             </div>
           </div>
           <NewDocumentModal isOpen={isNewModalOpen}
-              onRequestClose={closeNewModal} 
+              onRequestClose={closeNewModal} onSubmit={createDocument} response={createResponse}
           />
           <NewDocumentModal isOpen={isEditModalOpen} rowData={dataRow}
-              onRequestClose={closeEditModal} 
+              onRequestClose={closeEditModal} onSubmit={updateDocument} response={updateResponse}
           />
           <ShareDocumentToMembersModal isOpen={isShareModalOpen} rowData={dataRow}
               onRequestClose={closeShareModal} 
