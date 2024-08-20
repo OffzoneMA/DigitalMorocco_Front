@@ -12,6 +12,7 @@ import { investorApi } from '../Services/Investor.Service'
 import { projectApi } from '../Services/Project.Service'
 import { eventApi } from '../Services/Event.Service'
 import { documentApi } from '../Services/Document.Service'
+import { subscriptionPlanApi } from '../Services/SubscriptionPlan.service'
 import LogRocket from 'logrocket';
 
 
@@ -30,6 +31,7 @@ const store = configureStore({
     [projectApi.reducerPath]: projectApi.reducer,
     [eventApi.reducerPath]: eventApi.reducer,
     [documentApi.reducerPath]: documentApi.reducer,
+    [subscriptionPlanApi.reducerPath]: subscriptionPlanApi.reducer,
   },
   devTools: process.env.NODE_ENV === 'development',
 
@@ -38,7 +40,8 @@ const store = configureStore({
       .concat([authApi.middleware, adminApi.middleware, memberApi.middleware,
          subsApi.middleware, userLogApi.middleware, subscriptionLogApi.middleware
         , userApi.middleware, partnerApi.middleware, investorApi.middleware , projectApi.middleware ,
-        eventApi.middleware , LogRocket.reduxMiddleware() , documentApi.middleware
+        eventApi.middleware , LogRocket.reduxMiddleware() , documentApi.middleware ,
+        subscriptionPlanApi.middleware
         ]) ,
 })
 export default store

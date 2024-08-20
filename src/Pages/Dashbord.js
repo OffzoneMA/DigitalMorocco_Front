@@ -34,7 +34,7 @@ const { userInfo } = useSelector((state) => state.auth)
 console.log(userDetails)
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
   const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading} = useGetAllConatctReqQuery();
-  const Requestdata =  contactReqs?.ContactsHistory?.slice(0, 5)
+  const Requestdata =  contactReqs?.ContactsHistory?.slice(0, 3)
   const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))?.slice(0, 1);
 
     const chartData = [
@@ -148,7 +148,8 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  onClick={() => navigate('/Projects')}>
                     <div className="rounded-[6px] p-2 bg-teal-50">
                       <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                     </div>
@@ -171,7 +172,8 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]"  
+                    onClick={() => navigate('/MyInvestors')}>
                     <div className="rounded-[6px] p-2 bg-blue-51">
                       <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
@@ -181,20 +183,23 @@ console.log(userDetails)
                       Investors
                     </Text>
                     {userDetails?.member?.investorsRequestsAccepted?.length > 0 ? (
-                      <Text
-                        className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
-                      >
-                        {userDetails?.member?.investorsRequestsAccepted?.length}
-                      </Text>
-                    ) : (
-                      <Text
-                        className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
-                      >
-                        Start sending requests to investors
-                      </Text>
-                    )}
+                    <Text
+                      className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
+                    >
+                      {userDetails?.member?.investorsRequestsAccepted?.length < 10 
+                        ? `0${userDetails?.member?.investorsRequestsAccepted?.length}` 
+                        : userDetails?.member?.investorsRequestsAccepted?.length}
+                    </Text>
+                  ) : (
+                    <Text
+                      className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
+                    >
+                      Start sending requests to investors
+                    </Text>
+                  )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                    onClick={() => navigate('/Participate')}>
                     <div className="rounded-[6px] p-2 bg-orange-51">
                       <HiOutlineSpeakerphone size={28} className="text-amber-601" />
                     </div>
@@ -217,7 +222,8 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                    onClick={() => navigate('/MyCompany')}>
                     <div className="rounded-[6px] p-2 bg-violet-100">
                       <BiBuildings size={28} className="text-blue-601" />
                     </div>
@@ -335,7 +341,7 @@ console.log(userDetails)
                             Active Projects
                             </Text>
                         </div>
-                       </div>
+                      </div>
                        {isLoading ? (
                         <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
                             <Loader />
@@ -343,7 +349,7 @@ console.log(userDetails)
                          ) : (
                         recentProjects?.length > 0 ? 
                         recentProjects.map((item, index) => (
-                          <div key={index} className="flex flex-col px-6 w-full">
+                          <div key={index} className="flex flex-col px-6 w-full" onClick={() => navigate('/Projects')}>
                             <div className="flex flex-row items-center gap-3 py-2 justify-start w-full">
                                 <Text
                                     className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal text-left"
@@ -440,7 +446,7 @@ console.log(userDetails)
                             </Text>
                         </div>
                        </div>
-                       <div className="flex flex-col w-full">
+                       <div className="flex flex-col w-full overflow-x-auto">
                        <table className="w-full">
                         <thead>
                           <tr className="bg-white-A700 text-sm leading-6">
@@ -457,7 +463,7 @@ console.log(userDetails)
                          ) :(
                           Requestdata?.length > 0
                             ? Requestdata.map((item, index) => (
-                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
+                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`} onClick={() => navigate('/InvestorRequestsHistoty')}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center">
                                       {item?.image ? (

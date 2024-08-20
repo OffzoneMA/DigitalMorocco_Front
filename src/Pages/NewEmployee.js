@@ -319,7 +319,7 @@ const NewEmployee = () => {
               </button>
               :
               <button
-                className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursor-pointer"
+                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursorpointer-green"
                 type="submit"
               >
                 <FiSave size={18} className="mr-2" />
@@ -496,12 +496,15 @@ const NewEmployee = () => {
                 <div className="flex flex-col gap-6 items-start justify-start w-full">
 
                   <div className="bg-white-A700 border border-blue_gray-100_01 h-[261px] border-solid flex flex-col items-center justify-center rounded-md w-full">
-                    <label htmlFor="fileInput" className="cursor-pointer">
+                    <label htmlFor="fileInput" className="cursorpointer-green h-full w-full">
                       {imgFile ? (
-                        <img src={URL.createObjectURL(imgFile)} alt="Uploaded Logo" className="rounded-md w-full py-[5px] h-[200px]" />
+                        <img src={URL.createObjectURL(imgFile)} alt="Uploaded Logo" className="rounded-md w-full " />
                       ) : formData.photo ? (
-                        <img src={`data:image/png;base64,${formData.photo}`} alt="Employee Photo" className="rounded-md w-full py-[5px] h-[200px]" />
-                      ) : (
+                        <img src={`data:image/png;base64,${formData.photo}`} alt="Employee Photo" className="rounded-md w-full" />
+                      ) : 
+                      employee?.image ? (
+                      <img src={employee?.image} alt="Uploaded Logo" className="rounded-md w-full h-full " />
+                      ): (
                         <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[100px] rounded-md w-full">
                           <PiUserSquare size={24} radius={8} className="" />
                           <div className="flex flex-col items-start justify-start w-auto">

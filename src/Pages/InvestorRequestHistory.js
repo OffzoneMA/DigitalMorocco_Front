@@ -164,18 +164,18 @@ const InvestorRequestHistory = () => {
                   </>
                 )}
                 {filter ? (
-                  <div className="bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " onClick={() => setFilterApply(true)}>
+                  <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer-green p-[6px] h-[38px] rounded-md " onClick={() => setFilterApply(true)}>
                     <BiFilterAlt size={18} className="mr-2" />
                     <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>Apply Filters</button>
                   </div>
                 ) : (
-                  <div className="col-end-3 col-span-1 bg-blue-A400 text-white-A700 flex flex-row items-center cursor-pointer p-[6px] h-[38px] rounded-md " onClick={() => setFilter(true)}>
+                  <div className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 bg-blue-A400 text-white-A700 flex flex-row items-center cursorpointer-green p-[6px] h-[38px] rounded-md " onClick={() => setFilter(true)}>
                     <BiFilterAlt size={18} className="mr-2" />
                     <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>Filters</button>
                   </div>
                 )}
                 {filterApply && (
-                  <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer" onClick={ClearFilter}>
+                  <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursorpointer-green" onClick={ClearFilter}>
                     <FiDelete size={18} className="mr-2" />
                     <Text className="text-base font-DmSans font-normal leading-[26px] text-blue_gray-300 " size="">Clear</Text>
                   </div>
@@ -198,7 +198,7 @@ const InvestorRequestHistory = () => {
                 <tbody className="items-center w-full ">
                 {             
                     pageData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
                         <td className="py-3 px-3 w-auto text-gray500 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>
                           {formatDateWithoutComma(new Date(item.dateCreated))}</td>
                         <td className="py-3 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>{item?.investor?.name}</td>

@@ -13,21 +13,11 @@ export const subscriptionLogApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-       /* getAllEvents: builder.query({
+        getAllSubLogsByUser: builder.query({
             query: (arg) => {
                 const { start, qt } = arg;
                 return {
-                    url: '/',
-                    method: 'GET',
-                    params: { start, qt },
-                }
-            },
-        }),*/
-        getAllSubLogsByMember: builder.query({
-            query: (arg) => {
-                const { start, qt } = arg;
-                return {
-                    url: '/byMember',
+                    url: '/byUser',
                     method: 'GET',
                     params: { start, qt },
                 }

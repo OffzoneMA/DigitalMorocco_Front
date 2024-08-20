@@ -44,16 +44,17 @@ export const documentApi = createApi({
             }),
         }),
         shareDocument: builder.mutation({
-            query: ({ documentId, userIds, userType }) => ({
-                url: `/${documentId}/share`,
+            query: ({ id, userIds, shareWith }) => ({
+                url: `/${id}/share`,
                 method: 'POST',
-                body: { userIds, userType },
+                body: { userIds, shareWith },
             }),
         }),
     }),
 })
 
 export const {
-    useGetDocumentsQuery, useGetDocumentByIdQuery, useCreateDocumentMutation,
-  useUpdateDocumentMutation, useDeleteDocumentMutation, useGetDocumentsForUserQuery
+    useGetDocumentsQuery, useGetDocumentByIdQuery, useCreateDocumentMutation, 
+  useUpdateDocumentMutation, useDeleteDocumentMutation, useGetDocumentsForUserQuery ,
+  useShareDocumentMutation
   } = documentApi;

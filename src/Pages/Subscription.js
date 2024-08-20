@@ -14,12 +14,14 @@ import CancelPlanModal from '../Components/CancelPlanModal';
 import AddPaymentMethodModal from '../Components/AddPaymentMethodModal';
 import PageHeader from "../Components/PageHeader";
 import axios from 'axios';
+import Loader from '../Components/Loader';
 
 
 export default function Subscription() {
   // const { data = [], isLoading, isFetching, isError } = useGetAllSubscriptonsQuery()
   // const [buySub, response] = useBuySubMutation()
   // const { userInfo, loading } = useSelector((state) => state.auth);
+  const [isSubscribeLoading , setIsSubscribeLoading] = useState(true);
   const [isSubscribe , setIsSubscribe] = useState(false);
   const [selectedPlan , setSelectedPlan] = useState(false);
   const [anuualPlan , setAnnualPlan] = useState(false);
@@ -40,13 +42,15 @@ export default function Subscription() {
   
   useEffect(() => {
     const checkSubscriptionStatus = async () => {
+      setIsSubscribeLoading(true);
       try {
-          
           const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/check-subscription-status/${userId}`, {
               headers: { Authorization: `Bearer ${token}` },
           });
           setIsSubscribe(response.data.result);
+          setIsSubscribeLoading(false);
       } catch (error) {
+          setIsSubscribeLoading(false);
           console.error('Error checking subscription status:', error);
       }
   };
@@ -150,7 +154,13 @@ export default function Subscription() {
             </PageHeader>
           </div>
         </div>
-        {!isSubscribe ? 
+        {isSubscribeLoading ? 
+        <div className='flex w-full items-center justify-center py-40'>
+          <Loader/>
+        </div> 
+        :
+        <>
+        {(!isSubscribe && !isSubscribeLoading) ? 
         (
           <div className="flex flex-col md:flex-row items-start py-6 w-full h-full md:min-h-[540px] gap-8">
           <div className="flex flex-col md:border-r border-indigo-50 pr-8 md:flex-1 gap-4">
@@ -364,9 +374,10 @@ export default function Subscription() {
               Change Payment Method
             </button>
           </div>
-        </div>
-        
+        </div> 
         )}
+        </>
+        }
       </div>
       <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal}/>
       <AddPaymentMethodModal isOpen={isPaymentModalOpen}  onRequestClose={closePaymentModal} updateMethode={updateMethode}/>

@@ -13,7 +13,7 @@ import {Country} from 'country-state-city';
 import MultipleSelect from "../Components/MultipleSelect";
 import CustomCalendar from "../Components/CustomCalendar";
 import {useCreateProjectMutation, useUpdateProjectMutation} from "../Services/Member.Service";
-import {useGetProjectByIdQuery} from "../Services/Project.Service";
+import {useGetProjectByIdQuery , useDeleteMilestoneMutation} from "../Services/Project.Service";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import SimpleSelect from "../Components/SimpleSelect";
@@ -21,6 +21,9 @@ import fundImg from '../Media/funding.svg';
 import axios from "axios";
 import {companyType} from "../data/companyType";
 import { IoImageOutline } from "react-icons/io5";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { AiOutlineLoading } from "react-icons/ai";
+import { BsCheck2Circle } from "react-icons/bs";
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -51,15 +54,17 @@ const CreateProject = () => {
       clearInterval(intervalId); 
     };
   }, [div1Ref, div2Ref]);
-   
+  const [deleteMilestone] = useDeleteMilestoneMutation();
+  const [loadingDel, setLoadingDel] = useState(null);
   const { loading, userInfo } = useSelector((state) => state.auth)
   const location = useLocation();
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(location.state?.project || null);
-  const { data: fetchedProject, error, isLoading } = useGetProjectByIdQuery(projectId, {
-    skip: Boolean(project || !projectId),
+  const { data: fetchedProject, error, isLoading , refetch } = useGetProjectByIdQuery(projectId, {
+    skip: Boolean(project || !projectId || loadingDel === null),
   });
+  const [submitting, setSubmitting] = useState(null);
   const [Mount, setMount] = useState(true)
   const [focusedMilestone, setFocusedMilestone] = useState(null);
   const [milestones, setMilestones] = useState([]);
@@ -129,7 +134,7 @@ const CreateProject = () => {
   // }, [userInfo]);
   
   useEffect(() => {
-    if (fetchedProject && !project) {
+    if ((fetchedProject && !project) || (loadingDel !== null && fetchedProject) ) {
       setProject(fetchedProject);
     }
   }, [fetchedProject, project]);
@@ -191,11 +196,14 @@ const CreateProject = () => {
       setFundingValue(formatNumber(project.funding));
       setRaisedValue(formatNumber(project.totalRaised));
 
-      const initialFormattedMilestones = project.milestones?.map((milestone, index) => ({
+      const initialFormattedMilestones = project.milestones
+      ?.filter(milestone => milestone?._id)  
+      .map((milestone, index) => ({
         id: index + 1,
+        _id: milestone._id,
         name: milestone.name,
-        dueDate: new Date(milestone.dueDate)
-      })) 
+        dueDate: new Date(milestone.dueDate),
+      }));
       setMilestones(initialFormattedMilestones);
 
       const otherDocuments = project.documents?.filter(document => document.documentType === "other") || [{ id: 1 }];
@@ -224,7 +232,7 @@ const CreateProject = () => {
       // }
     }
     else{
-      setMilestones([{ id: 1, name: '', dueDate: '' }]);
+      setMilestones([{ id: 1 , _id: null, name: '', dueDate: '' }]);
     }
   }, [project]);
 
@@ -267,7 +275,24 @@ const CreateProject = () => {
   };
 
   const addMilestone = () => {
-    setMilestones([...milestones, { id: milestones.length + 1, name: '', dueDate: '' }]);
+    setLoadingDel(null);
+    setMilestones([...milestones, { id: milestones.length + 1, _id: null, name: '', dueDate: '' }]);
+  };
+
+  const removeMilestone = async (id) => {
+    setLoadingDel(id);
+    try {
+        const response  = await deleteMilestone({ projectId, milestoneId:id }).unwrap();
+        console.log(response)
+        setLoadingDel(null);  
+        setProject(response);
+        setMilestones((prevMilestones) =>
+          prevMilestones.filter((milestone) => milestone?._id !== id)
+        );
+    } catch (error) {
+        console.error('Erreur lors de la suppression du milestone:', error);
+        setLoadingDel(null);  
+    }
   };
 
   const addDocumentDiv = () => {
@@ -349,6 +374,7 @@ const handleFileInputChange = (event, index) => {
 
   const formData = new FormData();
   const onSubmit = (data) => {
+    setSubmitting('sending');
     const fundingValue = parseFloat(data.funding.replace(/\s/g, ''));
 
     const totalRaisedValue = parseFloat(data.totalRaised.replace(/\s/g, ''));
@@ -364,7 +390,7 @@ const handleFileInputChange = (event, index) => {
         country: countryNameSelec,
     };
 
-    const formattedMilestones = milestones.map(({ id, ...rest }) => rest);
+    const formattedMilestones = milestones.map(({ id, _id, ...rest }) => rest);
     const formDataContent = {
         ...updatedData,
         stage: selectedStage,
@@ -408,11 +434,13 @@ useEffect(() => {
   if (Mount) { setMount(false) }
   else {
     if (response.isSuccess) {
+      setSubmitting('ok');
       const redirectTimer = setTimeout(() => {
         navigate("/Projects");
-      }, 1000);
+      }, 2000);
       return () => clearTimeout(redirectTimer);
     }else {
+      setSubmitting(null);
       response.isError && console.log(response.error)
     }
   }
@@ -459,12 +487,23 @@ const handleDropLogo = (event) => {
                   Create New Project
                 </Text>
                 <button 
-                  className="bg-blue-A400 hover:bg-[#235DBD] text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer rounded-md w-auto" 
+                  className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94]' } text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer rounded-md w-auto`} 
                   ref={formButtonRef}
                   type="submit"
               >
-                  <FiSave size={18} className="mr-2" />
-                  Save
+                  {submitting === 'sending' ? (
+                  <AiOutlineLoading size={22}  className="animate-spin" /> 
+                ) : submitting === 'ok' ? (
+                  <>
+                  <BsCheck2Circle size={18} className="mr-2" />
+                  Saved
+                  </>
+                ) : (
+                  <>
+                    <FiSave size={18} className="mr-2" />
+                    Save
+                  </>
+                )}
               </button>
               </div>
               <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-full">
@@ -720,17 +759,26 @@ const handleDropLogo = (event) => {
                         defaultValue={milestone.dueDate}
                         onChangeDate={(date) => handleMilestoneDateChange(milestone.id, 'dueDate', parseDateString(date))}
                       />
-                      {/* {index === milestones.length - 1 && ( */}
-                      <button
-                        className="bg-light_blue-100 hover:bg-[#E2E2EE] text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[7px] rounded-md w-[15%] cursorpointer"
-                        style={{ whiteSpace: 'nowrap' }}
-                        onClick={addMilestone}
-                        type="button"
-                    >
-                        <IoMdAdd size={18} className="mr-1" />
-                        More
-                    </button>
-                      {/* )} */}
+                      {index === milestones.length - 1 ? (
+                        <button
+                          className="bg-light_blue-100 hover:bg-[#E2E2EE] text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          style={{ whiteSpace: 'nowrap' }}
+                          onClick={addMilestone}
+                          type="button"
+                        >
+                          <IoMdAdd size={18} className="mr-1" />
+                          <span className="hidden sm:inline">More</span>
+                        </button>
+                      ) : (
+                        <button
+                          className="bg-red-100 hover:bg-red-200 text-base border border-solid border-red-500 text-red-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          style={{ whiteSpace: 'nowrap' }}
+                          onClick={() => removeMilestone(milestone?._id)}
+                          type="button"
+                        >
+                        {loadingDel === milestone?._id ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> : <IoMdRemoveCircleOutline size={22} className="" />}
+                        </button>
+                      )}
                     </div>
                     ))}
                   </div>

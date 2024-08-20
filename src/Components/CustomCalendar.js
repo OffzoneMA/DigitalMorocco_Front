@@ -2,7 +2,6 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import React, {useEffect, useRef, useState} from "react";
 import {MdOutlineDateRange} from "react-icons/md";
-import ReactDOM from 'react-dom';
 
 
 const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue}) => {
@@ -19,6 +18,8 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
     const parentRef = useRef(null);
     const userLanguage = navigator.language.split('-')[0];
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
+    const [dropdownDirection, setDropdownDirection] = useState('down');
+
 
     const handleChange = (selectedDate) => {
         const formattedDate = new Intl.DateTimeFormat('en-GB').format(selectedDate);
@@ -34,17 +35,38 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
     };
 
     const calculateDropdownPosition = () => {
-        const rect = parentRef.current.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        const right = window.innerWidth - rect.left - rect.width;
-    
-        setDropdownPosition({
-          top: rect.bottom + scrollTop,
-          right: right,
-          width: `292px`
+      const rect = parentRef.current.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+      const dropdownHeight = dropdownRef.current ? dropdownRef.current.offsetHeight : 0;
+      const windowHeight = window.innerHeight;
+  
+      // Calculate available space above and below the dropdown trigger
+      const spaceBelow = windowHeight - rect.bottom;
+      const spaceAbove = rect.top;
+  
+      const right = window.innerWidth - rect.left - rect.width;
+  
+      let topPosition;
+  
+      if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+          // If there is not enough space below but enough space above, position it upwards
+          setDropdownPosition({
+            bottom: '100%',
+            right: 0,
+            width: `292px`
         });
-    };
+      } else {
+          // Otherwise, position it downwards
+          setDropdownPosition({
+            top: '100%',
+            right: 0,
+            width: `292px`
+        });
+      }
+  
+  };
+  
 
     const formatMonthYear = (date, locale) => {
         const month = date.toLocaleString(locale, { month: 'long' });
@@ -93,7 +115,6 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
                     <MdOutlineDateRange size={20} className={` text-blue_gray-300`}/>
                 </div> 
                 {show &&
-                ReactDOM.createPortal(
                  <div ref={dropdownRef} className={`absolute  !z-50 `} role="menu" style={dropdownPosition}>
                     <Calendar className={`!bg-white-A700 rounded-[6px] border !border-gray-101 !shadow-lg !w-[292px] text-gray-701 !font-DmSans`} onChange={handleChange} value={selectedDate} formatWeekday={(locale, date) => formatWeekday(locale, date)} 
                     next2Label={null} prev2Label={null} locale={userLanguage || 'en'} navigationLabel={({ date, label, locale }) => (
@@ -105,9 +126,7 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
                         </span>
                     )}
                       />
-                  </div> ,
-                  document.body
-                )
+                  </div> 
                 }
         </div>
     )

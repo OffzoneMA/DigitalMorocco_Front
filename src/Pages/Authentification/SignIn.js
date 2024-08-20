@@ -104,7 +104,7 @@ export default function SignIn() {
                 navigate('/Dashboard_Admin') 
               }
               else if(userInfo?.role?.toLowerCase() == "member") {
-                navigate('/RedirectFromSignIn')
+                navigate('/Dashboard')
               }
               else if(userInfo?.status?.toLowerCase() == "pending") {
                 navigate('/RedirectFromSignIn')
@@ -387,7 +387,7 @@ export default function SignIn() {
                         </Text>
                         <Link
                           to="/SignUp"
-                          className="text-[#482BE7] cursor-pointer hover:text-[#00CDAE] text-sm w-auto sm:text-right font-dm-sans-bold"
+                          className="text-[#482BE7] cursorpointer hover:text-[#00CDAE] text-sm w-auto sm:text-right font-dm-sans-bold"
                       >
                           <Text className="font-dm-sans-bold">{t('signin.createAccount')}</Text>
                       </Link>

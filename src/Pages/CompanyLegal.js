@@ -56,9 +56,6 @@ const fetchLegalDocuments = async () => {
     return data?.slice(startIndex, endIndex);
   };
 
-
-  
-
   function handlePageChange(page) {
     if (page >= 1 && page <= totalTablePages) {
       setCur(page);
@@ -149,8 +146,54 @@ const fetchLegalDocuments = async () => {
     }
   };  
 
-  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const handleDownload = (documentData) => {
+    if (typeof window === 'undefined') {
+      console.error('This code must be executed in the browser.');
+      return;
+    }
   
+    if (!documentData?.data) {
+      console.error('Invalid document data');
+      return;
+    }
+  
+    // Extraire les données base64 après la virgule
+    const base64Data = documentData.data.split(',')[1];
+    if (!base64Data) {
+      console.error('Invalid base64 data');
+      return;
+    }
+  
+    // Convertir les données base64 en octets
+    const byteCharacters = atob(base64Data);
+    const byteArray = new Uint8Array(byteCharacters.length);
+    
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArray[i] = byteCharacters.charCodeAt(i);
+    }
+  
+    // Créer un Blob à partir du tableau d'octets
+    const blob = new Blob([byteArray], { type: documentData.type });
+  
+    // Créer une URL pour le Blob
+    const url = URL.createObjectURL(blob);
+  
+    // Créer un lien pour initier le téléchargement
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = documentData.name || 'downloaded_file';
+    
+    // Assurez-vous que le lien est ajouté au DOM avant de cliquer dessus
+    document.body.appendChild(link);
+    link.click();
+  
+    // Nettoyer le DOM et libérer l'URL
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };  
+  
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  console.log(legalDocuments)
 
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-12 pt-8 rounded-tl-[40px] w-full">
@@ -174,7 +217,7 @@ const fetchLegalDocuments = async () => {
                   Legal Document
                 </TableTitle>
               <button
-                className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto"
+                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94]  text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursorpointer-green"
                 onClick={openModal}
                 type="button"
               >
@@ -195,7 +238,7 @@ const fetchLegalDocuments = async () => {
                 {documentData?.length > 0 ?
                 <tbody className="font-DmSans text-sm font-normal leading-6">
                  {(documentData.map((document, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
+                  <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`}>
                     <td className="py-3 px-3" onClick={()=>openEditModal(document)}>
                       <div className="flex flex-row space-x-3 items-center">
                         <GrAttachment size={15} className="text-black" />
@@ -204,13 +247,13 @@ const fetchLegalDocuments = async () => {
                     </td>
                     <td className="py-4 px-3 text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {new Date(document.lastModifiedDate).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true
-      })}
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: true
+                      })}
                       </td>
                     <td className="py-3 px-3 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
@@ -220,9 +263,47 @@ const fetchLegalDocuments = async () => {
                     </td>
                     <td className="py-3 px-3 ">
                       <div className="flex flex-row space-x-3 px-3 items-center">
-                        <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> openEditModal(document)}/>
-                        <HiOutlineTrash size={17} onClick={()=> openDeleteModal(document)} className="text-blue_gray-301"/>
-                        <FiDownload  size={17} className="text-blue_gray-301"/>
+                        <div className="relative group">
+                          <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> openEditModal(document)}/>
+                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                            <div className="mb-px mr-[3px]">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                              </svg>
+                            </div>
+                            <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Edit</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="relative group">
+                          <HiOutlineTrash size={17} onClick={()=> openDeleteModal(document)} className="text-blue_gray-301"/>
+                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                            <div className="mb-px mr-[3px]">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                              </svg>
+                            </div>
+                            <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="relative group">
+                          <a href={document?.data} download={document?.name}>
+                            <FiDownload  size={17} className="text-blue_gray-301"  />
+                          </a>
+                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                            <div className="mb-px mr-[3px]">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                              </svg>
+                            </div>
+                            <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Download</div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </td>
                   </tr>

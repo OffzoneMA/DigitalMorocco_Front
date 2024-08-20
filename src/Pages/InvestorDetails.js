@@ -20,13 +20,16 @@ import SendContactModal from "../Components/SendContactModal";
 import ConfirmedModal from "../Components/ConfirmedModal";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
+import { useGetInvestorByIdQuery } from "../Services/Investor.Service";
 import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 const InvestorDetails = () => {
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const { investorId } = useParams();
-
+    const location = useLocation();
+    const [investor, setInvestor] = useState(location.state?.investor || null);
   const [cur, setCur] = useState(1);
   const itemsPerPage = 4;
   const itemsToShow = 4;
@@ -64,6 +67,8 @@ const InvestorDetails = () => {
   const closeModal = () => {
     setIsContactModalOpen(false);
   };
+console.log(investor)
+
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -79,11 +84,11 @@ const InvestorDetails = () => {
             </div>
             <div className="flex flex-col w-full gap-10 bg-white-A700 px-5">
                 <div className="flex flex-col md:flex-row justify-center items-start gap-8">
-                      <div className="relative flex justify-center w-full md:w-[23%] p-5 border-blue_gray-100 border border-solid rounded-[10px]">
+                      <div className="relative flex justify-center w-full md:w-[23%] p-2 border-blue_gray-100 border border-solid rounded-[10px]">
                         <img
-                          src="/images/img_inv.svg"
+                          src={investor?.image}
                           alt="vector_three"
-                          className="h-[140px] w-[150px] "
+                          className="h-full w-full "
                         />
                         <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
                         </div>
@@ -92,12 +97,12 @@ const InvestorDetails = () => {
                         <div className="flex flex-row justify-between items-start  w-full">
                           <div className="relative">
                             <Text className="font-DmSans text-2xl font-bold leading-8 text-left text-blue_gray-903">
-                              Venture Catalysts
+                              {investor?.CompanyName || investor?.name || 'Venture Catalysts'}
                             </Text>
                             <div className="absolute h-full overlay-content-invDetails w-full top-0">
                             </div>
                           </div>
-                          <button
+                          <button style={{ whiteSpace: 'nowrap'}}
                               className="bg-blue-A400 text-white-A700 text-sm font-DmSans font-normal leading-[22px] flex flex-row items-center p-[7px] rounded-md w-auto"
                               onClick={openModal}
                               type="button"
@@ -113,7 +118,7 @@ const InvestorDetails = () => {
                                     Investment
                                 </div>
                                 <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
-                                179
+                                { investor?.numberOfInvestment || 179}
                                 </div>
                             </div>
 
@@ -122,7 +127,7 @@ const InvestorDetails = () => {
                                     Exits
                                 </div>
                                 <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
-                                44
+                                {investor?.numberOfExits || 44}
                                 </div>
                             </div>
 
@@ -131,7 +136,7 @@ const InvestorDetails = () => {
                                     Fund
                                 </div>
                                 <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
-                                52
+                                {investor?.fund|| 52}
                                 </div>
                             </div>
 
@@ -140,7 +145,7 @@ const InvestorDetails = () => {
                                     Acquisitions
                                 </div>
                                 <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
-                                7
+                                {investor?.acquisitions || 7}
                                 </div>
                             </div>
                             </div>
@@ -164,8 +169,7 @@ const InvestorDetails = () => {
                               </div>
                               <div className="relative">
                                 <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                    Venture Catalys is a diversified financial services holding company that provides
-                                    various financial products and services.
+                                    {investor?.desc || investor?.description || `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
                                 </div>
@@ -180,7 +184,7 @@ const InvestorDetails = () => {
                               </div>
                               <div className="relative">
                                 <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                  Venture Catalysts, Inc
+                                  {investor?.legalName || 'Venture Catalysts, Inc'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
                                 </div>
@@ -196,7 +200,11 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                              Jun 16, 2012
+                              {investor?.foundedDate ? new Date(investor?.foundedDate).toLocaleString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                              }) : 'Jun 16, 2012'}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -208,7 +216,7 @@ const InvestorDetails = () => {
                               </div>
                               <div className="relative">
                                 <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                Venture Capital
+                                {investor?.type || 'Venture Capital'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
                                 </div>
@@ -224,7 +232,7 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                              Casablanca, Morocco
+                              {investor?.headquarter || 'Casablanca, Morocco'}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -236,7 +244,7 @@ const InvestorDetails = () => {
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
                                 <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                  http://venture-catalysts.com
+                                  {investor?.website || 'http://venture-catalysts.com'}
                                 </Text>
                                 <IoOpenOutline size={22} className="text-blue-700"/>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -253,7 +261,7 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                              Early Stage Venture, Late Stage Venture
+                              {investor?.investmentStage || 'Early Stage Venture, Late Stage Venture'}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -264,7 +272,7 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                              Privat Equity
+                              {investor?.lastFundingType || 'Privat Equity'}
                               </Text>
                             </div>
                         </div>
@@ -277,21 +285,13 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <div className="grid md:flex md:flex-row md:flex-wrap pl-8 gap-3">
-                              <div className="bg-blue-101 w-auto items-center rounded-full ">
-                                <Text  className=" p-2 font-DmSans text-base font-normal leading-6 tracking-wide text-left text-blue_gray-904 ">
-                                SaaS
-                                </Text>
-                              </div>
-                              <div className="bg-blue-101  rounded-full items-center">
-                                <Text  className=" p-2 font-DmSans text-base font-normal leading-6 tracking-wide text-left text-blue_gray-904 ">
-                                Artificial Intelligence
-                                </Text>
-                              </div>
-                              <div className="bg-blue-101  rounded-full items-center">
-                                <Text  className=" p-2 font-DmSans text-base font-normal leading-6 tracking-wide text-left text-blue_gray-904 ">
-                                Machine learning
-                                </Text>
-                              </div>
+                                {investor?.PreferredInvestmentIndustry.map((industry, index) => (
+                                  <div key={index} className="bg-blue-101 w-auto items-center rounded-full">
+                                    <Text className="p-2 font-DmSans text-base font-normal leading-6 tracking-wide text-left text-blue_gray-904">
+                                        {industry}
+                                    </Text>
+                                  </div>
+                                ))}
                               </div>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -302,7 +302,7 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                              $ 20,000,000
+                              $ {investor?.investmentCapacity || '20,000,000'}
                               </Text>
                             </div>
                         </div>
@@ -324,7 +324,7 @@ const InvestorDetails = () => {
                               </div>
                               <div className="relative">
                                 <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                +33 1 234 567 89
+                                {investor?.phoneNumber || '+33 1 234 567 89'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
                                 </div>
@@ -339,7 +339,7 @@ const InvestorDetails = () => {
                               </div>
                               <div className="relative">
                                 <Text className="font-DmSans text-base font-normal leading-6 tracking-wide text-left text-gray-700 pl-8">
-                                investment@venture-catalysts.com
+                                {investor?.emailAddress|| 'investment@venture-catalysts.com'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
                                 </div>

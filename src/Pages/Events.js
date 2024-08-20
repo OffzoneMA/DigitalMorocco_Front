@@ -149,10 +149,10 @@ const Events = () => {
     return ReactDOM.createPortal(
       <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
         <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
-          <div className="flex flex-row gap-3 items-center cursorpointer-green" onClick={() => openTicketModal(item)}>
+          <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={() => openTicketModal(item)}>
             <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
             <Text
-              className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+              className="text-gray-801 font-DmSans text-sm font-normal leading-6 hover:text-[#35D8BF] "
             >
               View Ticket
             </Text>
@@ -160,19 +160,19 @@ const Events = () => {
           <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
               {({ blob, url, loading, error }) => ( 
               loading ? 
-              <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green">
+              <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]">
                 <FiDownload size={18} className="text-blue-A400 "/>
                   <Text
-                    className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                    className="text-gray-801 font-DmSans text-sm font-normal leading-6 hover:text-[#35D8BF]"
                   >
                     Download
                   </Text>
               </div>
               :
-              <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green" >
+              <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]" >
                 <FiDownload size={18} className="text-blue-A400 "/>
                   <Text
-                    className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                    className="text-gray-801 font-DmSans text-sm font-normal leading-6 hover:text-[#35D8BF]"
                   >
                     Download
                   </Text>
@@ -254,7 +254,7 @@ const Events = () => {
                     )}
                       {filter ?
                       (<button
-                        className="bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
+                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
                         onClick={() => setFilterApply(true)}
                         type="button"
                     >
@@ -265,7 +265,7 @@ const Events = () => {
                     </button>
                     ):
                       (<button
-                        className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
+                        className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
                         onClick={() => setFilter(true)}
                         type="button"
                     >
@@ -305,7 +305,7 @@ const Events = () => {
                     <tbody className="items-center w-full ">
                     {
                         (pageData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''}  w-full`} >
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} >
                       <td className="w-auto text-gray-801 font-DmSans text-sm font-normal leading-6">
                           <div className="px-[18px] py-4 flex items-center" >
                               <img src={item.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>

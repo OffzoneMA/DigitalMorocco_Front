@@ -16,6 +16,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
 
 
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
+  const [dropdownDirection, setDropdownDirection] = useState('down');
 
   const toggleDropdown = (event) => {
     event.stopPropagation(); // Stop event propagation to prevent handleClickOutside from being triggered
@@ -44,14 +45,33 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
   });
   
   const calculateDropdownPosition = () => {
-    if (dropdownRef.current) {
+    if (dropdownRef.current && parentRef.current) {
       const rect = parentRef.current.getBoundingClientRect();
+      const dropdownHeight = dropdownRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      setDropdownPosition({
-        top: rect.bottom + scrollTop,
-        left: rect.left,
-        width: `${rect.width}px`
-      });
+
+      // Calculate available space above and below the dropdown trigger
+      const spaceBelow = windowHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+        // If there is not enough space below but enough space above, open upwards
+        setDropdownDirection('up');
+        setDropdownPosition({
+          top: rect.top + scrollTop - dropdownHeight,
+          left: rect.left,
+          width: `${rect.width}px`
+        });
+      } else {
+        // Otherwise, open downwards
+        setDropdownDirection('down');
+        setDropdownPosition({
+          top: rect.bottom + scrollTop,
+          left: rect.left,
+          width: `${rect.width}px`
+        });
+      }
     }
   };
 
@@ -98,7 +118,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
       </div>
       {isOpen && (
          ReactDOM.createPortal(
-        <div ref={dropdownRef} className="absolute w-full  mt-1 py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[310px] z-10" role="menu" 
+        <div ref={dropdownRef} className={`absolute w-full py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[310px] z-10 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'}`} role="menu" 
         style={dropdownPosition}>
             {searchable && (
             <div className='flex w-full px-3'>

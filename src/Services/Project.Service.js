@@ -20,7 +20,15 @@ export const projectApi = createApi({
         body: milestoneData,
       }),
     }),
+    deleteMilestone: builder.mutation({
+      query: ({ projectId, milestoneId }) => ({
+          url: `/${projectId}/milestones/${milestoneId}`,
+          method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useDeleteProjectMutation, useGetProjectByIdQuery , useAddMilestoneToProjectMutation } = projectApi;
+export const { useDeleteProjectMutation, useGetProjectByIdQuery , useAddMilestoneToProjectMutation ,
+  useDeleteMilestoneMutation
+ } = projectApi;

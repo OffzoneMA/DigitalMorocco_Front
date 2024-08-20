@@ -124,11 +124,11 @@ const Employees = () => {
                   Team members
                 </TableTitle>
               <button
-                className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto"
                 onClick={() => navigate("/NewEmployee")}
                 type="button"
               >
-                <FaRegPlusSquare size={18} className="mr-2" />
+                <FaRegPlusSquare size={18} className="mr-2 cursorpointer-green" />
                 <span className="text-sm font-medium leading-[18.23px]">Add New Employee</span>
               </button>
             </div>
@@ -148,8 +148,8 @@ const Employees = () => {
                 <tbody className="font-DmSans text-sm font-normal leading-[26px] ">
                   {(
                     filteredEmployees.map((employee, index) => (
-                      <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                        
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`} 
+                        /*onClick={() => handleEditEmployee(employee._id)}*/>
                         <td className="py-3 px-3 text-gray-900_01">
                       <div className="flex items-center " style={{}}>
                         <img src={ employee?.image || `data:image/png;base64,${employee.photo}`} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
@@ -174,8 +174,32 @@ const Employees = () => {
                         </td>
                         <td className="py-3 px-3 ">
                           <div className="flex flex-row space-x-3 px-3 items-center">
-                            <HiOutlineTrash size={17} onClick={() => openDeleteModal(employee)} className="text-blue_gray-301"/>
-                            <FiEdit3 size={17} className="text-blue_gray-301" onClick={() => handleEditEmployee(employee._id)}/>
+                            <div className="relative group">
+                              <HiOutlineTrash size={17} onClick={() => openDeleteModal(employee)} className="text-blue_gray-301"/>
+                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                                <div className="mb-px mr-[3px]">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                                  </svg>
+                                </div>
+                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="relative group">
+                              <FiEdit3 size={17} className="text-blue_gray-301" onClick={() => handleEditEmployee(employee._id)}/>
+                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                                <div className="mb-px mr-[3px]">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                                  </svg>
+                                </div>
+                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Edit</div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </td>
                       </tr>

@@ -123,7 +123,7 @@ export default function VerificationCode() {
                     }
                     </div>
                     <div className="flex sm:flex-row flex-col gap-6 items-start justify-between py-2 w-full">
-                      <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto w-full items-center justify-center sm:px-7 px-10 py-[13px] rounded-[26px] cursor-pointer " 
+                      <div className="bg-teal-A700 flex flex-row gap-6 h-[52px] md:h-auto w-full items-center justify-center sm:px-7 px-10 py-[13px] rounded-[26px] cursorpointer " 
                       onClick={()=> onButtonClick(formButtonRef)}>
                         <button
                         ref={formButtonRef}

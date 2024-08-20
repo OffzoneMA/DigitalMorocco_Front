@@ -1,4 +1,4 @@
-import React, { useState , useRef } from "react";
+import React, { useState , useRef  , useEffect} from "react";
 import { Text } from "../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
@@ -24,19 +24,23 @@ const MyCompany = () => {
   const dataCountries = Country.getAllCountries();
   const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.member?.country));
 
-  const { register, handleSubmit, formState: { errors } } = useForm(userDetails !=null && {
-    defaultValues: {
-      companyName: userDetails?.member?.companyName,
-      address: userDetails?.member?.address,
-      legalName: userDetails?.member?.legalName,
-      description: userDetails?.member?.desc,
-      website: userDetails?.member?.website,
-      contactEmail: userDetails?.member?.contactEmail,
-      taxIdentfier : userDetails?.member?.taxNbr,
-      corporateIdentfier : userDetails?.member?.corporateNbr
-    }
-  });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
+  useEffect(() => {
+    if (userDetails) {
+      reset({
+        companyName: userDetails?.member?.companyName,
+        address: userDetails?.member?.address,
+        legalName: userDetails?.member?.legalName,
+        description: userDetails?.member?.desc,
+        website: userDetails?.member?.website,
+        contactEmail: userDetails?.member?.contactEmail,
+        taxIdentfier: userDetails?.member?.taxNbr,
+        corporateIdentfier: userDetails?.member?.corporateNbr,
+      });
+    }
+  }, [userDetails, reset]);
+  console.log(userDetails)
   const formRef = useRef();
   const formButtonRef = useRef();
 
@@ -147,7 +151,7 @@ const MyCompany = () => {
           <SearchInput className={'min-w-[25%]'}/>
           {isSaved? 
               <button
-                className="bg-teal-A700 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                className="bg-teal-A700 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto"
                 type="submit"
               >
                 <BsCheck2Circle size={18} className="mr-2" />
@@ -156,7 +160,7 @@ const MyCompany = () => {
               :
               <button
                 ref={formButtonRef}
-                className="bg-blue-501 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursor-pointer rounded-md w-auto"
+                className="bg-blue-501 text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto"
                 onClick={() => onButtonClick(formButtonRef)}
                 type="submit"
                 >

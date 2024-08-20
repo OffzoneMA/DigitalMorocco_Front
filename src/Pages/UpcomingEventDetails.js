@@ -168,7 +168,7 @@ const UpcomingEventDetails = () => {
                             </Text>
                             {event?.status == 'upcoming' &&
                             <button
-                              className="bg-blue-A400 text-white-A700 flex flex-row md:h-auto items-center px-4 py-2 rounded-md w-auto cursorpointer-green"
+                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row md:h-auto items-center px-4 py-2 rounded-md w-auto cursorpointer-green"
                               type="button"
                               >
                               <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-medium leading-[18.23px]">
@@ -202,7 +202,7 @@ const UpcomingEventDetails = () => {
                           </Text>
                       </div>
                       {past? (
-                        <div className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 cursor-pointer rounded-full">
+                        <div className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 cursorpointer-green rounded-full">
                         <button
                           style={{whiteSpace:'nowrap'}}
                             type="button"

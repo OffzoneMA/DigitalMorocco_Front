@@ -8,9 +8,12 @@ import { useForm } from "react-hook-form";
 import MultipleSelect from "./MultipleSelect";
 import { useCreateDocumentMutation } from "../Services/Document.Service";
 import { useNavigate } from "react-router-dom";
+import { useGetAllUsersQuery } from "../Services/User.Service";
 
 const NewDocumentModal = (props) => {
   const [Mount, setMount] = useState(true)
+  const { data: users, isLoading, isError , refetch} = useGetAllUsersQuery();
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const documentFile = props?.rowData? props.rowData : null;
   const { register, handleSubmit, formState: { errors } , reset} = useForm({
     defaultValues: {
@@ -22,11 +25,32 @@ const NewDocumentModal = (props) => {
   const navigate = useNavigate();
   const [files, setFiles] = useState(null);
   const [preview , setPreview] = useState(null);
+  const userData = JSON.parse(sessionStorage.getItem('userData'));
+
+  useEffect(() => {
+    if (users) {
+      const usersWithRoles = users.filter(user => 
+        user.role && user.role?.toLowerCase() !== 'admin' && user._id !== userData?._id && user?.displayName !== null
+      );
+      setFilteredUsers(usersWithRoles);
+    }
+  }, [users]);
+
+  // useEffect(() => {
+  //   if (Array.isArray(props?.rowData?.shareWithUsers)) {
+  //     const selectedFullUsers = props.rowData.shareWithUsers.map(userId =>
+  //       filteredUsers.find(user => user._id === userId)
+  //     );
+  //     console.log(selectedFullUsers)
+  //     setSelectedMembers(selectedFullUsers);
+  //   } else {
+  //     setSelectedMembers([]);
+  //   }
+  // }, [props?.rowData?.shareWithUsers, filteredUsers]);
 
   const handleDragOver = (event) => {
     event.preventDefault();
   };
-console.log(documentFile?.title)
   const handleDrop = (event) => {
     event.preventDefault();
     setFiles(event.dataTransfer.files[0]);
@@ -36,6 +60,13 @@ console.log(documentFile?.title)
   const onButtonClick = (inputref) => {
     inputref.current.click();
   };
+
+  useEffect(() => {
+    // Réinitialiser le formulaire lorsque documentFile change
+    reset({
+      title: documentFile?.title,
+    });
+  }, [documentFile, reset]);
 
   const handleFileChange = (e) => {
     setFiles(e.target.files[0]);
@@ -47,18 +78,51 @@ console.log(documentFile?.title)
     setPreview(null)
   }
 
+  const determineShareWith = () => {
+    const pluralRoles = {
+      member: 'Members',
+      investor: 'Investors',
+      partner: 'Partners',
+      marketing: 'Marketing Team', 
+    };
+  
+    // Map the selected members' roles to their singular forms
+    const roles = selectedMembers.map(user => user.role.toLowerCase());
+  
+    // Get unique roles and sort them
+    const uniqueRoles = [...new Set(roles)];
+    uniqueRoles.sort();
+  
+    // Convert roles to their plural forms and capitalize them
+    const capitalizedPluralRoles = uniqueRoles.map(role => {
+      const pluralRole = pluralRoles[role] || role.charAt(0).toUpperCase() + role.slice(1) + 's';
+      return pluralRole;
+    });
+  
+    // Join the roles with ' & ' for the final result
+    return capitalizedPluralRoles.join(' & ');
+  };
+  
+
   const formData = new FormData();
 
   const onSubmit = (data) => {
+    const shareWith = determineShareWith(); 
     formData.append('docFile', files); 
-    formData.append('documentData' , JSON.stringify(data));
+    const documentData = {
+      ...data,  // Add existing data properties (e.g., title, documentName, etc.)
+      shareWith,  // Add the shareWith value
+      shareWithUsers: selectedMembers.map(user => user._id)  // Add the shareWithUsers array (user IDs)
+    };
+    // Step 2: Stringify the entire documentData object
+    formData.append('documentData', JSON.stringify(documentData));
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
-    });
+    }); 
+
     for (let pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-    formData.append('shareWithUsers', selectedMembers); 
 
     try {
       documentFile?._id ? 
@@ -73,7 +137,8 @@ console.log(documentFile?.title)
     if (Mount) { setMount(false) }
     else {
       if (props?.response?.isSuccess) {
-        props.onRequestClose()
+        props.onRequestClose();
+        setPreview(null);
         const redirectTimer = setTimeout(() => {
           navigate("/Document");
         }, 1000);
@@ -82,7 +147,7 @@ console.log(documentFile?.title)
         response.isError && console.log(response.error)
       }
     }
-  }, [response]);
+  }, [props?.response]);
 
   const membersdata = [
     "Annette Black",
@@ -126,16 +191,14 @@ console.log(documentFile?.title)
               >
                 Document Title
               </Text>
-              <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                <input
-                  {...register("title", { required: {value:true , message: "Document title is required."} })}
-                  className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="title"
-                  placeholder="Document Title"
-                  defaultValue={documentFile?.title}
-                />
-              </div>
+              <input
+                {...register("title", { required: {value:true , message: "Document title is required."} })}
+                className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.title ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                type="text"
+                name="title"
+                placeholder="Document Title"
+                defaultValue={documentFile?.title}
+              />
               {errors.title && <span className="text-sm font-DmSans text-red-500">{errors.title?.message} </span>}
             </div>
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -199,15 +262,15 @@ console.log(documentFile?.title)
                 >
                 Share with
               </Text>
-              <MultipleSelect id='sector' options={membersdata} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setSelectedMembers} 
-                    placeholder="Select name"
+              <MultipleSelect id='sector' options={filteredUsers} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setSelectedMembers} 
+                    placeholder="Select name" valuekey="displayName" optionkey="_id" selectedOptionsDfault={props.rowData?.shareWithUsers?.map(userId => filteredUsers.find(user => user._id === userId))}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
                               className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
                               >
-                               {option}
+                               {option?.displayName}
                             </Text>
                            </div>
                         );
@@ -218,9 +281,9 @@ console.log(documentFile?.title)
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
-              <button type="reset" className="bg-gray-300 text-gray-700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg" 
+              <button type="reset" className="bg-gray-300 cursorpointer-green text-gray-700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg" 
               onClick={closeModal}>Cancel</button>
-              <button type="submit" className="ml-auto bg-blue-500 text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">{documentFile?._id ? 'Edit Document' : 'Add Document'}</button>
+              <button type="submit" className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green">{documentFile?._id ? 'Edit Document' : 'Add Document'}</button>
             </div>
           </div>
         </div>

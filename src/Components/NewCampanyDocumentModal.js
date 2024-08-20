@@ -84,16 +84,14 @@ const NewCampanyDocumentModal = (props) => {
         <div className="flex flex-col gap-3 w-full max-h-[70vh]">
             <div className="flex flex-col gap-2 items-start justify-start w-full">
                 <Text className="text-base text-gray-900_01 w-auto" size="txtDMSansLablel">Document Title</Text>
-                <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                    <input
-                        {...register("title", { required: { value: true, message: "Document title is required." } })}
-                        className="!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0"
-                        type="text"
-                        name="title"
-                        placeholder="Document Title"
-                        defaultValue={documentFile?.title || ""}
-                    />
-                </div>
+                <input
+                    {...register("title", { required: { value: true, message: "Document title is required." } })}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.title ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    type="text"
+                    name="title"
+                    placeholder="Document Title"
+                    defaultValue={documentFile?.title || ""}
+                />
                 {errors.title && <span className="text-sm font-DmSans text-red-500">{errors.title?.message}</span>}
             </div>
 
@@ -152,7 +150,7 @@ const NewCampanyDocumentModal = (props) => {
                 <div className="flex space-x-5 w-auto">
                     <button
                         type="reset"
-                        className="bg-gray-300 text-gray-700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg"
+                        className="bg-gray-300 text-gray-700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green"
                         onClick={() => setPreview(null)}
                         style={{ width: "101px", height: "44px" }}
                     >
@@ -160,7 +158,7 @@ const NewCampanyDocumentModal = (props) => {
                     </button>
                     <button
                         type="submit"
-                        className="ml-auto bg-blue-A400 text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg"
+                        className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointe-green text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg"
                         style={{ width: "195px", height: "44px" }}
                     >
                         {documentFile?._id ? "Edit Document" : "Add Document"}

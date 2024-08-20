@@ -206,7 +206,7 @@ const MyInvestors = () => {
                 {filter ?
                 (
                 <button
-                  className="bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
                   onClick={() => setFilterApply(true)}
                   type="button"
               >
@@ -218,7 +218,7 @@ const MyInvestors = () => {
                   ):
                 (
                 <button
-                  className="col-end-3 col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursor-pointer p-[6px] h-[38px] rounded-md"
+                  className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
                   onClick={() => setFilter(true)}
                   type="button"
                 >
@@ -231,7 +231,7 @@ const MyInvestors = () => {
                 }
                     {filterApply && (
                     <button
-                      className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursor-pointer"
+                      className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursorpointer-green"
                       onClick={clearFilter}
                       type="button"
                   >
@@ -258,7 +258,7 @@ const MyInvestors = () => {
                   <tbody className="items-center w-full ">
                   {
                   pageData.map((item, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursor-pointer w-full`} onClick={()=> navigate("/InvestorDetails")}>
+                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer-green w-full`} onClick={()=> navigate("/InvestorDetails")}>
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
                           <div className="py-3 px-3 flex items-center" >

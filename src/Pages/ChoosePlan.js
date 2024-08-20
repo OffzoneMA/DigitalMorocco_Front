@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Text } from '../Components/Text';
 import { useNavigate } from 'react-router-dom';
-import { GiCheckMark } from "react-icons/gi";
+import { useGetAllSubscriptionPlansQuery } from '../Services/SubscriptionPlan.service';
+import Loader from '../Components/Loader';
 
 export default function ChoosePlan() {
+  const { data: plans, error, isLoading } = useGetAllSubscriptionPlansQuery();
+  const memberPlans = plans?.filter(plan => plan.forUser === 'Member');
   const [isSubscribe , setIsSubscribe] = useState(false);
   const navigate=useNavigate()
 
@@ -32,270 +35,65 @@ export default function ChoosePlan() {
                 >
               Choose the plan that suits for your startup 
             </Text>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full py-5 '>
-                <div className='flex flex-col border border-col1 rounded-[12px] px-6 py-8 bg-bg_plan '>
+            {isLoading ? 
+                <div className='flex justify-center w-full'>
+                    <Loader/>
+                </div>
+                :
+            <div className='flex justify-center flex-wrap gap-5 w-full py-5 '>
+            {memberPlans?.map(plan =>
+                (
+                <div key={plan?._id} className='flex flex-col border border-col1 basis-[200px] grow max-w-[344px] rounded-[12px] px-6 py-8 bg-bg_plan '>
                     <div className='w-full flex flex-col items-center gap-1.5 h-auto'>
                         <Text
                             className="text-[22px]  font-medium leading-8 text-center text-gray-801 w-full"
                             >
-                        Basic plan
+                        {plan?.name}
                         </Text>
                         <Text
                             className="text-base font-medium leading-[26px] text-center text-gray500 w-full"
                             >
-                        Ideal for Solo Entrepreneurs
+                        {plan?.description}
                         </Text>
                         <Text
                             className=" text-center text-col1  font-bold pt-1 w-full"
                             >
-                        <span className='text-[42px] leading-13 tracking-wide'>$9.99/</span><span className='text-[32px] leading-12'>month</span>
+                        <span className='text-[2.5rem] leading-13 tracking-wide'>${plan?.price}/</span><span className='text-[1.9rem] leading-12'>month</span>
                         </Text>
                     </div>
                     <div className='flex flex-col flex-1 w-full py-6 gap-3 '>
-                        <div className='flex flex-row w-full items-start gap-2'>
+                    {plan?.featureDescriptions?.map((feature, index) => 
+                    (
+                        <div key={index} className='flex flex-row w-full items-start gap-2'>
                             <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
+                            <svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
+                            </svg>
+
                             </div>
                             <Text
                                 className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
                             >
-                            Access essential features to kickstart your startup journey.
+                            {feature}
                             </Text>
                         </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Limited Event Participation
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Browse a curated list of investors and view their profiles
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Initiate contact with investors by sending them requests.
-                            </Text>
-                        </div>
+                    ))}
                     </div>
-                    <div className='w-full flex-end '>
+                    <div className='w-full flex-end ' onClick={() => navigate('/subscribePlan' , {state: { choosedPlan: plan }})}>
                         <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center justify-center gap-3 mr-auto py-3  rounded-md w-full">
                             <button
                             type="button"
-                            className="text-base leading-[24px] font-medium text-white-A700"
-                            onClick={() => navigate('/subscribePlan')}
+                            className="text-base leading-[24px] cursorpointer-green font-medium text-white-A700"
                             >
                             Get started
                             </button>
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-col border border-col1 rounded-[12px] px-6 py-8 bg-bg_plan '>
-                    <div className='w-full flex flex-col items-center gap-1.5 h-auto'>
-                        <Text
-                            className="text-[22px]  font-medium leading-8 text-center text-gray-801 w-full"
-                            >
-                        Pro Plan
-                        </Text>
-                        <Text
-                            className="text-base font-medium leading-[26px] text-center text-gray500 w-full"
-                            >
-                        Ideal For Growing Startups
-                        </Text>
-                        <Text
-                            className=" text-center text-col1  font-bold pt-1 w-full"
-                            >
-                        <span className='text-[42px] leading-13 tracking-wide'>$29.99/</span><span className='text-[32px] leading-12'>month</span>
-                        </Text>
-                    </div>
-                    <div className='flex flex-col flex-1 w-full py-6 gap-3 '>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Unlock advanced features for increased efficiency and growth.
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Priority Event Access
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Browse a curated list of investors and view their profiles
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Initiate contact with investors by sending them requests.
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Extended History Tracking
-                            </Text>
-                        </div>
-                    </div>
-                    <div className='w-full flex-end '>
-                        <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center justify-center gap-3 mr-auto py-3  rounded-md w-full">
-                            <button
-                            type="button"
-                            className="text-base leading-[24px] font-medium text-white-A700"
-                            >
-                            Get started
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div className='flex flex-col border border-col1 rounded-[12px] px-6 py-8 bg-bg_plan '>
-                    <div className='w-full flex flex-col items-center gap-1.5'>
-                        <Text
-                            className="text-[22px]  font-medium leading-8 text-center text-gray-801 w-full"
-                            >
-                        Enterprise plan
-                        </Text>
-                        <Text
-                            className="text-base font-medium leading-[26px] text-center text-gray500 w-full"
-                            >
-                        Billed annually.
-                        </Text>
-                        <Text
-                            className=" text-center text-col1  font-bold pt-1 w-full"
-                            >
-                        <span className='text-[42px] leading-13 tracking-wide'>$59.99/</span><span className='text-[32px] leading-12'>month</span>
-                        </Text>
-                    </div>
-                    <div className='flex flex-col flex-1 w-full py-6 gap-3 '>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Comprehensive features for established startups seeking maximum impact
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            VIP Event Access
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Dedicated Customer Support
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Access a premium list of investors with enhanced search and filtering
-                            </Text>
-                        </div>
-                        <div className='flex flex-row w-full items-start gap-2'>
-                            <div className="flex flex-col items-center bg-light_blue-100 rounded-full p-1">
-                            <GiCheckMark   className='text-col1'
-                                                size={14}
-                            />
-                            </div>
-                            <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
-                            >
-                            Initiate contact with investors, attaching detailed project information
-                            </Text>
-                        </div>
-                    </div>
-                    <div className='w-full flex-end '>
-                        <div className="bg-blue-A400 font-DmSans text-white-A700 flex flex-row md:h-auto items-center justify-center gap-3 mr-auto py-3  rounded-md w-full">
-                            <button
-                            type="button"
-                            className="text-base leading-[24px] font-medium text-white-A700"
-                            >
-                            Get started
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                )
+            )}
             </div>
+            }
         </div>
         
       </div>

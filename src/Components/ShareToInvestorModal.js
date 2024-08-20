@@ -131,12 +131,12 @@ useEffect(() => {
               filteredInvestors?.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3 cursor-pointer-green"
+                  className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3 cursorpointer-green"
                   onClick={() => handleInvestorSelection(item._id)}
                 >
                   <label
                     htmlFor={`check_inv_${index}`}
-                    className={`cursor-pointer relative inline-flex items-center ${
+                    className={`cursorpointer-green relative inline-flex items-center ${
                       selectedInvestors.includes(item._id) ? 'animation' : ''
                     }`}
                   >

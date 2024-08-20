@@ -270,7 +270,7 @@ useEffect(() => {
                         Project Milestone
                       </Text>
                       <button
-                        className="bg-white-A700 hover:bg-[#235DBD] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer-green ml-auto p-[7px] rounded-md w-auto"
+                        className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer-green ml-auto p-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
                         type="button"
                     >
