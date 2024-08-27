@@ -258,7 +258,7 @@ const MyInvestors = () => {
                   <tbody className="items-center w-full ">
                   {
                   pageData.map((item, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer-green w-full`} onClick={()=> navigate("/InvestorDetails")}>
+                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer-green w-full`}>
                     <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
                         <div className="relative flex">
                           <div className="py-3 px-3 flex items-center" >

@@ -7,14 +7,17 @@ import CancelPlanModal from '../Components/CancelPlanModal';
 import AddPaymentMethodModal from '../Components/AddPaymentMethodModal';
 import PageHeader from "../Components/PageHeader";
 import { useNavigate , useLocation} from 'react-router-dom';
+import { useCreateSubscriptionForUserMutation } from '../Services/Subscription.Service';
 
 export default function SubscribePlan() {
+    const [createSubscriptionForUser] = useCreateSubscriptionForUserMutation();
     const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState('Monthly');
     const navigate = useNavigate()
     const location = useLocation();
     const [choosedPlan, setChoosedPlan] = useState(location.state?.choosedPlan || null);
+    console.log(choosedPlan)
     const openCancelModal = (rowData) => {
         setIsCancelModalOpen(true);
     };
@@ -48,6 +51,28 @@ export default function SubscribePlan() {
   const monthlyPrice = choosedPlan.price.toFixed(2);
   const endDate = new Date();
   endDate.setFullYear(endDate.getFullYear() + 1);
+
+  const confirmSubscription = async () => {
+    try {
+        const data = {
+            billing: selectedPlan === 'Monthly' ? 'month' : 'year'
+        };
+
+        const result = await createSubscriptionForUser({
+            planId: choosedPlan?._id,
+            data
+        });
+        console.log(result)
+        if (result.isSuccess) {
+            navigate('/Subscription');
+        } else {
+            console.log('Subscription failed:', result.error);
+        }
+    } catch (error) {
+        console.error('Error confirming subscription:', error);
+    }
+};
+
 
 
   return (
@@ -154,7 +179,7 @@ export default function SubscribePlan() {
                 <button
                   className="bg-blue-A400 text-base leading-[20.83px] w-[282px] h-11 px-[30px] py-[18px] bfont-medium font-DmSans text-white-A700 flex flex-row items-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto"
                   type="button"
-                  onClick={()=> openPaymentModal()}
+                  onClick={()=> confirmSubscription()}
                 >
                   <TiFlashOutline size={23} />
                   Confirm my subscription

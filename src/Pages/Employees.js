@@ -48,14 +48,13 @@ const Employees = () => {
   const fetchMembers = async () => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/employees`, {
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuser`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setMembers(response.data);
-      const filteredEmployees = response.data.filter(employee => employee.owner === userId);
-      setFilteredEmployees(filteredEmployees);
+      setFilteredEmployees(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -72,7 +71,7 @@ const Employees = () => {
   const handleDeleteEmployee = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
-        await axios.delete(`${process.env.REACT_APP_baseURL}/members/employees/${employeId}`, {
+        await axios.delete(`${process.env.REACT_APP_baseURL}/employee/${employeId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -87,7 +86,7 @@ const Employees = () => {
 
   const handleEditEmployee = (employeId) => {
     const selectedEmployee = employees.find(employee => employee._id === employeId);
-    navigate("/NewEmployee", { state: { employee: selectedEmployee } });
+    navigate("/CreateOrEditEmployee", { state: { employee: selectedEmployee } });
   };
 
   const openDeleteModal = (rowData) => {
@@ -125,7 +124,7 @@ const Employees = () => {
                 </TableTitle>
               <button
                 className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto"
-                onClick={() => navigate("/NewEmployee")}
+                onClick={() => navigate("/CreateOrEditEmployee")}
                 type="button"
               >
                 <FaRegPlusSquare size={18} className="mr-2 cursorpointer-green" />
@@ -144,7 +143,7 @@ const Employees = () => {
                   <th scope="col" className="p-3 w-auto"></th>
                   </tr>
                 </thead>
-                  {filteredEmployees?.length > 0 ?
+                  {filteredEmployees?.length > 0 ? 
                 <tbody className="font-DmSans text-sm font-normal leading-[26px] ">
                   {(
                     filteredEmployees.map((employee, index) => (
@@ -209,7 +208,8 @@ const Employees = () => {
                 :
                 ""}
               </table>
-              {loading ? (
+            </div>
+            {loading ? (
                      <div className="flex items-center justify-center w-full h-full py-32">
                      <Loader />
                  </div>
@@ -235,7 +235,6 @@ const Employees = () => {
                     />
                 </div>
               )}
-            </div>
           </div>
         </div>
       </div>

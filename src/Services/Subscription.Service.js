@@ -22,8 +22,8 @@ export const subsApi = createApi({
             },
         }),
         createSubscriptionForUser: builder.mutation({
-            query: ({ userId, planId, data }) => ({
-                url: `/user/${userId}/plan/${planId}`,
+            query: ({ planId, data }) => ({
+                url: `/user/plan/${planId}`,
                 method: 'POST',
                 body: data,
             }),
@@ -60,22 +60,8 @@ export const subsApi = createApi({
                 method: 'PATCH',
             }),
         }),
-        addPaymentMethod: builder.mutation({
-            query: ({ userId, paymentMethodType, paymentMethod, cardLastFourDigits, cardExpiration }) => ({
-                url: `/user/${userId}/payment-method`,
-                method: 'POST',
-                body: { paymentMethodType, paymentMethod, cardLastFourDigits, cardExpiration },
-            }),
-        }),
-        changePaymentMethod: builder.mutation({
-            query: ({ subscriptionId, paymentMethodType, paymentMethod, cardLastFourDigits, cardExpiration }) => ({
-                url: `/${subscriptionId}/payment-method`,
-                method: 'POST',
-                body: { paymentMethodType, paymentMethod, cardLastFourDigits, cardExpiration },
-            }),
-        }),
         getSubscriptionsByUser: builder.query({
-            query: (userId) => `/user/${userId}`,
+            query: () => `/user`,
         }),
 
         renewSubscription: builder.mutation({
@@ -88,4 +74,6 @@ export const subsApi = createApi({
     }),
 })
 
-export const { useGetAllSubscriptonsQuery } = subsApi
+export const { useGetAllSubscriptonsQuery , useCreateSubscriptionForUserMutation, useUpgradeSubscriptionMutation,
+     useGetSubscriptionByIdQuery, useCancelSubscriptionMutation, useAutoCancelExpiredSubscriptionsMutation, 
+     usePauseSubscriptionMutation, useGetSubscriptionsByUserQuery, useRenewSubscriptionMutation } = subsApi

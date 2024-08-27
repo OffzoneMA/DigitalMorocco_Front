@@ -201,8 +201,8 @@ const Events = () => {
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               { pageData?.length > 0 ?
-                <div className="relative w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                  <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+                <div className="relative w-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
+                  <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 py-4 px-5">
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >

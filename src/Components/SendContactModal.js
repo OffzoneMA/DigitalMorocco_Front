@@ -73,7 +73,7 @@ const SendContactModal = (props) => {
         <>
       <ModalProvider
         appElement={document.getElementById("root")}
-        className="m-auto w-[95%] md:w-[100%] max-w-[540px]"
+        className="m-auto w-[95%] md:w-[100%] max-w-[600px]"
         overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
         {...props}
       >
@@ -203,14 +203,14 @@ const SendContactModal = (props) => {
                   props.onRequestClose();
                   setPreview(null);
                 }}
-                className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 
-                md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">
+                className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 hover:bg-[#D0D5DD] active:bg-light_blue-100
+                md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green">
                     Cancel
                 </button>
                 <button 
                 type="submit"
-                className="ml-auto bg-blue-500 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans 
-                text-base font-medium leading-5 tracking-normal rounded-lg">
+                className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans 
+                text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green">
                     Send Contact Request
                 </button>
                 

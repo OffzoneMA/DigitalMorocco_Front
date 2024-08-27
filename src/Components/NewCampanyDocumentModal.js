@@ -36,29 +36,21 @@ const NewCampanyDocumentModal = (props) => {
   }
 
   const onSubmit = async (data) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(files);
-    reader.onloadend = async () => {
-        const base64File = reader.result;
+    const formData = new FormData();
 
-        const requestData = {
-            title: data.title,
-            data: base64File,
-            name: files.name,
-            type: files.type,
-            lastModifiedDate: files.lastModifiedDate
-        };
+    formData.append("title", data.title);
+    formData.append("file", files); 
 
-        if (documentFile?._id) {
-            requestData._id = documentFile._id;
-        }
-        if (documentFile?.ownerId) {
-            requestData.ownerId = documentFile.ownerId;
-        }
+    if (documentFile?._id) {
+        formData.append("_id", documentFile._id);
+    }
+    if (documentFile?.ownerId) {
+        formData.append("ownerId", documentFile.ownerId);
+    }
 
-        props.onSubmit(requestData);
-    };
+    props.onSubmit(formData);
 };
+
 
 
   return (
@@ -150,7 +142,7 @@ const NewCampanyDocumentModal = (props) => {
                 <div className="flex space-x-5 w-auto">
                     <button
                         type="reset"
-                        className="bg-gray-300 text-gray-700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green"
+                        className="bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green"
                         onClick={() => setPreview(null)}
                         style={{ width: "101px", height: "44px" }}
                     >

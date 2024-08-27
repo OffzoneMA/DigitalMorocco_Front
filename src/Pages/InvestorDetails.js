@@ -103,7 +103,7 @@ console.log(investor)
                             </div>
                           </div>
                           <button style={{ whiteSpace: 'nowrap'}}
-                              className="bg-blue-A400 text-white-A700 text-sm font-DmSans font-normal leading-[22px] flex flex-row items-center p-[7px] rounded-md w-auto"
+                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-DmSans font-normal leading-[22px] flex flex-row items-center p-[7px] rounded-md w-auto cursorpointer-green"
                               onClick={openModal}
                               type="button"
                           >
@@ -354,8 +354,8 @@ console.log(investor)
                     Investments
                     </Text>
                     <div className="flex flex-col">
-                        <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                            <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+                        <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
+                            <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 py-4 px-5">
                                 <Text
                                 className="text-lg leading-7 text-gray-900 pt-1"
                                 size="txtDmSansMedium16"

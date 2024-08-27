@@ -139,37 +139,24 @@ const CreateProject = () => {
     }
   }, [fetchedProject, project]);
 
-  const fetchMembers = async (userId) => {
+  const fetchMembers = async () => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/employees`, {
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuser`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       
-      const filteredEmployees = response.data.filter(employee => employee.owner === userId);
-      setMembers(filteredEmployees);
+      setMembers(response.data);
     } catch (error) {
       console.error("Error fetching employees:", error);
     }
   };
 
   useEffect(() => {
-    let userId;
-    if (userInfo && userInfo._id) {
-      userId = userInfo._id;
-    } else {
-      const userData = JSON.parse(sessionStorage.getItem('userData'));
-      if (userData && userData._id) {
-        userId = userData._id;
-      }
-    }
-
-    if (userId) {
-      fetchMembers(userId);
-    }
-  }, [userInfo]);
+      fetchMembers();
+  }, []);
 
   useEffect(() => {
     let listEmployee;
@@ -181,8 +168,8 @@ const CreateProject = () => {
       });
     } 
     if (project != null) {
-      const selectedProjectMembers = listEmployee?.filter(emp => {
-        return project.listMember?.some(member => member.workEmail === emp.workEmail);
+      const selectedProjectMembers = members?.filter(emp => {
+        return project.listMember?.some(member => member === emp._id);
       });
 
       setSelectedTeamsMember(selectedProjectMembers);
@@ -394,16 +381,8 @@ const handleFileInputChange = (event, index) => {
     const formDataContent = {
         ...updatedData,
         stage: selectedStage,
-        listMember: selectedTeamsMembers.map(member => ({
-          employee: member?._id,
-          fullName: member?.fullName,
-          personalEmail: member?.personalEmail,
-          workEmail: member?.workEmail,
-          jobTitle: member?.jobTitle,
-          status: member?.status,
-          image: member?.image,
-          photo: member?.photo,
-        })),
+        listMember: selectedTeamsMembers.map(member => member?._id),
+
         
         milestones: formattedMilestones
     };
@@ -478,8 +457,8 @@ const handleDropLogo = (event) => {
         </div>
         <div className="flex flex-col items-start justify-start w-full pb-6">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-              <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800 py-4 px-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
+              <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400  py-4 px-5">
                 <Text
                   className="text-lg leading-7 text-gray-900_01 pt-1"
                   size="txtDmSansMedium16"

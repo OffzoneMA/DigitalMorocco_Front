@@ -1,21 +1,37 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import ModalProvider from "react-modal";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import { GiCheckMark } from "react-icons/gi";
+import { useForm } from "react-hook-form";
+import { paymentMethodsData } from "../data/tablesData";
+
 
 const AddPaymentMethodModal = (props) => {
+  const paymentMethod = props?.data ? props.data : null;
+  const { register, handleSubmit, formState: { errors } , setValue ,  reset } = useForm();
   const [cardNumber, setCardNumber] = useState('');
   const [selectedMethod, setSelectedMethod] = useState({ id: 1, name: 'Mastercard', image: 'images/img_mastercard.svg', icon: "images/img_mastercard_icon.svg", info: 'Mastercard information' });
   const [haveMethod , setHaveMethod] = useState(false);
 
-  const paymentMethods = [
-    { id: 1, name: 'Mastercard', image: 'images/img_mastercard.svg', icon: "images/img_mastercard_icon.svg", info: 'Mastercard information' },
-    { id: 2, name: 'Visa', image: 'images/img_visa.svg',icon: "images/img_visa.svg", info: 'Visa information' },
-    { id: 3, name: 'Paypal', image: 'images/img_paypal.svg', info: 'Paypal information' },
-    { id: 4, name: 'Google Pay', image: 'images/img_googlepay.svg', info: 'Google Pay information' },
-    { id: 5, name: 'Apple Pay', image: 'images/img_applepay.svg', info: 'Apple Pay information' },
-  ];
+  useEffect(() => {
+    if (paymentMethod) {
+      const method = paymentMethodsData.find(method => method.name === paymentMethod.paymentMethod);
+      setSelectedMethod(method);
+      
+      // Initialize form data
+      const initialValues = {
+        cardName: paymentMethod.cardName || '',
+        cardNumber: paymentMethod.cardNumber || '',
+        expiryDate: paymentMethod.expiryDate || '',
+        cvv: paymentMethod.cvv || '',
+      };
+      reset(initialValues);
+    }
+  }, [paymentMethod, reset]);
+
+
+  const paymentMethods = paymentMethodsData ;
 
   const handleSelectMethod = (method) => {
     setSelectedMethod(method);
@@ -26,6 +42,7 @@ const AddPaymentMethodModal = (props) => {
     let formattedValue = value.replace(/\s/g, '');
     formattedValue = formattedValue.replace(/(\d{4})/g, '$1 ').trim();
     setCardNumber(formattedValue);
+    setValue('cardNumber', formattedValue);
   };
 
   const handleChange = (e) => {
@@ -41,9 +58,47 @@ const AddPaymentMethodModal = (props) => {
   };
 
   const updateClick = () => {
+    const data  = {
+
+    }
     props?.onRequestClose();
-    props?.updateMethode();
+    // props?.updateMethode();
   }
+
+  const validateExpiryDate = (value) => {
+    const [month, year] = value.split('/').map(Number);
+    if (!month || !year || month < 1 || month > 12) {
+      return 'Invalid expiry date';
+    }
+    
+    const currentYear = new Date().getFullYear() % 100; // Get last two digits of the current year
+    const currentMonth = new Date().getMonth() + 1;
+    const maxCardLifeYears = 5; // Durée de vie maximale de la carte en années
+  
+    // Check if the expiry date is in the past
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return 'Expiry date cannot be in the past';
+    }
+  
+    // Check if the expiry date exceeds the maximum card life
+    const maxExpiryYear = currentYear + maxCardLifeYears;
+    if (year > maxExpiryYear || (year === maxExpiryYear && month > currentMonth)) {
+      return `Expiry date cannot exceed ${maxCardLifeYears} years from now`;
+    }
+  
+    return true;
+  };
+  
+
+  const onSubmit = (data) => {
+    const updatedData  = {
+      ...data ,
+       paymentMethod: selectedMethod?.name
+    }
+    paymentMethod?._id ?  props?.payMethod({paymentMethodId: paymentMethod?._id , paymentMethodData: updatedData}) : props?.payMethod(updatedData) ;
+    reset();
+    props.onRequestClose();
+  };
 
   return (
     <ModalProvider
@@ -52,7 +107,7 @@ const AddPaymentMethodModal = (props) => {
       overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
       {...props}
     >
-      <div className="max-h-[97vh] overflow-y-auto w-full md:w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="max-h-[97vh] overflow-y-auto w-full md:w-full">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col p-6 gap-4 items-center justify-start max-w-screen-sm rounded-[10px] w-full">
           <div className="flex flex-col w-full gap-5">
             <div className="flex flex-col w-full">
@@ -77,51 +132,71 @@ const AddPaymentMethodModal = (props) => {
                     <>
                       <div className={`flex flex-col gap-1.5 items-start justify-start w-full`}>
                         <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">Name on card</Text>
-                        <div className="flex md:flex-1 shrink basis-0  w-full md:w-full rounded-[8px]  px-3.5 py-2.5 border border-solid">
-                          <input
-                            className={`!placeholder:text-blue_gray-300 !text-gray-900_01 font-['Manrope'] font-normal p-0 text-left text-sm tracking-[0.14px] grow  w-full bg-transparent border-0`}
-                            type="text"
-                            name="companyName"
-                            placeholder="Enter your full name"
-                          />
-                        </div>
+                        <input
+                        {...register('cardName', { required: 'Name on card is required' })}
+                          className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                          type="text"
+                          name="cardName"
+                          placeholder="Enter your full name"
+                        />
                       </div>
                       <div className="flex flex-row gap-5 items-start justify-start w-full">
                         <div className={`flex flex-col gap-1.5 w-[56%] items-start justify-start `}>
                           <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">Card number</Text>
-                          <div className="flex md:flex-1 shrink basis-0  w-full rounded-[8px] p-1.5 border border-solid">
-                            <img src={getCardIcon()} className="" alt="Card Icon" />
+                          <div className="relative w-full rounded-[8px]">
                             <input
-                              className={`!placeholder:text-blue_gray-300 !text-gray-900_01 ml-[10px] font-['Manrope'] font-normal p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                              {...register('cardNumber', 
+                              { required: 'Card number is required' , 
+                                pattern: {
+                                  value: /^(\d{4} \d{4} \d{4} \d{4})$/,
+                                  message: 'Card number must be in the format 0000 0000 0000 0000'
+                                }
+                                , onChange: handleChange })}
+                              className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] pl-[42px] pr-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                               type="text"
                               name="cardNumber"
                               placeholder="0000 0000 0000 0000"
-                              value={cardNumber}
-                              onChange={handleChange}
+                            />
+                            <img
+                              src={getCardIcon()}
+                              alt="Card Icon"
+                              className="absolute top-1/2 left-2 transform -translate-y-1/2"
+                              style={{ width: '30px', height: '30px' }}
                             />
                           </div>
                         </div>
                         <div className={`flex flex-col gap-1.5 w-[22%] items-start justify-start `}>
                           <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">Expiry</Text>
-                          <div className="flex md:flex-1 w-full rounded-[8px] p-2 border border-solid">
-                            <input
-                              className={`!placeholder:text-blue_gray-300 !text-gray-900_01 font-['DM Sans'] font-normal p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                              type="text"
-                              name="cardExpiry"
-                              placeholder="MM/YY"
-                            />
-                          </div>
+                          <input
+                          {...register('expiryDate', 
+                            { required: 'Expiry date is required' ,
+                              pattern: {
+                                value: /^(0[1-9]|1[0-2])\/\d{2}$/,
+                                message: 'Expiry date must be in the format MM/YY'
+                              } ,
+                              validate: validateExpiryDate
+                            })}
+                            className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.expiryDate ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                            type="text"
+                            name="expiryDate"
+                            placeholder="MM/YY"
+                          />
                         </div>
                         <div className={`flex flex-col gap-1.5 w-[22%] items-start justify-start `}>
                           <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">CVV</Text>
-                          <div className="flex md:flex-1 w-full rounded-[8px] p-2 border border-solid">
-                            <input
-                              className={`!placeholder:text-blue_gray-300 !text-gray-900_01 font-['Manrope'] font-normal p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                              type="text"
-                              name="cardCVV"
-                              placeholder="000"
-                            />
-                          </div>
+                          <input
+                          {...register('cvv', 
+                            { required: 'CVV is required' ,
+                              pattern: {
+                                value: /^[0-9]{3}$/,
+                                message: 'CVV must be 3 digits'
+                              } 
+                            })}
+                            className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cvv ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                            type="text"
+                            name="cvv"
+                            placeholder="000"
+                          />
                         </div>
                       </div>
                     </>
@@ -133,7 +208,7 @@ const AddPaymentMethodModal = (props) => {
               {haveMethod ? (
                 <button
                   type="button"
-                  className="flex-1 bg-blue-501 text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
+                  className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
                 >
                   Update
                 </button>
@@ -142,14 +217,13 @@ const AddPaymentMethodModal = (props) => {
                   <button
                     onClick={props.onRequestClose}
                     type="button"
-                    className="flex-1 border border-gray-301 text-gray-700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
+                    className="flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray-700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
                   >
                     Cancel
                   </button>
                   <button
-                  onClick={updateClick}
-                    type="button"
-                    className="flex-1 bg-blue-501 text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
+                    type="submit"
+                    className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
                   >
                     Update
                   </button>
@@ -158,7 +232,7 @@ const AddPaymentMethodModal = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </ModalProvider>
   );
 };

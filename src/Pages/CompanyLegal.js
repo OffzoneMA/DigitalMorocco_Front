@@ -42,7 +42,12 @@ const CompanyLegal = () => {
 
 const fetchLegalDocuments = async () => {
   try {
-      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/legal-documents`);
+      const token = sessionStorage.getItem("userToken");
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/legal-documents/byuser` , {
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
+      });
       setLegalDocuments(response.data);
       setLoading(false);
   } catch (error) {
@@ -98,7 +103,7 @@ const fetchLegalDocuments = async () => {
     const handleDelete = async () => {
       try {
         const token = sessionStorage.getItem("userToken");
-        await axios.delete(`${process.env.REACT_APP_baseURL}/members/legal-documents/${documentId}`, {
+        await axios.delete(`${process.env.REACT_APP_baseURL}/legal-documents/${documentId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -115,8 +120,12 @@ const fetchLegalDocuments = async () => {
       try {
           const userData = JSON.parse(sessionStorage.getItem("userData"));
           const userId = userData._id;
-          
-          const response = await axios.post(`${process.env.REACT_APP_baseURL}/members/${userId}/legal-documents`, formData);
+          const token = sessionStorage.getItem("userToken");
+          const response = await axios.post(`${process.env.REACT_APP_baseURL}/legal-documents`, formData , {
+              headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           if (response.status === 201) {
               fetchLegalDocuments();
               closeModal();
@@ -130,10 +139,13 @@ const fetchLegalDocuments = async () => {
 
   const handleEditDocument = async (formData) => {
     try {
-      
-      const documentId=formData._id;
-      const ownerId = formData.ownerId;
-      const response = await axios.put(`${process.env.REACT_APP_baseURL}/members/${ownerId}/legal-documents/${documentId}`, formData);
+      const token = sessionStorage.getItem("userToken");
+      const documentId = formData.get("_id");
+      const response = await axios.put(`${process.env.REACT_APP_baseURL}/legal-documents/${documentId}`, formData ,{
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
+      });
       if (response.status === 200) {
         fetchLegalDocuments();
         closeEditModal();
@@ -246,7 +258,7 @@ const fetchLegalDocuments = async () => {
                       </div>
                     </td>
                     <td className="py-4 px-3 text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {new Date(document.lastModifiedDate).toLocaleString('en-US', {
+                      {new Date(document?.lastModifiedDate || document?.dateCreated).toLocaleString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric',
@@ -290,7 +302,7 @@ const fetchLegalDocuments = async () => {
                           </div>
                         </div>
                         <div className="relative group">
-                          <a href={document?.data} download={document?.name}>
+                          <a href={document?.link} download={document?.name} target="_blank">
                             <FiDownload  size={17} className="text-blue_gray-301"  />
                           </a>
                           <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">

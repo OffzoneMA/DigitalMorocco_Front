@@ -16,7 +16,7 @@ import {formatNumber} from "../data/helper";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import TableTitle from "../Components/TableTitle";
-
+import axios from "axios";
 
 const ProjectDetails = () => {
   const dividerRef = useRef(null);
@@ -58,6 +58,7 @@ const ProjectDetails = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [teamData , setTeamData ] = useState([]);
+  const [members, setMembers] = useState([]);
 
   function formatDate(isoDate) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -65,11 +66,42 @@ const ProjectDetails = () => {
     return months[date.getMonth()] + ' ' + date.getFullYear();
 }
 
-useEffect(() => {
-  if (project && project?.listMember) {
-    setTeamData(project?.listMember);
+const fetchMembers = async () => {
+  try {
+    const token = sessionStorage.getItem("userToken");
+    const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuser`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    
+    setMembers(response.data);
+  } catch (error) {
+    console.error("Error fetching employees:", error);
   }
-}, [project]);
+};
+
+useEffect(() => {
+    fetchMembers();
+}, []);
+
+useEffect(() => {
+  let listEmployee;
+
+  if (members.length > 0) {
+    listEmployee = members.map(employee => {
+      const { _id, ...rest } = employee;
+      return rest;
+    });
+  } 
+  if (project != null) {
+    const selectedProjectMembers = members?.filter(emp => {
+      return project.listMember?.some(member => member === emp._id);
+    });
+
+    setTeamData(selectedProjectMembers);
+  }
+}, [project, members]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -102,7 +134,7 @@ useEffect(() => {
   }, [data, project]);
 
   const filteredTeamMembers = teamData?.filter(member =>
-    member.fullName.toLowerCase().includes(searchValue.toLowerCase())
+    member?.fullName?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -121,7 +153,7 @@ useEffect(() => {
       </div>
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start px-5 w-full">
-          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
           <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
             <div className="flex items-center">
               <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
@@ -270,7 +302,7 @@ useEffect(() => {
                         Project Milestone
                       </Text>
                       <button
-                        className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer-green ml-auto p-[7px] rounded-md w-auto"
+                        className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer-green ml-auto p-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
                         type="button"
                     >

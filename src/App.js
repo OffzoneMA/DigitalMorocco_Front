@@ -147,12 +147,13 @@ function App() {
                   <Route path="/CompanyLegal" element={<CompanyLegal />} />
                   <Route path="/MyCompany" element={<MyCompany />} />
                   <Route path="/Employees" element={<Employees />} />
-                  <Route path="/NewEmployee" element={<NewEmployee />} />
+                  <Route path="/CreateOrEditEmployee" element={<NewEmployee />} />
                   <Route path="/Document" element={<Documents />} />
                   <Route path="/Participate" element={<Events />} />
                   <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
                   <Route path="/PastEvent" element={<PastEvents />} />
                   <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
+                  <Route path="/PastEventDetails/:id" element={<UpcomingEventDetails />} />
                   <Route path="/UserProfile" element={<UserProfile />} />
                   <Route path="/Subscription" element={<Subscription />} />
                   <Route path="/ChoosePlan" element={<ChoosePlan />} />

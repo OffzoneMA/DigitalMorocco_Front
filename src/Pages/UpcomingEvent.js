@@ -90,7 +90,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
               <div className="flex flex-col items-start justify-start w-full">
                 {displayedEvents?.length > 0 ? 
                 (displayedEvents.map((item, index) => (
-                  <div key={index} className="cursorpointer group flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 py-6 " 
+                  <div key={index} className="cursorpointer group flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 py-6 " 
                   onClick={()=> navigate(`/UpcomingEventDetails/${item?._id}` , { state: { event: item } })}>
                     <img
                       src={item.headerImage}
@@ -154,9 +154,11 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                 </>
               }                
               </div>
+              {events?.length > 0 && (
               <div className=" w-full flex items-center py-3">
               <Pagination nbrPages={totalPages} />
               </div>
+              )}
             </div>
         </div>
     )

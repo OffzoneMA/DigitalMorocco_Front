@@ -175,7 +175,7 @@ const onSubmit = async () => {
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
                 <button 
                 onClick={props.onRequestClose}
-                className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 
+                className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 hover:bg-[#D0D5DD] active:bg-light_blue-100
                 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">
                     Cancel
                 </button>
@@ -191,11 +191,9 @@ const onSubmit = async () => {
       </div>
     </ModalProvider>
     <ConfirmedModal isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
-        m1="Your project has been successfully sent to"
-        m2="Venture Catalys" 
-        m3="The investor will review your request and respond accordingly. 
-        Please keep an eye on your email 
-        and dashboard for any additional communication or updates." />
+        m1="Your document has been successfully share with"
+        m2={determineShareWith()} 
+        m3 = "They will review the shared document and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates." />
     </>
   );
 };

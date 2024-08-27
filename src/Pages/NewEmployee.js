@@ -16,9 +16,11 @@ import moment from "moment/moment";
 
 const NewEmployee = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [imgFile, setImgFile] = useState(null);
   const dataCountries = Country.getAllCountries();
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const { employee } = location.state || {};
+  const [selectedCountry, setSelectedCountry] = useState(dataCountries.find(country => country.name === employee?.country));
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedJobTitle, setSelectedJobTitle] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
@@ -26,8 +28,7 @@ const NewEmployee = () => {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const location = useLocation();
-  const { employee } = location.state || {};
+  console.log(employee)
   const [formData, setFormData] = useState({
     fullName: employee?.fullName || '',
     workEmail: employee?.workEmail || '',
@@ -87,7 +88,6 @@ const NewEmployee = () => {
     }));
   };
   
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -108,47 +108,12 @@ const NewEmployee = () => {
           updatedFields[field] = formData[field];
         }
       });
-  
+
       if (imgFile) {
-        const reader = new FileReader();
-        reader.readAsDataURL(imgFile);
-        reader.onloadend = async () => {
-          const base64Image = reader.result;
-          if (base64Image !== currentData.photo) {
-            updatedFields.photo = base64Image;
-          }
-  
-          updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
-          updatedFields.level = selectedLevel?.level || currentData.level;
-          updatedFields.department = selectedDepartment?.name || currentData.department;
-          updatedFields.country = selectedCountry?.name || currentData.country;
-          updatedFields.cityState = selectedCity?.name || currentData.cityState;
-          updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
-  
-          if (employeeId) {
-         
-            await axios.put(`${process.env.REACT_APP_baseURL}/members/${userId}/employees/${employeeId}`, updatedFields, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            });
-          } else {
-          
-            await fetch(`${process.env.REACT_APP_baseURL}/members/employees/${userId}`, {
-              method: 'POST',
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(updatedFields),
-            });
-          }
-  
-          setIsSaved(true);
-        };
-      } else {
-      
+        const formData = new FormData();
+
+        formData.append('image', imgFile); 
+        
         updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
         updatedFields.level = selectedLevel?.level || currentData.level;
         updatedFields.department = selectedDepartment?.name || currentData.department;
@@ -156,31 +121,59 @@ const NewEmployee = () => {
         updatedFields.cityState = selectedCity?.name || currentData.cityState;
         updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
   
+        formData.append('data', JSON.stringify(updatedFields)); // append the rest of the updated fields
+        
         if (employeeId) {
-          await axios.put(`${process.env.REACT_APP_baseURL}/members/${userId}/employees/${employeeId}`, updatedFields, {
+          // PUT request to update employee
+          await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
             },
           });
         } else {
-          await fetch(`${process.env.REACT_APP_baseURL}/members/employees/${userId}`, {
+          // POST request to create a new employee
+          await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
             },
-            body: JSON.stringify(updatedFields),
+            body: formData,
           });
         }
-  
-        setIsSaved(true);
+      } else {
+        const formData = new FormData();
+        updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
+        updatedFields.level = selectedLevel?.level || currentData.level;
+        updatedFields.department = selectedDepartment?.name || currentData.department;
+        updatedFields.country = selectedCountry?.name || currentData.country;
+        updatedFields.cityState = selectedCity?.name || currentData.cityState;
+        updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
+        formData.append('data', JSON.stringify(updatedFields));
+
+        if (employeeId) {
+          await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        } else {
+          await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          });
+        }
       }
+  
+      setIsSaved(true);
     } catch (error) {
       console.error("Erreur lors de l'envoi du formulaire :", error);
       // Affichez une erreur à l'utilisateur si nécessaire
     }
   };
+  
   
   // const onSubmit = async (data) => {
   //   try {
@@ -366,7 +359,6 @@ const NewEmployee = () => {
                     />
                   {/* {errors.workEmail && <span className="text-sm font-DmSans text-red-500">{errors.workEmail?.message}</span>}             */}
                 </div>
-
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-gray-900_01 w-auto"
@@ -432,7 +424,8 @@ const NewEmployee = () => {
                     options={dataCountries} onSelect={""}
                     searchLabel='Select Country'
                     setSelectedOptionVal={setSelectedCountry}
-                    placeholder={formData.country ? formData.country : "Select Country"} valuekey="name"
+                    selectedOptionsDfault={employee?.country? dataCountries.find(country => country.name === employee.country) : ""}
+                    placeholder={"Select Country"} valuekey="name"
                     content={
                       (option) => {
                         return (
@@ -456,7 +449,8 @@ const NewEmployee = () => {
                   </Text>
                   <SimpleSelect id='city'
                     options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []} onSelect={""} searchLabel='Select City' setSelectedOptionVal={setSelectedCity}
-                    placeholder={formData.country ? formData.cityState : "Select City"} valuekey="name"
+                    placeholder={"Select City"} valuekey="name"
+                    selectedOptionsDfault={employee?.cityState? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === employee?.cityState) : ""}
                     content={
                       (option) => {
                         return (
@@ -530,7 +524,8 @@ const NewEmployee = () => {
                       onSelect={(selectedOption) => setSelectedJobTitle(selectedOption)}
                       searchLabel="Select position / title"
                       setSelectedOptionVal={setSelectedJobTitle}
-                      placeholder={formData.jobTitle ? formData.jobTitle : "Select position / title"}
+                      selectedOptionsDfault={employee?.jobTitle ? jobTitles.find(job => job.title === employee.jobTitle) : ""}
+                      placeholder={"Select position / title"}
                       valuekey="title"
                       content={(option) => {
                         return (
@@ -557,7 +552,8 @@ const NewEmployee = () => {
                       Level
                     </Text>
                     <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel='Select Level' setSelectedOptionVal={setSelectedLevel}
-                      placeholder={formData.level ? formData.level : "Select employee level"}
+                      placeholder={"Select employee level"}
+                      selectedOptionsDfault={employee?.level? employeeLevels.find(lev => lev.level === employee.level) : ""}
                       valuekey="level"
                       content={
                         (option) => {
@@ -581,7 +577,8 @@ const NewEmployee = () => {
                       Department
                     </Text>
                     <SimpleSelect id='department' options={departments} onSelect={""} searchLabel='Select Department' setSelectedOptionVal={setSelectedDepartment}
-                      placeholder={formData.department ? formData.department : "Select Department"}
+                      placeholder={"Select Department"} 
+                      selectedOptionsDfault={employee?.department? departments.find(dep => dep.name === employee.department) : ""}
                       valuekey="name"
                       content={
                         (option) => {
@@ -606,8 +603,9 @@ const NewEmployee = () => {
                     </Text>
                     <CustomCalendar
                       className={' w-full'}
+                      defaultValue={formData.startDate ? new Date(formData.startDate) : ''}
                       onChangeDate={(selectedDate) => setSelectedDate(selectedDate)}
-                      inputPlaceholder={formData.startDate ? format(new Date(formData.startDate), 'dd/MM/yyyy') : 'DD/MM/YYYY'}
+                      inputPlaceholder={'DD/MM/YYYY'}
                     />
                     {/* <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
                       <input

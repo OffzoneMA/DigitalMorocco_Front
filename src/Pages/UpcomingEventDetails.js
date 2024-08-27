@@ -153,7 +153,7 @@ const UpcomingEventDetails = () => {
                 <SearchInput className={'min-w-[25%]'}/>
               </div>
               <div className="flex flex-col items-start justify-start w-full">
-                  <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 pt-6 pb-9">
+                  <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 pt-6 pb-9">
                     <img
                       src={event?.headerImage}
                       alt="vector_three"

@@ -65,11 +65,10 @@ const Investors = () => {
     const checkSubscriptionStatus = async () => {
       try {
           const userData = JSON.parse(sessionStorage.getItem("userData"));
-          const userId = userData._id;
-          const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/check-subscription-status/${userId}`, {
-              headers: { Authorization: `Bearer ${token}` },
-          });
-          setIsSubscribe(response.data.result);
+          const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        setIsSubscribe(response.data !== null);
       } catch (error) {
           console.error('Error checking subscription status:', error);
       }
@@ -78,7 +77,7 @@ const Investors = () => {
     fetchInvestorRequests();
     
   },[cur, itemsPerPage]);
-
+console.log(isSubscribe)
   const data = (isSubscribe && !loading)?  investors : InvestorsData;
 
   const filteredData = (isSubscribe && !loading)? data.filter(item => {
@@ -286,7 +285,7 @@ const Investors = () => {
                       style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
                       <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {item?.PreferredInvestmentIndustry?.join(', ')}
+                        {/* {item?.PreferredInvestmentIndustry?.join(', ')} */}{item?.PreferredInvestmentIndustry}
                       </td>
 
                     </tr>

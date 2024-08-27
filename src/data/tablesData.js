@@ -4,7 +4,7 @@ export const documentsData = [
     uploadDate: "Mar 6, 2024 02:37:22 PM",
     documentName: "Business Plan.pdf",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar.png",
+    uploadByImage: "/images/img_avatar.png",
     shareWith: "Investors",
     action: "Mar 16, 2024 02:37:22 PM",
     title: "Business Plan"
@@ -14,7 +14,7 @@ export const documentsData = [
     uploadDate: "Mar 4, 2024 11:20:56 AM",
     documentName: "Pitch Deck - Q1 2024.pptx",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar.png",
+    uploadByImage: "/images/img_avatar.png",
     shareWith: "Investors",
     action: "",
     title: "Pitch Deck - Q1 2024"
@@ -24,7 +24,7 @@ export const documentsData = [
     uploadDate: "Mar 14, 2024 11:20:56 AM",
     documentName: "Investor Pitch Deck - Mar 2024.pdf",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar.png",
+    uploadByImage: "/images/img_avatar.png",
     shareWith: "Investors",
     action: "Mar 28, 2024 04:01:11 PM",
     title: "Investor Pitch Deck - Mar 2024"
@@ -34,7 +34,7 @@ export const documentsData = [
     uploadDate: "Mar 1, 2024 10:45:08 AM",
     documentName: "Quality Assurance (QA) Plan",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_4.png",
+    uploadByImage: "/images/img_avatar_4.png",
     shareWith: "Investors",
     action: "Mar 22, 2024 12:45:15 PM",
     title: "Quality Assurance (QA) Plan"
@@ -44,7 +44,7 @@ export const documentsData = [
     uploadDate: "Mar 10, 2024 11:20:56 AM",
     documentName: "Marketing Strategy.pdf",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_4.png",
+    uploadByImage: "/images/img_avatar_4.png",
     shareWith: "Marketing Team",
     action: "Mar 30, 2024 11:20:56 PM",
     title: "Marketing Strategy"
@@ -54,7 +54,7 @@ export const documentsData = [
     uploadDate: "Mar 22, 2024 12:45:15 PM",
     documentName: "Partnership Agreement - DM (2024).pdf",
     uploadBy: "Cameron Williamson",
-    uploadByImage: "images/img_avatar_7.png",
+    uploadByImage: "/images/img_avatar_7.png",
     shareWith: "Partners",
     action: "Mar 22, 2024 12:45:15 PM",
     title: "Partnership Agreement - DM (2024)"
@@ -64,7 +64,7 @@ export const documentsData = [
     uploadDate: "Jul 5, 2024 09:30:45 AM",
     documentName: "Financial Forecast.xlsx",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar.png",
+    uploadByImage: "/images/img_avatar.png",
     shareWith: "Investors",
     action: "Jul 15, 2024 09:30:45 AM",
     title: "Financial Forecast"
@@ -74,7 +74,7 @@ export const documentsData = [
     uploadDate: "Jul 10, 2024 03:45:12 PM",
     documentName: "Product Roadmap - Q3 2024.docx",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_4.png",
+    uploadByImage: "/images/img_avatar_4.png",
     shareWith: "Product Team",
     action: "Jul 20, 2024 03:45:12 PM",
     title: "Product Roadmap - Q3 2024"
@@ -84,7 +84,7 @@ export const documentsData = [
     uploadDate: "Jul 12, 2024 11:55:30 AM",
     documentName: "User Feedback Analysis.pdf",
     uploadBy: "Cameron Williamson",
-    uploadByImage: "images/img_avatar_7.png",
+    uploadByImage: "/images/img_avatar_7.png",
     shareWith: "Product Managers",
     action: "Jul 26, 2024 11:55:30 AM",
     title: "User Feedback Analysis"
@@ -94,7 +94,7 @@ export const documentsData = [
     uploadDate: "Jul 8, 2024 02:15:10 PM",
     documentName: "Sales Presentation - July 2024.pptx",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar.png",
+    uploadByImage: "/images/img_avatar.png",
     shareWith: "Sales Team",
     action: "Jul 18, 2024 02:15:10 PM",
     title: "Sales Presentation - July 2024"
@@ -104,7 +104,7 @@ export const documentsData = [
     uploadDate: "Jul 17, 2024 10:10:05 AM",
     documentName: "HR Policies and Procedures",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_4.png",
+    uploadByImage: "/images/img_avatar_4.png",
     shareWith: "HR Department",
     action: "Jul 27, 2024 10:10:05 AM",
     title: "HR Policies and Procedures"
@@ -114,7 +114,7 @@ export const documentsData = [
     uploadDate: "Jul 19, 2024 04:20:30 PM",
     documentName: "Customer Survey Results.xlsx",
     uploadBy: "Cameron Williamson",
-    uploadByImage: "images/img_avatar_7.png",
+    uploadByImage: "/images/img_avatar_7.png",
     shareWith: "Marketing Team",
     action: "Jul 29, 2024 04:20:30 PM",
     title: "Customer Survey Results"
@@ -124,7 +124,7 @@ export const documentsData = [
     uploadDate: "Jul 14, 2024 12:30:15 PM",
     documentName: "Legal Compliance Checklist",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar.png",
+    uploadByImage: "/images/img_avatar.png",
     shareWith: "Legal Team",
     action: "Jul 24, 2024 12:30:15 PM",
     title: "Legal Compliance Checklist"
@@ -134,7 +134,7 @@ export const documentsData = [
     uploadDate: "Jul 21, 2024 11:40:50 AM",
     documentName: "IT Infrastructure Plan",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_4.png",
+    uploadByImage: "/images/img_avatar_4.png",
     shareWith: "IT Department",
     action: "Jul 31, 2024 11:40:50 AM",
     title: "IT Infrastructure Plan"
@@ -144,7 +144,7 @@ export const documentsData = [
     uploadDate: "Jul 23, 2024 03:55:25 PM",
     documentName: "Employee Training Manual",
     uploadBy: "Cameron Williamson",
-    uploadByImage: "images/img_avatar_7.png",
+    uploadByImage: "/images/img_avatar_7.png",
     shareWith: "Training Team",
     action: "May 2, 2024 03:55:25 PM",
     title: "Employee Training Manual"
@@ -154,7 +154,7 @@ export const documentsData = [
     uploadDate: "Jul 25, 2024 09:15:40 AM",
     documentName: "Budget Proposal - Q4 2024.pdf",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar.png",
+    uploadByImage: "/images/img_avatar.png",
     shareWith: "Finance Team",
     action: "May 4, 2024 09:15:40 AM",
     title: "Budget Proposal - Q4 2024"
@@ -164,7 +164,7 @@ export const documentsData = [
     uploadDate: "Jul 27, 2024 02:35:10 PM",
     documentName: "Market Research Report",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_4.png",
+    uploadByImage: "/images/img_avatar_4.png",
     shareWith: "Strategy Team",
     action: "May 7, 2024 02:35:10 PM",
     title: "Market Research Report"
@@ -174,7 +174,7 @@ export const documentsData = [
     uploadDate: "Jul 29, 2024 10:50:55 AM",
     documentName: "Client Contracts - 2024",
     uploadBy: "Cameron Williamson",
-    uploadByImage: "images/img_avatar_7.png",
+    uploadByImage: "/images/img_avatar_7.png",
     shareWith: "Legal Team",
     action: "May 9, 2024 10:50:55 AM",
     title: "Client Contracts - 2024"
@@ -184,7 +184,7 @@ export const documentsData = [
     uploadDate: "Jul 31, 2024 04:05:20 PM",
     documentName: "Product Specifications - V2",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar_12.png",
+    uploadByImage: "/images/img_avatar_12.png",
     shareWith: "Product Managers",
     action: "May 11, 2024 04:05:20 PM",
     title: "Product Specifications - V2"
@@ -194,7 +194,7 @@ export const documentsData = [
     uploadDate: "May 2, 2024 11:15:35 AM",
     documentName: "Employee Satisfaction Survey",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_7.png",
+    uploadByImage: "/images/img_avatar_7.png",
     shareWith: "HR Department",
     action: "May 12, 2024 11:15:35 AM",
     title: "Employee Satisfaction Survey"
@@ -204,7 +204,7 @@ export const documentsData = [
     uploadDate: "May 4, 2024 03:25:10 PM",
     documentName: "Project Timeline - Q4 2024",
     uploadBy: "Cameron Williamson",
-    uploadByImage: "images/img_avatar_1.png",
+    uploadByImage: "/images/img_avatar_1.png",
     shareWith: "Project Managers",
     action: "May 14, 2024 03:25:10 PM",
     title: "Project Timeline - Q4 2024"
@@ -214,7 +214,7 @@ export const documentsData = [
     uploadDate: "May 6, 2024 09:40:45 AM",
     documentName: "Business Development Plan",
     uploadBy: "Annette Black",
-    uploadByImage: "images/img_avatar_2.png",
+    uploadByImage: "/images/img_avatar_2.png",
     shareWith: "Business Development Team",
     action: "May 16, 2024 09:40:45 AM",
     title: "Business Development Plan"
@@ -224,14 +224,12 @@ export const documentsData = [
     uploadDate: "May 8, 2024 02:50:30 PM",
     documentName: "Social Media Strategy - Q4 2024",
     uploadBy: "Darlene Robertson",
-    uploadByImage: "images/img_avatar_3.png",
+    uploadByImage: "/images/img_avatar_3.png",
     shareWith: "Marketing Team",
     action: "May 18, 2024 02:50:30 PM",
     title: "Social Media Strategy - Q4 2024"
   }  
 ];
-
-
 
 export const projectsData = [
     {
@@ -405,17 +403,17 @@ export const projectsData = [
 ];
 
 export const employeesData = [
-    { name: 'Annette Black',userImg:'images/img_avatar.png', email: 'annette@digitalmorocco.com', title: 'Back End Developer', type: 'Internship', status: 'Active' },
-    { name: 'Dianne Russell', userImg:'images/img_avatar_62x62.png',  email: 'dianne@digitalmorocco.com', title: 'Software Developer', type: 'Job Share', status: 'Active' },
-    { name: 'Floyd Miles',userImg:'images/img_avatar_1.png', email: 'f.miles@digitalmorocco.com', title: 'Software Development Manager Contract', type: 'Project-Based', status: 'Offline' },
-    { name: 'Kathryn Murphy',userImg:'images/img_avatar_2.png', email: 'kathryn@digitalmorocco.com', title: 'Social Media Manager', type: 'Consultancy', status: 'Active' },
-    { name: 'Jerome Bell',userImg:'images/img_avatar.png', email: 'jerome.bell@digitalmorocco.com', title: 'Project Manager', type: 'Full-Time', status: 'Offline' },
-    { name: 'Cameron Williamson',userImg:'images/img_avatar_3.png', email: 'cameron.w@digitalmorocco.com', title: 'Software Tester', type: 'Part-Time', status: 'Active' },
-    { name: 'Darlene Robertson',userImg:'images/img_avatar_4.png', email: 'darlene@digitalmorocco.com', title: 'Scrum Master', type: 'Temporary', status: 'Active' },
-    { name: 'Ralph Edwards',userImg:'images/img_avatar_5.png', email: 'ralphed@digitalmorocco.com', title: 'UX Designer', type: 'Temporary', status: 'Active' },
+    { name: 'Annette Black',userImg:'/images/img_avatar.png', email: 'annette@digitalmorocco.com', title: 'Back End Developer', type: 'Internship', status: 'Active' },
+    { name: 'Dianne Russell', userImg:'/images/img_avatar_62x62.png',  email: 'dianne@digitalmorocco.com', title: 'Software Developer', type: 'Job Share', status: 'Active' },
+    { name: 'Floyd Miles',userImg:'/images/img_avatar_1.png', email: 'f.miles@digitalmorocco.com', title: 'Software Development Manager Contract', type: 'Project-Based', status: 'Offline' },
+    { name: 'Kathryn Murphy',userImg:'/images/img_avatar_2.png', email: 'kathryn@digitalmorocco.com', title: 'Social Media Manager', type: 'Consultancy', status: 'Active' },
+    { name: 'Jerome Bell',userImg:'/images/img_avatar.png', email: 'jerome.bell@digitalmorocco.com', title: 'Project Manager', type: 'Full-Time', status: 'Offline' },
+    { name: 'Cameron Williamson',userImg:'/images/img_avatar_3.png', email: 'cameron.w@digitalmorocco.com', title: 'Software Tester', type: 'Part-Time', status: 'Active' },
+    { name: 'Darlene Robertson',userImg:'/images/img_avatar_4.png', email: 'darlene@digitalmorocco.com', title: 'Scrum Master', type: 'Temporary', status: 'Active' },
+    { name: 'Ralph Edwards',userImg:'/images/img_avatar_5.png', email: 'ralphed@digitalmorocco.com', title: 'UX Designer', type: 'Temporary', status: 'Active' },
     {
         name: 'Grace Foster',
-        userImg: 'images/img_avatar.png',
+        userImg: '/images/img_avatar.png',
         email: 'grace.foster@digitalmorocco.com',
         title: 'Front End Developer',
         type: 'Internship',
@@ -423,7 +421,7 @@ export const employeesData = [
       },
       {
         name: 'Leo Simmons',
-        userImg: 'images/img_avatar_7.png',
+        userImg: '/images/img_avatar_7.png',
         email: 'leo.s@digitalmorocco.com',
         title: 'Data Analyst',
         type: 'Full-Time',
@@ -431,7 +429,7 @@ export const employeesData = [
       },
       {
         name: 'Violet Adams',
-        userImg: 'images/img_avatar_8.png',
+        userImg: '/images/img_avatar_8.png',
         email: 'violet@digitalmorocco.com',
         title: 'Product Manager',
         type: 'Consultancy',
@@ -439,7 +437,7 @@ export const employeesData = [
       },
       {
         name: 'Lucas Gray',
-        userImg: 'images/img_avatar_9.png',
+        userImg: '/images/img_avatar_9.png',
         email: 'lucas.gray@digitalmorocco.com',
         title: 'UI Designer',
         type: 'Part-Time',
@@ -447,7 +445,7 @@ export const employeesData = [
       },
       {
         name: 'Nora Parker',
-        userImg: 'images/img_avatar_10.png',
+        userImg: '/images/img_avatar_10.png',
         email: 'nora.parker@digitalmorocco.com',
         title: 'DevOps Engineer',
         type: 'Project-Based',
@@ -455,7 +453,7 @@ export const employeesData = [
       },
       {
         name: 'Oscar Butler',
-        userImg: 'images/img_avatar_11.png',
+        userImg: '/images/img_avatar_11.png',
         email: 'oscar@digitalmorocco.com',
         title: 'Database Administrator',
         type: 'Temporary',
@@ -463,7 +461,7 @@ export const employeesData = [
       },
       {
         name: 'Mia Carter',
-        userImg: 'images/img_avatar_12.png',
+        userImg: '/images/img_avatar_12.png',
         email: 'mia.c@digitalmorocco.com',
         title: 'Content Creator',
         type: 'Job Share',
@@ -471,7 +469,7 @@ export const employeesData = [
       },
       {
         name: 'Ethan Cooper',
-        userImg: 'images/img_avatar_62x62.png',
+        userImg: '/images/img_avatar_62x62.png',
         email: 'ethan.cooper@digitalmorocco.com',
         title: 'System Architect',
         type: 'Full-Time',
@@ -479,7 +477,7 @@ export const employeesData = [
       },
       {
         name: 'Ivy Reed',
-        userImg: 'images/img_avatar.png',
+        userImg: '/images/img_avatar.png',
         email: 'ivy@digitalmorocco.com',
         title: 'Graphic Designer',
         type: 'Consultancy',
@@ -487,7 +485,7 @@ export const employeesData = [
       },
       {
         name: 'Samuel Powell',
-        userImg: 'images/img_avatar_1.png',
+        userImg: '/images/img_avatar_1.png',
         email: 'samuel.p@digitalmorocco.com',
         title: 'Quality Assurance Engineer',
         type: 'Part-Time',
@@ -495,7 +493,7 @@ export const employeesData = [
       },
       {
         name: 'Ava Simmons',
-        userImg: 'images/img_avatar_2.png',
+        userImg: '/images/img_avatar_2.png',
         email: 'ava.s@digitalmorocco.com',
         title: 'Business Analyst',
         type: 'Temporary',
@@ -503,7 +501,7 @@ export const employeesData = [
       },
       {
         name: 'Liam Bell',
-        userImg: 'images/img_avatar_3.png',
+        userImg: '/images/img_avatar_3.png',
         email: 'liam.bell@digitalmorocco.com',
         title: 'Technical Lead',
         type: 'Project-Based',
@@ -511,7 +509,7 @@ export const employeesData = [
       },
       {
         name: 'Olivia Murphy',
-        userImg: 'images/img_avatar_4.png',
+        userImg: '/images/img_avatar_4.png',
         email: 'olivia@digitalmorocco.com',
         title: 'SEO Specialist',
         type: 'Job Share',
@@ -519,7 +517,7 @@ export const employeesData = [
       },
       {
         name: 'Noah Collins',
-        userImg: 'images/img_avatar_5.png',
+        userImg: '/images/img_avatar_5.png',
         email: 'noah.c@digitalmorocco.com',
         title: 'Network Engineer',
         type: 'Full-Time',
@@ -527,7 +525,7 @@ export const employeesData = [
       },
       {
         name: 'Chloe Sanders',
-        userImg: 'images/img_avatar_7.png',
+        userImg: '/images/img_avatar_7.png',
         email: 'chloe@digitalmorocco.com',
         title: 'Business Development Manager',
         type: 'Consultancy',
@@ -535,7 +533,7 @@ export const employeesData = [
       },
       {
         name: 'Logan Howard',
-        userImg: 'images/img_avatar_1.png',
+        userImg: '/images/img_avatar_1.png',
         email: 'logan.h@digitalmorocco.com',
         title: 'Mobile App Developer',
         type: 'Part-Time',
@@ -543,7 +541,7 @@ export const employeesData = [
       },
       {
         name: 'Sophia Ross',
-        userImg: 'images/img_avatar_2.png',
+        userImg: '/images/img_avatar_2.png',
         email: 'sophia.r@digitalmorocco.com',
         title: 'Customer Support Specialist',
         type: 'Temporary',
@@ -551,7 +549,7 @@ export const employeesData = [
       },
       {
         name: 'Jackson Bennett',
-        userImg: 'images/img_avatar_3.png',
+        userImg: '/images/img_avatar_3.png',
         email: 'jackson.b@digitalmorocco.com',
         title: 'Cloud Solutions Architect',
         type: 'Project-Based',
@@ -559,7 +557,7 @@ export const employeesData = [
       },
       {
         name: 'Emma Gray',
-        userImg: 'images/img_avatar_4.png',
+        userImg: '/images/img_avatar_4.png',
         email: 'emma@digitalmorocco.com',
         title: 'UI/UX Designer',
         type: 'Job Share',
@@ -567,7 +565,7 @@ export const employeesData = [
       },
       {
         name: 'William Jenkins',
-        userImg: 'images/img_avatar_5.png',
+        userImg: '/images/img_avatar_5.png',
         email: 'william.j@digitalmorocco.com',
         title: 'Front End Developer',
         type: 'Full-Time',
@@ -575,7 +573,7 @@ export const employeesData = [
       },
       {
         name: 'Charlotte Lewis',
-        userImg: 'images/img_avatar.png',
+        userImg: '/images/img_avatar.png',
         email: 'charlotte@digitalmorocco.com',
         title: 'HR Manager',
         type: 'Consultancy',
@@ -590,7 +588,7 @@ export const CompanyLegalData = [
         name: "Marketing Plan-Q2 [2024].pdf",
         lastModified: "Mar 6 2024 02:37:22 PM",
         owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
+        ownerImg: "/images/img_avatar.png"
     },
     {
         id: 2,
@@ -598,7 +596,7 @@ export const CompanyLegalData = [
         name: "Non-Disclosure Agreement (NDA).pdf",
         lastModified: "Mar 16 2024 02:37:22 PM",
         owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
+        ownerImg: "/images/img_avatar_4.png"
     },
     {
         id: 3,
@@ -606,7 +604,7 @@ export const CompanyLegalData = [
         name: "Employment Contract_ Annette Black.pdf",
         lastModified: "Mar 4,2024 12:05:58 AM",
         owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
+        ownerImg: "/images/img_avatar.png"
     },
     {
         id: 4,
@@ -614,7 +612,7 @@ export const CompanyLegalData = [
         name: "Investor Pitch Deck Mar 2024.pdf",
         lastModified: "Mar 28,2024 04:01 PM",
         owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
+        ownerImg: "/images/img_avatar.png"
     },
     {
         id: 5,
@@ -622,7 +620,7 @@ export const CompanyLegalData = [
         name: "Mou Digital Morocco.pdf",
         lastModified: "Mar 14 2024 11:20:58 AM",
         owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
+        ownerImg: "/images/img_avatar_4.png"
     },
     {
         id: 6,
@@ -630,7 +628,7 @@ export const CompanyLegalData = [
         name: "Partnership Agreement DM (2024).pdf",
         lastModified: "Mar 30 2024 12:20:56 PM",
         owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
+        ownerImg: "/images/img_avatar_3.png"
     },
     {
         id: 7,
@@ -638,7 +636,7 @@ export const CompanyLegalData = [
         name: "Employee Handbook.pdf",
         lastModified: "Mar 22 2024 12:45:15 PM",
         owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
+        ownerImg: "/images/img_avatar_4.png"
     },
     {
         id: 8,
@@ -646,7 +644,7 @@ export const CompanyLegalData = [
         name: "Quality Assurance (QA) Plan.pdf",
         lastModified: "Mar 1 2024 10:45:08 AM",
         owner: "Cameron Williamson",
-        ownerImg: "images/img_avatar_3.png"
+        ownerImg: "/images/img_avatar_3.png"
     },
     {
         id: 9,
@@ -654,7 +652,7 @@ export const CompanyLegalData = [
         name: "Business Proposal Q3 2024.pdf",
         lastModified: "Apr 10 2024 09:30:45 AM",
         owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
+        ownerImg: "/images/img_avatar.png"
     },
     {
         id: 10,
@@ -662,7 +660,7 @@ export const CompanyLegalData = [
         name: "Terms of Service.pdf",
         lastModified: "Apr 20 2024 03:45:12 PM",
         owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
+        ownerImg: "/images/img_avatar_4.png"
     },
     {
         id: 11,
@@ -670,7 +668,7 @@ export const CompanyLegalData = [
         name: "Project Scope Annette Black.pdf",
         lastModified: "Apr 12 2024 11:55:30 AM",
         owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
+        ownerImg: "/images/img_avatar.png"
     },
     {
         id: 12,
@@ -678,7 +676,7 @@ export const CompanyLegalData = [
         name: "Financial Report Jul 2024.pdf",
         lastModified: "May 26 2024 11:55:30 AM",
         owner: "Annette Black",
-        ownerImg: "images/img_avatar.png"
+        ownerImg: "/images/img_avatar.png"
     },
     {
         id: 13,
@@ -686,7 +684,7 @@ export const CompanyLegalData = [
         name: "Trademark Agreement.pdf",
         lastModified: "May 8 2024 02:15:10 PM",
         owner: "Darlene Robertson",
-        ownerImg: "images/img_avatar_4.png"
+        ownerImg: "/images/img_avatar_4.png"
     },
     // {
     //     id: 14,
@@ -694,7 +692,7 @@ export const CompanyLegalData = [
     //     name: "Service Level Agreement SLA.pdf",
     //     lastModified: "Jul 29 2024 04:20:30 PM",
     //     owner: "Cameron Williamson",
-    //     ownerImg: "images/img_avatar_3.png"
+    //     ownerImg: "/images/img_avatar_3.png"
     // },
     // {
     //     id: 15,
@@ -702,7 +700,7 @@ export const CompanyLegalData = [
     //     name: "Marketing Strategy Q3 2024.pdf",
     //     lastModified: "Jul 14 2024 12:30:15 PM",
     //     owner: "Darlene Robertson",
-    //     ownerImg: "images/img_avatar_4.png"
+    //     ownerImg: "/images/img_avatar_4.png"
     // },
     // {
     //     id: 16,
@@ -710,7 +708,7 @@ export const CompanyLegalData = [
     //     name: "Product Roadmap Jul 2024.pdf",
     //     lastModified: "Jul 31 2024 11:40:50 AM",
     //     owner: "Cameron Williamson",
-    //     ownerImg: "images/img_avatar_3.png"
+    //     ownerImg: "/images/img_avatar_3.png"
     // },
     // {
     //     id: 17,
@@ -718,7 +716,7 @@ export const CompanyLegalData = [
     //     name: "Data Protection Policy.pdf",
     //     lastModified: "Jul 23 2024 03:55:25 PM",
     //     owner: "Annette Black",
-    //     ownerImg: "images/img_avatar.png"
+    //     ownerImg: "/images/img_avatar.png"
     // },
     // {
     //     id: 18,
@@ -726,7 +724,7 @@ export const CompanyLegalData = [
     //     name: "Sales Agreement Jul 2024.pdf",
     //     lastModified: "May 2 2024 11:15:35 AM",
     //     owner: "Cameron Williamson",
-    //     ownerImg: "images/img_avatar_3.png"
+    //     ownerImg: "/images/img_avatar_3.png"
     // },
     // {
     //     id: 19,
@@ -734,7 +732,7 @@ export const CompanyLegalData = [
     //     name: "User Guide.pdf",
     //     lastModified: "Jul 25 2024 09:15:40 AM",
     //     owner: "Darlene Robertson",
-    //     ownerImg: "images/img_avatar_4.png"
+    //     ownerImg: "/images/img_avatar_4.png"
     // },
     // {
     //     id: 20,
@@ -742,7 +740,7 @@ export const CompanyLegalData = [
     //     name: "Project Charter May 2024.pdf",
     //     lastModified: "May 4 2024 03:25:10 PM",
     //     owner: "Cameron Williamson",
-    //     ownerImg: "images/img_avatar_3.png"
+    //     ownerImg: "/images/img_avatar_3.png"
     // },
     // {
     //     id: 21,
@@ -750,7 +748,7 @@ export const CompanyLegalData = [
     //     name: "Risk Assessment Jul 2024.pdf",
     //     lastModified: "Jul 27 2024 02:35:10 PM",
     //     owner: "Annette Black",
-    //     ownerImg: "images/img_avatar.png"
+    //     ownerImg: "/images/img_avatar.png"
     // },
     // {
     //     id: 22,
@@ -758,7 +756,7 @@ export const CompanyLegalData = [
     //     name: "Code of Conduct.pdf",
     //     lastModified: "May 6 2024 09:40:45 AM",
     //     owner: "Darlene Robertson",
-    //     ownerImg: "images/img_avatar_4.png"
+    //     ownerImg: "/images/img_avatar_4.png"
     // },
     // {
     //     id: 23,
@@ -766,7 +764,7 @@ export const CompanyLegalData = [
     //     name: "Business Case May 2024.pdf",
     //     lastModified: "May 8 2024 02:50:30 PM",
     //     owner: "Cameron Williamson",
-    //     ownerImg: "images/img_avatar_3.png"
+    //     ownerImg: "/images/img_avatar_3.png"
     // },
     // {
     //     id: 24,
@@ -774,7 +772,7 @@ export const CompanyLegalData = [
     //     name: "Training Manual.pdf",
     //     lastModified: "May 10 2024 11:05:15 AM",
     //     owner: "Annette Black",
-    //     ownerImg: "images/img_avatar.png"
+    //     ownerImg: "/images/img_avatar.png"
     // },
     // {
     //     id: 25,
@@ -782,7 +780,7 @@ export const CompanyLegalData = [
     //     name: "IT Policy May 2024.pdf",
     //     lastModified: "May 12 2024 11:15:35 AM",
     //     owner: "Cameron Williamson",
-    //     ownerImg: "images/img_avatar_3.png"
+    //     ownerImg: "/images/img_avatar_3.png"
     // },
     // {
     //     id: 26,
@@ -790,7 +788,7 @@ export const CompanyLegalData = [
     //     name: "Agile Manifesto.pdf",
     //     lastModified: "May 14 2024 03:25:10 PM",
     //     owner: "Darlene Robertson",
-    //     ownerImg: "images/img_avatar_4.png"
+    //     ownerImg: "/images/img_avatar_4.png"
     // },
     // {
     //     id: 27,
@@ -798,7 +796,7 @@ export const CompanyLegalData = [
     //     name: "Privacy Policy May 2024.pdf",
     //     lastModified: "May 16 2024 09:40:45 AM",
     //     owner: "Annette Black",
-    //     ownerImg: "images/img_avatar.png"
+    //     ownerImg: "/images/img_avatar.png"
     // },
     // {
     //     id: 28,
@@ -806,7 +804,7 @@ export const CompanyLegalData = [
     //     name: "Cybersecurity Policy.pdf",
     //     lastModified: "May 18 2024 02:50:30 PM",
     //     owner: "Cameron Williamson",
-    //     ownerImg: "images/img_avatar_3.png"
+    //     ownerImg: "/images/img_avatar_3.png"
     // },
     // {
     //     id: 29,
@@ -814,7 +812,7 @@ export const CompanyLegalData = [
     //     name: "Workplace Safety Manual.pdf",
     //     lastModified: "May 20 2024 11:05:15 AM",
     //     owner: "Darlene Robertson",
-    //     ownerImg: "images/img_avatar_4.png"
+    //     ownerImg: "/images/img_avatar_4.png"
     // },
     // {
     //     id: 30,
@@ -822,19 +820,19 @@ export const CompanyLegalData = [
     //     name: "Conflict of Interest Policy.pdf",
     //     lastModified: "May 22 2024 03:25:10 PM",
     //     owner: "Annette Black",
-    //     ownerImg: "images/img_avatar.png"
+    //     ownerImg: "/images/img_avatar.png"
     // }
 ];
 
 export const InvestorsData = [
-    {logo:"images/img_inv.svg", InvestorName: "Venture Catalysts", type: "Venture Capital", numberOfInvestment: 231, numberOfExits: 89, location: "Mumbai, India", PreferredInvestmentIndustry: "SaaS, Artificial Intelligence, Machine Learning" },
-    {logo:"images/img_inv1.svg" ,InvestorName: "Startup Funding Club", type: "Angel", numberOfInvestment: 104, numberOfExits: 96, location: "BB Bogotá, Colombia", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
-    {logo:"images/img_inv2.svg" , InvestorName: "Techstars Atlanta", type: "Venture Capital", numberOfInvestment: 123, numberOfExits: 72, location: "London, United Kingdom", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
-    {logo:"images/img_inv3.svg" , InvestorName: "Urban-X Accelerator", type: "Accelerator", numberOfInvestment: 254, numberOfExits: 86, location: "Cairo, Egypt", PreferredInvestmentIndustry: "Edutech, E-Learning, Corporate Training" },
-    {logo:"images/img_inv4.svg" ,  InvestorName: "Misk500 Accelerator", type: "Accelerator", numberOfInvestment: 342, numberOfExits: 111, location: "Sydney, Australia", PreferredInvestmentIndustry: "Big Data, SaaS, Crowdfunding" },
-    {logo:"images/img_inv5.svg", InvestorName: "Brendan Wallace", type: "Angel", numberOfInvestment: 213, numberOfExits: 85, location: "Abu Dhabi, UAE", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology, " },
+    {logo:"/images/img_inv.svg", InvestorName: "Venture Catalysts", type: "Venture Capital", numberOfInvestment: 231, numberOfExits: 89, location: "Mumbai, India", PreferredInvestmentIndustry: "SaaS, Artificial Intelligence, Machine Learning" },
+    {logo:"/images/img_inv1.svg" ,InvestorName: "Startup Funding Club", type: "Angel", numberOfInvestment: 104, numberOfExits: 96, location: "BB Bogotá, Colombia", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
+    {logo:"/images/img_inv2.svg" , InvestorName: "Techstars Atlanta", type: "Venture Capital", numberOfInvestment: 123, numberOfExits: 72, location: "London, United Kingdom", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
+    {logo:"/images/img_inv3.svg" , InvestorName: "Urban-X Accelerator", type: "Accelerator", numberOfInvestment: 254, numberOfExits: 86, location: "Cairo, Egypt", PreferredInvestmentIndustry: "Edutech, E-Learning, Corporate Training" },
+    {logo:"/images/img_inv4.svg" ,  InvestorName: "Misk500 Accelerator", type: "Accelerator", numberOfInvestment: 342, numberOfExits: 111, location: "Sydney, Australia", PreferredInvestmentIndustry: "Big Data, SaaS, Crowdfunding" },
+    {logo:"/images/img_inv5.svg", InvestorName: "Brendan Wallace", type: "Angel", numberOfInvestment: 213, numberOfExits: 85, location: "Abu Dhabi, UAE", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology, " },
     {
-        logo: "images/img_inv11.svg",
+        logo: "/images/img_inv11.svg",
         InvestorName: "BlueYard Capital",
         type: "Venture Capital",
         numberOfInvestment: 120,
@@ -843,7 +841,7 @@ export const InvestorsData = [
         PreferredInvestmentIndustry: "Blockchain, Crypto, Fintech"
     },
     {
-        logo: "images/img_inv12.svg",
+        logo: "/images/img_inv12.svg",
         InvestorName: "500 Startups",
         type: "Accelerator",
         numberOfInvestment: 500,
@@ -852,7 +850,7 @@ export const InvestorsData = [
         PreferredInvestmentIndustry: "E-commerce, Healthtech, Mobile"
     },
     {
-        logo: "images/img_inv2.svg",
+        logo: "/images/img_inv2.svg",
         InvestorName: "Seedcamp",
         type: "Seed Fund",
         numberOfInvestment: 200,
@@ -1099,253 +1097,253 @@ export const InvestorsRequestData = [
 
 export const eventData = [
   {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     eventName: "Monthly #FirstFridayFair Business, Data & Tech (Virtual Event)",
     organizer: "Jefferson Capital",
-    logo:"images/img_inv.svg",
+    logo:"/images/img_inv.svg",
     dateTime: "Jan 11, 2024  01:49 pm",
     eventtype: "Ongoing Event",
     location: "Casablanca"
   },
   {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     eventName: "Women Who Network - Virtual Speed Networking Event",
     organizer: "Startup Funding Club",
-    logo:"images/img_inv1.svg" ,
+    logo:"/images/img_inv1.svg" ,
     dateTime: "Mar 13, 2024  08:05 am",
     eventtype: "Upcoming Event",
     location: "Casablanca"
   },
   {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     eventName: "Workshop: Découvre Laravel: Introduction au Framework PHP",
     organizer: "GoMyCode",
-    logo:"images/img_inv12.svg" ,
+    logo:"/images/img_inv12.svg" ,
     dateTime: "Feb 21, 2024  03:05 pm",
     eventtype: "Upcoming Event",
     location: "Rabat"
   },
   {
-    image: "images/event4.jpeg",
+    image: "/images/event4.jpeg",
     eventName: "Next Big Investment Opportunity in North Africa",
     organizer: "XYZ Combinator",
-    logo:"images/img_inv2.svg" ,
+    logo:"/images/img_inv2.svg" ,
     dateTime: "Jan 1, 2024  01:49 pm",
     eventtype: "Upcoming Event",
     location: "Marrakech"
   },
   {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     eventName: "Tech Hackathon",
     organizer: "North Africa Dreamin’",
-    logo:"images/img_inv8.png" ,
+    logo:"/images/img_inv8.png" ,
     dateTime: "May 3, 2024  12:10 am",
     eventtype: "Past Event",
     location: "Agadir"
   },
   {
-    image: "images/event6.jpeg",
+    image: "/images/event6.jpeg",
     eventName: "Generative AI for startups. Next generation startups",
     organizer: "Business Connect",
-    logo:"images/img_inv9.png" ,
+    logo:"/images/img_inv9.png" ,
     dateTime: "Feb 21, 2024  03:05 pm",
     eventtype: "Past Event",
     location: "Tangier"
   },
   {
-    image: "images/event7.jpeg",
+    image: "/images/event7.jpeg",
     eventName: "Digital Marketing Workshop",
     organizer: "Karizma Consulting Group",
-    logo:"images/img_inv10.png" ,
+    logo:"/images/img_inv10.png" ,
     dateTime: "Oct 13, 2024  08:05 am",
     eventtype: "Upcoming Event",
     location: "Fez"
   },
   {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     eventName: "TEDiscussion Casablanca #31 : The inside story of ChatGPT potential !",
     organizer: "DeepLearning.AI community",
-    logo:"images/img_inv11.svg",
+    logo:"/images/img_inv11.svg",
     dateTime: "Sep 4, 2021  12:14 am",
     eventtype: "Ongoing Event",
     location: "Ouarzazate"
   },
   {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     eventName: "Artificial Intelligence in Healthcare Summit",
     organizer: "MedTech Innovators",
-    logo: "images/img_inv3.svg",
+    logo: "/images/img_inv3.svg",
     dateTime: "Apr 5, 2024 02:30 pm",
     eventtype: "Ongoing Event",
     location: "Tetouan"
 },
 {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     eventName: "E-commerce Masterclass",
     organizer: "Online Business Academy",
-    logo: "images/img_inv4.svg",
+    logo: "/images/img_inv4.svg",
     dateTime: "May 15, 2024 09:00 am",
     eventtype: "Upcoming Event",
     location: "Meknes"
 },
 {
-    image: "images/event4.jpeg",
+    image: "/images/event4.jpeg",
     eventName: "Blockchain Technology Seminar",
     organizer: "CryptoHub",
-    logo: "images/img_inv5.svg",
+    logo: "/images/img_inv5.svg",
     dateTime: "Mar 20, 2024 03:00 pm",
     eventtype: "Past Event",
     location: "Essaouira"
 },
 {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     eventName: "Startup Pitch Competition",
     organizer: "Morocco Startup Hub",
-    logo: "images/img_inv6.svg",
+    logo: "/images/img_inv6.svg",
     dateTime: "Jul 10, 2024 10:00 am",
     eventtype: "Upcoming Event",
     location: "El Jadida"
 },
 {
-    image: "images/event6.jpeg",
+    image: "/images/event6.jpeg",
     eventName: "Mobile App Development Workshop",
     organizer: "AppMasters",
-    logo: "images/img_inv7.svg",
+    logo: "/images/img_inv7.svg",
     dateTime: "May 25, 2024 04:00 pm",
     eventtype: "Ongoing Event",
     location: "Chefchaouen"
 },
 {
-    image: "images/event7.jpeg",
+    image: "/images/event7.jpeg",
     eventName: "Fintech Conference",
     organizer: "Finance Futures",
-    logo: "images/img_inv8.png",
+    logo: "/images/img_inv8.png",
     dateTime: "Sep 15, 2024 11:00 am",
     eventtype: "Past Event",
     location: "Taza"
 },
 {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     eventName: "Cloud Computing Symposium",
     organizer: "CloudTech Solutions",
-    logo: "images/img_inv9.png",
+    logo: "/images/img_inv9.png",
     dateTime: "Oct 10, 2024 02:30 pm",
     eventtype: "Upcoming Event",
     location: "Beni Mellal"
 },
 {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     eventName: "Digital Transformation Workshop",
     organizer: "Tech Innovators",
-    logo: "images/img_inv10.png",
+    logo: "/images/img_inv10.png",
     dateTime: "Nov 20, 2024 09:00 am",
     eventtype: "Ongoing Event",
     location: "Nador"
 },
 {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     eventName: "Social Media Marketing Summit",
     organizer: "Marketing Masters",
-    logo: "images/img_inv11.svg",
+    logo: "/images/img_inv11.svg",
     dateTime: "Dec 5, 2024 03:00 pm",
     eventtype: "Past Event",
     location: "Al Hoceima"
 },
 {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     eventName: "Cybersecurity Conference",
     organizer: "SecureTech",
-    logo: "images/img_inv12.svg",
+    logo: "/images/img_inv12.svg",
     dateTime: "Jan 15, 2024 10:00 am",
     eventtype: "Upcoming Event",
     location: "Larache"
 },
 {
-    image: "images/event4.jpeg",
+    image: "/images/event4.jpeg",
     eventName: "Data Science Bootcamp",
     organizer: "Data Experts",
-    logo: "images/img_inv.svg",
+    logo: "/images/img_inv.svg",
     dateTime: "Feb 20, 2024 04:00 pm",
     eventtype: "Ongoing Event",
     location: "Khouribga"
 },
 {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     eventName: "Green Technology Summit",
     organizer: "EcoInnovate",
-    logo: "images/img_inv1.svg",
+    logo: "/images/img_inv1.svg",
     dateTime: "Mar 10, 2024 11:00 am",
     eventtype: "Past Event",
     location: "Asilah"
 },
 {
-    image: "images/event6.jpeg",
+    image: "/images/event6.jpeg",
     eventName: "Startup Accelerator Program",
     organizer: "Morocco Accelerate",
-    logo: "images/img_inv11.svg",
+    logo: "/images/img_inv11.svg",
     dateTime: "Apr 15, 2024 02:30 pm",
     eventtype: "Upcoming Event",
     location: "Oujda"
 },
 {
-    image: "images/event7.jpeg",
+    image: "/images/event7.jpeg",
     eventName: "IoT (Internet of Things) Workshop",
     organizer: "IoT Innovators",
-    logo: "images/img_inv12.svg",
+    logo: "/images/img_inv12.svg",
     dateTime: "May 5, 2024 09:00 am",
     eventtype: "Ongoing Event",
     location: "Safi"
 },
 {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     eventName: "Virtual Reality Symposium",
     organizer: "VR World",
-    logo: "images/img_inv2.svg",
+    logo: "/images/img_inv2.svg",
     dateTime: "Mar 20, 2024 03:00 pm",
     eventtype: "Past Event",
     location: "Taroudant"
 },
 {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     eventName: "AgriTech Conference",
     organizer: "AgriInnovate",
-    logo: "images/img_inv3.svg",
+    logo: "/images/img_inv3.svg",
     dateTime: "Jul 10, 2024 10:00 am",
     eventtype: "Upcoming Event",
     location: "Tan Tan"
 },
 {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     eventName: "E-commerce Expo",
     organizer: "EcomExpo",
-    logo: "images/img_inv12.svg",
+    logo: "/images/img_inv12.svg",
     dateTime: "May 25, 2024 04:00 pm",
     eventtype: "Ongoing Event",
     location: "Sefrou"
 },
 {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     eventName: "Aerospace Technology Summit",
     organizer: "AeroTech",
-    logo: "images/img_inv4.svg",
+    logo: "/images/img_inv4.svg",
     dateTime: "Sep 15, 2024 11:00 am",
     eventtype: "Past Event",
     location: "El Kelaa des Sraghna"
 },
 {
-    image: "images/event4.jpeg",
+    image: "/images/event4.jpeg",
     eventName: "EduTech Symposium",
     organizer: "EduInnovators",
-    logo: "images/img_inv5.svg",
+    logo: "/images/img_inv5.svg",
     dateTime: "Oct 10, 2024 02:30 pm",
     eventtype: "Upcoming Event",
     location: "Berrechid"
 },
 {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     eventName: "Renewable Energy Workshop",
     organizer: "EcoPower",
-    logo: "images/img_inv6.svg",
+    logo: "/images/img_inv6.svg",
     dateTime: "Nov 20, 2024 09:00 am",
     eventtype: "Ongoing Event",
     location: "Tiznit"
@@ -1354,7 +1352,7 @@ export const eventData = [
 
 export const UpcomingEvents = [
   {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     name: 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event',
     date: 'Fri, Sep 1, 2024',
     time: '11:00 AM',
@@ -1363,7 +1361,7 @@ export const UpcomingEvents = [
     tags: 'Business, Data & Technology',
 },
 {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     name: 'AnalyticsWEEK - The Premier Data Analytics Online Conference',
     date: 'Fri, Apr 5, 2024',
     time: '11:00 AM - 2:00 PM',
@@ -1372,7 +1370,7 @@ export const UpcomingEvents = [
     tags: 'Analytics',
 },
 {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     name: 'Eventsize - A Comprehensive Marketing and Sales Virtual Workshop',
     date: 'Fri, Oct 18, 2024',
     time: '10:00 AM - 12:00 PM',
@@ -1381,7 +1379,7 @@ export const UpcomingEvents = [
     tags: 'Marketing, Sales',
 },
 {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     name: 'Startup Grind - Moscow Edition Focusing on Startups and Entrepreneurship',
     date: 'Thu, Oct 24, 2024',
     time: '6:00 PM - 9:00 PM',
@@ -1390,7 +1388,7 @@ export const UpcomingEvents = [
     tags: 'Startups, Entrepreneurship',
 },
 {
-    image: "images/event4.jpeg",
+    image: "/images/event4.jpeg",
     name: 'Productized - A Full-Day Online Event on Product Management and Design',
     date: 'Fri, Oct 25, 2024',
     time: '10:00 AM - 5:00 PM',
@@ -1399,7 +1397,7 @@ export const UpcomingEvents = [
     tags: 'Product Management, Design',
 },
 {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     name: 'Design Sprint - An Exclusive Design and Innovation Workshop at Google Moscow',
     date: 'Mon, Oct 28, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1408,7 +1406,7 @@ export const UpcomingEvents = [
     tags: 'Design, Innovation',
 },
 {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     name: 'Agile Conference - Moscow Edition Focusing on Agile and Software Development',
     date: 'Tue, Oct 29, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1417,7 +1415,7 @@ export const UpcomingEvents = [
     tags: 'Agile, Software Development',
 },
 {
-    image: "images/event7.jpeg",
+    image: "/images/event7.jpeg",
     name: 'Data Science Summit - A Premier Event on Data Science and Machine Learning',
     date: 'Wed, Oct 30, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1426,7 +1424,7 @@ export const UpcomingEvents = [
     tags: 'Data Science, Machine Learning',
 },
 {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     name: 'DevOps Summit - Moscow Edition Focusing on DevOps and Cloud Computing',
     date: 'Thu, Oct 31, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1435,7 +1433,7 @@ export const UpcomingEvents = [
     tags: 'DevOps, Cloud Computing',
 },
 {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     name: 'Cloud Conference - Moscow Edition Focusing on Cloud Computing and AWS',
     date: 'Fri, Nov 1, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1444,7 +1442,7 @@ export const UpcomingEvents = [
     tags: 'Cloud Computing, AWS',
 },
 {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     name: 'AI Conference - Moscow Edition Focusing on Artificial Intelligence and Machine Learning',
     date: 'Sat, Nov 2, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1453,7 +1451,7 @@ export const UpcomingEvents = [
     tags: 'Artificial Intelligence, Machine Learning',
 },
 {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     name: 'Blockchain Summit - Moscow Edition Focusing on Blockchain and Cryptocurrency',
     date: 'Sun, Nov 3, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1462,7 +1460,7 @@ export const UpcomingEvents = [
     tags: 'Blockchain, Cryptocurrency',
 },
 {
-  image: "images/event6.jpeg",
+  image: "/images/event6.jpeg",
   name: 'E-commerce Summit - A Premier Event on Online Retail and Digital Sales',
   date: 'Mon, Nov 4, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1471,7 +1469,7 @@ export const UpcomingEvents = [
   tags: 'E-commerce, Digital Sales',
 },
 {
-  image: "images/event7.jpeg",
+  image: "/images/event7.jpeg",
   name: 'Cybersecurity Conference - Moscow Edition Focusing on Cybersecurity and Privacy',
   date: 'Tue, Nov 5, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1480,7 +1478,7 @@ export const UpcomingEvents = [
   tags: 'Cybersecurity, Privacy',
 },
 {
-  image: "images/event5.jpeg",
+  image: "/images/event5.jpeg",
   name: 'Fintech Forum - Moscow Edition Focusing on Financial Technology and Innovation',
   date: 'Wed, Nov 6, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1489,7 +1487,7 @@ export const UpcomingEvents = [
   tags: 'Fintech, Innovation',
 },
 {
-  image: "images/event0.jpeg",
+  image: "/images/event0.jpeg",
   name: 'Healthtech Summit - A Premier Event on Healthcare Technology and Digital Health',
   date: 'Thu, Nov 7, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1498,7 +1496,7 @@ export const UpcomingEvents = [
   tags: 'Healthtech, Digital Health',
 },
 {
-  image: "images/event6.jpeg",
+  image: "/images/event6.jpeg",
   name: 'IoT Conference - Moscow Edition Focusing on Internet of Things and Connectivity',
   date: 'Fri, Nov 8, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1507,7 +1505,7 @@ export const UpcomingEvents = [
   tags: 'IoT, Connectivity',
 },
 {
-  image: "images/event2.jpeg",
+  image: "/images/event2.jpeg",
   name: 'RetailTech Summit - A Premier Event on Retail Technology and Omnichannel Strategies',
   date: 'Sat, Nov 9, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1516,7 +1514,7 @@ export const UpcomingEvents = [
   tags: 'RetailTech, Omnichannel',
 },
 {
-  image: "images/event3.jpeg",
+  image: "/images/event3.jpeg",
   name: 'VR & AR Conference - Moscow Edition Focusing on Virtual Reality and Maymented Reality',
   date: 'Sun, Nov 10, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1525,7 +1523,7 @@ export const UpcomingEvents = [
   tags: 'VR, AR',
 },
 {
-  image: "images/event5.jpeg",
+  image: "/images/event5.jpeg",
   name: 'Edtech Summit - A Premier Event on Educational Technology and E-learning',
   date: 'Mon, Nov 11, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1534,7 +1532,7 @@ export const UpcomingEvents = [
   tags: 'Edtech, E-learning',
 },
 {
-  image: "images/event4.jpeg",
+  image: "/images/event4.jpeg",
   name: 'GreenTech Conference - Moscow Edition Focusing on Sustainable Technology and Green Innovation',
   date: 'Tue, Nov 12, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1543,7 +1541,7 @@ export const UpcomingEvents = [
   tags: 'GreenTech, Sustainability',
 },
 {
-  image: "images/event0.jpeg",
+  image: "/images/event0.jpeg",
   name: 'Gaming Summit - A Premier Event on Gaming Technology and Esports',
   date: 'Wed, Nov 13, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1552,7 +1550,7 @@ export const UpcomingEvents = [
   tags: 'Gaming, Esports',
 },
 {
-  image: "images/event1.jpeg",
+  image: "/images/event1.jpeg",
   name: 'Robotics Conference - Moscow Edition Focusing on Robotics and Automation',
   date: 'Thu, Nov 14, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1561,7 +1559,7 @@ export const UpcomingEvents = [
   tags: 'Robotics, Automation',
 },
 {
-  image: "images/event2.jpeg",
+  image: "/images/event2.jpeg",
   name: 'Telecom Summit - A Premier Event on Telecommunications and Connectivity',
   date: 'Fri, Nov 15, 2024',
   time: '9:00 AM - 5:00 PM',
@@ -1573,7 +1571,7 @@ export const UpcomingEvents = [
 
 export const PastEvents = [
   {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     name: 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event',
     date: 'Fri, Sep 1, 2024',
     time: '11:00 AM',
@@ -1584,7 +1582,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     name: 'AnalyticsWEEK - The Premier Data Analytics Online Conference',
     date: 'Fri, Apr 5, 2024',
     time: '11:00 AM - 2:00 PM',
@@ -1595,7 +1593,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     name: 'Eventsize - A Comprehensive Marketing and Sales Virtual Workshop',
     date: 'Fri, Oct 18, 2024',
     time: '10:00 AM - 12:00 PM',
@@ -1606,7 +1604,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     name: 'Startup Grind - Moscow Edition Focusing on Startups and Entrepreneurship',
     date: 'Thu, Oct 24, 2024',
     time: '6:00 PM - 9:00 PM',
@@ -1617,7 +1615,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event4.jpeg",
+    image: "/images/event4.jpeg",
     name: 'Productized - A Full-Day Online Event on Product Management and Design',
     date: 'Fri, Oct 25, 2024',
     time: '10:00 AM - 5:00 PM',
@@ -1628,7 +1626,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     name: 'Design Sprint - An Exclusive Design and Innovation Workshop at Google Moscow',
     date: 'Mon, Oct 28, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1639,7 +1637,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     name: 'Agile Conference - Moscow Edition Focusing on Agile and Software Development',
     date: 'Tue, Oct 29, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1650,7 +1648,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event7.jpeg",
+    image: "/images/event7.jpeg",
     name: 'Data Science Summit - A Premier Event on Data Science and Machine Learning',
     date: 'Wed, Oct 30, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1661,7 +1659,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     name: 'DevOps Summit - Moscow Edition Focusing on DevOps and Cloud Computing',
     date: 'Thu, Oct 31, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1672,7 +1670,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     name: 'Cloud Conference - Moscow Edition Focusing on Cloud Computing and AWS',
     date: 'Fri, Nov 1, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1683,7 +1681,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     name: 'AI Conference - Moscow Edition Focusing on Artificial Intelligence and Machine Learning',
     date: 'Sat, Nov 2, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1694,7 +1692,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     name: 'Blockchain Summit - Moscow Edition Focusing on Blockchain and Cryptocurrency',
     date: 'Sun, Nov 3, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1705,7 +1703,7 @@ export const PastEvents = [
     isPas:true
   },
   {
-    image: "images/event6.jpeg",
+    image: "/images/event6.jpeg",
     name: 'E-commerce Summit - A Premier Event on Online Retail and Digital Sales',
     date: 'Mon, Nov 4, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1716,7 +1714,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event7.jpeg",
+    image: "/images/event7.jpeg",
     name: 'Cybersecurity Conference - Moscow Edition Focusing on Cybersecurity and Privacy',
     date: 'Tue, Nov 5, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1727,7 +1725,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     name: 'Fintech Forum - Moscow Edition Focusing on Financial Technology and Innovation',
     date: 'Wed, Nov 6, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1738,7 +1736,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     name: 'Healthtech Summit - A Premier Event on Healthcare Technology and Digital Health',
     date: 'Thu, Nov 7, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1749,7 +1747,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event0.jpeg",
+    image: "/images/event0.jpeg",
     name: 'IoT Conference - Moscow Edition Focusing on Internet of Things and Connectivity',
     date: 'Fri, Nov 8, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1760,7 +1758,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event1.jpeg",
+    image: "/images/event1.jpeg",
     name: 'RetailTech Summit - A Premier Event on Retail Technology and Omnichannel Strategies',
     date: 'Sat, Nov 9, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1771,7 +1769,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event2.jpeg",
+    image: "/images/event2.jpeg",
     name: 'VR & AR Conference - Moscow Edition Focusing on Virtual Reality and Maymented Reality',
     date: 'Sun, Nov 10, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1782,7 +1780,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event3.jpeg",
+    image: "/images/event3.jpeg",
     name: 'Edtech Summit - A Premier Event on Educational Technology and E-learning',
     date: 'Mon, Nov 11, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1793,7 +1791,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event4.jpeg",
+    image: "/images/event4.jpeg",
     name: 'GreenTech Conference - Moscow Edition Focusing on Sustainable Technology and Green Innovation',
     date: 'Tue, Nov 12, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1804,7 +1802,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event5.jpeg",
+    image: "/images/event5.jpeg",
     name: 'Gaming Summit - A Premier Event on Gaming Technology and Esports',
     date: 'Wed, Nov 13, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1815,7 +1813,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event6.jpeg",
+    image: "/images/event6.jpeg",
     name: 'Robotics Conference - Moscow Edition Focusing on Robotics and Automation',
     date: 'Thu, Nov 14, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1826,7 +1824,7 @@ export const PastEvents = [
     isPas:true
 },
 {
-    image: "images/event7.jpeg",
+    image: "/images/event7.jpeg",
     name: 'Telecom Summit - A Premier Event on Telecommunications and Connectivity',
     date: 'Fri, Nov 15, 2024',
     time: '9:00 AM - 5:00 PM',
@@ -1840,35 +1838,35 @@ export const PastEvents = [
 
 export const historyData = [
   {
-    image:"images/img_avatar.png",
+    image:"/images/img_avatar.png",
     name: 'Annette Black',
     date: 'Mar 6, 2024 02:37:22 PM',
     action: 'Shared Document',
     actionTitle:"Investor Pitch Deck - Mar 2024.pdf"
   },
   {
-    image:"images/img_avatar_1.png",
+    image:"/images/img_avatar_1.png",
     name: 'Darlene Robertson',
     date: 'Mar 16, 2024 02:37:22 PM',
     action: 'Send Contact Request to',
     actionTitle:"XYZ Combinator"
   },
   {
-    image:"images/img_avatar.png",
+    image:"/images/img_avatar.png",
     name: 'Annette Black',
     date: 'Mar 4, 2024 11:20:56 AM',
     action: 'Uploaded Document',
     actionTitle:"Partnership Agreement - DM (2024).pdf"
   },
   {
-    image:"images/img_avatar.png",
+    image:"/images/img_avatar.png",
     name: 'Annette Black',
     date: 'Mar 28, 2024 04:01 PM',
     action: 'Register an Event',
     actionTitle:"Generative Al for startups. Next generation startups"
   },
   {
-    image:"images/img_avatar_1.png",
+    image:"/images/img_avatar_1.png",
     name: 'Darlene Robertson',
     date: 'Mar 14, 2024 11:20:56 AM',
     action: 'Create Project',
@@ -1876,14 +1874,14 @@ export const historyData = [
     actionTitle2:"and save as Draft"
   },
   {
-    image:"images/img_avatar_1.png",
+    image:"/images/img_avatar_1.png",
     name: 'Darlene Robertson',
     date: 'Mar 30, 2024 11:20:56 PM',
     action: 'Attending Event',
     actionTitle:"Next Big Investment Opportunity in North Africa"
   },
   {
-    image:"images/img_avatar_4.png",
+    image:"/images/img_avatar_4.png",
     name: 'Cameron Williamson',
     date: 'Mar 22, 2024 12:45:15 PM',
     action: 'Shared Document',
@@ -1891,28 +1889,28 @@ export const historyData = [
     actionTitle2:"to Marketing team"
   },
   {
-    image:"images/img_avatar_2.png",
+    image:"/images/img_avatar_2.png",
     name: 'Gregory Turner',
     date: 'May 12, 2024 10:00:00 AM',
     action: 'Sent Proposal to',
     actionTitle:"Potential Investor"
 },
 {
-    image:"images/img_avatar_3.png",
+    image:"/images/img_avatar_3.png",
     name: 'Linda Garcia',
     date: 'May 16, 2024 01:50:45 PM',
     action: 'Updated Project',
     actionTitle:"Status to In Progress"
 },
 {
-    image:"images/img_avatar_4.png",
+    image:"/images/img_avatar_4.png",
     name: 'Cameron Williamson',
     date: 'May 21, 2024 12:30:20 PM',
     action: 'Received Feedback on',
     actionTitle:"Marketing Campaign"
 },
 {
-    image:"images/img_avatar_5.png",
+    image:"/images/img_avatar_5.png",
     name: 'Trevor Evans',
     date: 'May 25, 2024 02:45:15 PM',
     action: 'Attended Conference on',
@@ -1953,3 +1951,50 @@ export const regions = [
   { id: 'oc', label: 'Oceania' },
   { id: 'an', label: 'Antarctica' },
 ];
+
+export const paymentMethodsData = [
+  { id: 1, name: 'Mastercard', image: '/images/img_mastercard.svg', icon: "/images/img_mastercard_icon.svg", info: 'Mastercard information' },
+  { id: 2, name: 'Visa', image: '/images/img_visa.svg',icon: "/images/img_visa.svg", info: 'Visa information' },
+  { id: 3, name: 'Paypal', image: '/images/img_paypal.svg', info: 'Paypal information' },
+  { id: 4, name: 'Google Pay', image: '/images/img_googlepay.svg', info: 'Google Pay information' },
+  { id: 5, name: 'Apple Pay', image: '/images/img_applepay.svg', info: 'Apple Pay information' },
+];
+
+export const historyEventMessages = {
+  profile_updated: "User profile was updated.",
+  profile_update_lang_reg: "User's language and region preferences were updated.",
+  document_shared: "Shared Document ",
+  contact_request_sent: "Sent Contact Request to ",
+  event_registered: "Register an event ",
+  project_created: "Create project ",
+  event_attended: "Attending event ",
+  document_uploaded: "Uploaded Document ",
+  legal_document_created: "Uploaded Legal document ",
+  legal_document_updated:"Updated Legal Document ",
+  legal_document_deleted: "Deleted Legal Document ",
+  project_status_updated: "Updated Project Status to ",
+  project_deleted: "Deleted Project ",
+  employee_added: "Added a new employee ",
+  employee_removed: "Removed an employee ",
+  employee_updated: "Updated the employee details for ",
+  company_created: "Created a new company ",
+  subscription_renew: "Subscription renewed successfully.",
+  subscription_canceled: "Subscription canceled.",
+  new_subscription: "New subscription for plan ",
+  password_changed: "Password changed successfully.",
+  account_deleted: "Account deleted.",
+  project_updated: "Updated Project ",
+  project_deleted: "Deleted Project ",
+  employee_added: "Added a new employee to ",
+  employee_removed: "Removed an employee from ",
+  employee_updated: "Updated the employee details for ",
+  company_created: "Created a new company ",
+  company_updated: "Updated company details for ",
+  document_deleted: "Deleted Document ",
+  document_updated: "Updated Document ",
+  event_ticket_download: "Downloaded the ticket for ",
+  event_ticket_view: "Viewed the ticket for ",
+  contact_request_accepted: "Accepted contact request from ",
+  contact_request_rejected: "Rejected contact request from ",
+  default: "Action performed."
+};
