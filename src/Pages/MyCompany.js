@@ -286,9 +286,18 @@ console.log(requiredFields)
                   Contact Email
                 </Text>
                   <input
-                    {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"} })}
+                    {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"},
+                    minLength: {
+                          value: 2,
+                        },
+                        maxLength: {
+                          value: 120,
+                        },
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        }, })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="email"
+                    type="text"
                     name="contactEmail"
                     placeholder="Your Company email"
                   />

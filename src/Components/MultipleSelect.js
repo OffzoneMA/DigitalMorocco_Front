@@ -1,5 +1,5 @@
 import React, { useState , useRef , useEffect } from 'react';
-import { BiChevronDown } from 'react-icons/bi';
+import { BiChevronDown , BiChevronUp } from 'react-icons/bi';
 import { IoIosCheckmark } from 'react-icons/io';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
@@ -167,8 +167,8 @@ console.log(selectedOptions)
           readOnly
           style={{overflow:'hidden' , textOverflow:'ellipsis'}}
         />
-        <BiChevronDown size={18} className='text-blue_gray-301'/>
-      </div>
+        {isOpen ? <BiChevronUp size={18} className='text-blue_gray-301' /> : <BiChevronDown size={18} className='text-blue_gray-301' />}
+        </div>
       {isOpen && 
        ReactDOM.createPortal(
         <div ref={dropdownRef} className={`absolute  w-full py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[340px] z-50 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'}`} role="menu" 
