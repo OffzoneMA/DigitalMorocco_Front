@@ -30,7 +30,7 @@ export default function FilterSelect({ title, options, selectedOptions, onChange
             <div key={item}>
               <input
                 type="checkbox" 
-                className="cursor-pointer w-4 h-4 rounded-md bg-gray-200 checked:accent-[#25DAC5]"
+                className="cursor-pointer w-4 h-4 rounded-md bg-gray-201 checked:accent-[#25DAC5]"
                 id={item}
                 name={item}
                 checked={selectedOptions.includes(item)}

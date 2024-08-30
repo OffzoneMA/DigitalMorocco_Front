@@ -219,7 +219,7 @@ const Dashboard_Admin = () => {
               Welcome back, {userInfo?.displayName ? userInfo?.displayName : 'Olivia'}
             </PageHeader>
           </div>
-          <SearchInput className={'min-w-[25%]'} />
+          <SearchInput className={'w-[240px]'} />
         </div>
         <div className="flex pb-6">
           <Text
@@ -284,7 +284,7 @@ const Dashboard_Admin = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-10 pt-8 w-full">
-          <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 px-6">
+          <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201 px-6">
             <div className="flex flex-row items-center w-full justify-between">
               <div className="flex flex-row items-center w-full">
                 <div className="flex rounded-md bg-violet-100 p-2">

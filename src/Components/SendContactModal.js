@@ -79,7 +79,7 @@ const SendContactModal = (props) => {
       >
         <form onSubmit={handleSubmit(onSubmit)} className="max-h-screen w-full md:w-full">
           <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
-            <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
+            <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
               <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text
                   className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-gray-900 w-full"
@@ -87,7 +87,7 @@ const SendContactModal = (props) => {
                   Send Contact Request
                 </Text>
               </div>
-              <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+              <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 <IoCloseOutline  className='text-blue_gray-500'
                                   size={20}
                 />
@@ -203,14 +203,12 @@ const SendContactModal = (props) => {
                   props.onRequestClose();
                   setPreview(null);
                 }}
-                className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 hover:bg-[#D0D5DD] active:bg-light_blue-100
-                md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green">
+                className="bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
                     Cancel
                 </button>
                 <button 
                 type="submit"
-                className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans 
-                text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green">
+                className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
                     Send Contact Request
                 </button>
                 

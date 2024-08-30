@@ -25,7 +25,7 @@ const Footer = () => {
       <ItemsContainer />
 
       <div className="px-8 py-2 md:px-64">
-        <div className="flex justify-between space-x-6 border-t-2 border-t-gray-200 p-8 md:mx-0">
+        <div className="flex justify-between space-x-6 border-t-2 border-t-gray-201 p-8 md:mx-0">
           <div className="bg-[url('/public/img/Logo.jpg')] bg-no-repeat bg-contain bg-center h-[52px] w-[220px] md:mr-8"></div>
           <div className="sm:grid sm:grid-cols-2 gap-10 text-gray-400 text-sm pb-8">
             <div>

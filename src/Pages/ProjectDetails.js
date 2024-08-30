@@ -141,54 +141,54 @@ useEffect(() => {
     <>
     <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-        <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+        <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
             <PageHeader
               >
                 Projects
             </PageHeader>
           </div>
-          <SearchInput className={'min-w-[25%]'}/>
+          <SearchInput className={'w-[240px]'}/>
         </div>
       </div>
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start px-5 w-full">
-          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
-          <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 py-4 px-5">
+          <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
+          <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-4 px-5">
             <div className="flex items-center">
               <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
             </div>
             <div className="flex flex-wrap gap-3 items-center ">
               <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] md:text-sm text-base font-dm-sans-medium leading-5 text-blue-500 flex items-center p-2 cursorpointer-green rounded-md"
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-500 flex items-center px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
                 onClick={openModal}
                 type="button"
                 style={{whiteSpace: 'nowrap'}}
               >
-                <HiOutlineShare size={18} className="md:mr-2" />
+                <HiOutlineShare size={21} className="md:mr-2" />
                 <span className="hidden md:inline-block">Share to Investor</span>
               </button>
               <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-blue-500 cursorpointer-green flex items-center p-2 rounded-md"
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-500 cursorpointer-green flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
                 onClick={openDeleteModal}
                 type="button"
                 style={{whiteSpace: 'nowrap'}}
               >
-                <RiDeleteBinLine size={18} className="md:mr-2" />
+                <RiDeleteBinLine size={21} className="md:mr-2" />
                 <span className="hidden md:inline-block">Delete Project</span>
               </button>
               <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-blue-500 flex items-center cursorpointer-green p-2 rounded-md"
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-500 flex items-center cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
                 onClick={() => navigate(`/Editproject/${projectId}`, { state: { project: project } })}
                 type="button"
                 style={{whiteSpace: 'nowrap'}}
               >
-                <FiEdit3 size={18} className="md:mr-2" />
+                <FiEdit3 size={21} className="md:mr-2" />
                 <span className="hidden md:inline-block">Edit Project</span>
               </button>
             </div>
           </div>
-              <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-200 justify-start py-5 w-full">
+              <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-201 justify-start py-5 w-full">
               <div className="flex flex-wrap py-2 w-full">
                 <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -236,7 +236,7 @@ useEffect(() => {
                     <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
                       project?.status === 'Active' ? 'bg-emerald-50 text-green-700' :
                       project?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
-                      project?.status === 'Stand by' ? 'bg-gray-200 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
+                      project?.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
                     }`} style={{whiteSpace: 'nowrap'}}>
                       <BsDot size={28} className="" />
                       <label className="font-inter text-sm font-medium leading-[20px] text-center">
@@ -291,7 +291,7 @@ useEffect(() => {
                     </div>
                   </div>
                   {/* Divider */}
-                  <div className="bg-indigo-50 h-px w-full" />
+                  <div className="bg-gray-201 h-px w-full" />
                   {/* Fin Divider */}
                   <div className="flex flex-col items-start justify-start pb-4 w-full">
                     <div className="flex flex-row gap-1 items-center justify-between w-full">
@@ -302,7 +302,7 @@ useEffect(() => {
                         Project Milestone
                       </Text>
                       <button
-                        className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row md:h-auto items-center cursorpointer-green ml-auto p-[7px] rounded-md w-auto"
+                        className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row h-[30px] items-center cursorpointer-green ml-auto px-[8px] py-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
                         type="button"
                     >
@@ -322,7 +322,7 @@ useEffect(() => {
                     </div>
                   </div>
                   {/* Divider */}
-                  <div className="bg-indigo-50 h-px w-full" />
+                  <div className="bg-gray-201 h-px w-full" />
                   <div className="flex flex-col  items-start justify-start w-full">
                     <div className="flex flex-row gap-1 items-center justify-between w-full">
                       <Text
@@ -365,7 +365,7 @@ useEffect(() => {
                   {/* Fin Divider */}
                 </div>
                 {/* Divider */}
-                <div ref={dividerRef} className="bg-indigo-50 md:h-[${maxDivHeight}] h-px w-full md:w-px" />
+                <div ref={dividerRef} className="bg-gray-201 md:h-[${maxDivHeight}] h-px w-full md:w-px" />
                 {/*Fin Divider */}
                 <div ref={div2Ref} className="flex flex-col items-start justify-start w-full md:w-1/3">
                   <div className="flex flex-col items-center justify-start w-auto">

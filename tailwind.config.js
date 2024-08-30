@@ -149,6 +149,9 @@ module.exports = {
               '0px 12px 16px -4px #1018281A',
               '0px 1px 0px 0px #FFFFFF99 inset'
           ],
+          tablesbs: [
+            '0px 2px 4px -2px #1018280F', 
+          '0px 4px 8px -2px #1018281A'],
           modalbs: [
             '0px 2.77px 2.21px 0px #00000005', 
             '0px 6.65px 5.32px 0px #00000007', 

@@ -70,6 +70,8 @@ const CreateProject = () => {
   const [milestones, setMilestones] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
+  const [deletedFiles, setDeletedFiles] = useState([]);
+  const [otherDeletedFiles, setOtherDeletedFiles] = useState([]);
   const [fundingValue, setFundingValue] = useState(null);
   const [raisedValue, setRaisedValue] = useState('');
   const [logoFile, setLogoFile] = useState(project?.logo || null);
@@ -90,8 +92,17 @@ const CreateProject = () => {
   const mutation = projectId ? updateProject : addProjet;
   const response = projectId ? updateResponse : addResponse;
   const [members, setMembers] = useState([]);
-
-
+  const logoFileInputRef = useRef(null);
+  const [isFormValid, setIsFormValid] = useState(true);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [requiredFields, setRequiredFields] = useState({
+    country: false,
+    stage: false,
+    sector: false,
+    publication: false,
+  });
+  
+  console.log(submitting)
    /**
    * Utility function to format numbers with spaces as thousand separators.
    * 
@@ -105,7 +116,7 @@ const CreateProject = () => {
     return '';
   }
 
-  const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm(project !=null && {
+  const { register, handleSubmit, setValue, trigger, formState: { errors , isSubmitting } } = useForm(project !=null && {
     defaultValues: {
       name: project?.name,
       details: project?.details,
@@ -116,6 +127,30 @@ const CreateProject = () => {
     }
   });
 
+  useEffect(() => {
+    // if (Mount) { setMount(false) }
+    // else{
+      if (hasSubmitted ) {
+        const isCountryValid = selectedCountry !== null;
+        const isStageValid = selectedStage !== "";
+        const isSectorValid = selectedSector !== "";
+        const isPublicationValid = selectedPublication !== "";
+    
+        const isValid = isCountryValid && isStageValid && isSectorValid && isPublicationValid;
+    
+        setRequiredFields({
+          country: !isCountryValid,
+          stage: !isStageValid,
+          sector: !isSectorValid,
+          publication: !isPublicationValid,
+        });
+    
+        setIsFormValid(isValid);
+      }
+    // }
+  }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication]);
+  
+console.log(isSubmitting)
   // useEffect(() => {
   //   if (userInfo && userInfo.member) {
   //     setTeamData(userInfo.member.listEmployee?.map(employee => {
@@ -176,7 +211,6 @@ const CreateProject = () => {
       setSelectedProjectTeamsMember(selectedProjectMembers);
     }
   }, [project, members]);
-  
 
   useEffect(() => {
     if (project) {
@@ -200,6 +234,7 @@ const CreateProject = () => {
           name: document.name,
           index: index
         })));
+        inputRefs.current = otherDocuments.map(() => React.createRef());
       }
 
       const initialFileNames = {};
@@ -212,11 +247,12 @@ const CreateProject = () => {
       setFileNames(initialFileNames);
 
       setSelectedStage(project?.stage || '');
-
-      // if (project?.country) {
-      //   const defaultCountry = dataCountries.find(country => country.name === project.country);
-      //   setSelectedCountry(defaultCountry);
-      // }
+      setselectedSector(project?.sector || '');
+      setSelectedPublication(project?.visbility || '');
+      if (project?.country) {
+        const defaultCountry = dataCountries.find(country => country.name === project.country);
+        setSelectedCountry(defaultCountry);
+      }
     }
     else{
       setMilestones([{ id: 1 , _id: null, name: '', dueDate: '' }]);
@@ -262,25 +298,33 @@ const CreateProject = () => {
   };
 
   const addMilestone = () => {
-    setLoadingDel(null);
+    console.log(loadingDel)
     setMilestones([...milestones, { id: milestones.length + 1, _id: null, name: '', dueDate: '' }]);
   };
 
   const removeMilestone = async (id) => {
-    setLoadingDel(id);
-    try {
-        const response  = await deleteMilestone({ projectId, milestoneId:id }).unwrap();
-        console.log(response)
-        setLoadingDel(null);  
-        setProject(response);
+    const milestone = milestones.find(milestone => milestone.id === id || milestone._id === id);
+
+    if (!milestone._id) {
         setMilestones((prevMilestones) =>
-          prevMilestones.filter((milestone) => milestone?._id !== id)
+          prevMilestones.filter((milestone) => milestone.id !== id)
         );
-    } catch (error) {
-        console.error('Erreur lors de la suppression du milestone:', error);
-        setLoadingDel(null);  
+    } else {
+        setLoadingDel(id);
+        try {
+            const response = await deleteMilestone({ projectId, milestoneId: id }).unwrap();
+            console.log(response);
+            setLoadingDel(null);
+            setProject(response);
+            setMilestones((prevMilestones) =>
+              prevMilestones.filter((milestone) => milestone._id !== id)
+            );
+        } catch (error) {
+            console.error('Erreur lors de la suppression du milestone:', error);
+            setLoadingDel(null);
+        }
     }
-  };
+};
 
   const addDocumentDiv = () => {
     const newId = documentDivs.length + 1;
@@ -325,7 +369,28 @@ const handleFileInputChange = (event, index) => {
       updatedFiles[index] = fileWithIndex1;
       return updatedFiles;
   });
+  setOtherDeletedFiles((prevDeleted) => prevDeleted.filter(deletedFile => deletedFile.index !== index));
 }
+};
+
+const handleDeleteFile = (index) => {
+  const fileToRemove = droppedFiles[index] || allFiles[index];
+  
+  if (fileToRemove) {
+    setOtherDeletedFiles((prevDeleted) => [...prevDeleted, fileToRemove.name]);
+  }
+
+  setDroppedFiles((prevFiles) => {
+    const updatedFiles = [...prevFiles];
+    updatedFiles.splice(index, 1); 
+    return updatedFiles;
+  });
+
+  setAllFiles((prevFiles) => {
+    const updatedFiles = [...prevFiles];
+    updatedFiles.splice(index, 1); 
+    return updatedFiles;
+  });
 };
 
   const setFileName = (type, name) => {
@@ -347,6 +412,14 @@ const handleFileInputChange = (event, index) => {
       setFileName(type, file.name);
     }
   };
+
+  const handleFileRemove = (type) => {
+    setDocuments(prevDocuments => 
+        prevDocuments.filter(document => document.type !== type)
+    );
+    setFileName(type, null); 
+    setDeletedFiles(prevDeletedFiles => [...prevDeletedFiles, type]);
+};
   
   function parseDateString(dateString) {
     const [day, month, year] = dateString.split('/');
@@ -358,9 +431,9 @@ const handleFileInputChange = (event, index) => {
     setIsDragging(true);
   };
 
-
   const formData = new FormData();
   const onSubmit = (data) => {
+    setHasSubmitted(true);
     setSubmitting('sending');
     const fundingValue = parseFloat(data.funding.replace(/\s/g, ''));
 
@@ -377,15 +450,20 @@ const handleFileInputChange = (event, index) => {
         country: countryNameSelec,
     };
 
-    const formattedMilestones = milestones.map(({ id, _id, ...rest }) => rest);
+    const formattedMilestones = milestones
+    .filter(({ name, dueDate }) => name && dueDate)
+    .map(({ id, _id, ...rest }) => rest);
+  
     const formDataContent = {
-        ...updatedData,
-        stage: selectedStage,
-        listMember: selectedTeamsMembers.map(member => member?._id),
-
-        
-        milestones: formattedMilestones
-    };
+      ...updatedData,
+      stage: selectedStage,
+      listMember: selectedTeamsMembers.map(member => member?._id),
+      milestones: formattedMilestones,
+      ...(projectId ? {
+          deletedFiles, 
+          otherDeletedFiles
+      } : {})
+    };  
 
     formData.append('infos', JSON.stringify(formDataContent));
 
@@ -398,15 +476,22 @@ const handleFileInputChange = (event, index) => {
     allFiles.forEach(({ file }) => {
         formData.append(`files`, file);
     });
-  
-    if (projectId) {
-      mutation({
-        projectId,
-        payload: formData,
-      });
-    } else {
-      mutation(formData);
+
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
     }
+  
+    if(isFormValid) {
+      if (projectId) {
+        mutation({
+          projectId,
+          payload: formData,
+        });
+      } else {
+        mutation(formData);
+      }
+    }
+    setSubmitting(null);
   };
 
 useEffect(() => {
@@ -433,8 +518,6 @@ const handleDropLogo = (event) => {
   event.preventDefault();
   setIsDragging(false);
   const droppedFiles = event.dataTransfer.files;
-
-
   if (droppedFiles.length > 0) {
     const imageFile = droppedFiles[0];
     setImgFile(imageFile);
@@ -442,23 +525,33 @@ const handleDropLogo = (event) => {
   }
 };
 
+const handleLogoFileUpload = (event) => {
+  const file = event.target.files[0];
+  setImgFile(file);
+  setLogoFile(URL.createObjectURL(file));
+};
+
+const handleLogoFileInputClick = () => {
+  logoFileInputRef.current.click();
+};
+
   return (
       <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-          <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+          <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
               <PageHeader
                 >
                   Projects
               </PageHeader>
             </div>
-            <SearchInput className={'min-w-[25%]'}/>
+            <SearchInput className={'w-[240px]'}/>
           </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full pb-6">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
-              <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400  py-4 px-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
+              <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700    py-4 px-5">
                 <Text
                   className="text-lg leading-7 text-gray-900_01 pt-1"
                   size="txtDmSansMedium16"
@@ -466,7 +559,8 @@ const handleDropLogo = (event) => {
                   Create New Project
                 </Text>
                 <button 
-                  className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94]' } text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer rounded-md w-auto`} 
+                onClick={() => setHasSubmitted(true)}
+                  className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center ml-auto px-[12px] cursorpointer rounded-md`} 
                   ref={formButtonRef}
                   type="submit"
               >
@@ -479,7 +573,7 @@ const handleDropLogo = (event) => {
                   </>
                 ) : (
                   <>
-                    <FiSave size={18} className="mr-2" />
+                    <FiSave size={21} className="mr-2" />
                     Save
                   </>
                 )}
@@ -512,10 +606,14 @@ const handleDropLogo = (event) => {
                     </Text>
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
-                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                       className={`!placeholder:text-blue_gray-300 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="details"
-                        rows={5}
+                        rows={7}
                         placeholder="Write your project detals here"
+                        style={{
+                          scrollbarWidth: 'none', 
+                          msOverflowStyle: 'none'
+                        }}
                       />
                     {/* {errors.details && <span className="text-sm font-dm-sans-regular text-red-500">{errors.details?.message}</span>} */}
                   </div>
@@ -527,7 +625,7 @@ const handleDropLogo = (event) => {
                       Website
                     </Text>
                       <input
-                      {...register("website", { required: {value:true , message:"Project website is required"} })}
+                      {...register("website", { required: {value:false , message:"Project website is required"} })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="website"
@@ -545,7 +643,7 @@ const handleDropLogo = (event) => {
                       <input
                         {...register("contactEmail", { required: {value:true , message:"Project Contact Email is required"} })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                        type="text"
+                        type="email"
                         name="contactEmail"
                         placeholder="Enter Project email"
                       />
@@ -558,8 +656,8 @@ const handleDropLogo = (event) => {
                     >
                       Team Member
                     </Text>
-                    <MultipleSelect id='teams' options={members} onSelect={""} searchLabel='Search Client' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
-                    itemClassName='py-2 border-b border-indigo-50' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="workEmail" 
+                    <MultipleSelect id='teams' options={members} onSelect={""} searchLabel='Search member' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
+                    itemClassName='py-2 border-b border-gray-201' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="workEmail" 
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
@@ -633,8 +731,8 @@ const handleDropLogo = (event) => {
                     >
                       Stage
                     </Text>
-                    <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Select a stage' setSelectedOptionVal={setSelectedStage} 
-                    placeholder="Select Stage" selectedOptionsDfault={project?.stage || ''}
+                    <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Search stage' setSelectedOptionVal={setSelectedStage} 
+                    placeholder="Select Stage" selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage}
                     content={
                       ( option) =>{ return (
                           <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 py-2 items-center  w-full">
@@ -653,8 +751,9 @@ const handleDropLogo = (event) => {
                     >
                       Country
                     </Text>
-                    <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setSelectedCountry} 
-                        placeholder="Select Country" valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""}
+                    <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setSelectedCountry} 
+                        placeholder="Select Country" valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""} 
+                        required={requiredFields.country}
                         content={
                           ( option) =>{ return (
                             <div className="flex  py-2 items-center  w-full">
@@ -675,8 +774,8 @@ const handleDropLogo = (event) => {
                     >
                       Project Sector
                     </Text>
-                    <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Select Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
-                        placeholder="Select Project Sector" selectedOptionsDfault={project?.sector || ''}
+                    <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Search Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
+                        placeholder="Select Project Sector" selectedOptionsDfault={project?.sector || ''} required={requiredFields.sector}
                         content={
                           ( option) =>{ return (
                             <div className="flex  py-2 items-center  w-full">
@@ -701,6 +800,7 @@ const handleDropLogo = (event) => {
                     options={["public" , "private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
                     setSelectedOptionVal={setSelectedPublication} searchable={false}
                     placeholder={"Select Type of Publication"}
+                    required={requiredFields.publication}
                     content={
                       (option) => {
                         return (
@@ -740,30 +840,40 @@ const handleDropLogo = (event) => {
                       />
                       {index === milestones.length - 1 ? (
                         <button
-                          className="bg-light_blue-100 hover:bg-[#E2E2EE] text-base border border-solid border-blue-500 text-blue-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm border border-solid border-blue-500 text-blue-500 flex flex-row gap-1 h-[40px] items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
                           style={{ whiteSpace: 'nowrap' }}
                           onClick={addMilestone}
                           type="button"
                         >
-                          <IoMdAdd size={18} className="mr-1" />
+                          <span>
+                          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          </span>
                           <span className="hidden sm:inline">More</span>
                         </button>
                       ) : (
                         <button
-                          className="bg-red-100 hover:bg-red-200 text-base border border-solid border-red-500 text-red-500 flex flex-row md:h-auto items-center justify-center ml-auto px-[7px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          className="bg-[#E8555521] hover:bg-red-200 text-sm border border-solid border-errorColor text-errorColor flex flex-row h-[40px] items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
                           style={{ whiteSpace: 'nowrap' }}
-                          onClick={() => removeMilestone(milestone?._id)}
+                          onClick={() => removeMilestone(milestone?.id)}
                           type="button"
                         >
-                        {loadingDel === milestone?._id ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> : <IoMdRemoveCircleOutline size={22} className="" />}
+                        {(loadingDel !== null && loadingDel === milestone?.id) ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
+                         <span className="flex items-center gap-1">
+                         <svg width="13" height="2" viewBox="0 0 13 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1.25 1H11.75" stroke="#EF4352" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Hide
+                         </span>}
                         </button>
                       )}
                     </div>
                     ))}
                   </div>
                 </div>
-                <div ref={dividerRef} className={`bg-indigo-50 md:min-h-fit md:h-[${maxDivHeight}] h-px w-full md:w-px`} />
-                {/* <div className="flex flex-col md:divide-x md:min-h-[750px] md:h-full divide-indigo-50 hover:divide-pink-400">
+                <div ref={dividerRef} className={`bg-gray-201 md:min-h-fit md:h-[${maxDivHeight}] h-px w-full md:w-px`} />
+                {/* <div className="flex flex-col md:divide-x md:min-h-[750px] md:h-full divide-gray-201 hover:divide-pink-400">
                   {` `}
                 </div> */}
                 <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
@@ -774,12 +884,12 @@ const handleDropLogo = (event) => {
                     >
                       Project Logo
                     </Text>
-                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full py-1"
+                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full py-1 cursorpointer"
                         onDragOver={handleDragOver}
-                        onDrop={handleDropLogo}>
+                        onDrop={handleDropLogo} onClick={handleLogoFileInputClick}>
                       {logoFile ? (
                         <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[148px]" />
-                      ) : (
+                      ) : (<>
                       <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
                         <IoImageOutline />
                         <div className="flex flex-col items-start justify-start w-auto">
@@ -791,6 +901,8 @@ const handleDropLogo = (event) => {
                           </Text>
                         </div>
                       </div>
+                      <input ref={logoFileInputRef} id="fileInput" type="file" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
+                      </>
                         )}
                     </div>
                   </div>
@@ -834,14 +946,21 @@ const handleDropLogo = (event) => {
                       </label>
                     </div>
                     {fileNames["pitchDeck"] && (
-                      <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
-                      <GrAttachment size={16} className="mr-2" />
-                      <Text
-                        className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
-                        size=""
-                      >
-                        {fileNames["pitchDeck"] || project?.documents?.filter(document => document.documentType === 'pitchDeck').name}
-                      </Text>
+                    <div className="flex flex-row gap-2 items-center justify-between w-[90%] pt-2 ">
+                      <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start w-full">
+                        <GrAttachment size={16} className="mr-2" />
+                        <Text
+                          className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
+                          size=""
+                        >
+                          {fileNames["pitchDeck"] || project?.documents?.filter(document => document.documentType === 'pitchDeck').name}
+                        </Text>
+                      </div>
+                      <div className="flex w-auto" onClick={() => handleFileRemove('pitchDeck')}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346628 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C15.9959 5.87952 15.1518 3.84705 13.6524 2.34764C12.153 0.848226 10.1205 0.00406613 8 0ZM10.9 10.0231C11.0156 10.1397 11.0804 10.2973 11.0804 10.4615C11.0804 10.6257 11.0156 10.7833 10.9 10.9C10.7824 11.0137 10.6252 11.0773 10.4615 11.0773C10.2979 11.0773 10.1407 11.0137 10.0231 10.9L8 8.86923L5.97692 10.9C5.8593 11.0137 5.70208 11.0773 5.53846 11.0773C5.37484 11.0773 5.21763 11.0137 5.1 10.9C4.98444 10.7833 4.91962 10.6257 4.91962 10.4615C4.91962 10.2973 4.98444 10.1397 5.1 10.0231L7.13077 8L5.1 5.97692C5.00187 5.85735 4.95172 5.70556 4.95931 5.55107C4.9669 5.39657 5.03168 5.25043 5.14106 5.14105C5.25043 5.03168 5.39658 4.96689 5.55107 4.95931C5.70557 4.95172 5.85736 5.00187 5.97692 5.1L8 7.13077L10.0231 5.1C10.1426 5.00187 10.2944 4.95172 10.4489 4.95931C10.6034 4.96689 10.7496 5.03168 10.8589 5.14105C10.9683 5.25043 11.0331 5.39657 11.0407 5.55107C11.0483 5.70556 10.9981 5.85735 10.9 5.97692L8.86923 8L10.9 10.0231Z" fill="#F48888"/>
+                        </svg>
+                      </div>
                     </div>
                     )}
                   </div>
@@ -877,14 +996,21 @@ const handleDropLogo = (event) => {
                       </label>
                     </div>
                     {fileNames["businessPlan"] && (
-                      <div className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
-                      <GrAttachment size={16} className="mr-2" />
-                      <Text
-                        className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
-                        size=""
-                      >
-                        {fileNames["businessPlan"]}
-                      </Text>
+                    <div className="flex flex-row gap-2 items-center justify-between w-[90%] pt-2 ">
+                      <div className="flex flex-row gap-2 items-center justify-start w-full">
+                        <GrAttachment size={16} className="mr-2" />
+                        <Text
+                          className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
+                          size=""
+                        >
+                          {fileNames["businessPlan"]}
+                        </Text>
+                      </div>
+                      <div className="flex w-auto" onClick={() => handleFileRemove('businessPlan')}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346628 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C15.9959 5.87952 15.1518 3.84705 13.6524 2.34764C12.153 0.848226 10.1205 0.00406613 8 0ZM10.9 10.0231C11.0156 10.1397 11.0804 10.2973 11.0804 10.4615C11.0804 10.6257 11.0156 10.7833 10.9 10.9C10.7824 11.0137 10.6252 11.0773 10.4615 11.0773C10.2979 11.0773 10.1407 11.0137 10.0231 10.9L8 8.86923L5.97692 10.9C5.8593 11.0137 5.70208 11.0773 5.53846 11.0773C5.37484 11.0773 5.21763 11.0137 5.1 10.9C4.98444 10.7833 4.91962 10.6257 4.91962 10.4615C4.91962 10.2973 4.98444 10.1397 5.1 10.0231L7.13077 8L5.1 5.97692C5.00187 5.85735 4.95172 5.70556 4.95931 5.55107C4.9669 5.39657 5.03168 5.25043 5.14106 5.14105C5.25043 5.03168 5.39658 4.96689 5.55107 4.95931C5.70557 4.95172 5.85736 5.00187 5.97692 5.1L8 7.13077L10.0231 5.1C10.1426 5.00187 10.2944 4.95172 10.4489 4.95931C10.6034 4.96689 10.7496 5.03168 10.8589 5.14105C10.9683 5.25043 11.0331 5.39657 11.0407 5.55107C11.0483 5.70556 10.9981 5.85735 10.9 5.97692L8.86923 8L10.9 10.0231Z" fill="#F48888"/>
+                        </svg>
+                      </div>
                     </div>
                     )}
                   </div>
@@ -920,14 +1046,21 @@ const handleDropLogo = (event) => {
                       </label>
                     </div>
                     {fileNames["financialProjection"] && (
-                      <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
-                      <GrAttachment size={16} className="mr-2" />
-                      <Text
-                        className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base  leading-6 tracking-normal w-auto "
-                        size=""
-                      >
-                        {fileNames["financialProjection"]}
-                      </Text>
+                    <div className="flex flex-row gap-2 items-center justify-between w-[90%] pt-2">
+                      <div style={{overflow: 'hidden', textOverflow: 'ellipsis'}} className="flex flex-row gap-2 items-center justify-start w-full">
+                        <GrAttachment size={16} className="mr-2" />
+                        <Text
+                          className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base  leading-6 tracking-normal w-auto "
+                          size=""
+                        >
+                          {fileNames["financialProjection"]}
+                        </Text>
+                      </div>
+                      <div className="flex w-auto" onClick={() => handleFileRemove('financialProjection')}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346628 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C15.9959 5.87952 15.1518 3.84705 13.6524 2.34764C12.153 0.848226 10.1205 0.00406613 8 0ZM10.9 10.0231C11.0156 10.1397 11.0804 10.2973 11.0804 10.4615C11.0804 10.6257 11.0156 10.7833 10.9 10.9C10.7824 11.0137 10.6252 11.0773 10.4615 11.0773C10.2979 11.0773 10.1407 11.0137 10.0231 10.9L8 8.86923L5.97692 10.9C5.8593 11.0137 5.70208 11.0773 5.53846 11.0773C5.37484 11.0773 5.21763 11.0137 5.1 10.9C4.98444 10.7833 4.91962 10.6257 4.91962 10.4615C4.91962 10.2973 4.98444 10.1397 5.1 10.0231L7.13077 8L5.1 5.97692C5.00187 5.85735 4.95172 5.70556 4.95931 5.55107C4.9669 5.39657 5.03168 5.25043 5.14106 5.14105C5.25043 5.03168 5.39658 4.96689 5.55107 4.95931C5.70557 4.95172 5.85736 5.00187 5.97692 5.1L8 7.13077L10.0231 5.1C10.1426 5.00187 10.2944 4.95172 10.4489 4.95931C10.6034 4.96689 10.7496 5.03168 10.8589 5.14105C10.9683 5.25043 11.0331 5.39657 11.0407 5.55107C11.0483 5.70556 10.9981 5.85735 10.9 5.97692L8.86923 8L10.9 10.0231Z" fill="#F48888"/>
+                        </svg>
+                      </div>
                     </div>
                     )}
                   </div>
@@ -965,14 +1098,21 @@ const handleDropLogo = (event) => {
                     {droppedFiles.map((file, fileIndex) => {
                       if (file.index === index) {
                         return (
-                          <div key={fileIndex} className="flex flex-row gap-2 items-center justify-start pt-2 w-full">
-                            <GrAttachment size={16} className="mr-2" />
-                            <Text
-                              className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
-                              size=""
-                            >
-                              {file.name}
-                            </Text>
+                          <div key={fileIndex} className="flex flex-row gap-2 items-center justify-between w-[90%] pt-2 ">
+                            <div key={fileIndex} className="flex flex-row gap-2 items-center justify-start w-full">
+                              <GrAttachment size={16} className="mr-2" />
+                              <Text
+                                className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
+                                size=""
+                              >
+                                {file.name}
+                              </Text>
+                            </div>
+                            <div className="flex w-auto" onClick={() => handleDeleteFile(fileIndex)}>
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346628 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C15.9959 5.87952 15.1518 3.84705 13.6524 2.34764C12.153 0.848226 10.1205 0.00406613 8 0ZM10.9 10.0231C11.0156 10.1397 11.0804 10.2973 11.0804 10.4615C11.0804 10.6257 11.0156 10.7833 10.9 10.9C10.7824 11.0137 10.6252 11.0773 10.4615 11.0773C10.2979 11.0773 10.1407 11.0137 10.0231 10.9L8 8.86923L5.97692 10.9C5.8593 11.0137 5.70208 11.0773 5.53846 11.0773C5.37484 11.0773 5.21763 11.0137 5.1 10.9C4.98444 10.7833 4.91962 10.6257 4.91962 10.4615C4.91962 10.2973 4.98444 10.1397 5.1 10.0231L7.13077 8L5.1 5.97692C5.00187 5.85735 4.95172 5.70556 4.95931 5.55107C4.9669 5.39657 5.03168 5.25043 5.14106 5.14105C5.25043 5.03168 5.39658 4.96689 5.55107 4.95931C5.70557 4.95172 5.85736 5.00187 5.97692 5.1L8 7.13077L10.0231 5.1C10.1426 5.00187 10.2944 4.95172 10.4489 4.95931C10.6034 4.96689 10.7496 5.03168 10.8589 5.14105C10.9683 5.25043 11.0331 5.39657 11.0407 5.55107C11.0483 5.70556 10.9981 5.85735 10.9 5.97692L8.86923 8L10.9 10.0231Z" fill="#F48888"/>
+                              </svg>
+                            </div>
                           </div>
                         );
                       }

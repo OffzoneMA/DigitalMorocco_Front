@@ -1,9 +1,9 @@
 import React, { useState , useRef , useEffect} from 'react';
-import { BiChevronDown } from 'react-icons/bi';
+import { BiChevronDown , BiChevronUp} from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 
-const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchable = true, searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',className='' }) => {
+const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchable = true, searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',className='' ,required = false, }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const [searchValue, setSearchValue] = useState("");
@@ -102,7 +102,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${isOpen ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green `}
+        className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${(isOpen && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`}
         onClick={toggleDropdown}
       >
         <input
@@ -114,7 +114,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
           readOnly
           style={{overflow:'hidden' , textOverflow:'ellipsis'}}
         />
-        <BiChevronDown size={18} className='text-blue_gray-301' />
+        {isOpen ? <BiChevronUp size={18} className='text-blue_gray-301' /> : <BiChevronDown size={18} className='text-blue_gray-301' />}
       </div>
       {isOpen && (
          ReactDOM.createPortal(

@@ -21,7 +21,7 @@ export const dateOptions = {
     minDate: new Date("1950-01-01"),
     
     theme: {
-        background: "bg-white-A700 dark:bg-gray-800 !font-normal",
+        background: "bg-white-A700 !font-normal",
         todayBtn: "",
         clearBtn: "",
         icons: "",

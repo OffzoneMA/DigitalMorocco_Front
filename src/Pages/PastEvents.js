@@ -67,19 +67,19 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+              <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
                     Past Event
                   </PageHeader>
                 </div>
-                <SearchInput className={'min-w-[25%]'}/>
+                <SearchInput className={'w-[240px]'}/>
               </div>
               <div className="flex flex-col items-start justify-start w-full">
                 {displayedEvents?.length > 0 ? 
                 (displayedEvents.map((item, index) => (
-                  <div key={index} className="cursorpointer group flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 py-6" 
+                  <div key={index} className="cursorpointer group flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-201 py-6" 
                   onClick={()=> navigate(`/PastEventDetails/${item?._id}` , { state: { event: item } })}>
                     <img
                       src={item.headerImage}
@@ -143,7 +143,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                 </>
               }                
               </div>
-              {events?.length > 0 && (
+              {(!isLoading && events?.length > 0) && (
               <div className=" w-full flex items-center py-3">
               <Pagination nbrPages={totalPages} />
               </div>)}

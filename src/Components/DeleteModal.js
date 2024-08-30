@@ -20,13 +20,13 @@ const DeleteModal = (props) => {
               >
                 {props.title}
               </Text>
-              <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+              <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 <IoCloseOutline  className='text-blue_gray-500'
                   size={20}
                 />
               </div>
         </div>
-        <div className="bg-indigo-50 h-px w-full" />
+        <div className="bg-gray-201 h-px w-full" />
         <div className="flex flex-col items-center justify-start w-full">
           <div className="flex flex-col items-center justify-start  px-5 w-full">
             <div className="flex flex-col gap-2 items-center justify-start pb-4 w-full">
@@ -39,13 +39,13 @@ const DeleteModal = (props) => {
             </div>
             <div className="flex flex-row gap-5 items-center justify-between w-auto">
               <button 
-              className="cursorpointer-green font-medium h-11 leading-[normal] min-w-[93px] rounded-md p-2.5 text-base text-center bg-indigo-50 text-blue_gray-700"
+              className="cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[93px] text-center bg-gray-201 text-blue_gray-700"
               onClick={props.onRequestClose}>
                 Cancel
               </button>
               <button 
               onClick={props.onDelete}
-              className="cursorpointer-green font-medium h-11 leading-[normal] rounded-md p-2.5 min-w-[127px] bg-red-400 text-white-A700 text-base text-center">
+              className="cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[127px] bg-red-400 text-white-A700 text-center">
                 Delete Now
               </button>
             </div>

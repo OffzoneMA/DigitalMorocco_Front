@@ -62,13 +62,13 @@ const NewCampanyDocumentModal = (props) => {
     >
      <form onSubmit={handleSubmit(onSubmit)} className="max-h-[99vh] sm:w-full md:w-full overflow-y-auto">
     <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-4 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
-        <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
+        <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text className="md:text-lg text-[18px] font-medium font-DmSans leading-7 text-gray-900 w-full">
                     {documentFile?._id ? "Edit Document" : "Add New Document"}
                 </Text>
             </div>
-            <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+            <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 <IoCloseOutline className='text-blue_gray-500' size={20} />
             </div>
         </div>
@@ -142,7 +142,7 @@ const NewCampanyDocumentModal = (props) => {
                 <div className="flex space-x-5 w-auto">
                     <button
                         type="reset"
-                        className="bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg cursorpointer-green"
+                        className="bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green"
                         onClick={() => setPreview(null)}
                         style={{ width: "101px", height: "44px" }}
                     >
@@ -150,7 +150,7 @@ const NewCampanyDocumentModal = (props) => {
                     </button>
                     <button
                         type="submit"
-                        className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointe-green text-white-A700 py-3 px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg"
+                        className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer-green text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                         style={{ width: "195px", height: "44px" }}
                     >
                         {documentFile?._id ? "Edit Document" : "Add Document"}

@@ -54,13 +54,13 @@ const NewMilestoneModal = (props) => {
                 Add New Milestone
               </Text>
             </div>
-            <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+            <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 <IoCloseOutline  className='text-blue_gray-500'
                                   size={20}
                 />
               </div>
           </div>
-          <div className="flex px-6 md:px-5 h-[1px] w-full"> <div className="bg-indigo-50 w-full"></div></div>
+          <div className="flex px-6 md:px-5 h-[1px] w-full"> <div className="bg-gray-201 w-full"></div></div>
           <form className="w-full h-full gap-4 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-5 px-6 md:px-5 w-full max-h-[70vh] overflow-y-auto pb-2">
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -110,8 +110,8 @@ const NewMilestoneModal = (props) => {
               </div>
             </div>
             <div className="flex space-x-3 md:space-x-5 px-6 md:px-5 items-end w-full justify-end">
-              <button onClick={props.onRequestClose} type="reset" className="bg-gray-300 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray-700 py-2 md:py-3 px-4 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-[6px] cursorpointer-green">Cancel</button>
-              <button type="submit" className="ml-auto bg-[#2575F0] hover:bg-[#235DBD] text-white-A700 py-2 md:py-3 px-4 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
+              <button onClick={props.onRequestClose} type="reset" className="bg-gray-300 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray-700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Cancel</button>
+              <button type="submit" className="ml-auto bg-[#2575F0] hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
             </div>
           </form>
         </div>

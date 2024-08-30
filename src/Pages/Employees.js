@@ -104,34 +104,34 @@ const Employees = () => {
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
-        <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
+        <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
             <PageHeader
               >
               Company
             </PageHeader>
           </div>
-          <SearchInput className={'min-w-[25%]'}/>
+          <SearchInput className={'w-[240px]'}/>
         </div>
       </div>
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
-            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-3 px-5">
+          <div className="w-full Min-h-screen bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs  ">
+            <div className="flex flex-row flex-wrap  items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
               <TableTitle
                   >
                   Team members
                 </TableTitle>
               <button
-                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto"
+                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium cursorpointer-green rounded-md w-auto"
                 onClick={() => navigate("/CreateOrEditEmployee")}
                 type="button"
               >
-                <FaRegPlusSquare size={18} className="mr-2 cursorpointer-green" />
+                <FaRegPlusSquare size={21} className="mr-2 cursorpointer-green" />
                 <span className="text-sm font-medium leading-[18.23px]">Add New Employee</span>
               </button>
             </div>
-            <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">                       
+            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">                       
             <table className="w-full mx-auto table-auto">
               <thead>
                   <tr className="text-sm leading-6 " >
@@ -159,7 +159,7 @@ const Employees = () => {
                         <td className="py-3 px-3 text-gray500">{employee.jobTitle}</td>
                         <td className="py-3 px-3 text-gray500">{employee.level}</td>
                         <td className="py-3 px-3 text-gray500">
-                          {employee.status === 'Active' ? (
+                          {employee.status?.toLowerCase() === 'member' ? (
                             <div className="flex items-center px-2 py-0.5 rounded-full h-8 text-center" style={{ width: "4.5rem", backgroundColor: "#ecfdf3" }}>
                               <span className="bg-green-500  rounded-full mr-1" style={{width:"7px", height:"7px"}}></span>
                               <span className="text-green-800 text-xs font-semibold" style={{ color: "#027847" }}>{employee.status}</span>
@@ -218,7 +218,7 @@ const Employees = () => {
                   <div className="flex flex-col items-center w-full text-gray500 py-28">
                     <PiUsersThin size={30} />
                     <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                      className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto"
                       size=""
                     >
                       No Team Mmembers 

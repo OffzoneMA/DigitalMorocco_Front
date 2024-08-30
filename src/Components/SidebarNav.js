@@ -57,6 +57,37 @@ const SidebarNav = () => {
       [submenuName]: isOpen,
     }));
   };
+
+  const resetSubmenus = () => {
+    setSubmenuOpen({
+      company: false,
+      investor: false,
+      event: false,
+      // Reset other submenus as needed
+    });
+  };
+
+  const handleMenuClick = (Menu) => {
+    if (!Menu.submenu) {
+      resetSubmenus(); 
+    } else {
+      setSubmenuOpen(prevState => {
+        const updatedState = { ...prevState };
+        Object.keys(updatedState).forEach(key => {
+          if (key !== Menu.title) {
+            updatedState[key] = false;
+          }
+        });
+        return updatedState;
+      });
+
+      // Toggle the clicked submenu
+      setSubmenu(Menu.title, !submenuOpen[Menu.title]);
+    }
+    navigate(Menu.link);
+    setActiveParent(Menu.title);
+    setActiveMenu(Menu.title);
+  };
   
   const Menus = [
     { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": "Dashboard" },
@@ -111,10 +142,10 @@ const SidebarNav = () => {
 
   return (
       <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen p-5 pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
-    <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer-green ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
+    <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex" >
-      <img src={simpleLogo} className={`text-4xl rounded cursorpointer-green block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => openLink()}/>
-    <Link to="https://digitalmorocco.net" target="_blank">
+      <img src={simpleLogo} className={`text-4xl rounded cursorpointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => openLink()}/>
+    <Link to="https://digitalmorocco.net" target="_blank" className="cursorpointer">
       <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`} alt={""}/>
     </Link>
    </div>
@@ -122,12 +153,8 @@ const SidebarNav = () => {
     {Menus.map((Menu, index) => (
       Menu && <div key={index} >
         <li
-          onClick={() => {
-          (Menu.submenu && setSubmenu(Menu.title, !submenuOpen[Menu.title]))
-          navigate( Menu.link)
-          setActiveParent(Menu.title)
-          setActiveMenu(Menu.title);}}
-          className={` ${!open && 'w-fit'} group flex rounded-md p-2 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
+          onClick={() => handleMenuClick(Menu)}
+          className={` ${!open && 'w-fit'} group flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
           title={!open ? Menu.title : ""}
         >
           <span className={`duration-200 ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" ) || Menu.activeLinks?.includes(activeMenu)) ? "active-icon-color" : "hover-active-color"}`}>
@@ -153,7 +180,7 @@ const SidebarNav = () => {
                 setActiveMenu(el.link)
                 setActiveParent(Menu.title)
                 navigate(el.link);}}
-              className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === el.link || el.activeLinks?.includes(activeMenu)) ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+              className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === el.link || el.activeLinks?.includes(activeMenu)) ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
               title={!open ? el.title : ""}
             >
               <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
@@ -171,7 +198,8 @@ const SidebarNav = () => {
               setActiveParent("settings")
               setActiveMenu("settings");
       }}
-      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer-green ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `}
+      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
+      title={!open ? "Settings" : ""}
     >
       <IoSettingsOutline size={22} className={`text-light_blue-100 ${activeMenu === "settings" || activeParent === "settings" ? "active-icon-color" : "hover-active-color"}`} />
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
@@ -189,7 +217,8 @@ const SidebarNav = () => {
         navigate("/UserProfile")
         setActiveParent("settings")
         setActiveMenu("UserProfile");}}
-      className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "UserProfile"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+      className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "UserProfile"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+      title={!open ? "My Profil" : ""}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       My Profil
@@ -201,7 +230,8 @@ const SidebarNav = () => {
         navigate("/Subscription")
         setActiveParent("settings")
         setActiveMenu("Subscription");}}
-      className={`  mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer-green hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "SubscribePlan" )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `}
+      className={`  mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "SubscribePlan" )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+      title={!open ? "Subscription & Billing" : ""}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       Subscription & Billing
@@ -227,7 +257,7 @@ const SidebarNav = () => {
           <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : "Camille Olivia"}</span>
           </div>
         </div>
-        <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer-green`} 
+        <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer`} 
         onClick={()=> {
           setNotifOpen(true)
           navigate('/Notification')
@@ -238,7 +268,8 @@ const SidebarNav = () => {
       </div>
       {showLogout && (
       <div className="absolute top-full left-0 w-full">
-        <div className={`group flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md px-[10px] py-2.5 cursorpointer-green hover:bg-blue_gray-902 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`}
+        <div className={`group flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md px-[10px] py-2.5 cursorpointer-green hover:bg-blue_gray-902 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`} 
+        title={!open ? "SignOut" : ""}
           onClick={() => {
             dispatch(logout());
             navigate('/SignIn');

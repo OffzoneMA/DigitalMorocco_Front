@@ -343,7 +343,7 @@ export default function UserProfile() {
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-        <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+        <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader >
               My Profil
@@ -378,7 +378,7 @@ export default function UserProfile() {
             </button>
           </div>
           <div className='flex flex-1 flex-col gap-5'>
-            <form onSubmit={handleSubmit1(onSubmit1)} className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
+            <form onSubmit={handleSubmit1(onSubmit1)} className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <div className='flex flex-row w-full gap-5'>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
@@ -515,7 +515,7 @@ export default function UserProfile() {
               )}
             </form>
 
-            <form onSubmit={handleSubmit2(onSubmit2)} className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
+            <form onSubmit={handleSubmit2(onSubmit2)} className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" >
                 Password Setting </Text>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
@@ -567,7 +567,7 @@ export default function UserProfile() {
             </form>
 
             <form onSubmit={handleSubmit3(onSubmit3)}
-              className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
+              className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" >
                 Language and Region Settings </Text>
               <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
@@ -610,7 +610,7 @@ export default function UserProfile() {
               } 
             </form>
 
-            <div className='flex w-full flex-col gap-5 border-b border-indigo-50 border-solid pb-8'>
+            <div className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" >
                 Delete Your Account </Text>
               <Text className="font-DmSans text-base font-normal leading-6 text-blue_gray-601 w-full" >

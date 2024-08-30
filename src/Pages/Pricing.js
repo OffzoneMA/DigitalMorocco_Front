@@ -28,7 +28,7 @@ const Pricing = () => {
                             </ul>
                         </div>
                         <div className="text-center  text-gray-400 py-8">
-                            <button className="border-2 border-gray-200 flex justify-center  rounded-full bg-white text-bleu2 mx-2 p-2 w-48 ">
+                            <button className="border-2 border-gray-201 flex justify-center  rounded-full bg-white text-bleu2 mx-2 p-2 w-48 ">
                                 Start Free Trial
                             </button>
                         </div>
@@ -82,7 +82,7 @@ const Pricing = () => {
                             </ul>
                         </div>
                         <div className="text-center  text-gray-400 py-8">
-                            <button className="border-2 border-gray-200 flex justify-center  rounded-full bg-white text-bleu2 mx-2 p-2 w-48 ">
+                            <button className="border-2 border-gray-201 flex justify-center  rounded-full bg-white text-bleu2 mx-2 p-2 w-48 ">
                                 Start Free Trial
                             </button>
                         </div>

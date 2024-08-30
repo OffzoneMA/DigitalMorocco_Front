@@ -140,26 +140,26 @@ console.log(totalPages)
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-12 pt-8 rounded-tl-[40px] w-full">
     <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-        <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+        <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader
               >
               Users
             </PageHeader>
           </div>
-          <SearchInput className={'min-w-[25%]'}/>
+          <SearchInput className={'w-[240px]'}/>
         </div>
     </div>
     <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-          <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
-            <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
+          <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs  ">
+            <div className="flex flex-row flex-wrap  items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
                 <TableTitle>
                   List of UnApproved  Users
                 </TableTitle>
               
             </div>
-            <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
+            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
                 <tr className="font-DmSans text-sm leading-6">
@@ -268,7 +268,7 @@ console.log(totalPages)
                     <div className="flex flex-col items-center w-full text-gray500 py-28">
                     <AiOutlineFileSearch size={30} />
                     <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                      className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto"
                       size=""
                     >
                       No Users Available

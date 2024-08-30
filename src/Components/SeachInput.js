@@ -9,13 +9,13 @@ const SearchInput = ({ setValue, className }) => {
   };
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative h-[44px] ${className}`}>
       <input
         type="search"
         placeholder="Search..."
         value={searchValue}
         onChange={handleInputChange}
-        className="py-3 pl-8 min-w-[100px] w-full font-manrope text-[14px] placeholder-[#98A2B3] text-gray-700 font-normal leading-[18.2px] tracking-[0.01em] border border-[#D0D5DD] rounded-md px-4 focus:border-focusColor focus:shadow-inputBs"
+        className="py-[11.5px] pl-8 min-w-[100px] w-full font-manrope text-[14px] placeholder-[#98A2B3] text-gray-700 font-normal tracking-[0.01em] border border-[#D0D5DD] rounded-md px-4 focus:border-focusColor focus:shadow-inputBs"
       />
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
       <svg

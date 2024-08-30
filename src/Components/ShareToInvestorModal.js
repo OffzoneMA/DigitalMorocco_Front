@@ -90,7 +90,7 @@ useEffect(() => {
     >
       <div className="max-h-[93vh] sm:w-full md:w-full">
         <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-3 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[8px] w-full">
-            <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-4 mb-2 w-full">
+            <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-4 mb-2 w-full">
               <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text
                   className="md:text-lg text-[18px]  leading-7 font-dm-sans-regular text-gray-900 w-full"
@@ -98,7 +98,7 @@ useEffect(() => {
                   Share project to Investors
                 </Text>
               </div>
-              <div className="hover:bg-gray-200 rounded-full p-1" onClick={props.onRequestClose}>
+              <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 <IoCloseOutline  className='text-blue_gray-500'
                   size={20}
                 />
@@ -123,7 +123,7 @@ useEffect(() => {
             ) : filteredInvestors?.length === 0 ? (
               <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
                 <img src={fileSearchImg} alt="No Project Created" />
-                <Text className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto">
+                <Text className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto">
                   No Project Created
                 </Text>
               </div>
@@ -175,14 +175,13 @@ useEffect(() => {
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
                 <button 
                 onClick={props.onRequestClose}
-                className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 cursorpointer-green
-                md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-lg">
+                className="bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green
+                py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]">
                     Cancel
                 </button>
                 <button 
                 onClick={onSubmit}
-                className="ml-auto bg-blue-500 text-white-A700 py-2 md:py-3 cursorpointer-green px-2 md:px-5 font-DmSans 
-                text-base font-medium leading-5 tracking-normal rounded-lg">
+                className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]">
                     Share to Selected Investors
                 </button>
                 

@@ -15,7 +15,7 @@ const CancelPlanModal = (props) => {
           <div className="max-h-[97vh] overflow-y-auto w-full md:w-full">
             <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col p-6 gap-4 items-center justify-start max-w-screen-sm  rounded-[10px] w-full">
                 <div className="w-full flex flex-row items-start">
-                    <div className="hover:bg-gray-200 w-auto rounded-full p-1 justify-end ml-auto" onClick={props.onRequestClose}>
+                    <div className="hover:bg-gray-201 w-auto rounded-full p-1 justify-end ml-auto" onClick={props.onRequestClose}>
                         <IoCloseOutline  className='text-gray-401'
                                         size={20}
                         />

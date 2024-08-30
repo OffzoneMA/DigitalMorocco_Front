@@ -141,7 +141,7 @@ console.log(userDetails)
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
                     <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
                       <img src={creditsImg} className="w-[28px] h-[28px]"  alt={""}/>
                     </div>
@@ -150,11 +150,11 @@ console.log(userDetails)
                     >
                       Total Credits
                     </Text>
-                    {userDetails?.member?.credits > 0 ? (
+                    {userDetails?.subscription?.totalCredits > 0 ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userDetails?.member?.credits}
+                        {userDetails?.subscription?.totalCredits}
                       </Text>
                     ) : (
                       <Text
@@ -164,7 +164,7 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
                   onClick={() => navigate('/Projects')}>
                     <div className="rounded-[6px] p-2 bg-teal-50">
                       <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
@@ -172,7 +172,7 @@ console.log(userDetails)
                     <Text
                       className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
-                      Create Project
+                      Created Project
                     </Text>
                     {userDetails?.member?.projectCount > 0 ? (
                       <Text
@@ -188,7 +188,7 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]"  
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]"  
                     onClick={() => navigate('/MyInvestors')}>
                     <div className="rounded-[6px] p-2 bg-blue-51">
                       <TiFlashOutline size={28} className="text-blue-701" />
@@ -214,7 +214,7 @@ console.log(userDetails)
                     </Text>
                   )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
                     onClick={() => navigate('/Participate')}>
                     <div className="rounded-[6px] p-2 bg-orange-51">
                       <HiOutlineSpeakerphone size={28} className="text-amber-601" />
@@ -238,7 +238,7 @@ console.log(userDetails)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-200 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
                     onClick={() => navigate('/MyCompany')}>
                     <div className="rounded-[6px] p-2 bg-violet-100">
                       <BiBuildings size={28} className="text-blue-601" />
@@ -264,7 +264,7 @@ console.log(userDetails)
                   </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200  px-6">
+                  <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201  px-6">
                     <div className="flex flex-row items-center w-full">
                      <div className="flex rounded-md bg-violet-100 p-2">
                        <FaArrowTrendUp size={28} className="text-blue-601 "/>
@@ -297,7 +297,7 @@ console.log(userDetails)
                     )}
                     </div>
                    </div>
-                   <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-200 px-6">
+                   <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201 px-6">
                     <div className="flex flex-row items-center w-full">
                      <div className="flex rounded-md bg-violet-100 p-2">
                        <FaArrowTrendUp size={28} className="text-blue-601 "/>
@@ -346,8 +346,8 @@ console.log(userDetails)
                    </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
-                    <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-200 ">
-                      <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-200 w-full" 
+                    <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 ">
+                      <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full" 
                       onClick={() => navigate('/Projects')}>
                         <div className="flex rounded-md bg-violet-100 p-2">
                           <GoRocket size={28} className="text-blue-601 "/>
@@ -451,8 +451,8 @@ console.log(userDetails)
                         )
                        )}
                     </div>
-                    <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-200 ">
-                      <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-200 w-full" 
+                    <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 ">
+                      <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full" 
                       onClick={() => navigate('/InvestorRequestsHistoty')}>
                         <div className="flex rounded-md bg-violet-100 p-2">
                           <GoRocket size={28} className="text-blue-601 "/>
@@ -475,12 +475,7 @@ console.log(userDetails)
                           </tr>
                         </thead>
                         <tbody className="items-center w-full">
-                        {contactReqsLoading ? (
-                        <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
-                            <Loader />
-                        </div>
-                         ) :(
-                          Requestdata?.length > 0
+                        {(!contactReqsLoading && Requestdata?.length > 0) 
                             ? Requestdata.map((item, index) => (
                                 <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={() => navigate('/InvestorRequestsHistoty')}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
@@ -514,23 +509,29 @@ console.log(userDetails)
                                 </tr>
                               ))
                             : ""
-                         )}
+                         }
                         </tbody>
                       </table>
                        </div>
-                       {(!contactReqsLoading && !Requestdata?.length>0) && (
-                       <div className="flex flex-col items-center text-gray-600 w-full py-28">
+                       {contactReqsLoading ? (
+                        <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                            <Loader />
+                        </div>
+                       ) :
+                       (!contactReqsLoading && !Requestdata?.length>0) && (
+                       <div className="flex flex-col items-center justify-center text-gray-600 w-full py-28">
                         <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
                           <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                             <Text
-                            className=" text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-full"
+                            className=" text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
                             No Request Yet
                             </Text>
                         </div>
-                       )}
+                       ) 
+                       }
                     </div>
                 </div>
             </div>

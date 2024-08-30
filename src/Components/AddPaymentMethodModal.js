@@ -208,7 +208,7 @@ const AddPaymentMethodModal = (props) => {
               {haveMethod ? (
                 <button
                   type="button"
-                  className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
+                  className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                 >
                   Update
                 </button>
@@ -217,13 +217,13 @@ const AddPaymentMethodModal = (props) => {
                   <button
                     onClick={props.onRequestClose}
                     type="button"
-                    className="flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray-700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
+                    className="flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray-700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-2.5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md"
+                    className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                   >
                     Update
                   </button>

@@ -75,31 +75,31 @@ const Projects = () => {
   return (
       <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
         <div className="flex items-start justify-start sm:px-5 px-8 w-full">
-            <div className="border-b border-indigo-50 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
+            <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
               <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
                 <PageHeader
                 >
                   Projects
                 </PageHeader>
               </div>
-              <SearchInput className={'min-w-[25%]'}/>
+              <SearchInput className={'w-[240px]'}/>
             </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-            <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
-              <div className="flex flex-row flex-wrap  items-center border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 py-4 px-5">
+            <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
+              <div className="flex flex-row flex-wrap  items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
                 <TableTitle
                   >
                   Project List
                 </TableTitle>
-                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] cursorpointer-green rounded-md w-auto text-sm font-medium leading-[18.23px]" 
+                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] cursorpointer-green rounded-md min-w-[133px] text-sm font-medium leading-[18.23px]" 
                 onClick={() => navigate('/CreateProject')}>
                   <FaRegPlusSquare size={18} className="mr-2" />
                   <span style={{ whiteSpace: 'nowrap' }}>New Project</span>
                 </button>
               </div>
-              <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
+              <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
                 <table className=" w-full">
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] ">
@@ -126,7 +126,7 @@ const Projects = () => {
                         <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
                           item.status === 'Active' ? 'bg-emerald-50 text-green-700' :
                             item.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
-                              item.status === 'Stand by' ? 'bg-gray-200 text-blue_gray-700' : ''
+                              item.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
                         } inline-flex`}  style={{whiteSpace:'nowrap'}}>
                           <BsDot  size={28} className=""/>
                           {item.status}
@@ -190,7 +190,7 @@ const Projects = () => {
                     <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
                     <img src={fileSearchImg}  alt={""}/>
                       <Text
-                        className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto"
+                        className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto"
                         size=""
                       >
                         No Project Created

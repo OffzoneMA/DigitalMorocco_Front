@@ -143,17 +143,17 @@ const UpcomingEventDetails = () => {
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+              <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
                     {event?.status == 'past' ? 'Past Event' : 'Upcoming Event'}
                   </PageHeader>
                 </div>
-                <SearchInput className={'min-w-[25%]'}/>
+                <SearchInput className={'w-[240px]'}/>
               </div>
               <div className="flex flex-col items-start justify-start w-full">
-                  <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-200 pt-6 pb-9">
+                  <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-201 pt-6 pb-9">
                     <img
                       src={event?.headerImage}
                       alt="vector_three"
@@ -227,7 +227,7 @@ const UpcomingEventDetails = () => {
                       
                     </div>
                   </div> 
-                  <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-200 pb-8">
+                  <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-201 pb-8">
                     <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
                         Overview
                     </Text>

@@ -121,25 +121,25 @@ const InvestorRequestHistory = () => {
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-                <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+                <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
                   <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                     <PageHeader
                       >
                       Investor
                     </PageHeader>
                   </div>
-                  <SearchInput className={'min-w-[25%]'}/>
+                  <SearchInput className={'w-[240px]'}/>
                 </div>
             </div>
             <div className="flex flex-col items-start justify-start w-full">
-                <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-                <div className="w-full bg-white-A700 border border-gray-200 rounded-lg shadow  dark:border-gray-300">
-                    <div className="flex flex-row gap-4 flex-wrap text-sm text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-300 dark:text-gray-400  py-4 px-5">
-                      <TableTitle
-                      style={{whiteSpace: 'nowrap'}}
-                        >
-                        Request History
-                      </TableTitle>
+              <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+                <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs  ">
+                  <div className="flex flex-row flex-wrap text-sm text-center text-gray-500   items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
+                    <TableTitle
+                    style={{whiteSpace: 'nowrap'}}
+                      >
+                      Request History
+                    </TableTitle>
                 <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 xs:grid-cols-1 gap-3 w-auto items-center justify-end ml-auto w-auto">
                   {filter && 
                 (
@@ -164,25 +164,25 @@ const InvestorRequestHistory = () => {
                   </>
                 )}
                 {filter ? (
-                  <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer-green p-[6px] h-[38px] rounded-md " onClick={() => setFilterApply(true)}>
-                    <BiFilterAlt size={18} className="mr-2" />
+                  <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " onClick={() => setFilterApply(true)}>
+                    {/* <BiFilterAlt size={18} className="mr-2" /> */}
                     <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>Apply Filters</button>
                   </div>
                 ) : (
-                  <div className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 bg-blue-A400 text-white-A700 flex flex-row items-center cursorpointer-green p-[6px] h-[38px] rounded-md " onClick={() => setFilter(true)}>
-                    <BiFilterAlt size={18} className="mr-2" />
+                  <div className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 bg-blue-A400 text-white-A700 flex flex-row items-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " onClick={() => setFilter(true)}>
+                    <BiFilterAlt size={21} className="mr-2" />
                     <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>Filters</button>
                   </div>
                 )}
                 {filterApply && (
                   <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursorpointer-green" onClick={ClearFilter}>
                     <FiDelete size={18} className="mr-2" />
-                    <Text className="text-base font-DmSans font-normal leading-[26px] text-blue_gray-300 " size="">Clear</Text>
+                    <Text className="text-base font-dm-sans-regular leading-[26px] text-blue_gray-300 " size="">Clear</Text>
                   </div>
                 )}
               </div>
             </div>
-            <div className="bg-white-A700 border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
+            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
               <table className=" w-full">
                 <thead>
                   <tr className="bg-white-A700 text-sm leading-6">
@@ -223,7 +223,8 @@ const InvestorRequestHistory = () => {
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
-                  <Text className="font-DmSans text-sm font-normal leading-6 text-gray-900_01 w-auto py-4" size="">No matching data identified</Text>
+                  <Text className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto py-4" size="">
+                  No matching data identified</Text>
                 </div>
                 )                 
               }

@@ -188,21 +188,21 @@ const Events = () => {
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              <div className="border-b border-indigo-50 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+              <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
                     Event Participate
                   </PageHeader>
                 </div>
-                <SearchInput className={'min-w-[25%]'}/>
+                <SearchInput className={'w-[240px]'}/>
               </div>
             </div>
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               { pageData?.length > 0 ?
-                <div className="relative w-full bg-white-A700 border border-gray-200 rounded-lg shadow ">
-                  <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-white-A700 dark:border-gray-700 dark:text-gray-400 py-4 px-5">
+                <div className="relative w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
+                  <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-[19.5px] px-5">
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >
@@ -288,7 +288,7 @@ const Events = () => {
                         )}
                       </div>
                   </div>
-                  <div className="bg-white-A700  border-b border-gray-200 flex flex-col md:gap-5 flex-1 items-start justify-start w-full overflow-x-auto">
+                  <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
                   
                   <table className=" w-full">
                     <thead>
@@ -325,9 +325,9 @@ const Events = () => {
                         <td className="px-[18px] py-4  text-gray-801 font-DmSans text-sm font-normal leading-6"
                          style={{whiteSpace:"nowrap"}}>
                           <div style={{whiteSpace:"nowrap" , textDecoration: 'capitalize'}} className={`flex flex-row space-x-2 items-center px-2 capitalize font-DmSans text-sm font-normal leading-6 text-white-A700 rounded-full ${
-                          item.status === 'past' ? 'bg-orange-501' :
-                            item.status === 'upcoming' ? 'bg-indigo-500' :
-                              item.status === 'Ongoing' ? 'bg-green-501 ' : ''
+                          item.status?.toLowerCase() === 'past' ? 'bg-[#F4A118]' :
+                            item.status?.toLowerCase() === 'upcoming' ? 'bg-[#6172F3]' :
+                              item.status?.toLowerCase() === 'ongoing' ? 'bg-[#12B76A] ' : ''
                         } inline-flex`}>
                           {`${item.status} Event` }
                         </div>
