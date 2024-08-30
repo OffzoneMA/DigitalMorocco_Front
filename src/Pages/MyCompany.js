@@ -21,8 +21,8 @@ const MyCompany = () => {
   const [corporateIdentfier,setcorporateIdentfier] = useState(userDetails?.member?.corporateNbr || '');
   const [selectedSector, setselectedSector] = useState(userDetails?.member?.companyType || '');
   const dataCountries = Country.getAllCountries();
-  const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.member?.country));
-  const [selectedCity , setSelectedCity] = useState(userDetails?.member?.city);
+  const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.member?.country) || null);
+  const [selectedCity , setSelectedCity] = useState(userDetails?.member?.city || '');
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
