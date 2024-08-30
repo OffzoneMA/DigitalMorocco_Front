@@ -251,7 +251,7 @@ console.log(requiredFields)
                   Description
                 </Text>
                   <textarea
-                    {...register("description", { required: false })}
+                    {...register("description", { required: true })}
                     className={`!placeholder:text-blue_gray-300 h-[102px] !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] ${errors?.description ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     name="description"
                     rows={4}
