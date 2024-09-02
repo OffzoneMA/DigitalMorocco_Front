@@ -107,7 +107,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                       <div className="flex flex-row gap-3 items-center text-left">
                           <MdOutlineDateRange  size={18} className="text-blue_gray-301"/>
                           <Text
-                          className="text-blue_gray-601 font-DmSans text-base font-normal leading-6"
+                          className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                           >
                           {formatEventDateTime(item?.startDate , item?.endDate , item?.startTime? item?.startTime : '', item?.endTime? item?.endTime : '')}
                           </Text>
@@ -115,7 +115,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                       <div className="flex flex-row gap-3 items-center text-left">
                           <BiMap  size={18} className="text-blue_gray-301"/>
                           <Text
-                          className="text-blue_gray-601 font-DmSans text-base font-normal leading-6"
+                          className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                           >
                           {item.locationType == "online" ? 'Virtual Only' : item.physicalLocation }
                           </Text>
@@ -123,7 +123,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                       <div className="flex flex-row gap-3 items-center text-left">
                           <PiTagBold    size={18} className="text-blue_gray-301"/>
                           <Text
-                          className="text-blue_gray-601 font-DmSans text-base font-normal leading-6"
+                          className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                           >
                           {item.price == 0? 'Free' : `From $ ${(item.price).toFixed(2)}`}
                           </Text>
@@ -135,7 +135,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                 :
                 <>
                 {isLoading ? (
-                <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                   <Loader />
                   </div>
                 ) : (
@@ -143,7 +143,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                   <div className="flex flex-col items-center h-screen  w-full py-28 gap-5">
                     <TbTicketOff  size={40} className="rotate-[180deg] text-gray500" />
                     <Text
-                      className="font-DmSans text-sm font-normal leading-[26px] text-gray700 w-auto py-4"
+                      className="font-dm-sans-regular text-sm leading-[26px] text-gray700 w-auto py-4"
                       size=""
                     >
                       No Upcoming Event 

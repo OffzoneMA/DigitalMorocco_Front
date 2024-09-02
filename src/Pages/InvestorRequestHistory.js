@@ -150,14 +150,14 @@ const InvestorRequestHistory = () => {
                     <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata} onSelect={""} searchLabel='Search Investor' setSelectedOptionVal={setUser} placeholder="Investor Name" content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
-                          <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto">{option}</Text>
+                          <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{option}</Text>
                         </div>
                       );
                     }} />
                     <MultipleSelect className="min-w-[140px] max-w-[200px] " id='status' options={statusData} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setStatus} placeholder="Status" content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
-                          <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto">{option}</Text>
+                          <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{option}</Text>
                         </div>
                       );
                     }} />
@@ -169,10 +169,17 @@ const InvestorRequestHistory = () => {
                     <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>Apply Filters</button>
                   </div>
                 ) : (
-                  <div className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 bg-blue-A400 text-white-A700 flex flex-row items-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " onClick={() => setFilter(true)}>
-                    <BiFilterAlt size={21} className="mr-2" />
-                    <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>Filters</button>
-                  </div>
+                <button
+                  className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                  onClick={() => setFilter(true)}
+                  type="button"
+                  disabled={pageData?.length === 0}
+                >
+                  <BiFilterAlt size={18} className="mr-2" />
+                  <span className="font-DmSans text-sm font-medium leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
+                      Filters
+                  </span>
+                </button>
                 )}
                 {filterApply && (
                   <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursorpointer-green" onClick={ClearFilter}>
@@ -185,13 +192,13 @@ const InvestorRequestHistory = () => {
             <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
               <table className=" w-full">
                 <thead>
-                  <tr className="bg-white-A700 text-sm leading-6">
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Date</th>
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Investor Name</th>
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Communication Status</th>
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Status</th>
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Attachment</th>
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Notes</th>
+                  <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Investor Name</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Communication Status</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Attachment</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Notes</th>
                   </tr>
                 </thead>
                 {(!loading && pageData?.length > 0) ?
@@ -199,15 +206,15 @@ const InvestorRequestHistory = () => {
                 {             
                     pageData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
-                        <td className="py-3 px-3 w-auto text-gray500 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>
+                        <td className="px-[18px] py-4 w-auto text-gray500 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>
                           {formatDateWithoutComma(new Date(item.dateCreated))}</td>
-                        <td className="py-3 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6" style={{ whiteSpace: 'nowrap' }}>{item?.investor?.name}</td>
-                        <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.communicationStatus}</td>
-                        <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">
-                          <div style={{ whiteSpace: "nowrap" }} className={`flex flex-row space-x-2 items-center py-0.5 px-2 font-DmSans text-sm font-normal leading-6 rounded-full ${(item.status === 'Approved' || item.status === 'Accepted') ? 'bg-emerald-50 text-green-700' : item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''} inline-flex`}>{item.status}</div>
+                        <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>{item?.investor?.name}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.communicationStatus}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
+                          <div style={{ whiteSpace: "nowrap" }} className={`flex flex-row space-x-2 items-center py-0.5 px-2 font-dm-sans-regular text-sm leading-6 rounded-full ${(item.status === 'Approved' || item.status === 'Accepted') ? 'bg-emerald-50 text-green-700' : item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''} inline-flex`}>{item.status}</div>
                         </td>
-                        <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item?.attachment || "-"}</td>
-                        <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item?.note || "-"}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.attachment || "-"}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.note || "-"}</td>
                       </tr>
                     ))
                  

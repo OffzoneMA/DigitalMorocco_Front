@@ -470,7 +470,7 @@ export default function UserProfile() {
                     content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
-                          <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto">
+                          <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">
                             {option.name}
                           </Text>
                         </div>
@@ -494,7 +494,7 @@ export default function UserProfile() {
                     content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
-                          <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto">
+                          <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">
                             {option.name}
                           </Text>
                         </div>
@@ -504,11 +504,11 @@ export default function UserProfile() {
                 </div>
               </div>
               {!isForm1Saved ? (
-                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit">
+                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit">
                   Save
                 </button>
               ) : (
-                <button className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
+                <button className="bg-gray-201 font-dm-sans-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
                   <SlCheck size={20} />
                   <span className="text-base text-gray500">Saved</span>
                 </button>
@@ -557,10 +557,10 @@ export default function UserProfile() {
                   {errors2.confirmNewPassword?.message}</span>} </div>
               {!isForm2Saved ?
                 (
-                  <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
+                  <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
                     Save </button>
                 ) : (
-                  <button className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                  <button className="bg-gray-201 font-dm-sans-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
                     <SlCheck size={20} /> <span className="text-base text-gray500">Saved</span> </button>
                 )
               }
@@ -580,7 +580,7 @@ export default function UserProfile() {
                   valuekey="label"
                   content={(option) => {
                     return (<div className="flex  py-2 items-center  w-full">
-                      <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto" >
+                      <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto" >
                         {option.label} </Text> </div>);
                   }} />
               </div> <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
@@ -595,15 +595,15 @@ export default function UserProfile() {
                   content={(option) => {
                     return (
                       <div className="flex  py-2 items-center  w-full">
-                        <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto" >
+                        <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto" >
                           {option.label} </Text> </div>);
                   }} />
               </div>
               {!isForm3Saved ? (
-                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-DmSans font-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
+                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
                   Save </button>
               ) : (
-                <button className="bg-gray-201 font-DmSans font-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                <button className="bg-gray-201 font-dm-sans-medium text-gray500 flex flex-row md:h-auto items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
                   <SlCheck size={20} /> <span className="text-base text-gray500">
                     Saved</span> </button>
               )
@@ -613,7 +613,7 @@ export default function UserProfile() {
             <div className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-DmSans text-base font-medium leading-6 text-gray-900 w-full" >
                 Delete Your Account </Text>
-              <Text className="font-DmSans text-base font-normal leading-6 text-blue_gray-601 w-full" >
+              <Text className="font-dm-sans-regular text-base leading-6 text-blue_gray-601 w-full" >
                 By deleting your account, you’ll no longer be able to access your account or log in to Digital Morocco.
               </Text>
               <button className="bg-blue-A400 text-base text-white-A700 flex flex-row md:h-auto items-center mr-auto py-2 px-10 rounded-md w-auto"

@@ -134,7 +134,7 @@ useEffect(() => {
   }, [data, project]);
 
   const filteredTeamMembers = teamData?.filter(member =>
-    member?.fullName?.toLowerCase().includes(searchValue.toLowerCase())
+    member?.fullName?.toLowerCase().includes(searchValue?.toLowerCase())
   );
 
   return (

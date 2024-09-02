@@ -129,7 +129,7 @@ export default function VerificationCode() {
                         ref={formButtonRef}
                             type="submit"
                             className="text-base text-white-A700 w-auto"
-                            size="font-DmSans font-medium"
+                            size="font-dm-sans-medium"
                         >
                             {t('verification.verifyButton')}
                         </button>

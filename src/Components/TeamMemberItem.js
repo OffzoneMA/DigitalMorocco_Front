@@ -11,7 +11,7 @@ const TeamMemberItem = ({imageSrc, name , job}) => {
       />
       <div className="flex flex-col gap-1.5 items-start justify-center w-full overflow-hidden">
         <Text
-          className="font-DmSans font-normal leading-6 text-gray-900 text-sm w-auto"
+          className="font-dm-sans-regular leading-6 text-gray-900 text-sm w-auto"
         >
           {name}
         </Text>

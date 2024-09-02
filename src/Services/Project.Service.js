@@ -26,9 +26,12 @@ export const projectApi = createApi({
           method: 'DELETE',
       }),
     }),
+    getTopSectors: builder.query({
+      query: () => '/top-sectors',
+    }),
   }),
 });
 
 export const { useDeleteProjectMutation, useGetProjectByIdQuery , useAddMilestoneToProjectMutation ,
-  useDeleteMilestoneMutation
+  useDeleteMilestoneMutation , useGetTopSectorsQuery
  } = projectApi;

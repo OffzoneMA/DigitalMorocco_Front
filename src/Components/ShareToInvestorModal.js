@@ -52,7 +52,7 @@ const ShareToInvestorModal = (props) => {
 // ];
 
 const filteredInvestors = investorsData?.investors.filter(investor =>
-  investor.name.toLowerCase().includes(searchValue.toLowerCase())
+  investor?.name?.toLowerCase().includes(searchValue.toLowerCase())
 );
 
 const onSubmit = async () => {
@@ -117,11 +117,11 @@ useEffect(() => {
           </div>
           <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
             {isLoading ? (
-              <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+              <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                 <Loader />
               </div>
             ) : filteredInvestors?.length === 0 ? (
-              <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+              <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                 <img src={fileSearchImg} alt="No Project Created" />
                 <Text className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto">
                   No Project Created
@@ -175,13 +175,13 @@ useEffect(() => {
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
                 <button 
                 onClick={props.onRequestClose}
-                className="bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green
+                className="flex items-center bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green
                 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]">
                     Cancel
                 </button>
                 <button 
                 onClick={onSubmit}
-                className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]">
+                className="flex items-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]">
                     Share to Selected Investors
                 </button>
                 

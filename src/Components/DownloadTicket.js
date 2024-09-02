@@ -15,7 +15,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     #432-092
                 </Text>
                 <Text
-                    className="font-DmSans text-[22px] font-medium leading-8 text-gray-900_01 "
+                    className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 "
                     >
                    {props.rowData?.eventName? props.rowData.eventName : `North Africa Dreamin' 2023`} 
                 </Text>
@@ -31,7 +31,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     </div>
                     <div className="flew flex-col flex-1 ">
                     <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] text-blue_gray-601"
+                        className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                         >
                         Cameron Williamson
                     </Text>
@@ -47,7 +47,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     </div>
                     <div className="flew flex-col flex-1 ">
                     <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] text-blue_gray-601"
+                        className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                         >
                         2715 Ash Dr. San Jose, South Dakota 83475
                     </Text>
@@ -63,7 +63,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     </div>
                     <div className="flew flex-col flex-1 ">
                     <Text
-                        className="font-DmSans text-sm font-normal leading-[26px] text-blue_gray-601"
+                        className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                         >
                         janelle.champlin@hotmail.com
                     </Text>
@@ -87,7 +87,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                         </div>
                         <div className="flew flex-col flex-1 ">
                         <Text
-                            className="font-DmSans text-sm font-normal leading-[26px] text-blue_gray-601"
+                            className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             {props.rowData?.eventName? props.rowData.eventName : `North Africa Dreamin' 2023`}
                         </Text>
@@ -103,7 +103,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                         </div>
                         <div className="flew flex-col flex-1 ">
                         <Text
-                            className="font-DmSans text-sm font-normal leading-[26px] text-blue_gray-601"
+                            className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             {props.rowData?.dateTime? props.rowData.dateTime : `Fri, Sep 1, 2023  18:30AM`}
                         </Text>
@@ -119,7 +119,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                         </div>
                         <div className="flew flex-col flex-1 ">
                         <Text
-                            className="font-DmSans text-sm font-normal leading-[26px] text-blue_gray-601"
+                            className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             {props.rowData?.location? props.rowData.location : `Farah Hotel, Casablanca`}
                         </Text>
@@ -135,7 +135,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                         </div>
                         <div className="flew flex-col flex-1 ">
                         <Text
-                            className="font-DmSans text-sm font-normal leading-[26px] text-blue_gray-601"
+                            className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             NAD00345
                         </Text>

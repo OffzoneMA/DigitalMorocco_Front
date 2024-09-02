@@ -96,7 +96,7 @@ const SendContactModal = (props) => {
             <div className="flex flex-col gap-5 w-full max-h-[70vh] overflow-y-auto">
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Project
@@ -107,7 +107,7 @@ const SendContactModal = (props) => {
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {option.name}
                             </Text>
@@ -118,7 +118,7 @@ const SendContactModal = (props) => {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Write Your Request Letter
@@ -134,7 +134,7 @@ const SendContactModal = (props) => {
                 </div>
                 {errors.letter && <span className="text-sm font-DmSans text-red-500">{errors.letter?.message} </span>}
                 <Text
-                  className="font-DmSans text-sm font-normal leading-6 text-left text-gray-700"
+                  className="font-dm-sans-regular text-sm leading-6 text-left text-gray-700"
                   size=""
                 >
                   Introduce your startup or provide additional context about your project
@@ -142,7 +142,7 @@ const SendContactModal = (props) => {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Upload Additional Document
@@ -203,12 +203,12 @@ const SendContactModal = (props) => {
                   props.onRequestClose();
                   setPreview(null);
                 }}
-                className="bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
+                className="flex items-center bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
                     Cancel
                 </button>
                 <button 
                 type="submit"
-                className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
+                className="flex items-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
                     Send Contact Request
                 </button>
                 

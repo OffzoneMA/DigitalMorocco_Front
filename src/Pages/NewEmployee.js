@@ -325,7 +325,7 @@ const NewEmployee = () => {
               <div className="flex flex-1 flex-col gap-6 py-5 items-start justify-start w-full">
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                     Full Name
@@ -343,7 +343,7 @@ const NewEmployee = () => {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                    Work Email
@@ -361,7 +361,7 @@ const NewEmployee = () => {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                    Personal Email
@@ -379,7 +379,7 @@ const NewEmployee = () => {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                     Phone Number
@@ -397,7 +397,7 @@ const NewEmployee = () => {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                     Address
@@ -415,7 +415,7 @@ const NewEmployee = () => {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                     Country
@@ -431,7 +431,7 @@ const NewEmployee = () => {
                         return (
                           <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                             >
                               {option.name}
                             </Text>
@@ -442,7 +442,7 @@ const NewEmployee = () => {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                     City/State
@@ -456,7 +456,7 @@ const NewEmployee = () => {
                         return (
                           <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                             >
                               {option.name}
                             </Text>
@@ -467,7 +467,7 @@ const NewEmployee = () => {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
-                    className="text-base text-gray-900_01 w-auto"
+                    className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
                     Personal Tax Identifier Number
@@ -512,8 +512,7 @@ const NewEmployee = () => {
                     <input id="fileInput" type="file" onChange={handleFileChange} className="hidden" />
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Job Title
@@ -530,7 +529,7 @@ const NewEmployee = () => {
                       content={(option) => {
                         return (
                           <div className="flex py-2 items-center w-full">
-                            <Text className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto">
+                            <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">
                               {option.title}
                             </Text>
                           </div>
@@ -545,8 +544,7 @@ const NewEmployee = () => {
 
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Level
@@ -560,7 +558,7 @@ const NewEmployee = () => {
                           return (
                             <div className="flex  py-2 items-center  w-full">
                               <Text
-                                className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                                className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                 {option.level}
                               </Text>
@@ -570,8 +568,7 @@ const NewEmployee = () => {
                       } />
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Department
@@ -585,7 +582,7 @@ const NewEmployee = () => {
                           return (
                             <div className="flex  py-2 items-center  w-full">
                               <Text
-                                className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                                className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                 {option.name}
                               </Text>
@@ -595,8 +592,7 @@ const NewEmployee = () => {
                       } />
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Start Date

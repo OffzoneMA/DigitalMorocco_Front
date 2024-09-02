@@ -171,7 +171,7 @@ console.log(isSubscribe)
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {option}
                             </Text>
@@ -185,7 +185,7 @@ console.log(isSubscribe)
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {option.name}
                             </Text>
@@ -199,7 +199,7 @@ console.log(isSubscribe)
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {option}
                             </Text>
@@ -224,12 +224,13 @@ console.log(isSubscribe)
                 ):
                 (
                 <button
-                  className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md"
+                  className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                   onClick={() => setFilter(true)}
                   type="button"
+                  disabled={pageData?.length === 0}
                 >
                   <BiFilterAlt size={18} className="mr-2" />
-                  <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
+                  <span className="font-DmSans text-sm font-medium leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
                       Filters
                   </span>
               </button>
@@ -252,22 +253,22 @@ console.log(isSubscribe)
               <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
                 <table className=" w-full">
                   <thead>
-                  <tr className="bg-white-A700 text-sm leading-6">
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Investor Name</th>
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Type</th>
-                    <th className="p-3 text-center text-gray700 font-DmSans font-medium">Number of Investment</th>
-                    <th className="p-3 text-center text-gray700 font-DmSans font-medium">Number of Exits</th>
-                    <th className="p-3 text-left text-gray700font-DmSans font-medium">Location</th>
-                    <th className="p-3 text-left text-gray700 font-DmSans font-medium">Preferred Investment Industry</th>
+                  <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Investor Name</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Type</th>
+                    <th scope="col" className="px-[18px] py-3 text-center text-[#344054] font-DmSans font-medium">Number of Investment</th>
+                    <th scope="col" className="px-[18px] py-3 text-center text-[#344054] font-DmSans font-medium">Number of Exits</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Preferred Investment Industry</th>
                   </tr>
                   </thead>
                   {(!loading && pageData?.length > 0) ? 
                   <tbody className="items-center w-full ">
                   {pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}` , { state: {investor: item}})}>
-                    <td className="w-auto text-gray-900_01 font-DmSans text-sm font-normal leading-6">
+                    <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="relative flex">
-                        <div className="py-3 px-3 flex items-center" >
+                        <div className="px-[18px] py-4 flex items-center" >
                             <img src={item.image} className="rounded-full h-8 w-8  mr-2"/>
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{isSubscribe? item.owner?.displayName : item.InvestorName}</span>
                         </div>
@@ -277,13 +278,13 @@ console.log(isSubscribe)
                         )}
                         </div>
                     </td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
+                      <td className="px-[18px] py-4 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
                       style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfInvestment}</td>
-                      <td className="py-3 px-3 text-center text-gray500 font-DmSans text-sm font-normal leading-6">{item.numberOfExits}</td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6" 
+                      <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfInvestment}</td>
+                      <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfExits}</td>
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6" 
                       style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6 max-w-[230px] lg:max-w-[250px]"
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {/* {item?.PreferredInvestmentIndustry?.join(', ')} */}{item?.PreferredInvestmentIndustry}
                       </td>
@@ -299,7 +300,7 @@ console.log(isSubscribe)
                      <div className="flex items-center justify-center w-full h-40 ">
                      <Loader />
                  </div> ) : pageData.length === 0 && (
-                  <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -316,7 +317,7 @@ console.log(isSubscribe)
                   <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
                   <BsEyeSlash size={35} className="text-gray500 "/>
                   <Text
-                    className="font-DmSans text-[22px] font-medium leading-8 text-gray-900_01 w-auto pt-4"
+                    className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
                     size=""
                   >
                     View all 261,765 Investors
@@ -333,7 +334,7 @@ console.log(isSubscribe)
                     type="button"
                   >
                     <TiFlashOutline size={25} className="mr-2" />
-                    <span className="text-sm font-DmSans font-medium leading-[18.23px] text-white-A700">Upgrade Membership</span>
+                    <span className="text-sm font-dm-sans-medium leading-[18.23px] text-white-A700">Upgrade Membership</span>
                   </button>
 
                 </div>

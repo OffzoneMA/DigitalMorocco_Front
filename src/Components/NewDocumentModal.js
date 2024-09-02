@@ -186,7 +186,7 @@ const NewDocumentModal = (props) => {
           <div className="flex flex-col gap-3 w-full max-h-[70vh] ">
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
               <Text
-                className="text-base text-gray-900_01 w-auto"
+                className="text-base text-[#1D1C21] w-auto"
                 size="txtDMSansLablel"
               >
                 Document Title
@@ -203,7 +203,7 @@ const NewDocumentModal = (props) => {
             </div>
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
               <Text
-                className="text-base text-gray-900_01 w-auto"
+                className="text-base text-[#1D1C21] w-auto"
                 size="txtDMSansLablel"
               >
                 Upload Document
@@ -247,7 +247,7 @@ const NewDocumentModal = (props) => {
                           type="file"
                           name="name"
                         />
-                  <Text className="font-DmSans text-sm font-normal leading-[26px] tracking-normal">
+                  <Text className="font-dm-sans-regular text-sm leading-[26px] tracking-normal">
                     Drop file or <span className="" >click here to upload your document</span>  
                   </Text>
                 </div>
@@ -268,7 +268,7 @@ const NewDocumentModal = (props) => {
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
                               >
                                {option?.displayName}
                             </Text>
@@ -281,9 +281,9 @@ const NewDocumentModal = (props) => {
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
-              <button type="reset" className="bg-gray-300 hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-gray-700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
+              <button type="reset" className="flex items-center bg-gray-300  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-gray-700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
               onClick={closeModal}>Cancel</button>
-              <button type="submit" className="ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">{documentFile?._id ? 'Edit Document' : 'Add Document'}</button>
+              <button type="submit" className="flex items-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">{documentFile?._id ? 'Edit Document' : 'Add Document'}</button>
             </div>
           </div>
         </div>

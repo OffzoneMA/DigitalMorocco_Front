@@ -31,17 +31,17 @@ const DeleteAccountModal = (props) => {
                 <BiError size={30} className="text-red-601" />
                 <Text className="font-DmSans text-[20px] font-medium leading-6 text-red-601 w-full">Are you sure you want to delete your account?</Text>
               </div>
-              <Text className="font-DmSans text-base font-normal leading-6 text-gray-901 text-left w-full">
+              <Text className="font-dm-sans-regular text-base leading-6 text-gray-901 text-left w-full">
                 After submitting this form, you have 14 days to log back into your account to restore it before it’s <span className="font-medium">permanently deleted.</span>
               </Text>
               <div className="flex flex-col w-full gap-3">
-                <Text className="font-DmSans text-base font-normal leading-6 text-gray-901 text-left w-full">The following will be deleted as well:</Text>
-                <ul className="list-disc list-inside space-y-2 font-DmSans text-base font-normal leading-6 text-gray-901 text-left">
+                <Text className="font-dm-sans-regular text-base leading-6 text-gray-901 text-left w-full">The following will be deleted as well:</Text>
+                <ul className="list-disc list-inside space-y-2 font-dm-sans-regular text-base leading-6 text-gray-901 text-left">
                   <li>All your data, investors, and contact info</li>
                   <li>All uploaded documents</li>
                   <li>All your event tickets</li>
                 </ul>
-                <Text className="font-DmSans text-base font-normal leading-6 text-gray-901 text-left w-full">Enter your email and password if you want to proceed:</Text>
+                <Text className="font-dm-sans-regular text-base leading-6 text-gray-901 text-left w-full">Enter your email and password if you want to proceed:</Text>
                 <div className={`flex flex-row gap-14 items-center justify-start pt-3 w-full`}>
                   <Text className="text-base text-gray-901 w-[100px]" size="txtDMSansLablel">Email</Text>
                   <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-gray-301">
@@ -65,8 +65,8 @@ const DeleteAccountModal = (props) => {
               </div>
               <div className="flex items-end w-full pt-3 justify-end">
                 <div className="flex space-x-3 md:space-x-5 w-auto">
-                  <button onClick={props.onRequestClose} type="reset" className="bg-gray-300 text-gray-700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Cancel</button>
-                  <button type="submit" className="ml-auto bg-red-501 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Delete account</button>
+                  <button onClick={props.onRequestClose} type="reset" className="flex items-center bg-gray-300 text-gray-700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Cancel</button>
+                  <button type="submit" className="flex items-center ml-auto bg-red-501 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Delete account</button>
                 </div>
               </div>
             </div>

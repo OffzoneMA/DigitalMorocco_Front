@@ -53,15 +53,17 @@ export const LoginUser = createAsyncThunk(
           const expirationDate = new Date();
           expirationDate.setDate(expirationDate.getDate() + 3);
           localStorage.setItem('rememberMe', user.rememberme);
+          localStorage.setItem('rememberMe_id', data?.user?._id);
           localStorage.setItem('userToken', data.accessToken);
           localStorage.setItem('userData', JSON.stringify(data.user));
           localStorage.setItem('expirationDate', expirationDate.getTime());
-        } else {
-          localStorage.removeItem('rememberMe');
-          localStorage.removeItem('userToken');
-          localStorage.removeItem('userData');
-          localStorage.removeItem('expirationDate');
-        }
+        } 
+        // else {
+        //   localStorage.removeItem('rememberMe');
+        //   localStorage.removeItem('userToken');
+        //   localStorage.removeItem('userData');
+        //   localStorage.removeItem('expirationDate');
+        // }
         // Stocker les informations utilisateur dans un cookie sécurisé
         document.cookie = `user=${JSON.stringify(data.user)}; path=/; secure; SameSite=None`;
       }

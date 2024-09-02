@@ -57,7 +57,7 @@ const History = () => {
                           />
                           <div className="flex flex-col w-full items-start gap-4 pt-1">
                             <Text
-                              className={`font-DmSans text-sm font-normal leading-6 text-gray700`}
+                              className={`font-dm-sans-regular text-sm leading-6 text-gray700`}
                             >
                               {historyEventMessages[item?.eventType]}{` `} 
                               {item?.eventData?.targetName && <span className="text-blue-501">{item?.eventData?.targetName} {` `}</span>}
@@ -69,7 +69,7 @@ const History = () => {
                                 alt="line"
                               />
                               <Text
-                                className={`font-DmSans text-sm font-normal leading-6 text-gray500`}
+                                className={`font-dm-sans-regular text-sm leading-6 text-gray500`}
                               >
                                 {item?.user?.displayName}
                               </Text>
@@ -91,7 +91,7 @@ const History = () => {
                       alt="img"
                     />
                     <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray700 text-center w-auto py-4"
+                      className="font-dm-sans-regular text-sm leading-6 text-gray700 text-center w-auto py-4"
                       size=""
                     >
                       It looks like you haven't taken any actions yet. <br/> Your activity history will appear here, showcasing <br/>your interactions and key moments.

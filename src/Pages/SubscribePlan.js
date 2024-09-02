@@ -99,7 +99,7 @@ export default function SubscribePlan() {
                 </Text>
                 <div className="flex flex-col w-full rounded-[12px]  p-4 ">
                   <div className="flex flex-row w-full items-center pb-1">
-                    <Text className="font-DmSans text-[22px] font-medium leading-8 text-left text-blue-501">
+                    <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
                      {choosedPlan?.name}
                     </Text>
                     <div className="flex flex-row ml-auto">
@@ -135,7 +135,7 @@ export default function SubscribePlan() {
                           <path fillRule="evenodd" clipRule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
                         </svg>
                       </div>
-                      <Text className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray-700">
+                      <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray-700">
                         {feature}
                       </Text>
                     </div>
@@ -169,7 +169,7 @@ export default function SubscribePlan() {
               </div>
               <div className="flex space-x-3 md:space-x-5 items-end  w-full py-2 justify-end">
                 <button
-                  className="flex flex-row text-base leading-[20.83px] gap-3 w-[147px] h-11 px-[30px] py-[18px] ml-auto items-center rounded-md bg-gray-201 text-blue_gray-301 py-3 px-5 font-DmSans font-medium tracking-normal"
+                  className="flex flex-row text-base leading-[20.83px] gap-3 w-[147px] h-11 px-[30px] py-[18px] ml-auto items-center rounded-md bg-gray-201 text-blue_gray-301 py-3 px-5 font-dm-sans-medium tracking-normal"
                   
                   type="button"
                 >

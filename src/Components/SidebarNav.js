@@ -80,7 +80,7 @@ const SidebarNav = () => {
         });
         return updatedState;
       });
-
+      setSettingsOpen(false);
       // Toggle the clicked submenu
       setSubmenu(Menu.title, !submenuOpen[Menu.title]);
     }
@@ -154,8 +154,8 @@ const SidebarNav = () => {
       Menu && <div key={index} >
         <li
           onClick={() => handleMenuClick(Menu)}
-          className={` ${!open && 'w-fit'} group flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
-          title={!open ? Menu.title : ""}
+          className={` ${!open && 'w-fit'} group relative flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
+          // title={!open ? Menu.title : ""}
         >
           <span className={`duration-200 ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" ) || Menu.activeLinks?.includes(activeMenu)) ? "active-icon-color" : "hover-active-color"}`}>
             {Menu.src}
@@ -170,6 +170,18 @@ const SidebarNav = () => {
               ""
             )
           )}
+          {!open && (
+          <div className="absolute top-[100%] z-10 left-0 transform hidden group-hover:flex flex-col items-start">
+            <div className="mb-px ml-[12px]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+              </svg>
+            </div>
+            <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{Menu?.title}</div>
+            </div>
+          </div>
+          )}
         </li>
         { Menu.submenu  && submenuOpen[Menu.title] && (
 
@@ -180,13 +192,25 @@ const SidebarNav = () => {
                 setActiveMenu(el.link)
                 setActiveParent(Menu.title)
                 navigate(el.link);}}
-              className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === el.link || el.activeLinks?.includes(activeMenu)) ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
-              title={!open ? el.title : ""}
+              className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === el.link || el.activeLinks?.includes(activeMenu)) ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+              // title={!open ? el.title : ""}
             >
               <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
-                        {el.title}
-                    </span>
-
+                  {el.title}
+              </span>
+              {!open && (
+              <div className="absolute top-[100%] z-10 left-0 transform hidden group-hover:flex flex-col items-start">
+                <div className="mb-px ml-[12px]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                  </svg>
+                </div>
+                <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
+                  style={{whiteSpace: 'nowrap'}}>{el?.title}</div>
+                </div>
+              </div>
+              )}
             </li>))
         )}
       </div>
@@ -196,19 +220,33 @@ const SidebarNav = () => {
     <div
       onClick={() => {setSettingsOpen(!settingsOpen)
               setActiveParent("settings")
-              setActiveMenu("settings");
+              setActiveMenu("settings")
+              resetSubmenus();
       }}
-      className={` ${!open && 'w-fit'} flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
-      title={!open ? "Settings" : ""}
+      className={` ${!open && 'w-fit'} relative group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
+      // title={!open ? "Settings" : ""}
     >
       <IoSettingsOutline size={22} className={`text-light_blue-100 ${activeMenu === "settings" || activeParent === "settings" ? "active-icon-color" : "hover-active-color"}`} />
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
           Settings
       </span>
       {(open && settingsOpen)  ? (
-              <BiChevronDown size={22} className={``}  />
-            ) : (
-""      )}
+          <BiChevronDown size={22} className={``}  />
+        ) : (
+""    )}
+      {!open && (
+      <div className="absolute top-[100%] z-10 left-0 transform hidden group-hover:flex flex-col items-start">
+        <div className="mb-px ml-[12px]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+            <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+          </svg>
+        </div>
+        <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+          <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
+          style={{whiteSpace: 'nowrap'}}>{'Settings'}</div>
+        </div>
+      </div>
+      )}
     </div>
     {settingsOpen && (
       <>
@@ -217,25 +255,50 @@ const SidebarNav = () => {
         navigate("/UserProfile")
         setActiveParent("settings")
         setActiveMenu("UserProfile");}}
-      className={` flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "UserProfile"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+      className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "UserProfile"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
       title={!open ? "My Profil" : ""}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       My Profil
       </span>
-
+      {!open && (
+      <div className="absolute top-[100%] z-10 left-0 transform hidden group-hover:flex flex-col items-start">
+        <div className="mb-px ml-[12px]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+            <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+          </svg>
+        </div>
+        <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+          <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
+          style={{whiteSpace: 'nowrap'}}>{'My Profil'}</div>
+        </div>
+      </div>
+      )}
     </div>
     <div
       onClick={() => {
         navigate("/Subscription")
         setActiveParent("settings")
         setActiveMenu("Subscription");}}
-      className={`  mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "SubscribePlan" )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
-      title={!open ? "Subscription & Billing" : ""}
+      className={`relative group mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "SubscribePlan" )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+      // title={!open ? "Subscription & Billing" : ""}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
       Subscription & Billing
       </span>
+      {!open && (
+      <div className="absolute top-[100%] z-10 left-0 transform hidden group-hover:flex flex-col items-start">
+        <div className="mb-px ml-[12px]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+            <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+          </svg>
+        </div>
+        <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+          <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
+          style={{whiteSpace: 'nowrap'}}>{'Subscription & Billing'}</div>
+        </div>
+      </div>
+      )}
     </div></>
     )}
     <div className="flex flex-col relative" 
@@ -268,7 +331,7 @@ const SidebarNav = () => {
       </div>
       {showLogout && (
       <div className="absolute top-full left-0 w-full">
-        <div className={`group flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md px-[10px] py-2.5 cursorpointer-green hover:bg-blue_gray-902 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`} 
+        <div className={`group relative flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md px-[10px] py-2.5 cursorpointer-green hover:bg-blue_gray-902 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`} 
         title={!open ? "SignOut" : ""}
           onClick={() => {
             dispatch(logout());
@@ -278,6 +341,19 @@ const SidebarNav = () => {
           <span className={`${!open && "hidden"} origin-left duration-200 transition-colors duration-300 flex-1 group-hover:text-red-500`}>
             SignOut
           </span>
+          {!open && (
+          <div className="absolute top-[100%] z-10 left-0 transform hidden group-hover:flex flex-col items-start">
+            <div className="mb-px ml-[12px]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+              </svg>
+            </div>
+            <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
+              style={{whiteSpace: 'nowrap'}}>{'SignOut'}</div>
+            </div>
+          </div>
+          )}
         </div>
         <div className="pb-5"></div>
       </div>

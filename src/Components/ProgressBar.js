@@ -7,7 +7,7 @@ const Progressbar = ({filled , filledValue ,text}) => {
         <Text
          className="text-sm font-dm-sans-regular leading-[26px] tracking-normal  w-full"
             >
-            {text}
+            {text || 'Artificial Intelligence'}
         </Text>
 		<div className="flex flex-row items-center w-full">
 		    <div className='bg-blue-101' style={{

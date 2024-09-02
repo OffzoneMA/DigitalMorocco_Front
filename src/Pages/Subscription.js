@@ -275,7 +275,7 @@ useEffect(() => {
                 <Text className="font-DmSans text-base font-bold leading-6 text-left text-col1 w-full">
                   Try Digital Morocco Pro free for 7 days
                 </Text>
-                <Text className="font-DmSans text-sm font-normal leading-[22.4px] text-gray-801 text-left w-full">
+                <Text className="font-dm-sans-regular text-sm leading-[22.4px] text-gray-801 text-left w-full">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </Text>
                 <button
@@ -300,7 +300,7 @@ useEffect(() => {
                   </Text>
                   <div className="flex flex-col w-full rounded-[12px] border p-4 border-gray-301 gap-3">
                     <div className="flex flex-row w-full items-center pb-1">
-                      <Text className="font-DmSans text-[22px] font-medium leading-8 text-left text-blue-501">
+                      <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
                         {userSubscriptionData?.plan?.name || 'Basic plan'}
                       </Text>
                       <button
@@ -321,7 +321,7 @@ useEffect(() => {
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
                           </svg>
                         </div>
-                        <Text className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700">
+                        <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
                           {feature}
                         </Text>
                       </div>
@@ -353,14 +353,14 @@ useEffect(() => {
                     <Text className="font-DmSans text-base font-bold leading-6 text-left text-col1 w-full">
                       We strongly encourage you to renew it to avoid losing access to paid features.
                     </Text>
-                    <Text className="font-DmSans text-sm font-normal leading-[19.2px] text-gray-801 text-left w-full">
+                    <Text className="font-dm-sans-regular text-sm leading-[19.2px] text-gray-801 text-left w-full">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </Text>
                   </>}
                 </div>
                 <div className="flex space-x-3 md:space-x-5 items-end w-full  py-2 justify-end">
                   <button
-                    className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center rounded-md bg-gray-201 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-blue_gray-301 py-3 px-5 font-DmSans font-medium tracking-normal cursorpointer-green"
+                    className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center rounded-md bg-gray-201 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-blue_gray-301 py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
                     onClick={openCancelModal}
                     type="button"
                   >

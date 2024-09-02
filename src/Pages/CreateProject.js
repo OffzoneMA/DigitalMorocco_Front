@@ -81,6 +81,7 @@ const CreateProject = () => {
   const [droppedFiles, setDroppedFiles] = useState([]);
   const [allFiles, setAllFiles] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
   const [selectedProjectTeamsMembers, setSelectedProjectTeamsMember] = useState([]);
   const [selectedSector, setselectedSector] = useState("");
@@ -100,9 +101,9 @@ const CreateProject = () => {
     stage: false,
     sector: false,
     publication: false,
+    status: false
   });
   
-  console.log(submitting)
    /**
    * Utility function to format numbers with spaces as thousand separators.
    * 
@@ -135,7 +136,7 @@ const CreateProject = () => {
         const isStageValid = selectedStage !== "";
         const isSectorValid = selectedSector !== "";
         const isPublicationValid = selectedPublication !== "";
-    
+        const isStatusValid = selectedStatus !== "";
         const isValid = isCountryValid && isStageValid && isSectorValid && isPublicationValid;
     
         setRequiredFields({
@@ -143,14 +144,14 @@ const CreateProject = () => {
           stage: !isStageValid,
           sector: !isSectorValid,
           publication: !isPublicationValid,
+          status: !isStatusValid
         });
     
         setIsFormValid(isValid);
       }
     // }
-  }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication]);
+  }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication, selectedStatus]);
   
-console.log(isSubmitting)
   // useEffect(() => {
   //   if (userInfo && userInfo.member) {
   //     setTeamData(userInfo.member.listEmployee?.map(employee => {
@@ -249,6 +250,7 @@ console.log(isSubmitting)
       setSelectedStage(project?.stage || '');
       setselectedSector(project?.sector || '');
       setSelectedPublication(project?.visbility || '');
+      setSelectedStatus(project?.status || '')
       if (project?.country) {
         const defaultCountry = dataCountries.find(country => country.name === project.country);
         setSelectedCountry(defaultCountry);
@@ -582,8 +584,7 @@ const handleLogoFileInputClick = () => {
               <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-full">
                 <div ref={div1Ref} className="flex  flex-1 flex-col gap-6 items-start justify-start w-full h-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Project Name
@@ -598,8 +599,7 @@ const handleLogoFileInputClick = () => {
                     {/* {errors.name && <span className="text-sm font-dm-sans-regular text-red-500">{errors.name?.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Project Details
@@ -618,8 +618,7 @@ const handleLogoFileInputClick = () => {
                     {/* {errors.details && <span className="text-sm font-dm-sans-regular text-red-500">{errors.details?.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Website
@@ -634,8 +633,7 @@ const handleLogoFileInputClick = () => {
                     {/* {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Contact Email
@@ -659,8 +657,7 @@ const handleLogoFileInputClick = () => {
                     {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Team Member
@@ -692,8 +689,7 @@ const handleLogoFileInputClick = () => {
                     {/* {selectedTeamsMembers.length==0 && <span className="text-sm font-dm-sans-regular text-red-500">Please select teams members</span>} */}
                   </div>
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Funding Target
@@ -713,8 +709,7 @@ const handleLogoFileInputClick = () => {
                     {/* {errors.funding && <span className="text-sm font-dm-sans-regular text-red-500">{errors.funding.message}</span>} */}
                   </div>
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Total Raised
@@ -734,8 +729,7 @@ const handleLogoFileInputClick = () => {
                     {/* {errors.totalRaised && <span className="text-sm font-dm-sans-regular text-red-500">{errors.totalRaised.message}</span>} */}
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Stage
@@ -754,8 +748,7 @@ const handleLogoFileInputClick = () => {
                     
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Country
@@ -767,7 +760,7 @@ const handleLogoFileInputClick = () => {
                           ( option) =>{ return (
                             <div className="flex  py-2 items-center  w-full">
                                 <Text
-                                  className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                                  className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                   >
                                   {option.name}
                                 </Text>
@@ -777,8 +770,7 @@ const handleLogoFileInputClick = () => {
                     }/>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Project Sector
@@ -789,7 +781,7 @@ const handleLogoFileInputClick = () => {
                           ( option) =>{ return (
                             <div className="flex  py-2 items-center  w-full">
                                 <Text
-                                  className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
+                                  className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
                                   >
                                   {option}
                                 </Text>
@@ -799,8 +791,7 @@ const handleLogoFileInputClick = () => {
                         }/>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Project publication
@@ -825,8 +816,32 @@ const handleLogoFileInputClick = () => {
                     } />               
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
+                      size="txtDMSansLablel"
+                    >
+                      Project status
+                    </Text>
+                    <SimpleSelect id='status'
+                    options={["Active" , "In progress" , "Stand by"]} onSelect={""} selectedOptionsDfault={project?.status}
+                    setSelectedOptionVal={setSelectedStatus} searchable={false}
+                    placeholder={"Select Type of Status"}
+                    required={requiredFields.status}
+                    content={
+                      (option) => {
+                        return (
+                          <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                            >
+                              {option}
+                            </Text>
+                          </div>
+                        );
+                      }
+                    } />               
+                  </div>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Project Milestone
@@ -888,16 +903,37 @@ const handleLogoFileInputClick = () => {
                 <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
-                      className="text-base text-gray-900_01 w-auto"
+                      className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansCardHeader16"
                     >
                       Project Logo
                     </Text>
-                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full py-1 cursorpointer"
+                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full py-1 cursorpointer relative"
                         onDragOver={handleDragOver}
                         onDrop={handleDropLogo} onClick={handleLogoFileInputClick}>
                       {logoFile ? (
+                        <>
                         <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[148px]" />
+                        <div className="absolute top-2 right-0 group">
+                          <div className="absolute top-2 right-3">
+                            <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M7.0013 2.66659C7.36949 2.66659 7.66797 2.36811 7.66797 1.99992C7.66797 1.63173 7.36949 1.33325 7.0013 1.33325C6.63311 1.33325 6.33464 1.63173 6.33464 1.99992C6.33464 2.36811 6.63311 2.66659 7.0013 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M11.668 2.66659C12.0362 2.66659 12.3346 2.36811 12.3346 1.99992C12.3346 1.63173 12.0362 1.33325 11.668 1.33325C11.2998 1.33325 11.0013 1.63173 11.0013 1.99992C11.0013 2.36811 11.2998 2.66659 11.668 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M2.33464 2.66659C2.70283 2.66659 3.0013 2.36811 3.0013 1.99992C3.0013 1.63173 2.70283 1.33325 2.33464 1.33325C1.96645 1.33325 1.66797 1.63173 1.66797 1.99992C1.66797 2.36811 1.96645 2.66659 2.33464 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </div>
+                          <div className="hidden group-hover:flex flex-col absolute top-4 right-0 bg-white-A700 border-[0.5px] border-[#2575F01A] rounded-[8px] p-[18px] shadow-roleCardbs z-10">
+                            <div className="w-[78px] py-[5px] justify-start items-center gap-3 inline-flex">
+                              <div className="w-4 h-4 relative" />
+                              <div className="#1d2838">Change</div>
+                            </div>
+                            <div className="w-[78px] py-[5px] justify-start items-center gap-3 inline-flex">
+                              <div className="w-4 h-4 relative" />
+                              <div className="#1d2838">Delete</div>
+                            </div>
+                          </div>
+                        </div>
+                        </>
                       ) : (<>
                       <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
                         <IoImageOutline />
@@ -917,7 +953,7 @@ const handleLogoFileInputClick = () => {
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
-                      className="text-base text-gray-900_01 w-auto"
+                      className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansCardHeader16"
                     >
                       Upload Document
@@ -926,8 +962,7 @@ const handleLogoFileInputClick = () => {
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
                        onDrop={(event) => handleDrop1(event, "pitchDeck")}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Upload Pitch Deck
@@ -976,8 +1011,7 @@ const handleLogoFileInputClick = () => {
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
                        onDragOver={handleDragOver}
                        onDrop={(event) => handleDrop1(event, "businessPlan")}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Upload Business Plan
@@ -1026,8 +1060,7 @@ const handleLogoFileInputClick = () => {
                   <div className={`flex flex-col gap-2 items-start cursorpointer justify-start w-full`}
                        onDragOver={handleDragOver}
                        onDrop={(event) => handleDrop1(event, "financialProjection")}>
-                    <Text
-                      className="text-base text-gray-900_01 w-auto"
+                    <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
                       Upload Financial Projection
@@ -1075,7 +1108,7 @@ const handleLogoFileInputClick = () => {
                   </div>
                   {documentDivs.map((div, index) => (
                   <div key={div.id} className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text className="text-base text-gray-900_01 w-auto" size="txtDMSansLablel">
+                    <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">
                       Upload Other Document
                     </Text>
                     <div
@@ -1130,7 +1163,7 @@ const handleLogoFileInputClick = () => {
                   </div>
                   ))}
                   <button
-                    className="flex w-full text-base text-blue-500 font-dmsans font-medium leading-[18px] cursorpointer rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 hover:bg-[#E2E2EE] items-center justify-center"
+                    className="flex w-full text-base text-blue-500 font-dm-sans-medium leading-[18px] cursorpointer rounded-md px-2 py-3 border border-solid border-blue-500 bg-light_blue-100 hover:bg-[#E2E2EE] items-center justify-center"
                     onClick={addDocumentDiv}
                     type="button"
                   >

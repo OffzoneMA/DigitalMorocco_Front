@@ -75,7 +75,7 @@ const NewCampanyDocumentModal = (props) => {
 
         <div className="flex flex-col gap-3 w-full max-h-[70vh]">
             <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-gray-900_01 w-auto" size="txtDMSansLablel">Document Title</Text>
+                <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">Document Title</Text>
                 <input
                     {...register("title", { required: { value: true, message: "Document title is required." } })}
                     className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.title ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
@@ -88,7 +88,7 @@ const NewCampanyDocumentModal = (props) => {
             </div>
 
             <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-gray-900_01 w-auto" size="txtDMSansLablel">Upload Document</Text>
+                <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">Upload Document</Text>
                 <div
                     className={`${(preview || documentFile?._id) ? "border-dashed" : "border-solid"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border`}
                     onDragOver={handleDragOver}
@@ -130,7 +130,7 @@ const NewCampanyDocumentModal = (props) => {
                                 type="file"
                                 name="name"
                             />
-                            <Text className="font-DmSans text-sm font-normal leading-[26px] tracking-normal">
+                            <Text className="font-dm-sans-regular text-sm leading-[26px] tracking-normal">
                                 Drop file or <span onClick={() => onButtonClick(inputRef)}>click here to upload your document</span>
                             </Text>
                         </div>

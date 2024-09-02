@@ -22,21 +22,19 @@ import fileSearchImg from '../Media/file-search.svg';
 import { useGetUserDetailsQuery } from "../Services/Auth";
 import { useGetAllConatctReqQuery } from "../Services/Member.Service";
 import { FaUserCircle } from "react-icons/fa";
-
+import { useGetTopSectorsQuery } from "../Services/Project.Service";
 
 const Dashbord = () => {
 const { userInfo } = useSelector((state) => state.auth)
   const status = 'Active'
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
-
+  const { data: progessdata , error: errorTopSectors, isLoading: loadingTopSectors } = useGetTopSectorsQuery();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
-console.log(userDetails)
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
   const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading} = useGetAllConatctReqQuery();
   const Requestdata =  contactReqs?.ContactsHistory?.slice(0, 3)
   const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))?.slice(0, 1);
-
     const chartData = [
         { name: 'Jan', value: 150 },
         { name: 'Feb', value: 145 },
@@ -52,14 +50,14 @@ console.log(userDetails)
         { name: 'Dec', value: 555 },
         
       ];
-    
-      const progessdata = [
-        { category: 'Artificial Intelligence', percentage: 18.5 , filled:80 },
-        { category: 'Finance', percentage: 12.4 ,filled:65},
-        { category: 'Cryptocurrency', percentage: 10.2 , filled:60},
-        { category: 'Biotechnology', percentage: 8.4 , filled:40},
-        { category: 'Big Data', percentage: 5.8 ,filled:30},
-      ]; 
+    console.log(progessdata)
+      // const progessdata = [
+      //   { category: 'Artificial Intelligence', percentage: 18.5 , filled:80 },
+      //   { category: 'Finance', percentage: 12.4 ,filled:65},
+      //   { category: 'Cryptocurrency', percentage: 10.2 , filled:60},
+      //   { category: 'Biotechnology', percentage: 8.4 , filled:40},
+      //   { category: 'Big Data', percentage: 5.8 ,filled:30},
+      // ]; 
 
       const gradientOffset = () => {
         const data = chartData;
@@ -99,7 +97,7 @@ console.log(userDetails)
                         <SearchInput className={'w-[240px] '}/>
                         <button 
                         style={{whiteSpace: 'nowrap'}}
-                          className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center w-[184px] h-[44px] p-[7px] cursorpointer-green rounded-md w-auto" 
+                          className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer-green rounded-md w-auto" 
                           onClick={() => navigate("/CreateProject")}
                       >
                           <FaRegPlusSquare size={18} className="mr-2" />
@@ -283,18 +281,27 @@ console.log(userDetails)
                       </div>
                     </div>
                     <div className="flex flex-col w-full gap-3 pb-4">
-                    {progessdata.length > 0 ? (
-                        progessdata.map((item, index) => (
-                            <ProgressBar key={index} filled={item.filled} filledValue={`${item.percentage}%`} text={item.category} />
-                        ))
-                    ) : (
-                        <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                            <img src={fileSearchImg}  alt={""}/>
-                            <Text className=" text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto" size="">
-                                Data not available
-                            </Text>
-                        </div>
-                    )}
+                    {loadingTopSectors ? (
+                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
+                        <Loader />
+                      </div>
+                      ) : progessdata?.sectors?.length > 0 ? (
+                          progessdata?.sectors?.map((item, index) => (
+                              <ProgressBar
+                                  key={index}
+                                  filled={parseFloat(item.percentage).toFixed(2)} 
+                                  filledValue={`${parseFloat(item.percentage).toFixed(2)}%`}
+                                  text={item.sector}
+                              />
+                          ))
+                      ) : (
+                          <div className="flex flex-col gap-[16px] items-center text-gray-600 w-full py-24">
+                              <img src={fileSearchImg} alt="" />
+                              <Text className="text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto">
+                                  Data not available
+                              </Text>
+                          </div>
+                      )}
                     </div>
                    </div>
                    <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201 px-6">
@@ -361,7 +368,7 @@ console.log(userDetails)
                         </div>
                       </div>
                        {isLoading ? (
-                        <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                        <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] w-full py-28">
                             <Loader />
                         </div>
                          ) : (
@@ -469,9 +476,9 @@ console.log(userDetails)
                        <table className="w-full">
                         <thead>
                           <tr className="bg-white-A700 text-sm leading-6">
-                            <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Investor Name</th>
-                            <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Communication Status</th>
-                            <th className="p-3 text-left text-blue_gray-800_01 font-dm-sans-medium">Status</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Investor Name</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Communication Status</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                           </tr>
                         </thead>
                         <tbody className="items-center w-full">
@@ -514,12 +521,12 @@ console.log(userDetails)
                       </table>
                        </div>
                        {contactReqsLoading ? (
-                        <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                        <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] w-full py-28">
                             <Loader />
                         </div>
                        ) :
                        (!contactReqsLoading && !Requestdata?.length>0) && (
-                       <div className="flex flex-col items-center justify-center text-gray-600 w-full py-28">
+                       <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] w-full py-28">
                         <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
                           <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>

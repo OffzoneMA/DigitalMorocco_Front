@@ -116,13 +116,13 @@ const Documents = () => {
             </div>
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
-              <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700    py-4 px-5">
+              <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-[19.5px] px-5">
                 <TableTitle
                 >
                   My Document
                 </TableTitle>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[37px] items-center ml-auto px-[12px] rounded-md w-auto cursorpointer-green"
                   onClick={openNewModal}
                   type="button"
               >
@@ -133,12 +133,12 @@ const Documents = () => {
               <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
                 <table className=" w-full">
                   <thead>
-                  <tr className="bg-white-A700 text-sm leading-6">
-                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Upload Date</th>
-                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Document Name</th>
-                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Upload By</th>
-                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Share With</th>
-                    <th className="p-3 text-left text-blue_gray-800_01 font-medium">Action</th>
+                  <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Upload Date</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Document Name</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Upload By</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Share With</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Action</th>
                   </tr>
                   </thead>
                   { (pageData?.length > 0 && !isLoading) ?
@@ -146,21 +146,21 @@ const Documents = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `}>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.uploadDate}</td>
-                      <td className="py-3 px-3 text-gray-900_01 font-DmSans text-sm font-normal leading-6">
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.uploadDate}</td>
+                      <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center" >
                             <IoDocumentTextOutline size={17}  className="text-gray-900_01 mr-2"/>
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.documentName}</span>
                         </div>
                       </td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center" >
                             <img src={item?.owner?.image} className="rounded-full h-8 w-8 bg-gray-300 mr-2" alt={""}/>
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.owner?.displayName}</span>
                         </div>
                         </td>
-                      <td className="py-3 px-3 text-gray500 font-DmSans text-sm font-normal leading-6">{item.shareWith}</td>
-                      <td className="py-3 px-3 ">
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.shareWith}</td>
+                      <td className="px-[18px] py-4 ">
                         <div className="flex flex-row space-x-3 items-center">
                           <div className="relative group">
                             <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> openEditModal(item)}/>
@@ -222,7 +222,7 @@ const Documents = () => {
                     </svg>
 
                     <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray700 w-auto"
+                      className="font-dm-sans-regular text-sm leading-6 text-gray700 w-auto"
                       size=""
                     >
                       No Document Found

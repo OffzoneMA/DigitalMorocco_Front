@@ -175,30 +175,30 @@ console.log(totalPages)
                 </tr>
                 </thead>
                 { usersData?.length > 0 ?
-                <tbody className="font-DmSans text-sm font-normal leading-6">
+                <tbody className="font-dm-sans-regular text-sm leading-6">
                 {
                  usersData.map((user, index) => (
                   <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                    <td className="py-3 px-3 text-left text-gray500 font-DmSans text-sm font-normal leading-6" >
+                    <td className="px-[18px] py-4 text-left text-gray500 font-dm-sans-regular text-sm leading-6" >
                         {renderTableCell(user.displayName)}
                     </td>
                     
-                    <td className="py-3 px-3 text-gray-900_01">
+                    <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{renderTableCell(user.googleId)}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-3 text-gray-900_01">
+                    <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{renderTableCell(user.linkedinId)}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-3 text-gray-900_01">
+                    <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{renderTableCell(user.email)}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-3 text-gray-900_01">
+                    <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{renderTableCell(user.role)}</span>
                       </div>
@@ -215,20 +215,20 @@ console.log(totalPages)
       })}
                       </td>
 
-                      <td className="py-3 px-3 text-gray-900_01">
+                      <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{renderTableCell(user.lastLogin)}</span>
                       </div>
                     </td>
 
-                    <td className="py-3 px-3 text-gray-900_01">
+                    <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {renderTableCell(user.status)}</span>
                       </div>
                     </td>
 
-                    <td className="py-3 px-3 ">
+                    <td className="px-[18px] py-4 ">
                       <div className="flex flex-row space-x-3 px-3 items-center">
                         <div className="w-[38px] h-8 px-3 py-2 bg-[#aeb6c5] rounded-md justify-end items-start gap-3 inline-flex" onClick={() => handleApproveUser(user._id, user.role)} >
                           <div className="justify-center items-center gap-2 flex">
@@ -265,7 +265,7 @@ console.log(totalPages)
                      <Loading />
                  </div>
                   ) : !usersData?.length>0 && (
-                    <div className="flex flex-col items-center w-full text-gray500 py-28">
+                    <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                     <AiOutlineFileSearch size={30} />
                     <Text
                       className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto"

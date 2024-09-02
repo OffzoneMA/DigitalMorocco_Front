@@ -28,13 +28,13 @@ const CancelPlanModal = (props) => {
                         Are you sure you want to cancel?              
                       </Text>
                     <Text
-                        className="font-DmSans text-base font-normal leading-6 text-gray-901 text-left w-full"
+                        className="font-dm-sans-regular text-base leading-6 text-gray-901 text-left w-full"
                         >
                         You’ll lose this Basic Plan with all the features
                     </Text>
                     <div className='flex flex-col w-full rounded-[12px] border p-5 border-gray-301 gap-4 '>
                         <Text
-                        className="font-DmSans text-[22px] font-medium leading-8 text-left  text-blue-501"
+                        className="font-dm-sans-medium text-[22px] leading-8 text-left  text-blue-501"
                         >
                         Basic plan
                         </Text>
@@ -45,7 +45,7 @@ const CancelPlanModal = (props) => {
                             />
                             </div>
                             <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
+                                className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700"
                             >
                             Access essential features to kickstart your startup journey.
                             </Text>
@@ -57,7 +57,7 @@ const CancelPlanModal = (props) => {
                             />
                             </div>
                             <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
+                                className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700"
                             >
                             Limited Event Participation
                             </Text>
@@ -69,7 +69,7 @@ const CancelPlanModal = (props) => {
                             />
                             </div>
                             <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
+                                className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700"
                             >
                             Browse a curated list of investors and view their profiles
                             </Text>
@@ -81,7 +81,7 @@ const CancelPlanModal = (props) => {
                             />
                             </div>
                             <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
+                                className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700"
                             >
                             Initiate contact with investors by sending them requests.
                             </Text>

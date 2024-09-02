@@ -72,7 +72,7 @@ export default function ChoosePlan() {
 
                             </div>
                             <Text
-                                className="font-DmSans text-base font-normal leading-6 text-left w-full text-gray700"
+                                className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700"
                             >
                             {feature}
                             </Text>

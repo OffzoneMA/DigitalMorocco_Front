@@ -44,7 +44,7 @@ const ConfirmedModal = (props) => {
                 </span>
               </Text>
               <Text
-                className="font-DmSans text-sm font-normal leading-6 text-blue_gray-900_03 text-center"
+                className="font-dm-sans-regular text-sm leading-6 text-blue_gray-900_03 text-center"
                 size="txtDMSansRegular14Bluegray90003"
               >
                 <>
@@ -64,13 +64,13 @@ const ConfirmedModal = (props) => {
             className="leading-[160.00%] text-blue_gray-500 text-center text-xs w-full px-16 pt-4"
             size="txtDMSansRegular12Bluegray500"
           >
-            <span className="text-blue_gray-500 font-DmSans font-normal">
+            <span className="text-blue_gray-500 font-dm-sans-regular">
               {`Need Assistance? If you have any questions or need assistance, feel free to contact our support team at`}
             </span>
-            <span className="text-blue_gray-500 font-DmSans font-normal">
+            <span className="text-blue_gray-500 font-dm-sans-regular">
               {" "}
             </span>
-            <span className="text-blue-A400 font-DmSans font-normal">
+            <span className="text-blue-A400 font-dm-sans-regular">
             {`support@digitalmorocco.com`}
             </span>
           </Text>

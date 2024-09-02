@@ -44,7 +44,7 @@ const Notifications = () => {
                       alt="img"
                     />
                     <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray700 text-center w-auto py-4"
+                      className="font-dm-sans-regular text-sm leading-6 text-gray700 text-center w-auto py-4"
                       size=""
                     >
                       It looks like you haven't received any notifications yet. <br/> Your activity history will appear here, showcasing <br/>your interactions and key moments.

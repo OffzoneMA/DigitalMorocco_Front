@@ -112,8 +112,8 @@ const AddPaymentMethodModal = (props) => {
           <div className="flex flex-col w-full gap-5">
             <div className="flex flex-col w-full">
               <div className="flex flex-col w-full gap-2 border-b border-gray-301">
-                <Text className="font-DmSans text-[22px] font-medium leading-8 text-gray-900_01 w-full">Add Payment Method</Text>
-                <Text className="font-DmSans text-base font-normal leading-[26px] text-gray500 text-left w-full">Select Payment Method</Text>
+                <Text className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-full">Add Payment Method</Text>
+                <Text className="font-dm-sans-regular text-base leading-[26px] text-gray500 text-left w-full">Select Payment Method</Text>
                 <div className='flex flex-row w-full gap-2 pb-4'>
                   {paymentMethods.map((method, index) => (
                     <div
@@ -131,7 +131,7 @@ const AddPaymentMethodModal = (props) => {
                   {(selectedMethod?.name === 'Mastercard' || selectedMethod?.name === 'Visa') && (
                     <>
                       <div className={`flex flex-col gap-1.5 items-start justify-start w-full`}>
-                        <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">Name on card</Text>
+                        <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">Name on card</Text>
                         <input
                         {...register('cardName', { required: 'Name on card is required' })}
                           className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
@@ -142,7 +142,7 @@ const AddPaymentMethodModal = (props) => {
                       </div>
                       <div className="flex flex-row gap-5 items-start justify-start w-full">
                         <div className={`flex flex-col gap-1.5 w-[56%] items-start justify-start `}>
-                          <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">Card number</Text>
+                          <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">Card number</Text>
                           <div className="relative w-full rounded-[8px]">
                             <input
                               {...register('cardNumber', 
@@ -166,7 +166,7 @@ const AddPaymentMethodModal = (props) => {
                           </div>
                         </div>
                         <div className={`flex flex-col gap-1.5 w-[22%] items-start justify-start `}>
-                          <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">Expiry</Text>
+                          <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">Expiry</Text>
                           <input
                           {...register('expiryDate', 
                             { required: 'Expiry date is required' ,
@@ -183,7 +183,7 @@ const AddPaymentMethodModal = (props) => {
                           />
                         </div>
                         <div className={`flex flex-col gap-1.5 w-[22%] items-start justify-start `}>
-                          <Text className="text-base font-DmSans font-medium leading-[26px] text-gray700 w-auto">CVV</Text>
+                          <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">CVV</Text>
                           <input
                           {...register('cvv', 
                             { required: 'CVV is required' ,

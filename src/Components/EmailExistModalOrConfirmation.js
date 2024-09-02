@@ -49,13 +49,13 @@ const EmailExistModalOrConfirmation = (props) => {
             className="leading-[160.00%] text-blue_gray-500 text-center text-xs w-full  pt-4"
             size="txtDMSansRegular12Bluegray500"
           >
-            <span className="text-blue_gray-500 font-DmSans font-normal">
+            <span className="text-blue_gray-500 font-dm-sans-regular">
               {t('chooserole.confirmed.m5')}
             </span>
-            <span className="text-blue_gray-500 font-DmSans font-normal">
+            <span className="text-blue_gray-500 font-dm-sans-regular">
               {" "}
             </span>
-            <span className="text-blue-A400 font-DmSans font-normal">
+            <span className="text-blue-A400 font-dm-sans-regular">
               {t('chooserole.confirmed.m6')}
             </span>
           </Text>

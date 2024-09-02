@@ -152,7 +152,7 @@ const Events = () => {
           <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={() => openTicketModal(item)}>
             <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
             <Text
-              className="text-gray-801 font-DmSans text-sm font-normal leading-6 hover:text-[#35D8BF] "
+              className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
             >
               View Ticket
             </Text>
@@ -163,7 +163,7 @@ const Events = () => {
               <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]">
                 <FiDownload size={18} className="text-blue-A400 "/>
                   <Text
-                    className="text-gray-801 font-DmSans text-sm font-normal leading-6 hover:text-[#35D8BF]"
+                    className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
                   >
                     Download
                   </Text>
@@ -172,7 +172,7 @@ const Events = () => {
               <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]" >
                 <FiDownload size={18} className="text-blue-A400 "/>
                   <Text
-                    className="text-gray-801 font-DmSans text-sm font-normal leading-6 hover:text-[#35D8BF]"
+                    className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
                   >
                     Download
                   </Text>
@@ -228,7 +228,7 @@ const Events = () => {
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
                                   <Text
-                                    className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                                    className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
                                     {option}
                                   </Text>
@@ -242,7 +242,7 @@ const Events = () => {
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
                                   <Text
-                                    className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                                    className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
                                     {option}
                                   </Text>
@@ -254,7 +254,7 @@ const Events = () => {
                     )}
                       {filter ?
                       (<button
-                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
+                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[37px] rounded-md"
                         onClick={() => setFilterApply(true)}
                         type="button"
                     >
@@ -264,13 +264,15 @@ const Events = () => {
                         </span>
                     </button>
                     ):
-                      (<button
-                        className="col-end-3 hover:bg-[#235DBD] active:bg-[#224a94] col-span-1 font-DmSans bg-blue-A400 text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[38px] rounded-md"
+                      (
+                      <button
+                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                         onClick={() => setFilter(true)}
                         type="button"
-                    >
+                        disabled={pageData?.length === 0}
+                      >
                         <BiFilterAlt size={18} className="mr-2" />
-                        <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
+                        <span className="font-DmSans text-sm font-medium leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
                             Filters
                         </span>
                       </button>
@@ -283,7 +285,7 @@ const Events = () => {
                           type="button"
                       >
                           <FiDelete size={18} className="mr-2" />
-                          <span className="text-base font-DmSans font-normal leading-[26px] text-blue_gray-300">Clear</span>
+                          <span className="text-base font-dm-sans-regular leading-[26px] text-blue_gray-300">Clear</span>
                         </button>
                         )}
                       </div>
@@ -292,13 +294,13 @@ const Events = () => {
                   
                   <table className=" w-full">
                     <thead>
-                    <tr className="bg-white-A700 text-sm leading-[26px] ">
-                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Event Name</th>
-                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Organize by</th>
-                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Date</th>
-                      <th className="px-[18px] py-3 text-left text-gray700 font-medium"></th>
-                      <th className="px-[18px] py-3 text-left text-gray700 font-medium">Location</th>
-                      <th className="px-[18px] py-3 text-left text-gray700 font-medium"></th>
+                    <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Organize by</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
                     
@@ -306,25 +308,25 @@ const Events = () => {
                     {
                         (pageData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} >
-                      <td className="w-auto text-gray-801 font-DmSans text-sm font-normal leading-6">
+                      <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                           <div className="px-[18px] py-4 flex items-center" >
                               <img src={item.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
                               <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
                           </div>
                       </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6" 
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
                         style={{ whiteSpace: 'nowrap' }}>
                           <div className="flex items-center" >
                               <img src={item.organizerLogo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
                               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.organizername}</span>
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6">
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
                           {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy')} ${item?.startTime?.toLowerCase()}` : 'Coming Soon'}
                         </td>                        
-                        <td className="px-[18px] py-4  text-gray-801 font-DmSans text-sm font-normal leading-6"
+                        <td className="px-[18px] py-4  text-gray-801 font-dm-sans-regular text-sm leading-6"
                          style={{whiteSpace:"nowrap"}}>
-                          <div style={{whiteSpace:"nowrap" , textDecoration: 'capitalize'}} className={`flex flex-row space-x-2 items-center px-2 capitalize font-DmSans text-sm font-normal leading-6 text-white-A700 rounded-full ${
+                          <div style={{whiteSpace:"nowrap" , textDecoration: 'capitalize'}} className={`flex flex-row space-x-2 items-center px-2 capitalize font-dm-sans-regular text-sm leading-6 text-white-A700 rounded-full ${
                           item.status?.toLowerCase() === 'past' ? 'bg-[#F4A118]' :
                             item.status?.toLowerCase() === 'upcoming' ? 'bg-[#6172F3]' :
                               item.status?.toLowerCase() === 'ongoing' ? 'bg-[#12B76A] ' : ''
@@ -332,9 +334,9 @@ const Events = () => {
                           {`${item.status} Event` }
                         </div>
                           </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6" 
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.physicalLocation || 'Virtual'}</td>
-                        <td className="px-[18px] py-4 text-gray-801 font-DmSans text-sm font-normal leading-6"
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6"
                           >
                             <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >
                               <div className="dropdown relative">
@@ -351,7 +353,7 @@ const Events = () => {
                                       <div className="flex flex-row gap-3 items-center cursorpointer-green" onClick={() => openTicketModal(item)}>
                                         <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
                                         <Text
-                                          className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                                          className="text-gray-801 font-dm-sans-regular text-sm leading-6"
                                         >
                                           View Ticket
                                         </Text>
@@ -362,7 +364,7 @@ const Events = () => {
                                           <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green">
                                             <FiDownload size={18} className="text-blue-A400 "/>
                                               <Text
-                                                className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                                                className="text-gray-801 font-dm-sans-regular text-sm leading-6"
                                               >
                                                 Download
                                               </Text>
@@ -371,7 +373,7 @@ const Events = () => {
                                           <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green" >
                                             <FiDownload size={18} className="text-blue-A400 "/>
                                               <Text
-                                                className="text-gray-801 font-DmSans text-sm font-normal leading-6"
+                                                className="text-gray-801 font-dm-sans-regular text-sm leading-6"
                                               >
                                                 Download
                                               </Text>
@@ -404,14 +406,14 @@ const Events = () => {
                 </div>
                 : (
                   isLoading ? 
-                  <div className="flex flex-col items-center text-blue_gray-601 w-full py-28">
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                     <Loader />
                   </div>
                   :
                   <div className="flex flex-col items-center h-screen w-full py-28 gap-5">
                     <img src={ticketEmptyImg} />
                     <Text
-                      className="font-DmSans text-sm font-normal leading-6 text-gray700 w-auto py-4"
+                      className="font-dm-sans-regular text-sm leading-6 text-gray700 w-auto py-4"
                       size=""
                     >
                       It seems like you haven't taken part in any events yet

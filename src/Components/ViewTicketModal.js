@@ -35,7 +35,7 @@ const ViewTicketModal = (props) => {
                     <div className="flex flex-row gap-3 items-center justify-center">
                         <MdOutlineDateRange  size={20} className="text-teal-A300"/>
                         <Text
-                        className="text-blue_gray-601 font-DmSans text-base font-normal leading-6"
+                        className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                         >
                         {rowData?.startDate ? `${format(new Date(rowData.startDate), 'MMM d, yyyy')} • ${rowData?.startTime?.toLowerCase()}` : 'Coming Soon'}
                         {/* Fri, Sep 1, 2023<span style={{ marginRight: '10px', marginLeft: '10px' }}>•</span>11:00 AM */}
@@ -44,7 +44,7 @@ const ViewTicketModal = (props) => {
                     <div className="flex flex-row gap-3 items-center justify-center">
                         <BiMap  size={22} className="text-teal-A300"/>
                         <Text
-                        className="text-blue_gray-601 font-DmSans text-base font-normal leading-6"
+                        className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                         >
                         {rowData?.physicalLocation || 'Virtual Event [Online Only]'}
                         </Text>
@@ -52,7 +52,7 @@ const ViewTicketModal = (props) => {
                     <div className="flex flex-row gap-3 items-center justify-center">
                         <PiTagBold    size={20} className="text-teal-A300"/>
                         <Text
-                        className="text-blue_gray-601 font-DmSans text-base font-normal leading-6"
+                        className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                         >
                         {rowData?.price ? ` From $${rowData?.price?.toFixed(2)}` : 'Free' }
                         </Text>

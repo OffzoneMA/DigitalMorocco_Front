@@ -240,18 +240,18 @@ const fetchLegalDocuments = async () => {
             <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                <tr className="font-DmSans text-sm leading-6">
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Document Name</th>
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Last Modified</th>
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Owner</th>
+                <tr className="font-DmSans text-sm leading-6 font-DmSans font-medium">
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Document Name</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Last Modified</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Owner</th>
                   <th className="p-3 w-auto"></th>
                 </tr>
                 </thead>
                 {documentData?.length > 0 ?
-                <tbody className="font-DmSans text-sm font-normal leading-6">
+                <tbody className="font-dm-sans-regular text-sm leading-6">
                  {(documentData.map((document, index) => (
                   <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`}>
-                    <td className="py-3 px-3" onClick={()=>openEditModal(document)}>
+                    <td className="px-[18px] py-4" onClick={()=>openEditModal(document)}>
                       <div className="flex flex-row space-x-3 items-center">
                         <GrAttachment size={15} className="text-black" />
                         <span className="text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.name}</span>
@@ -267,13 +267,13 @@ const fetchLegalDocuments = async () => {
                         hour12: true
                       })}
                       </td>
-                    <td className="py-3 px-3 text-gray-900_01">
+                    <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         <img src={document?.ownerImg || userData?.image} alt="owner" className="h-9 w-9 mr-2 rounded-full"/>
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.owner}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-3 ">
+                    <td className="px-[18px] py-4 ">
                       <div className="flex flex-row space-x-3 px-3 items-center">
                         <div className="relative group">
                           <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> openEditModal(document)}/>
@@ -331,7 +331,7 @@ const fetchLegalDocuments = async () => {
                      <Loader />
                  </div>
                   ) : !documentData?.length>0 && (
-                  <div className="flex flex-col items-center w-full text-gray500 py-28">
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                     <AiOutlineFileSearch size={30} c />
                     <Text
                       className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto"

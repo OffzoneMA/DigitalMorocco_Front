@@ -213,7 +213,7 @@ console.log(requiredFields)
             <div className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Company Name
@@ -229,7 +229,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Legal Name
@@ -245,7 +245,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Description
@@ -264,7 +264,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Website
@@ -280,7 +280,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Contact Email
@@ -305,7 +305,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Address
@@ -321,7 +321,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Country
@@ -333,7 +333,7 @@ console.log(requiredFields)
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {option.name}
                             </Text>
@@ -345,7 +345,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   City/State
@@ -357,7 +357,7 @@ console.log(requiredFields)
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-normal leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {option.name}
                             </Text>
@@ -369,7 +369,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Company Sector
@@ -381,7 +381,7 @@ console.log(requiredFields)
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-DmSans font-medium leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
                               >
                                {option}
                             </Text>
@@ -394,7 +394,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Tax Identifier Number
@@ -411,7 +411,7 @@ console.log(requiredFields)
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   Corporate Identifier Number
@@ -431,7 +431,7 @@ console.log(requiredFields)
             <div className="flex flex-col items-start justify-start md:w-[35%] lg:w-[35%] w-full">
               <div className="flex flex-col gap-2 items-start justify-start w-full">
                 <Text
-                  className="text-base text-gray-900_01 w-auto"
+                  className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansRegular16"
                 >
                   Company Logo

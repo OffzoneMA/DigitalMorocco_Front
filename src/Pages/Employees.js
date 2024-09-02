@@ -128,37 +128,37 @@ const Employees = () => {
                 type="button"
               >
                 <FaRegPlusSquare size={21} className="mr-2 cursorpointer-green" />
-                <span className="text-sm font-medium leading-[18.23px]">Add New Employee</span>
+                <span className="text-sm font-dm-sans-medium leading-[18.23px]">Add New Employee</span>
               </button>
             </div>
             <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">                       
             <table className="w-full mx-auto table-auto">
               <thead>
-                  <tr className="text-sm leading-6 " >
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Name</th>
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Email address</th>
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Title</th>
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Type</th>
-                  <th className="p-3 text-left text-[#344053] font-DmSans font-medium">Status</th>
+                  <tr className="text-sm leading-6 font-DmSans font-medium" >
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Name</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Email address</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Title</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Type</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                   <th scope="col" className="p-3 w-auto"></th>
                   </tr>
                 </thead>
                   {filteredEmployees?.length > 0 ? 
-                <tbody className="font-DmSans text-sm font-normal leading-[26px] ">
+                <tbody className="font-dm-sans-regular text-sm leading-[26px] ">
                   {(
                     filteredEmployees.map((employee, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`} 
                         /*onClick={() => handleEditEmployee(employee._id)}*/>
-                        <td className="py-3 px-3 text-gray-900_01">
+                        <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex items-center " style={{}}>
                         <img src={ employee?.image || `data:image/png;base64,${employee.photo}`} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{employee.fullName}</span>
                       </div>
                     </td>
-                        <td className="py-3 px-3 text-gray500">{employee.workEmail}</td>
-                        <td className="py-3 px-3 text-gray500">{employee.jobTitle}</td>
-                        <td className="py-3 px-3 text-gray500">{employee.level}</td>
-                        <td className="py-3 px-3 text-gray500">
+                        <td className="px-[18px] py-4 text-gray500">{employee.workEmail}</td>
+                        <td className="px-[18px] py-4 text-gray500">{employee.jobTitle}</td>
+                        <td className="px-[18px] py-4 text-gray500">{employee.level}</td>
+                        <td className="px-[18px] py-4 text-gray500">
                           {employee.status?.toLowerCase() === 'member' ? (
                             <div className="flex items-center px-2 py-0.5 rounded-full h-8 text-center" style={{ width: "4.5rem", backgroundColor: "#ecfdf3" }}>
                               <span className="bg-green-500  rounded-full mr-1" style={{width:"7px", height:"7px"}}></span>
@@ -171,7 +171,7 @@ const Employees = () => {
                             </div>
                           )}
                         </td>
-                        <td className="py-3 px-3 ">
+                        <td className="px-[18px] py-4 ">
                           <div className="flex flex-row space-x-3 px-3 items-center">
                             <div className="relative group">
                               <HiOutlineTrash size={17} onClick={() => openDeleteModal(employee)} className="text-blue_gray-301"/>
@@ -208,14 +208,13 @@ const Employees = () => {
                 :
                 ""}
               </table>
-            </div>
-            {loading ? (
+              {loading ? (
                      <div className="flex items-center justify-center w-full h-full py-32">
                      <Loader />
                  </div>
                   ) :
               (!filteredEmployees?.length>0 && (
-                  <div className="flex flex-col items-center w-full text-gray500 py-28">
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                     <PiUsersThin size={30} />
                     <Text
                       className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto"
@@ -225,7 +224,8 @@ const Employees = () => {
                     </Text>
                   </div>
                 ))}
-              {filteredEmployees?.length>0 && (
+            </div>
+            {filteredEmployees?.length>0 && (
                 <div className='w-full flex items-center p-4'>
                     <TablePagination
                       currentPage={cur}
