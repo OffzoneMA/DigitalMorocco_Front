@@ -240,7 +240,7 @@ const fetchLegalDocuments = async () => {
             <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                <tr className="font-DmSans text-sm leading-6 font-DmSans font-medium">
+                <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
                   <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Document Name</th>
                   <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Last Modified</th>
                   <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Owner</th>
