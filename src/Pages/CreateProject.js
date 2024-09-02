@@ -606,7 +606,7 @@ const handleLogoFileInputClick = () => {
                     </Text>
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
-                       className={`!placeholder:text-blue_gray-300 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                       className={`!placeholder:text-blue_gray-300 !text-gray700 h-[157px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="details"
                         rows={7}
                         placeholder="Write your project detals here"
@@ -908,12 +908,12 @@ const handleLogoFileInputClick = () => {
                     >
                       Project Logo
                     </Text>
-                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[150px] flex flex-col items-center justify-center rounded-md w-full py-1 cursorpointer relative"
+                    <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center rounded-md w-full py-1 cursorpointer relative"
                         onDragOver={handleDragOver}
                         onDrop={handleDropLogo} onClick={handleLogoFileInputClick}>
                       {logoFile ? (
                         <>
-                        <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[148px]" />
+                        <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[268px]" />
                         <div className="absolute top-2 right-0 group">
                           <div className="absolute top-2 right-3">
                             <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
