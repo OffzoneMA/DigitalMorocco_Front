@@ -40,14 +40,12 @@ const SidebarNav = () => {
   const [activeParent, setActiveParent] = useState('');
   const [showLogout , setShowLogout] = useState(false);
 
-  console.log(activeMenu)
-  console.log(activeParent)
-
   const navigate=useNavigate()
 
   const userData = JSON.parse(sessionStorage.getItem('userData'));
 
   useEffect(() => {
+    console.log('update')
     setActiveMenu(location.pathname.split('/')[1]);
   }, [location.pathname]);
 
@@ -92,7 +90,7 @@ const SidebarNav = () => {
   const Menus = [
     { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": "Dashboard" },
     
-    (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "Createproject" , "Editproject" , "Projectdetails"] },
+    (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
     (userData?.role?.toLowerCase() === "member") && {
       title: "Company", src: <BiBuildings size={22} className="text-light_blue-100"/>,
       submenu: true, activeLinks: ["CreateOrEditEmployee" , "MyCompany" , "Employees" , "CompanyLegal"] ,

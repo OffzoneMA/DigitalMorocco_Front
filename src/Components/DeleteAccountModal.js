@@ -65,7 +65,7 @@ const DeleteAccountModal = (props) => {
               </div>
               <div className="flex items-end w-full pt-3 justify-end">
                 <div className="flex space-x-3 md:space-x-5 w-auto">
-                  <button onClick={props.onRequestClose} type="reset" className="flex items-center bg-gray-300 text-gray-700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Cancel</button>
+                  <button onClick={props.onRequestClose} type="reset" className="flex items-center bg-[#E4E7EC] text-[#475467] py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Cancel</button>
                   <button type="submit" className="flex items-center ml-auto bg-red-501 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-DmSans text-base font-medium leading-5 tracking-normal rounded-md">Delete account</button>
                 </div>
               </div>

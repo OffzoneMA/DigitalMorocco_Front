@@ -175,7 +175,7 @@ useEffect(() => {
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
                 <button 
                 onClick={props.onRequestClose}
-                className="flex items-center bg-gray-300 text-gray-700 hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green
+                className="flex items-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green
                 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]">
                     Cancel
                 </button>

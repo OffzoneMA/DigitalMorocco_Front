@@ -13,6 +13,8 @@ import SearchInput from "../Components/SeachInput";
 import axios from "axios";
 import { format } from "date-fns";
 import moment from "moment/moment";
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+
 
 const NewEmployee = () => {
   const navigate = useNavigate();
@@ -20,15 +22,39 @@ const NewEmployee = () => {
   const [imgFile, setImgFile] = useState(null);
   const dataCountries = Country.getAllCountries();
   const { employee } = location.state || {};
-  const [selectedCountry, setSelectedCountry] = useState(dataCountries.find(country => country.name === employee?.country));
-  const [selectedCity, setSelectedCity] = useState(null);
+  const [logoFile, setLogoFile] = useState(employee?.image || '');
+  const [showLogoDropdown , setShowLogoDropdown] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(dataCountries.find(country => country.name === employee?.country) || null);
+  const [selectedCity, setSelectedCity] = useState(employee?.cityState || '');
   const [selectedJobTitle, setSelectedJobTitle] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [requiredFields, setRequiredFields] = useState({
+    country: false,
+    city: false,
+  });
+
+  useEffect(() => {
+    if (hasSubmitted ) {
+      const isCountryValid = selectedCountry !== null;
+      const isCityValid = selectedCity !== "";
+  
+      const isValid = isCountryValid && isCityValid  ;
+  
+      setRequiredFields({
+        country: !isCountryValid,
+        city: !isCityValid,
+      });
+  
+      setIsFormValid(isValid);
+    }
+  }, [hasSubmitted ,selectedCountry, selectedCity]);
+
   const { register, handleSubmit, formState: { errors } } = useForm();
-  console.log(employee)
   const [formData, setFormData] = useState({
     fullName: employee?.fullName || '',
     workEmail: employee?.workEmail || '',
@@ -45,6 +71,8 @@ const NewEmployee = () => {
     photo: employee?.photo || '',
   });
 
+  const logoFileInputRef = useRef(null);
+  const logoFileInputRefChange = useRef(null);
 
   useEffect(() => {
     if (location.state && location.state.employee) {
@@ -67,7 +95,7 @@ const NewEmployee = () => {
     if (isSaved) {
       const redirectTimer = setTimeout(() => {
         navigate("/Employees");
-      }, 1000);
+      }, 2500);
       return () => clearTimeout(redirectTimer);
     }
   }, [isSaved, navigate, location.state]);
@@ -87,11 +115,44 @@ const NewEmployee = () => {
       [fieldName]: formattedValue
     }));
   };
+
+  const validatePhoneNumber = (value) => {
+    const phoneNumber = parsePhoneNumberFromString(value);
+    console.log('phone' , phoneNumber)
+    if (!phoneNumber) {
+      return 'Invalid phone number';
+    }
+    if (!phoneNumber.isValid()) {
+      return 'Invalid phone number for the selected country';
+    }
+    return true;
+  };
   
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setImgFile(file);
+    setLogoFile(URL.createObjectURL(file));
+  };
+
+  const handleLogoFileInputClick = () => {
+    logoFileInputRef?.current?.click();
+  };
+
+  const handleLogoFileInputChangeClick = () => {
+    logoFileInputRefChange?.current?.click();
+  };
+  
+  const handleRemoveLogo = () => {
+    setImgFile(null);
+    setLogoFile(null);
+  }
+  
+  const handleMouseEnter = () => {
+    setShowLogoDropdown(true);
+  };
+  
+  const handleMouseLeave = () => {
+    setShowLogoDropdown(false);
   };
 
   const onSubmit = async (data) => {
@@ -109,71 +170,71 @@ const NewEmployee = () => {
         }
       });
 
-      if (imgFile) {
-        const formData = new FormData();
-
-        formData.append('image', imgFile); 
-        
-        updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
-        updatedFields.level = selectedLevel?.level || currentData.level;
-        updatedFields.department = selectedDepartment?.name || currentData.department;
-        updatedFields.country = selectedCountry?.name || currentData.country;
-        updatedFields.cityState = selectedCity?.name || currentData.cityState;
-        updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
+      if(isFormValid) {
+        if (imgFile) {
+          const formData = new FormData();
   
-        formData.append('data', JSON.stringify(updatedFields)); // append the rest of the updated fields
-        
-        if (employeeId) {
-          // PUT request to update employee
-          await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          formData.append('image', imgFile); 
+          
+          updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
+          updatedFields.level = selectedLevel?.level || currentData.level;
+          updatedFields.department = selectedDepartment?.name || currentData.department;
+          updatedFields.country = selectedCountry?.name || currentData.country;
+          updatedFields.cityState = selectedCity?.name || currentData.cityState;
+          updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
+    
+          formData.append('data', JSON.stringify(updatedFields)); // append the rest of the updated fields
+          
+          if (employeeId) {
+            // PUT request to update employee
+            await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          } else {
+            // POST request to create a new employee
+            await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
+            });
+          }
         } else {
-          // POST request to create a new employee
-          await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-          });
+          const formData = new FormData();
+          updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
+          updatedFields.level = selectedLevel?.level || currentData.level;
+          updatedFields.department = selectedDepartment?.name || currentData.department;
+          updatedFields.country = selectedCountry?.name || currentData.country;
+          updatedFields.cityState = selectedCity?.name || currentData.cityState;
+          updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
+          formData.append('data', JSON.stringify(updatedFields));
+  
+          if (employeeId) {
+            await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          } else {
+            await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
+            });
+          }
         }
-      } else {
-        const formData = new FormData();
-        updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
-        updatedFields.level = selectedLevel?.level || currentData.level;
-        updatedFields.department = selectedDepartment?.name || currentData.department;
-        updatedFields.country = selectedCountry?.name || currentData.country;
-        updatedFields.cityState = selectedCity?.name || currentData.cityState;
-        updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
-        formData.append('data', JSON.stringify(updatedFields));
-
-        if (employeeId) {
-          await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-        } else {
-          await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-          });
-        }
+        setIsSaved(true);
       }
-  
-      setIsSaved(true);
-    } catch (error) {
+      } catch (error) {
       console.error("Erreur lors de l'envoi du formulaire :", error);
       // Affichez une erreur à l'utilisateur si nécessaire
     }
   };
-  
   
   // const onSubmit = async (data) => {
   //   try {
@@ -240,7 +301,6 @@ const NewEmployee = () => {
   //   }
   // };
 
-
   const employeeLevels = [
     { level: 'Junior', description: 'Entry-level position for beginners in the field.' },
     { level: 'Intermediate', description: 'Mid-level position with some experience and skills.' },
@@ -250,6 +310,7 @@ const NewEmployee = () => {
     { level: 'Associate', description: 'Position with specialized skills supporting various functions.' },
     { level: 'Director', description: 'Leadership position responsible for a specific area or department.' },
     { level: 'Consultant', description: 'External expert providing specialized advice and guidance.' },
+    {level:'Other' , description: 'Other'}
   ];
 
   const jobTitles = [
@@ -261,6 +322,7 @@ const NewEmployee = () => {
     { title: 'Sales Representative', department: 'Sales' },
     { title: 'Data Scientist', department: 'Information Technology' },
     { title: 'Customer Success Manager', department: 'Customer Service' },
+    { title: 'Other' , department: 'Other'},
   ];
 
   const departments = [
@@ -274,6 +336,7 @@ const NewEmployee = () => {
     { name: 'Research and Development' },
     { name: 'Information Technology' },
     { name: 'Operations' },
+    { name: 'Other'}
   ];
     
   return (
@@ -295,7 +358,7 @@ const NewEmployee = () => {
             onSubmit={handleSubmit(onSubmit)}
             encType="multipart/form-data"
           >
-            <div className="flex flex-row flex-wrap text-sm text-center text-gray-300 border-b border-gray-300 rounded-t-lg bg-white-A700    py-4 px-5">
+            <div className="flex flex-row flex-wrap text-sm text-center text-gray-300 border-b border-gray-300 rounded-t-lg bg-white-A700 h-[77px] py-[19px] px-5">
               <Text
                 className="text-lg leading-7 text-gray-900_01 pt-1"
                 size="txtDmSansMedium16"
@@ -313,13 +376,12 @@ const NewEmployee = () => {
               :
               <button
                 className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursorpointer-green"
-                type="submit"
+                type="submit" onClick={() => setHasSubmitted(true)}
               >
                 <FiSave size={18} className="mr-2" />
                 Save
               </button>
               }
-              
             </div>
             <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-5 md:px-5 w-full">
               <div className="flex flex-1 flex-col gap-6 py-5 items-start justify-start w-full">
@@ -335,7 +397,7 @@ const NewEmployee = () => {
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.fullName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="fullName"
-                      placeholder="first Name"
+                      placeholder="Enter Full Name"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     />
@@ -349,7 +411,16 @@ const NewEmployee = () => {
                    Work Email
                   </Text>
                     <input
-                      {...register("workEmail", { required: { value: true, message: "Employee Work Email is required" } })}
+                      {...register("workEmail", { required: { value: true, message: "Employee Work Email is required" } ,
+                      minLength: {
+                      value: 2,
+                      },
+                      maxLength: {
+                        value: 120,
+                      },
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      }, })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.workEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="workEmail"
@@ -367,7 +438,16 @@ const NewEmployee = () => {
                    Personal Email
                   </Text>
                     <input
-                      {...register("personalEmail", { required: { value: true, message: "Employee Personal Email is required" } })}
+                      {...register("personalEmail", { required: { value: false, message: "Employee Personal Email is required" } ,
+                      minLength: {
+                      value: 2,
+                      },
+                      maxLength: {
+                        value: 120,
+                      },
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      },})}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.personalEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="personalEmail"
@@ -385,7 +465,8 @@ const NewEmployee = () => {
                     Phone Number
                   </Text>
                     <input
-                      {...register("phoneNumber", { required: { value: true, message: "Employee Phone Number is required" } })}
+                      {...register("phoneNumber", { required: { value: true, message: "Employee Phone Number is required" } ,
+                      validate: validatePhoneNumber })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.phoneNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="phoneNumber"
@@ -403,7 +484,7 @@ const NewEmployee = () => {
                     Address
                   </Text>
                     <input
-                      {...register("address", { required: { value: true, message: "Employee address is required" } })}
+                      {...register("address", { required: { value: false, message: "Employee address is required" } })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="address"
@@ -422,10 +503,10 @@ const NewEmployee = () => {
                   </Text>
                   <SimpleSelect id='country'
                     options={dataCountries} onSelect={""}
-                    searchLabel='Select Country'
+                    searchLabel='Search Country'
                     setSelectedOptionVal={setSelectedCountry}
                     selectedOptionsDfault={employee?.country? dataCountries.find(country => country.name === employee.country) : ""}
-                    placeholder={"Select Country"} valuekey="name"
+                    placeholder={"Select Country"} valuekey="name" required={requiredFields.country} 
                     content={
                       (option) => {
                         return (
@@ -448,8 +529,8 @@ const NewEmployee = () => {
                     City/State
                   </Text>
                   <SimpleSelect id='city'
-                    options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []} onSelect={""} searchLabel='Select City' setSelectedOptionVal={setSelectedCity}
-                    placeholder={"Select City"} valuekey="name"
+                    options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []} onSelect={""} searchLabel='Search City' setSelectedOptionVal={setSelectedCity}
+                    placeholder={"Select City"} valuekey="name" required={requiredFields.city} 
                     selectedOptionsDfault={employee?.cityState? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === employee?.cityState) : ""}
                     content={
                       (option) => {
@@ -473,7 +554,7 @@ const NewEmployee = () => {
                     Personal Tax Identifier Number
                   </Text>
                     <input
-                      {...register("personalTaxIdentifierNumber", { required: { value: true, message: "Employee Personal Tax Identifier Number is required" } })}
+                      {...register("personalTaxIdentifierNumber", { required: { value: false, message: "Employee Personal Tax Identifier Number is required" } })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.personalTaxIdentifierNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="personalTaxIdentifierNumber"
@@ -488,28 +569,62 @@ const NewEmployee = () => {
               </div>
               <div className="flex py-5 flex-col items-start justify-start w-full md:w-[35%] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] 3xl:w-[35%]">
                 <div className="flex flex-col gap-6 items-start justify-start w-full">
-
-                  <div className="bg-white-A700 border border-blue_gray-100_01 h-[261px] border-solid flex flex-col items-center justify-center rounded-md w-full">
-                    <label htmlFor="fileInput" className="cursorpointer-green h-full w-full">
-                      {imgFile ? (
-                        <img src={URL.createObjectURL(imgFile)} alt="Uploaded Logo" className="rounded-md w-full " />
-                      ) : formData.photo ? (
-                        <img src={`data:image/png;base64,${formData.photo}`} alt="Employee Photo" className="rounded-md w-full" />
-                      ) : 
-                      employee?.image ? (
-                      <img src={employee?.image} alt="Uploaded Logo" className="rounded-md w-full h-full " />
-                      ): (
-                        <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 py-[100px] rounded-md w-full">
-                          <PiUserSquare size={24} radius={8} className="" />
-                          <div className="flex flex-col items-start justify-start w-auto">
-                            <Text className="text-[13px] text-base leading-6 tracking-normal w-auto">
-                              Upload Your Logo
-                            </Text>
+                  <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center relative rounded-md w-full"
+                      onClick={handleLogoFileInputClick}>
+                    {logoFile ? (
+                      <>
+                      <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[268px]" />
+                      <div className="absolute top-2 right-0 flex flex-col justify-end" 
+                          onMouseEnter={handleMouseEnter}
+                          onMouseLeave={handleMouseLeave}>
+                            <div className="relative mr-3 w-auto">
+                              <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.0013 2.66659C7.36949 2.66659 7.66797 2.36811 7.66797 1.99992C7.66797 1.63173 7.36949 1.33325 7.0013 1.33325C6.63311 1.33325 6.33464 1.63173 6.33464 1.99992C6.33464 2.36811 6.63311 2.66659 7.0013 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11.668 2.66659C12.0362 2.66659 12.3346 2.36811 12.3346 1.99992C12.3346 1.63173 12.0362 1.33325 11.668 1.33325C11.2998 1.33325 11.0013 1.63173 11.0013 1.99992C11.0013 2.36811 11.2998 2.66659 11.668 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2.33464 2.66659C2.70283 2.66659 3.0013 2.36811 3.0013 1.99992C3.0013 1.63173 2.70283 1.33325 2.33464 1.33325C1.96645 1.33325 1.66797 1.63173 1.66797 1.99992C1.66797 2.36811 1.96645 2.66659 2.33464 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                            </div>
+                            {showLogoDropdown && 
+                              <div className="absolute top-[100%] right-0 flex flex-col">
+                              <div className="flex mt-1 flex-col bg-white-A700 border-[0.5px] border-[#2575F01A] rounded-[8px] p-[16px] shadow-roleCardbs z-10">
+                                <div className="w-auto group h-9 py-[5px] px-[16px] justify-start items-center gap-3 inline-flex" 
+                                onClick={handleLogoFileInputChangeClick}>
+                                  <span>
+                                    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                  </span>
+                                  <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Change</div>
+                                </div>
+                                <div className="w-auto group h-9 py-[5px] px-[16px] justify-start items-center gap-3 inline-flex" 
+                                onClick={handleRemoveLogo}>
+                                  <span>
+                                    <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                  </span>
+                                  <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Delete</div>
+                                </div>
+                              </div>
+                            </div>}
                           </div>
-                        </div>
+                          <input ref={logoFileInputRefChange} id="fileInput" type="file" onChange={(e) => handleFileChange(e)} className="hidden" />
+                          </>
+                    ) : (<>
+                    <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
+                      <PiUserSquare size={16}/>
+                      <div className="flex flex-col items-start justify-start w-auto">
+                        <Text
+                          className="text-[13px] text-base leading-6 tracking-normal w-auto"
+                          size="txtDMSansRegular13"
+                        >
+                        {"Upload Photo Here"}  
+                        </Text>
+                      </div>
+                    </div>
+                    <input ref={logoFileInputRef} id="fileInput" type="file" onChange={(e) => handleFileChange(e)} className="hidden" />
+                    </>
                       )}
-                    </label>
-                    <input id="fileInput" type="file" onChange={handleFileChange} className="hidden" />
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text className="text-base text-[#1D1C21] w-auto"
@@ -521,7 +636,7 @@ const NewEmployee = () => {
                       id='job'
                       options={jobTitles}
                       onSelect={(selectedOption) => setSelectedJobTitle(selectedOption)}
-                      searchLabel="Select position / title"
+                      searchLabel="Search position / title"
                       setSelectedOptionVal={setSelectedJobTitle}
                       selectedOptionsDfault={employee?.jobTitle ? jobTitles.find(job => job.title === employee.jobTitle) : ""}
                       placeholder={"Select position / title"}
@@ -549,7 +664,7 @@ const NewEmployee = () => {
                     >
                       Level
                     </Text>
-                    <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel='Select Level' setSelectedOptionVal={setSelectedLevel}
+                    <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel='Search Level' setSelectedOptionVal={setSelectedLevel}
                       placeholder={"Select employee level"}
                       selectedOptionsDfault={employee?.level? employeeLevels.find(lev => lev.level === employee.level) : ""}
                       valuekey="level"
@@ -573,7 +688,7 @@ const NewEmployee = () => {
                     >
                       Department
                     </Text>
-                    <SimpleSelect id='department' options={departments} onSelect={""} searchLabel='Select Department' setSelectedOptionVal={setSelectedDepartment}
+                    <SimpleSelect id='department' options={departments} onSelect={""} searchLabel='Search Department' setSelectedOptionVal={setSelectedDepartment}
                       placeholder={"Select Department"} 
                       selectedOptionsDfault={employee?.department? departments.find(dep => dep.name === employee.department) : ""}
                       valuekey="name"

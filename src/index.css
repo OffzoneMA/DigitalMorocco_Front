@@ -129,6 +129,10 @@ a:hover::selection ,a *:hover::selection {
   color: #35D8BF !important; /* Teal color on hover */
 }
 
+.icon-container:hover svg>path {
+  stroke: #FFFFFF;
+}
+
 @keyframes element-animation {
   0% {
       opacity: 0;
