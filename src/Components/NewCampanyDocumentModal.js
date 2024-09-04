@@ -68,6 +68,11 @@ const NewCampanyDocumentModal = (props) => {
     }
 };
 
+const handleCancelClick = () => {
+    setPreview(null);
+    props.onRequestClose();
+};
+
   return (
     <ModalProvider
       appElement={document.getElementById("root")}
@@ -83,9 +88,9 @@ const NewCampanyDocumentModal = (props) => {
                     {documentFile?._id ? "Edit Document" : "Add New Document"}
                 </Text>
             </div>
-            <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
+            {/* <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 <IoCloseOutline className='text-blue_gray-500' size={20} />
-            </div>
+            </div> */}
         </div>
 
         <div className="flex flex-col gap-3 w-full max-h-[70vh]">
@@ -161,7 +166,7 @@ const NewCampanyDocumentModal = (props) => {
                     <button
                         type="reset"
                         className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green"
-                        onClick={() => setPreview(null)}
+                        onClick={handleCancelClick}
                         style={{ width: "101px", height: "44px" }}
                     >
                         Cancel
