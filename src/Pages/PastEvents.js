@@ -129,13 +129,15 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                   </div>
                 ) : (
                   !events?.length > 0 && (
-                  <div className="flex flex-col items-center h-screen  w-full py-28 gap-5">
-                    <TbTicketOff  size={40} className="rotate-[180deg] text-gray500" />
+                  <div className="flex flex-col items-center h-screen  w-full py-28 gap-4">
+                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5.5 11.5L8.5 8.5M8.5 8.5L11.5 11.5M8.5 8.5V15.25M14.5 12.0571C15.4161 11.3005 16 10.156 16 8.875C16 6.59683 14.1532 4.75 11.875 4.75C11.7111 4.75 11.5578 4.6645 11.4746 4.5233C10.4965 2.86363 8.69082 1.75 6.625 1.75C3.5184 1.75 1 4.2684 1 7.375C1 8.92458 1.62659 10.3278 2.64021 11.3451" stroke="#2575F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                     <Text
-                      className="font-dm-sans-regular text-sm leading-[26px] text-gray700 w-auto py-4"
+                      className="font-dm-sans-medium text-sm leading-[26px] text-gray700 w-auto py-4"
                       size=""
                     >
-                      No Past Event 
+                      No Past Event Founded 
                     </Text>
                   </div>
                   )

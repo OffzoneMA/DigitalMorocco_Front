@@ -625,13 +625,14 @@ const handleMouseLeave = () => {
                     </Text>
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
-                       className={`!placeholder:text-blue_gray-300 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                       className={`!placeholder:text-blue_gray-300 !text-gray700 max-h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="details"
                         rows={7}
                         placeholder="Write your project detals here"
                         style={{
                           scrollbarWidth: 'none', 
-                          msOverflowStyle: 'none'
+                          msOverflowStyle: 'none',
+                          resize:'none'
                         }}
                       />
                     {/* {errors.details && <span className="text-sm font-dm-sans-regular text-red-500">{errors.details?.message}</span>} */}

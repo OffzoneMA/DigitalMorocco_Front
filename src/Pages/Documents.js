@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
 import { FiEdit3 } from "react-icons/fi";
-import { FiDownload } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useNavigate} from "react-router-dom";
 import { AiOutlineFileSearch } from "react-icons/ai";
@@ -18,6 +17,7 @@ import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 import { useGetDocumentsForUserQuery , useCreateDocumentMutation , useUpdateDocumentMutation , useDeleteDocumentMutation} from "../Services/Document.Service";
 import Loader from "../Components/Loader";
+import { FaUserCircle } from "react-icons/fa";
 
 const Documents = () => {
   const navigate = useNavigate();
@@ -101,6 +101,24 @@ const Documents = () => {
       console.log(error)
     }
   };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+        month: 'short', // 'Jun'
+        day: 'numeric', // '6'
+        year: 'numeric', // '2023'
+    });
+    const formattedTime = date.toLocaleTimeString('en-US', {
+        hour: '2-digit', // '02'
+        minute: '2-digit', // '37'
+        second: '2-digit', // '22'
+        hour12: true, // 12-hour format with AM/PM
+    });
+    return `${formattedDate} ${formattedTime}`;
+};
+
+
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -122,11 +140,13 @@ const Documents = () => {
                   My Document
                 </TableTitle>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[37px] items-center ml-auto px-[12px] rounded-md w-auto cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row gap-[8px] h-[37px] items-center ml-auto px-[12px] rounded-md min-w-[206px] cursorpointer-green"
                   onClick={openNewModal}
                   type="button"
               >
-                  <FiDownload size={18} className="mr-2" />
+                  <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.375 12.125V13.175C17.375 14.6451 17.375 15.3802 17.0889 15.9417C16.8372 16.4357 16.4357 16.8372 15.9417 17.0889C15.3802 17.375 14.6451 17.375 13.175 17.375H5.825C4.35486 17.375 3.61979 17.375 3.05827 17.0889C2.56435 16.8372 2.16278 16.4357 1.91111 15.9417C1.625 15.3802 1.625 14.6451 1.625 13.175V12.125M13.875 6L9.5 1.625M9.5 1.625L5.125 6M9.5 1.625V12.125" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                   <span className="text-sm font-medium leading-[18.23px]">Upload New Document</span>
               </button>
               </div>
@@ -146,22 +166,28 @@ const Documents = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `}>
-                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.uploadDate}</td>
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
+                      {formatDate(item.uploadDate)}
+                      </td>
                       <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center" >
                             <IoDocumentTextOutline size={17}  className="text-gray-900_01 mr-2"/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.documentName}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{`${item?.title}.${item?.documentName.split('.').pop()}`}</span>
                         </div>
                       </td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center" >
-                            <img src={item?.owner?.image} className="rounded-full h-8 w-8 bg-gray-300 mr-2" alt={""}/>
+                          {item?.owner?.image ? (
+                            <img src={item?.owner?.image} className="rounded-full h-8 w-8 mr-2" alt="" />
+                          ) : (
+                            <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> // Placeholder icon
+                          )}
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.owner?.displayName}</span>
                         </div>
                         </td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.shareWith}</td>
                       <td className="px-[18px] py-4 ">
-                        <div className="flex flex-row space-x-3 items-center">
+                        <div className="flex flex-row space-x-[18px] items-center">
                           <div className="relative group">
                             <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> openEditModal(item)}/>
                             <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
@@ -216,13 +242,12 @@ const Documents = () => {
                      </div>)
                 }
                 {(!isLoading && !pageData?.length>0) && (
-                  <div className="flex flex-col items-center  w-full py-28">
+                  <div className="flex flex-col gap-[16px] items-center  w-full py-28">
                     <svg width="29" height="32" viewBox="0 0 29 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-
                     <Text
-                      className="font-dm-sans-regular text-sm leading-6 text-gray700 w-auto"
+                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
                       size=""
                     >
                       No Document Found

@@ -77,28 +77,28 @@ const ContactUs = () => {
 
                     <div className="mb-8">
                         <p className="text-bleu2 font-semibold my-2"> General inquiries </p>
-                        <span className="text-gray-400 block my-2">
+                        <span className="text-[#98A2B3] block my-2">
                             Email:
                             <a href="mailto:info@digitalmorocco.com" className="hover:underline">
                                 info@digitalmorocco.com
                             </a>{" "}
                         </span>
-                        <span className="text-gray-400 block my-2">Phone: +123-456-7890</span>
+                        <span className="text-[#98A2B3] block my-2">Phone: +123-456-7890</span>
                     </div>
                     <div className="mb-8">
                         <p className="text-bleu2 font-semibold my-2"> Membership Support </p>
-                        <span className="text-gray-400 block my-2">
+                        <span className="text-[#98A2B3] block my-2">
                             Email:
                             <a href="mailto:support@digitalmorocco.com" className="hover:underline">
                                 support@digitalmorocco.com
                             </a>{" "}
                         </span>
                         
-                        <span className="text-gray-400 block my-2">Phone: +123-456-7890</span>
+                        <span className="text-[#98A2B3] block my-2">Phone: +123-456-7890</span>
                     </div>
                     <div className="mb-8">
                         <p className="text-bleu2 font-semibold my-2"> Visit Us </p>
-                        <span className="text-gray-400 block my-2">
+                        <span className="text-[#98A2B3] block my-2">
                             Digital Morocco Headquarters
                             123 Innovation Street, Casablanca, Morocco
                         </span>
@@ -106,20 +106,20 @@ const ContactUs = () => {
                     <div className="mb-8 ">
 
                         <p className="text-bleu2 font-semibold block my-2"> Social Media </p>
-                        <p className="text-gray-400 my-2"> Connect with us on social media for thelatest updates, events, and more! </p>
-                        <span className="text-gray-400 block my-2">
+                        <p className="text-[#98A2B3] my-2"> Connect with us on social media for thelatest updates, events, and more! </p>
+                        <span className="text-[#98A2B3] block my-2">
                             Facebook:
                             <a href="@digitalmorocco.com" className="hover:underline">
                                 @Digitalmorocco
                             </a>{" "}
                         </span>
-                        <span className="text-gray-400 block my-2">
+                        <span className="text-[#98A2B3] block my-2">
                             Instagram:
                             <a href="@digitalmorocco.com" className="hover:underline">
                                 @Digitalmorocco
                             </a>{" "}
                         </span>
-                        <span className="text-gray-400 block my-2">
+                        <span className="text-[#98A2B3] block my-2">
                             LinkedIn:
                             <a href="@digitalmorocco.com" className="hover:underline">
                                 @Digitalmorocco

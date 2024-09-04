@@ -24,7 +24,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                 <div className="flex flex-row w-full ">
                     <div className="flew flex-col w-[200px] ">
                     <Text
-                        className="font-DmSans text-sm font-medium leading-[26px] text-gray700"
+                        className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                         >
                         Your Name
                     </Text>
@@ -40,7 +40,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                 <div className="flex flex-row w-full ">
                     <div className="flew flex-col w-[200px] ">
                     <Text
-                        className="font-DmSans text-sm font-medium leading-[26px] text-gray700"
+                        className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                         >
                         Address
                     </Text>
@@ -56,7 +56,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                 <div className="flex flex-row w-full ">
                     <div className="flew flex-col w-[200px] ">
                     <Text
-                        className="font-DmSans text-sm font-medium leading-[26px] text-gray700"
+                        className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                         >
                         Email
                     </Text>
@@ -80,7 +80,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
                         <Text
-                            className="font-DmSans text-sm font-medium leading-[26px] text-gray700"
+                            className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             1 x 
                         </Text>
@@ -96,7 +96,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
                         <Text
-                            className="font-DmSans text-sm font-medium leading-[26px] text-gray700"
+                            className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             Date
                         </Text>
@@ -112,7 +112,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
                         <Text
-                            className="font-DmSans text-sm font-medium leading-[26px] text-gray700"
+                            className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             Location
                         </Text>
@@ -128,7 +128,7 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
                         <Text
-                            className="font-DmSans text-sm font-medium leading-[26px] text-gray700"
+                            className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             Ticket Code 
                         </Text>

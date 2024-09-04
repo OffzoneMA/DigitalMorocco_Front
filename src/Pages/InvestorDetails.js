@@ -103,7 +103,7 @@ console.log(investor)
                             </div>
                           </div>
                           <button style={{ whiteSpace: 'nowrap'}}
-                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer-green"
+                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center justify-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer-green"
                               onClick={openModal}
                               type="button"
                           >
@@ -114,48 +114,47 @@ console.log(investor)
                         <div className="py-3">
                           <div className="grid grid-cols-4 gap-px">
                             <div className="col-span-1 flex flex-col w-full  gap-7">
-                                <div className="flex font-DmSans text-xs font-bold leading-4 tracking-wider text-left uppercase text-gray-400">
+                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Investment
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
+                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
                                 { investor?.numberOfInvestment || 179}
                                 </div>
                             </div>
 
                             <div className="col-span-1 flex flex-col w-full gap-7">
-                                <div className="flex font-DmSans text-xs font-bold leading-4 tracking-wider text-left uppercase text-gray-400">
+                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Exits
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
+                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
                                 {investor?.numberOfExits || 44}
                                 </div>
                             </div>
 
                             <div className="col-span-1 flex flex-col w-full gap-7">
-                                <div className="flex font-DmSans text-xs font-bold leading-4 tracking-wider text-left uppercase text-gray-400">
+                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Fund
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
+                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
                                 {investor?.fund|| 52}
                                 </div>
                             </div>
 
                             <div className="col-span-1 flex flex-col w-full gap-7">
-                                <div className="flex font-DmSans text-xs font-bold leading-4 tracking-wider text-left uppercase text-gray-400">
+                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Acquisitions
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-gray-700">
+                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
                                 {investor?.acquisitions || 7}
                                 </div>
                             </div>
                             </div>
-
                         </div>
                       </div>
                 </div>
                 <div className="h-px bg-gray-201" />
                 <div className="flex flex-col gap-6">
-                    <Text className="font-DmSans text-lg font-semibold leading-8 text-left text-blue_gray-903">
+                    <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue_gray-903">
                         Overview
                     </Text>
                     <div className="flex flex-col gap-7">
@@ -163,12 +162,12 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <BiMessageAltError size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                   About
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                                     {investor?.desc || investor?.description || `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -178,12 +177,12 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <IoDocumentTextOutline  size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                   LEGAL NAME
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                                   {investor?.legalName || 'Venture Catalysts, Inc'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -195,11 +194,11 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <CiCalendarDate  size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Founded Date
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                               {investor?.foundedDate ? new Date(investor?.foundedDate).toLocaleString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
@@ -210,12 +209,12 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <TbCopy   size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Company Type
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                                 {investor?.type || 'Venture Capital'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -227,23 +226,23 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <BiMap   size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Headquarter
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                               {investor?.headquarter || 'Casablanca, Morocco'}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <FiGlobe   size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Website
                                 </Text>
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                                   {investor?.website || 'http://venture-catalysts.com'}
                                 </Text>
                                 <IoOpenOutline size={22} className="text-blue-700"/>
@@ -256,22 +255,22 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                               <PiCoinsThin size={22} className="text-teal-A700 transform scale-x-[-1]" />
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Investment Stage
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                               {investor?.investmentStage || 'Early Stage Venture, Late Stage Venture'}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <PiHandCoins size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Last Funding Type
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                               {investor?.lastFundingType || 'Privat Equity'}
                               </Text>
                             </div>
@@ -280,7 +279,7 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <HiOutlineSparkles size={22} className="text-teal-A700 " />
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Preferred Investment Industry
                                 </Text>
                               </div>
@@ -297,11 +296,11 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <LiaCoinsSolid   size={22} className="text-teal-A700 transform scale-x-[-1]"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Investment Capacity
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                               $ {investor?.investmentCapacity || '20,000,000'}
                               </Text>
                             </div>
@@ -310,7 +309,7 @@ console.log(investor)
                 </div>
                 <div className="h-px bg-gray-201" />
                 <div className="flex flex-col gap-6">
-                    <Text className="font-DmSans text-lg font-semibold leading-8 text-left text-blue_gray-903">
+                    <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue_gray-903">
                     Contact Info
                     </Text>
                     <div className="flex flex-col gap-7">
@@ -318,12 +317,12 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <BiPhoneCall  size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Phone Number
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                                 {investor?.phoneNumber || '+33 1 234 567 89'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -333,12 +332,12 @@ console.log(investor)
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <HiOutlineMail  size={22} className="text-teal-A700"/>
-                                <Text  className="font-DmSans text-sm font-bold leading-4 tracking-wider text-left text-gray-400 uppercase">
+                                <Text  className="font-dm-sans-bold text-xs leading-4 tracking-wider text-left text-[#98A2B3] uppercase">
                                 Email Address
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
                                 {investor?.emailAddress|| 'investment@venture-catalysts.com'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -350,14 +349,14 @@ console.log(investor)
                 </div>
                 <div className="h-px bg-gray-201" />
                 <div className="flex flex-col gap-6">
-                    <Text className="font-DmSans text-lg font-semibold leading-8 text-left text-blue_gray-903">
+                    <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue_gray-903">
                     Investments
                     </Text>
                     <div className="flex flex-col">
                         <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
-                            <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700   py-4 px-5">
+                            <div className="flex flex-row items-center flex-wrap text-sm text-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 h-[67px]  py-4 px-5">
                                 <Text
-                                className="text-lg leading-7 text-gray-900 pt-1"
+                                className="text-lg leading-7 text-[#101828]"
                                 size="txtDmSansMedium16"
                                 >
                                 List of Investement
@@ -365,8 +364,8 @@ console.log(investor)
                             </div>
                             <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
                               <table className=" w-full">
-                                <thead>
-                                <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
+                                <thead className="">
+                                <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[62px]">
                                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Announcement Date</th>
                                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Company Name</th>
                                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
@@ -379,7 +378,7 @@ console.log(investor)
                                 {
                                     (pageData.map((item, index) => (
                                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
-                                    <td className="px-[18px] py-4 text-gray700 font-dm-sans-regular text-sm leading-6">
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                                         {item.AnnouncementDate}
                                     </td>
                                     <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
@@ -388,9 +387,9 @@ console.log(investor)
                                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.CompanyName}</span>
                                         </div>
                                     </td>
-                                    <td className="px-[18px] py-4 text-gray700 font-dm-sans-regular text-sm leading-6">{item.Location}</td>
-                                    <td className="px-[18px] py-4 text-gray700 font-dm-sans-regular text-sm leading-6">{item.FundingRound}</td>
-                                    <td className="px-[18px] py-4 text-gray700 font-dm-sans-regular text-sm leading-6">{item.MoneyRaised}</td>
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.Location}</td>
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.FundingRound}</td>
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.MoneyRaised}</td>
                                     </tr>
                                 ))) }
                                 </tbody>

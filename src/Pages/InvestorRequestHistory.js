@@ -176,7 +176,7 @@ const InvestorRequestHistory = () => {
                   disabled={pageData?.length === 0}
                 >
                   <BiFilterAlt size={18} className="mr-2" />
-                  <span className="font-DmSans text-sm font-medium leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
+                  <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
                       Filters
                   </span>
                 </button>

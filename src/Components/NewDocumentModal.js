@@ -281,7 +281,7 @@ const NewDocumentModal = (props) => {
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
-              <button type="reset" className="flex items-center bg-gray-300  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-gray-700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
+              <button type="reset" className="flex items-center bg-gray-300  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
               onClick={closeModal}>Cancel</button>
               <button type="submit" className="flex items-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">{documentFile?._id ? 'Edit Document' : 'Add Document'}</button>
             </div>

@@ -276,7 +276,8 @@ const MyCompany = () => {
                     placeholder="Write your company’s short description here"
                     style={{
                           scrollbarWidth: 'none', 
-                          msOverflowStyle: 'none'
+                          msOverflowStyle: 'none',
+                          resize:'none'
                         }}
                   />
               </div>

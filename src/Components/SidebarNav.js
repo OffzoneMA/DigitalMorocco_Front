@@ -32,10 +32,8 @@ const SidebarNav = () => {
     // Ajoutez d'autres sous-menus si nécessaire
   });
   const location = useLocation();
-
   const [settingsOpen , setSettingsOpen] = useState(false);
   const [notifOpen , setNotifOpen] = useState(false);
-
   const [activeMenu, setActiveMenu] = useState(location.pathname.split('/')[1]);
   const [activeParent, setActiveParent] = useState('');
   const [showLogout , setShowLogout] = useState(false);
@@ -44,8 +42,11 @@ const SidebarNav = () => {
 
   const userData = JSON.parse(sessionStorage.getItem('userData'));
 
+  const settingActiveLinks = ["settings" , "Subscription" , "UserProfile" , "ChoosePlan" , "SubscribePlan"];
+  const subscriptionActiveLinks = ["Subscription" , "ChoosePlan" , "SubscribePlan"];
+
+
   useEffect(() => {
-    console.log('update')
     setActiveMenu(location.pathname.split('/')[1]);
   }, [location.pathname]);
 
@@ -221,10 +222,10 @@ const SidebarNav = () => {
               setActiveMenu("settings")
               resetSubmenus();
       }}
-      className={` ${!open && 'w-fit'} relative group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings")? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
+      className={` ${!open && 'w-fit'} relative group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu))? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
       // title={!open ? "Settings" : ""}
     >
-      <IoSettingsOutline size={22} className={`text-light_blue-100 ${activeMenu === "settings" || activeParent === "settings" ? "active-icon-color" : "hover-active-color"}`} />
+      <IoSettingsOutline size={22} className={`text-light_blue-100 ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu) )? "active-icon-color" : "hover-active-color"}`} />
       <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
           Settings
       </span>
@@ -278,7 +279,7 @@ const SidebarNav = () => {
         navigate("/Subscription")
         setActiveParent("settings")
         setActiveMenu("Subscription");}}
-      className={`relative group mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "SubscribePlan" )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+      className={`relative group mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || subscriptionActiveLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
       // title={!open ? "Subscription & Billing" : ""}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>

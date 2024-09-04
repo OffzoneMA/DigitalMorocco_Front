@@ -43,9 +43,11 @@ export default function Pagination({ nbrPages }) {
                 onClick={() => {
                     setSearchParams({ page: (current - 1 )})
                     setCurrent(current-1)}}
-                    className={`flex gap-2 text-gray500 border-gray-300 text-base  items-center justify-center border border-r-0 px-[16px] py-[14px] rounded-l-full ${current <2 && 'disabled'}`}
+                    className={`flex gap-[10px] text-[#15143966] hover:text-white-A700 hover:bg-gray700 border-[#EBEAED] text-base  items-center justify-center border border-r-0 px-[16px] py-[14px] rounded-l-full ${current <2 && 'disabled'}`}
             >
-                <ArrowLeftIcon className='h-4 w-4 ' />
+                <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.1663 6H0.833008M0.833008 6L5.83301 11M0.833008 6L5.83301 1" stroke="#667085" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 Prev
             </button>
             {generatePageLinks().map((el, i) => (
@@ -60,7 +62,7 @@ export default function Pagination({ nbrPages }) {
                             setSearchParams({ page: el })
                             setCurrent(el)
                         }}
-                        className={` px-4 w-[51px] border border-gray-300 ${current === el ? 'text-white-A700 bg-gray700' : 'text-gray700 bg-white'}`}
+                        className={` px-4 w-[51px] hover:text-white-A700 hover:bg-gray700 border border-[#EBEAED] ${current === el ? 'text-white-A700 bg-gray700' : 'text-gray700 bg-white'}`}
                 >
                      {el}
                 </button>
@@ -71,11 +73,12 @@ export default function Pagination({ nbrPages }) {
                         setSearchParams({ page: (parseInt(current)  + 1) })
                     setCurrent(current + 1)
                 }}
-                    className={`flex gap-2 text-gray500 border-gray-300 text-sm items-center justify-center border border-l-0 px-[16px] py-[14px] rounded-r-full ${current === nbrPages ? 'disabled' : ''}`}
+                    className={`flex gap-[10px] text-[#15143966] hover:text-white-A700 hover:bg-gray700 border-[#EBEAED] text-sm items-center justify-center border border-l-0 px-[16px] py-[14px] rounded-r-full ${current === nbrPages ? 'disabled' : ''}`}
             >
                 Next
-                    <ArrowRightIcon className='h-4 w-4 ' />
-
+                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.83301 10H17.1663M17.1663 10L12.1663 5M17.1663 10L12.1663 15" stroke="#667085" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
                 </button></div>
         </div>
     );

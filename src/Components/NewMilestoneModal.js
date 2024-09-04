@@ -102,15 +102,20 @@ const NewMilestoneModal = (props) => {
                 </Text>
                   <textarea
                     {...register("description")}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 h-[70px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
                     name="description"
                     rows={4}
-                    placeholder="Description"
+                    placeholder="Description" 
+                    style={{
+                          scrollbarWidth: 'none', 
+                          msOverflowStyle: 'none',
+                          resize:'none'
+                        }}
                   />
               </div>
             </div>
             <div className="flex space-x-3 md:space-x-5 px-6 md:px-5 items-end w-full justify-end">
-              <button onClick={props.onRequestClose} type="reset" className="flex items-center bg-gray-300 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray-700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Cancel</button>
+              <button onClick={props.onRequestClose} type="reset" className="flex items-center bg-gray-300 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Cancel</button>
               <button type="submit" className="flex items-center ml-auto bg-[#2575F0] hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
             </div>
           </form>

@@ -131,7 +131,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                 />
-                <IoSearch size={18} className="text-gray-400 z-20 hover:text-gray-500"/>
+                <IoSearch size={18} className="text-[#98A2B3] z-20 hover:text-gray-500"/>
               </div>
             </div>
          )}

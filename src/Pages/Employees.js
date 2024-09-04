@@ -217,7 +217,7 @@ const Employees = () => {
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
                     <PiUsersThin size={30} />
                     <Text
-                      className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto"
+                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
                       size=""
                     >
                       No Team Mmembers 

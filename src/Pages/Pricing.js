@@ -15,11 +15,11 @@ const Pricing = () => {
                                 <span className="text-5xl font-bold ml-1 text-bleu2">19.9</span>
                                 <span className=" text-sm ml-1 text-bleu2">per month</span>
                             </div>
-                            <p className="mt-4 text-gray-400 px-8 text-center ">
+                            <p className="mt-4 text-[#98A2B3] px-8 text-center ">
                                 Connect and collaborate at the entry level with curated events and resource access.
                             </p>
                         </div>
-                        <div className=" text-gray-400 py-8 px-3 ">
+                        <div className=" text-[#98A2B3] py-8 px-3 ">
                             <ul className="  space-y-4 tracking-wider">
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />Access to Digital Morocco networking platform</li>
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />Attend select online events and webinars</li>
@@ -27,7 +27,7 @@ const Pricing = () => {
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />Connect with potential partners and investors</li>
                             </ul>
                         </div>
-                        <div className="text-center  text-gray-400 py-8">
+                        <div className="text-center  text-[#98A2B3] py-8">
                             <button className="border-2 border-gray-201 flex justify-center  rounded-full bg-white text-bleu2 mx-2 p-2 w-48 ">
                                 Start Free Trial
                             </button>
@@ -45,7 +45,7 @@ const Pricing = () => {
                                 Unleash unlimited potential with premium events, reports, and priority connections.
                             </p>
                         </div>
-                        <div className=" text-gray-400 py-8 px-3">
+                        <div className=" text-[#98A2B3] py-8 px-3">
                             <ul className="  space-y-4 tracking-wider">
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />Full access to the Digital Morocco networking platform</li>
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />Unlimited access to all online events, conferences, and webinars</li>
@@ -68,11 +68,11 @@ const Pricing = () => {
                                 <span className="text-5xl font-bold ml-1 text-bleu2">99.9</span>
                                 <span className=" text-sm ml-1 text-bleu2">per month</span>
                             </div>
-                            <p className="mt-4 text-gray-400 px-8 text-center">
+                            <p className="mt-4 text-[#98A2B3] px-8 text-center">
                                 Experience VIP networking comprehensive event access, and personalized support.
                             </p>
                         </div>
-                        <div className=" text-gray-400 py-8 px-3">
+                        <div className=" text-[#98A2B3] py-8 px-3">
                             <ul className="  space-y-4 tracking-wider">
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />VIP access to the Digital Morocco</li>
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />Access to all online and offline events, conferences, and webinars</li>
@@ -81,7 +81,7 @@ const Pricing = () => {
                                 <li className="flex gap-5"><CheckIcon className="text-col1 h-5 w-8 " />Strategic promotion and branding opportunities</li>
                             </ul>
                         </div>
-                        <div className="text-center  text-gray-400 py-8">
+                        <div className="text-center  text-[#98A2B3] py-8">
                             <button className="border-2 border-gray-201 flex justify-center  rounded-full bg-white text-bleu2 mx-2 p-2 w-48 ">
                                 Start Free Trial
                             </button>

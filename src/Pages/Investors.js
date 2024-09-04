@@ -41,7 +41,6 @@ const Investors = () => {
   const [investors, setInvestors] = useState([]);
   const [loading, setLoading] = useState(true);
   const { data : locationData, isLoading:locationLoading } = useGetDistinctValuesQuery('type');
-  console.log(locationData)
 
   useEffect(() => {
     const token = sessionStorage.getItem("userToken");
@@ -77,7 +76,6 @@ const Investors = () => {
     fetchInvestorRequests();
     
   },[cur, itemsPerPage]);
-console.log(isSubscribe)
   const data = (isSubscribe && !loading)?  investors : InvestorsData;
 
   const filteredData = (isSubscribe && !loading)? data.filter(item => {
@@ -103,7 +101,6 @@ console.log(isSubscribe)
     setInvestmentType([]);
     setLocation('');
   }
-  
 
   // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -179,7 +176,7 @@ console.log(isSubscribe)
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={dataCountries} onSelect={""} searchLabel='Select Country' setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={dataCountries} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
                     placeholder="Location" valuekey="name"
                     content={
                       ( option) =>{ return (
@@ -193,7 +190,7 @@ console.log(isSubscribe)
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industrie' setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
                     placeholder="Select Industries"
                     content={
                       ( option) =>{ return (
@@ -217,7 +214,7 @@ console.log(isSubscribe)
                   type="button"
               >
                   <BiFilterAlt size={21} className="mr-2" />
-                  <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
+                  <span className="font-dm-sans-medium text-sm leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
                       Apply Filters
                   </span>
               </button>              
@@ -230,7 +227,7 @@ console.log(isSubscribe)
                   disabled={pageData?.length === 0}
                 >
                   <BiFilterAlt size={18} className="mr-2" />
-                  <span className="font-DmSans text-sm font-medium leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
+                  <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
                       Filters
                   </span>
               </button>
@@ -306,7 +303,7 @@ console.log(isSubscribe)
                         <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
                     </div>
-                    <div className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto">
+                    <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
                       <span>No matching data identified</span>
                     </div>
                   </div>
@@ -323,24 +320,24 @@ console.log(isSubscribe)
                     View all 261,765 Investors
                   </Text>
                   <Text
-                    className="font-DmSans text-sm font-medium leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
+                    className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
                     size=""
                   >
-                    Upgrade to <a className="text-blue-500" href="/DigitalMoroccoPro">Digital Morocco Pro</a>,  and get access all search results, save to custom lists and get connected with investors
+                    Upgrade to <a className="text-blue-500" href="/ChoosePlan">Digital Morocco Pro</a>,  and get access all search results, save to custom lists and get connected with investors
                   </Text>
                   <button
-                    className="bg-blue-A400 text-white-A700 flex flex-row items-center p-2 rounded-md cursorpointer-green"
+                    className="flex items-center justify-center gap-[12px] bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-[12px] py-[8px] h-[37px] rounded-md cursorpointer-green"
                     onClick={() => navigate('/ChoosePlan')}
                     type="button"
                   >
-                    <TiFlashOutline size={25} className="mr-2" />
+                    <TiFlashOutline size={25} className="" />
                     <span className="text-sm font-dm-sans-medium leading-[18.23px] text-white-A700">Upgrade Membership</span>
                   </button>
 
                 </div>
                 )}
               </div>
-              {pageData?.length>0 && (
+              {(pageData?.length>0 && !loading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
                   currentPage={cur}

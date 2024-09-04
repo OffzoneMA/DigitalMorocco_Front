@@ -39,7 +39,7 @@ const UpcomingEventDetails = () => {
         ));
       
         return (
-          <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray700 pl-8">
+          <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
             {paragraphs}
           </Text>
         );
@@ -162,16 +162,16 @@ const UpcomingEventDetails = () => {
                     <div className="flex flex-col gap-3 flex-1">
                         <div className="flex flex-row justify-between items-start  w-full">
                             <Text
-                                className=" text-lg font-medium leading-7 text-left text-blue_gray-903 w-full"
+                                className=" text-[24px] font-dm-sans-bold leading-7 text-left text-blue_gray-903 w-full"
                                 >
                                 { event?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
                             </Text>
                             {event?.status == 'upcoming' &&
                             <button
-                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row md:h-auto items-center px-4 py-2 rounded-md w-auto cursorpointer-green"
+                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center px-4 py-2 rounded-md min-w-[101px] cursorpointer-green"
                               type="button"
                               >
-                              <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-medium leading-[18.23px]">
+                              <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-dm-sans-medium leading-[18.23px]">
                                   Buy Ticket
                               </span>
                             </button>
@@ -180,7 +180,7 @@ const UpcomingEventDetails = () => {
                       <div className="flex flex-row gap-3 items-center text-left">
                           <MdOutlineDateRange  size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
+                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
                           {formatEventDate(event?.startDate , event?.endDate)}
                           </Text>
@@ -188,7 +188,7 @@ const UpcomingEventDetails = () => {
                       <div className="flex flex-row gap-3 items-center  text-left">
                           <IoMdTime  size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
+                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
                           {formatEventTime(event?.startDate , event?.endDate , event?.startTime? event?.startTime : '', event?.endTime? event?.endTime : '')}
                           </Text>
@@ -196,7 +196,7 @@ const UpcomingEventDetails = () => {
                       <div className="flex flex-row gap-3 items-center text-left">
                           <BiMap  size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
+                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
                           {event?.physicalLocation || "Online Only"}
                           </Text>
@@ -216,7 +216,7 @@ const UpcomingEventDetails = () => {
                         <div className="flex flex-row gap-3 items-center  text-left">
                           <PiTagBold    size={18} className="text-teal-A300"/>
                           <Text
-                          className="text-gray-801  text-base font-dm-sans-regular leading-6"
+                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
                           {event?.price !== undefined && event?.price !== null ? 
                             (event.price === 0 ? 'Free' : `$ ${(event.price).toFixed(2)}`) : 
@@ -228,7 +228,7 @@ const UpcomingEventDetails = () => {
                     </div>
                   </div> 
                   <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-201 pb-8">
-                    <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
+                    <Text className=" text-[22px] font-dm-sans-medium leading-8 text-left text-blue_gray-903">
                         Overview
                     </Text>
                     <div className="flex flex-col gap-7 w-full">
@@ -236,12 +236,12 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <HiOutlineSpeakerphone size={20} className="text-teal-A700"/>
-                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Organized by
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
                                 {event?.organizedBy || 'North Africa Dreamin'}
                                 </Text>
                               </div>
@@ -249,12 +249,12 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <BiMap  size={20} className="text-teal-A700"/>
-                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Location
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
                                 { event?.physicalLocation || 'Online Only'}
                                 </Text>
                               </div>
@@ -264,23 +264,23 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange  size={20} className="text-teal-A700"/>
-                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Start Date
                                 </Text>
                               </div>
-                              <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
                               {event?.startDate ? format(event?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.startTime || ''}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange   size={20} className="text-teal-A700"/>
-                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 End Date
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
                                 {event?.endDate 
                                   ? format(new Date(event?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
                                   : event?.startDate 
@@ -294,23 +294,23 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <BiPurchaseTagAlt    size={20} className="text-teal-A700"/>
-                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Industry
                                 </Text>
                               </div>
-                              <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
                               Artificial Intelligence (AI), Finance, FinTech, Salesforce
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <TbCopy   size={20} className="text-teal-A700"/>
-                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Event Type
                                 </Text>
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
-                                <Text className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
                                 { event?.category || 'Meetup, Networking, Conference'}
                                 </Text>
                               </div>
@@ -320,11 +320,11 @@ const UpcomingEventDetails = () => {
                             <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                               <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
-                                <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Description
                                 </Text>
                               </div>
-                              <div className=" text-base font-dm-sans-regular leading-6 tracking-wide text-left text-gray-700 pl-8">
+                              <div className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
                                 {event?.description.split('\n').map((line , index) =>
                                   <p key={index} className="mb-4">{line}</p>
                                 ) }
@@ -336,7 +336,7 @@ const UpcomingEventDetails = () => {
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                           <div className="flex flex-row gap-3 items-center">
                           <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
-                            <Text  className=" text-sm font-bold leading-4 tracking-wider text-left text-blue_gray-301 uppercase">
+                            <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                             Attendance
                             </Text>
                           </div>

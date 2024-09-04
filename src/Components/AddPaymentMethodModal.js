@@ -217,7 +217,7 @@ const AddPaymentMethodModal = (props) => {
                   <button
                     onClick={props.onRequestClose}
                     type="button"
-                    className="flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray-700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                    className="flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                   >
                     Cancel
                   </button>

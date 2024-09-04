@@ -259,7 +259,7 @@ const Events = () => {
                         type="button"
                     >
                         <BiFilterAlt size={18} className="mr-2" />
-                        <span className="font-DmSans text-sm font-medium leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
+                        <span className="font-dm-sans-medium text-sm leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
                             Apply Filters
                         </span>
                     </button>
@@ -272,7 +272,7 @@ const Events = () => {
                         disabled={pageData?.length === 0}
                       >
                         <BiFilterAlt size={18} className="mr-2" />
-                        <span className="font-DmSans text-sm font-medium leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
+                        <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
                             Filters
                         </span>
                       </button>
@@ -413,15 +413,16 @@ const Events = () => {
                   <div className="flex flex-col items-center h-screen w-full py-28 gap-5">
                     <img src={ticketEmptyImg} />
                     <Text
-                      className="font-dm-sans-regular text-sm leading-6 text-gray700 w-auto py-4"
+                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto py-4"
                       size=""
                     >
                       It seems like you haven't taken part in any events yet
                     </Text>
-                    <div className="bg-blue-A400 text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
+                    <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
                         <button
                             type="button"
-                            className=" font-DmSans text-sm font-medium leading-[18.23px] text-white-A700"
+                            onClick={() => navigate('/UpcomingEvent')}
+                            className=" font-dm-sans-medium text-sm leading-[18.23px] text-white-A700 cursorpointer-green"
                             style={{whiteSpace:'nowrap'}}
                         >
                           Browse Upcoming Event

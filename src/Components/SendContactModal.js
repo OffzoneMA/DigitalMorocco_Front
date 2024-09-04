@@ -78,8 +78,8 @@ const SendContactModal = (props) => {
         {...props}
       >
         <form onSubmit={handleSubmit(onSubmit)} className="max-h-screen w-full md:w-full">
-          <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
-            <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
+          <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm py-6 rounded-[10px] w-full">
+            <div className="flex flex-row gap-5 items-start justify-start px-5 w-full">
               <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text
                   className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-gray-900 w-full"
@@ -93,7 +93,8 @@ const SendContactModal = (props) => {
                 />
               </div>
             </div>
-            <div className="flex flex-col gap-5 w-full max-h-[70vh] overflow-y-auto">
+            <div className="flex px-6 md:px-5 h-[1px] w-full"> <div className="bg-gray-201 w-full"></div></div>
+            <div className="flex flex-col gap-5 w-full max-h-[70vh] px-5 overflow-y-auto">
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
                   className="text-base text-[#1D1C21] w-auto"
@@ -123,18 +124,20 @@ const SendContactModal = (props) => {
                 >
                   Write Your Request Letter
                 </Text>
-                <div className="flex flex-col md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">
-                  <textarea 
-                    {...register("letter", { required: {value:true , message: "Request Letter is required."} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                    rows={5}
-                    placeholder="Write your request letter here"
-                    >
-                  </textarea>
-                </div>
-                {errors.letter && <span className="text-sm font-DmSans text-red-500">{errors.letter?.message} </span>}
+                <textarea 
+                  {...register("letter", { required: {value:true , message: "Request Letter is required."} })}
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  rows={5}
+                  placeholder="Write your request letter here" 
+                  style={{
+                          scrollbarWidth: 'none', 
+                          msOverflowStyle: 'none',
+                          resize:'none'
+                        }}
+                  >
+                </textarea>
                 <Text
-                  className="font-dm-sans-regular text-sm leading-6 text-left text-gray-700"
+                  className="font-dm-sans-regular text-sm leading-6 text-left text-gray700"
                   size=""
                 >
                   Introduce your startup or provide additional context about your project
@@ -147,7 +150,7 @@ const SendContactModal = (props) => {
                 >
                   Upload Additional Document
                 </Text>
-                <div className={`"flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border ${preview?  "border-dashed ": "border-solid"}`} 
+                <div className={`"flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-[166px] rounded-md border ${preview?  "border-dashed ": "border-solid"}`} 
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
                   {preview? (
@@ -155,8 +158,10 @@ const SendContactModal = (props) => {
                     <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
                     <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {files.name}
                     </Text>
-                    <div className="bg-white-A700 text-blue-700 border border-solid border-blue-500 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
-                      <LuUploadCloud  size={18} className="mr-2"/>
+                    <div className="bg-white-A700 icon-container text-blue-700 border border-solid border-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] flex flex-row gap-[6px] items-center p-[7px] rounded-md w-auto">
+                      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.5 11.5L8.5 8.5M8.5 8.5L11.5 11.5M8.5 8.5V15.25M14.5 12.0571C15.4161 11.3005 16 10.156 16 8.875C16 6.59683 14.1532 4.75 11.875 4.75C11.7111 4.75 11.5578 4.6645 11.4746 4.5233C10.4965 2.86363 8.69082 1.75 6.625 1.75C3.5184 1.75 1 4.2684 1 7.375C1 8.92458 1.62659 10.3278 2.64021 11.3451" stroke="#2575F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
                       <input
                       ref={inputRef}
                       onChange={handleFileChange}
@@ -168,24 +173,26 @@ const SendContactModal = (props) => {
                       <button
                         onClick={() =>onButtonClick(inputRef)}
                         type="button"
-                        className="font-DmSans text-sm font-medium leading-[26px] "
+                        className="font-dm-sans-medium text-sm leading-[26px] cursorpointer-green "
                       >
                         update your document
                       </button>
                     </div>
                 </div>) :
                   (   
-                <div className="flex flex-col items-center text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12"
+                <div className="flex flex-col items-center gap-[16px] text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12"
                  onClick={()=> onButtonClick(inputRef)} >
-                  <LuUploadCloud  size={24} className=" mr-2"/>
+                  <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 14.5L11 10.5M11 10.5L15 14.5M11 10.5V19.5M19 15.2428C20.2215 14.234 21 12.7079 21 11C21 7.96243 18.5376 5.5 15.5 5.5C15.2815 5.5 15.0771 5.386 14.9661 5.19774C13.6621 2.98484 11.2544 1.5 8.5 1.5C4.35786 1.5 1 4.85786 1 9C1 11.0661 1.83545 12.9371 3.18695 14.2935" stroke="#2575F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                   <input
-                          ref={inputRef}
-                          onChange={handleFileChange}
-                          style={{ display: 'none' }}
-                          className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-                          type="file"
-                          name="name"
-                        />
+                    ref={inputRef}
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="file"
+                    name="name"
+                  />
                   <Text className="text-sm leading-[26px] items-center font-normal tracking-normal">
                     Drop file or <span className="" >click here to upload your document</span>  
                   </Text>
@@ -195,7 +202,7 @@ const SendContactModal = (props) => {
                 </div>
               </div>
             </div>
-            <div className="flex items-end w-full justify-end">
+            <div className="flex items-end w-full px-5 justify-end">
               <div className="flex space-x-3 md:space-x-5 w-auto">
                 <button 
                 type="reset"
