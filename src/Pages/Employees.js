@@ -25,7 +25,7 @@ const Employees = () => {
   const navigate = useNavigate();
   const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 8;
   const pagesToShow = 4;
 
   const data = filteredEmployees;

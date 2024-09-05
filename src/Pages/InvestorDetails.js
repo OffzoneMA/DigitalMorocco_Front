@@ -31,7 +31,7 @@ const InvestorDetails = () => {
     const location = useLocation();
     const [investor, setInvestor] = useState(location.state?.investor || null);
   const [cur, setCur] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 8;
   const itemsToShow = 4;
 
   const data = [

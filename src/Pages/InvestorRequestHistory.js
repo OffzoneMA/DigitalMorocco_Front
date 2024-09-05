@@ -27,7 +27,7 @@ const InvestorRequestHistory = () => {
   const [user, setUser] = useState([]);
   const [status, setStatus] = useState([]);
   const [cur, setCur] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 8;
   const itemsToShow = 4;
   const [investorRequests, setInvestorRequests] = useState([]);
   const [loading, setLoading] = useState(true);

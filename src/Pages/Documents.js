@@ -33,7 +33,7 @@ const Documents = () => {
   const [deleteRow , setDeleteRow] = useState(null);
   const [dataRow , setDataRow] = useState(null);
   const [cur, setCur] = useState(1);
-  const itemsPerPage = 2;
+  const itemsPerPage = 8;
   const itemsToShow = 4;
   const data = documents;
   const totalPages = Math.ceil(data?.length / itemsPerPage);
@@ -183,7 +183,7 @@ const Documents = () => {
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.owner?.displayName}</span>
                         </div>
                         </td>
-                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.shareWith}</td>
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.shareWith || '-'}</td>
                       <td className="px-[18px] py-4 ">
                         <div className="flex flex-row space-x-[18px] items-center">
                           <div className="relative group">

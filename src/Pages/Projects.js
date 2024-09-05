@@ -29,7 +29,7 @@ const Projects = () => {
   const [deleteRow , setDeleteRow] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
   const itemsToShow = 4;
   // const data = projectsData;
 
