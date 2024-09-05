@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text } from "../Components/Text";
-import { FaRegPlusSquare } from "react-icons/fa";
+import { FaRegPlusSquare , FaUserCircle } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
 import { FiEdit3 } from "react-icons/fi";
 import { FiDownload } from "react-icons/fi";
@@ -16,6 +16,7 @@ import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 import Loader from "../Components/Loader";
+import { formatDate } from "../data/helper";
 
 const CompanyLegal = () => {
   const navigate = useNavigate();
@@ -257,20 +258,17 @@ const fetchLegalDocuments = async () => {
                         <span className="text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-3 text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {new Date(document?.lastModifiedDate || document?.dateCreated).toLocaleString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        hour12: true
-                      })}
+                    <td className="py-4 px-[18px] text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {formatDate(document?.lastModifiedDate || document?.dateCreated)}
                       </td>
                     <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
-                        <img src={document?.ownerImg || userData?.image} alt="owner" className="h-9 w-9 mr-2 rounded-full"/>
-                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.owner}</span>
+                        {document?.createdBy?.image ? (
+                          <img src={document?.owner?.image} className="rounded-full h-9 w-9 " alt="" />
+                        ) : (
+                          <FaUserCircle className="h-9 w-9 text-gray-500" /> // Placeholder icon
+                        )}
+                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document?.createdBy?.displayName}</span>
                       </div>
                     </td>
                     <td className="px-[18px] py-4 ">

@@ -30,3 +30,19 @@ export function getLocalStorageItemWithExpiration(key) {
   
   return localStorage.getItem(key);
 }
+
+export function formatDate (dateString) {
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'short', // 'Jun'
+      day: 'numeric', // '6'
+      year: 'numeric', // '2023'
+  });
+  const formattedTime = date.toLocaleTimeString('en-US', {
+      hour: '2-digit', // '02'
+      minute: '2-digit', // '37'
+      second: '2-digit', // '22'
+      hour12: true, // 12-hour format with AM/PM
+  });
+  return `${formattedDate} ${formattedTime}`;
+};

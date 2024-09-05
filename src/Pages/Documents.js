@@ -33,7 +33,7 @@ const Documents = () => {
   const [deleteRow , setDeleteRow] = useState(null);
   const [dataRow , setDataRow] = useState(null);
   const [cur, setCur] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 2;
   const itemsToShow = 4;
   const data = documents;
   const totalPages = Math.ceil(data?.length / itemsPerPage);
@@ -117,8 +117,6 @@ const Documents = () => {
     });
     return `${formattedDate} ${formattedTime}`;
 };
-
-
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -172,7 +170,7 @@ const Documents = () => {
                       <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center" >
                             <IoDocumentTextOutline size={17}  className="text-gray-900_01 mr-2"/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{`${item?.title}.${item?.documentName.split('.').pop()}`}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{`${item?.title}.${item?.documentName?.split('.').pop()}`}</span>
                         </div>
                       </td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">

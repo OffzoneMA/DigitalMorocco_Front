@@ -410,10 +410,10 @@ const Events = () => {
                     <Loader />
                   </div>
                   :
-                  <div className="flex flex-col items-center h-screen w-full py-28 gap-5">
+                  <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
                     <img src={ticketEmptyImg} />
                     <Text
-                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto py-4"
+                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto pb-4"
                       size=""
                     >
                       It seems like you haven't taken part in any events yet
