@@ -118,7 +118,7 @@ const handleCancelClick = () => {
                                 <IoDocumentTextOutline size={16} className="mr-2" />
                                 {preview ? files.name : documentFile?.name}
                             </Text>
-                            <div className="font-DmSans icon-container bg-white-A700 gap-[6px] text-blue-A400 border border-solid hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] border-blue-A400 flex flex-row md:h-auto items-center p-[7px] rounded-md w-auto">
+                            <div className="font-DmSans icon-container bg-white-A700 gap-[6px] text-blue-A400 border border-solid hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] border-blue-A400 flex flex-row h-[46px] items-center py-[7px] px-[12px] rounded-md w-auto">
                                 <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.5 11L8.5 8M8.5 8L11.5 11M8.5 8V14.75M14.5 11.5571C15.4161 10.8005 16 9.65595 16 8.375C16 6.09683 14.1532 4.25 11.875 4.25C11.7111 4.25 11.5578 4.1645 11.4746 4.0233C10.4965 2.36363 8.69082 1.25 6.625 1.25C3.5184 1.25 1 3.7684 1 6.875C1 8.42458 1.62659 9.82781 2.64021 10.8451" stroke="#2575F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
