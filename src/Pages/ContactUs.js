@@ -21,7 +21,7 @@ const ContactUs = () => {
                                 id="firstName"
                                 name="firstName"
                                 placeholder="First Name"
-                                className="border border-gray-300 rounded-full p-2 w-full"
+                                className="border border-gray-201 rounded-full p-2 w-full"
                             />
                         </div>
                         <div className="mb-8">
@@ -32,7 +32,7 @@ const ContactUs = () => {
                                 id="lastName"
                                 name="lastName"
                                 placeholder="Last Name"
-                                className="border border-gray-300 rounded-full p-2 w-full"
+                                className="border border-gray-201 rounded-full p-2 w-full"
                             />
                         </div>
                         <div className="mb-8">
@@ -43,7 +43,7 @@ const ContactUs = () => {
                                 id="phone"
                                 name="phone"
                                 placeholder="Your phone"
-                                className="border border-gray-300 rounded-full p-2 w-full"
+                                className="border border-gray-201 rounded-full p-2 w-full"
                             />
                         </div>
                         <div className="mb-8">
@@ -54,14 +54,14 @@ const ContactUs = () => {
                                 id="email"
                                 name="email"
                                 placeholder="Your email"
-                                className="border border-gray-300 rounded-full p-2 w-full"
+                                className="border border-gray-201 rounded-full p-2 w-full"
                             />
                         </div>
                         <div className="mb-8">
                             <label htmlFor="Your message" text="Your message" className="block font-medium">
                             </label>
                             <textarea
-                                className="border border-gray-300 rounded-xl p-8 w-full  "
+                                className="border border-gray-201 rounded-xl p-8 w-full  "
                                 placeholder="Your message"
                             />
                         </div>

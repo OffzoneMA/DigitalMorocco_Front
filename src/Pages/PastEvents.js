@@ -76,7 +76,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                 </div>
                 <SearchInput className={'w-[240px]'}/>
               </div>
-              <div className="flex flex-col items-start justify-start w-full">
+              <div className="flex flex-col items-start justify-start w-full min-h-[440px]">
                 {displayedEvents?.length > 0 ? 
                 (displayedEvents.map((item, index) => (
                   <div key={index} className="cursorpointer group flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-201 py-6" 

@@ -159,7 +159,11 @@ console.log(totalPages)
                 </TableTitle>
               
             </div>
-            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
+            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto" 
+              style={{
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                }}>
               <table className="w-full border-collapse">
                 <thead>
                 <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">

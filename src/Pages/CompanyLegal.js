@@ -238,7 +238,11 @@ const fetchLegalDocuments = async () => {
                 <span className="text-sm font-medium leading-[18.23px]">Add New Document</span>
              </button>
             </div>
-            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
+            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto" 
+              style={{
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                }}>
               <table className="w-full border-collapse">
                 <thead>
                 <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
@@ -251,11 +255,11 @@ const fetchLegalDocuments = async () => {
                 {documentData?.length > 0 ?
                 <tbody className="font-dm-sans-regular text-sm leading-6">
                  {(documentData.map((document, index) => (
-                  <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`}>
-                    <td className="px-[18px] py-4" onClick={()=>openEditModal(document)}>
+                  <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`} onClick={()=>openEditModal(document)}>
+                    <td className="px-[18px] py-4" >
                       <div className="flex flex-row space-x-3 items-center">
                         <GrAttachment size={15} className="text-black" />
-                        <span className="text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document.name}</span>
+                        <span className="text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{`${document?.title}.${document?.name?.split('.')?.pop()}`}</span>
                       </div>
                     </td>
                     <td className="py-4 px-[18px] text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -264,7 +268,7 @@ const fetchLegalDocuments = async () => {
                     <td className="px-[18px] py-4 text-gray-900_01">
                       <div className="flex flex-row space-x-3 items-center">
                         {document?.createdBy?.image ? (
-                          <img src={document?.owner?.image} className="rounded-full h-9 w-9 " alt="" />
+                          <img src={document?.createdBy?.image} className="rounded-full h-9 w-9 " alt="" />
                         ) : (
                           <FaUserCircle className="h-9 w-9 text-gray-500" /> // Placeholder icon
                         )}
@@ -274,7 +278,9 @@ const fetchLegalDocuments = async () => {
                     <td className="px-[18px] py-4 ">
                       <div className="flex flex-row space-x-3 px-3 items-center">
                         <div className="relative group">
-                          <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> openEditModal(document)}/>
+                          <FiEdit3 size={17} className="text-blue_gray-301" onClick={(e)=> {
+                            e.stopPropagation();
+                            openEditModal(document)}}/>
                           <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
                             <div className="mb-px mr-[3px]">
                               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
@@ -287,7 +293,9 @@ const fetchLegalDocuments = async () => {
                           </div>
                         </div>
                         <div className="relative group">
-                          <HiOutlineTrash size={17} onClick={()=> openDeleteModal(document)} className="text-blue_gray-301"/>
+                          <HiOutlineTrash size={17} onClick={(e)=> {
+                            e.stopPropagation();
+                            openDeleteModal(document)}} className="text-blue_gray-301"/>
                           <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
                             <div className="mb-px mr-[3px]">
                               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
@@ -357,7 +365,14 @@ const fetchLegalDocuments = async () => {
     </div>
     <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal} onSubmit={handleAddDocument} />
     <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document} onSubmit={handleEditDocument} />
-    <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title="Delete" onDelete={() => handleDelete()} content={<div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full"><Text className="font-DmSans text-center text-base font-normal leading-6" size="">This will <span className="text-red-500">immediately and permanently</span> delete document.<br />Are you sure you want to delete this?</Text></div>} />
+    <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title="Delete" onDelete={() => handleDelete()} 
+      content={
+      <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
+        <Text className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6" size="">
+          This will <span className="text-[#E02D3C]">immediately and permanently</span> 
+          delete document.<br />Are you sure you want to delete this?
+        </Text>
+      </div>} />
 </div>
   );
 };

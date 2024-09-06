@@ -17,6 +17,7 @@ import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import TableTitle from "../Components/TableTitle";
 import axios from "axios";
+import { GoDotFill } from "react-icons/go";
 
 const ProjectDetails = () => {
   const dividerRef = useRef(null);
@@ -154,13 +155,13 @@ useEffect(() => {
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start px-5 w-full">
           <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
-          <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-4 px-5">
+          <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-900_01 border-b border-gray-201 rounded-t-lg bg-white-A700 py-4 px-5">
             <div className="flex items-center">
               <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
             </div>
             <div className="flex flex-wrap gap-3 items-center ">
               <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-500 flex items-center px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
                 onClick={openModal}
                 type="button"
                 style={{whiteSpace: 'nowrap'}}
@@ -169,7 +170,7 @@ useEffect(() => {
                 <span className="hidden md:inline-block">Share to Investor</span>
               </button>
               <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-500 cursorpointer-green flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 cursorpointer-green flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
                 onClick={openDeleteModal}
                 type="button"
                 style={{whiteSpace: 'nowrap'}}
@@ -178,7 +179,7 @@ useEffect(() => {
                 <span className="hidden md:inline-block">Delete Project</span>
               </button>
               <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-500 flex items-center cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
+                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
                 onClick={() => navigate(`/Editproject/${projectId}`, { state: { project: project } })}
                 type="button"
                 style={{whiteSpace: 'nowrap'}}
@@ -192,53 +193,53 @@ useEffect(() => {
               <div className="flex flex-wrap py-2 w-full">
                 <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
                       Total Raised
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-xl text-blue_gray-800 sm:text-base md:text-lg lg:text-xl" size="txtDMSansMedium22">
+                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
                       {`${project?.currency || 'USD'} ${formatNumber(project?.totalRaised) || 0}`}
                     </Text>
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
                       Target
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl" size="txtDMSansMedium22">
+                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
                       {`${project?.currency || 'USD'} ${formatNumber(project?.funding) || 0}`}
                     </Text>
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
                       Stage
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[22px] text-blue_gray-800 sm:text-base md:text-lg lg:text-xl w-auto">
+                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium w-auto">
                       {project?.stages?.[0] ? project?.stages?.[0] : project?.stage}
                     </Text>
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
                       Status
                     </Text>
                   </div>
                   <div className="flex flex-row items-start justify-start w-full">
-                    <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
+                    <div className={`flex items-center justify-center text-center w-auto px-[10px] py-[4px] h-[28px] gap-[6px] font-inter text-sm font-medium leading-[20px] rounded-full ${
                       project?.status === 'Active' ? 'bg-emerald-50 text-green-700' :
                       project?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
                       project?.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : 'bg-emerald-50 text-green-700'
                     }`} style={{whiteSpace: 'nowrap'}}>
-                      <BsDot size={28} className="" />
+                      <GoDotFill  size={12} className={`${project?.status === 'Active' ? "text-[#12B76A]" : project?.status === 'In Progress' ? "text-blue-501" : "text-blue_gray-700" }`}/>
                       <label className="font-inter text-sm font-medium leading-[20px] text-center">
                         {project?.status ? project?.status : 'Active'}
                       </label>
@@ -247,17 +248,17 @@ useEffect(() => {
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
                       Publication
                     </Text>
                   </div>
                   <div className="flex flex-row items-start justify-start w-full">
-                    <div className={`flex items-center justify-center text-center h-[22px] pr-2 font-inter text-sm font-medium leading-[20px] rounded-full ${
+                    <div className={`flex items-center justify-center text-center w-auto px-[10px] py-[4px] h-[28px] gap-[6px] font-inter text-sm font-medium leading-[20px] rounded-full ${
                       project?.visbility?.toLowerCase() === 'public' ? 'bg-emerald-50 text-green-700' :
                       project?.visbility?.toLowerCase() === 'private' ? 'bg-[#FFEEEA] text-[#FF5733]' : 'bg-emerald-50 text-green-700'
                     }`} style={{whiteSpace: 'nowrap', textDecoration: 'capitalize'}}>
-                      <BsDot size={28} className="" />
-                      <label className="font-inter text-sm font-medium leading-[20px] text-center">
+                      <GoDotFill  size={12} className={`${project?.visbility?.toLowerCase() === 'public' ? 'text-[#12B76A]': 'text-[#FF5733]'}`} />
+                      <label className="font-inter text-sm font-medium leading-[20px] text-center capitalize">
                         {project?.visbility ? project?.visbility : 'Public'}
                       </label>
                     </div>
@@ -270,7 +271,7 @@ useEffect(() => {
                   <div className="flex flex-col items-start justify-start w-full">
                     <div className="flex flex-col items-center justify-start w-auto">
                       <Text
-                        className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                         size="txtDMSansBold12"
                       >
                         Project Description
@@ -278,7 +279,7 @@ useEffect(() => {
                     </div>
                     <div className="flex flex-col justify-start py-4 w-full">
                       <Text
-                        className="leading-[26.00px] max-w-[599px] md:max-w-full text-blue_gray-800_01 text-sm"
+                        className="leading-[26.00px] max-w-[599px] md:max-w-full text-gray700 text-sm"
                         size="txtDMSansRegular14Bluegray80001"
                       >
                         { project?.details? project?.details : `Discover a dynamic and innovative business
@@ -296,7 +297,7 @@ useEffect(() => {
                   <div className="flex flex-col items-start justify-start pb-4 w-full">
                     <div className="flex flex-row gap-1 items-center justify-between w-full">
                       <Text
-                        className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                         size="txtDMSansBold12"
                       >
                         Project Milestone
@@ -326,14 +327,14 @@ useEffect(() => {
                   <div className="flex flex-col  items-start justify-start w-full">
                     <div className="flex flex-row gap-1 items-center justify-between w-full">
                       <Text
-                        className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                         size="txtDMSansBold12"
                       >
                         Team Member
                       </Text>
-                      <div className="flex w-[45%] rounded-md p-2 border border-solid">
+                      <div className="relative w-[260px]">
                         <input
-                          className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                          className={`!placeholder:text-[#98A2B3] !text-gray700 font-manrope p-2 h-[36px] pr-[30px] text-left text-sm tracking-[0.14px] w-full bg-transparent border border-solid border-gray-201 rounded-md`}
                           type="text"
                           name="search"
                           placeholder="Search..."
@@ -341,9 +342,9 @@ useEffect(() => {
                           onChange={(e) => setSearchValue(e.target.value)}
                         />
                         <img
-                          className="mr-1.5 my-px"
+                          className="absolute right-3 top-2.5 w-4 h-4"
                           src="/images/img_search_blue_gray_700_01.svg"
-                          alt=""
+                          alt="Search Icon"
                         />
                       </div>
                     </div>
@@ -370,7 +371,7 @@ useEffect(() => {
                 <div ref={div2Ref} className="flex flex-col items-start justify-start w-full md:w-1/3">
                   <div className="flex flex-col items-center justify-start w-auto">
                     <Text
-                      className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                      className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                       size="txtDMSansBold12"
                     >
                       Documents

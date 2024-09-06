@@ -131,7 +131,11 @@ const Employees = () => {
                 <span className="text-sm font-dm-sans-medium leading-[18.23px]">Add New Employee</span>
               </button>
             </div>
-            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">                       
+            <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto" 
+              style={{
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                }}>                       
             <table className="w-full mx-auto table-auto">
               <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
@@ -148,13 +152,13 @@ const Employees = () => {
                   {(
                     filteredEmployees.map((employee, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`} 
-                        /*onClick={() => handleEditEmployee(employee._id)}*/>
-                        <td className="px-[18px] py-4 text-gray-900_01">
-                      <div className="flex items-center " style={{}}>
-                        <img src={ employee?.image || `data:image/png;base64,${employee.photo}`} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
-                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{employee.fullName}</span>
-                      </div>
-                    </td>
+                        onClick={() => handleEditEmployee(employee._id)}>
+                        <td className="px-[18px] py-4 text-gray-900_01" >
+                          <div className="flex items-center " style={{}}>
+                            <img src={ employee?.image || `data:image/png;base64,${employee.photo}`} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
+                            <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{employee.fullName}</span>
+                          </div>
+                        </td>
                         <td className="px-[18px] py-4 text-gray500">{employee.workEmail}</td>
                         <td className="px-[18px] py-4 text-gray500">{employee.jobTitle}</td>
                         <td className="px-[18px] py-4 text-gray500">{employee.level}</td>
@@ -174,7 +178,9 @@ const Employees = () => {
                         <td className="px-[18px] py-4 ">
                           <div className="flex flex-row space-x-3 px-3 items-center">
                             <div className="relative group">
-                              <HiOutlineTrash size={17} onClick={() => openDeleteModal(employee)} className="text-blue_gray-301"/>
+                              <HiOutlineTrash size={17} onClick={(e) => {
+                                e.stopPropagation();
+                                openDeleteModal(employee)}} className="text-blue_gray-301"/>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
                                 <div className="mb-px mr-[3px]">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
@@ -187,7 +193,9 @@ const Employees = () => {
                               </div>
                             </div>
                             <div className="relative group">
-                              <FiEdit3 size={17} className="text-blue_gray-301" onClick={() => handleEditEmployee(employee._id)}/>
+                              <FiEdit3 size={17} className="text-blue_gray-301" onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditEmployee(employee._id)}}/>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
                                 <div className="mb-px mr-[3px]">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
@@ -244,7 +252,7 @@ const Employees = () => {
                       content={
                         <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
                           <Text
-                            className="font-DmSans text-center text-base font-normal leading-6"
+                            className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6"
                             size=""
                           >
                             Are you sure you want to delete this employee?

@@ -13,7 +13,7 @@ const DeleteModal = (props) => {
     {...props}
   >
     <div className="max-h-[97vh] sm:w-full md:w-full">
-      <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm p-5 md:px-8 sm:px-8 rounded-[14px] w-full">
+      <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-[24px] items-center justify-start max-w-screen-sm p-5 md:px-8 sm:px-8 rounded-[14px] w-full">
         <div className="flex flex-row items-center justify-between w-full ">
             <Text
                 className="leading-7 text-center text-lg text-[#1D2939] font-dm-sans-medium"
@@ -21,15 +21,14 @@ const DeleteModal = (props) => {
                 {props.title}
               </Text>
               <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
-                <IoCloseOutline  className='text-[#A9ACB0]'
-                  size={20}
-                />
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
         </div>
         <div className="bg-gray-201 h-px w-full" />
-        <div className="flex flex-col items-center justify-start w-full">
-          <div className="flex flex-col items-center justify-start  px-5 w-full">
-            <div className="flex flex-col gap-2 items-center justify-start pb-4 w-full">
+          <div className="flex flex-col items-center justify-start gap-[24px] px-5 w-full">
+            <div className="flex flex-col gap-2 items-center justify-start  w-full">
               <Text
                 className=""
                 size=""
@@ -37,7 +36,7 @@ const DeleteModal = (props) => {
                 {props.content}
               </Text>
             </div>
-            <div className="flex flex-row gap-5 items-center justify-between w-auto">
+            <div className="flex flex-row gap-[18px] items-center justify-between w-auto">
               <button 
               className="flex items-center hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[93px] text-center bg-[#E4E7EC] text-[#475467]"
               onClick={props.onRequestClose}>
@@ -51,7 +50,6 @@ const DeleteModal = (props) => {
             </div>
           </div>
         </div>
-      </div>
     </div>
   </ModalProvider>
   );

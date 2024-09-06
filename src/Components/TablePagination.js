@@ -21,7 +21,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
     <div className='flex items-center justify-between w-full font-inter text-sm font-medium leading-5'>
       <button
         onClick={() => onPageChange(currentPage - 1)}
-        className={`flex hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer-green gap-2 text-gray700 border-gray-300 items-center justify-start border px-[14px] py-2 rounded-[8px] ${currentPage < 2 && 'diseable'}`}
+        className={`flex h-[36px] min-w-[114px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer-green gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage < 2 && 'diseable'}`}
       >
         <PiArrowLeftBold  className='h-4 w-4 ' />
         Previous
@@ -41,7 +41,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
       </div>
       <button
         onClick={() => onPageChange(currentPage + 1)}
-        className={`flex hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer-green gap-2 text-gray700 border-gray-300 items-center justify-end border px-[14px] py-2 rounded-[8px] ${currentPage === totalPages && 'diseable'}`}
+        className={`flex h-[36px] min-w-[88px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer-green gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage === totalPages && 'diseable'}`}
       >
         Next
         <PiArrowRightBold  className='h-4 w-4 ' />

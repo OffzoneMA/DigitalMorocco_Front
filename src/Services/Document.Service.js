@@ -50,11 +50,14 @@ export const documentApi = createApi({
                 body: { userIds, shareWith },
             }),
         }),
+        getShareWithData: builder.query({
+            query: (userId) => `/shareWithData`, 
+        }),
     }),
 })
 
 export const {
     useGetDocumentsQuery, useGetDocumentByIdQuery, useCreateDocumentMutation, 
   useUpdateDocumentMutation, useDeleteDocumentMutation, useGetDocumentsForUserQuery ,
-  useShareDocumentMutation
+  useShareDocumentMutation , useGetShareWithDataQuery
   } = documentApi;

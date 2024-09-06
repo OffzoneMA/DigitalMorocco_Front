@@ -8,6 +8,7 @@ import { useGetInvestorsQuery } from "../Services/Investor.Service";
 import Loader from "./Loader";
 import fileSearchImg from '../Media/file-search.svg';
 import { useShareProjectMutation } from "../Services/Member.Service";
+import { FaUserCircle } from "react-icons/fa";
 
 
 const ShareToInvestorModal = (props) => {
@@ -99,22 +100,26 @@ useEffect(() => {
                 </Text>
               </div>
               <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
-                <IoCloseOutline  className='text-blue_gray-500'
-                  size={20}
-                />
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
             </div>
-          <div className="flex w-full rounded-md p-2 border border-solid">
-            <input
-              className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search Investors"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-            <IoSearch size={18} className="text-[#98A2B3] z-20 hover:text-gray-500"/>
-          </div>
+            <div className="relative flex w-full">
+              <input
+                className={`!placeholder:text-blue_gray-300 h-[44px] !text-gray700 font-manrope p-2 text-left text-sm tracking-[0.14px] w-full bg-transparent border-[1px] border-[#D0D5DD] rounded-[6px] pr-[30px]`}
+                type="text"
+                name="search"
+                placeholder="Search Investors"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+              <IoSearch
+                size={18}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#98A2B3] z-20 hover:text-gray-500"
+              />
+            </div>
+
           <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
             {isLoading ? (
               <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
@@ -131,7 +136,7 @@ useEffect(() => {
               filteredInvestors?.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-start space-x-3 border-b border-gray-300 py-3 cursorpointer-green"
+                  className="flex items-center h-[64px] justify-start space-x-3 border-b border-gray-201 py-[14px] cursorpointer-green"
                   onClick={() => handleInvestorSelection(item._id)}
                 >
                   <label
@@ -145,7 +150,7 @@ useEffect(() => {
                       type="checkbox"
                       checked={selectedInvestors.includes(item._id)}
                       onChange={() => handleInvestorSelection(item._id)}
-                      className={`peer appearance-none w-[20px] h-[20px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-300 rounded-[6px] focus:ring-blue-500`}
+                      className={`peer appearance-none w-[20px] h-[20px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-201 rounded-[6px] focus:ring-blue-500`}
                     />
                     <svg
                       width="11"
@@ -164,7 +169,11 @@ useEffect(() => {
                       />
                     </svg>
                   </label>
-                  <img src={item.image} alt="investors" className="h-8 w-8 rounded-full" />
+                  {item?.image ? (
+                    <img src={item?.image} alt="investors" className="h-[32px] w-[32px] rounded-full" />
+                  ) : (
+                    <FaUserCircle className="h-9 w-9 text-gray-500" /> // Placeholder icon
+                  )}
                   <Text className="text-sm text-gray-900_01 leading-6 tracking-normal font-dm-sans-regular">
                     {item.name}
                   </Text>

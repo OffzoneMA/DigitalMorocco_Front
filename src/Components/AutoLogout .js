@@ -7,7 +7,7 @@ const AutoLogout = ({ children }) => {
   const timeoutIdRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const logoutTimeout = 15 * 60 * 1000; // 15 minutes
+  const logoutTimeout = 6 * 60 * 60 * 1000; // 360 minutes
 
   const handleLogout = useCallback(() => {
     dispatch(logout());

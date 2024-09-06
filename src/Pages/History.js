@@ -6,6 +6,7 @@ import lineImage from '../Media/img_line.svg';
 import { useGetActivityHistoriesQuery } from "../Services/Histoty.Service";
 import { historyEventMessages } from "../data/tablesData";
 import Loader from "../Components/Loader";
+import userdefaultProfile from '../Media/User.png';
 
 const History = () => {
   const { data, error, isLoading } = useGetActivityHistoriesQuery();
@@ -57,17 +58,19 @@ const History = () => {
                           />
                           <div className="flex flex-col w-full items-start gap-4 pt-1">
                             <Text
-                              className={`font-dm-sans-regular text-sm leading-6 text-gray700`}
+                              className={`font-dm-sans-medium text-sm leading-6 text-gray700`}
                             >
                               {historyEventMessages[item?.eventType]}{` `} 
-                              {item?.eventData?.targetName && <span className="text-blue-501">{item?.eventData?.targetName} {` `}</span>}
+                              {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventData?.targetName} {` `}</span>}
                             </Text>
                             <div className="flex flex-row w-full items-center gap-4">
-                                <img
-                                className="h-8 w-8 rounded-full"
-                                src={item?.user?.image}
-                                alt="line"
-                              />
+                            {item?.user?.image ? (
+                              <img src={item?.user?.image} className="rounded-full h-8 w-8 " alt="" />
+                            ) : (
+                              <div className="flex items-center justify-center h-9 w-9 bg-[#EDF7FF] p-1">
+                                <img src={userdefaultProfile} alt="" className="" />
+                              </div> 
+                            )}
                               <Text
                                 className={`font-dm-sans-regular text-sm leading-6 text-gray500`}
                               >
@@ -80,18 +83,18 @@ const History = () => {
                 ))
                 )
                 :
-                isLoading ? (<div className="flex flex-col items-center text-blue_gray-601 w-full h-full">
+                isLoading ? (<div className="flex flex-col items-center text-blue_gray-601 py-40 w-full h-full">
                   <Loader/>
                 </div>)
                 :
-                (<div className="flex flex-col items-center h-screen w-full py-28 gap-3">
+                (<div className="flex flex-col items-center h-screen w-full py-28 gap-[32px]">
                     {/* <PiClockClockwise  size={40} className="transform  scale-y-[-1] text-gray500" /> */}
                     <img
-                      src={`images/img_clock_rewind.svg`}
+                      src={`images/img_clock_rewind.svg`} className="w-[30px] h-[27px]" 
                       alt="img"
                     />
                     <Text
-                      className="font-dm-sans-regular text-sm leading-6 text-gray700 text-center w-auto py-4"
+                      className="font-dm-sans-regular text-sm leading-6 text-gray700 text-center w-auto"
                       size=""
                     >
                       It looks like you haven't taken any actions yet. <br/> Your activity history will appear here, showcasing <br/>your interactions and key moments.

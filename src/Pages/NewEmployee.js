@@ -358,7 +358,7 @@ const NewEmployee = () => {
             onSubmit={handleSubmit(onSubmit)}
             encType="multipart/form-data"
           >
-            <div className="flex flex-row flex-wrap text-sm text-center text-gray-300 border-b border-gray-300 rounded-t-lg bg-white-A700 h-[77px] py-[19px] px-5">
+            <div className="flex flex-row flex-wrap text-sm text-center text-gray-300 border-b border-gray-201 rounded-t-lg bg-white-A700 h-[77px] py-[19px] px-5">
               <Text
                 className="text-lg leading-7 text-gray-900_01 pt-1"
                 size="txtDmSansMedium16"

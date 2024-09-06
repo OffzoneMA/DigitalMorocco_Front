@@ -213,7 +213,7 @@ export default function SignIn() {
           <Toaster />
             <div className="self-stretch flex-col justify-start items-start gap-3 flex w-full">
               <Button
-                className="h-[42px] px-20 py-3 border text-left border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
+                className="h-[42px] px-20 py-3 border text-left border-gray-201 border-solid cursorpointer flex items-center  justify-center min-w-full text-[#37363B] hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33] "
                 onClick={handleGoogleButtonClick}
                 leftIcon={
                   <img
@@ -229,7 +229,7 @@ export default function SignIn() {
                 </div>
               </Button>
               <Button
-                className="h-[42px] px-20 py-3 text-left text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                className="h-[42px] px-20 py-3 text-left text-[#37363B] border border-gray-201 border-solid cursorpointer flex items-center  justify-center min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleLinkedinButtonClick}
                 leftIcon={
                   <img
@@ -245,7 +245,7 @@ export default function SignIn() {
                 </div>
               </Button>
               {/* <Button
-                className="h-[42px] px-20 py-3 text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                className="h-[42px] px-20 py-3 text-[#37363B] border border-gray-201 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                 onClick={handleFacebookButtonClick}
                 leftIcon={
                   <img

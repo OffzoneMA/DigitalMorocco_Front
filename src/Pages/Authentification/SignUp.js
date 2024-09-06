@@ -515,7 +515,7 @@ const onSubmit = (data) => {
                 </Text>
                 <div className="flex flex-col gap-3 items-center justify-start w-full">
                   <Button
-                    className=" text-[#37363B] border border-gray-300 text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                    className=" text-[#37363B] border border-gray-201 text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                     onClick={() => socialSignUp('google')}
                     leftIcon={
                       <img
@@ -531,7 +531,7 @@ const onSubmit = (data) => {
                     </div>
                   </Button>
                   <Button
-                    className=" text-[#37363B] text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                    className=" text-[#37363B] text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border border-gray-201 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                     onClick={() => socialSignUp('linkedin')}
                     leftIcon={
                       <img
@@ -547,7 +547,7 @@ const onSubmit = (data) => {
                     </div>
                   </Button>
                   {/* <Button
-                    className="text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] text-[#37363B] border border-gray-300 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
+                    className="text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] text-[#37363B] border border-gray-201 border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
                     onClick={() => socialSignUp('facebook')}
                     leftIcon={
                       <img

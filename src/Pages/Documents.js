@@ -148,7 +148,11 @@ const Documents = () => {
                   <span className="text-sm font-medium leading-[18.23px]">Upload New Document</span>
               </button>
               </div>
-              <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
+              <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto" 
+              style={{
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                }}>
                 <table className=" w-full">
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
@@ -163,14 +167,14 @@ const Documents = () => {
                   <tbody className="items-center w-full ">
                    {
                       (pageData.map((item, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `}>
+                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} onClick={()=> openEditModal(item)}>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                       {formatDate(item.uploadDate)}
                       </td>
                       <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center" >
                             <IoDocumentTextOutline size={17}  className="text-gray-900_01 mr-2"/>
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{`${item?.title}.${item?.documentName?.split('.').pop()}`}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{`${item?.title}.${item?.documentName?.split('.')?.pop()}`}</span>
                         </div>
                       </td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
@@ -187,8 +191,10 @@ const Documents = () => {
                       <td className="px-[18px] py-4 ">
                         <div className="flex flex-row space-x-[18px] items-center">
                           <div className="relative group">
-                            <FiEdit3 size={17} className="text-blue_gray-301" onClick={()=> openEditModal(item)}/>
-                            <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                            <FiEdit3 size={17} className="text-blue_gray-301" onClick={(e)=> {
+                              e.stopPropagation();
+                              openEditModal(item)}}/>
+                            <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
                               <div className="mb-px mr-[3px]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
                                   <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
@@ -200,7 +206,9 @@ const Documents = () => {
                             </div>
                           </div>
                           <div className="relative group">
-                            <HiOutlineTrash size={17} onClick={() => openDeleteModal(item)}  className="text-blue_gray-301"/>
+                            <HiOutlineTrash size={17} onClick={(e) => {
+                              e.stopPropagation();
+                              openDeleteModal(item)}}  className="text-blue_gray-301"/>
                             <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
                               <div className="mb-px mr-[3px]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
@@ -213,7 +221,9 @@ const Documents = () => {
                             </div>
                           </div>
                           <div className="relative group">
-                            <FiShare2 size={17} className="text-blue_gray-301" onClick={() => openShareModal(item)}/>
+                            <FiShare2 size={17} className="text-blue_gray-301" onClick={(e) => {
+                              e.stopPropagation();
+                              openShareModal(item)}}/>
                             <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
                               <div className="mb-px mr-[3px]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">

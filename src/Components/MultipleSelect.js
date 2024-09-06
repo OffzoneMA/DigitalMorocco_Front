@@ -204,14 +204,24 @@ console.log(selectedOptions)
                         type="checkbox"
                         checked={isSelected(option)}
                         onChange={()=> handleOptionClick(option)}
-                        className="peer appearance-none w-[16px] h-[16px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-300 rounded-[4.5px] focus:ring-blue-500"
+                        className="peer appearance-none w-[16px] h-[16px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-201 rounded-[4.5px] focus:ring-blue-500"
                     />
-                    <IoIosCheckmark
-                        size={19}
-                        fontWeight={500}
-                        className="absolute left-0 top-0 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"
-                        style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
-                    />
+                    <svg
+                      width="11"
+                      height="8"
+                      viewBox="0 0 11 7"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"
+                    >
+                      <path
+                        d="M1.5 3.5L4.14706 6L9.5 1"
+                        stroke="#1E0E62"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                     </label>
                   <div onClick={() => {
                       handleOptionClick(option);

@@ -6,13 +6,14 @@ import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { useForm } from "react-hook-form";
 import MultipleSelect from "./MultipleSelect";
-import { useCreateDocumentMutation } from "../Services/Document.Service";
+import { useCreateDocumentMutation  , useGetShareWithDataQuery } from "../Services/Document.Service";
 import { useNavigate } from "react-router-dom";
 import { useGetAllUsersQuery } from "../Services/User.Service";
 
 const NewDocumentModal = (props) => {
   const [Mount, setMount] = useState(true)
-  const { data: users, isLoading, isError , refetch} = useGetAllUsersQuery();
+  const { data: users} = useGetAllUsersQuery();
+  const {data: shareWithData , isLoading, isError , refetch } = useGetShareWithDataQuery();
   const [filteredUsers, setFilteredUsers] = useState([]);
   const documentFile = props?.rowData? props.rowData : null;
   const { register, handleSubmit, formState: { errors } , reset} = useForm({
@@ -25,16 +26,31 @@ const NewDocumentModal = (props) => {
   const navigate = useNavigate();
   const [files, setFiles] = useState(null);
   const [preview , setPreview] = useState(null);
+  const [shareType , setShareType] = useState('');
+  const [isFormValid, setIsFormValid] = useState(true);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [requiredFields, setRequiredFields] = useState({
+    docFile: false,
+  });
   const userData = JSON.parse(sessionStorage.getItem('userData'));
 
   useEffect(() => {
-    if (users) {
-      const usersWithRoles = users.filter(user => 
-        user.role && user.role?.toLowerCase() !== 'admin' && user._id !== userData?._id && user?.displayName !== null
-      );
-      setFilteredUsers(usersWithRoles);
+      if (hasSubmitted ) {
+        const isFileValid = files !== null;
+    
+        setRequiredFields({
+          docFile: !isFileValid,
+        });
+    
+        setIsFormValid(isFileValid);
+      }
+  }, [hasSubmitted , files]);
+
+  useEffect(() => {
+    if (shareWithData) {
+      setFilteredUsers(shareWithData);
     }
-  }, [users]);
+  }, [shareWithData]);
 
   // useEffect(() => {
   //   if (Array.isArray(props?.rowData?.shareWithUsers)) {
@@ -83,11 +99,11 @@ const NewDocumentModal = (props) => {
       member: 'Members',
       investor: 'Investors',
       partner: 'Partners',
-      marketing: 'Marketing Team', 
+      employee: 'Marketing Team', 
     };
   
     // Map the selected members' roles to their singular forms
-    const roles = selectedMembers.map(user => user.role.toLowerCase());
+    const roles = selectedMembers.map(user => user?.type.toLowerCase());
   
     // Get unique roles and sort them
     const uniqueRoles = [...new Set(roles)];
@@ -95,7 +111,7 @@ const NewDocumentModal = (props) => {
   
     // Convert roles to their plural forms and capitalize them
     const capitalizedPluralRoles = uniqueRoles.map(role => {
-      const pluralRole = pluralRoles[role] || role.charAt(0).toUpperCase() + role.slice(1) + 's';
+      const pluralRole = pluralRoles[role] || role?.charAt(0)?.toUpperCase() + role?.slice(1) + 's';
       return pluralRole;
     });
   
@@ -103,16 +119,16 @@ const NewDocumentModal = (props) => {
     return capitalizedPluralRoles.join(' & ');
   };
   
-
   const formData = new FormData();
 
   const onSubmit = (data) => {
     const shareWith = determineShareWith(); 
+    setShareType(shareWith)
     formData.append('docFile', files); 
     const documentData = {
-      ...data,  // Add existing data properties (e.g., title, documentName, etc.)
-      shareWith,  // Add the shareWith value
-      shareWithUsers: selectedMembers.map(user => user._id)  // Add the shareWithUsers array (user IDs)
+      ...data,  
+      shareWith,  
+      shareWithUsers: selectedMembers.map(user => user._id)  
     };
     // Step 2: Stringify the entire documentData object
     formData.append('documentData', JSON.stringify(documentData));
@@ -123,13 +139,14 @@ const NewDocumentModal = (props) => {
     for (let pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-
-    try {
-      documentFile?._id ? 
-      props?.onSubmit({ id: documentFile._id, formData }).unwrap() : 
-      props?.onSubmit(formData).unwrap();
-    } catch (err) {
-        console.error('Failed to create document:', err);
+    if(isFormValid){
+      try {
+        documentFile?._id ? 
+        props?.onSubmit({ id: documentFile._id, formData }).unwrap() : 
+        props?.onSubmit(formData).unwrap();
+      } catch (err) {
+          console.error('Failed to create document:', err);
+      }
     }
   };
 
@@ -178,15 +195,15 @@ const NewDocumentModal = (props) => {
               </Text>
             </div>
             <div className="hover:bg-gray-201 rounded-full p-1" onClick={closeModal}>
-                <IoCloseOutline  className='text-blue_gray-500'
-                                  size={20}
-                />
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
               </div>
           </div>
           <div className="flex flex-col gap-3 w-full max-h-[70vh] ">
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
               <Text
-                className="text-base text-[#1D1C21] w-auto"
+                className="text-base text-[#1D2939] w-auto"
                 size="txtDMSansLablel"
               >
                 Document Title
@@ -199,7 +216,6 @@ const NewDocumentModal = (props) => {
                 placeholder="Document Title"
                 defaultValue={documentFile?.title}
               />
-              {errors.title && <span className="text-sm font-DmSans text-red-500">{errors.title?.message} </span>}
             </div>
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
               <Text
@@ -208,7 +224,7 @@ const NewDocumentModal = (props) => {
               >
                 Upload Document
               </Text>
-                <div className={`${(preview || documentFile?._id)?  "border-dashed ": "border-solid"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
+                <div className={`${(preview || documentFile?._id)?  "border-dashed ": ""} ${requiredFields.docFile ? "border-errorColor shadow-inputBsError" : "border-[1px] border-[#d0d5dd]"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
                   {(preview || documentFile?._id) ? (
@@ -262,15 +278,15 @@ const NewDocumentModal = (props) => {
                 >
                 Share with
               </Text>
-              <MultipleSelect id='sector' options={filteredUsers} onSelect={""} searchLabel='Select Country' searchable={false} setSelectedOptionVal={setSelectedMembers} 
-                    placeholder="Select name" valuekey="displayName" optionkey="_id" selectedOptionsDfault={props.rowData?.shareWithUsers?.map(userId => filteredUsers.find(user => user._id === userId))}
+              <MultipleSelect id='sector' options={filteredUsers} onSelect={""} searchLabel='Seach members' searchable={false} setSelectedOptionVal={setSelectedMembers} 
+                    placeholder="Select name" valuekey="name" optionkey="_id" selectedOptionsDfault={props.rowData?.shareWithUsers?.map(userId => filteredUsers.find(user => user._id === userId))}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
                               >
-                               {option?.displayName}
+                               {option?.name}
                             </Text>
                            </div>
                         );
@@ -281,9 +297,13 @@ const NewDocumentModal = (props) => {
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
-              <button type="reset" className="flex items-center bg-gray-300  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
+              <button type="reset" className="flex items-center bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
               onClick={closeModal}>Cancel</button>
-              <button type="submit" className="flex items-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">{documentFile?._id ? 'Edit Document' : 'Add Document'}</button>
+              <button 
+              type="submit" 
+              onClick={() => setHasSubmitted(true)}
+              className="flex items-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] min-w-[116px] leading-5 tracking-normal rounded-[6px] cursorpointer-green" 
+              >{documentFile?._id ? 'Save' : 'Add Document'}</button>
             </div>
           </div>
         </div>

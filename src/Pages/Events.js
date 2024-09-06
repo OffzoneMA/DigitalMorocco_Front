@@ -290,7 +290,11 @@ const Events = () => {
                         )}
                       </div>
                   </div>
-                  <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
+                  <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto" 
+              style={{
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                }}>
                   
                   <table className=" w-full">
                     <thead>

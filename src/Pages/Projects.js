@@ -99,8 +99,12 @@ const Projects = () => {
                   <span style={{ whiteSpace: 'nowrap' }}>New Project</span>
                 </button>
               </div>
-              <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full  min-h-[330px] overflow-x-auto">
-                <table className=" w-full">
+              <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto" 
+              style={{
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                }}>
+                <table className=" w-full" >
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Project Name</th>
@@ -141,7 +145,7 @@ const Projects = () => {
                             }}  
                             className="text-blue_gray-301"
                           />
-                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
                             <div className="mb-px mr-[3px]">
                               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
                                 <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
@@ -161,7 +165,7 @@ const Projects = () => {
                               navigate(`/EditProject/${item._id}`, { state: { project: item } });
                             }} 
                           />
-                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
                             <div className="mb-px mr-[3px]">
                               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
                                 <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>

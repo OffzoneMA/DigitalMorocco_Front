@@ -8,7 +8,7 @@ const Pricing = () => {
             <div className="flex flex-col items-center justify-center space-y-8 px-4 md:px-16">
                 <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 xl:gap-12 2xl:gap-16 space-y-6 md:space-y-0 ">
                     <div className="w-full md:w-[382px] flex flex-col items-center">
-                        <div className="bg-white p-6 py-9 rounded-3xl border border-gray-300 flex flex-col items-center w-full">
+                        <div className="bg-white p-6 py-9 rounded-3xl border border-gray-201 flex flex-col items-center w-full">
                             <h2 className="text-lg font-semibold mb-2 text-bleu2">Basic</h2>
                             <div className="flex items-center mb-1">
                                 <span className="text-2xl font-bold text-bleu2">$</span>
@@ -34,7 +34,7 @@ const Pricing = () => {
                         </div>
                     </div>
                     <div className="w-full md:w-[382px] flex flex-col items-center mb-8 md:mb-0">
-                        <div className="bg-blue-500 p-6 py-9 rounded-3xl border border-gray-300 flex flex-col items-center w-full">
+                        <div className="bg-blue-500 p-6 py-9 rounded-3xl border border-gray-201 flex flex-col items-center w-full">
                             <h2 className="text-lg font-semibold mb-2 text-white">STANDARD</h2>
                             <div className="flex items-center mb-1">
                                 <span className="text-2xl font-bold text-white">$</span>
@@ -61,7 +61,7 @@ const Pricing = () => {
                         </div>
                     </div>
                     <div className="w-full md:w-[382px] flex flex-col items-center">
-                        <div className="bg-white p-6 py-9 rounded-3xl border border-gray-300 flex flex-col items-center w-full">
+                        <div className="bg-white p-6 py-9 rounded-3xl border border-gray-201 flex flex-col items-center w-full">
                             <h2 className="text-lg font-semibold mb-2 text-bleu2">PREMIUM</h2>
                             <div className="flex items-center mb-1">
                                 <span className="text-2xl font-bold text-bleu2">$</span>
