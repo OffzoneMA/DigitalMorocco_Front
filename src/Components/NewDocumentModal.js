@@ -274,7 +274,7 @@ const NewDocumentModal = (props) => {
             <div className={`flex flex-row gap-2 items-center justify-start py-1 w-full`}>
                 <Text
                 style={{whiteSpace:'nowrap'}}
-                    className="text-base text-gray-900_01 w-auto mr-4"
+                    className="text-base text-[#1D1C21] w-auto mr-4"
                 >
                 Share with
               </Text>
