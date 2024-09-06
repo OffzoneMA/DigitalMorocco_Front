@@ -124,7 +124,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                 :
                 <>
                 {isLoading ? (
-                <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
+                <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                   <Loader />
                   </div>
                 ) : (

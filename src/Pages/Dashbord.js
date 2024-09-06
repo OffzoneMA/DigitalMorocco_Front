@@ -282,7 +282,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     </div>
                     <div className="flex flex-col w-full gap-3 pb-4">
                     {loadingTopSectors ? (
-                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28">
+                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                         <Loader />
                       </div>
                       ) : progessdata?.sectors?.length > 0 ? (
