@@ -67,7 +67,7 @@ const History = () => {
                             {item?.user?.image ? (
                               <img src={item?.user?.image} className="rounded-full h-8 w-8 " alt="" />
                             ) : (
-                              <div className="flex items-center justify-center h-9 w-9 bg-[#EDF7FF] p-1">
+                              <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                 <img src={userdefaultProfile} alt="" className="" />
                               </div> 
                             )}
