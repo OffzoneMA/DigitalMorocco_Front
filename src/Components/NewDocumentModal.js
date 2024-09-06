@@ -189,7 +189,7 @@ const NewDocumentModal = (props) => {
           <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <Text
-                className="md:text-lg text-[18px] leading-7 text-gray-900 font-medium w-full font-DmSans"
+                className="md:text-lg text-[18px] leading-7 text-[#1D2939] font-medium w-full font-DmSans"
               >
                 {documentFile?._id? "Edit Document": "Upload New Document"} 
               </Text>
@@ -203,7 +203,7 @@ const NewDocumentModal = (props) => {
           <div className="flex flex-col gap-3 w-full max-h-[70vh] ">
             <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
               <Text
-                className="text-base text-[#1D2939] w-auto"
+                className="text-base text-[#1D1C21] w-auto"
                 size="txtDMSansLablel"
               >
                 Document Title
