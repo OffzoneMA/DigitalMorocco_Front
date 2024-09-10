@@ -193,7 +193,7 @@ useEffect(() => {
               <div className="flex flex-wrap py-2 w-full">
                 <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
                       Total Raised
                     </Text>
                   </div>
@@ -205,7 +205,7 @@ useEffect(() => {
                 </div>
                 <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
                       Target
                     </Text>
                   </div>
@@ -217,7 +217,7 @@ useEffect(() => {
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
                       Stage
                     </Text>
                   </div>
@@ -229,7 +229,7 @@ useEffect(() => {
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
                       Status
                     </Text>
                   </div>
@@ -248,7 +248,7 @@ useEffect(() => {
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase" size="txtDMSansBold12">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
                       Publication
                     </Text>
                   </div>
@@ -334,7 +334,7 @@ useEffect(() => {
                       </Text>
                       <div className="relative w-[260px]">
                         <input
-                          className={`!placeholder:text-[#98A2B3] !text-gray700 font-manrope p-2 h-[36px] pr-[30px] text-left text-sm tracking-[0.14px] w-full bg-transparent border border-solid border-gray-201 rounded-md`}
+                          className={`!placeholder:text-[#98A2B3] !text-gray700 font-manrope p-2 h-[36px] pr-[30px] text-left text-sm tracking-[0.14px] w-full bg-transparent border border-solid border-gray-201 focus:border-focusColor focus:shadow-inputBs rounded-md`}
                           type="text"
                           name="search"
                           placeholder="Search..."

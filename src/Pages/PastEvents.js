@@ -89,7 +89,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                     />
                     <div className="flex flex-col flex-1 gap-3">
                       <Text
-                      className="font-DmSans text-lg font-medium leading-7 text-left text-blue_gray-903 w-full group-hover:text-[#00CDAE]"
+                      className="font-dm-sans-medium text-lg leading-7 text-left text-blue_gray-903 w-full group-hover:text-[#00CDAE]"
                       >
                         {item.title}
                       </Text>

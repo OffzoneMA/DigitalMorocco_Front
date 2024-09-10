@@ -84,7 +84,7 @@ const handleCancelClick = () => {
     <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-4 items-center justify-start max-w-screen-sm p-6 md:px-5 rounded-[10px] w-full">
         <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-                <Text className="md:text-lg text-[18px] font-medium font-DmSans leading-7 text-gray-900 w-full">
+                <Text className="md:text-lg text-[18px] font-dm-sans-medium leading-7 text-[#1D2939] w-full">
                     {documentFile?._id ? "Edit Document" : "Add New Document"}
                 </Text>
             </div>

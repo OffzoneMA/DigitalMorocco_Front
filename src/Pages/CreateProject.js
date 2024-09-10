@@ -690,13 +690,13 @@ const handleMouseLeave = () => {
                           <img src={ option?.image || `data:image/png;base64,${option.photo}` || `/images/img_avatar_2.png`} alt="teams" className="h-8 w-8 rounded-full"/>
                           <div className="flex flex-col gap-1.5 items-start justify-center w-full">
                             <Text
-                              className="text-gray-900 text-sm w-auto"
+                              className="text-[#101828] text-sm w-auto"
                               size="txtDMSansRegular14Gray900"
                               >
                               {option.fullName}
                             </Text>
                             <Text
-                              className="text-blue_gray-300 text-xs w-auto"
+                              className="text-[#98A2B3] text-xs w-auto"
                               size="txtDMSansRegular12"
                               >
                               {option.jobTitle}

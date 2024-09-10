@@ -148,12 +148,12 @@ const DownloadTicket = React.forwardRef((props, ref) => {
             </div>
             <div className="flex flex-col w-full gap-2 px-5 py-5 items-center">
                 <Text
-                    className="font-DmSans text-xs font-normal leading-[19.2px] text-gray500"
+                    className="font-dm-sans-regular text-xs leading-[19.2px] text-gray500"
                     >
                     The <span className="text-blue-501">Ticket Terms and Conditions</span> apply to the booking of all Event tickets to the exclusion of all other terms and conditions.
                 </Text>
                 <Text
-                    className="font-DmSans text-xs font-normal leading-[19.2px] text-gray500"
+                    className="font-dm-sans-regular text-xs leading-[19.2px] text-gray500"
                     >
                     Need Assistance? If you have any questions or need assistance, feel free to contact our support team at <span className="text-blue-501"> support@digitalmorocco.com</span>.
                 </Text>

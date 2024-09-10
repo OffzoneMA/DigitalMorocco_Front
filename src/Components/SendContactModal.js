@@ -82,15 +82,15 @@ const SendContactModal = (props) => {
             <div className="flex flex-row gap-5 items-start justify-start px-5 w-full">
               <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text
-                  className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-gray-900 w-full"
+                  className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-[#1D2939] w-full"
                 >
                   Send Contact Request
                 </Text>
               </div>
               <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                </svg> */}
               </div>
             </div>
             <div className="flex px-6 md:px-5 h-[1px] w-full"> <div className="bg-gray-201 w-full"></div></div>

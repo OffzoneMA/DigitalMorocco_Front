@@ -133,6 +133,10 @@ a:hover::selection ,a *:hover::selection {
   stroke: #FFFFFF;
 }
 
+.icon-container1:hover svg>path {
+  stroke: #2575F0;
+}
+
 @keyframes element-animation {
   0% {
       opacity: 0;

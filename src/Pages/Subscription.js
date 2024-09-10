@@ -104,7 +104,7 @@ useEffect(() => {
     
     // Calculer la date de notification (7 jours avant l'expiration)
     const notificationDate = new Date(expiration);
-    notificationDate.setDate(expiration.getDate() - 7);
+    notificationDate.setDate(expiration.getDate() - 10);
     
     // Vérifier si la date actuelle est égale ou après la date de notification
     return currentDate >= notificationDate && currentDate < expiration;
@@ -264,22 +264,24 @@ useEffect(() => {
           {(!isSubscribe && !isSubscribeLoading) ? 
           (
             <div className="flex flex-col md:border-r border-gray-201 pr-8 md:flex-1 gap-4">
-              <Text className="font-DmSans text-lg font-medium leading-7 text-left w-full">
+              <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
                 Subscription Management 
               </Text>
-              <div className="flex flex-col w-full rounded-[6px] border p-4 border-gray-301 gap-4">
-                <TbAlertHexagon size={30} className="text-amber-601" />
-                <Text className="font-DmSans text-base font-bold leading-6 text-left w-full text-[#101828]_01">
+              <div className="flex flex-col w-full rounded-[6px] border p-5 border-gray-301 gap-5">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 12V18M18 24H18.015M4.5 11.9122V24.0878C4.5 24.6018 4.5 24.8588 4.57573 25.088C4.64272 25.2907 4.75224 25.4769 4.89695 25.6339C5.06053 25.8114 5.28517 25.9362 5.73446 26.1858L16.8345 32.3525C17.2599 32.5888 17.4726 32.707 17.6978 32.7533C17.8972 32.7943 18.1028 32.7943 18.3022 32.7533C18.5274 32.707 18.7401 32.5888 19.1655 32.3525L30.2655 26.1858C30.7148 25.9362 30.9395 25.8114 31.1031 25.6339C31.2478 25.4769 31.3573 25.2907 31.4243 25.088C31.5 24.8588 31.5 24.6018 31.5 24.0878V11.9122C31.5 11.3982 31.5 11.1412 31.4243 10.912C31.3573 10.7093 31.2478 10.5231 31.1031 10.3661C30.9395 10.1886 30.7148 10.0638 30.2655 9.81419L19.1655 3.64753C18.7401 3.41119 18.5274 3.29302 18.3022 3.24669C18.1028 3.20569 17.8972 3.20569 17.6978 3.24669C17.4726 3.29302 17.2599 3.41119 16.8345 3.64753L5.73446 9.81419C5.28517 10.0638 5.06053 10.1886 4.89695 10.3661C4.75224 10.5231 4.64272 10.7093 4.57573 10.912C4.5 11.1412 4.5 11.3982 4.5 11.9122Z" stroke="#DB7712" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
                   You don’t have any subscription yet
                 </Text>
-                <Text className="font-DmSans text-base font-bold leading-6 text-left text-col1 w-full">
+                <Text className="font-dm-sans-bold text-base leading-6 text-left text-col1 w-full">
                   Try Digital Morocco Pro free for 7 days
                 </Text>
-                <Text className="font-dm-sans-regular text-sm leading-[22.4px] text-gray-801 text-left w-full">
+                <Text className="font-dm-sans-regular text-sm leading-[22.4px] text-[#1D2939] text-left w-full">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </Text>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto cursorpointer-green"
                   type="button"
                   onClick={() => navigate('/ChoosePlan')}
                 >
@@ -290,22 +292,22 @@ useEffect(() => {
             </div>
           ) : ( 
             <div className="flex flex-col md:border-r border-gray-201 pr-8 md:flex-1 lg:flex-1 gap-4">
-              <Text className="font-DmSans text-lg font-medium leading-7 text-left w-full">
+              <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
                 Subscription Management
               </Text>
-              <div className="flex flex-col w-full rounded-[12px] border p-4 border-gray-301 gap-4">
-                <div className="flex flex-col w-full border-b pb-4 border-gray-301 gap-4">
-                  <Text className="font-DmSans text-base font-bold leading-6 text-left w-full text-[#101828]_01">
+              <div className="flex flex-col w-full rounded-[12px] border p-5 border-gray-301 gap-4">
+                <div className="flex flex-col w-full border-b pb-4 border-gray-301 gap-[18px] ">
+                  <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
                     Your active plan
                   </Text>
-                  <div className="flex flex-col w-full rounded-[12px] border p-4 border-gray-301 gap-3">
+                  <div className="flex flex-col w-full rounded-[12px] border p-[24px] border-gray-301 gap-[24px]">
                     <div className="flex flex-row w-full items-center pb-1">
                       <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
                         {userSubscriptionData?.plan?.name || 'Basic plan'}
                       </Text>
                       <button
                         onClick={() => navigate('/ChoosePlan')}
-                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 ml-auto py-2 px-8 rounded-md w-auto"
+                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-DmSans text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-2 px-8 rounded-md w-auto"
                         type="button"
                       >
                         <TiFlashOutline size={25} />
@@ -314,24 +316,26 @@ useEffect(() => {
                         </span>
                       </button>
                     </div>
-                    {userSubscriptionData?.plan?.featureDescriptions?.map((feature, index) => (
-                      <div key={index} className="flex flex-rox w-full items-start gap-2">
-                        <div className="flex flex-col w-[24px] h-[24px] justify-center items-center bg-[#EDF7FF] rounded-full p-1">
-                          <svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
-                          </svg>
+                    <div className="flex flex-col w-full gap-[16px]">
+                      {userSubscriptionData?.plan?.featureDescriptions?.map((feature, index) => (
+                        <div key={index} className="flex flex-rox w-full items-start gap-[12px]">
+                          <div className="flex flex-col w-[24px] h-[24px] justify-center items-center bg-[#EDF7FF] rounded-full p-1">
+                            <svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fillRule="evenodd" clipRule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
+                            </svg>
+                          </div>
+                          <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
+                            {feature}
+                          </Text>
                         </div>
-                        <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
-                          {feature}
-                        </Text>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                     {userSubscriptionData?.billing === "year" ? (
                     <div className="flex flex-row items-center w-full pt-1">
-                        <Text className="font-DmSans text-lg font-medium leading-8 text-left text-gray-500 line-through">
+                        <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-500 line-through">
                             ${annualPrice}
                         </Text>
-                        <Text className="font-DmSans text-lg font-medium leading-8 text-left text-gray-801 ml-2">
+                        <Text className="font-dm-sans-medium text-lg leading-8 text-left text-[#1D2939] ml-2">
                             ${(annualPrice*(100 - (userSubscriptionData?.plan?.annualDiscountRate || 20))/100).toFixed(2)}, ends on  {getEndDate(annualDuration)}
                         </Text>
                         <div className="inline-flex h-[24px] p-[2px_10px] justify-center items-center inline-flex rounded-[6px] bg-[#E1FFED] ml-6">
@@ -341,26 +345,26 @@ useEffect(() => {
                         </div>
                     </div>
                   ) : (
-                    <Text className="font-DmSans text-lg font-medium leading-8 pt-1 text-left w-full text-gray-801">
+                    <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-[#1D2939]">
                       ${monthlyPrice}/month, ends on  {getEndDate(monthlyDuration)}
                     </Text>
                   )}
                   </div>
                   {showNotification  && <>
-                    <Text className="font-DmSans text-base font-bold leading-6 text-left w-full text-[#101828]_01">
+                    <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
                       Your subscription is expiring soon.
                     </Text>
-                    <Text className="font-DmSans text-base font-bold leading-6 text-left text-col1 w-full">
+                    <Text className="font-dm-sans-bold text-base leading-6 text-left text-col1 w-full">
                       We strongly encourage you to renew it to avoid losing access to paid features.
                     </Text>
-                    <Text className="font-dm-sans-regular text-sm leading-[19.2px] text-gray-801 text-left w-full">
+                    <Text className="font-dm-sans-regular text-sm leading-[19.2px] text-[#1D2939] text-left w-full">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </Text>
                   </>}
                 </div>
                 <div className="flex space-x-3 md:space-x-5 items-end w-full  py-2 justify-end">
                   <button
-                    className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center rounded-md bg-gray-201 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-blue_gray-301 py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
+                    className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center rounded-md bg-[#E4E7EC] hover:bg-[#D0D5DD] active:bg-light_blue-100 text-[#98A2B3] py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
                     onClick={openCancelModal}
                     type="button"
                   >
@@ -368,7 +372,7 @@ useEffect(() => {
                     Cancel My Plan
                   </button>
                   <button
-                    className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row items-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer-green"
+                    className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer-green"
                     type="button"
                     onClick={() => navigate('/ChoosePlan')}
                   >
@@ -376,15 +380,15 @@ useEffect(() => {
                     Renew my subscription
                   </button>
                 </div>
-                {/* <div className='flex flex-col w-full gap-5'>
+                <div className='flex flex-col w-full gap-5'>
                   <div className="w-auto text-[#101828] text-lg font-dm-sans-medium leading-7">Billing Information</div>
                   <table class="w-full h-auto bg-white">
                     <thead>
-                      <tr className='text-left text-[#344054] '>
-                        <th class="h-11 px-[18px] py-3 bg-white  text-sm font-dm-sans-medium  leading-relaxed">Upload Date</th>
-                        <th class="h-11 px-[18px] py-3 bg-white text-sm font-dm-sans-medium   leading-relaxed">Document Name</th>
-                        <th class="h-11 px-4 py-3 bg-white  text-sm font-dm-sans-medium   leading-relaxed">Status</th>
-                        <th class="h-11 px-4 py-3 bg-white  text-sm font-dm-sans-medium   leading-relaxed">Action</th>
+                      <tr className='text-left text-[#344054] font-DmSans font-medium'>
+                        <th class="h-11 px-[18px] py-3 bg-white  text-sm font-DmSans font-medium leading-relaxed">Upload Date</th>
+                        <th class="h-11 px-[18px] py-3 bg-white text-sm font-DmSans font-medium leading-relaxed">Document Name</th>
+                        <th class="h-11 px-4 py-3 bg-white  text-sm font-DmSans font-medium leading-relaxed">Status</th>
+                        <th class="h-11 px-4 py-3 bg-white  text-sm font-DmSans font-medium leading-relaxed">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -399,7 +403,7 @@ useEffect(() => {
                           </td>
                           <td className="h-16 p-4 ">
                             {item.status && (
-                              <div className={`px-2.5 py-0.5 inline-flex w-auto rounded-2xl text-center text-[13px] font-dm-sans-regular leading-normal ${getStatusClass(item.status)}`}>
+                              <div className={`px-2.5 py-0.5 inline-flex w-auto rounded-2xl text-center text-[13px] font-dm-sans-regular leading-normal`}>
                                 {item.status}
                               </div>
                             )}
@@ -419,13 +423,13 @@ useEffect(() => {
                       ))}
                     </tbody>
                   </table>
-                </div> */}
+                </div>
               </div>
             </div>
           )}
           { ( userLastPaymentMethod !== null) ?
           <div className="flex flex-col w-full md:w-1/3 lg:w-1/4 gap-6">
-            <Text className="font-DmSans text-lg font-medium leading-7 text-left w-full">
+            <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
               Payment and Billing
             </Text>
             <div className="flex flex-row w-full rounded-[12px] border py-4 px-4 border-gray-301 gap-4">
@@ -433,16 +437,16 @@ useEffect(() => {
                 <img src={selectedMethod?.image || "images/img_visa.svg"} />
               </div>
               <div className="flex flex-col gap-3">
-                <Text className="font-dm-sans-medium text-sm leading-[18px] text-left text-[#101828]_01 w-full">
+                <Text className="font-dm-sans-medium text-sm leading-[18px] text-left text-[#101828] w-full">
                   {userLastPaymentMethod?.cardNumber ? formatCardNumberForDisplay(userLastPaymentMethod?.cardNumber) : '•••• •••• •••• ••••'}
                 </Text>
-                <Text className="font-DmSans text-xs font-normal leading-[15.62px] text-gray500 text-left w-full">
+                <Text className="font-dm-sans-regular text-xs leading-[15.62px] text-gray500 text-left w-full">
                   expired { userLastPaymentMethod?.expiryDate ||'00/00'}
                 </Text>
               </div>
             </div>
             <button
-              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 rounded-md w-full cursorpointer-green"
+              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 rounded-md w-full cursorpointer-green"
               onClick={openEditPaymentModal}
               type="button"
             >
@@ -452,11 +456,11 @@ useEffect(() => {
           </div>
           :
           <div className="flex flex-col md:w-1/3 lg:w-1/4 gap-7">
-            <Text className="font-DmSans text-lg font-medium leading-7 text-left w-full">
+            <Text className="font-dm-sans-medium text-lg leading-7 text-left w-full">
               Payment and Billing
             </Text>
             <button
-              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-medium font-DmSans text-white-A700 flex flex-row md:h-auto items-center gap-3 mr-auto py-3 justify-center rounded-md w-full cursorpointer-green"
+              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 mr-auto py-3 justify-center rounded-md w-full cursorpointer-green"
               type="button"
               onClick={()=> openPaymentModal()}
             >

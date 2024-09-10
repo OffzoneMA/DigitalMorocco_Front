@@ -112,14 +112,14 @@ const AddPaymentMethodModal = (props) => {
           <div className="flex flex-col w-full gap-5">
             <div className="flex flex-col w-full">
               <div className="flex flex-col w-full gap-2 border-b border-gray-301">
-                <Text className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-full">Add Payment Method</Text>
+                <Text className="font-dm-sans-medium text-[22px] leading-8 text-[#101828] w-full">Add Payment Method</Text>
                 <Text className="font-dm-sans-regular text-base leading-[26px] text-gray500 text-left w-full">Select Payment Method</Text>
                 <div className='flex flex-row w-full gap-2 pb-4'>
                   {paymentMethods.map((method, index) => (
                     <div
                       key={index}
                       onClick={() => handleSelectMethod(method)}
-                      className={`flex border w-[58px] rounded-[6px] items-center h-[40px] justify-center ${selectedMethod?.id === method?.id ? 'shadow-bs3 border-blue-502' : 'border-gray-201'}`}
+                      className={`flex border w-[58px] rounded-[6px] items-center h-[40px] justify-center hover:shadow-bs3 hover:border-blue-502 ${selectedMethod?.id === method?.id ? 'shadow-bs3 border-blue-502' : 'border-gray-201'}`}
                     >
                       <img src={method.image} alt={method.name} />
                     </div>
@@ -208,7 +208,7 @@ const AddPaymentMethodModal = (props) => {
               {haveMethod ? (
                 <button
                   type="button"
-                  className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                  className="flex items-center justify-center flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                 >
                   Update
                 </button>
@@ -217,13 +217,13 @@ const AddPaymentMethodModal = (props) => {
                   <button
                     onClick={props.onRequestClose}
                     type="button"
-                    className="flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                    className="flex items-center justify-center flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                    className="flex items-center justify-center flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                   >
                     Update
                   </button>

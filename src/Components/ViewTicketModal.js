@@ -28,7 +28,7 @@ const ViewTicketModal = (props) => {
                 </div>
                 <div className="flex flex-col w-full px-3 gap-3">
                     <Text
-                    className="font-DmSans text-lg font-medium leading-7 text-center text-blue_gray-900_03 w-full"
+                    className="font-dm-sans-medium text-lg leading-7 text-center text-blue_gray-900_03 w-full"
                     >
                         {rowData?.title}
                     </Text>

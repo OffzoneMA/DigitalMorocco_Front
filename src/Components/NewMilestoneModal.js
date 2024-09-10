@@ -49,7 +49,7 @@ const NewMilestoneModal = (props) => {
           <div className="flex flex-row gap-5 items-start justify-start px-6 md:px-5 w-full">
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <Text
-                className="md:text-lg text-[18px] font-medium leading-7 text-gray-900 w-full font-DmSans"
+                className="md:text-lg text-[18px] font-dm-sans-medium leading-7 text-[#1D2939] w-full"
               >
                 Add New Milestone
               </Text>
@@ -115,7 +115,9 @@ const NewMilestoneModal = (props) => {
               </div>
             </div>
             <div className="flex space-x-3 md:space-x-5 px-6 md:px-5 items-end w-full justify-end">
-              <button onClick={props.onRequestClose} type="reset" className="flex items-center bg-gray-300 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Cancel</button>
+              <button onClick={props.onRequestClose} type="reset" 
+              className="flex items-center bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
+              >Cancel</button>
               <button type="submit" className="flex items-center ml-auto bg-[#2575F0] hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
             </div>
           </form>

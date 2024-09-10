@@ -75,7 +75,7 @@ export default function Role({ UserStatus, UserId }) {
                   })}
                 onChange={(e) => {
                   setSelectedOption(e.target.value);
-                }} data-te-select-init className='px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-[#98A2B3] focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6' >
+                }} data-te-select-init className='px-2 block w-full rounded-md border-0 py-1.5 text-[#1D2939] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-[#98A2B3] focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6' >
                   <option value="">Select a role</option>
                   <option value="member">Member</option>
                   <option value="investor">Investor</option>
@@ -131,7 +131,7 @@ export default function Role({ UserStatus, UserId }) {
                         id="linkedin"
                         name="linkedin_link"
                         placeholder='Ex : https://www.linkedin.com/in/james-martin'
-                        className="placeholder:text-xs block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-[#98A2B3] focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+                        className="placeholder:text-xs block w-full px-2 rounded-md border-0 py-1.5 text-[#1D2939] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-[#98A2B3] focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                       />
                       <span className="text-red-400 text-sm py-2">
                         {errors?.linkedin_link?.message}
@@ -156,7 +156,7 @@ export default function Role({ UserStatus, UserId }) {
                         })}
                         id="rcPartner"
                         name="num_rc"
-                        className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-[#98A2B3] focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
+                        className="block w-full px-2 rounded-md border-0 py-1.5 text-[#1D2939] shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-[#98A2B3] focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
                       />
                       <span className="text-red-400 text-sm py-2">
                         {errors?.num_rc?.message}
