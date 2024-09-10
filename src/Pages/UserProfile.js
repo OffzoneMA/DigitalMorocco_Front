@@ -31,7 +31,7 @@ export default function UserProfile() {
   const [update, responseUpdate] = useUpdateUserMutation();
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState(allCountries.find(country => country.name === userData?.country));
+  const [selectedCountry, setSelectedCountry] = useState(allCountries.find(country => country.name === userData?.country) || null);
   const [selectedCity, setSelectedCity] = useState(userData?.cityState || null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -57,6 +57,22 @@ export default function UserProfile() {
     country: false,
     city: false,
   });
+
+  useEffect(() => {
+    if (hasSubmitted1 ) {
+      const isCountryValid = selectedCountry !== null;
+      const isCityValid = selectedCity !== null;
+      const isValid = isCountryValid && isCityValid ;
+  
+      setRequiredFields1({
+        country: !isCountryValid,
+        city: !isCityValid,
+      });
+  
+      setIsForm1Valid(isValid);
+    }
+}, [hasSubmitted1 ,selectedCountry, selectedCity]);
+
 
   useEffect(() => {
     UserInfo();
@@ -107,20 +123,6 @@ export default function UserProfile() {
     }
   };
 
-  useEffect(() => {
-      if (hasSubmitted1 ) {
-        const isCountryValid = selectedCountry !== null;
-        const isCityValid = selectedCity !== null;
-        const isValid = isCountryValid && isCityValid ;
-    
-        setRequiredFields1({
-          country: !isCountryValid,
-          city: !isCityValid,
-        });
-    
-        setIsForm1Valid(isValid);
-      }
-  }, [hasSubmitted1 ,selectedCountry, selectedCity]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -302,29 +304,30 @@ export default function UserProfile() {
       if (selectedImage) {
         formData.append('image', selectedImage); // No need for base64 encoding, just append the image file
       }
-  
-      // Check if there are any changes to save
-      if (formData.has('displayName') || formData.has('email') || formData.has('phoneNumber') || formData.has('website') ||
-          formData.has('address') || formData.has('country') || formData.has('cityState') || formData.has('image') ||
-          fields.some(field => formData.has(field))) {
-  
-        // Send formData with axios
-        const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-  
-        const updatedUserData = response.data.user;
-        sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
-        setIsForm1Saved(true);
-        console.log("Data saved successfully!");
-  
-      } else {
-        console.log("No changes to save.");
+      if(isForm1Valid) {
+        // Check if there are any changes to save
+        if (formData.has('displayName') || formData.has('email') || formData.has('phoneNumber') || formData.has('website') ||
+            formData.has('address') || formData.has('country') || formData.has('cityState') || formData.has('image') ||
+            fields.some(field => formData.has(field))) {
+
+          // Send formData with axios
+          const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+          const updatedUserData = response.data.user;
+          sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+          setIsForm1Saved(true);
+          console.log("Data saved successfully!");
+
+        } else {
+          console.log("No changes to save.");
+        }
       }
-  
+
     } catch (error) {
       console.error("Error saving data:", error);
     }
