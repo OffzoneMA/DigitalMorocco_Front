@@ -618,7 +618,7 @@ export default function UserProfile() {
                     searchLabel='Search Country'
                     setSelectedOptionVal={setSelectedCountry}
                     selectedOptionsDfault={userData?.country ? allCountries.find(country => country.name === userData.country) : ""}
-                    placeholder={selectedCountry ? selectedCountry : "Select Country"}
+                    placeholder={selectedCountry ? selectedCountry : "Select Country"} required={requiredFields1.country}
                     valuekey="name"
                     content={(option) => {
                       return (
@@ -643,7 +643,7 @@ export default function UserProfile() {
                     selectedOptionsDfault={userData?.cityState ? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userData?.cityState) : ""}
                     setSelectedOptionVal={setSelectedCity}
                     placeholder={"Select City"}
-                    valuekey="name"
+                    valuekey="name" required={requiredFields1.city}
                     content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
