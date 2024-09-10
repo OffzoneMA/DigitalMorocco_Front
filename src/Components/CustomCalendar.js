@@ -2,7 +2,7 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import React, {useEffect, useRef, useState} from "react";
 import {MdOutlineDateRange} from "react-icons/md";
-
+import ReactDOM from 'react-dom';
 
 const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue}) => {
     const formatDefaultValut = (defaultValue) => {
@@ -34,40 +34,69 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
         return weekday.charAt(0).toUpperCase();
     };
 
-    const calculateDropdownPosition = () => {
+  //   const calculateDropdownPosition = () => {
+  //     const rect = parentRef.current.getBoundingClientRect();
+  //     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  //     const dropdownHeight = dropdownRef.current ? dropdownRef.current.offsetHeight : 0;
+  //     const windowHeight = window.innerHeight;
+  
+  //     // Calculate available space above and below the dropdown trigger
+  //     const spaceBelow = windowHeight - rect.bottom;
+  //     const spaceAbove = rect.top;
+  
+  //     const right = window.innerWidth - rect.left - rect.width;
+  
+  //     let topPosition;
+  
+  //     if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+  //         // If there is not enough space below but enough space above, position it upwards
+  //         setDropdownPosition({
+  //           bottom: '100%',
+  //           right: 0,
+  //           width: `292px`
+  //       });
+  //     } else {
+  //         // Otherwise, position it downwards
+  //         setDropdownPosition({
+  //           top: '100%',
+  //           right: 0,
+  //           width: `292px`
+  //       });
+  //     }
+  
+  // };
+  
+const calculateDropdownPosition = () => {
+    if (dropdownRef.current && parentRef.current) {
       const rect = parentRef.current.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  
-      const dropdownHeight = dropdownRef.current ? dropdownRef.current.offsetHeight : 0;
+      const dropdownHeight = dropdownRef.current.offsetHeight;
       const windowHeight = window.innerHeight;
-  
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const right = window.innerWidth - rect.left - rect.width;
       // Calculate available space above and below the dropdown trigger
       const spaceBelow = windowHeight - rect.bottom;
       const spaceAbove = rect.top;
-  
-      const right = window.innerWidth - rect.left - rect.width;
-  
-      let topPosition;
-  
+
       if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
-          // If there is not enough space below but enough space above, position it upwards
-          setDropdownPosition({
-            bottom: '100%',
-            right: 0,
-            width: `292px`
+        // If there is not enough space below but enough space above, open upwards
+        setDropdownDirection('up');
+        setDropdownPosition({
+          top: rect.top + scrollTop - dropdownHeight,
+          right: `${right}px`,
+          width: `${292}px`
         });
       } else {
-          // Otherwise, position it downwards
-          setDropdownPosition({
-            top: '100%',
-            right: 0,
-            width: `292px`
+        // Otherwise, open downwards
+        setDropdownDirection('down');
+        setDropdownPosition({
+          top: rect.bottom + scrollTop,
+          right: `${right}px`,
+          width: `${292}px`
         });
       }
-  
+    }
   };
-  
-
     const formatMonthYear = (date, locale) => {
         const month = date.toLocaleString(locale, { month: 'long' });
         const year = date.getFullYear();
@@ -102,32 +131,35 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
 
     return(
         <div className={`relative ${className}`} >
-                <div ref={parentRef} className={`flex w-full rounded-md px-[12px] py-[10px] h-[40px] border border-solid `} onClick={toggleDropdown}>
-                    <input
-                        type="text"
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
-                        name={`due-date`}
-                        placeholder={inputPlaceholder || "Due Date"}
-                        value={valueDate}
-                        readOnly
-                    //   onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}
-                    />
-                    <MdOutlineDateRange size={20} className={` text-blue_gray-300`}/>
-                </div> 
-                {show &&
-                 <div ref={dropdownRef} className={`absolute  !z-50 `} role="menu" style={dropdownPosition}>
-                    <Calendar className={`!bg-white-A700 rounded-[6px] border !border-gray-101 !shadow-lg !w-[292px] text-gray-701 !font-DmSans`} onChange={handleChange} value={selectedDate} formatWeekday={(locale, date) => formatWeekday(locale, date)} 
-                    next2Label={null} prev2Label={null} locale={userLanguage || 'en'} navigationLabel={({ date, label, locale }) => (
-                        <span 
-                            className="react-calendar__navigation__label__labelText react-calendar__navigation__label__labelText--from" 
-                            data-text={formatMonthYear(date, locale)}
-                        >
-                            {formatMonthYear(date, locale)}
-                        </span>
-                    )}
-                      />
-                  </div> 
-                }
+          <div ref={parentRef} className={`flex w-full rounded-md px-[12px] py-[10px] h-[40px] border border-solid `} onClick={toggleDropdown}>
+              <input
+                  type="text"
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                  name={`due-date`}
+                  placeholder={inputPlaceholder || "Due Date"}
+                  value={valueDate}
+                  readOnly
+              //   onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}
+              />
+              <MdOutlineDateRange size={20} className={` text-blue_gray-300`}/>
+          </div> 
+          {show && 
+            ReactDOM.createPortal(
+            <div ref={dropdownRef} className={`absolute  !z-50 `} role="menu" style={dropdownPosition}>
+              <Calendar className={`!bg-white-A700 rounded-[6px] border !border-gray-101 !shadow-lg !w-[292px] text-gray-701 !font-DmSans`} onChange={handleChange} value={selectedDate} formatWeekday={(locale, date) => formatWeekday(locale, date)} 
+              next2Label={null} prev2Label={null} locale={userLanguage || 'en'} navigationLabel={({ date, label, locale }) => (
+                  <span 
+                      className="react-calendar__navigation__label__labelText react-calendar__navigation__label__labelText--from" 
+                      data-text={formatMonthYear(date, locale)}
+                  >
+                      {formatMonthYear(date, locale)}
+                  </span>
+              )}
+                />
+            </div> ,
+            document.body    
+          )
+          }
         </div>
     )
 }

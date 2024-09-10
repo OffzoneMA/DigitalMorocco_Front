@@ -54,11 +54,11 @@ const NewMilestoneModal = (props) => {
                 Add New Milestone
               </Text>
             </div>
-            <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
+            {/* <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              </div>
+            </div> */}
           </div>
           <div className="flex px-6 md:px-5 h-[1px] w-full"> <div className="bg-gray-201 w-full"></div></div>
           <form className="w-full h-full gap-4 flex flex-col" onSubmit={handleSubmit(onSubmit)}>

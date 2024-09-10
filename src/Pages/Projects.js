@@ -224,14 +224,11 @@ const Projects = () => {
             onRequestClose={closeDeleteModal} title="Delete Project" 
             onDelete={handleDelete}
             content={
-              <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
-                <Text
-                  className="font-dm-sans-regular text-[#1d1c21] text-center text-base leading-6"
-                  size=""
-                >
-                  Are you sure you want to delete this project?
-                </Text>
-              </div>
+              <Text
+                className="font-dm-sans-regular text-[#1d1c21] text-center text-base leading-6"
+              >
+                Are you sure you want to delete this project?
+              </Text>
             }/>
       </div>
   );
