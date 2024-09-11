@@ -84,6 +84,7 @@ export default function UserProfile() {
           },
         });
         const data = response.data;
+        console.log(data)
         const nameParts = data.displayName.split(' ');
         const firstName = nameParts.slice(0, -1).join(' ');
         const lastName = nameParts[nameParts.length - 1];
@@ -123,6 +124,8 @@ export default function UserProfile() {
   
     UserInfo();
   }, []);
+
+  console.log(requiredFields1)
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -167,7 +170,7 @@ export default function UserProfile() {
       return true;
     }
   };
-  
+  console.log(hasSubmitted1)
 
   // const onSubmit1 = async (data) => {
   //   try {
