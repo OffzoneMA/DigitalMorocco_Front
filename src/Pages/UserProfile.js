@@ -32,7 +32,7 @@ export default function UserProfile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(allCountries.find(country => country.name === userData?.country) || null);
-  const [selectedCity, setSelectedCity] = useState( null);
+  const [selectedCity, setSelectedCity] = useState(userData?.cityState || '');
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [isConnect, setIsConnect] = useState(true);
@@ -63,7 +63,7 @@ export default function UserProfile() {
   useEffect(() => {
     if (hasSubmitted1 ) {
       const isCountryValid = selectedCountry !== null || userData?.country !== '';
-      const isCityValid = selectedCity !== null || userData?.cityState !== '';
+      const isCityValid = selectedCity !== '' ;
       const isValid = isCountryValid && isCityValid ;
   
       setRequiredFields1({
@@ -170,7 +170,7 @@ export default function UserProfile() {
       return true;
     }
   };
-  console.log(hasSubmitted1)
+  console.log(selectedCity)
 
   // const onSubmit1 = async (data) => {
   //   try {
