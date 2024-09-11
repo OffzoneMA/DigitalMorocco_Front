@@ -132,7 +132,7 @@ const PaymentMethode = () => {
             </button>
           </div>
           :
-          <div className="flex flex-col gap-7">
+          <div className="flex flex-col w-full gap-7">
             <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
               Payment and Billing
             </Text>
