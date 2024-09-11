@@ -299,7 +299,8 @@ const NewDocumentModal = (props) => {
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
-              <button type="reset" className="flex items-center bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
+              <button type="reset" 
+              className="flex items-center justify-center min-w-[93px] bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
               onClick={closeModal}>Cancel</button>
               <button 
               type="submit" 

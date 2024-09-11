@@ -116,9 +116,9 @@ const NewMilestoneModal = (props) => {
             </div>
             <div className="flex space-x-3 md:space-x-5 px-6 md:px-5 items-end w-full justify-end">
               <button onClick={props.onRequestClose} type="reset" 
-              className="flex items-center bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
+              className="flex items-center justify-center bg-[#E4E7EC] min-w-[93px] hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[18px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
               >Cancel</button>
-              <button type="submit" className="flex items-center ml-auto bg-[#2575F0] hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
+              <button type="submit" className="flex items-center justify-center min-w-[155px] ml-auto bg-[#2575F0] hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
             </div>
           </form>
         </div>

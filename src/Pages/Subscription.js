@@ -364,7 +364,7 @@ useEffect(() => {
                 </div>
                 <div className="flex space-x-3 md:space-x-5 items-end w-full  py-2 justify-end">
                   <button
-                    className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center rounded-md bg-[#E4E7EC] hover:bg-[#D0D5DD] active:bg-light_blue-100 text-[#98A2B3] py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
+                    className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center justify-center min-w-[210px] rounded-md bg-[#E4E7EC] hover:bg-[#D0D5DD] active:bg-light_blue-100 text-[#98A2B3] py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
                     onClick={openCancelModal}
                     type="button"
                   >
@@ -372,7 +372,7 @@ useEffect(() => {
                     Cancel My Plan
                   </button>
                   <button
-                    className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer-green"
+                    className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center min-w-[271px] justify-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer-green"
                     type="button"
                     onClick={() => navigate('/ChoosePlan')}
                   >
@@ -446,7 +446,7 @@ useEffect(() => {
               </div>
             </div>
             <button
-              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 rounded-md w-full cursorpointer-green"
+              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center h-[44px] gap-3 mr-auto py-3 rounded-md w-full cursorpointer-green"
               onClick={openEditPaymentModal}
               type="button"
             >
@@ -456,7 +456,7 @@ useEffect(() => {
           </div>
           :
           <div className="flex flex-col md:w-1/3 lg:w-1/4 gap-7">
-            <Text className="font-dm-sans-medium text-lg leading-7 text-left w-full">
+            <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
               Payment and Billing
             </Text>
             <button

@@ -170,7 +170,7 @@ export default function SubscribePlan() {
               </div>
               <div className="flex space-x-3 md:space-x-5 items-end  w-full py-2 justify-end">
                 <button
-                  className="flex flex-row text-base leading-[20.83px] gap-3 w-[147px] h-11 px-[30px] py-[18px] ml-auto items-center rounded-md bg-gray-201 text-blue_gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
+                  className="flex flex-row text-base leading-[20.83px] gap-3 w-[147px] h-11 px-[30px] py-[18px] ml-auto items-center justify-center min-w-[93px] rounded-md bg-gray-201 text-blue_gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
                   
                   type="button"
                 >
@@ -178,7 +178,7 @@ export default function SubscribePlan() {
                   Cancel 
                 </button>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] w-[282px] h-11 px-[30px] py-[18px] font-dm-sans-medium text-white-A700 flex flex-row items-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] w-[282px] h-11 px-[30px] py-[18px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer-green"
                   type="button"
                   onClick={()=> confirmSubscription()}
                 >
@@ -207,7 +207,7 @@ export default function SubscribePlan() {
               </div>
             </div>
             <button
-              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 rounded-md w-full cursorpointer-green"
+              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 h-[44px] rounded-md w-full cursorpointer-green"
              
               type="button"
             >

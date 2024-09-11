@@ -212,13 +212,13 @@ const onSubmit = async () => {
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
                 <button 
                 onClick={props.onRequestClose}
-                className="flex items-center bg-[#E4E7EC] text-[#475467] py-2 hover:bg-[#D0D5DD] active:bg-light_blue-100
+                className="flex items-center justify-center min-w-[93px] bg-[#E4E7EC] text-[#475467] py-2 hover:bg-[#D0D5DD] active:bg-light_blue-100
                 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
                     Cancel
                 </button>
                 <button 
                 onClick={onSubmit}
-                className="flex items-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
+                className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
                     Share to Selected Members
                 </button>
                 

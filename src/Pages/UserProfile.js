@@ -662,11 +662,11 @@ export default function UserProfile() {
               {!isForm1Saved ? (
                 <button 
                 onClick={() => setHasSubmitted1(true)}
-                className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit">
+                className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit">
                   Save
                 </button>
               ) : (
-                <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
+                <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
                   <SlCheck size={20} />
                   <span className="text-base text-gray500">Saved</span>
                 </button>
@@ -716,10 +716,10 @@ export default function UserProfile() {
               </div>
               {!isForm2Saved ?
                 (
-                  <button className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
+                  <button className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
                     Save </button>
                 ) : (
-                  <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                  <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
                     <SlCheck size={20} /> <span className="text-base text-gray500">Saved</span> </button>
                 )
               }
@@ -759,10 +759,10 @@ export default function UserProfile() {
                   }} />
               </div>
               {!isForm3Saved ? (
-                <button className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
+                <button className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
                   Save </button>
               ) : (
-                <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
                   <SlCheck size={20} /> <span className="text-base text-gray500">
                     Saved</span> </button>
               )
@@ -775,7 +775,7 @@ export default function UserProfile() {
               <Text className="font-dm-sans-regular text-base leading-6 text-blue_gray-601 w-full" >
                 By deleting your account, you’ll no longer be able to access your account or log in to Digital Morocco.
               </Text>
-              <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row h-[44px] items-center mr-auto py-2 px-10 rounded-md w-auto cursorpointer-green"
+              <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[178px] mr-auto py-2 px-5 rounded-md w-auto cursorpointer-green"
                 onClick={openDeleteModal} type="button" >
                 Delete Account
               </button>
