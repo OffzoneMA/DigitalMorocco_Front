@@ -63,7 +63,7 @@ export default function UserProfile() {
   useEffect(() => {
     if (hasSubmitted1 ) {
       const isCountryValid = selectedCountry !== null || userData?.country !== '';
-      const isCityValid = (selectedCity !== '' || selectedCity !== undefined);
+      const isCityValid = (selectedCity !== '' && selectedCity !== undefined);
       const isValid = isCountryValid && isCityValid ;
   
       setRequiredFields1({
@@ -100,6 +100,10 @@ export default function UserProfile() {
           const defaultCountry = allCountries.find(country => country.name === data.country);
           setSelectedCountry(defaultCountry);
         }
+        if (data?.cityState) {
+          setSelectedCity(userCity);
+
+        }
         setValue('city', data.cityState);
         setValue('phoneNumber', data.phoneNumber);
         setValue('website', data.website);
@@ -112,7 +116,6 @@ export default function UserProfile() {
         setValue('region', data.region);
   
         setSelectedCountry(userCountry);
-        setSelectedCity(userCity);
         setSelectedLanguage(language);
         setSelectedRegion(region);
   
