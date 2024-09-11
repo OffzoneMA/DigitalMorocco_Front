@@ -31,8 +31,8 @@ export default function UserProfile() {
   const [update, responseUpdate] = useUpdateUserMutation();
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState(allCountries.find(country => country.name === userData?.country) || null);
-  const [selectedCity, setSelectedCity] = useState(userData?.cityState || '');
+  const [selectedCountry, setSelectedCountry] = useState(userData?.country ? allCountries.find(country => country.name === userData?.country) : null);
+  const [selectedCity, setSelectedCity] = useState(userData?.cityState ? userData?.cityState : '');
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [isConnect, setIsConnect] = useState(true);
