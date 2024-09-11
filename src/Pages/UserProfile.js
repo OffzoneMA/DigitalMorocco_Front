@@ -63,7 +63,7 @@ export default function UserProfile() {
   useEffect(() => {
     if (hasSubmitted1 ) {
       const isCountryValid = selectedCountry !== null || userData?.country !== '';
-      const isCityValid = selectedCity !== '' ;
+      const isCityValid = (selectedCity !== '' || selectedCity !== undefined);
       const isValid = isCountryValid && isCityValid ;
   
       setRequiredFields1({
