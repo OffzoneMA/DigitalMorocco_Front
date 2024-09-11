@@ -83,8 +83,8 @@ const CancelPlanModal = (props) => {
                         </div>
                     </div>
                     <div className="flex space-x-3 md:space-x-5 items-start w-full justify-start pt-1 pb-2">
-                        <button onClick={props.onRequestClose} type="button" className="bg-gray-201 text-blue_gray-801 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Keep Basic Plan</button>
-                        <button type="button" className="ml-auto bg-red-501 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Continue Cancellation</button>
+                        <button onClick={props.onRequestClose} type="button" className="flex intems-center justify-center bg-gray-201 text-blue_gray-801 py-2 md:py-3 px-[12px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Keep Basic Plan</button>
+                        <button type="button" className="flex intems-center justify-center ml-auto bg-red-501 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Continue Cancellation</button>
                     </div>
                 </div>
             </div>

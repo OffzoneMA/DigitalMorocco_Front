@@ -129,6 +129,10 @@ a:hover::selection ,a *:hover::selection {
   color: #35D8BF !important; /* Teal color on hover */
 }
 
+.hover-select-color * {
+  color: #35D8BF !important;
+}
+
 .icon-container:hover svg>path {
   stroke: #FFFFFF;
 }

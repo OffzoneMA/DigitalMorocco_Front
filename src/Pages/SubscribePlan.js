@@ -8,6 +8,7 @@ import AddPaymentMethodModal from '../Components/AddPaymentMethodModal';
 import PageHeader from "../Components/PageHeader";
 import { useNavigate , useLocation} from 'react-router-dom';
 import { useCreateSubscriptionForUserMutation } from '../Services/Subscription.Service';
+import PaymentMethode from '../Components/PaymentMethode';
 
 export default function SubscribePlan() {
     const [createSubscriptionForUser] = useCreateSubscriptionForUserMutation();
@@ -94,7 +95,7 @@ export default function SubscribePlan() {
                 <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
                 Your selected plan
                 </Text>
-                <div className="flex flex-col w-full rounded-[12px] gap-[24px] p-4 ">
+                <div className="flex flex-col w-full rounded-[12px] border border-[#E4E7EC] gap-[24px] p-4 ">
                   <div className='flex flex-col gap-1 w-full'>
                     <div className="flex flex-row w-full items-center">
                       <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
@@ -189,31 +190,8 @@ export default function SubscribePlan() {
               
             </div>
           </div>
-          <div className="flex flex-col w-full md:w-1/3 lg:w-1/4 gap-6">
-            <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
-              Payment and Billing
-            </Text>
-            <div className="flex flex-row w-full rounded-[12px] border py-4 px-4 border-gray-301 gap-4">
-              <div className="flex rounded-md px-3 py-3.5 bg-gray-201 items-center">
-                <img src="images/img_visa.svg" />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Text className="font-dm-sans-medium text-sm leading-[18px] text-left text-[#101828] w-full">
-                  •••• •••• •••• 1234
-                </Text>
-                <Text className="font-dm-sans-regular text-xs leading-[15.62px] text-gray500 text-left w-full">
-                  expired 08/26
-                </Text>
-              </div>
-            </div>
-            <button
-              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center gap-3 mr-auto py-3 h-[44px] rounded-md w-full cursorpointer-green"
-             
-              type="button"
-            >
-              <IoWalletOutline size={22} />
-              Change Payment Method
-            </button>
+          <div className='flex w-full md:w-1/3 lg:w-1/4'>
+            <PaymentMethode />
           </div>
         </div>
       </div>

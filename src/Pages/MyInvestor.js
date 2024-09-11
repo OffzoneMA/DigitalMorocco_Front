@@ -244,7 +244,7 @@ const MyInvestors = () => {
                   </div>
               </div>
               <div className="relative flex flex-col w-full">
-              <div className="bg-white-A700 border-b border-gray-201 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto rounded-b-[8px]" 
+              <div className="bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto rounded-b-[8px]" 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',

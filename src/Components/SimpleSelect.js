@@ -5,14 +5,16 @@ import ReactDOM from 'react-dom';
 
 const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchable = true, searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',className='' ,required = false, }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const dropdownRef = useRef(null);
   const parentRef = useRef(null);
 
   useEffect(() => {
-    setSelectedOption(selectedOptionsDfault || '');
-  }, [selectedOptionsDfault]);
+    if(selectedOption === null) {
+        setSelectedOption(selectedOptionsDfault);
+    }
+  }, [selectedOption , selectedOptionsDfault]);
 
 
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
@@ -110,7 +112,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
           name="target"
           type="text"
           placeholder={placeholder}
-          value={valuekey ? selectedOption[valuekey] : selectedOption? selectedOption: ""}
+          value={valuekey ? selectedOption?.[valuekey] : selectedOption? selectedOption: ""}
           readOnly
           style={{overflow:'hidden' , textOverflow:'ellipsis'}}
         />
@@ -139,7 +141,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
             {filteredData.map((option, index) => (
               <div
                 key={index}
-                className={`flex items-center w-full px-3 text-left cursorpointer-green hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
+                className={`flex items-center w-full px-3 text-left cursorpointer-green ${selectedOption === option ? 'hover-select-color text-[#35D8BF]' : ''} hover:hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
                 onClick={() => handleOptionClick(option)}
               >
                 {content(option)}

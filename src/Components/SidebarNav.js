@@ -45,10 +45,11 @@ const SidebarNav = () => {
   const settingActiveLinks = ["settings" , "Subscription" , "UserProfile" , "ChoosePlan" , "SubscribePlan"];
   const subscriptionActiveLinks = ["Subscription" , "ChoosePlan" , "SubscribePlan"];
 
-
   useEffect(() => {
     setActiveMenu(location.pathname.split('/')[1]);
-  }, [location.pathname]);
+  }, [location]);
+
+  console.log(activeMenu)
 
   const setSubmenu = (submenuName, isOpen) => {
     setSubmenuOpen(prevState => ({
@@ -183,7 +184,6 @@ const SidebarNav = () => {
           )}
         </li>
         { Menu.submenu  && submenuOpen[Menu.title] && (
-
           Menu.child.map((el, i) => (
             <li
               key={i}
@@ -219,7 +219,7 @@ const SidebarNav = () => {
     <div
       onClick={() => {setSettingsOpen(!settingsOpen)
               setActiveParent("settings")
-              setActiveMenu("settings")
+              // setActiveMenu("settings")
               resetSubmenus();
       }}
       className={` ${!open && 'w-fit'} relative group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu))? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
@@ -254,7 +254,7 @@ const SidebarNav = () => {
         navigate("/UserProfile")
         setActiveParent("settings")
         setActiveMenu("UserProfile");}}
-      className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${activeMenu === "UserProfile"? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+      className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "UserProfile") ? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center gap-x-2  mt-1 `} 
       title={!open ? "My Profil" : ""}
     >
       <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>

@@ -32,25 +32,27 @@ export default function UserProfile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(allCountries.find(country => country.name === userData?.country) || null);
-  const [selectedCity, setSelectedCity] = useState(userData?.cityState || null);
+  const [selectedCity, setSelectedCity] = useState( null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [isConnect, setIsConnect] = useState(true);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [isForm1Saved, setIsForm1Saved] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false); 
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false); 
   const [isForm2Saved, setIsForm2Saved] = useState(false);
   const [isForm3Saved, setIsForm3Saved] = useState(false);
   const selectedCountryName = selectedCountry ? selectedCountry["name"] : '';
   const selectedCityName = selectedCity ? selectedCity["name"] : '';
-  const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue } = useForm();
-  const { register: register2, handleSubmit: handleSubmit2, watch, formState: { errors: errors2 } } = useForm();
+  const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue , getValues: getValues1 } = useForm();
+  const { register: register2, handleSubmit: handleSubmit2, watch, formState: { errors: errors2 } , getValues: getValues2 } = useForm();
   const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm();
   const fileInputRef = useRef(null);
   const handleUploadClick = () => { fileInputRef.current.click(); };
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(userData)
   const [isForm1Valid, setIsForm1Valid] = useState(true);
   const [hasSubmitted1, setHasSubmitted1] = useState(false);
   const [requiredFields1, setRequiredFields1] = useState({
@@ -60,8 +62,8 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (hasSubmitted1 ) {
-      const isCountryValid = selectedCountry !== null;
-      const isCityValid = selectedCity !== null;
+      const isCountryValid = selectedCountry !== null || userData?.country !== '';
+      const isCityValid = selectedCity !== null || userData?.cityState !== '';
       const isValid = isCountryValid && isCityValid ;
   
       setRequiredFields1({
@@ -73,56 +75,54 @@ export default function UserProfile() {
     }
 }, [hasSubmitted1 ,selectedCountry, selectedCity]);
 
-
   useEffect(() => {
+    const UserInfo = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_baseURL}/users/UserInfo`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = response.data;
+        const nameParts = data.displayName.split(' ');
+        const firstName = nameParts.slice(0, -1).join(' ');
+        const lastName = nameParts[nameParts.length - 1];
+        const userCountry = data.Country;
+        const userCity = data.cityState;
+        const language = data.language;
+        const region = data.region;
+        setUser(data);
+        setValue('email', data.email);
+        setValue('firstName', firstName);
+        setValue('lastName', lastName);
+        if (data?.country) {
+          const defaultCountry = allCountries.find(country => country.name === data.country);
+          setSelectedCountry(defaultCountry);
+        }
+        setValue('city', data.cityState);
+        setValue('phoneNumber', data.phoneNumber);
+        setValue('website', data.website);
+        setValue('address', data.address);
+        setValue('facebook', data.facebookId);
+        setValue('instagram', data.instagram);
+        setValue('twitter', data.twitter);
+        setValue('linkedin', data.linkedinId);
+        setValue('language', data.language);
+        setValue('region', data.region);
+  
+        setSelectedCountry(userCountry);
+        setSelectedCity(userCity);
+        setSelectedLanguage(language);
+        setSelectedRegion(region);
+  
+      } catch (error) {
+        responseUpdate?.error && toast.error("Something went wrong")
+        console.error("Error fetching User:", error);
+      }
+    };
+  
     UserInfo();
   }, []);
-
-  const UserInfo = async () => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_baseURL}/users/UserInfo`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = response.data;
-      const nameParts = data.displayName.split(' ');
-      const firstName = nameParts.slice(0, -1).join(' ');
-      const lastName = nameParts[nameParts.length - 1];
-      const userCountry = data.Country;
-      const userCity = data.cityState;
-      const language = data.language;
-      const region = data.region;
-      setUser(data);
-      setValue('email', data.email);
-      setValue('firstName', firstName);
-      setValue('lastName', lastName);
-      // setValue('country', data.Country);
-      setValue('city', data.cityState);
-      setValue('phoneNumber', data.phoneNumber);
-      setValue('website', data.website);
-      setValue('address', data.address);
-      setValue('facebook', data.facebookId);
-      setValue('instagram', data.instagram);
-      setValue('twitter', data.twitter);
-      setValue('linkedin', data.linkedinId);
-      setValue('language', data.language);
-      setValue('region', data.region);
-
-      setSelectedCountry(userCountry);
-      setSelectedCity(userCity);
-      setSelectedLanguage(language);
-      setSelectedRegion(region);
-      toast.success("Edited Successfuly !")
-
-
-    } catch (error) {
-      responseUpdate?.error && toast.error("Something went wrong")
-      console.error("Error fetching User:", error);
-    }
-  };
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -140,16 +140,34 @@ export default function UserProfile() {
     return password === value || "Passwords do not match.";
   };
 
-  const validatePhoneNumber = (value) => {
-    const phoneNumber = parsePhoneNumberFromString(value);
-    if (!phoneNumber) {
-      return 'Invalid phone number';
-    }
-    if (!phoneNumber.isValid()) {
-      return 'Invalid phone number for the selected country';
-    }
-    return true;
+  const toggleCurrentPasswordVisibility = () => {
+    setShowCurrentPassword(!showCurrentPassword);
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const togglePasswordConfirmVisibility = () => {
+    setShowPasswordConfirm(!showPasswordConfirm);
+  };
+
+  const validatePhoneNumber = (value) => {
+    if (typeof value === 'string' && value !== '') {
+      const phoneNumber = parsePhoneNumberFromString(value);
+    
+      if (!phoneNumber) {
+        return 'Invalid phone number';
+      }
+      
+      if (!phoneNumber.isValid()) {
+        return 'Invalid phone number for the selected country';
+      }
+      
+      return true;
+    }
+  };
+  
 
   // const onSubmit1 = async (data) => {
   //   try {
@@ -321,6 +339,9 @@ export default function UserProfile() {
           const updatedUserData = response.data.user;
           sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
           setIsForm1Saved(true);
+          setTimeout(() => {
+            setIsForm1Saved(false);
+          }, 5000);
           console.log("Data saved successfully!");
 
         } else {
@@ -360,6 +381,9 @@ export default function UserProfile() {
           sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
 
           setIsForm2Saved(true);
+          setTimeout(() => {
+            setIsForm2Saved(false);
+          }, 5000);
           console.log("Password changed and user data updated successfully!");
         } else {
           console.error("Error fetching updated user data.");
@@ -396,8 +420,10 @@ export default function UserProfile() {
       );
       if (response.data.success) {
         setIsForm3Saved(true);
+        setTimeout(() => {
+          setIsForm3Saved(false);
+        }, 5000);
         console.log("Language and region updated successfully!");
-
         const updatedUserData = {
           ...userData,
           ...formData,
@@ -621,7 +647,7 @@ export default function UserProfile() {
                     searchLabel='Search Country'
                     setSelectedOptionVal={setSelectedCountry}
                     selectedOptionsDfault={userData?.country ? allCountries.find(country => country.name === userData.country) : ""}
-                    placeholder={selectedCountry ? selectedCountry : "Select Country"} required={requiredFields1.country}
+                    placeholder={"Select Country"} required={requiredFields1.country}
                     valuekey="name"
                     content={(option) => {
                       return (
@@ -640,7 +666,7 @@ export default function UserProfile() {
                   </Text>
                   <SimpleSelect
                     id='city'
-                    options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []}
+                    options={selectedCountry  ? City.getCitiesOfCountry(selectedCountry?.['isoCode']) : userData?.cityState ? City.getCitiesOfCountry(selectedCountry?.['isoCode']) : []}
                     onSelect={""}
                     searchLabel='Search City'
                     selectedOptionsDfault={userData?.cityState ? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userData?.cityState) : ""}
@@ -672,47 +698,115 @@ export default function UserProfile() {
                 </button>
               )}
             </form>
-
             <form onSubmit={handleSubmit2(onSubmit2)} className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-dm-sans-medium text-base leading-6 text-[#101828] w-full" >
                 Password Setting </Text>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
                 <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel" >
                   Current Password </Text>
-                <input {...register2('currentPassword',
-                  { required: { value: true, message: 'Current Password is required' } })}
-                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors2?.currentPassword ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                  type="password" name="currentPassword" defaultValue="• • • • • • • •"
-                  placeholder="Your Current Password" />
+                <div className="relative w-full">
+                  <input {...register2('currentPassword',
+                    { required: { value: true, message: 'Current Password is required' } , 
+                    validate: value => value !== '• • • • • • • •' })}
+                      type={showCurrentPassword ? "text" : "password"}
+                      style={{ appearance: 'none' }}
+                      className={`${!showCurrentPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.currentPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.currentPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.currentPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
+                      name="currentPassword" defaultValue="• • • • • • • •"
+                      placeholder="Your Current Password" 
+                  />
+                  {getValues2('currentPassword')?.length > 0 && 
+                    <button
+                      type="button"
+                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
+                      onClick={toggleCurrentPasswordVisibility}
+                    >
+                      {showCurrentPassword ? (
+                        <svg width="18" height="18" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.1144 4.63848C14.724 4.54835 15.3529 4.5 16.0006 4.5C23.6581 4.5 28.6829 11.2573 30.371 13.9302C30.5754 14.2538 30.6775 14.4155 30.7347 14.665C30.7776 14.8524 30.7776 15.148 30.7346 15.3354C30.6774 15.5849 30.5745 15.7477 30.3688 16.0734C29.919 16.7852 29.2333 17.7857 28.3247 18.8707M8.08648 7.07256C4.84337 9.27255 2.64168 12.3291 1.63166 13.9279C1.42643 14.2528 1.32381 14.4152 1.26661 14.6647C1.22365 14.8521 1.22363 15.1477 1.26657 15.335C1.32374 15.5845 1.4259 15.7463 1.6302 16.0698C3.31831 18.7427 8.34312 25.5 16.0006 25.5C19.0882 25.5 21.7478 24.4014 23.9332 22.9149M2.50062 1.5L29.5006 28.5M12.8186 11.818C12.0043 12.6324 11.5006 13.7574 11.5006 15C11.5006 17.4853 13.5153 19.5 16.0006 19.5C17.2433 19.5 18.3683 18.9963 19.1826 18.182" stroke="#1D2939" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>                            
+                      ) : (
+                        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" clipRule="evenodd" d="M1.60556 7C1.68752 7.14165 1.79619 7.32216 1.93081 7.53061C2.27658 8.06598 2.78862 8.77795 3.4534 9.48704C4.79664 10.9198 6.67463 12.25 9 12.25C11.3254 12.25 13.2034 10.9198 14.5466 9.48704C15.2114 8.77795 15.7234 8.06598 16.0692 7.53061C16.2038 7.32216 16.3125 7.14165 16.3944 7C16.3125 6.85835 16.2038 6.67784 16.0692 6.46939C15.7234 5.93402 15.2114 5.22205 14.5466 4.51296C13.2034 3.08017 11.3254 1.75 9 1.75C6.67463 1.75 4.79664 3.08017 3.4534 4.51296C2.78862 5.22205 2.27658 5.93402 1.93081 6.46939C1.79619 6.67784 1.68752 6.85835 1.60556 7ZM17.25 7C17.9208 6.66459 17.9207 6.66434 17.9206 6.66406L17.9193 6.66165L17.9168 6.65653L17.9082 6.63987C17.9011 6.62596 17.891 6.60648 17.8779 6.58183C17.8518 6.53252 17.814 6.46242 17.7645 6.37449C17.6657 6.19873 17.5201 5.95114 17.3292 5.65561C16.9485 5.06598 16.3824 4.27795 15.6409 3.48704C14.1716 1.91983 11.9246 0.25 9 0.25C6.07537 0.25 3.82836 1.91983 2.3591 3.48704C1.61763 4.27795 1.05155 5.06598 0.670752 5.65561C0.479888 5.95114 0.334344 6.19873 0.235479 6.37449C0.186018 6.46242 0.148155 6.53252 0.122065 6.58183C0.109018 6.60648 0.0989064 6.62596 0.0917535 6.63987L0.0832425 6.65653L0.0806542 6.66165L0.0797776 6.6634C0.0796397 6.66367 0.0791796 6.66459 0.75 7L0.0791796 6.66459C-0.0263932 6.87574 -0.0263932 7.12426 0.0791796 7.33541L0.75 7C0.0791796 7.33541 0.0790418 7.33513 0.0791796 7.33541L0.0806542 7.33835L0.0832425 7.34347L0.0917535 7.36013C0.0989064 7.37405 0.109018 7.39352 0.122065 7.41817C0.148155 7.46748 0.186018 7.53758 0.235479 7.62551C0.334344 7.80127 0.479888 8.04886 0.670752 8.34439C1.05155 8.93402 1.61763 9.72205 2.3591 10.513C3.82836 12.0802 6.07537 13.75 9 13.75C11.9246 13.75 14.1716 12.0802 15.6409 10.513C16.3824 9.72205 16.9485 8.93402 17.3292 8.34439C17.5201 8.04886 17.6657 7.80127 17.7645 7.62551C17.814 7.53758 17.8518 7.46748 17.8779 7.41817C17.891 7.39352 17.9011 7.37405 17.9082 7.36013L17.9168 7.34347L17.9193 7.33835L17.9202 7.3366C17.9204 7.33633 17.9208 7.33541 17.25 7ZM17.25 7L17.9208 7.33541C18.0264 7.12426 18.0261 6.87521 17.9206 6.66406L17.25 7Z" fill="#37363B"/>
+                          <path fillRule="evenodd" clipRule="evenodd" d="M9 5.5C8.17157 5.5 7.5 6.17157 7.5 7C7.5 7.82843 8.17157 8.5 9 8.5C9.82843 8.5 10.5 7.82843 10.5 7C10.5 6.17157 9.82843 5.5 9 5.5ZM6 7C6 5.34315 7.34315 4 9 4C10.6569 4 12 5.34315 12 7C12 8.65685 10.6569 10 9 10C7.34315 10 6 8.65685 6 7Z" fill="#37363B"/>
+                        </svg>                            
+                      )}
+                    </button>
+                  }
+                </div>
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
                 <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel" >
                   New Password </Text>
-                <input {...register2('newPassword',
-                  { required: { value: true, message: 'New Password is required' } ,
-                  minLength: {
-                    value: 8,
-                    message: 'Password must be at least 8 characters long'
-                  },
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
-                    message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-                  } })}
-                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors2?.newPassword ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                  type="password" name="newPassword" defaultValue="• • • • • • • •"
-                  placeholder="Your Current Password" /> 
+                <div className="relative w-full">
+                  <input {...register2('newPassword',
+                    { required: { value: true, message: 'New Password is required' } ,
+                    minLength: {
+                      value: 8,
+                      message: 'Password must be at least 8 characters long'
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+                    } ,
+                    validate: value => value !== '• • • • • • • •' })}
+                    type={showPassword ? "text" : "password"}
+                    style={{ appearance: 'none' }}
+                    className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.newPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.newPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.newPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
+                    name="newPassword" defaultValue="• • • • • • • •"
+                    placeholder="Your New Password" 
+                  />
+                    {getValues2('newPassword')?.length > 0 && 
+                      <button
+                        type="button"
+                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
+                        onClick={togglePasswordVisibility}
+                      >
+                        {showPassword ? (
+                          <svg width="18" height="18" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M14.1144 4.63848C14.724 4.54835 15.3529 4.5 16.0006 4.5C23.6581 4.5 28.6829 11.2573 30.371 13.9302C30.5754 14.2538 30.6775 14.4155 30.7347 14.665C30.7776 14.8524 30.7776 15.148 30.7346 15.3354C30.6774 15.5849 30.5745 15.7477 30.3688 16.0734C29.919 16.7852 29.2333 17.7857 28.3247 18.8707M8.08648 7.07256C4.84337 9.27255 2.64168 12.3291 1.63166 13.9279C1.42643 14.2528 1.32381 14.4152 1.26661 14.6647C1.22365 14.8521 1.22363 15.1477 1.26657 15.335C1.32374 15.5845 1.4259 15.7463 1.6302 16.0698C3.31831 18.7427 8.34312 25.5 16.0006 25.5C19.0882 25.5 21.7478 24.4014 23.9332 22.9149M2.50062 1.5L29.5006 28.5M12.8186 11.818C12.0043 12.6324 11.5006 13.7574 11.5006 15C11.5006 17.4853 13.5153 19.5 16.0006 19.5C17.2433 19.5 18.3683 18.9963 19.1826 18.182" stroke="#1D2939" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>                            
+                        ) : (
+                          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M1.60556 7C1.68752 7.14165 1.79619 7.32216 1.93081 7.53061C2.27658 8.06598 2.78862 8.77795 3.4534 9.48704C4.79664 10.9198 6.67463 12.25 9 12.25C11.3254 12.25 13.2034 10.9198 14.5466 9.48704C15.2114 8.77795 15.7234 8.06598 16.0692 7.53061C16.2038 7.32216 16.3125 7.14165 16.3944 7C16.3125 6.85835 16.2038 6.67784 16.0692 6.46939C15.7234 5.93402 15.2114 5.22205 14.5466 4.51296C13.2034 3.08017 11.3254 1.75 9 1.75C6.67463 1.75 4.79664 3.08017 3.4534 4.51296C2.78862 5.22205 2.27658 5.93402 1.93081 6.46939C1.79619 6.67784 1.68752 6.85835 1.60556 7ZM17.25 7C17.9208 6.66459 17.9207 6.66434 17.9206 6.66406L17.9193 6.66165L17.9168 6.65653L17.9082 6.63987C17.9011 6.62596 17.891 6.60648 17.8779 6.58183C17.8518 6.53252 17.814 6.46242 17.7645 6.37449C17.6657 6.19873 17.5201 5.95114 17.3292 5.65561C16.9485 5.06598 16.3824 4.27795 15.6409 3.48704C14.1716 1.91983 11.9246 0.25 9 0.25C6.07537 0.25 3.82836 1.91983 2.3591 3.48704C1.61763 4.27795 1.05155 5.06598 0.670752 5.65561C0.479888 5.95114 0.334344 6.19873 0.235479 6.37449C0.186018 6.46242 0.148155 6.53252 0.122065 6.58183C0.109018 6.60648 0.0989064 6.62596 0.0917535 6.63987L0.0832425 6.65653L0.0806542 6.66165L0.0797776 6.6634C0.0796397 6.66367 0.0791796 6.66459 0.75 7L0.0791796 6.66459C-0.0263932 6.87574 -0.0263932 7.12426 0.0791796 7.33541L0.75 7C0.0791796 7.33541 0.0790418 7.33513 0.0791796 7.33541L0.0806542 7.33835L0.0832425 7.34347L0.0917535 7.36013C0.0989064 7.37405 0.109018 7.39352 0.122065 7.41817C0.148155 7.46748 0.186018 7.53758 0.235479 7.62551C0.334344 7.80127 0.479888 8.04886 0.670752 8.34439C1.05155 8.93402 1.61763 9.72205 2.3591 10.513C3.82836 12.0802 6.07537 13.75 9 13.75C11.9246 13.75 14.1716 12.0802 15.6409 10.513C16.3824 9.72205 16.9485 8.93402 17.3292 8.34439C17.5201 8.04886 17.6657 7.80127 17.7645 7.62551C17.814 7.53758 17.8518 7.46748 17.8779 7.41817C17.891 7.39352 17.9011 7.37405 17.9082 7.36013L17.9168 7.34347L17.9193 7.33835L17.9202 7.3366C17.9204 7.33633 17.9208 7.33541 17.25 7ZM17.25 7L17.9208 7.33541C18.0264 7.12426 18.0261 6.87521 17.9206 6.66406L17.25 7Z" fill="#37363B"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M9 5.5C8.17157 5.5 7.5 6.17157 7.5 7C7.5 7.82843 8.17157 8.5 9 8.5C9.82843 8.5 10.5 7.82843 10.5 7C10.5 6.17157 9.82843 5.5 9 5.5ZM6 7C6 5.34315 7.34315 4 9 4C10.6569 4 12 5.34315 12 7C12 8.65685 10.6569 10 9 10C7.34315 10 6 8.65685 6 7Z" fill="#37363B"/>
+                          </svg>                            
+                        )}
+                      </button>
+                    }
+                </div> 
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
                 <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel" >
                   Confirm New Password </Text>
+                <div className="relative w-full">
                   <input {...register2('confirmNewPassword',
                     {
                       required: { value: true, message: 'Confirm New Password is required' },
                       validate: validatePasswordMatch
                     })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors2?.confirmNewPassword ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="password" name="confirmNewPassword" defaultValue="• • • • • • • •"
-                    placeholder="Your Current Password" />
+                    type={showPasswordConfirm ? "text" : "password"}
+                    style={{ appearance: 'none' }}
+                    className={`${!showPasswordConfirm ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.confirmNewPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.confirmNewPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.confirmNewPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
+                    name="confirmNewPassword" defaultValue="• • • • • • • •"
+                    placeholder="Confirm Your New Password" />
+                    {getValues2('confirmNewPassword')?.length > 0 && 
+                      <button
+                        type="button"
+                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
+                        onClick={togglePasswordConfirmVisibility}
+                      >
+                        {showPasswordConfirm ? (
+                          <svg width="18" height="18" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M14.1144 4.63848C14.724 4.54835 15.3529 4.5 16.0006 4.5C23.6581 4.5 28.6829 11.2573 30.371 13.9302C30.5754 14.2538 30.6775 14.4155 30.7347 14.665C30.7776 14.8524 30.7776 15.148 30.7346 15.3354C30.6774 15.5849 30.5745 15.7477 30.3688 16.0734C29.919 16.7852 29.2333 17.7857 28.3247 18.8707M8.08648 7.07256C4.84337 9.27255 2.64168 12.3291 1.63166 13.9279C1.42643 14.2528 1.32381 14.4152 1.26661 14.6647C1.22365 14.8521 1.22363 15.1477 1.26657 15.335C1.32374 15.5845 1.4259 15.7463 1.6302 16.0698C3.31831 18.7427 8.34312 25.5 16.0006 25.5C19.0882 25.5 21.7478 24.4014 23.9332 22.9149M2.50062 1.5L29.5006 28.5M12.8186 11.818C12.0043 12.6324 11.5006 13.7574 11.5006 15C11.5006 17.4853 13.5153 19.5 16.0006 19.5C17.2433 19.5 18.3683 18.9963 19.1826 18.182" stroke="#1D2939" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>                            
+                        ) : (
+                          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M1.60556 7C1.68752 7.14165 1.79619 7.32216 1.93081 7.53061C2.27658 8.06598 2.78862 8.77795 3.4534 9.48704C4.79664 10.9198 6.67463 12.25 9 12.25C11.3254 12.25 13.2034 10.9198 14.5466 9.48704C15.2114 8.77795 15.7234 8.06598 16.0692 7.53061C16.2038 7.32216 16.3125 7.14165 16.3944 7C16.3125 6.85835 16.2038 6.67784 16.0692 6.46939C15.7234 5.93402 15.2114 5.22205 14.5466 4.51296C13.2034 3.08017 11.3254 1.75 9 1.75C6.67463 1.75 4.79664 3.08017 3.4534 4.51296C2.78862 5.22205 2.27658 5.93402 1.93081 6.46939C1.79619 6.67784 1.68752 6.85835 1.60556 7ZM17.25 7C17.9208 6.66459 17.9207 6.66434 17.9206 6.66406L17.9193 6.66165L17.9168 6.65653L17.9082 6.63987C17.9011 6.62596 17.891 6.60648 17.8779 6.58183C17.8518 6.53252 17.814 6.46242 17.7645 6.37449C17.6657 6.19873 17.5201 5.95114 17.3292 5.65561C16.9485 5.06598 16.3824 4.27795 15.6409 3.48704C14.1716 1.91983 11.9246 0.25 9 0.25C6.07537 0.25 3.82836 1.91983 2.3591 3.48704C1.61763 4.27795 1.05155 5.06598 0.670752 5.65561C0.479888 5.95114 0.334344 6.19873 0.235479 6.37449C0.186018 6.46242 0.148155 6.53252 0.122065 6.58183C0.109018 6.60648 0.0989064 6.62596 0.0917535 6.63987L0.0832425 6.65653L0.0806542 6.66165L0.0797776 6.6634C0.0796397 6.66367 0.0791796 6.66459 0.75 7L0.0791796 6.66459C-0.0263932 6.87574 -0.0263932 7.12426 0.0791796 7.33541L0.75 7C0.0791796 7.33541 0.0790418 7.33513 0.0791796 7.33541L0.0806542 7.33835L0.0832425 7.34347L0.0917535 7.36013C0.0989064 7.37405 0.109018 7.39352 0.122065 7.41817C0.148155 7.46748 0.186018 7.53758 0.235479 7.62551C0.334344 7.80127 0.479888 8.04886 0.670752 8.34439C1.05155 8.93402 1.61763 9.72205 2.3591 10.513C3.82836 12.0802 6.07537 13.75 9 13.75C11.9246 13.75 14.1716 12.0802 15.6409 10.513C16.3824 9.72205 16.9485 8.93402 17.3292 8.34439C17.5201 8.04886 17.6657 7.80127 17.7645 7.62551C17.814 7.53758 17.8518 7.46748 17.8779 7.41817C17.891 7.39352 17.9011 7.37405 17.9082 7.36013L17.9168 7.34347L17.9193 7.33835L17.9202 7.3366C17.9204 7.33633 17.9208 7.33541 17.25 7ZM17.25 7L17.9208 7.33541C18.0264 7.12426 18.0261 6.87521 17.9206 6.66406L17.25 7Z" fill="#37363B"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M9 5.5C8.17157 5.5 7.5 6.17157 7.5 7C7.5 7.82843 8.17157 8.5 9 8.5C9.82843 8.5 10.5 7.82843 10.5 7C10.5 6.17157 9.82843 5.5 9 5.5ZM6 7C6 5.34315 7.34315 4 9 4C10.6569 4 12 5.34315 12 7C12 8.65685 10.6569 10 9 10C7.34315 10 6 8.65685 6 7Z" fill="#37363B"/>
+                          </svg>                            
+                        )}
+                      </button>
+                    }
+                </div>
               </div>
               {!isForm2Saved ?
                 (

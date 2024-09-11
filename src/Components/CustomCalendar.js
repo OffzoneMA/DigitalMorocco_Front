@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {MdOutlineDateRange} from "react-icons/md";
 import ReactDOM from 'react-dom';
 
-const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue}) => {
+const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue ,required = false}) => {
     const formatDefaultValut = (defaultValue) => {
         if(defaultValue) {
             return new Intl.DateTimeFormat('en-GB').format(defaultValue);
@@ -131,7 +131,7 @@ const calculateDropdownPosition = () => {
 
     return(
         <div className={`relative ${className}`} >
-          <div ref={parentRef} className={`flex w-full rounded-md px-[12px] py-[10px] h-[40px] border border-solid `} onClick={toggleDropdown}>
+          <div ref={parentRef} className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${(show && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`} onClick={toggleDropdown}>
               <input
                   type="text"
                   className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
