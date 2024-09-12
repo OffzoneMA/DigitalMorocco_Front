@@ -11,7 +11,7 @@ const LoginModal = (props) => {
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
-    className="m-auto w-auto max-w-[640px] "
+    className="m-auto w-[95%] max-w-[640px] outline-none"
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
     shouldFocusAfterRender={false}
     shouldReturnFocusAfterClose={false}

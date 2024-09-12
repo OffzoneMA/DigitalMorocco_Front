@@ -8,7 +8,7 @@ const DeleteModal = (props) => {
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
-    className="m-auto w-[95%] md:w-[100%] max-w-[540px] outline-none"
+    className="m-auto w-[95%] md:w-[100%] max-w-[640px] outline-none"
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
     {...props}
   >
@@ -44,7 +44,7 @@ const DeleteModal = (props) => {
               </button>
               <button 
               onClick={props.onDelete}
-              className="flex items-center cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[127px] bg-[#EF4352] text-white-A700 text-center">
+              className="flex items-center cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[127px] bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 text-center">
                 Delete Now
               </button>
             </div>

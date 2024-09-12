@@ -15,12 +15,12 @@ const DeleteAccountModal = (props) => {
     return (
         <ModalProvider
         appElement={document.getElementById("root")}
-        className="m-auto w-[65%] md:w-[50%] lg:w-[45%] xl:w-[45%] 2xl:w-[40%]"
+        className="m-auto w-[95%] max-w-[640px]"
         overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
         {...props}
       >
-        <form onSubmit={handleSubmit} className="max-h-[97vh] overflow-y-auto w-full md:w-full">
-          <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col p-6 gap-4 items-center justify-start max-w-screen-sm rounded-[10px] w-full">
+        <form onSubmit={handleSubmit} className="max-h-[97vh] w-full md:w-full">
+          <div className="bg-white-A700 border border-gray-500_33 max-h-[97vh] overflow-y-auto border-solid flex flex-col p-6 gap-4 items-center justify-start max-w-screen-sm  rounded-[10px] w-full">
             <div className="flex flex-col w-full gap-3">
               <div className="flex flex-row w-full gap-2 items-center">
                 <svg width="24" height="21" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +63,7 @@ const DeleteAccountModal = (props) => {
               <div className="flex items-end w-full pt-3 justify-end">
                 <div className="flex space-x-3 md:space-x-5 w-auto">
                   <button onClick={props.onRequestClose} type="reset" className="flex items-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Cancel</button>
-                  <button type="submit" className="flex items-center ml-auto bg-red-501 text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Delete account</button>
+                  <button type="submit" className="flex items-center ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Delete account</button>
                 </div>
               </div>
             </div>

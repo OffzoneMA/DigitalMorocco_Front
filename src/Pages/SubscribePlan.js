@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { Text } from '../Components/Text';
 import { TiFlashOutline } from "react-icons/ti";
 import { IoWalletOutline } from "react-icons/io5";
@@ -7,18 +7,37 @@ import CancelPlanModal from '../Components/CancelPlanModal';
 import AddPaymentMethodModal from '../Components/AddPaymentMethodModal';
 import PageHeader from "../Components/PageHeader";
 import { useNavigate , useLocation} from 'react-router-dom';
-import { useCreateSubscriptionForUserMutation } from '../Services/Subscription.Service';
+import { useCreateSubscriptionForUserMutation  , useUpgradeSubscriptionMutation} from '../Services/Subscription.Service';
 import PaymentMethode from '../Components/PaymentMethode';
+import axios from 'axios';
 
 export default function SubscribePlan() {
+    const token = sessionStorage.getItem("userToken");
     const [createSubscriptionForUser] = useCreateSubscriptionForUserMutation();
+    const [upgradeSubscription, { isLoading: upgradeLoading, isSuccess:upgradeSuccess, isError, error }] = useUpgradeSubscriptionMutation();
     const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState('Monthly');
     const navigate = useNavigate()
     const location = useLocation();
     const [choosedPlan, setChoosedPlan] = useState(location.state?.choosedPlan || null);
-    console.log(choosedPlan)
+    const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
+
+    const getUserSusbcription = async () => {
+      try {
+          const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
+              headers: { Authorization: `Bearer ${token}` },
+          });
+          setUserSusbcriptionData(response.data);
+      } catch (error) {
+          console.error('Error checking subscription status:', error);
+      }
+    };
+    
+    useEffect(() => {
+      getUserSusbcription();
+    }, []);
+
     const openCancelModal = (rowData) => {
         setIsCancelModalOpen(true);
     };
@@ -59,11 +78,27 @@ export default function SubscribePlan() {
             billing: selectedPlan === 'Monthly' ? 'month' : 'year'
         };
 
-        const result = await createSubscriptionForUser({
-            planId: choosedPlan?._id,
-            data
-        });
-        console.log(result)
+        const hasActiveSubscription = userSubscriptionData?._id; 
+
+        let result;
+
+        if (hasActiveSubscription) {
+          if (userSubscriptionData?.plan?._id === choosedPlan?._id) {
+            console.log('You are already subscribed to this plan');
+            return; 
+          }
+            result = await upgradeSubscription({
+                subscriptionId: userSubscriptionData?._id, 
+                newPlanId: choosedPlan?._id,
+                newBilling: data.billing,
+            });
+        } else {
+            result = await createSubscriptionForUser({
+                planId: choosedPlan?._id, 
+                data 
+            });
+        }
+
         if (result.isSuccess) {
             navigate('/Subscription');
         } else {
@@ -73,6 +108,7 @@ export default function SubscribePlan() {
         console.error('Error confirming subscription:', error);
     }
 };
+
 
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
@@ -171,8 +207,8 @@ export default function SubscribePlan() {
               </div>
               <div className="flex space-x-3 md:space-x-5 items-end  w-full py-2 justify-end">
                 <button
+                  onClick={() =>navigate('/ChoosePlan')}
                   className="flex flex-row text-base leading-[20.83px] gap-3 w-[147px] h-11 px-[30px] py-[18px] ml-auto items-center justify-center min-w-[93px] rounded-md bg-gray-201 text-blue_gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
-                  
                   type="button"
                 >
                   <FiTrash2 size={22} />

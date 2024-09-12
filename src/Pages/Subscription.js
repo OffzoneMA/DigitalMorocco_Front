@@ -1,17 +1,11 @@
 import React, { useEffect , useState } from 'react';
-import { useGetAllSubscriptonsQuery } from '../Services/Subscription.Service';
-import { useBuySubMutation } from '../Services/Member.Service';
+import { useGetAllSubscriptonsQuery , useCancelSubscriptionMutation , useRenewSubscriptionMutation } from '../Services/Subscription.Service';
 import { Text } from '../Components/Text';
 import {  toast } from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TbAlertHexagon } from "react-icons/tb";
 import { TiFlashOutline } from "react-icons/ti";
-import { IoWalletOutline } from "react-icons/io5";
-import { GiCheckMark } from "react-icons/gi";
 import { FiTrash2 } from "react-icons/fi";
 import CancelPlanModal from '../Components/CancelPlanModal';
-import AddPaymentMethodModal from '../Components/AddPaymentMethodModal';
 import PageHeader from "../Components/PageHeader";
 import axios from 'axios';
 import Loader from '../Components/Loader';
@@ -41,6 +35,8 @@ export default function Subscription() {
   const userId = userData?._id;
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
+  const [cancelSubscription, { isLoading: cancelLoading, isError: cancelError, isSuccess: cancelSuccess }] = useCancelSubscriptionMutation();
+  const [renewSubscription, { isLoading: renewLoading, isSuccess: renewSuccess, isError: renewError }] = useRenewSubscriptionMutation();
 
   const fetchLastPaymentMethod = async () => {
     setLoadingLastPayment(true);
@@ -73,31 +69,25 @@ useEffect(() => {
       const method = paymentMethodsData.find(method => method.name === userLastPaymentMethod.paymentMethod);
       setSelectedMethod(method);    }
   }, [userLastPaymentMethod]);
+
+  const getUserSusbcription = async () => {
+    setIsSubscribeLoading(true);
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        setIsSubscribe(response.data !== null);
+        setUserSusbcriptionData(response.data);
+        setIsSubscribeLoading(false);
+    } catch (error) {
+        setIsSubscribeLoading(false);
+        console.error('Error checking subscription status:', error);
+    }
+  };
   
   useEffect(() => {
-    const getUserSusbcription = async () => {
-      setIsSubscribeLoading(true);
-      try {
-          const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
-              headers: { Authorization: `Bearer ${token}` },
-          });
-          setIsSubscribe(response.data !== null);
-          setUserSusbcriptionData(response.data);
-          setIsSubscribeLoading(false);
-      } catch (error) {
-          setIsSubscribeLoading(false);
-          console.error('Error checking subscription status:', error);
-      }
-  };
     getUserSusbcription();
-    
   }, []);
-
-  const formatCardNumberForDisplay = (cardNumber) => {
-    // Masquer tous les chiffres sauf les quatre derniers
-    const lastFourDigits = cardNumber.slice(-4);
-    return `•••• •••• •••• ${lastFourDigits}`;
-  };
 
   const checkSubscriptionExpiration = (expirationDate) => {
     const currentDate = new Date();
@@ -109,6 +99,15 @@ useEffect(() => {
     
     // Vérifier si la date actuelle est égale ou après la date de notification
     return currentDate >= notificationDate && currentDate < expiration;
+  };
+
+  const handleRenewSubscription = async () => {
+    try {
+      await renewSubscription(userSubscriptionData?._id).unwrap(); 
+      getUserSusbcription();
+    } catch (err) {
+      console.log(err); 
+    }
   };
 
   useEffect(() => {
@@ -127,8 +126,8 @@ useEffect(() => {
   endDate.setFullYear(endDate.getFullYear() + 1);
 
   const getEndDate = (durationInMonths) => {
-    const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() + durationInMonths);
+    const startDate = new Date(userSubscriptionData?.dateExpired);
+    // startDate.setMonth(startDate.getMonth() + durationInMonths);
     return startDate.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -142,6 +141,16 @@ useEffect(() => {
 
   const closeCancelModal = () => {
     setIsCancelModalOpen(false);
+  };
+
+  const handleCancelSubscription = async () => {
+    try {
+      await cancelSubscription(userSubscriptionData?._id).unwrap(); 
+      getUserSusbcription();
+      closeCancelModal();
+    } catch (err) {
+      console.log(err) 
+    }
   };
 
   const openPaymentModal = () => {
@@ -243,8 +252,6 @@ useEffect(() => {
     }
   ];
 
-
-
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -261,7 +268,7 @@ useEffect(() => {
           <Loader/>
         </div> 
         :
-        <div className="flex flex-col md:flex-row items-start py-6 w-full h-full md:min-h-[540px] gap-8">
+        <div className="flex flex-col lg:flex-row lg:flex-wrap items-start py-6 w-full h-full md:min-h-[540px] gap-8">
           {(!isSubscribe && !isSubscribeLoading) ? 
           (
             <div className="flex flex-col md:border-r border-gray-201 pr-8 md:flex-1 gap-4">
@@ -292,7 +299,7 @@ useEffect(() => {
               </div>
             </div>
           ) : ( 
-          <div className="flex flex-col md:border-r border-gray-201 pr-8 md:flex-1 lg:flex-1 gap-4">
+          <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 md:flex-1 lg:flex-1 gap-4">
             <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
               Subscription Management
             </Text>
@@ -304,7 +311,7 @@ useEffect(() => {
                 <div className="flex flex-col w-full rounded-[12px] border p-[24px] border-gray-301 gap-[24px]">
                   <div className="flex flex-row w-full items-center pb-1">
                     <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
-                      {userSubscriptionData?.plan?.name || 'Basic plan'}
+                      {userSubscriptionData?.plan?.name || 'Basic'}
                     </Text>
                     <button
                       onClick={() => navigate('/ChoosePlan')}
@@ -375,7 +382,7 @@ useEffect(() => {
                 <button
                   className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center min-w-[271px] justify-center tracking-normal gap-3 ml-auto py-3 h-[44px] px-5 rounded-md w-auto cursorpointer-green"
                   type="button"
-                  onClick={() => navigate('/ChoosePlan')}
+                  onClick={() => handleRenewSubscription()}
                 >
                   <TiFlashOutline size={23} />
                   Renew my subscription
@@ -454,13 +461,13 @@ useEffect(() => {
             </div>
           </div>
           )}
-          <div className='flex w-full md:w-1/3 lg:w-1/4'>
+          <div className='flex min-w-[250px] w-full md:w-1/3 lg:w-1/4'>
             <PaymentMethode />
           </div>
         </div>
         }
       </div>
-      <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal}/>
+      <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal} method={handleCancelSubscription}/>
     </div>
   )
 }

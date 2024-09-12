@@ -309,9 +309,8 @@ useEffect(() => {
                     >
                         <span className="cursorpointer-green font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
                     </button>
-
                     </div>
-                    <div className="items-start justify-start w-full">
+                    <div className="flex flex-col items-start justify-start w-full">
                       {project?.milestones.length >0 &&  project?.milestones.map((item, index) => (
                         <ProjectTimelineItem
                           key={index}
@@ -332,7 +331,7 @@ useEffect(() => {
                       >
                         Team Member
                       </Text>
-                      <div className="relative w-[260px]">
+                      <div className="relative w-[50%] min-w-[120px] max-w-[350px]">
                         <input
                           className={`!placeholder:text-[#98A2B3] !text-gray700 font-manrope p-2 h-[36px] pr-[30px] text-left text-sm tracking-[0.14px] w-full bg-transparent border border-solid border-gray-201 focus:border-focusColor focus:shadow-inputBs rounded-md`}
                           type="text"

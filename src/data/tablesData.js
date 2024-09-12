@@ -1977,6 +1977,7 @@ export const historyEventMessages = {
   company_created: "Created a new company ",
   subscription_renew: "Subscription renewed successfully.",
   subscription_canceled: "Subscription canceled.",
+  subscription_upgraded: "Subscription upgraded to ",
   new_subscription: "New subscription for plan ",
   password_changed: "Password changed successfully.",
   account_deleted: "Account deleted.",

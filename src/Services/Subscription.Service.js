@@ -39,10 +39,9 @@ export const subsApi = createApi({
             query: (id) => `/${id}`,
         }),
 
-        // Annuler une souscription
         cancelSubscription: builder.mutation({
-        query: (id) => ({
-                url: `/${id}`,
+            query: (id) => ({
+                url: `/${id}/cancel`,
                 method: 'PATCH',
             }),
         }),
@@ -52,8 +51,6 @@ export const subsApi = createApi({
                 method: 'POST',
             }),
         }),
-
-        // Mettre une souscription en pause
         pauseSubscription: builder.mutation({
             query: (id) => ({
                 url: `/${id}/pause`,

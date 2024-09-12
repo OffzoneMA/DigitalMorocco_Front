@@ -17,8 +17,8 @@ const ViewTicketModal = (props) => {
           overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
           {...props}
         >
-          <div className="max-h-[97vh] overflow-y-auto w-full md:w-full">
-            <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm  rounded-[10px] w-full">
+          <div className="max-h-[97vh] w-full md:w-full">
+            <div className="bg-white-A700 border border-gray-500_33 max-h-[97vh] overflow-y-auto border-solid flex flex-col gap-6 items-center justify-start max-w-screen-sm  rounded-[10px] w-full">
                 <div className="h-36 pb-6 w-full flex flex-row items-start rounded-t-[10px]" style={{backgroundImage: `url(${rowData?.headerImage})`, backgroundSize: '100%', backgroundRepeat: 'no-repeat'}}>
                     <div className="hover:bg-gray-201 w-auto rounded-full p-1 justify-end ml-auto" onClick={props.onRequestClose}>
                         <IoCloseOutline  className='text-white-A700'

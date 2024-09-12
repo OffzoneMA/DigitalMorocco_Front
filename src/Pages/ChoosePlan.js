@@ -42,7 +42,7 @@ export default function ChoosePlan() {
             <div className='flex justify-center flex-wrap gap-5 w-full py-5 '>
             {memberPlans?.map(plan =>
                 (
-                <div key={plan?._id} className='flex flex-col border border-col1 basis-[200px] grow max-w-[344px] rounded-[12px] px-6 py-8 bg-bg_plan '>
+                <div key={plan?._id} className='flex flex-col border border-col1 basis-[300px] grow max-w-[420px] rounded-[12px] px-6 py-8 bg-bg_plan '>
                   <div className='w-full flex flex-col items-center gap-1.5 h-auto'>
                       <Text
                           className="text-[22px]  font-dm-sans-medium leading-8 text-center text-[#1D2939] w-full"

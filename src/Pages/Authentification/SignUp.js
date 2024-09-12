@@ -114,7 +114,7 @@ export default function SignUp() {
     return {
       hasUpperCase: /[A-Z]/.test(value),
       hasLowerCase: /[a-z]/.test(value),
-      hasSpecialChar: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value),
+      hasSpecialChar: /[!@#$%^&*()_+\-=[\]{}:;\\|,.<>/?~`]/.test(value),
       hasDigit: /\d/.test(value),
       minLength: value.length >= 8,
     };
@@ -308,7 +308,7 @@ const onSubmit = (data) => {
                               // message : t('signup.passwordLowerCaseVal')
                             },
                             validate: {
-                              hasSpecialChar:  v => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(v),
+                              hasSpecialChar:  v => /[!@#$%^&*()_+\-=[\]{}:;\\|,.<>/?~`]/.test(v),
                             },
                             validate: {
                               hasDigit:  v => /\d/.test(v),

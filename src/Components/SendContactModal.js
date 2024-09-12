@@ -73,7 +73,7 @@ const SendContactModal = (props) => {
         <>
       <ModalProvider
         appElement={document.getElementById("root")}
-        className="m-auto w-[95%] md:w-[100%] max-w-[600px]"
+        className="m-auto w-[95%] md:w-[100%] max-w-[640px] outline-none"
         overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
         {...props}
       >

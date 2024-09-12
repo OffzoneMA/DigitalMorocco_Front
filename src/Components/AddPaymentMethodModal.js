@@ -103,12 +103,12 @@ const AddPaymentMethodModal = (props) => {
   return (
     <ModalProvider
       appElement={document.getElementById("root")}
-      className="m-auto w-[65%] md:w-[50%] lg:w-[45%] xl:w-[45%] 2xl:w-[40%]"
+      className="m-auto w-[95%] max-w-[640px]"
       overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
       {...props}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="max-h-[97vh] overflow-y-auto w-full md:w-full">
-        <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col p-6 gap-4 items-center justify-start max-w-screen-sm rounded-[10px] w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="max-h-[97vh] w-full md:w-full">
+        <div className="bg-white-A700 border border-gray-500_33 max-h-[97vh] overflow-y-auto border-solid flex flex-col p-6 gap-4 items-center justify-start max-w-screen-sm  rounded-[10px] w-full">
           <div className="flex flex-col w-full gap-5">
             <div className="flex flex-col w-full">
               <div className="flex flex-col w-full gap-2 border-b border-gray-301">
@@ -217,13 +217,13 @@ const AddPaymentMethodModal = (props) => {
                   <button
                     onClick={props.onRequestClose}
                     type="button"
-                    className="flex items-center justify-center flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                    className="flex items-center justify-center flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex items-center justify-center flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                    className="flex items-center justify-center flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green"
                   >
                     Update
                   </button>

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const subscriptionPlanApi = createApi({
-    reducerPath: 'subsApi',
+    reducerPath: 'subscriptionPlanApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_baseURL +"/subscription-plans",
         prepareHeaders: (headers, { getState }) => {

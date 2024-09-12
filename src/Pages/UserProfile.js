@@ -17,8 +17,10 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../Redux/auth/authSlice";
 import { useGetUserDetailsQuery } from '../Services/Auth';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { useTranslation } from 'react-i18next';
 
 export default function UserProfile() {
+  const { t, i18n } = useTranslation();
   const { userInfo } = useSelector((state) => state.auth)
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
@@ -59,10 +61,15 @@ export default function UserProfile() {
     country: false,
     city: false,
   });
+  const [isForm3Valid, setIsForm3Valid] = useState(true);
+  const [hasSubmitted3, setHasSubmitted3] = useState(false);
+  const [requiredFields3, setRequiredFields3] = useState({
+    region: false,
+  });
 
   useEffect(() => {
     if (hasSubmitted1 ) {
-      const isCountryValid = selectedCountry !== null || userData?.country !== '';
+      const isCountryValid = ((selectedCountry !== null || userData?.country !== '') && selectedCountry !== undefined);
       const isCityValid = (selectedCity !== '' && selectedCity !== undefined);
       const isValid = isCountryValid && isCityValid ;
   
@@ -74,6 +81,19 @@ export default function UserProfile() {
       setIsForm1Valid(isValid);
     }
 }, [hasSubmitted1 ,selectedCountry, selectedCity]);
+
+useEffect(() => {
+  if (hasSubmitted3 ) {
+    const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined);
+    const isValid = isRegionValid ;
+
+    setRequiredFields3({
+      region: !isRegionValid,
+    });
+
+    setIsForm3Valid(isValid);
+  }
+}, [hasSubmitted3 ,selectedRegion]);
 
   useEffect(() => {
     const UserInfo = async () => {
@@ -128,8 +148,6 @@ export default function UserProfile() {
     UserInfo();
   }, []);
 
-  console.log(requiredFields1)
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -141,6 +159,21 @@ export default function UserProfile() {
       reader.readAsDataURL(file);
     }
   };
+
+  const newPassword = watch("newPassword", "");
+
+  const validatePassword = (value) => {
+    return {
+      hasUpperCase: /[A-Z]/.test(value),
+      hasLowerCase: /[a-z]/.test(value),
+      hasSpecialChar: /[!@#$%^&*()_+\-=[\]{}:;\\|,.<>/?~`]/.test(value),
+      hasDigit: /\d/.test(value),
+      minLength: value.length >= 8,
+    };
+  };
+
+  const newPasswordValidation = validatePassword(newPassword);
+
   const validatePasswordMatch = (value) => {
     const password = watch('newPassword');
     return password === value || "Passwords do not match.";
@@ -173,111 +206,7 @@ export default function UserProfile() {
       return true;
     }
   };
-  console.log(selectedCity)
-
-  // const onSubmit1 = async (data) => {
-  //   try {
-  //     const updatedFields = {};
-  //     const currentData = userData || {};
-
-  //     if (data.firstName && data.lastName) {
-  //       const displayName = `${data.firstName} ${data.lastName}`;
-  //       if (displayName !== currentData.displayName) {
-  //         updatedFields.displayName = displayName;
-  //       }
-  //     }
-
-  //     if (data.email && data.email !== currentData.email) {
-  //       updatedFields.email = data.email;
-  //     }
-
-  //     if (data.phoneNumber && data.phoneNumber !== currentData.phoneNumber) {
-  //       updatedFields.phoneNumber = data.phoneNumber;
-  //     }
-
-  //     if (data.website && data.website !== currentData.website) {
-  //       updatedFields.website = data.website;
-  //     }
-
-  //     if (data.address && data.address !== currentData.address) {
-  //       updatedFields.address = data.address;
-  //     }
-
-  //     if (selectedCountryName && selectedCountryName !== currentData.country) {
-  //       updatedFields.country = selectedCountryName;
-  //     }
-
-  //     if (selectedCityName && selectedCityName !== currentData.cityState) {
-  //       updatedFields.cityState = selectedCityName;
-  //     }
-
-  //     const fields = ['facebook', 'instagram', 'twitter', 'linkedin', 'language', 'region'];
-  //     fields.forEach(field => {
-  //       if (data[field] && data[field] !== currentData[field]) {
-  //         updatedFields[field] = data[field];
-  //       }
-  //     });
-
-  //     if(isForm1Valid) {
-  //       if (selectedImage) {
-  //         const reader = new FileReader();
-  //         reader.readAsDataURL(selectedImage);
-  //         reader.onloadend = async () => {
-  //           const base64Image = reader.result;
-  //           if (base64Image !== currentData.image) {
-  //             updatedFields.image = base64Image;
-  //           }
-  //           if (Object.keys(updatedFields).length > 0) {
-  //             const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, updatedFields, {
-  //               headers: {
-  //                 Authorization: `Bearer ${token}`,
-  //                 'Content-Type': 'application/json',
-  //               },
-  //             });
-  //             const updatedUserData = response.data.user;
-  //             sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
-  //             setIsForm1Saved(true);
-  //             console.log("Data saved successfully!");
-  //           } else {
-  //             console.log("No changes to save.");
-  //           }
-  //         };
-  //       } else {
-  //         if (Object.keys(updatedFields).length > 0) {
-  //           const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, updatedFields, {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //               'Content-Type': 'application/json',
-  //             },
-  //           });
-  //           const updatedUserData = response.data.user;
-  //           sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
-  //           setIsForm1Saved(true);
-  //           console.log("Data saved successfully!");
-  //         } else {
-  //           console.log("No changes to save.");
-  //         }
-  //       }
-  //     }
-
-  //   } catch (error) {
-  //     console.error("Error saving data:", error);
-  //   }
-  // };
-
-  // const onSubmit1 = (data) => {
-  //   const formData = new FormData();
-  //   Object.keys(data).forEach((key) => {
-  //     formData.append(key, data[key]);
-  //   });
-  //   formData.append('country', selectedCountry);
-  //   formData.append('city', selectedCity);
-  //   if (selectedImage) {
-  //     formData.append('image', selectedImage);
-  //   }
-  //   setIsForm1Saved(true);
-  // };
-
+ 
   const onSubmit1 = async (data) => {
     try {
       const formData = new FormData();
@@ -405,44 +334,51 @@ export default function UserProfile() {
   const onSubmit3 = async () => {
     const formData = {};
 
-    if (selectedLanguage && selectedLanguage.label) {
+    if (selectedLanguage && selectedLanguage.label && selectedLanguage.label !== userData?.language) {
       formData.language = selectedLanguage.label;
     }
-
-    if (selectedRegion && selectedRegion.label) {
+  
+    if (selectedRegion && selectedRegion.label && selectedRegion.label !== userData?.region) {
       formData.region = selectedRegion.label;
     }
+  
+    if (Object.keys(formData).length === 0) {
+      console.log("No changes detected.");
+      return; 
+    }
 
-    try {
-      const response = await axios.put(
-        `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+    if(isForm3Valid && (selectedRegion !== null)) {
+      try {
+        const response = await axios.put(
+          `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        if (response.data.success) {
+          setIsForm3Saved(true);
+          setTimeout(() => {
+            setIsForm3Saved(false);
+          }, 5000);
+          console.log("Language and region updated successfully!");
+          const updatedUserData = {
+            ...userData,
+            ...formData,
+          };
+          setUser(response?.data?.user);
+  
+          // Mettre à jour les informations de l'utilisateur dans la session
+          sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
+        } else {
+          console.error("Error updating language and region:", response.data.message);
         }
-      );
-      if (response.data.success) {
-        setIsForm3Saved(true);
-        setTimeout(() => {
-          setIsForm3Saved(false);
-        }, 5000);
-        console.log("Language and region updated successfully!");
-        const updatedUserData = {
-          ...userData,
-          ...formData,
-        };
-        setUser(response?.data?.user);
-
-        // Mettre à jour les informations de l'utilisateur dans la session
-        sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
-      } else {
-        console.error("Error updating language and region:", response.data.message);
+      } catch (error) {
+        console.error("Error updating language and region:", error);
       }
-    } catch (error) {
-      console.error("Error updating language and region:", error);
     }
   };
 
@@ -501,9 +437,10 @@ export default function UserProfile() {
             </PageHeader>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row items-center md:items-start w-full py-6 gap-8">
+        <div className="flex flex-col  md:flex-row items-center md:items-start w-full py-6 gap-8">
           <div className='flex flex-col gap-4 w-[180px] 2xl:w-[220px] 3xl:w-[250px] items-center'>
-            <div className={`relative flex w-full h-[180px] 2xl:h-[220px] 3xl:w-[250px] rounded-full items-center justify-center ${(preview || userData?.image) ? '' : 'bg-light_blue-100'}`}>
+            <div className={`relative flex w-full h-[180px] 2xl:h-[220px] 3xl:w-[250px] rounded-full items-center justify-center ${(preview || userData?.image) ? '' : 'bg-light_blue-100'}`} 
+            onClick={handleUploadClick}>
               {preview ? (
                 <img src={preview} alt="Uploaded" className='w-full h-full rounded-full ' />
               ) : (
@@ -526,7 +463,8 @@ export default function UserProfile() {
                     <div className="absolute top-[100%] right-0 translate-x-[15px] flex flex-col z-10">
                       <div className="flex mt-1 flex-col bg-white-A700 border-[0.5px] border-[#2575F01A] rounded-[8px] p-[16px] shadow-roleCardbs z-10">
                         <div className="w-auto group h-9 py-[5px] px-[6px] justify-start items-center gap-3 inline-flex" 
-                        onClick={handleUploadClick}>
+                        onClick={(e) =>{e.stopPropagation(); 
+                        handleUploadClick()}}>
                           <span>
                             <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -535,7 +473,8 @@ export default function UserProfile() {
                           <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Change</div>
                         </div>
                         <div className="w-auto group h-9 py-[5px] px-[6px] justify-start items-center gap-3 inline-flex" 
-                        onClick={handleRemoveLogo}>
+                        onClick={(e) => {e.stopPropagation(); 
+                        handleRemoveLogo()}}>
                           <span>
                             <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -751,7 +690,7 @@ export default function UserProfile() {
                       message: 'Password must be at least 8 characters long'
                     },
                     pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_+=~`{}[\]:;"'<>,.?/])[A-Za-z\d!@#$%^&*()\-_+=~`{}[\]:;"'<>,.?/]{8,}$/,
                     } ,
                     validate: value => value !== '• • • • • • • •' })}
                     type={showPassword ? "text" : "password"}
@@ -760,25 +699,106 @@ export default function UserProfile() {
                     name="newPassword" defaultValue="• • • • • • • •"
                     placeholder="Your New Password" 
                   />
-                    {getValues2('newPassword')?.length > 0 && 
-                      <button
-                        type="button"
-                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? (
-                          <svg width="18" height="18" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M14.1144 4.63848C14.724 4.54835 15.3529 4.5 16.0006 4.5C23.6581 4.5 28.6829 11.2573 30.371 13.9302C30.5754 14.2538 30.6775 14.4155 30.7347 14.665C30.7776 14.8524 30.7776 15.148 30.7346 15.3354C30.6774 15.5849 30.5745 15.7477 30.3688 16.0734C29.919 16.7852 29.2333 17.7857 28.3247 18.8707M8.08648 7.07256C4.84337 9.27255 2.64168 12.3291 1.63166 13.9279C1.42643 14.2528 1.32381 14.4152 1.26661 14.6647C1.22365 14.8521 1.22363 15.1477 1.26657 15.335C1.32374 15.5845 1.4259 15.7463 1.6302 16.0698C3.31831 18.7427 8.34312 25.5 16.0006 25.5C19.0882 25.5 21.7478 24.4014 23.9332 22.9149M2.50062 1.5L29.5006 28.5M12.8186 11.818C12.0043 12.6324 11.5006 13.7574 11.5006 15C11.5006 17.4853 13.5153 19.5 16.0006 19.5C17.2433 19.5 18.3683 18.9963 19.1826 18.182" stroke="#1D2939" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>                            
-                        ) : (
-                          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M1.60556 7C1.68752 7.14165 1.79619 7.32216 1.93081 7.53061C2.27658 8.06598 2.78862 8.77795 3.4534 9.48704C4.79664 10.9198 6.67463 12.25 9 12.25C11.3254 12.25 13.2034 10.9198 14.5466 9.48704C15.2114 8.77795 15.7234 8.06598 16.0692 7.53061C16.2038 7.32216 16.3125 7.14165 16.3944 7C16.3125 6.85835 16.2038 6.67784 16.0692 6.46939C15.7234 5.93402 15.2114 5.22205 14.5466 4.51296C13.2034 3.08017 11.3254 1.75 9 1.75C6.67463 1.75 4.79664 3.08017 3.4534 4.51296C2.78862 5.22205 2.27658 5.93402 1.93081 6.46939C1.79619 6.67784 1.68752 6.85835 1.60556 7ZM17.25 7C17.9208 6.66459 17.9207 6.66434 17.9206 6.66406L17.9193 6.66165L17.9168 6.65653L17.9082 6.63987C17.9011 6.62596 17.891 6.60648 17.8779 6.58183C17.8518 6.53252 17.814 6.46242 17.7645 6.37449C17.6657 6.19873 17.5201 5.95114 17.3292 5.65561C16.9485 5.06598 16.3824 4.27795 15.6409 3.48704C14.1716 1.91983 11.9246 0.25 9 0.25C6.07537 0.25 3.82836 1.91983 2.3591 3.48704C1.61763 4.27795 1.05155 5.06598 0.670752 5.65561C0.479888 5.95114 0.334344 6.19873 0.235479 6.37449C0.186018 6.46242 0.148155 6.53252 0.122065 6.58183C0.109018 6.60648 0.0989064 6.62596 0.0917535 6.63987L0.0832425 6.65653L0.0806542 6.66165L0.0797776 6.6634C0.0796397 6.66367 0.0791796 6.66459 0.75 7L0.0791796 6.66459C-0.0263932 6.87574 -0.0263932 7.12426 0.0791796 7.33541L0.75 7C0.0791796 7.33541 0.0790418 7.33513 0.0791796 7.33541L0.0806542 7.33835L0.0832425 7.34347L0.0917535 7.36013C0.0989064 7.37405 0.109018 7.39352 0.122065 7.41817C0.148155 7.46748 0.186018 7.53758 0.235479 7.62551C0.334344 7.80127 0.479888 8.04886 0.670752 8.34439C1.05155 8.93402 1.61763 9.72205 2.3591 10.513C3.82836 12.0802 6.07537 13.75 9 13.75C11.9246 13.75 14.1716 12.0802 15.6409 10.513C16.3824 9.72205 16.9485 8.93402 17.3292 8.34439C17.5201 8.04886 17.6657 7.80127 17.7645 7.62551C17.814 7.53758 17.8518 7.46748 17.8779 7.41817C17.891 7.39352 17.9011 7.37405 17.9082 7.36013L17.9168 7.34347L17.9193 7.33835L17.9202 7.3366C17.9204 7.33633 17.9208 7.33541 17.25 7ZM17.25 7L17.9208 7.33541C18.0264 7.12426 18.0261 6.87521 17.9206 6.66406L17.25 7Z" fill="#37363B"/>
-                            <path fillRule="evenodd" clipRule="evenodd" d="M9 5.5C8.17157 5.5 7.5 6.17157 7.5 7C7.5 7.82843 8.17157 8.5 9 8.5C9.82843 8.5 10.5 7.82843 10.5 7C10.5 6.17157 9.82843 5.5 9 5.5ZM6 7C6 5.34315 7.34315 4 9 4C10.6569 4 12 5.34315 12 7C12 8.65685 10.6569 10 9 10C7.34315 10 6 8.65685 6 7Z" fill="#37363B"/>
-                          </svg>                            
-                        )}
-                      </button>
-                    }
+                  {getValues2('newPassword')?.length > 0 && 
+                    <button
+                      type="button"
+                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? (
+                        <svg width="18" height="18" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.1144 4.63848C14.724 4.54835 15.3529 4.5 16.0006 4.5C23.6581 4.5 28.6829 11.2573 30.371 13.9302C30.5754 14.2538 30.6775 14.4155 30.7347 14.665C30.7776 14.8524 30.7776 15.148 30.7346 15.3354C30.6774 15.5849 30.5745 15.7477 30.3688 16.0734C29.919 16.7852 29.2333 17.7857 28.3247 18.8707M8.08648 7.07256C4.84337 9.27255 2.64168 12.3291 1.63166 13.9279C1.42643 14.2528 1.32381 14.4152 1.26661 14.6647C1.22365 14.8521 1.22363 15.1477 1.26657 15.335C1.32374 15.5845 1.4259 15.7463 1.6302 16.0698C3.31831 18.7427 8.34312 25.5 16.0006 25.5C19.0882 25.5 21.7478 24.4014 23.9332 22.9149M2.50062 1.5L29.5006 28.5M12.8186 11.818C12.0043 12.6324 11.5006 13.7574 11.5006 15C11.5006 17.4853 13.5153 19.5 16.0006 19.5C17.2433 19.5 18.3683 18.9963 19.1826 18.182" stroke="#1D2939" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>                            
+                      ) : (
+                        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fillRule="evenodd" clipRule="evenodd" d="M1.60556 7C1.68752 7.14165 1.79619 7.32216 1.93081 7.53061C2.27658 8.06598 2.78862 8.77795 3.4534 9.48704C4.79664 10.9198 6.67463 12.25 9 12.25C11.3254 12.25 13.2034 10.9198 14.5466 9.48704C15.2114 8.77795 15.7234 8.06598 16.0692 7.53061C16.2038 7.32216 16.3125 7.14165 16.3944 7C16.3125 6.85835 16.2038 6.67784 16.0692 6.46939C15.7234 5.93402 15.2114 5.22205 14.5466 4.51296C13.2034 3.08017 11.3254 1.75 9 1.75C6.67463 1.75 4.79664 3.08017 3.4534 4.51296C2.78862 5.22205 2.27658 5.93402 1.93081 6.46939C1.79619 6.67784 1.68752 6.85835 1.60556 7ZM17.25 7C17.9208 6.66459 17.9207 6.66434 17.9206 6.66406L17.9193 6.66165L17.9168 6.65653L17.9082 6.63987C17.9011 6.62596 17.891 6.60648 17.8779 6.58183C17.8518 6.53252 17.814 6.46242 17.7645 6.37449C17.6657 6.19873 17.5201 5.95114 17.3292 5.65561C16.9485 5.06598 16.3824 4.27795 15.6409 3.48704C14.1716 1.91983 11.9246 0.25 9 0.25C6.07537 0.25 3.82836 1.91983 2.3591 3.48704C1.61763 4.27795 1.05155 5.06598 0.670752 5.65561C0.479888 5.95114 0.334344 6.19873 0.235479 6.37449C0.186018 6.46242 0.148155 6.53252 0.122065 6.58183C0.109018 6.60648 0.0989064 6.62596 0.0917535 6.63987L0.0832425 6.65653L0.0806542 6.66165L0.0797776 6.6634C0.0796397 6.66367 0.0791796 6.66459 0.75 7L0.0791796 6.66459C-0.0263932 6.87574 -0.0263932 7.12426 0.0791796 7.33541L0.75 7C0.0791796 7.33541 0.0790418 7.33513 0.0791796 7.33541L0.0806542 7.33835L0.0832425 7.34347L0.0917535 7.36013C0.0989064 7.37405 0.109018 7.39352 0.122065 7.41817C0.148155 7.46748 0.186018 7.53758 0.235479 7.62551C0.334344 7.80127 0.479888 8.04886 0.670752 8.34439C1.05155 8.93402 1.61763 9.72205 2.3591 10.513C3.82836 12.0802 6.07537 13.75 9 13.75C11.9246 13.75 14.1716 12.0802 15.6409 10.513C16.3824 9.72205 16.9485 8.93402 17.3292 8.34439C17.5201 8.04886 17.6657 7.80127 17.7645 7.62551C17.814 7.53758 17.8518 7.46748 17.8779 7.41817C17.891 7.39352 17.9011 7.37405 17.9082 7.36013L17.9168 7.34347L17.9193 7.33835L17.9202 7.3366C17.9204 7.33633 17.9208 7.33541 17.25 7ZM17.25 7L17.9208 7.33541C18.0264 7.12426 18.0261 6.87521 17.9206 6.66406L17.25 7Z" fill="#37363B"/>
+                          <path fillRule="evenodd" clipRule="evenodd" d="M9 5.5C8.17157 5.5 7.5 6.17157 7.5 7C7.5 7.82843 8.17157 8.5 9 8.5C9.82843 8.5 10.5 7.82843 10.5 7C10.5 6.17157 9.82843 5.5 9 5.5ZM6 7C6 5.34315 7.34315 4 9 4C10.6569 4 12 5.34315 12 7C12 8.65685 10.6569 10 9 10C7.34315 10 6 8.65685 6 7Z" fill="#37363B"/>
+                        </svg>                            
+                      )}
+                    </button>
+                  }
                 </div> 
+                {((errors2?.newPassword || newPasswordValidation.minLength || newPasswordValidation.hasLowerCase || newPasswordValidation.hasUpperCase || newPasswordValidation.hasDigit) && getValues2('newPassword') !== '• • • • • • • •') &&
+                  <>
+                    <span className=''>
+                    <ul style={{ listStyle: "none", paddingLeft: 0 }} className='flex flex-wrap items-center gap-4 mt-1' >
+                      <li className={`text-[#555458] items-center justify-start text-xs flex ${errors2.newPassword?.type === 'minLength' ? 'error' : 'valid'}`}>
+                          {!newPasswordValidation.minLength  || getValues2('newPassword')==''  ? (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
+                            </svg> 
+                          ) : (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
+                            </svg>
+                          )}
+                        <span className='ml-1'>
+                          {t('signup.passwordMinLengthVal')}
+                        </span>
+                      </li>
+                      <li className={`text-[#555458] text-xs justify-start items-center flex ${errors2.newPassword?.type === "hasLowerCase" ? "error" : "valid"}`}>
+                          {!newPasswordValidation.hasLowerCase  || getValues2('newPassword')==''? (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
+                            </svg> 
+                          ) : (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
+                            </svg>
+                          )}
+                        <span className='ml-1'>
+                          {t('signup.passwordLowerCaseVal')}
+                        </span>
+                      </li>
+                      <li className={`text-[#555458] text-xs items-center justify-start flex ${errors2.newPassword?.type === "hasUpperCase" ? "error" : "valid"}`}>
+                          {!newPasswordValidation.hasUpperCase  || getValues2('newPassword')=='' ? (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
+                            </svg> 
+                          ) : (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
+                            </svg>
+                          )}
+                        <span className='ml-1'>
+                          {t('signup.passwordUpperCaseVal')}
+                        </span>
+                      </li>
+                      <li className={`text-[#555458] text-xs items-center justify-start flex ${errors2.newPassword?.type === "hasSpecialChar" ? "error" : "valid"}`}>
+                          {!newPasswordValidation.hasSpecialChar  || getValues2('newPassword')=='' ? (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
+                            </svg> 
+                          ) : (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
+                            </svg>
+                          )}
+                        <span className='ml-1'>
+                          {t('signup.SpecialCharVal')}
+                        </span>
+                      </li>
+                      <li className={`text-[#555458] text-xs items-center justify-start flex ${errors2.newPassword?.type === "hasDigit" ? "error" : "valid"}`}>
+                          {!newPasswordValidation.hasDigit  || getValues2('newPassword')=='' ? (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
+                            </svg> 
+                          ) : (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#0EA472"/>
+                            </svg>
+                          )}
+                        <span className='ml-1'>
+                          {t('signup.number')}
+                        </span>
+                      </li>
+                    </ul>
+                    </span>
+                    {/* <span className="text-errorColor font-dm-sans-regular text-sm mt-1">
+                    { getValues('password') !=='' && getPasswordErrorMessage()}
+                    </span> */}
+                  </>
+                }
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
                 <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel" >
@@ -824,7 +844,6 @@ export default function UserProfile() {
                 )
               }
             </form>
-
             <form onSubmit={handleSubmit3(onSubmit3)}
               className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-dm-sans-medium text-base leading-6 text-[#101828] w-full" >
@@ -849,17 +868,20 @@ export default function UserProfile() {
                   options={regions} onSelect={""} searchLabel='Search Region'
                   setSelectedOptionVal={setSelectedRegion}
                   selectedOptionsDfault={userData?.region? regions.find(region => region.label === userData.region) : ""}
-                  placeholder={"Select Your Region"}
+                  placeholder={"Select Your Region"} required={requiredFields3.region} 
                   valuekey="label"
                   content={(option) => {
                     return (
-                      <div className="flex  py-2 items-center  w-full">
+                      <div className="flex py-2 items-center  w-full">
                         <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto" >
                           {option.label} </Text> </div>);
                   }} />
               </div>
               {!isForm3Saved ? (
-                <button className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
+                <button 
+                onClick={() => setHasSubmitted3(true)}
+                  className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" 
+                  type="submit" >
                   Save </button>
               ) : (
                 <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >

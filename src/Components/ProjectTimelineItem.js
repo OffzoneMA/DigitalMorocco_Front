@@ -8,7 +8,7 @@ const ProjectTimelineItem = ({isFirstItem=false, time, text}) => {
   return (
     <div className="flex flex-row gap-4 md:h-auto items-end justify-center w-full">
       <Text
-        className={`${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" } font-dm-sans-regular  text-right text-sm w-1/6`}
+        className={`${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" } font-dm-sans-regular  text-right text-sm w-1/6 max-w-[100px]`}
       >
         {time}
       </Text>

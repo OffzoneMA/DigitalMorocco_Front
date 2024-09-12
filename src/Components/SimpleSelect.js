@@ -104,7 +104,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${(isOpen && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`}
+        className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[9px] h-[40px] border ${(isOpen && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`}
         onClick={toggleDropdown}
       >
         <input

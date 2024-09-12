@@ -11,15 +11,15 @@ const RoleConfirmedModal = (props) => {
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
-    className="m-auto w-auto max-w-[640px] "
+    className="m-auto w-[95%] max-w-[640px] outline-none"
     overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
     style={{content : {border: 'none' ,background: 'transparent'}}}
     shouldFocusAfterRender={false}
     shouldReturnFocusAfterClose={false}
     {...props}
   >
-    <div className="max-h-[97vh] overflow-y-auto sm:w-full md:w-full">
-      <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-6 items-center justify-start p-5 rounded-[14px] w-full">
+    <div className="max-h-[97vh] sm:w-full md:w-full">
+      <div className="bg-white-A700 border border-gray-500_33 max-h-[97vh] overflow-y-auto border-solid flex flex-col p-6 gap-4 items-center justify-start max-w-screen-sm  rounded-[10px] w-full">
         <div className="flex items-center justify-end pb-6 w-full ml-auto">
           <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

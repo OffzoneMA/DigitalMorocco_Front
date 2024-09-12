@@ -145,7 +145,7 @@ const calculateDropdownPosition = () => {
           </div> 
           {show && 
             ReactDOM.createPortal(
-            <div ref={dropdownRef} className={`absolute  !z-50 `} role="menu" style={dropdownPosition}>
+            <div ref={dropdownRef} className={`absolute  !z-10 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'} py-1 `} role="menu" style={dropdownPosition}>
               <Calendar className={`!bg-white-A700 rounded-[6px] border !border-gray-101 !shadow-lg !w-[292px] text-gray-701 !font-DmSans`} onChange={handleChange} value={selectedDate} formatWeekday={(locale, date) => formatWeekday(locale, date)} 
               next2Label={null} prev2Label={null} locale={userLanguage || 'en'} navigationLabel={({ date, label, locale }) => (
                   <span 
