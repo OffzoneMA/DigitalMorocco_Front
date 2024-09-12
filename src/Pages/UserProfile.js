@@ -69,7 +69,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (hasSubmitted1 ) {
-      const isCountryValid = (selectedCountry !== null && selectedCountry !== undefined);
+      const isCountryValid = selectedCountry !== null;
       const isCityValid = (selectedCity !== '' && selectedCity !== undefined);
       const isValid = isCountryValid && isCityValid ;
   
@@ -104,7 +104,6 @@ useEffect(() => {
           },
         });
         const data = response.data;
-        console.log(data)
         const nameParts = data.displayName.split(' ');
         const firstName = nameParts.slice(0, -1).join(' ');
         const lastName = nameParts[nameParts.length - 1];
