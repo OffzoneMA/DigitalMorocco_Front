@@ -161,6 +161,9 @@ useEffect(() => {
 
   const newPassword = watch("newPassword", "");
 
+  const currentPassword = watch("currentPassword", "");
+  const cofirmPassword = watch("confirmNewPassword", "");
+
   const validatePassword = (value) => {
     return {
       hasUpperCase: /[A-Z]/.test(value),
@@ -287,6 +290,8 @@ useEffect(() => {
       console.error("Error saving data:", error);
     }
   };
+
+  console.log(getValues2('newPassword'))
   
   const onSubmit2 = async (data) => {
     try {
@@ -427,7 +432,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
+    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-8 pt-8 rounded-tl-[40px] w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
@@ -651,14 +656,14 @@ useEffect(() => {
                 <div className="relative w-full">
                   <input {...register2('currentPassword',
                     { required: { value: true, message: 'Current Password is required' } , 
-                    validate: value => value !== '• • • • • • • •' })}
+                     })}
                       type={showCurrentPassword ? "text" : "password"}
                       style={{ appearance: 'none' }}
                       className={`${!showCurrentPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.currentPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.currentPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.currentPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
                       name="currentPassword" 
                       placeholder="Your Current Password" 
                   />
-                  {getValues2('currentPassword')?.length > 0 && 
+                  {getValues2('currentPassword') && getValues2('currentPassword')?.length > 0 && 
                     <button
                       type="button"
                       className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"

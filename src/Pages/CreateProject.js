@@ -30,30 +30,37 @@ const CreateProject = () => {
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
-  useEffect(() => {
-    const setMaxHeight = () => {
-      const div1Height = div1Ref.current.clientHeight;
-      const div2Height = div2Ref.current.clientHeight;
-      const maxHeight = Math.max(div1Height, div2Height);
-      if (window.innerWidth >= 768) { 
-        dividerRef.current.style.height = `${maxHeight}px`;
-        setDivMaxHeight(`${maxHeight}px`);
-      } else {
-        dividerRef.current.style.height = '1px';
-        setDivMaxHeight('auto');
-      }
-    };
+
+useEffect(() => {
+  const setMaxHeight = () => {
+    const div1Height = div1Ref.current?.clientHeight || 0;
+    const div2Height = div2Ref.current?.clientHeight || 0;
+    const maxHeight = Math.max(div1Height, div2Height);
+    
+    if (window.innerWidth >= 768) { 
+      dividerRef.current.style.height = `${maxHeight}px`;
+      setDivMaxHeight(`${maxHeight}px`);
+    } else {
+      dividerRef.current.style.height = '1px';
+      setDivMaxHeight('auto');
+    }
+  };
+
+  setMaxHeight(); // Initial call to set the height
   
-    setMaxHeight();
-  
-    const intervalId = setInterval(() => {
-      setMaxHeight(); 
-    }, 10); 
-  
-    return () => {
-      clearInterval(intervalId); 
-    };
-  }, [div1Ref, div2Ref]);
+  const handleResize = () => {
+    setMaxHeight(); // Set height on window resize
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize); // Clean up on unmount
+  };
+}, [div1Ref, div2Ref]);
+
+
+
   const [deleteMilestone] = useDeleteMilestoneMutation();
   const [loadingDel, setLoadingDel] = useState(null);
   const { loading, userInfo } = useSelector((state) => state.auth)
@@ -557,7 +564,7 @@ const handleMouseLeave = () => {
 };
 
   return (
-      <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full  w-full">
+      <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-8 pt-8 rounded-tl-[40px] h-full min-h-screen overflow-auto w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
@@ -569,9 +576,8 @@ const handleMouseLeave = () => {
             <SearchInput className={'w-[240px]'}/>
           </div>
         </div>
-        <div className="flex flex-col items-start justify-start w-full pb-6">
-          <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
+        <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full pb-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full bg-white-A700 border border-gray-201 rounded-[8px] pb-3 shadow-tablesbs ">
               <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 h-[77px] py-[19px] px-5">
                 <Text
                   className="text-lg leading-7 text-gray-900_01 pt-1"
@@ -600,7 +606,7 @@ const handleMouseLeave = () => {
                 )}
               </button>
               </div>
-              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-full">
+              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-auto">
                 <div ref={div1Ref} className="flex  flex-1 flex-col gap-6 items-start justify-start w-full h-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text className="text-base text-[#1D1C21] w-auto"
@@ -610,7 +616,7 @@ const handleMouseLeave = () => {
                     </Text>
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="name"
                         placeholder="Enter Project Name"
@@ -625,7 +631,7 @@ const handleMouseLeave = () => {
                     </Text>
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
-                       className={`!placeholder:text-blue_gray-301 !text-gray700 max-h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                       className={`!placeholder:text-blue_gray-300 !text-gray700 max-h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="details"
                         rows={7}
                         placeholder="Write your project detals here"
@@ -645,7 +651,7 @@ const handleMouseLeave = () => {
                     </Text>
                       <input
                       {...register("website", { required: {value:false , message:"Project website is required"} })}
-                      className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="website"
                         placeholder="Project Website"
@@ -669,7 +675,7 @@ const handleMouseLeave = () => {
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         }, })}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="contactEmail"
                         placeholder="Enter Project email"
@@ -718,7 +724,7 @@ const handleMouseLeave = () => {
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("funding", { required: { value: true, message: "Project Funding Target is required" } })}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="funding"
                         type="text"
                         value={fundingValue}
@@ -738,7 +744,7 @@ const handleMouseLeave = () => {
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("totalRaised", { required: { value: true, message: "Project Funding Target is required" } })}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="totalRaised"
                         type="text"
                         value={raisedValue}
@@ -870,7 +876,7 @@ const handleMouseLeave = () => {
                     <div key={milestone.id} className={`flex flex-row gap-2 items-start justify-start w-full`}>
                       <div className="flex md:flex-1 w-[55%]">
                         <input
-                          className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
+                          className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
                           name={`name-${milestone.id}`}
                           placeholder="Enter your project milestone"
                           value={milestone.name}
@@ -916,7 +922,7 @@ const handleMouseLeave = () => {
                     ))}
                   </div>
                 </div>
-                <div ref={dividerRef} className={`bg-gray-201 md:min-h-fit md:h-[${maxDivHeight}] h-px w-full md:w-px`} />
+                <div ref={dividerRef} className={`bg-gray-201 md:min-h-fit md:h-[${maxDivHeight}] md:max-h-[${maxDivHeight}] h-px w-full md:w-px`} />
                 {/* <div className="flex flex-col md:divide-x md:min-h-[750px] md:h-full divide-gray-201 hover:divide-pink-400">
                   {` `}
                 </div> */}
@@ -1010,16 +1016,16 @@ const handleMouseLeave = () => {
                         ref={inputRef}
                         onChange={(e) => handleFileUpload1(e, "pitchDeck")} 
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-301">Drop Pitch Deck file here</span> :
+                        {isDragging ? <span className="text-blue_gray-300">Drop Pitch Deck file here</span> :
                         <>
-                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500">choose file</span>
                         </> 
                         }
@@ -1059,16 +1065,16 @@ const handleMouseLeave = () => {
                         ref={inputRef1}
                         onChange={(e) => handleFileUpload1(e, "businessPlan")} 
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-301">Drop Business Plan file here</span> :
+                        {isDragging ? <span className="text-blue_gray-300">Drop Business Plan file here</span> :
                         <>
-                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500" >choose file</span>
                         </> 
                         }
@@ -1108,16 +1114,16 @@ const handleMouseLeave = () => {
                         ref={inputRef2}
                         onChange={(e) => handleFileUpload1(e, "financialProjection")} 
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-301">Drop Financial Projection file here</span> :
+                        {isDragging ? <span className="text-blue_gray-300">Drop Financial Projection file here</span> :
                         <>
-                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500" >choose file</span>
                         </> 
                         }
@@ -1157,15 +1163,15 @@ const handleMouseLeave = () => {
                       <input
                         ref={inputRefs.current[index]}
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name={`file-${index}`}
                         onChange={(event) => handleFileInputChange(event, index)}
                       />
                       <label className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto">
-                      {isDragging ? <span className="text-blue_gray-301">Drop file here</span> :
+                      {isDragging ? <span className="text-blue_gray-300">Drop file here</span> :
                         <>
-                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
                         <span className="text-blue-500" >
                           choose file
                         </span>
@@ -1209,7 +1215,6 @@ const handleMouseLeave = () => {
                 </div>
               </div>
             </form>
-          </div>
         </div>
       </div>
   );

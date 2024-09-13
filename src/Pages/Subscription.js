@@ -253,7 +253,7 @@ useEffect(() => {
   ];
 
   return (
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
+    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-8 pt-8 rounded-tl-[40px] w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
@@ -268,10 +268,10 @@ useEffect(() => {
           <Loader/>
         </div> 
         :
-        <div className="flex flex-col lg:flex-row lg:flex-wrap items-start py-6 w-full h-full md:min-h-[540px] gap-8">
+        <div className="flex flex-col md:flex-row md:flex-wrap items-start py-6 w-full h-full md:min-h-[540px] gap-8">
           {(!isSubscribe && !isSubscribeLoading) ? 
           (
-            <div className="flex flex-col md:border-r border-gray-201 pr-8 md:flex-1 gap-4">
+            <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 w-full lg:flex-1 gap-4">
               <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
                 Subscription Management 
               </Text>
@@ -299,7 +299,7 @@ useEffect(() => {
               </div>
             </div>
           ) : ( 
-          <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 md:flex-1 lg:flex-1 gap-4">
+          <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 w-full lg:flex-1 gap-4">
             <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
               Subscription Management
             </Text>
