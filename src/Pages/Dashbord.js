@@ -84,7 +84,7 @@ const { userInfo } = useSelector((state) => state.auth)
       };
 
     return (
-        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
+        <div className="bg-white-A700 overflow-auto flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px]  w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
                 <div className="flex flex-col lg:flex-row gap-5 items-start lg:justify-between pb-2 w-full">
                     <div className="flex h-full items-start justify-start w-auto">
@@ -390,7 +390,7 @@ const { userInfo } = useSelector((state) => state.auth)
                               <div className="flex flex-col items-start justify-start">
                                   <div className="flex flex-col items-center justify-start w-auto">
                                       <Text
-                                      className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                                      className="text-blue_gray-301 text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
                                       Target{" "}
@@ -408,7 +408,7 @@ const { userInfo } = useSelector((state) => state.auth)
                             <div className="flex flex-col items-start justify-start w-auto">
                                 <div className="flex flex-col items-center justify-start w-auto">
                                     <Text
-                                    className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                                    className="text-blue_gray-301 text-xs tracking-[1.68px] uppercase w-auto"
                                     size="txtDMSansBold12"
                                     >
                                     Stage
@@ -426,7 +426,7 @@ const { userInfo } = useSelector((state) => state.auth)
                             <div className="flex flex-col items-start justify-start">
                                 <div className="flex flex-col items-center justify-start w-auto">
                                     <Text
-                                    className="text-blue_gray-300 text-xs tracking-[1.68px] uppercase w-auto"
+                                    className="text-blue_gray-301 text-xs tracking-[1.68px] uppercase w-auto"
                                     size="txtDMSansBold12"
                                     >
                                     Total Raised

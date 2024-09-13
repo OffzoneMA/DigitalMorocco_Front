@@ -511,7 +511,7 @@ useEffect(() => {
                   </Text>
                   <input
                     {...register1('firstName', { required: {value:true } })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.firstName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.firstName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text" name="firstName" placeholder="First Name" />
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -520,7 +520,7 @@ useEffect(() => {
                   </Text>
                   <input
                     {...register1('lastName', { required: {value:true } })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.lastName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.lastName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text" name="lastName" placeholder="Last Name" />
                 </div>
               </div>
@@ -541,7 +541,7 @@ useEffect(() => {
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         }, })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.email ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.email ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="email" name="email" placeholder="Your Email" />
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
@@ -553,7 +553,7 @@ useEffect(() => {
                       { required: {value:false } , 
                         validate: validatePhoneNumber
                       })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.phoneNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.phoneNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text" name="phoneNumber" placeholder="Your Phone Number" />
                 </div>
               </div>
@@ -565,7 +565,7 @@ useEffect(() => {
                   </Text>
                   <input
                     {...register1('website', { required: {value:false } })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text" name="website" placeholder="Enter Website" />
                 </div>
                 {/* )} */}
@@ -575,7 +575,7 @@ useEffect(() => {
                   </Text>
                   <input
                     {...register1('address' , { required: {value:false } })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text" name="address" placeholder="Enter Address" />
                 </div>
               </div>
@@ -655,7 +655,7 @@ useEffect(() => {
                       type={showCurrentPassword ? "text" : "password"}
                       style={{ appearance: 'none' }}
                       className={`${!showCurrentPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.currentPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.currentPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.currentPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
-                      name="currentPassword" defaultValue="• • • • • • • •"
+                      name="currentPassword" 
                       placeholder="Your Current Password" 
                   />
                   {getValues2('currentPassword')?.length > 0 && 
@@ -695,8 +695,8 @@ useEffect(() => {
                     type={showPassword ? "text" : "password"}
                     style={{ appearance: 'none' }}
                     className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.newPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.newPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.newPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
-                    name="newPassword" defaultValue="• • • • • • • •"
-                    placeholder="Your New Password" 
+                    name="newPassword" 
+                    placeholder="Enter New Password" 
                   />
                   {getValues2('newPassword')?.length > 0 && 
                     <button
@@ -811,8 +811,8 @@ useEffect(() => {
                     type={showPasswordConfirm ? "text" : "password"}
                     style={{ appearance: 'none' }}
                     className={`${!showPasswordConfirm ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.confirmNewPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.confirmNewPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.confirmNewPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
-                    name="confirmNewPassword" defaultValue="• • • • • • • •"
-                    placeholder="Confirm Your New Password" />
+                    name="confirmNewPassword" 
+                    placeholder="Confirm New Password" />
                     {getValues2('confirmNewPassword')?.length > 0 && 
                       <button
                         type="button"

@@ -151,7 +151,7 @@ const MyInvestors = () => {
                     <>
                     <div className="flex rounded-md p-2 border border-solid min-w-[70px]">
                       <input
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="text"
                         name="search"
                         placeholder="Keywords"
@@ -232,12 +232,12 @@ const MyInvestors = () => {
                 }
                     {filterApply && (
                     <button
-                      className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursorpointer-green"
+                      className="text-[#15143966] flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer-green"
                       onClick={clearFilter}
                       type="button"
                   >
                       <FiDelete size={18} className="mr-2" />
-                      <span className="text-base font-dm-sans-regular leading-[26px] text-blue_gray-300">Clear</span>
+                      <span className="text-base font-dm-sans-regular leading-[26px] text-[#15143966]">Clear</span>
                   </button>
                   
                     )}

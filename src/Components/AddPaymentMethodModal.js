@@ -134,7 +134,7 @@ const AddPaymentMethodModal = (props) => {
                         <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">Name on card</Text>
                         <input
                         {...register('cardName', { required: 'Name on card is required' })}
-                          className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                          className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                           type="text"
                           name="cardName"
                           placeholder="Enter your full name"
@@ -152,7 +152,7 @@ const AddPaymentMethodModal = (props) => {
                                   message: 'Card number must be in the format 0000 0000 0000 0000'
                                 }
                                 , onChange: handleChange })}
-                              className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] pl-[42px] pr-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                              className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] pl-[42px] pr-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                               type="text"
                               name="cardNumber"
                               placeholder="0000 0000 0000 0000"
@@ -176,7 +176,7 @@ const AddPaymentMethodModal = (props) => {
                               } ,
                               validate: validateExpiryDate
                             })}
-                            className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.expiryDate ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                            className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.expiryDate ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                             type="text"
                             name="expiryDate"
                             placeholder="MM/YY"
@@ -192,7 +192,7 @@ const AddPaymentMethodModal = (props) => {
                                 message: 'CVV must be 3 digits'
                               } 
                             })}
-                            className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cvv ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                            className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cvv ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                             type="text"
                             name="cvv"
                             placeholder="000"

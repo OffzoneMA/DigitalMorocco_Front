@@ -610,7 +610,7 @@ const handleMouseLeave = () => {
                     </Text>
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="name"
                         placeholder="Enter Project Name"
@@ -625,7 +625,7 @@ const handleMouseLeave = () => {
                     </Text>
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
-                       className={`!placeholder:text-blue_gray-300 !text-gray700 max-h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                       className={`!placeholder:text-blue_gray-301 !text-gray700 max-h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="details"
                         rows={7}
                         placeholder="Write your project detals here"
@@ -645,7 +645,7 @@ const handleMouseLeave = () => {
                     </Text>
                       <input
                       {...register("website", { required: {value:false , message:"Project website is required"} })}
-                      className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                      className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="website"
                         placeholder="Project Website"
@@ -669,7 +669,7 @@ const handleMouseLeave = () => {
                         pattern: {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         }, })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="contactEmail"
                         placeholder="Enter Project email"
@@ -718,7 +718,7 @@ const handleMouseLeave = () => {
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("funding", { required: { value: true, message: "Project Funding Target is required" } })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="funding"
                         type="text"
                         value={fundingValue}
@@ -738,7 +738,7 @@ const handleMouseLeave = () => {
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
                         {...register("totalRaised", { required: { value: true, message: "Project Funding Target is required" } })}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="totalRaised"
                         type="text"
                         value={raisedValue}
@@ -870,7 +870,7 @@ const handleMouseLeave = () => {
                     <div key={milestone.id} className={`flex flex-row gap-2 items-start justify-start w-full`}>
                       <div className="flex md:flex-1 w-[55%]">
                         <input
-                          className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
+                          className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
                           name={`name-${milestone.id}`}
                           placeholder="Enter your project milestone"
                           value={milestone.name}
@@ -1010,16 +1010,16 @@ const handleMouseLeave = () => {
                         ref={inputRef}
                         onChange={(e) => handleFileUpload1(e, "pitchDeck")} 
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-300">Drop Pitch Deck file here</span> :
+                        {isDragging ? <span className="text-blue_gray-301">Drop Pitch Deck file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
                         <span className="text-blue-500">choose file</span>
                         </> 
                         }
@@ -1059,16 +1059,16 @@ const handleMouseLeave = () => {
                         ref={inputRef1}
                         onChange={(e) => handleFileUpload1(e, "businessPlan")} 
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-300">Drop Business Plan file here</span> :
+                        {isDragging ? <span className="text-blue_gray-301">Drop Business Plan file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
                         <span className="text-blue-500" >choose file</span>
                         </> 
                         }
@@ -1108,16 +1108,16 @@ const handleMouseLeave = () => {
                         ref={inputRef2}
                         onChange={(e) => handleFileUpload1(e, "financialProjection")} 
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name="name"
                       />
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-300">Drop Financial Projection file here</span> :
+                        {isDragging ? <span className="text-blue_gray-301">Drop Financial Projection file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
                         <span className="text-blue-500" >choose file</span>
                         </> 
                         }
@@ -1157,15 +1157,15 @@ const handleMouseLeave = () => {
                       <input
                         ref={inputRefs.current[index]}
                         style={{ display: 'none' }}
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                         type="file"
                         name={`file-${index}`}
                         onChange={(event) => handleFileInputChange(event, index)}
                       />
                       <label className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto">
-                      {isDragging ? <span className="text-blue_gray-300">Drop file here</span> :
+                      {isDragging ? <span className="text-blue_gray-301">Drop file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-301"> Drag and drop a file here or </span>
                         <span className="text-blue-500" >
                           choose file
                         </span>

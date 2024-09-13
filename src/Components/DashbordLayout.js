@@ -3,9 +3,9 @@ import SidebarNav from "./SidebarNav";
 import { Outlet } from "react-router-dom";
 const DashbordLayout = () => {
   return (
-    <div className="bg-blue_gray-901 flex h-full w-full">
+    <div className="bg-blue_gray-901 flex h-screen w-full">
         <SidebarNav/>
-      <div className="h-full flex-1 pt-6 overflow-auto min-h-screen">
+      <div className="h-full flex-1 pt-6 min-h-screen">
         <Outlet/>
       </div>
     </div>

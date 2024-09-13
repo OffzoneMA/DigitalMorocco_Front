@@ -139,7 +139,7 @@ const onSubmit = async () => {
             </div>
           <div className="flex w-full rounded-md p-2 border border-solid">
             <input
-              className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+              className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
               type="text"
               name="search"
               placeholder="Search Investors"

@@ -134,14 +134,14 @@ const calculateDropdownPosition = () => {
           <div ref={parentRef} className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${(show && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`} onClick={toggleDropdown}>
               <input
                   type="text"
-                  className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                  className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                   name={`due-date`}
                   placeholder={inputPlaceholder || "Due Date"}
                   value={valueDate}
                   readOnly
               //   onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}
               />
-              <MdOutlineDateRange size={20} className={` text-blue_gray-300`}/>
+              <MdOutlineDateRange size={20} className={` text-blue_gray-301`}/>
           </div> 
           {show && 
             ReactDOM.createPortal(

@@ -16,7 +16,7 @@ const TeamMemberItem = ({imageSrc, name , job}) => {
           {name}
         </Text>
         <Text
-          className="text-blue_gray-300 font-dm-sans-regular text-xs leading-5 w-auto"
+          className="text-blue_gray-301 font-dm-sans-regular text-xs leading-5 w-auto"
         >
           {job}
         </Text>

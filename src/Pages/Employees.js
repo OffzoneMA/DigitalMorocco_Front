@@ -247,18 +247,18 @@ const Employees = () => {
         </div>
       </div>
       <DeleteModal isOpen={isDeleteModalOpen}
-                      onRequestClose={closeDeleteModal} title="Delete Employee" 
-                      onDelete={() => handleDeleteEmployee()}
-                      content={
-                        <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
-                          <Text
-                            className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6"
-                            size=""
-                          >
-                            Are you sure you want to delete this employee?
-                          </Text>
-                        </div>
-                      }/>
+        onRequestClose={closeDeleteModal} title="Delete Employee" 
+        onDelete={() => handleDeleteEmployee()}
+        content={
+          <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
+            <Text
+              className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6"
+              size=""
+            >
+              Are you sure you want to delete this employee?
+            </Text>
+          </div>
+        }/>
     </div>
   );
 };

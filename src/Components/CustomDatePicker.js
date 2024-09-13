@@ -130,14 +130,14 @@ useEffect(() => {
                 <div className={`flex w-full rounded-md p-2 border border-solid `} onFocus={()=>setShow(true)}>
                     <input
                         type="text"
-                        className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                         name={`due-date`}
                         placeholder="Due Date"
                         value={selectedDate}
                         readOnly
                     //   onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}
                     />
-                    <MdOutlineDateRange size={20} className={` text-blue_gray-300`}/>
+                    <MdOutlineDateRange size={20} className={` text-blue_gray-301`}/>
                 </div> 
             </DatePicker>
         </div>

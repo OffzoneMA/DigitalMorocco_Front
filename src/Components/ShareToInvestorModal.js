@@ -107,7 +107,7 @@ useEffect(() => {
             </div>
             <div className="relative flex w-full">
               <input
-                className={`!placeholder:text-blue_gray-300 h-[44px] !text-gray700 font-manrope p-2 text-left text-sm tracking-[0.14px] w-full bg-transparent border-[1px] border-[#D0D5DD] rounded-[6px] pr-[30px]`}
+                className={`!placeholder:text-blue_gray-301 h-[44px] !text-gray700 font-manrope p-2 text-left text-sm tracking-[0.14px] w-full bg-transparent border-[1px] border-[#D0D5DD] rounded-[6px] pr-[30px]`}
                 type="text"
                 name="search"
                 placeholder="Search Investors"

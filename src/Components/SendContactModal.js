@@ -126,7 +126,7 @@ const SendContactModal = (props) => {
                 </Text>
                 <textarea 
                   {...register("letter", { required: {value:true , message: "Request Letter is required."} })}
-                  className={`!placeholder:text-blue_gray-300 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  className={`!placeholder:text-blue_gray-301 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                   rows={5}
                   placeholder="Write your request letter here" 
                   style={{
@@ -166,7 +166,7 @@ const SendContactModal = (props) => {
                       ref={inputRef}
                       onChange={handleFileChange}
                       style={{ display: 'none' }}
-                      className={`!placeholder:text-blue_gray-300 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                      className={`!placeholder:text-blue_gray-301 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                       type="file"
                       name="name"
                     />
@@ -189,7 +189,7 @@ const SendContactModal = (props) => {
                     ref={inputRef}
                     onChange={handleFileChange}
                     style={{ display: 'none' }}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
                     type="file"
                     name="name"
                   />

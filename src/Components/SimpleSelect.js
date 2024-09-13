@@ -108,7 +108,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
         onClick={toggleDropdown}
       >
         <input
-          className={`!placeholder:text-blue_gray-300 pr-1 !text-gray700 font-manrope font-normal cursorpointer-green leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+          className={`!placeholder:text-blue_gray-301 pr-1 !text-gray700 font-manrope font-normal cursorpointer-green leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
           name="target"
           type="text"
           placeholder={placeholder}
@@ -126,7 +126,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
             <div className='flex w-full px-3'>
               <div className="flex w-full rounded-md py-1.5 px-2 border border-solid">
                 <input
-                  className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope text-left text-xs tracking-[0.14px] w-full bg-transparent border-0`}
+                  className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-xs tracking-[0.14px] w-full bg-transparent border-0`}
                   type="text"
                   name="search"
                   placeholder={searchLabel}

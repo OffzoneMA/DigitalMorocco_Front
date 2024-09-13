@@ -145,7 +145,7 @@ const InvestorRequestHistory = () => {
                 (
                     <>
                     <div className="flex rounded-md p-2 border border-solid min-w-[120px] ">
-                      <input className={`!placeholder:text-blue_gray-300 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`} type="text" name="search" placeholder="Keywords" value={keywords} onChange={e => setKeywords(e.target.value)} />
+                      <input className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`} type="text" name="search" placeholder="Keywords" value={keywords} onChange={e => setKeywords(e.target.value)} />
                     </div>
                     <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata} onSelect={""} searchLabel='Search Investor' setSelectedOptionVal={setUser} placeholder="Investor Name" content={(option) => {
                       return (
@@ -182,9 +182,9 @@ const InvestorRequestHistory = () => {
                 </button>
                 )}
                 {filterApply && (
-                  <div className="text-blue_gray-300 flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-blue_gray-300 cursorpointer-green" onClick={ClearFilter}>
+                  <div className="text-[#15143966] flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer-green" onClick={ClearFilter}>
                     <FiDelete size={18} className="mr-2" />
-                    <Text className="text-base font-dm-sans-regular leading-[26px] text-blue_gray-300 " size="">Clear</Text>
+                    <Text className="text-base font-dm-sans-regular leading-[26px] text-[#15143966] " size="">Clear</Text>
                   </div>
                 )}
               </div>

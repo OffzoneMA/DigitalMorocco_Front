@@ -72,7 +72,7 @@ const NewMilestoneModal = (props) => {
                 </Text>
                 <input
                     {...register("name", { required: {value: true , message: "Milestone name is required"} })}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full  rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full  rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="name"
                     placeholder="Milestone Name"
@@ -98,11 +98,11 @@ const NewMilestoneModal = (props) => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Description <span className="text-blue_gray-300">(Optinal)</span>
+                  Description <span className="text-blue_gray-301">(Optinal)</span>
                 </Text>
                   <textarea
                     {...register("description")}
-                    className={`!placeholder:text-blue_gray-300 !text-gray700 h-[70px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 h-[70px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
                     name="description"
                     rows={4}
                     placeholder="Description" 
