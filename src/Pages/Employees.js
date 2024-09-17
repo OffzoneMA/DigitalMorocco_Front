@@ -131,7 +131,7 @@ const Employees = () => {
                 <span className="text-sm font-dm-sans-medium leading-[18.23px]">Add New Employee</span>
               </button>
             </div>
-            <div className="bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start w-full pb-4 min-h-[330px] overflow-x-auto rounded-b-[8px]" 
+            <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',

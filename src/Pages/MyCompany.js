@@ -195,7 +195,7 @@ const MyCompany = () => {
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-8 pt-8 rounded-tl-[40px] min-h-screen overflow-auto w-full">
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-14 pt-8 rounded-tl-[40px] min-h-screen overflow-auto w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
