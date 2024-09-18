@@ -1361,15 +1361,6 @@ export const UpcomingEvents = [
     tags: 'Business, Data & Technology',
 },
 {
-    image: "/images/event1.jpeg",
-    name: 'AnalyticsWEEK - The Premier Data Analytics Online Conference',
-    date: 'Fri, Apr 5, 2024',
-    time: '11:00 AM - 2:00 PM',
-    location: 'Online Event',
-    price: '',
-    tags: 'Analytics',
-},
-{
     image: "/images/event2.jpeg",
     name: 'Eventsize - A Comprehensive Marketing and Sales Virtual Workshop',
     date: 'Fri, Oct 18, 2024',

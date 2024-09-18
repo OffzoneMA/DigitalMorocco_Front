@@ -125,7 +125,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                           <Text
                           className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                           >
-                          {item.price == 0? 'Free' : `From $ ${(item.price).toFixed(2)}`}
+                          {item?.price == 0? 'Free' : `From $ ${(item?.price)?.toFixed(2)}`}
                           </Text>
                       </div>
                     </div>
