@@ -128,7 +128,7 @@ const Projects = () => {
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item.milestones[0]?.name}</td>
                       <td className="px-[18px] py-4 items-center">
                         <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
-                          item.status === 'Active' ? 'bg-emerald-50 text-green-700' :
+                          item.status === 'Active' ? 'bg-green-100 text-green-700' :
                             item.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
                               item.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
                         } inline-flex`}  style={{whiteSpace:'nowrap'}}>

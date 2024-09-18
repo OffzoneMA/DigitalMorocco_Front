@@ -381,7 +381,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                     >
                                 {item.name}
                                 </Text>
-                                <div className={`flex flex-row space-x-2 bg-emerald-50 text-green-700 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full`}>
+                                <div className={`flex flex-row space-x-2 bg-green-100 text-green-700 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full`}>
                                 <GoDotFill size={12} className="mr-2"/>
                                 {item.stages?.[0]}
                                 </div>
@@ -502,7 +502,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                     <div
                                       className={`flex flex-row space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
                                         item.status === 'Approved'
-                                          ? 'bg-emerald-50 text-green-700'
+                                          ? 'bg-green-100 text-green-700'
                                           : item.status === 'In Progress'
                                           ? 'bg-blue-101 text-blue-600'
                                           : item.status === 'Rejected'

@@ -99,7 +99,7 @@ const InvestorRequestHistory = () => {
       setCur(page);
     }
   }
-
+  console.log(pageData)
   function formatDateWithoutComma(date) {
     const options = {
         year: 'numeric',
@@ -215,10 +215,10 @@ const InvestorRequestHistory = () => {
                         <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>{item?.investor?.name}</td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.communicationStatus}</td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
-                          <div style={{ whiteSpace: "nowrap" }} className={`flex flex-row space-x-2 items-center py-0.5 px-2 font-dm-sans-regular text-sm leading-6 rounded-full ${(item.status === 'Approved' || item.status === 'Accepted') ? 'bg-emerald-50 text-green-700' : item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''} inline-flex`}>{item.status}</div>
+                          <div style={{ whiteSpace: "nowrap" }} className={`flex flex-row space-x-2 items-center py-0.5 h-[28px] px-[10px] font-dm-sans-regular text-sm leading-6 rounded-full ${(item.status === 'Approved' || item.status === 'Accepted') ? 'bg-green-100 text-green-700' : item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''} inline-flex`}>{item.status}</div>
                         </td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.attachment || "-"}</td>
-                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.note || "-"}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.notes || "-"}</td>
                       </tr>
                     ))
                  

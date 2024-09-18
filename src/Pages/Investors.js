@@ -286,7 +286,7 @@ const Investors = () => {
                         )}
                         </div>
                     </td>
-                      <td className="px-[18px] py-4 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
+                      <td className="px-[18px] py-4 text-gray500 font-DmSans text-left text-sm font-normal leading-6" 
                       style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
                       <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfInvestment}</td>
                       <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfExits}</td>
