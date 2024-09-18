@@ -23,7 +23,7 @@ import SearchInput from "../Components/SeachInput";
 import { useGetInvestorByIdQuery } from "../Services/Investor.Service";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
+import { FaUserCircle } from "react-icons/fa";
 
 const InvestorDetails = () => {
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -84,19 +84,19 @@ console.log(investor)
             </div>
             <div className="flex flex-col w-full gap-10 bg-white-A700 px-5">
                 <div className="flex flex-col md:flex-row justify-center items-start gap-8">
-                      <div className="relative flex justify-center w-full md:w-[23%] p-2 border-blue_gray-100 border border-solid rounded-[10px]">
-                        <img
-                          src={investor?.image}
-                          alt="vector_three"
-                          className="h-full w-full "
-                        />
+                      <div className="relative flex justify-center w-full h-[200px] md:w-[25%] max-w-[250px] p-2 border-blue_gray-100 border border-solid rounded-[10px]">
+                        {investor?.image ? (
+                          <img src={investor.image} className="rounded-full h-full w-full" alt="Profile" />
+                        ) : (
+                          <FaUserCircle className="h-full w-full text-gray-500" /> // Placeholder icon
+                        )}
                         <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
                         </div>
                       </div>
                       <div className="flex flex-col gap-6 flex-1 w-full">
                         <div className="flex flex-row justify-between items-start  w-full">
                           <div className="relative">
-                            <Text className="font-DmSans text-2xl font-bold leading-8 text-left text-blue_gray-903">
+                            <Text className="font-dm-sans-bold text-2xl leading-8 text-left text-blue_gray-903">
                               {investor?.CompanyName || investor?.name || 'Venture Catalysts'}
                             </Text>
                             <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -117,7 +117,7 @@ console.log(investor)
                                 <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Investment
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
+                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
                                 { investor?.numberOfInvestment || 179}
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ console.log(investor)
                                 <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Exits
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
+                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
                                 {investor?.numberOfExits || 44}
                                 </div>
                             </div>
@@ -135,7 +135,7 @@ console.log(investor)
                                 <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Fund
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
+                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
                                 {investor?.fund|| 52}
                                 </div>
                             </div>
@@ -144,7 +144,7 @@ console.log(investor)
                                 <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Acquisitions
                                 </div>
-                                <div className="flex font-DmSans text-2xl font-bold leading-10 tracking-tight text-left text-[#344053]">
+                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
                                 {investor?.acquisitions || 7}
                                 </div>
                             </div>
@@ -167,7 +167,7 @@ console.log(investor)
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                     {investor?.desc || investor?.description || `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -182,7 +182,7 @@ console.log(investor)
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                   {investor?.legalName || 'Venture Catalysts, Inc'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -198,7 +198,7 @@ console.log(investor)
                                 Founded Date
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                               {investor?.foundedDate ? new Date(investor?.foundedDate).toLocaleString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
@@ -214,7 +214,7 @@ console.log(investor)
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.type || 'Venture Capital'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -230,7 +230,7 @@ console.log(investor)
                                 Headquarter
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                               {investor?.headquarter || 'Casablanca, Morocco'}
                               </Text>
                             </div>
@@ -242,7 +242,7 @@ console.log(investor)
                                 </Text>
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                   {investor?.website || 'http://venture-catalysts.com'}
                                 </Text>
                                 <IoOpenOutline size={22} className="text-blue-700"/>
@@ -259,7 +259,7 @@ console.log(investor)
                                 Investment Stage
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                               {investor?.investmentStage || 'Early Stage Venture, Late Stage Venture'}
                               </Text>
                             </div>
@@ -270,7 +270,7 @@ console.log(investor)
                                 Last Funding Type
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                               {investor?.lastFundingType || 'Privat Equity'}
                               </Text>
                             </div>
@@ -284,13 +284,13 @@ console.log(investor)
                                 </Text>
                               </div>
                               <div className="grid md:flex md:flex-row md:flex-wrap pl-8 gap-3">
-                                {investor?.PreferredInvestmentIndustry.map((industry, index) => (
-                                  <div key={index} className="bg-blue-101 w-auto items-center rounded-full">
-                                    <Text className="p-2 font-dm-sans-regular text-base leading-6 tracking-wide text-left text-blue_gray-904">
-                                        {industry}
-                                    </Text>
-                                  </div>
-                                ))}
+                              {investor?.PreferredInvestmentIndustry?.[0]?.split(", ")?.map((industry, index) => (
+                                <div key={index} className="bg-blue-101 w-auto items-center rounded-full">
+                                  <Text className="p-2 font-dm-sans-regular text-base leading-6 tracking-wide text-left text-blue_gray-904">
+                                    {industry}
+                                  </Text>
+                                </div>
+                              ))}
                               </div>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -300,7 +300,7 @@ console.log(investor)
                                 Investment Capacity
                                 </Text>
                               </div>
-                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                              <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                               $ {investor?.investmentCapacity || '20,000,000'}
                               </Text>
                             </div>
@@ -322,7 +322,7 @@ console.log(investor)
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.phoneNumber || '+33 1 234 567 89'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
@@ -337,7 +337,7 @@ console.log(investor)
                                 </Text>
                               </div>
                               <div className="relative">
-                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344053] pl-8">
+                                <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.emailAddress|| 'investment@venture-catalysts.com'}
                                 </Text>
                                 <div className="absolute h-full overlay-content-invDetails w-full top-0">
