@@ -305,7 +305,7 @@ const Investors = () => {
                 ""}
                 </table>
                 { loading ? (
-                     <div className="flex items-center justify-center w-full h-40 ">
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
                  </div> ) : pageData.length === 0 && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">

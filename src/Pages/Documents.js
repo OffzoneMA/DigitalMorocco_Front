@@ -245,9 +245,9 @@ const Documents = () => {
                 }
                 </table>
                 {isLoading && (
-                     <div className="flex items-center rounded-[8px] justify-center w-full h-full py-32">
-                      <Loader />
-                     </div>)
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                     <Loader />
+                 </div>)
                 }
                 {(!isLoading && !pageData?.length>0) && (
                   <div className="flex flex-col gap-[16px] rounded-[8px] items-center  w-full py-28">

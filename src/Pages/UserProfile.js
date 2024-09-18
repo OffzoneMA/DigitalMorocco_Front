@@ -663,7 +663,7 @@ useEffect(() => {
                       name="currentPassword" 
                       placeholder="Your Current Password" 
                   />
-                  {getValues2('currentPassword') && getValues2('currentPassword')?.length > 0 && 
+                  {/* {getValues2('currentPassword') && getValues2('currentPassword')?.length > 0 &&  */}
                     <button
                       type="button"
                       className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
@@ -680,7 +680,7 @@ useEffect(() => {
                         </svg>                            
                       )}
                     </button>
-                  }
+                  {/* } */}
                 </div>
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
@@ -703,7 +703,7 @@ useEffect(() => {
                     name="newPassword" 
                     placeholder="Enter New Password" 
                   />
-                  {getValues2('newPassword')?.length > 0 && 
+                  {/* {getValues2('newPassword')?.length > 0 &&  */}
                     <button
                       type="button"
                       className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
@@ -720,7 +720,7 @@ useEffect(() => {
                         </svg>                            
                       )}
                     </button>
-                  }
+                  {/* } */}
                 </div> 
                 {((errors2?.newPassword || newPasswordValidation.minLength || newPasswordValidation.hasLowerCase || newPasswordValidation.hasUpperCase || newPasswordValidation.hasDigit) && getValues2('newPassword') !== '• • • • • • • •') &&
                   <>
@@ -818,7 +818,7 @@ useEffect(() => {
                     className={`${!showPasswordConfirm ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.confirmNewPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.confirmNewPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.confirmNewPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
                     name="confirmNewPassword" 
                     placeholder="Confirm New Password" />
-                    {getValues2('confirmNewPassword')?.length > 0 && 
+                    {/* {getValues2('confirmNewPassword')?.length > 0 &&  */}
                       <button
                         type="button"
                         className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
@@ -835,7 +835,7 @@ useEffect(() => {
                           </svg>                            
                         )}
                       </button>
-                    }
+                    {/* } */}
                 </div>
               </div>
               {!isForm2Saved ?

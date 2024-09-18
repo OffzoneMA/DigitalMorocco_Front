@@ -217,7 +217,7 @@ const Employees = () => {
                 ""}
               </table>
               {loading ? (
-                     <div className="flex items-center justify-center w-full h-full py-32">
+                <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
                  </div>
                   ) :

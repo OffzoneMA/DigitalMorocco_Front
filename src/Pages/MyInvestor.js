@@ -276,9 +276,9 @@ const MyInvestors = () => {
                           </div>
                         </div>
                     </td>
-                      <td className="px-[18px] py-4 text-gray500 font-DmSans text-center text-sm font-normal leading-6" 
+                      <td className="px-[18px] py-4 text-gray500 font-DmSans text-left text-sm font-normal leading-6" 
                       style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
-                      <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.fundingRound}</td>
+                      <td className="px-[18px] py-4 text-left text-gray500 font-dm-sans-regular text-sm leading-6">{item?.fundingRound || "-"}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6" 
                       style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6 max-w-[230px] lg:max-w-[250px]"
