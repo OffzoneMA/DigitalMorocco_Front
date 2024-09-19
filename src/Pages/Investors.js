@@ -278,7 +278,7 @@ const Investors = () => {
                           ) : (
                             <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> // Placeholder icon
                           )}
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{isSubscribe? item?.name : item.InvestorName}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
                         </div>
                         {profilVerified && (
                           <div className="overlay-content-invPro w-full flex">

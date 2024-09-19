@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState  , useEffect} from "react";
 import { Text } from "../Components/Text";
 import { TbSend } from "react-icons/tb";
 import { BiMessageAltError } from "react-icons/bi";
@@ -24,13 +24,18 @@ import { useGetInvestorByIdQuery } from "../Services/Investor.Service";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import axios from "axios";
+import Loader from "../Components/Loader";
+import investorFakeImage from "../Media/investorFakeImage.jpg"
 
 const InvestorDetails = () => {
-    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-    const { investorId } = useParams();
-    const location = useLocation();
-    const [investor, setInvestor] = useState(location.state?.investor || null);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const { investorId } = useParams();
+  const location = useLocation();
+  const [investor, setInvestor] = useState(location.state?.investor || null);
+  const [investorRequestStatus , setInvestorRequestStatus] = useState('');
   const [cur, setCur] = useState(1);
+  const [loading , setLoading] = useState(false);
   const itemsPerPage = 8;
   const itemsToShow = 4;
 
@@ -43,6 +48,32 @@ const InvestorDetails = () => {
     {logo:"/images/img_inv5.svg", AnnouncementDate: "April 28, 2016", CompanyName: "Fleximize", Location: "London, United Kingdom", FundingRound: "Series C", MoneyRaised: "$16M" },
     {logo:"/images/img_inv6.svg", AnnouncementDate: "May 9, 2014", CompanyName: "DreamFarm WraithWatch", Location: "New York City, USA", FundingRound: "Debt Financing", MoneyRaised: "$8OM" }
   ];
+
+useEffect(() => {
+  setLoading(true);
+  const getInvestorDetailsRequest = async () => {
+    try {
+      setLoading(true);
+      const token = sessionStorage.getItem("userToken");
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/${investorId}/details` , {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response)
+      setInvestor(response.data?.details)
+      setInvestorRequestStatus(response.data?.status)
+      setLoading(false);
+      return response.data;
+    } catch (error) {
+      setLoading(false);
+        console.error('Error fetching investor details:', error);
+        throw error;
+    }
+};
+
+getInvestorDetailsRequest();
+}, [investorId]);
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
@@ -67,7 +98,6 @@ const InvestorDetails = () => {
   const closeModal = () => {
     setIsContactModalOpen(false);
   };
-console.log(investor)
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -82,16 +112,21 @@ console.log(investor)
                 <SearchInput className={'w-[240px]'}/>
               </div>
             </div>
-            <div className="flex flex-col w-full gap-10 bg-white-A700 px-5">
+            {loading?
+              <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-40 rounded-b-[8px]">
+                <Loader />
+              </div> 
+              :
+              <div className="flex flex-col w-full gap-10 bg-white-A700 px-5">
                 <div className="flex flex-col md:flex-row justify-center items-start gap-8">
                       <div className="relative flex justify-center w-full h-[200px] md:w-[25%] max-w-[250px] p-2 border-blue_gray-100 border border-solid rounded-[10px]">
                         {investor?.image ? (
-                          <img src={investor.image} className="rounded-full h-full w-full" alt="Profile" />
+                          <img src={investorRequestStatus?.toLowerCase() === 'accepted' ? investor.image : investorFakeImage} className="rounded-full h-full w-full" alt="Profile" />
                         ) : (
                           <FaUserCircle className="h-full w-full text-gray-500" /> // Placeholder icon
                         )}
-                        <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
-                        </div>
+                        {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
+                        </div>}
                       </div>
                       <div className="flex flex-col gap-6 flex-1 w-full">
                         <div className="flex flex-row justify-between items-start  w-full">
@@ -99,8 +134,8 @@ console.log(investor)
                             <Text className="font-dm-sans-bold text-2xl leading-8 text-left text-blue_gray-903">
                               {investor?.CompanyName || investor?.name || 'Venture Catalysts'}
                             </Text>
-                            <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                            </div>
+                            {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                            </div>}
                           </div>
                           <button style={{ whiteSpace: 'nowrap'}}
                               className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center justify-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer-green"
@@ -121,7 +156,6 @@ console.log(investor)
                                 { investor?.numberOfInvestment || 179}
                                 </div>
                             </div>
-
                             <div className="col-span-1 flex flex-col w-full gap-7">
                                 <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Exits
@@ -130,7 +164,6 @@ console.log(investor)
                                 {investor?.numberOfExits || 44}
                                 </div>
                             </div>
-
                             <div className="col-span-1 flex flex-col w-full gap-7">
                                 <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Fund
@@ -139,7 +172,6 @@ console.log(investor)
                                 {investor?.fund|| 52}
                                 </div>
                             </div>
-
                             <div className="col-span-1 flex flex-col w-full gap-7">
                                 <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
                                     Acquisitions
@@ -148,7 +180,7 @@ console.log(investor)
                                 {investor?.acquisitions || 7}
                                 </div>
                             </div>
-                            </div>
+                          </div>
                         </div>
                       </div>
                 </div>
@@ -170,8 +202,8 @@ console.log(investor)
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                     {investor?.desc || investor?.description || `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`}
                                 </Text>
-                                <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                                </div>
+                                {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                                </div>}
                               </div>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -185,8 +217,8 @@ console.log(investor)
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                   {investor?.legalName || 'Venture Catalysts, Inc'}
                                 </Text>
-                                <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                                </div>
+                                {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                                </div>}
                               </div>
                             </div>
                         </div>
@@ -217,8 +249,8 @@ console.log(investor)
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.type || 'Venture Capital'}
                                 </Text>
-                                <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                                </div>
+                                {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                                </div>}
                               </div>
                             </div>
                         </div>
@@ -246,8 +278,8 @@ console.log(investor)
                                   {investor?.website || 'http://venture-catalysts.com'}
                                 </Text>
                                 <IoOpenOutline size={22} className="text-blue-700"/>
-                                <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                                  </div>
+                                {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                                </div>}
                               </div>
                             </div>
                         </div>
@@ -283,10 +315,10 @@ console.log(investor)
                                 Preferred Investment Industry
                                 </Text>
                               </div>
-                              <div className="grid md:flex md:flex-row md:flex-wrap pl-8 gap-3">
+                              <div className="grid md:flex md:flex-row md:flex-wrap pl-8 gap-[10px]">
                               {investor?.PreferredInvestmentIndustry?.[0]?.split(", ")?.map((industry, index) => (
-                                <div key={index} className="bg-blue-101 w-auto items-center rounded-full">
-                                  <Text className="p-2 font-dm-sans-regular text-base leading-6 tracking-wide text-left text-blue_gray-904">
+                                <div key={index} className="bg-blue-101 w-auto flex justify-center items-center rounded-full px-[14px] h-[30px]">
+                                  <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-blue_gray-904">
                                     {industry}
                                   </Text>
                                 </div>
@@ -325,8 +357,8 @@ console.log(investor)
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.phoneNumber || '+33 1 234 567 89'}
                                 </Text>
-                                <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                                </div>
+                                {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                                </div>}
                               </div>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -340,8 +372,8 @@ console.log(investor)
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.emailAddress|| 'investment@venture-catalysts.com'}
                                 </Text>
-                                <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                                </div>
+                                {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                                </div>}
                               </div>
                             </div>
                         </div>
@@ -427,6 +459,8 @@ console.log(investor)
                     </div>
                 </div>
             </div>
+            }
+            
             <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId}/>
         </div>
     )

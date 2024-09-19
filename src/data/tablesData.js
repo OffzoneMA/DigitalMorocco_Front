@@ -825,39 +825,15 @@ export const CompanyLegalData = [
 ];
 
 export const InvestorsData = [
-    {logo:"/images/img_inv.svg", InvestorName: "Venture Catalysts", type: "Venture Capital", numberOfInvestment: 231, numberOfExits: 89, location: "Mumbai, India", PreferredInvestmentIndustry: "SaaS, Artificial Intelligence, Machine Learning" },
-    {logo:"/images/img_inv1.svg" ,InvestorName: "Startup Funding Club", type: "Angel", numberOfInvestment: 104, numberOfExits: 96, location: "BB Bogotá, Colombia", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
-    {logo:"/images/img_inv2.svg" , InvestorName: "Techstars Atlanta", type: "Venture Capital", numberOfInvestment: 123, numberOfExits: 72, location: "London, United Kingdom", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology" },
-    {logo:"/images/img_inv3.svg" , InvestorName: "Urban-X Accelerator", type: "Accelerator", numberOfInvestment: 254, numberOfExits: 86, location: "Cairo, Egypt", PreferredInvestmentIndustry: "Edutech, E-Learning, Corporate Training" },
-    {logo:"/images/img_inv4.svg" ,  InvestorName: "Misk500 Accelerator", type: "Accelerator", numberOfInvestment: 342, numberOfExits: 111, location: "Sydney, Australia", PreferredInvestmentIndustry: "Big Data, SaaS, Crowdfunding" },
-    {logo:"/images/img_inv5.svg", InvestorName: "Brendan Wallace", type: "Angel", numberOfInvestment: 213, numberOfExits: 85, location: "Abu Dhabi, UAE", PreferredInvestmentIndustry: "Adtech, Agriculture, Biotechnology, " },
-    {
-        logo: "/images/img_inv11.svg",
-        InvestorName: "BlueYard Capital",
-        type: "Venture Capital",
-        numberOfInvestment: 120,
-        numberOfExits: 65,
-        location: "Berlin, Germany",
-        PreferredInvestmentIndustry: "Blockchain, Crypto, Fintech"
-    },
-    {
-        logo: "/images/img_inv12.svg",
-        InvestorName: "500 Startups",
-        type: "Accelerator",
-        numberOfInvestment: 500,
-        numberOfExits: 250,
-        location: "San Francisco, USA",
-        PreferredInvestmentIndustry: "E-commerce, Healthtech, Mobile"
-    },
-    {
-        logo: "/images/img_inv2.svg",
-        InvestorName: "Seedcamp",
-        type: "Seed Fund",
-        numberOfInvestment: 200,
-        numberOfExits: 120,
-        location: "London, United Kingdom",
-        PreferredInvestmentIndustry: "Fintech, SaaS, Marketplace"
-    }
+  {logo:"/images/img_inv.svg", name: "Vxydur Hsdtlwxr", type: "Ventvre Cltpil", numberOfInvestment: 231, numberOfExits: 89, location: "Mxqufo, Ixeya", PreferredInvestmentIndustry: "Sss, Lrtjfqccisl Yntmglxnce, Xnzchine Lyrning" },
+  {logo:"/images/img_inv1.svg" ,name: "Syxdrtp Hvdungx Zyxpl", type: "Anzrl", numberOfInvestment: 104, numberOfExits: 96, location: "BX Bgfthz, Cplxmzba", PreferredInvestmentIndustry: "Xdptech, Agrqiltvure, Bhotcvqhlogy" },
+  {logo:"/images/img_inv2.svg" , name: "Tlchstzrs Atlsfnx", type: "Ventvre Cltpil", numberOfInvestment: 123, numberOfExits: 72, location: "Lgndfn, Unxgted Kxnzgdm", PreferredInvestmentIndustry: "Xdtech, Agrqiltvure, Bhotcvqhlogy" },
+  {logo:"/images/img_inv3.svg" , name: "Uvbin-X Xccqrxrztxr", type: "Xccqrxrztxr", numberOfInvestment: 254, numberOfExits: 86, location: "Cxro, Xgpt", PreferredInvestmentIndustry: "Ezytech, X-Lxxrnng, Cxrpzrate Trxrng" },
+  {logo:"/images/img_inv4.svg" ,  name: "Mxsk599 Xccqrxrztxr", type: "Xccqrxrztxr", numberOfInvestment: 342, numberOfExits: 111, location: "Sydfey, Xustrxlix", PreferredInvestmentIndustry: "Bxg Dxte, Sss, Crcwfvndlng" },
+  {logo:"/images/img_inv5.svg", name: "Brndxn Wllcty", type: "Anzrl", numberOfInvestment: 213, numberOfExits: 85, location: "Xbv Dhxbl, UXE", PreferredInvestmentIndustry: "Xdtech, Agrqiltvure, Bhotcvqhlogy" },
+  {logo: "/images/img_inv11.svg",name: "BlxeYxrd Xctitl",type: "Ventvre Cltpil",numberOfInvestment: 120,numberOfExits: 65,location: "Brlyn, Gxrmzny",PreferredInvestmentIndustry: "Blzckchn, Cxlpto, Fnntxch"},
+  {logo: "/images/img_inv12.svg",name: "599 Stxrtxps",type: "Xccqrxrztxr",numberOfInvestment: 500,numberOfExits: 250, location: "Sn Fxncrsxco, XUS",PreferredInvestmentIndustry: "E-cqmmfrce, Hlztthtech, Mbblxe"},
+  {logo: "/images/img_inv2.svg",name: "Sxxdcvmp",type: "Sxd Fvnd",numberOfInvestment: 200,numberOfExits: 120,location: "Lgndfn, Unxgted Kxnzgdm",PreferredInvestmentIndustry: "Fnntxch, Sss, Mxrktplxce"}
 ];
 
 export const InvestorsRequestData = [
