@@ -19,6 +19,7 @@ import simpleLogo from '../Media/img_simple_logo.svg';
 import simpleLogoText from '../Media/img_simple_logo_text.svg';
 import { useGetUserDetailsQuery } from "../Services/Auth";
 import { useLocation } from "react-router-dom";
+import ReactDOM from 'react-dom';
 
 const SidebarNav = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
@@ -141,7 +142,7 @@ const SidebarNav = () => {
   }
 
   return (
-  <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
+  <div className={`bg-blue_gray-901 flex flex-col h-auto min-h-screen pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex px-5" >
       <img src={simpleLogo} className={`text-4xl rounded cursorpointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => openLink()}/>
@@ -149,13 +150,13 @@ const SidebarNav = () => {
         <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`} alt={""}/>
       </Link>
     </div>
-    <div className={`flex flex-col h-full w-full overflow-x-visible pb-5 px-5`}>
+    <div className={`flex flex-col h-full ${open ? "w-auto" : "w-20"} w-full overflow-x-unset pb-5 px-5`}>
       <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
         {Menus.map((Menu, index) => (
           Menu && <div key={index} >
             <li
               onClick={() => handleMenuClick(Menu)}
-              className={` ${!open && 'w-fit'} group relative flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
+              className={`overflow-x-visible ${!open && 'w-fit'} group relative flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
               // title={!open ? Menu.title : ""}
             >
               <span className={`duration-200 ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" ) || Menu.activeLinks?.includes(activeMenu)) ? "active-icon-color" : "hover-active-color"}`}>
@@ -211,7 +212,8 @@ const SidebarNav = () => {
                     </div>
                   </div>
                   )}
-                </li>))
+                </li>
+              ))
             )}
           </div>
         ))}
@@ -235,7 +237,7 @@ const SidebarNav = () => {
             ) : (
     ""    )}
           {!open && (
-          <div className="absolute top-[100%] z-50 left-0 transform hidden group-hover:flex flex-col items-start">
+          <div className="absolute top-[100%] zindexAll left-0 transform hidden group-hover:flex flex-col items-start">
             <div className="mb-px ml-[12px]">
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
                 <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
@@ -304,13 +306,13 @@ const SidebarNav = () => {
         <div className="flex flex-col relative" 
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
-          <div className="border-t border-blue_gray-601 flex px-1 pt-5 items-center" >
+          <div className={`border-t border-blue_gray-601 flex px-1 pt-5 items-center ${open ? "flex-row" : "flex-col"}`} >
             <img
               src={`${userData?.image || userImg}`}
               alt=""
               className="w-9 h-9 rounded-full bg-cover"
             />
-            <div
+            {open && <div
               className={`
             flex justify-between items-center
             overflow-hidden transition-all ${open ? "w-52 ml-3" : "w-0"}
@@ -319,7 +321,7 @@ const SidebarNav = () => {
               <div className="leading-4">
               <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : "Camille Olivia"}</span>
               </div>
-            </div>
+            </div>}
             <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer`} 
             onClick={()=> {
               setNotifOpen(true)

@@ -24,42 +24,13 @@ import { IoImageOutline } from "react-icons/io5";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { AiOutlineLoading } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
-
-useEffect(() => {
-  const setMaxHeight = () => {
-    const div1Height = div1Ref.current?.clientHeight || 0;
-    const div2Height = div2Ref.current?.clientHeight || 0;
-    const maxHeight = Math.max(div1Height, div2Height);
-    
-    if (window.innerWidth >= 768) { 
-      dividerRef.current.style.height = `${maxHeight}px`;
-      setDivMaxHeight(`${maxHeight}px`);
-    } else {
-      dividerRef.current.style.height = '1px';
-      setDivMaxHeight('auto');
-    }
-  };
-
-  setMaxHeight(); // Initial call to set the height
-  
-  const handleResize = () => {
-    setMaxHeight(); // Set height on window resize
-  };
-
-  window.addEventListener('resize', handleResize);
-
-  return () => {
-    window.removeEventListener('resize', handleResize); // Clean up on unmount
-  };
-}, [div1Ref, div2Ref]);
-
-
 
   const [deleteMilestone] = useDeleteMilestoneMutation();
   const [loadingDel, setLoadingDel] = useState(null);
@@ -112,6 +83,34 @@ useEffect(() => {
     publication: false,
     status: false
   });
+
+  useEffect(() => {
+    const setMaxHeight = () => {
+      const div1Height = div1Ref.current?.clientHeight || 0;
+      const div2Height = div2Ref.current?.clientHeight || 0;
+      const maxHeight = Math.max(div1Height, div2Height);
+      
+      if (window.innerWidth >= 768) { 
+        dividerRef.current.style.height = `${maxHeight}px`;
+        setDivMaxHeight(`${maxHeight}px`);
+      } else {
+        dividerRef.current.style.height = '1px';
+        setDivMaxHeight('auto');
+      }
+    };
+  
+    setMaxHeight(); // Initial call to set the height
+    
+    const handleResize = () => {
+      setMaxHeight(); // Set height on window resize
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize); // Clean up on unmount
+    };
+  }, [div1Ref, div2Ref , milestones , droppedFiles , documentDivs]);
   
    /**
    * Utility function to format numbers with spaces as thousand separators.
@@ -226,11 +225,11 @@ useEffect(() => {
     if (project) {
       setFundingValue(formatNumber(project.funding));
       setRaisedValue(formatNumber(project.totalRaised));
-
+      setSelectedStatus(project?.status)
       const initialFormattedMilestones = project.milestones
       ?.filter(milestone => milestone?._id)  
       .map((milestone, index) => ({
-        id: index + 1,
+        id: uuidv4(),
         _id: milestone._id,
         name: milestone.name,
         dueDate: new Date(milestone.dueDate),
@@ -266,7 +265,7 @@ useEffect(() => {
       }
     }
     else{
-      setMilestones([{ id: 1 , _id: null, name: '', dueDate: '' }]);
+      setMilestones([{ id: uuidv4() , _id: null, name: '', dueDate: '' }]);
     }
   }, [project]);
 
@@ -309,13 +308,12 @@ useEffect(() => {
   };
 
   const addMilestone = () => {
-    console.log(loadingDel)
-    setMilestones([...milestones, { id: milestones.length + 1, _id: null, name: '', dueDate: '' }]);
+    setMilestones([{ id: uuidv4(), _id: null, name: '', dueDate: '' }, ...milestones]);
   };
 
   const removeMilestone = async (id) => {
     const milestone = milestones.find(milestone => milestone.id === id || milestone._id === id);
-
+    console.log(milestones.length)
     if (!milestone._id) {
         setMilestones((prevMilestones) =>
           prevMilestones.filter((milestone) => milestone.id !== id)
@@ -335,7 +333,7 @@ useEffect(() => {
             setLoadingDel(null);
         }
     }
-};
+  };
 
   const addDocumentDiv = () => {
     const newId = documentDivs.length + 1;
@@ -585,26 +583,50 @@ const handleMouseLeave = () => {
                 >
                   Create New Project
                 </Text>
-                <button 
-                onClick={() => setHasSubmitted(true)}
-                  className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center ml-auto px-[12px] cursorpointer rounded-md`} 
-                  ref={formButtonRef}
-                  type="submit"
-              >
-                  {submitting === 'sending' ? (
-                  <AiOutlineLoading size={22}  className="animate-spin" /> 
-                ) : submitting === 'ok' ? (
-                  <>
-                  <BsCheck2Circle size={18} className="mr-2" />
-                  Saved
-                  </>
-                ) : (
-                  <>
-                    <FiSave size={21} className="mr-2" />
-                    Save
-                  </>
-                )}
-              </button>
+                <div className="flex flex-row ml-auto gap-[16px] items-center">
+                  <button 
+                    onClick={() => setHasSubmitted(true)}
+                      className={`${(selectedStatus?.toLocaleLowerCase() === 'stand by' || selectedStatus?.toLocaleLowerCase() === 'in progress') ? 'bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] ' : 'bg-[#A9ACB0] hover:bg-[#EDF7FF] active:bg-[#EDF7FF] ' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
+                      ref={formButtonRef}
+                      type="button"
+                  >
+                    { (selectedStatus?.toLocaleLowerCase() === 'stand by' || selectedStatus?.toLocaleLowerCase() === 'in progress') ?
+                      <>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M11.375 1.75L3.58178 11.1019C3.27657 11.4681 3.12396 11.6512 3.12163 11.8059C3.1196 11.9404 3.17952 12.0683 3.2841 12.1528C3.40441 12.25 3.64278 12.25 4.11953 12.25H10.5L9.625 19.25L17.4182 9.89813C17.7234 9.53188 17.876 9.34876 17.8784 9.1941C17.8804 9.05965 17.8205 8.93173 17.7159 8.84722C17.5956 8.75 17.3572 8.75 16.8805 8.75H10.5L11.375 1.75Z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Activate
+                      </>
+                      :
+                      <>
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M7.875 16.1875H13.125M5.775 1.75H15.225C15.715 1.75 15.9601 1.75 16.1472 1.84537C16.3119 1.92926 16.4457 2.06312 16.5296 2.22776C16.625 2.41493 16.625 2.65995 16.625 3.15V4.9652C16.625 5.39324 16.625 5.60725 16.5766 5.80866C16.5338 5.98722 16.4631 6.15792 16.3671 6.3145C16.2589 6.4911 16.1076 6.64244 15.8049 6.9451L13.2399 9.51005C12.8934 9.85657 12.7202 10.0298 12.6553 10.2296C12.5982 10.4053 12.5982 10.5947 12.6553 10.7704C12.7202 10.9702 12.8934 11.1434 13.2399 11.4899L15.8049 14.0549C16.1076 14.3576 16.2589 14.5089 16.3671 14.6855C16.4631 14.8421 16.5338 15.0128 16.5766 15.1913C16.625 15.3927 16.625 15.6068 16.625 16.0348V17.85C16.625 18.34 16.625 18.5851 16.5296 18.7722C16.4457 18.9369 16.3119 19.0707 16.1472 19.1546C15.9601 19.25 15.715 19.25 15.225 19.25H5.775C5.28495 19.25 5.03993 19.25 4.85276 19.1546C4.68812 19.0707 4.55426 18.9369 4.47037 18.7722C4.375 18.5851 4.375 18.34 4.375 17.85V16.0348C4.375 15.6068 4.375 15.3927 4.42335 15.1913C4.46622 15.0128 4.53693 14.8421 4.63288 14.6855C4.7411 14.5089 4.89244 14.3576 5.1951 14.0549L7.76005 11.4899C8.10657 11.1434 8.27982 10.9702 8.34474 10.7704C8.40184 10.5947 8.40184 10.4053 8.34474 10.2296C8.27982 10.0298 8.10656 9.85656 7.76005 9.51005L5.1951 6.9451C4.89244 6.64244 4.7411 6.4911 4.63288 6.3145C4.53693 6.15792 4.46622 5.98722 4.42335 5.80866C4.375 5.60725 4.375 5.39324 4.375 4.9652V3.15C4.375 2.65995 4.375 2.41493 4.47037 2.22776C4.55426 2.06312 4.68812 1.92926 4.85276 1.84537C5.03993 1.75 5.28495 1.75 5.775 1.75Z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Stand By
+                      </>
+                      }
+                  </button>
+                  <button 
+                  onClick={() => setHasSubmitted(true)}
+                    className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
+                    ref={formButtonRef}
+                    type="submit"
+                >
+                    {submitting === 'sending' ? (
+                    <AiOutlineLoading size={22}  className="animate-spin" /> 
+                  ) : submitting === 'ok' ? (
+                    <>
+                    <BsCheck2Circle size={18} className="mr-2" />
+                    Saved
+                    </>
+                  ) : (
+                    <>
+                      <FiSave size={21} className="mr-2" />
+                      Save
+                    </>
+                  )}
+                  </button>
+                </div>
               </div>
               <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-auto">
                 <div ref={div1Ref} className="flex  flex-1 flex-col gap-6 items-start justify-start w-full h-full">
@@ -867,11 +889,26 @@ const handleMouseLeave = () => {
                     } />               
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                    <Text className="text-base text-[#1D1C21] w-auto"
-                      size="txtDMSansLablel"
-                    >
-                      Project Milestone
-                    </Text>
+                    <div className="flex items-center w-full justify-between">
+                      <Text className="text-base text-[#1D1C21] w-auto"
+                        size="txtDMSansLablel"
+                      >
+                        Project Milestone
+                      </Text>
+                      {milestones?.length > 1 && <button
+                          className="hover:bg-light_blue-100 text-sm hover:border hover:border-solid hover:border-blue-500 text-blue-500 flex flex-row gap-1 h-7 items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          style={{ whiteSpace: 'nowrap' }}
+                          onClick={addMilestone}
+                          type="button"
+                        >
+                          <span>
+                          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          </span>
+                          <span className="hidden sm:inline">More</span>
+                      </button>}
+                    </div>
                     {milestones.map((milestone, index) => (
                     <div key={milestone.id} className={`flex flex-row gap-2 items-start justify-start w-full`}>
                       <div className="flex md:flex-1 w-[55%]">
@@ -888,7 +925,7 @@ const handleMouseLeave = () => {
                         defaultValue={milestone.dueDate}
                         onChangeDate={(date) => handleMilestoneDateChange(milestone.id, 'dueDate', parseDateString(date))}
                       />
-                      {index === milestones.length - 1 ? (
+                      {milestones?.length === 1 ? (
                         <button
                           className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm border border-solid border-blue-500 text-blue-500 flex flex-row gap-1 h-[40px] items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
                           style={{ whiteSpace: 'nowrap' }}
@@ -897,7 +934,7 @@ const handleMouseLeave = () => {
                         >
                           <span>
                           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                           </span>
                           <span className="hidden sm:inline">More</span>
@@ -912,7 +949,7 @@ const handleMouseLeave = () => {
                         {(loadingDel !== null && loadingDel === milestone?.id) ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
                          <span className="flex items-center gap-1">
                          <svg width="13" height="2" viewBox="0 0 13 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M1.25 1H11.75" stroke="#EF4352" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M1.25 1H11.75" stroke="#EF4352" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         Hide
                          </span>}
@@ -945,9 +982,9 @@ const handleMouseLeave = () => {
                         onMouseLeave={handleMouseLeave}>
                           <div className="relative mr-3 w-auto">
                             <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M7.0013 2.66659C7.36949 2.66659 7.66797 2.36811 7.66797 1.99992C7.66797 1.63173 7.36949 1.33325 7.0013 1.33325C6.63311 1.33325 6.33464 1.63173 6.33464 1.99992C6.33464 2.36811 6.63311 2.66659 7.0013 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                              <path d="M11.668 2.66659C12.0362 2.66659 12.3346 2.36811 12.3346 1.99992C12.3346 1.63173 12.0362 1.33325 11.668 1.33325C11.2998 1.33325 11.0013 1.63173 11.0013 1.99992C11.0013 2.36811 11.2998 2.66659 11.668 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                              <path d="M2.33464 2.66659C2.70283 2.66659 3.0013 2.36811 3.0013 1.99992C3.0013 1.63173 2.70283 1.33325 2.33464 1.33325C1.96645 1.33325 1.66797 1.63173 1.66797 1.99992C1.66797 2.36811 1.96645 2.66659 2.33464 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M7.0013 2.66659C7.36949 2.66659 7.66797 2.36811 7.66797 1.99992C7.66797 1.63173 7.36949 1.33325 7.0013 1.33325C6.63311 1.33325 6.33464 1.63173 6.33464 1.99992C6.33464 2.36811 6.63311 2.66659 7.0013 2.66659Z" stroke="#1D2939" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M11.668 2.66659C12.0362 2.66659 12.3346 2.36811 12.3346 1.99992C12.3346 1.63173 12.0362 1.33325 11.668 1.33325C11.2998 1.33325 11.0013 1.63173 11.0013 1.99992C11.0013 2.36811 11.2998 2.66659 11.668 2.66659Z" stroke="#1D2939" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M2.33464 2.66659C2.70283 2.66659 3.0013 2.36811 3.0013 1.99992C3.0013 1.63173 2.70283 1.33325 2.33464 1.33325C1.96645 1.33325 1.66797 1.63173 1.66797 1.99992C1.66797 2.36811 1.96645 2.66659 2.33464 2.66659Z" stroke="#1D2939" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                           </div>
                           {showLogoDropdown && 
@@ -957,7 +994,7 @@ const handleMouseLeave = () => {
                               onClick={handleLogoFileInputChangeClick}>
                                 <span>
                                   <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
                                 <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Change</div>
@@ -966,7 +1003,7 @@ const handleMouseLeave = () => {
                               onClick={handleRemoveLogo}>
                                 <span>
                                   <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
                                 <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Delete</div>
