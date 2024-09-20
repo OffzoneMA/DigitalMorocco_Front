@@ -388,7 +388,9 @@ const SidebarNav = () => {
             </div>
           </Popup>
           {open && 
-            <button className={`px-3 py-2 bg-teal-A700 rounded-[100px] justify-center items-center flex`}>
+            <button
+            onClick={() => navigate('/ManageCredits')}
+             className={`px-3 py-2 bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] rounded-[100px] justify-center items-center cursorpointer-green flex`}>
             <span className="text-white-A700 text-sm font-dm-sans-medium">Manage</span>
           </button>
           }

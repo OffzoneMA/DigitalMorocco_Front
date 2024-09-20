@@ -145,7 +145,11 @@ a:hover::selection ,a *:hover::selection {
   color: #35D8BF !important; /* Teal color on hover */
 }
 
-.hover-select-color * {
+.hover-select-color:hover * {
+  color: #35D8BF !important;
+}
+
+.select-color-text * {
   color: #35D8BF !important;
 }
 

@@ -141,7 +141,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
             {filteredData.map((option, index) => (
               <div
                 key={index}
-                className={`flex items-center w-full px-3 text-left cursorpointer-green ${selectedOption === option ? 'hover-select-color text-[#35D8BF]' : ''} hover:hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
+                className={`flex items-center w-full px-3 text-left cursorpointer-green ${selectedOption === option ? 'select-color-text text-[#35D8BF]' : ''} hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
                 onClick={() => handleOptionClick(option)}
               >
                 {content(option)}

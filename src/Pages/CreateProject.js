@@ -60,7 +60,7 @@ const CreateProject = () => {
   const [droppedFiles, setDroppedFiles] = useState([]);
   const [allFiles, setAllFiles] = useState([]);
   const [selectedPublication, setSelectedPublication] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('In Progress');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
   const [selectedProjectTeamsMembers, setSelectedProjectTeamsMember] = useState([]);
   const [selectedSector, setselectedSector] = useState("");
@@ -132,7 +132,7 @@ const CreateProject = () => {
       website: project?.website,
       contactEmail: project?.contactEmail,
       funding : formatNumber(project?.funding),
-      totalRaised : formatNumber(project?.totalRaised)
+      totalRaised : formatNumber(project?.totalRaised) ,
     }
   });
 
@@ -457,6 +457,7 @@ const handleDeleteFile = (index) => {
         visbility: selectedPublication,
         sector: selectedSector,
         country: countryNameSelec,
+        status: selectedStatus,
     };
 
     const formattedMilestones = milestones
@@ -561,6 +562,32 @@ const handleMouseLeave = () => {
   setShowLogoDropdown(false);
 };
 
+const handleStatusChangeAndUpdate = async () => {
+  let newStatus = selectedStatus;
+  if (selectedStatus?.toLowerCase() === 'in progress' || selectedStatus?.toLowerCase() === 'stand by') {
+    newStatus = 'Active';
+  } else if (selectedStatus?.toLowerCase() === 'active') {
+    newStatus = 'Stand by';
+  }
+  if (projectId) {
+    try {
+      const response = await axios.patch(`${process.env.REACT_APP_baseURL}/projects/${projectId}/status`, {
+        status: newStatus,
+      });
+
+      if (response.status === 200) {
+        setSelectedStatus(newStatus);
+        refetch(); 
+      }
+    } catch (error) {
+      console.error("Failed to update project status:", error);
+    }
+  } else {
+    setSelectedStatus(newStatus);
+  }
+};
+
+
   return (
       <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-8 pt-8 rounded-tl-[40px] h-full min-h-screen overflow-auto w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -584,28 +611,59 @@ const handleMouseLeave = () => {
                   Create New Project
                 </Text>
                 <div className="flex flex-row ml-auto gap-[16px] items-center">
-                  <button 
-                    onClick={() => setHasSubmitted(true)}
-                      className={`${(selectedStatus?.toLocaleLowerCase() === 'stand by' || selectedStatus?.toLocaleLowerCase() === 'in progress') ? 'bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] ' : 'bg-[#A9ACB0] hover:bg-[#EDF7FF] active:bg-[#EDF7FF] ' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
-                      ref={formButtonRef}
-                      type="button"
-                  >
-                    { (selectedStatus?.toLocaleLowerCase() === 'stand by' || selectedStatus?.toLocaleLowerCase() === 'in progress') ?
-                      <>
-                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M11.375 1.75L3.58178 11.1019C3.27657 11.4681 3.12396 11.6512 3.12163 11.8059C3.1196 11.9404 3.17952 12.0683 3.2841 12.1528C3.40441 12.25 3.64278 12.25 4.11953 12.25H10.5L9.625 19.25L17.4182 9.89813C17.7234 9.53188 17.876 9.34876 17.8784 9.1941C17.8804 9.05965 17.8205 8.93173 17.7159 8.84722C17.5956 8.75 17.3572 8.75 16.8805 8.75H10.5L11.375 1.75Z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Activate
-                      </>
-                      :
-                      <>
-                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M7.875 16.1875H13.125M5.775 1.75H15.225C15.715 1.75 15.9601 1.75 16.1472 1.84537C16.3119 1.92926 16.4457 2.06312 16.5296 2.22776C16.625 2.41493 16.625 2.65995 16.625 3.15V4.9652C16.625 5.39324 16.625 5.60725 16.5766 5.80866C16.5338 5.98722 16.4631 6.15792 16.3671 6.3145C16.2589 6.4911 16.1076 6.64244 15.8049 6.9451L13.2399 9.51005C12.8934 9.85657 12.7202 10.0298 12.6553 10.2296C12.5982 10.4053 12.5982 10.5947 12.6553 10.7704C12.7202 10.9702 12.8934 11.1434 13.2399 11.4899L15.8049 14.0549C16.1076 14.3576 16.2589 14.5089 16.3671 14.6855C16.4631 14.8421 16.5338 15.0128 16.5766 15.1913C16.625 15.3927 16.625 15.6068 16.625 16.0348V17.85C16.625 18.34 16.625 18.5851 16.5296 18.7722C16.4457 18.9369 16.3119 19.0707 16.1472 19.1546C15.9601 19.25 15.715 19.25 15.225 19.25H5.775C5.28495 19.25 5.03993 19.25 4.85276 19.1546C4.68812 19.0707 4.55426 18.9369 4.47037 18.7722C4.375 18.5851 4.375 18.34 4.375 17.85V16.0348C4.375 15.6068 4.375 15.3927 4.42335 15.1913C4.46622 15.0128 4.53693 14.8421 4.63288 14.6855C4.7411 14.5089 4.89244 14.3576 5.1951 14.0549L7.76005 11.4899C8.10657 11.1434 8.27982 10.9702 8.34474 10.7704C8.40184 10.5947 8.40184 10.4053 8.34474 10.2296C8.27982 10.0298 8.10656 9.85656 7.76005 9.51005L5.1951 6.9451C4.89244 6.64244 4.7411 6.4911 4.63288 6.3145C4.53693 6.15792 4.46622 5.98722 4.42335 5.80866C4.375 5.60725 4.375 5.39324 4.375 4.9652V3.15C4.375 2.65995 4.375 2.41493 4.47037 2.22776C4.55426 2.06312 4.68812 1.92926 4.85276 1.84537C5.03993 1.75 5.28495 1.75 5.775 1.75Z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Stand By
-                      </>
-                      }
-                  </button>
+                  {selectedStatus !== '' && (
+                    <>
+                      {(selectedStatus?.toLocaleLowerCase() === 'stand by' ||
+                        selectedStatus?.toLocaleLowerCase() === 'in progress') && (
+                        <button
+                          onClick={() => handleStatusChangeAndUpdate()}
+                          className="bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer-green rounded-md"
+                          type="button"
+                        >
+                          <svg
+                            width="21"
+                            height="21"
+                            viewBox="0 0 21 21"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M11.375 1.75L3.58178 11.1019C3.27657 11.4681 3.12396 11.6512 3.12163 11.8059C3.1196 11.9404 3.17952 12.0683 3.2841 12.1528C3.40441 12.25 3.64278 12.25 4.11953 12.25H10.5L9.625 19.25L17.4182 9.89813C17.7234 9.53188 17.876 9.34876 17.8784 9.1941C17.8804 9.05965 17.8205 8.93173 17.7159 8.84722C17.5956 8.75 17.3572 8.75 16.8805 8.75H10.5L11.375 1.75Z"
+                              stroke="white"
+                              strokeWidth="1.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          Activate
+                        </button>
+                      )}
+                      {(selectedStatus?.toLocaleLowerCase() === 'active') && (
+                        <button
+                          onClick={() => handleStatusChangeAndUpdate()}
+                          className="bg-[#A9ACB0] hover:bg-[#a7a6a8] active:bg-[#E2E2EE] text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer-green rounded-md"
+                          type="button"
+                        >
+                          <svg
+                            width="21"
+                            height="21"
+                            viewBox="0 0 21 21"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M7.875 16.1875H13.125M5.775 1.75H15.225C15.715 1.75 15.9601 1.75 16.1472 1.84537C16.3119 1.92926 16.4457 2.06312 16.5296 2.22776C16.625 2.41493 16.625 2.65995 16.625 3.15V4.9652C16.625 5.39324 16.625 5.60725 16.5766 5.80866C16.5338 5.98722 16.4631 6.15792 16.3671 6.3145C16.2589 6.4911 16.1076 6.64244 15.8049 6.9451L13.2399 9.51005C12.8934 9.85657 12.7202 10.0298 12.6553 10.2296C12.5982 10.4053 12.5982 10.5947 12.6553 10.7704C12.7202 10.9702 12.8934 11.1434 13.2399 11.4899L15.8049 14.0549C16.1076 14.3576 16.2589 14.5089 16.3671 14.6855C16.4631 14.8421 16.5338 15.0128 16.5766 15.1913C16.625 15.3927 16.625 15.6068 16.625 16.0348V17.85C16.625 18.34 16.625 18.5851 16.5296 18.7722C16.4457 18.9369 16.3119 19.0707 16.1472 19.1546C15.9601 19.25 15.715 19.25 15.225 19.25H5.775C5.28495 19.25 5.03993 19.25 4.85276 19.1546C4.68812 19.0707 4.55426 18.9369 4.47037 18.7722C4.375 18.5851 4.375 18.34 4.375 17.85V16.0348C4.375 15.6068 4.375 15.3927 4.42335 15.1913C4.46622 15.0128 4.53693 14.8421 4.63288 14.6855C4.7411 14.5089 4.89244 14.3576 5.1951 14.0549L7.76005 11.4899C8.10657 11.1434 8.27982 10.9702 8.34474 10.7704C8.40184 10.5947 8.40184 10.4053 8.34474 10.2296C8.27982 10.0298 8.10656 9.85656 7.76005 9.51005L5.1951 6.9451C4.89244 6.64244 4.7411 6.4911 4.63288 6.3145C4.53693 6.15792 4.46622 5.98722 4.42335 5.80866C4.375 5.60725 4.375 5.39324 4.375 4.9652V3.15C4.375 2.65995 4.375 2.41493 4.47037 2.22776C4.55426 2.06312 4.68812 1.92926 4.85276 1.84537C5.03993 1.75 5.28495 1.75 5.775 1.75Z"
+                              stroke="white"
+                              strokeWidth="1.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          Stand By
+                        </button>
+                      )}
+                    </>
+                  )}
                   <button 
                   onClick={() => setHasSubmitted(true)}
                     className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
@@ -863,7 +921,7 @@ const handleMouseLeave = () => {
                       }
                     } />               
                   </div>
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                  {/* <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
@@ -887,7 +945,7 @@ const handleMouseLeave = () => {
                         );
                       }
                     } />               
-                  </div>
+                  </div> */}
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <div className="flex items-center w-full justify-between">
                       <Text className="text-base text-[#1D1C21] w-auto"

@@ -1940,7 +1940,7 @@ export const historyEventMessages = {
   legal_document_created: "Uploaded Legal document ",
   legal_document_updated:"Updated Legal Document ",
   legal_document_deleted: "Deleted Legal Document ",
-  project_status_updated: "Updated Project Status to ",
+  project_status_updated: "Updated Project Status",
   company_created: "Created a new company ",
   subscription_renew: "Subscription renewed successfully.",
   subscription_canceled: "Subscription canceled.",

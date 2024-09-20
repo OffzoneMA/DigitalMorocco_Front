@@ -34,7 +34,10 @@ const { userInfo } = useSelector((state) => state.auth)
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
   const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading} = useGetAllConatctReqQuery();
   const Requestdata =  contactReqs?.ContactsHistory?.slice(0, 3)
-  const recentProjects = projects?.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))?.slice(0, 1);
+  const recentProjects = [...(projects || [])] // shallow copy of the array
+  .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
+  .slice(0, 1); 
+  
     const chartData = [
         { name: 'Jan', value: 150 },
         { name: 'Feb', value: 145 },

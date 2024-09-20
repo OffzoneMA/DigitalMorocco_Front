@@ -70,6 +70,7 @@ const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_S
 const RedirectFromSignIn = lazy(() => import('./Pages/Authentification/RedirectFromSignIn'));
 const ResendVerification = React.lazy(() => import('./Pages/Authentification/Complete_SignUp/ResendVerificationLink'));
 const VerifyFailure = React.lazy(() => import('./Pages/Authentification/VerifyFailure'));
+const ManageSubscriptionCredits = React.lazy(() => import('./Pages/ManageSubscriptionCredits'));
 
 function App() {
 
@@ -135,6 +136,7 @@ function App() {
               <Route element={<DashbordLayout />}>
                 <Route element={<GuardedConnectedUserRoute />}>
                   <Route path="/Dashboard" element={<Dashbord />} />
+                  <Route path="/ManageCredits" element={<ManageSubscriptionCredits />} />
                   <Route path="/Users" element={<Users />} />
                   <Route path="/Investors" element={<Investors />} />
                   <Route path="/MyInvestors" element={<MyInvestors />} />

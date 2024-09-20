@@ -11,7 +11,7 @@ import NewMilestoneModal from "../Components/NewMilestoneModal";
 import DeleteModal from "../Components/DeleteModal";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {BsDot} from "react-icons/bs";
-import {useGetProjectByIdQuery} from "../Services/Project.Service";
+import {useGetProjectByIdQuery , useAddMilestoneToProjectMutation} from "../Services/Project.Service";
 import {formatNumber} from "../data/helper";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
@@ -48,11 +48,11 @@ const ProjectDetails = () => {
       clearInterval(intervalId); 
     };
   }, [div1Ref, div2Ref]);
-
+  const [addMilestoneToProject, {isSuccess, isError }] = useAddMilestoneToProjectMutation();
   const location = useLocation();
   const { projectId } = useParams();
   const [project, setProject] = useState(location.state?.project || null);
-  const { data, error, isLoading } = useGetProjectByIdQuery(projectId , {pollingInterval: 3000 , refetchOnMountOrArgChange: true , skip: Boolean(project || !projectId)});
+  const { data, error, isLoading ,refetch } = useGetProjectByIdQuery(projectId , {pollingInterval: 3000 , refetchOnMountOrArgChange: true , skip: Boolean(project || !projectId)});
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
@@ -129,7 +129,7 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if (data && !project) {
+    if (data) {
       setProject(data);
     }
   }, [data, project]);
@@ -138,9 +138,16 @@ useEffect(() => {
     member?.fullName?.toLowerCase().includes(searchValue?.toLowerCase())
   );
 
+  const addMilestoneToProjectFonction = async (data) => {
+    const response = await addMilestoneToProject({ projectId: projectId , milestoneData: data  });
+    // refetch();
+    closeModalMilestone();
+     setProject(response);
+  }
+
   return (
     <>
-    <div className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-12 pt-8 rounded-tl-[40px]  w-full">
+    <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full min-h-screen overflow-auto w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
@@ -388,7 +395,7 @@ useEffect(() => {
         </div>
       </div>
     </div>
-    <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone} rowData={project}/>
+    <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone} rowData={project} method={addMilestoneToProjectFonction}/>
 
     <ShareToInvestorModal isOpen={isModalOpen} projectId={projectId} onRequestClose={closeModal}/>
 

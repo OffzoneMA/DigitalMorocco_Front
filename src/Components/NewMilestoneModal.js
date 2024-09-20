@@ -8,23 +8,33 @@ import {useAddMilestoneToProjectMutation} from "../Services/Project.Service";
 
 const NewMilestoneModal = (props) => {
   const [selectedDate , setSelectedDate] = useState('');
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } , setValue } = useForm();
   const [addMilestoneToProject, {isSuccess, isLoading, isError, error }] = useAddMilestoneToProjectMutation();
+  const [sending , setSending ] = useState(false);
 
   function parseDateString(dateString) {
     const [day, month, year] = dateString.split('/');
     return new Date(`${year}-${month}-${day}`);
 }
   const onSubmit = async (data) => {
-    try {
-      const formDataContent = {
-        ...data,
-        dueDate: parseDateString(selectedDate)
-    };
-
-      const response = await addMilestoneToProject({ projectId: props?.rowData?._id ,milestoneData: formDataContent  });
-    } catch (error) {
-      console.error("Error adding milestone:", error);
+    if(selectedDate === '') {
+      return null;
+    }
+    else{
+      try {
+        const formDataContent = {
+          ...data,
+          dueDate: parseDateString(selectedDate)
+        };
+        const response = await props?.method(formDataContent);
+        setTimeout(() => {
+          setSending(false)
+          setSelectedDate('');
+          setValue('name' , '')
+        }, 5000);
+      } catch (error) {
+        console.error("Error adding milestone:", error);
+      }
     }
   };
 
@@ -89,7 +99,8 @@ const NewMilestoneModal = (props) => {
                 </Text>
                 <CustomCalendar
                         className={' w-full'} 
-                        onChangeDate={(date) => setSelectedDate(date)}
+                        onChangeDate={(date) => setSelectedDate(date)} 
+                        required={(sending && selectedDate === '')}
                       />
                 {/* {errors.dueDate && <span className=" text-sm font-DmSans text-red-500">{errors.dueDate?.message}</span>} */}
               </div>
@@ -118,7 +129,7 @@ const NewMilestoneModal = (props) => {
               <button onClick={props.onRequestClose} type="reset" 
               className="flex items-center justify-center bg-[#E4E7EC] min-w-[93px] hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[18px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
               >Cancel</button>
-              <button type="submit" className="flex items-center justify-center min-w-[155px] ml-auto bg-[#2575F0] hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
+              <button onClick={() => setSending(true)} type="submit" className="flex items-center justify-center min-w-[155px] ml-auto bg-[#2575F0] hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">Add Milestone</button>
             </div>
           </form>
         </div>

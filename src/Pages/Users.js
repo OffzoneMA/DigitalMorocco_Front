@@ -242,7 +242,7 @@ const Users = () => {
                             <div className="w-[92px] h-[38px] relative flex-col justify-start items-start flex">
                                 <div className="w-[92px] h-[30px] px-[18px] py-2.5 bg-[#334080] rounded-md justify-start items-center gap-[105px] inline-flex">
                                     <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-4 flex">
-                                        <div className="grow shrink basis-0 text-center text-white text-sm font-normal font-['DM Sans'] leading-relaxed">Approve</div>
+                                        <div className="grow shrink basis-0 text-center text-white text-sm font-dm-sans-regular leading-relaxed">Approve</div>
                                     </div>
                                 </div>
                             </div>
