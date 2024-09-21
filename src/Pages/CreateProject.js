@@ -226,7 +226,7 @@ const CreateProject = () => {
       setFundingValue(formatNumber(project.funding));
       setRaisedValue(formatNumber(project.totalRaised));
       setSelectedStatus(project?.status)
-      const initialFormattedMilestones = project.milestones
+      const initialFormattedMilestones = project?.milestones
       ?.filter(milestone => milestone?._id)  
       .map((milestone, index) => ({
         id: uuidv4(),
@@ -313,20 +313,19 @@ const CreateProject = () => {
 
   const removeMilestone = async (id) => {
     const milestone = milestones.find(milestone => milestone.id === id || milestone._id === id);
-    console.log(milestones.length)
-    if (!milestone._id) {
+    if (milestone._id === null) {
         setMilestones((prevMilestones) =>
           prevMilestones.filter((milestone) => milestone.id !== id)
         );
     } else {
         setLoadingDel(id);
         try {
-            const response = await deleteMilestone({ projectId, milestoneId: id }).unwrap();
+            const response = await deleteMilestone({ projectId, milestoneId: milestone._id }).unwrap();
             console.log(response);
             setLoadingDel(null);
             setProject(response);
             setMilestones((prevMilestones) =>
-              prevMilestones.filter((milestone) => milestone._id !== id)
+              prevMilestones.filter((milestone) => milestone.id !== id)
             );
         } catch (error) {
             console.error('Erreur lors de la suppression du milestone:', error);
