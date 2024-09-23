@@ -28,10 +28,11 @@ import SimpleSelect from "../Components/SimpleSelect";
 const ManageSubscriptionCredits = () => {
     const { userInfo } = useSelector((state) => state.auth)
     const navigate = useNavigate();
-    const userData = JSON.parse(sessionStorage.getItem('userData'));
     const [selectedCredits , setSelectedCredits] = useState(null);
     const [acceptTerms , setAcceptTerms] = useState(false);
     const [sending , setSending] = useState(false);
+    const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+
 
     const creditOptions = [
         {id: 1, credits: 2000, price: 60, formatted: `${(2000).toLocaleString()} Credits: 60$ USD` },
@@ -43,7 +44,6 @@ const ManageSubscriptionCredits = () => {
         {id: 7, credits: 14000, price: 250, formatted: `${(14000).toLocaleString()} Credits: 250$ USD` }
       ];
       
-
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col sm:px-5 px-8 gap-8 w-full h-full">
@@ -52,7 +52,7 @@ const ManageSubscriptionCredits = () => {
                         <div className="flex h-full items-start justify-start w-auto">
                             <PageHeader
                             >
-                            Welcome back, {userData?.displayName? userData?.displayName : 'Olivia'}
+                            Welcome back, {userDetails?.displayName? userDetails?.displayName : 'Olivia'}
                             </PageHeader>
                         </div>
                         <div className="flex flex-row w-full lg:w-auto gap-4 justify-between ">
@@ -83,12 +83,19 @@ const ManageSubscriptionCredits = () => {
                     </div>
                     <div className="self-stretch h-24 flex-col justify-center items-center gap-2 flex">
                         <div className="text-[#101828] text-lg font-dm-sans-medium leading-7">Total Credits</div>
-                        <div className="w-auto text-center text-[#00cdae] text-[28px] font-dm-sans-medium leading-relaxed">3 200</div>
-                        <div className="self-stretch text-center text-[#98a1b2] text-sm font-dm-sans-regular leading-relaxed">Upgrade your account or buy credits</div>
+                        {userDetails?.subscription?.totalCredits > 0 ? (
+                        <div className="w-auto text-center text-[#00cdae] text-[28px] font-dm-sans-medium leading-relaxed">
+                            {userDetails?.subscription?.totalCredits}
+                        </div>
+                        ) : (
+                        <div className="self-stretch text-center text-[#98a1b2] text-sm font-dm-sans-regular leading-relaxed">
+                            Upgrade your account or buy credits
+                        </div>
+                        )}
                     </div>
                 </div>
-                <div className="h-auto w-full items-start gap-[42px] flex flex-row flex-wrap pb-[80px]">
-                    <div className="h-full p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-[18px] flex flex-1">
+                <div className="h-full w-full items-start gap-[42px] flex flex-row flex-wrap pb-[80px]">
+                    <div className="h-full max-h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-[18px] flex flex-1">
                         <div className="self-stretch justify-start items-start gap-4 pb-[18px] flex border-b border-[#e4e6eb]">
                             <div className="p-2 bg-[#f9edfd] rounded-md justify-center items-center gap-2.5 flex">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

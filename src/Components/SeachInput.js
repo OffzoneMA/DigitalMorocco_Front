@@ -79,9 +79,9 @@ const SearchInput = ({ setValue, className }) => {
       </div>
       {isDropdownVisible && (
         <div className="absolute top-full w-full bg-white-A700 shadow-lg px-3 mt-3 z-10 rounded-lg max-h-80 overflow-auto">
-          <ul className="flex flex-col gap-2 items-center">
+          <ul className="flex flex-col gap-2 w-full items-center">
             {categories.map((category) => (
-              <li key={category} className="py-2 text-base border-b border-gray-201 text-gray700 flex flex-col font-dm-sans-medium">
+              <li key={category} className="py-2 text-base border-b border-gray-201 text-gray700 w-full flex flex-col font-dm-sans-medium">
                 <strong>{category}</strong>
                 <ul>
                   {searchResults[category.toLowerCase()]?.map((result) => (
