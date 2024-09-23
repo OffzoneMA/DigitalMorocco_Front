@@ -112,11 +112,11 @@ const ManageSubscriptionCredits = () => {
                                 (option) => {
                                     return (
                                     <div className="flex  py-2 items-center  w-full">
-                                    <Text
+                                    <span
                                         className="text-gray-801 w-full text-left text-base font-dm-sans-regular leading-5 w-auto"
                                         >
                                         {option?.formatted}
-                                    </Text>
+                                    </span>
                                     </div>
                                     );
                                 }

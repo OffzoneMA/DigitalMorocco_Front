@@ -37,7 +37,7 @@ const { userInfo } = useSelector((state) => state.auth)
   const recentProjects = [...(projects || [])] // shallow copy of the array
   .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
   .slice(0, 1); 
-  
+
     const chartData = [
         { name: 'Jan', value: 150 },
         { name: 'Feb', value: 145 },
@@ -504,7 +504,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div
                                       className={`flex flex-row space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
-                                        item.status === 'Approved'
+                                        (item.status === 'Approved' || item.status === 'Accepted')
                                           ? 'bg-green-100 text-green-700'
                                           : item.status === 'In Progress'
                                           ? 'bg-blue-101 text-blue-600'

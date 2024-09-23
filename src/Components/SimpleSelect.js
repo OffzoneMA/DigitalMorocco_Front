@@ -16,7 +16,6 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
     }
   }, [selectedOption , selectedOptionsDfault]);
 
-
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
   const [dropdownDirection, setDropdownDirection] = useState('down');
 
@@ -141,7 +140,7 @@ const SimpleSelect = ({ options, onSelect ,valuekey='',placeholder='' , searchab
             {filteredData.map((option, index) => (
               <div
                 key={index}
-                className={`flex items-center w-full px-3 text-left cursorpointer-green ${selectedOption === option ? 'select-color-text text-[#35D8BF]' : ''} hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
+                className={`flex items-center w-full px-3 text-left cursorpointer-green ${(selectedOption === option || selectedOption?.[valuekey] === option?.[valuekey]) ? 'select-color-text text-[#35D8BF]' : ''} hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
                 onClick={() => handleOptionClick(option)}
               >
                 {content(option)}
