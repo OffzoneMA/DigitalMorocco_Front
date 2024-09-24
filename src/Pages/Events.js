@@ -45,6 +45,10 @@ const Events = () => {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const [ticketDataRow , setTicketDataRow] = useState(null);
 
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   const toggleDropdownClick = (index, event) => {
     event.stopPropagation();
     if (openDropdownIndexes.includes(index)) {

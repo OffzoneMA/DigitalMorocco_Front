@@ -38,7 +38,7 @@ const { userInfo } = useSelector((state) => state.auth)
   .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
   .slice(0, 1); 
 
-    const chartData = [
+  const chartData = [
         { name: 'Jan', value: 150 },
         { name: 'Feb', value: 145 },
         { name: 'Mar', value: 240 },
@@ -142,7 +142,8 @@ const { userInfo } = useSelector((state) => state.auth)
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]">
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  onClick={() => navigate('/ManageCredits')}>
                     <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
                       <img src={creditsImg} className="w-[28px] h-[28px]"  alt={""}/>
                     </div>
@@ -380,13 +381,15 @@ const { userInfo } = useSelector((state) => state.auth)
                           <div key={index} className="flex flex-col px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>
                             <div className="flex flex-row items-center gap-3 py-2 justify-start w-full">
                                 <Text
-                                    className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal text-left"
+                                    className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal capitalize text-left"
                                     >
                                 {item.name}
                                 </Text>
-                                <div className={`flex flex-row space-x-2 bg-green-100 text-green-700 items-center py-1 px-2  text-sm font-dm-sans-regular leading-6 rounded-full`}>
-                                <GoDotFill size={12} className="mr-2"/>
-                                {item.stages?.[0]}
+                                <div className={`flex flex-row gap-[6px] bg-green-100 text-green-700 items-center py-1 px-[12px] h-7 text-sm font-dm-sans-regular leading-6 rounded-full`}>
+                                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="4" cy="4" r="3" fill="#12B76A"/>
+                                  </svg>
+                                  {item.stage}
                                 </div>
                             </div>
                             <div className="flex flex-row gap-[25px]  py-2 w-full">
@@ -404,7 +407,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
                                       size="txtDMSansMedium22"
                                   >
-                                     {item.currency} {item.funding}
+                                     {item.currency} {item.funding?.toLocaleString('en-US') || 0 }
                                   </Text>
                                   </div>
                               </div>
@@ -422,7 +425,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                     className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
                                     size="txtDMSansMedium22"
                                 >
-                                    {item.stages?.[0]}
+                                    {item.stage}
                                 </Text>
                                 </div>
                             </div>
@@ -440,7 +443,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                     className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
                                     size="txtDMSansMedium22"
                                 >
-                                    {item.currency} {item?.totalRaised || 0}
+                                    {item.currency} {item?.totalRaised?.toLocaleString('en-US') || 0}
                                 </Text>
                                 </div>
                             </div>
@@ -463,7 +466,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     </div>
                     <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 ">
                       <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full" 
-                      onClick={() => navigate('/InvestorRequestsHistoty')}>
+                        onClick={() => navigate('/InvestorRequestsHistoty')}>
                         <div className="flex rounded-md bg-violet-100 p-2">
                           <GoRocket size={28} className="text-blue-601 "/>
                         </div>
@@ -487,7 +490,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         <tbody className="items-center w-full">
                         {(!contactReqsLoading && Requestdata?.length > 0) 
                             ? Requestdata.map((item, index) => (
-                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={() => navigate('/InvestorRequestsHistoty')}>
+                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}`)}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center">
                                       {item?.image ? (

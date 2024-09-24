@@ -163,7 +163,7 @@ useEffect(() => {
         <div className="flex flex-col items-start justify-start px-5 w-full">
           <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
           <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-900_01 border-b border-gray-201 rounded-t-lg bg-white-A700 py-4 px-5">
-            <div className="flex items-center">
+            <div className="flex items-center capitalize">
               <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
             </div>
             <div className="flex flex-wrap gap-3 items-center ">
@@ -206,7 +206,7 @@ useEffect(() => {
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
-                      {`${project?.currency || 'USD'} ${formatNumber(project?.totalRaised) || 0}`}
+                      {`${project?.currency || 'USD'} ${project?.totalRaised?.toLocaleString('en-US') || 0}`}
                     </Text>
                   </div>
                 </div>
@@ -218,7 +218,7 @@ useEffect(() => {
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
-                      {`${project?.currency || 'USD'} ${formatNumber(project?.funding) || 0}`}
+                      {`${project?.currency || 'USD'} ${project?.funding?.toLocaleString('en-US') || 0}`}
                     </Text>
                   </div>
                 </div>
@@ -318,14 +318,17 @@ useEffect(() => {
                     </button>
                     </div>
                     <div className="flex flex-col items-start justify-start w-full">
-                      {project?.milestones.length >0 &&  project?.milestones.map((item, index) => (
-                        <ProjectTimelineItem
-                          key={index}
-                          time={formatDate(item.dueDate)}
-                          text={item.name}
-                          isFirstItem={index === 0}
-                        />
-                      ))}
+                    {project?.milestones.length > 0 &&  
+                      project?.milestones?.slice()?.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+                        .map((item, index) => (
+                          <ProjectTimelineItem
+                            key={index}
+                            time={formatDate(item.dueDate)}
+                            text={item.name}
+                            isFirstItem={index === 0}
+                          />
+                        ))
+                    }
                     </div>
                   </div>
                   {/* Divider */}

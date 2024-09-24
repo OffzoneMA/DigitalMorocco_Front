@@ -9,23 +9,24 @@ import { IoMdTime } from "react-icons/io";
 import { TbCopy } from "react-icons/tb";
 import { BiMessageAltError } from "react-icons/bi";
 import { BiPurchaseTagAlt } from "react-icons/bi";
-import { useLocation } from "react-router-dom";
+import { useLocation  , useNavigate } from "react-router-dom";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import { format, parse } from 'date-fns';
 import { fr , enUS } from 'date-fns/locale';
 import { useGetEventByIdQuery } from "../Services/Event.Service";
 import { useParams } from "react-router-dom";
-
+import axios from "axios";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const UpcomingEventDetails = () => {
-
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
   const location = useLocation();
   const past = location.state ? location.state.past : false;
-
+  const [bying , setBying] = useState(false);
   const { id } = useParams();
   const eventFromState = location.state ? location.state.event : null;
-  
+  const navigate = useNavigate();
   const { data: eventFromApi, error, isLoading } = useGetEventByIdQuery(id, {
     skip: !!eventFromState,
   });
@@ -140,6 +141,23 @@ const UpcomingEventDetails = () => {
       }
   }
 
+  const handleAddAttendee = async () => {
+    try {
+      setBying(true)
+      const response = await axios.post(`${process.env.REACT_APP_baseURL}/events/${id}/attendeesuser`, {
+        userId: userData?._id, 
+        role: userData?.role
+      });
+        setBying(false);
+        setTimeout(() => {
+          navigate("/Participate");
+        }, 2000);
+    } catch (error) {
+        setBying(false);
+        console.log(error.response?.data?.message || 'Error adding attendee');
+    }
+};
+
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -160,20 +178,24 @@ const UpcomingEventDetails = () => {
                       className="w-full md:h-[180px] md:w-[240px] rounded-[12px]"
                     />
                     <div className="flex flex-col gap-3 flex-1">
-                        <div className="flex flex-row justify-between items-start  w-full">
+                        <div className="flex flex-row justify-between items-start gap-3 w-full">
                             <Text
                                 className=" text-[24px] font-dm-sans-bold leading-7 text-left text-blue_gray-903 w-full"
                                 >
                                 { event?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
                             </Text>
-                            {event?.status == 'upcoming' &&
+                            {(event?.status == 'upcoming' && !event?.userParticipated) &&
                             <button
-                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center px-4 py-2 rounded-md min-w-[101px] cursorpointer-green"
+                            onClick={handleAddAttendee}
+                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer-green"
                               type="button"
                               >
+                              {bying ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
                               <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-dm-sans-medium leading-[18.23px]">
                                   Buy Ticket
                               </span>
+                              }
+                              
                             </button>
                          }
                         </div>

@@ -10,7 +10,7 @@ import Pagination from "../Components/Pagination";
 import {  useSearchParams } from 'react-router-dom';
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
-import {useGetEventsQuery} from '../Services/Event.Service';
+import {useGetEventsQuery , useGetAllUpcomingEventsUserParticipateQuery} from '../Services/Event.Service';
 import fileSearchImg from '../Media/file-search.svg';
 import { format, parse } from 'date-fns';
 import { fr , enUS } from 'date-fns/locale';
@@ -18,18 +18,18 @@ import Loader from "../Components/Loader";
 
 const UpcomingEvents = () => {
   const navigate = useNavigate();
-  const {data : eventsDT , error, isLoading , refetch } = useGetEventsQuery();
+  const {data : eventsDT , error, isLoading , refetch } = useGetAllUpcomingEventsUserParticipateQuery();
   const itemsPerPage = 5;
     const [searchParams, setSearchParams] = useSearchParams();
     const [currentPage, setCurrentPage] = useState(searchParams.get("page") || 1);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const events =  eventsDT ? eventsDT?.events.filter(event => event.status === 'upcoming') : [];
+  const events =  eventsDT ;
 
-  const totalPages = Math.ceil(events.length / itemsPerPage);
+  const totalPages = Math.ceil(events?.length / itemsPerPage);
 
-  const displayedEvents = events.slice(startIndex, endIndex);
+  const displayedEvents = events?.slice(startIndex, endIndex);
 
   useEffect(() => {
     setCurrentPage(Number(searchParams.get("page")) || 1);

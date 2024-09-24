@@ -80,6 +80,13 @@ export const eventApi = createApi({
             }),
             providesTags: ['Event'],
         }),
+        getAllUpcomingEventsUserParticipate: builder.query({
+            query: () => ({
+              url: `/upcoming/participate`,
+              method: 'GET',
+            }),
+            providesTags: ['Event'],
+        }),
         getDistinctValuesByUser: builder.query({
           query: ({field }) => `/distinct/user/${field}`,
         }),
@@ -94,5 +101,6 @@ export const {
     useDeleteEventMutation,
     useGetAllEventsByUserQuery,
     useAddAttendeeToEventMutation, useGetEventsForUserQuery, 
-    useGetAllPastEventsUserParticipateQuery , useGetDistinctValuesByUserQuery
+    useGetAllPastEventsUserParticipateQuery , useGetDistinctValuesByUserQuery ,
+    useGetAllUpcomingEventsUserParticipateQuery
   } = eventApi;

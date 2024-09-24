@@ -75,7 +75,7 @@ const MyInvestors = () => {
     if (filterApply) {
       const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
   
-      const locationMatch = !location || item?.location.toLowerCase().includes(location["name"].toLowerCase());
+      const locationMatch = !location || item?.location.toLowerCase().includes(location.toLowerCase());
   
       const industryMatch = industries.length === 0 || industries.some(ind => item?.PreferredInvestmentIndustry.includes(ind));
   
@@ -110,6 +110,15 @@ const MyInvestors = () => {
     }
   }
 
+  const getDistinctInvestorNamesAndStatuses = (data) => {
+    const investorTypes = [...new Set(data.map(item => item?.type))];
+    const locations = [...new Set(data.map(item => item?.location))];
+    const industriesData = [...new Set(data.map(item => item?.investorType))];
+    return { investorTypes, locations , industriesData };
+}
+
+const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAndStatuses(investors);
+
   const invTypedata = [
     'Venture Capital',
     'Angel',
@@ -139,7 +148,7 @@ const MyInvestors = () => {
         <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs  ">
-            <div className="flex flex-row flex-wrap  items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
+            <div className="flex flex-row flex-wrap gap-3 items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
                 <TableTitle
                   style={{whiteSpace:"nowrap"}}
                   >
@@ -149,9 +158,9 @@ const MyInvestors = () => {
                   {filter && 
                 (
                     <>
-                    <div className="flex rounded-md p-2 border border-solid min-w-[70px]">
+                    <div className="flex min-w-[70px]">
                       <input
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                         type="text"
                         name="search"
                         placeholder="Keywords"
@@ -159,7 +168,7 @@ const MyInvestors = () => {
                         onChange={e => setKeywords(e.target.value)}
                       />
                     </div>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={invTypedata} onSelect={""} searchLabel='Search Type' setSelectedOptionVal={setInvestmentType} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes} onSelect={""} searchLabel='Search Type' setSelectedOptionVal={setInvestmentType} 
                     placeholder="Type of Investment"
                     content={
                       ( option) =>{ return (
@@ -173,15 +182,15 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={dataCountries} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
-                    placeholder="Location" valuekey="name"
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
+                    placeholder="Location" 
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
-                               {option.name}
+                               {option}
                             </Text>
                            </div>
                         );

@@ -1,14 +1,48 @@
-import React, { useState } from "react";
+import React, { useState  , useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import debounce from 'lodash.debounce';
+
 
 const SearchInput = ({ setValue, className }) => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-
+  const navigate = useNavigate();
   // const handleInputChange = (event) => {
   //   setSearchValue(event.target.value);
   //   setValue(event.target.value);
   // };
+
+  const fetchSearchResults = async (query) => {
+    if (query.trim() === '') {
+        setSearchResults([]);
+        return;
+    }
+
+    try {
+      const token = sessionStorage.getItem("userToken");
+        const response = await axios.get(`${process.env.REACT_APP_baseURL}/search?searchQuery=${query}` , {
+          headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        });
+        setSearchResults(response.data); 
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+    }
+};
+
+const debouncedFetchSearchResults = debounce(fetchSearchResults, 200);
+
+useEffect(() => {
+    debouncedFetchSearchResults(searchValue);
+
+    return () => {
+        debouncedFetchSearchResults.cancel();
+    };
+}, [searchValue]); 
+
 
   const categories = [
     "Projects", 
@@ -39,6 +73,41 @@ const SearchInput = ({ setValue, className }) => {
     } else {
       setDropdownVisible(false);
       // setSearchResults([]);
+    }
+  };
+
+  const handleRedirect = (label , id) => {
+    // Redirection based on item label (or result type)
+    switch (label) {
+      case 'Members':
+        navigate(`/members/${id}`);
+        break;
+      case 'Participate':
+        navigate(`/events/${id}`);
+        break;
+      case 'UpcomingEvents':
+        navigate(`/events/${id}`);
+        break;
+      case 'PastEvents':
+        navigate(`/events/${id}`);
+        break;
+      case 'Investors':
+        navigate(`/investors/${id}`);
+        break;
+      case 'MyInvestors':
+        navigate(`/investors/${id}`);
+        break;
+      case 'Documents':
+        navigate(`/documents/${id}`);
+        break;
+      case 'Partners':
+        navigate(`/partners/${id}`);
+        break;
+      case 'Projects':
+        navigate(`/projects/${id}`);
+        break;
+      default:
+        break;
     }
   };
 
@@ -80,13 +149,13 @@ const SearchInput = ({ setValue, className }) => {
       {isDropdownVisible && (
         <div className="absolute top-full w-full bg-white-A700 shadow-lg px-3 mt-3 z-10 rounded-lg max-h-80 overflow-auto">
           <ul className="flex flex-col gap-2 w-full items-center">
-            {categories.map((category) => (
-              <li key={category} className="py-2 text-base border-b border-gray-201 text-gray700 w-full flex flex-col font-dm-sans-medium">
-                <strong>{category}</strong>
+            {searchResults.map((category , index) => (
+              <li key={index} className="py-2 text-base border-b border-gray-201 text-gray700 w-full flex flex-col font-dm-sans-medium">
+                <strong>{category?.label}</strong>
                 <ul>
-                  {searchResults[category.toLowerCase()]?.map((result) => (
-                    <li key={result.id} className="py-1 px-2 font-dm-sans-regular">
-                      {result.name}
+                  {category?.results?.map((result) => (
+                    <li key={result._id} className="py-1 px-2 font-dm-sans-regular">
+                      {result?.name || result?.title || result?.eventData?.targetName || result?.fullName || result?.companyName}
                     </li>
                   ))}
                 </ul>

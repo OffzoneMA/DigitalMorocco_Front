@@ -134,7 +134,7 @@ const InvestorRequestHistory = () => {
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
                 <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs  ">
-                  <div className="flex flex-row flex-wrap text-sm text-center text-gray-500   items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
+                  <div className="flex flex-row flex-wrap text-sm text-center text-gray-500 gap-3 items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
                     <TableTitle
                     style={{whiteSpace: 'nowrap'}}
                       >
@@ -144,8 +144,11 @@ const InvestorRequestHistory = () => {
                   {filter && 
                 (
                     <>
-                    <div className="flex rounded-md p-2 border border-solid min-w-[120px] ">
-                      <input className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`} type="text" name="search" placeholder="Keywords" value={keywords} onChange={e => setKeywords(e.target.value)} />
+                    <div className="flex min-w-[120px] ">
+                      <input 
+                      className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`} 
+                      type="text" name="search" placeholder="Keywords" value={keywords} 
+                      onChange={e => setKeywords(e.target.value)} />
                     </div>
                     <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata} onSelect={""} searchLabel='Search Investor' setSelectedOptionVal={setUser} placeholder="Investor Name" content={(option) => {
                       return (

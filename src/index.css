@@ -561,6 +561,14 @@ input::-ms-clear {
   width: 228px;
 }
 
+.creditQuestion1-arrow {
+  color: #2C3462;
+}
+
+.creditQuestion1-content {
+  width: 259px;
+}
+
 .recharts-tooltip-cursor{
   display: none !important;
 }
