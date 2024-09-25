@@ -479,7 +479,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         </div>
                        </div>
                        <div className="flex flex-col w-full overflow-x-auto">
-                       <table className="w-full">
+                       <table className="w-full mb-3">
                         <thead>
                           <tr className="bg-white-A700 text-sm leading-6">
                             <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Investor Name</th>
@@ -524,7 +524,7 @@ const { userInfo } = useSelector((state) => state.auth)
                             : ""
                          }
                         </tbody>
-                      </table>
+                       </table>
                        </div>
                        {contactReqsLoading ? (
                         <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] w-full py-28">

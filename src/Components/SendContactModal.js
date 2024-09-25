@@ -12,7 +12,6 @@ import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 
 const SendContactModal = (props) => {
     const [createContactReqProject] = useCreateConatctReqProjectMutation();
-
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { data, error, isLoading , refetch } = useGetAllProjectsQuery();
@@ -20,6 +19,7 @@ const SendContactModal = (props) => {
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
     const [selectedProject , setSelectedProject] = useState(null);
+
     const handleDragOver = (event) => {
       event.preventDefault();
     };
@@ -126,7 +126,7 @@ const SendContactModal = (props) => {
                 </Text>
                 <textarea 
                   {...register("letter", { required: {value:true , message: "Request Letter is required."} })}
-                  className={`!placeholder:text-blue_gray-301 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  className={`!placeholder:text-blue_gray-301 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.letter ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                   rows={5}
                   placeholder="Write your request letter here" 
                   style={{

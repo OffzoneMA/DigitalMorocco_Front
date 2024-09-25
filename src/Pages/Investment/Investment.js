@@ -19,10 +19,15 @@ import { FaUsers } from "react-icons/fa";
 import { FaRProject } from "react-icons/fa6";
 import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
+import ApproveContactRequestModal from "../../Components/ApproveContactRequestModal";
+import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
 
 const Investment = () => {
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
+    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+    const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+    const [rowData , setRowData] = useState(null);
     const [keywords, setKeywords] = useState('');
     const [investorRequests, setInvestorRequests] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -125,7 +130,26 @@ const Investment = () => {
       }
     ];
     
+    const openApproveModal = (data) => {
+      setIsApproveModalOpen(true);
+      setRowData(data);
+    };
     
+    const closeApproveModal = () => {
+        setIsApproveModalOpen(false);
+        // setRowData(null);
+    };
+
+    const openRejectModal = (data) => {
+        setIsRejectModalOpen(true);
+        setRowData(data);
+    };
+    
+    const closeRejectModal = () => {
+        setIsRejectModalOpen(false);
+        // setRowData(null);
+    };
+
     return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -284,7 +308,7 @@ const Investment = () => {
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                           <div className="flex flex-row space-x-4 items-center">
                             <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] rounded-md justify-center items-center gap-2 flex">
+                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex" onClick={() => openApproveModal(item)}>
                                   <PiCheckBold size={21} className="text-white-A700"/>
                               </div>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
@@ -294,12 +318,12 @@ const Investment = () => {
                                   </svg>
                                 </div>
                                 <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Approve</div>
                                 </div>
                               </div>
                             </div>
                             <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] rounded-md justify-center items-center gap-2 flex">
+                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex" onClick={() => openRejectModal(item)}>
                                   <RiCloseLine size={21} className="text-white-A700"/>
                               </div>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
@@ -309,7 +333,7 @@ const Investment = () => {
                                   </svg>
                                 </div>
                                 <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Reject</div>
                                 </div>
                               </div>
                             </div>
@@ -349,6 +373,8 @@ const Investment = () => {
             </div>
           </div>
         </div>
+        <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData}/>
+        <RejectContactRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData}/>
     </div>
     );
 }

@@ -24,7 +24,7 @@ const ConfirmedModal = (props) => {
           </div>
         </div>
         <div className="flex flex-col gap-6 items-center justify-start w-full">
-          <div className="flex flex-col gap-[38px] items-center justify-start w-full px-[45px]">
+          <div className="flex flex-col gap-[38px] items-center justify-start w-full px-[70px]">
             <img
               className="h-[172px] w-[172px]"
               src="/images/img_role_confirmed.svg"
@@ -32,8 +32,7 @@ const ConfirmedModal = (props) => {
             />
             <div className="flex flex-col gap-5 items-center justify-start w-auto sm:w-full">
               <Text
-                className="leading-[28.00px] max-w-[460px] md:max-w-full text-blue_gray-900_03 text-center text-lg"
-                size="txtDMSansMedium18"
+                className="leading-[28.00px] font-dm-sans-medium max-w-[460px] md:max-w-full text-blue_gray-900_03 text-center text-lg"
               >
                 <span className="text-blue_gray-900_03 font-DmSans text-base font-semibold leading-7">
                   {props.m1}

@@ -93,7 +93,7 @@ useEffect(() => {
         navigate(`/MyInvestors`);
         break;
       case 'Documents':
-        navigate(`/Documents`);
+        navigate(`/Document`);
         break;
       case 'Partners':
         navigate(`/Partners/${id}`);
