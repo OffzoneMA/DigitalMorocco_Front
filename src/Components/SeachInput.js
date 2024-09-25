@@ -2,13 +2,15 @@ import React, { useState  , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import debounce from 'lodash.debounce';
-
+import { historyEventMessages } from "../data/tablesData";
+import Loader from "./Loader";
 
 const SearchInput = ({ setValue, className }) => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const navigate = useNavigate();
+  const [loading , setLoading] = useState(false);
   // const handleInputChange = (event) => {
   //   setSearchValue(event.target.value);
   //   setValue(event.target.value);
@@ -21,6 +23,7 @@ const SearchInput = ({ setValue, className }) => {
     }
 
     try {
+      setLoading(true);
       const token = sessionStorage.getItem("userToken");
         const response = await axios.get(`${process.env.REACT_APP_baseURL}/search?searchQuery=${query}` , {
           headers: {
@@ -28,12 +31,14 @@ const SearchInput = ({ setValue, className }) => {
         },
         });
         setSearchResults(response.data); 
+        setLoading(false);
     } catch (error) {
+        setLoading(false);
         console.error('Error fetching search results:', error);
     }
 };
 
-const debouncedFetchSearchResults = debounce(fetchSearchResults, 200);
+const debouncedFetchSearchResults = debounce(fetchSearchResults, 100);
 
 useEffect(() => {
     debouncedFetchSearchResults(searchValue);
@@ -60,51 +65,47 @@ useEffect(() => {
     setSearchValue(value);
     // setValue(value);
 
-    if (value.length > 1) {
+    if (value.length > 0) {
       setDropdownVisible(true);
-      try {
-        // const response = await axios.get(`/api/search`, {
-        //   params: { query: value }
-        // });
-        // setSearchResults(response.data);
-      } catch (error) {
-        console.error("Search failed", error);
-      }
     } else {
       setDropdownVisible(false);
-      // setSearchResults([]);
     }
   };
 
   const handleRedirect = (label , id) => {
-    // Redirection based on item label (or result type)
     switch (label) {
       case 'Members':
-        navigate(`/members/${id}`);
+        navigate(`/Members/${id}`);
         break;
       case 'Participate':
-        navigate(`/events/${id}`);
+        navigate(`/Participate`);
         break;
       case 'UpcomingEvents':
-        navigate(`/events/${id}`);
+        navigate(`/UpcomingEventDetails/${id}`);
         break;
       case 'PastEvents':
-        navigate(`/events/${id}`);
+        navigate(`/PastEvent/${id}`);
         break;
       case 'Investors':
-        navigate(`/investors/${id}`);
+        navigate(`/InvestorDetails/${id}`);
         break;
       case 'MyInvestors':
-        navigate(`/investors/${id}`);
+        navigate(`/MyInvestors`);
         break;
       case 'Documents':
-        navigate(`/documents/${id}`);
+        navigate(`/Documents`);
         break;
       case 'Partners':
-        navigate(`/partners/${id}`);
+        navigate(`/Partners/${id}`);
         break;
       case 'Projects':
-        navigate(`/projects/${id}`);
+        navigate(`/Projectdetails/${id}`);
+        break;
+      case 'InvestorRequestHistory':
+        navigate(`/InvestorRequestsHistoty`);
+        break;
+      case 'History':
+        navigate(`/History`);
         break;
       default:
         break;
@@ -147,21 +148,28 @@ useEffect(() => {
         </div>
       </div>
       {isDropdownVisible && (
-        <div className="absolute top-full w-full bg-white-A700 shadow-lg px-3 mt-3 z-10 rounded-lg max-h-80 overflow-auto">
+        <div className="absolute top-full w-full bg-white-A700 shadow-lg px-3 mt-3 z-10 rounded-lg max-h-80 overflow-y-auto">
+          {loading ?
+          <div className="flex py-[130px] items-center justify-center">
+            <Loader/>
+          </div>
+          :
           <ul className="flex flex-col gap-2 w-full items-center">
             {searchResults.map((category , index) => (
-              <li key={index} className="py-2 text-base border-b border-gray-201 text-gray700 w-full flex flex-col font-dm-sans-medium">
+              <li key={index} className="py-2 text-[12px] border-b border-gray-201 text-[#667085] w-full flex flex-col font-dm-sans-regular">
                 <strong>{category?.label}</strong>
                 <ul>
                   {category?.results?.map((result) => (
-                    <li key={result._id} className="py-1 px-2 font-dm-sans-regular">
-                      {result?.name || result?.title || result?.eventData?.targetName || result?.fullName || result?.companyName}
+                    <li key={result._id} className="py-1 text-[13px] text-gray700 px-1 font-dm-sans-medium cursorpointer hover:text-[#35D8BF]" 
+                    onClick={() => handleRedirect(category?.label , result._id)}>
+                      {result?.name || result?.title || result?.fullName || result?.companyName || result?.investor?.name || result?.member?.companyName || `${historyEventMessages[result?.eventType]} ${result?.eventData?.targetName}`}
                     </li>
                   ))}
                 </ul>
               </li>
             ))}
           </ul>
+          }
         </div>
       )}
     </div>

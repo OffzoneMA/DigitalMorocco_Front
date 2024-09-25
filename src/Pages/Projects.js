@@ -202,8 +202,6 @@ const Projects = () => {
                     </div>
                   )
                 )}
-
-                
               </div>
               {pageData?.length>0 && (
                 <div className='w-full flex items-center p-4'>

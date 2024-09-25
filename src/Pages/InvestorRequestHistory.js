@@ -224,7 +224,6 @@ const InvestorRequestHistory = () => {
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.notes || "-"}</td>
                       </tr>
                     ))
-                 
                } </tbody>
                :
                ""}

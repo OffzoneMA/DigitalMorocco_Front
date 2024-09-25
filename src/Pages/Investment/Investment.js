@@ -16,18 +16,26 @@ import TableTitle from "../../Components/TableTitle";
 import Loader from "../../Components/Loader";
 import axios from 'axios';
 import { FaUsers } from "react-icons/fa";
-import { FaUserCircle } from "react-icons/fa";
+import { FaRProject } from "react-icons/fa6";
+import { PiCheckBold } from "react-icons/pi";
+import { RiCloseLine } from "react-icons/ri";
 
 const Investment = () => {
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [keywords, setKeywords] = useState('');
+    const [investorRequests, setInvestorRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [cur, setCur] = useState(1);
     const itemsPerPage = 8;
     const itemsToShow = 4;
     const [totalPages , setTotalPages] = useState(0);
 
-    const pageData = [];
+    function handlePageChange(page) {
+      if (page >= 1 && page <= totalPages) {
+        setCur(page);
+      }
+    }
 
     const clearFilter = () => {
         setFilter(false); 
@@ -35,8 +43,89 @@ const Investment = () => {
         // setIndustries([]);
         // setInvestmentType([]);
         // setLocation('');
-      }
+    }
 
+    useEffect(() => {
+      const fetchInvestorRequests = async () => {
+        try {
+          const token = sessionStorage.getItem("userToken");
+          const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/ContactRequest`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setInvestorRequests(response.data?.ContactsHistory);
+          setTotalPages(response?.data?.totalPages);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error member contact requests history:', error);
+          setLoading(false);
+        }
+      };
+  
+      fetchInvestorRequests();
+    }, []);
+
+    const pageData = [
+      {
+        "name": "Startup 1",
+        "funding": 5000000,
+        "totalRaised": 1560000,
+        "location": "Sydney, Australia",
+        "stage": "SaaS"
+      },
+      {
+        "name": "Startup 2",
+        "funding": 3000000,
+        "totalRaised": 90000,
+        "location": "Abu Dhabi, UEA",
+        "stage": "Agriculture"
+      },
+      {
+        "name": "Startup 4",
+        "funding": 3000000,
+        "totalRaised": 90000,
+        "location": "Bogotá, Colombia",
+        "stage": "Artificial Intelligence"
+      },
+      {
+        "name": "Startup 3",
+        "funding": 1500000,
+        "totalRaised": 0,
+        "location": "Mumbai, India",
+        "stage": "Edutech"
+      },
+      {
+        "name": "Startup 6",
+        "funding": 1500000,
+        "totalRaised": 90000,
+        "location": "Cairo, Egypt",
+        "stage": "Big Data"
+      },
+      {
+        "name": "Startup 5",
+        "funding": 5000000,
+        "totalRaised": 90000,
+        "location": "London, United Kingdom",
+        "stage": "Agriculture"
+      },
+      {
+        "name": "Startup 7",
+        "funding": 5000000,
+        "totalRaised": 0,
+        "location": "New York City, USA",
+        "stage": "E-Learning"
+      },
+      {
+        "name": "Startup 8",
+        "funding": 1500000,
+        "totalRaised": 1560000,
+        "location": "Rio de Janeiro, Brazil",
+        "stage": "Crowdfunding"
+      }
+    ];
+    
+    
     return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -171,8 +260,92 @@ const Investment = () => {
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Decision</th>
                     </tr>
                   </thead>
+                  {(!loading && pageData?.length > 0) ? 
+                    <tbody className="items-center w-full ">
+                    {
+                      pageData.map((item, index) => (
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
+                        <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
+                          <div className="relative flex">
+                            <div className="px-[18px] py-4 flex items-center" >
+                              {item?.logo ? (
+                                <img src={item.logo} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                              ) : (
+                                <FaRProject className="h-8 w-8 mr-2 text-light_blue-200" /> 
+                              )}                              
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item?.funding?.toLocaleString('en-US')}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item.totalRaised?.toLocaleString('en-US') || 0}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.location || 'Sydney, Australia'}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.stage}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
+                          <div className="flex flex-row space-x-4 items-center">
+                            <div className="relative group">
+                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] rounded-md justify-center items-center gap-2 flex">
+                                  <PiCheckBold size={21} className="text-white-A700"/>
+                              </div>
+                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
+                                <div className="mb-px mr-[12px]">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                                  </svg>
+                                </div>
+                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="relative group">
+                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] rounded-md justify-center items-center gap-2 flex">
+                                  <RiCloseLine size={21} className="text-white-A700"/>
+                              </div>
+                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
+                                <div className="mb-px mr-[12px]">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                                  </svg>
+                                </div>
+                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    </tbody> : 
+                    ""}
                 </table>
+                { loading ? (
+                 <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                     <Loader />
+                 </div> ) : pageData.length === 0 && (
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <div >
+                      <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
+                      <span>No matching data identified</span>
+                    </div>
+                  </div>
+                )}
               </div>
+              {pageData?.length>0 && (
+                <div className='w-full flex items-center p-4'>
+                <TablePagination
+                  currentPage={cur}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  itemsToShow={itemsToShow}
+                />              
+              </div>
+              )}
             </div>
           </div>
         </div>
