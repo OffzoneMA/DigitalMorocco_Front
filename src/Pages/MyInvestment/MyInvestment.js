@@ -22,8 +22,10 @@ import { RiCloseLine } from "react-icons/ri";
 import ApproveContactRequestModal from "../../Components/ApproveContactRequestModal";
 import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
 import { companyType } from "../../data/companyType";
+import { BsDot } from "react-icons/bs";
 
-const Investment = () => {
+
+const MyInvestment = () => {
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
@@ -76,67 +78,75 @@ const Investment = () => {
     }, []);
 
     const pageData = [
-      {
-        "name": "Startup 1",
-        "funding": 5000000,
-        "totalRaised": 1560000,
-        "location": "Sydney, Australia",
-        "stage": "SaaS"
-      },
-      {
-        "name": "Startup 2",
-        "funding": 3000000,
-        "totalRaised": 90000,
-        "location": "Abu Dhabi, UEA",
-        "stage": "Agriculture"
-      },
-      {
-        "name": "Startup 4",
-        "funding": 3000000,
-        "totalRaised": 90000,
-        "location": "Bogotá, Colombia",
-        "stage": "Artificial Intelligence"
-      },
-      {
-        "name": "Startup 3",
-        "funding": 1500000,
-        "totalRaised": 0,
-        "location": "Mumbai, India",
-        "stage": "Edutech"
-      },
-      {
-        "name": "Startup 6",
-        "funding": 1500000,
-        "totalRaised": 90000,
-        "location": "Cairo, Egypt",
-        "stage": "Big Data"
-      },
-      {
-        "name": "Startup 5",
-        "funding": 5000000,
-        "totalRaised": 90000,
-        "location": "London, United Kingdom",
-        "stage": "Agriculture"
-      },
-      {
-        "name": "Startup 7",
-        "funding": 5000000,
-        "totalRaised": 0,
-        "location": "New York City, USA",
-        "stage": "E-Learning"
-      },
-      {
-        "name": "Startup 8",
-        "funding": 1500000,
-        "totalRaised": 1560000,
-        "location": "Rio de Janeiro, Brazil",
-        "stage": "Crowdfunding"
-      }
-    ];
+        {
+          name: "Startup 1",
+          funding: 5000000,
+          totalRaised: 1560000,
+          stage: "Angel Round",
+          milestone: "Development",
+          status: "Active",
+        },
+        {
+          name: "Startup 2",
+          funding: 3000000,
+          totalRaised: 90000,
+          stage: "Angel Round",
+          milestone: "Project Launch",
+          status: "In Progress",
+        },
+        {
+          name: "Startup 4",
+          funding: 3000000,
+          totalRaised: 90000,
+          stage: "Angel Round",
+          milestone: "Project Launch",
+          status: "Active",
+        },
+        {
+          name: "Startup 3",
+          funding: 1500000,
+          totalRaised: 0,
+          stage: "Seed A",
+          milestone: "Development",
+          status: "Stand by",
+        },
+        {
+          name: "Startup 6",
+          funding: 1500000,
+          totalRaised: 90000,
+          stage: "Seed A",
+          milestone: "Development",
+          status: "Active",
+        },
+        {
+          name: "Startup 5",
+          funding: 5000000,
+          totalRaised: 90000,
+          stage: "Angel Round",
+          milestone: "Project Launch",
+          status: "In Progress",
+        },
+        {
+          name: "Startup 7",
+          funding: 5000000,
+          totalRaised: 0,
+          stage: "Angel Round",
+          milestone: "Project Launch",
+          status: "Stand by",
+        },
+        {
+          name: "Startup 8",
+          funding: 1500000,
+          totalRaised: 1560000,
+          stage: "Seed A",
+          milestone: "Development",
+          status: "Active",
+        },
+      ];
 
     const uniqueFundingValues = [...new Set(pageData.map((item) => item.funding))];
 
-    const uniqueLocationValues = [...new Set(pageData.map((item) => item.location))];
+    const uniqueLocationValues = [...new Set(pageData.map((item) => item.stage))];
 
     const filteredData = pageData.filter(item => {
       const keywordMatch = item?.name.toLowerCase().includes(keywords.toLowerCase());
@@ -151,26 +161,6 @@ const Investment = () => {
     
       return keywordMatch;
     });
-        
-    const openApproveModal = (data) => {
-      setIsApproveModalOpen(true);
-      setRowData(data);
-    };
-    
-    const closeApproveModal = () => {
-        setIsApproveModalOpen(false);
-        // setRowData(null);
-    };
-
-    const openRejectModal = (data) => {
-        setIsRejectModalOpen(true);
-        setRowData(data);
-    };
-    
-    const closeRejectModal = () => {
-        setIsRejectModalOpen(false);
-        // setRowData(null);
-    };
 
     return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -301,9 +291,9 @@ const Investment = () => {
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Project Name</th>
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Target Fund</th>
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Raised</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Industry / Sector</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Decision</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Stage</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Milestone</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                     </tr>
                   </thead>
                   {(!loading && filteredData?.length > 0) ? 
@@ -325,41 +315,17 @@ const Investment = () => {
                         </td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item?.funding?.toLocaleString('en-US')}`}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item.totalRaised?.toLocaleString('en-US') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.location || 'Sydney, Australia'}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.stage}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.milestone}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
-                          <div className="flex flex-row space-x-4 items-center">
-                            <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex" onClick={() => openApproveModal(item)}>
-                                  <PiCheckBold size={21} className="text-white-A700"/>
-                              </div>
-                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
-                                <div className="mb-px mr-[12px]">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
-                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
-                                  </svg>
-                                </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Approve</div>
-                                </div>
-                              </div>
+                            <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
+                            item.status === 'Active' ? 'bg-green-100 text-green-700' :
+                                item.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
+                                item.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
+                            } inline-flex`}  style={{whiteSpace:'nowrap'}}>
+                            <BsDot  size={28} className=""/>
+                            {item.status}
                             </div>
-                            <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex" onClick={() => openRejectModal(item)}>
-                                  <RiCloseLine size={21} className="text-white-A700"/>
-                              </div>
-                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
-                                <div className="mb-px mr-[12px]">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
-                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
-                                  </svg>
-                                </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Reject</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                         </td>
                       </tr>
                     ))}
@@ -395,10 +361,8 @@ const Investment = () => {
             </div>
           </div>
         </div>
-        <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData}/>
-        <RejectContactRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData}/>
     </div>
     );
 }
 
-export default Investment;
+export default MyInvestment;

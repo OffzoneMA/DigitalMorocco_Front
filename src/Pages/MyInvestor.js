@@ -127,10 +127,6 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
     'Family Business'
   ];
 
-  const companySectorData = companyType.map(
-    item => ({ label: item, value: item })
-  );
-
   return (
     
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">

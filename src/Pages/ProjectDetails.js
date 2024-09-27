@@ -162,41 +162,41 @@ useEffect(() => {
       <div className="flex flex-col items-start justify-start w-full">
         <div className="flex flex-col items-start justify-start px-5 w-full">
           <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
-          <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-900_01 border-b border-gray-201 rounded-t-lg bg-white-A700 py-4 px-5">
-            <div className="flex items-center capitalize">
-              <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
+            <div className="flex flex-row flex-wrap gap-3 justify-between text-gray-900_01 border-b border-gray-201 rounded-t-lg bg-white-A700 py-4 px-5">
+              <div className="flex items-center capitalize">
+                <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
+              </div>
+              <div className="flex flex-wrap gap-3 items-center ">
+                <button
+                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
+                  onClick={openModal}
+                  type="button"
+                  style={{whiteSpace: 'nowrap'}}
+                >
+                  <HiOutlineShare size={21} className="md:mr-2" />
+                  <span className="hidden md:inline-block">Share to Investor</span>
+                </button>
+                <button
+                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 cursorpointer-green flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
+                  onClick={openDeleteModal}
+                  type="button"
+                  style={{whiteSpace: 'nowrap'}}
+                >
+                  <RiDeleteBinLine size={21} className="md:mr-2" />
+                  <span className="hidden md:inline-block">Delete Project</span>
+                </button>
+                <button
+                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
+                  onClick={() => navigate(`/Editproject/${projectId}`, { state: { project: project } })}
+                  type="button"
+                  style={{whiteSpace: 'nowrap'}}
+                >
+                  <FiEdit3 size={21} className="md:mr-2" />
+                  <span className="hidden md:inline-block">Edit Project</span>
+                </button>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-3 items-center ">
-              <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
-                onClick={openModal}
-                type="button"
-                style={{whiteSpace: 'nowrap'}}
-              >
-                <HiOutlineShare size={21} className="md:mr-2" />
-                <span className="hidden md:inline-block">Share to Investor</span>
-              </button>
-              <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 cursorpointer-green flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
-                onClick={openDeleteModal}
-                type="button"
-                style={{whiteSpace: 'nowrap'}}
-              >
-                <RiDeleteBinLine size={21} className="md:mr-2" />
-                <span className="hidden md:inline-block">Delete Project</span>
-              </button>
-              <button
-                className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
-                onClick={() => navigate(`/Editproject/${projectId}`, { state: { project: project } })}
-                type="button"
-                style={{whiteSpace: 'nowrap'}}
-              >
-                <FiEdit3 size={21} className="md:mr-2" />
-                <span className="hidden md:inline-block">Edit Project</span>
-              </button>
-            </div>
-          </div>
-              <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-201 justify-start py-5 w-full">
+            <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-201 justify-start py-5 w-full">
               <div className="flex flex-wrap py-2 w-full">
                 <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -272,8 +272,8 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              </div>
-              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-[50px] items-start justify-start px-[18px] py-5 w-full">
+            </div>
+            <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-[50px] items-start justify-start px-[18px] py-5 w-full">
                 <div ref={div1Ref} className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
                   <div className="flex flex-col items-start justify-start w-full">
                     <div className="flex flex-col items-center justify-start w-auto">

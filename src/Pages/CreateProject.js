@@ -900,7 +900,7 @@ const handleStatusChangeAndUpdate = async () => {
                         required={requiredFields.country}
                         content={
                           ( option) =>{ return (
-                            <div className="flex  py-2 items-center  w-full">
+                            <div className={`flex  py-2 items-center  w-full`}>
                                 <Text
                                   className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                   >

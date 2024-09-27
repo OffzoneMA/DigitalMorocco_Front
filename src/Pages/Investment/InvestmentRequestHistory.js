@@ -22,8 +22,9 @@ import { RiCloseLine } from "react-icons/ri";
 import ApproveContactRequestModal from "../../Components/ApproveContactRequestModal";
 import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
 import { companyType } from "../../data/companyType";
+import { BsDot } from "react-icons/bs";
 
-const Investment = () => {
+const InvestmentRequestHistory = () => {
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
@@ -76,67 +77,81 @@ const Investment = () => {
     }, []);
 
     const pageData = [
-      {
-        "name": "Startup 1",
-        "funding": 5000000,
-        "totalRaised": 1560000,
-        "location": "Sydney, Australia",
-        "stage": "SaaS"
-      },
-      {
-        "name": "Startup 2",
-        "funding": 3000000,
-        "totalRaised": 90000,
-        "location": "Abu Dhabi, UEA",
-        "stage": "Agriculture"
-      },
-      {
-        "name": "Startup 4",
-        "funding": 3000000,
-        "totalRaised": 90000,
-        "location": "Bogotá, Colombia",
-        "stage": "Artificial Intelligence"
-      },
-      {
-        "name": "Startup 3",
-        "funding": 1500000,
-        "totalRaised": 0,
-        "location": "Mumbai, India",
-        "stage": "Edutech"
-      },
-      {
-        "name": "Startup 6",
-        "funding": 1500000,
-        "totalRaised": 90000,
-        "location": "Cairo, Egypt",
-        "stage": "Big Data"
-      },
-      {
-        "name": "Startup 5",
-        "funding": 5000000,
-        "totalRaised": 90000,
-        "location": "London, United Kingdom",
-        "stage": "Agriculture"
-      },
-      {
-        "name": "Startup 7",
-        "funding": 5000000,
-        "totalRaised": 0,
-        "location": "New York City, USA",
-        "stage": "E-Learning"
-      },
-      {
-        "name": "Startup 8",
-        "funding": 1500000,
-        "totalRaised": 1560000,
-        "location": "Rio de Janeiro, Brazil",
-        "stage": "Crowdfunding"
-      }
+        {
+          name: "Startup 1",
+          date: new Date('2024-01-12T10:30:00'),
+          funding: 5000000,
+          totalRaised: 1560000,
+          stage: "Angel Round",
+          status: "In Progress",
+        },
+        {
+          name: "Startup 2",
+          date: new Date('2024-02-10T09:15:00'),
+          funding: 3000000,
+          totalRaised: 90000,
+          stage: "Seed A",
+          status: "Approved",
+        },
+        {
+          name: "Startup 3",
+          date: new Date('2024-03-05T12:45:00'),
+          funding: 1500000,
+          totalRaised: 0,
+          stage: "Seed A",
+          status: "In Progress",
+        },
+        {
+          name: "Startup 4",
+          date: new Date('2024-03-22T08:00:00'),
+          funding: 2000000,
+          totalRaised: 1000000,
+          stage: "Series A",
+          status: "Rejected",
+        },
+        {
+          name: "Startup 5",
+          date: new Date('2024-04-18T14:20:00'),
+          funding: 4000000,
+          totalRaised: 1200000,
+          stage: "Angel Round",
+          status: "Rejected",
+        },
+        {
+          name: "Startup 6",
+          date: new Date('2024-05-10T11:00:00'),
+          funding: 3500000,
+          totalRaised: 3000000,
+          stage: "Series B",
+          status: "Approved",
+        },
+        {
+          name: "Startup 7",
+          date: new Date('2024-06-12T09:45:00'),
+          funding: 2500000,
+          totalRaised: 500000,
+          stage: "Seed A",
+          status: "Rejected",
+        },
+        {
+          name: "Startup 8",
+          date: new Date('2024-07-15T16:30:00'),
+          funding: 1500000,
+          totalRaised: 1560000,
+          stage: "Angel Round",
+          status: "Approved",
+        },
     ];
+      
+    const formatDate = (date) => {
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+        return `${date.toLocaleDateString('en-US', options)} ${date.toLocaleTimeString('en-US', timeOptions)}`;
+    };
 
     const uniqueFundingValues = [...new Set(pageData.map((item) => item.funding))];
 
-    const uniqueLocationValues = [...new Set(pageData.map((item) => item.location))];
+    const uniqueLocationValues = [...new Set(pageData.map((item) => item.stage))];
 
     const filteredData = pageData.filter(item => {
       const keywordMatch = item?.name.toLowerCase().includes(keywords.toLowerCase());
@@ -151,29 +166,9 @@ const Investment = () => {
     
       return keywordMatch;
     });
-        
-    const openApproveModal = (data) => {
-      setIsApproveModalOpen(true);
-      setRowData(data);
-    };
-    
-    const closeApproveModal = () => {
-        setIsApproveModalOpen(false);
-        // setRowData(null);
-    };
-
-    const openRejectModal = (data) => {
-        setIsRejectModalOpen(true);
-        setRowData(data);
-    };
-    
-    const closeRejectModal = () => {
-        setIsRejectModalOpen(false);
-        // setRowData(null);
-    };
 
     return (
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
@@ -192,7 +187,7 @@ const Investment = () => {
                 <TableTitle
                   style={{whiteSpace:"nowrap"}}
                   >
-                  Current Requests
+                 Request History
                 </TableTitle>
                 <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
@@ -298,12 +293,12 @@ const Investment = () => {
                 <table className=" w-full" >
                   <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Project Name</th>
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Target Fund</th>
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Raised</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Industry / Sector</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Decision</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Stage</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                     </tr>
                   </thead>
                   {(!loading && filteredData?.length > 0) ? 
@@ -311,9 +306,11 @@ const Investment = () => {
                     {
                       filteredData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
-                        <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
-                          <div className="relative flex">
-                            <div className="px-[18px] py-4 flex items-center" >
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
+                        {formatDate(item.date)}
+                        </td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
+                            <div className="flex items-center" >
                               {item?.logo ? (
                                 <img src={item.logo} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
                               ) : (
@@ -321,44 +318,17 @@ const Investment = () => {
                               )}                              
                               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
                             </div>
-                          </div>
                         </td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item?.funding?.toLocaleString('en-US')}`}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item.totalRaised?.toLocaleString('en-US') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.location || 'Sydney, Australia'}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.stage}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
-                          <div className="flex flex-row space-x-4 items-center">
-                            <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex" onClick={() => openApproveModal(item)}>
-                                  <PiCheckBold size={21} className="text-white-A700"/>
-                              </div>
-                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
-                                <div className="mb-px mr-[12px]">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
-                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
-                                  </svg>
-                                </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Approve</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex" onClick={() => openRejectModal(item)}>
-                                  <RiCloseLine size={21} className="text-white-A700"/>
-                              </div>
-                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
-                                <div className="mb-px mr-[12px]">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
-                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
-                                  </svg>
-                                </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Reject</div>
-                                </div>
-                              </div>
-                            </div>
+                            <div style={{ whiteSpace: "nowrap" }} 
+                                className={`flex flex-row space-x-2 items-center py-0.5 h-[28px] px-[10px] font-dm-sans-regular text-sm leading-6 rounded-full 
+                                ${(item.status === 'Approved' || item.status === 'Accepted') ? 'bg-green-100 text-green-700' 
+                                : item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' 
+                                : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''} inline-flex`}>
+                                {item.status}
                           </div>
                         </td>
                       </tr>
@@ -395,10 +365,8 @@ const Investment = () => {
             </div>
           </div>
         </div>
-        <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData}/>
-        <RejectContactRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData}/>
     </div>
     );
 }
 
-export default Investment;
+export default InvestmentRequestHistory;

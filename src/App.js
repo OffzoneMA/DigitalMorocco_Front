@@ -72,6 +72,9 @@ const ResendVerification = React.lazy(() => import('./Pages/Authentification/Com
 const VerifyFailure = React.lazy(() => import('./Pages/Authentification/VerifyFailure'));
 const ManageSubscriptionCredits = React.lazy(() => import('./Pages/ManageSubscriptionCredits'));
 const Investment = React.lazy(()  => import('./Pages/Investment/Investment'))
+const MyInvestment = React.lazy(() => import('./Pages/MyInvestment/MyInvestment'))
+const MyInvestmentDetails = React.lazy(() => import('./Pages/MyInvestment/MyInvestmentDetails'))
+const InvestmentRequestHistory = React.lazy(() => import('./Pages/Investment/InvestmentRequestHistory'))
 
 function App() {
 
@@ -164,6 +167,9 @@ function App() {
                   <Route path="/Notification" element={<Notifications />} />
                   <Route path="/SubscribePlan" element={<SubscribePlan />} />
                   <Route path="/Investment" element={<Investment />} />
+                  <Route path="/MyInvestment" element={<MyInvestment />} />
+                  <Route path="/MyInvestmentDetails" element={<MyInvestmentDetails />} />
+                  <Route path="/InvestmentRequestHistory" element={<InvestmentRequestHistory />} />
                 </Route>
                 <Route element={<GuardedAdminRoute />}>
                   <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />

@@ -42,47 +42,58 @@ const RejectContactRequestModal = (props) => {
     };
 
     const rejectionReasons = [
-        {
-          reason: "Budget Constraints",
-          description: "The investment request exceeds the available budget for the current period."
-        },
-        {
-          reason: "Not Aligned with Current Goals",
-          description: "The proposal does not match the investor's current strategic priorities or business objectives."
-        },
-        {
-          reason: "Timing Issues",
-          description: "The timing of the investment request is not favorable due to other ongoing projects or commitments."
-        },
-        {
-          reason: "High Risk",
-          description: "The investment is deemed too risky based on market conditions or business model uncertainty."
-        },
-        {
-          reason: "Lack of Market Potential",
-          description: "The proposed project does not show sufficient market potential or growth opportunities."
-        },
-        {
-          reason: "Insufficient Financial Projections",
-          description: "The financial projections provided are unclear or do not justify the requested investment amount."
-        },
-        {
-          reason: "Inexperienced Team",
-          description: "The project team lacks the experience or expertise necessary to execute the business plan."
-        },
-        {
-          reason: "Overvaluation",
-          description: "The company or project is considered overvalued, making the terms of the investment unattractive."
-        },
-        {
-          reason: "Competing Interests",
-          description: "The investor has already committed resources to similar ventures or competing projects."
-        },
-        {
-          reason: "Unclear Business Model",
-          description: "The business model lacks clarity or is not well-structured to ensure long-term success."
-        }
-      ];
+      {
+        _id: "f8a1c2e4-1b9a-4d23-b9d7-7123e7b1d002",
+        reason: "Budget Constraints",
+        description: "The investment request exceeds the available budget for the current period."
+      },
+      {
+        _id: "9b4e6f21-3c46-48da-baf2-1d8d6e2c39b5",
+        reason: "Not Aligned with Current Goals",
+        description: "The proposal does not match the investor's current strategic priorities or business objectives."
+      },
+      {
+        _id: "68e4d1bb-2f4e-4ed1-81e4-43b9c6d93eb4",
+        reason: "Timing Issues",
+        description: "The timing of the investment request is not favorable due to other ongoing projects or commitments."
+      },
+      {
+        _id: "3ad3a1c5-5ff5-49fa-bba7-e2c77b7b8f44",
+        reason: "High Risk",
+        description: "The investment is deemed too risky based on market conditions or business model uncertainty."
+      },
+      {
+        _id: "ba6f82d7-62e5-463f-a82c-0f3abf8f2a4a",
+        reason: "Lack of Market Potential",
+        description: "The proposed project does not show sufficient market potential or growth opportunities."
+      },
+      {
+        _id: "5c12b87e-7893-4a87-8f4e-6a23f3e1c8a0",
+        reason: "Insufficient Financial Projections",
+        description: "The financial projections provided are unclear or do not justify the requested investment amount."
+      },
+      {
+        _id: "c74f54d9-b017-4b60-b4ab-58b80c81e6e2",
+        reason: "Inexperienced Team",
+        description: "The project team lacks the experience or expertise necessary to execute the business plan."
+      },
+      {
+        _id: "874f56e5-2a7a-47f4-923f-10b234ac1e0f",
+        reason: "Overvaluation",
+        description: "The company or project is considered overvalued, making the terms of the investment unattractive."
+      },
+      {
+        _id: "43f0e7d5-9a63-4648-a7a8-b198612fb7ae",
+        reason: "Competing Interests",
+        description: "The investor has already committed resources to similar ventures or competing projects."
+      },
+      {
+        _id: "1b765e6a-217f-44ff-8c23-bd147a1f4892",
+        reason: "Unclear Business Model",
+        description: "The business model lacks clarity or is not well-structured to ensure long-term success."
+      }
+    ];
+    
       
 
     return (
@@ -113,11 +124,11 @@ const RejectContactRequestModal = (props) => {
                         >
                         Reason for Rejection
                         </Text>
-                        <SimpleSelect id='reason' options={rejectionReasons} onSelect={""} searchLabel='Search Raison' setSelectedOptionVal={setSelectedRaison}  selectedOptionsDfault={rejectionReasons?.[0]}
+                        <SimpleSelect id='reason' options={rejectionReasons} onSelect={""} searchLabel='Search Raison' setSelectedOptionVal={setSelectedRaison}
                             placeholder="Select Reason" valuekey="reason"
                             content={
                             ( option) =>{ return (
-                                <div className="flex  py-2 items-center  w-full">
+                                <div className={`flex  py-2 items-center w-full`}>
                                     <Text
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
