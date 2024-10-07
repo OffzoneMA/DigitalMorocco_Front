@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {MdOutlineDateRange} from "react-icons/md";
 import ReactDOM from 'react-dom';
 
-const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue ,required = false}) => {
+const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue ,required = false, showIcon = true}) => {
     const formatDefaultValut = (defaultValue) => {
         if(defaultValue) {
             return new Intl.DateTimeFormat('en-GB').format(defaultValue);
@@ -141,8 +141,7 @@ const calculateDropdownPosition = () => {
                   readOnly
               //   onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}
               />
-              <MdOutlineDateRange size={20} className={` text-blue_gray-301`}/>
-          </div> 
+              {showIcon && <MdOutlineDateRange size={20} className={` text-blue_gray-301`}/>}          </div> 
           {show && 
             ReactDOM.createPortal(
             <div ref={dropdownRef} className={`absolute  !z-10 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'} py-1 `} role="menu" style={dropdownPosition}>

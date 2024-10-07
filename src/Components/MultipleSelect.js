@@ -5,7 +5,7 @@ import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 
 
-const MultipleSelect = ({ options, onSelect, valuekey='',optionkey='',placeholder='', searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , itemClassName='' , className=''}) => {
+const MultipleSelect = ({ options =[], onSelect, valuekey='',optionkey='',placeholder='', searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , itemClassName='' , className=''}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedOptionsDfault);
   const [searchValue, setSearchValue] = useState("");
@@ -38,10 +38,10 @@ console.log(selectedOptions)
   
   const handleOptionClick = (option) => {
     if(optionkey) {
-      const optionValue = option[optionkey];
-      if (selectedOptions.some(selectedOption => selectedOption[optionkey] === optionValue)) {
-        setSelectedOptions(selectedOptions.filter((item) => item[optionkey] !== optionValue));
-        setSelectedOptionVal(selectedOptions.filter((item) => item[optionkey] !== optionValue));
+      const optionValue = option?.[optionkey];
+      if (selectedOptions.some(selectedOption => selectedOption?.[optionkey] === optionValue)) {
+        setSelectedOptions(selectedOptions.filter((item) => item?.[optionkey] !== optionValue));
+        setSelectedOptionVal(selectedOptions.filter((item) => item?.[optionkey] !== optionValue));
       } else {
         setSelectedOptions([...selectedOptions, option]);
         setSelectedOptionVal([...selectedOptions, option]);
@@ -70,7 +70,7 @@ console.log(selectedOptions)
   
   const filteredData = options?.filter(investor => {
     if (typeof investor === 'string') {
-      return investor.toLowerCase().includes(searchValue.toLowerCase());
+      return investor?.toLowerCase().includes(searchValue.toLowerCase());
     }
   
     const valueToCheck = investor[valuekey] ? investor[valuekey].toLowerCase() : "";
@@ -163,7 +163,7 @@ console.log(selectedOptions)
           name="target"
           type="text"
           placeholder={placeholder}
-          value={selectedOptions.map(option => option[valuekey] ? option[valuekey] : option).join(', ')}
+          value={selectedOptions.map(option => option?.[valuekey] ? option[valuekey] : option).join(', ')}
           readOnly
           style={{overflow:'hidden' , textOverflow:'ellipsis'}}
         />

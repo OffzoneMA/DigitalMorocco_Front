@@ -19,8 +19,10 @@ import Loader from "../Components/Loader";
 import axios from 'axios';
 import Loading from "../Components/Loading";
 import { FaUsers } from "react-icons/fa";
-import { useGetDistinctValuesQuery } from "../Services/Investor.Service";
+import { useGetDistinctValuesQuery , useGetInvestorsListQuery} from "../Services/Investor.Service";
 import { FaUserCircle } from "react-icons/fa";
+import userdefaultProfile from '../Media/User.png';
+import { useCheckSubscriptionStatusQuery } from "../Services/Subscription.Service";
 
 
 const Investors = () => {
@@ -41,61 +43,42 @@ const Investors = () => {
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
   const [investors, setInvestors] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const queryParams = { page: cur, pageSize: itemsPerPage };
+
+    if (filterApply) {
+      queryParams.type = investmentType.length > 0 ? investmentType.join(',') : undefined;
+      queryParams.location = location || undefined;
+      queryParams.industries = industries.length > 0 ? industries.join(',') : undefined;
+    }
+  const { data: investorData, error: investorsError, isFetching: loading , refetch } = useGetInvestorsListQuery(queryParams);
   const { data : locationData, isLoading:locationLoading } = useGetDistinctValuesQuery('location');
-  const { data : industryData, isLoading:industryLoading } = useGetDistinctValuesQuery('companyType');
+  const { data : industryData, isLoading:industryLoading } = useGetDistinctValuesQuery('PreferredInvestmentIndustry');
   const { data : typeData, isLoading:typeLoading } = useGetDistinctValuesQuery('type');
-  console.log(locationData ,industryData , typeData )
+
+  const { data: subscriptionData, error: subscriptionError , isFetching: subscriptionLoading } = useCheckSubscriptionStatusQuery();
+
 
   useEffect(() => {
-    const token = sessionStorage.getItem("userToken");
-    const fetchInvestorRequests = async () => {
-      try {
-        const token = sessionStorage.getItem("userToken");
-        const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors?page=${cur}&pageSize=${itemsPerPage}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-      });
-        setInvestors(response.data.investors);
-        setTotalPages(response.data?.totalPages)
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching investor requests:', error);
-        setLoading(false);
-      }
-    };
+    if (investorData) {
+      setInvestors(investorData.investors);
+      setTotalPages(investorData.totalPages);
+    }
+  }, [investorData]);
 
-    const checkSubscriptionStatus = async () => {
-      try {
-          const userData = JSON.parse(sessionStorage.getItem("userData"));
-          const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-        setIsSubscribe(response.data !== null);
-      } catch (error) {
-          console.error('Error checking subscription status:', error);
-      }
-  };
-    checkSubscriptionStatus();
-    fetchInvestorRequests();
-    
-  },[cur, itemsPerPage]);
+  useEffect(() => {
+    refetch();
+  }, [cur , itemsPerPage , refetch , filterApply]);
+
+  useEffect(() => {
+    if (subscriptionData !== undefined) {
+      setIsSubscribe(subscriptionData !== null);
+    }
+  }, [subscriptionData]);
 
   const data = (isSubscribe && !loading)?  investors : InvestorsData;
 
-  const filteredData = (isSubscribe && !loading)? data.filter(item => {
+  const filteredData = (isSubscribe && (!loading && !subscriptionLoading))? data.filter(item => {
     const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());
-  
-    if (filterApply && isSubscribe) {
-      const typeMatch = investmentType.length === 0 || investmentType.includes(item.type);
-  
-      const locationMatch = !location || item.location.toLowerCase().includes(location.toLowerCase());
-  
-      const industryMatch = industries.length === 0 || industries.some(ind => item.PreferredInvestmentIndustry.includes(ind));
-  
-      return keywordMatch && typeMatch && locationMatch && industryMatch;
-    }
   
     return keywordMatch;
   }) : data;
@@ -110,12 +93,6 @@ const Investors = () => {
 
   // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredData.slice(startIndex, endIndex);
-  };
-
   const pageData = filteredData;
 
   function handlePageChange(page) {
@@ -124,14 +101,6 @@ const Investors = () => {
     }
   }
 
-  const invTypedata = [
-    'Venture Capital',
-    'Angel',
-    'Accelerator',
-    'Angel Club',
-    'Family Business'
-  ];
-  
     return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -196,7 +165,7 @@ const Investors = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={industryData} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
                     placeholder="Select Industries"
                     content={
                       ( option) =>{ return (
@@ -269,7 +238,7 @@ const Investors = () => {
                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Preferred Investment Industry</th>
                   </tr>
                   </thead>
-                  {(!loading && pageData?.length > 0) ? 
+                  {(!loading && !subscriptionLoading && pageData?.length > 0) ? 
                   <tbody className="items-center w-full ">
                   {pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}` , { state: {investor: item}})}>
@@ -279,7 +248,9 @@ const Investors = () => {
                           {item?.image ? (
                             <img src={item.image} className="rounded-full h-8 w-8"  />
                           ) : (
-                            <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> // Placeholder icon
+                            <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                              <img src={userdefaultProfile} alt="" className="" />
+                            </div>
                           )}
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
                         </div>
@@ -297,8 +268,8 @@ const Investors = () => {
                       style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {/* {item?.PreferredInvestmentIndustry?.join(', ')} */}{item?.PreferredInvestmentIndustry}
-                      </td>
+                        {Array.isArray(item?.PreferredInvestmentIndustry) ? item.PreferredInvestmentIndustry.join(', ') : ''}
+                        </td>
 
                     </tr>
                   ))
@@ -307,10 +278,10 @@ const Investors = () => {
                 :
                 ""}
                 </table>
-                { loading ? (
+                { (loading || subscriptionLoading) ? (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : pageData.length === 0 && (
+                 </div> ) : (!loading && !subscriptionLoading && pageData.length === 0 )&& (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">

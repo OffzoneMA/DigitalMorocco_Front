@@ -51,9 +51,18 @@ endpoints: (builder) => ({
         },
     }),
     getAllProjects: builder.query({
-        query: ({ visibility, status, date }={}) => {
+        query: ({ page, pageSize, visibility, status, date }={}) => {
             return {
                 url: '/projects',
+                method: 'GET',
+                params: {page, pageSize, visibility, status , date },
+            }
+        },
+    }),
+    getAllProjectsWithoutPage: builder.query({
+        query: ({visibility, status, date }={}) => {
+            return {
+                url: '/projectswithoutpage',
                 method: 'GET',
                 params: { visibility, status , date },
             }
@@ -69,6 +78,12 @@ endpoints: (builder) => ({
                 params: { arg },
             }
         },
+    }),
+    fetchInvestorRequests: builder.query({
+      query: ({ page, pageSize , status, investorNames }={}) => ({
+        url: '/ContactRequest',
+        params: { page, pageSize, status , investorNames ,},
+      }),
     }),
     getAllConatcts: builder.query({
         query: () => {
@@ -159,7 +174,18 @@ endpoints: (builder) => ({
         }),
     }),
     getInvestorsForMember: builder.query({
-        query: () => `/my-investors`,
+      query: ({ page, pageSize, type, location, industries }={}) => ({
+        url: '/my-investors',
+        params: {page, pageSize, type, location, industries}
+      }),
+    }),
+    getDistinctInvestorFieldValues: builder.query({
+        query: (field) => 
+            `/investors/distinct/${field}`, 
+    }),
+    getDistinctRequestFieldValues: builder.query({
+        query: (field) => 
+            `/request/distinct/${field}`, 
     }),
 }),
 })
@@ -168,4 +194,6 @@ export const {useCreateEntrepriseMutation,useGetAllConatctsQuery,useGetAllProjec
 useGetAllConatctReqQuery,useCreateConatctReqMutation ,useBuySubMutation,useCreateProjectMutation,
 useGetAllMembersQuery , useUpdateEmployeeMutation, useUpdateProjectMutation, useUpdateLegalDocumentMutation,
 useCreateCompanyMutation, useCreateLegalDocumentMutation, useCreateEmployeeMutation,
-useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutation , useCreateConatctReqProjectMutation} = memberApi
+useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutation , useCreateConatctReqProjectMutation , 
+useGetDistinctInvestorFieldValuesQuery , useGetDistinctRequestFieldValuesQuery , 
+useGetAllProjectsWithoutPageQuery , useGetInvestorsForMemberQuery , useFetchInvestorRequestsQuery} = memberApi

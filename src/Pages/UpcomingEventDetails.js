@@ -18,6 +18,8 @@ import { useGetEventByIdQuery } from "../Services/Event.Service";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineLoading } from "react-icons/ai";
+import Loader from "../Components/Loader";
+import userDefaultProfil from '../Media/User1.png';
 
 const UpcomingEventDetails = () => {
   const userData = JSON.parse(sessionStorage.getItem("userData"));
@@ -33,7 +35,7 @@ const UpcomingEventDetails = () => {
 
   const event = eventFromState || eventFromApi;
 
-
+console.log(eventFromApi)
     function formatText(text) {
         const paragraphs = text.split('.').map((paragraph, index) => (
           <p key={index} className="mb-4">{paragraph.trim()}</p>
@@ -159,251 +161,257 @@ const UpcomingEventDetails = () => {
 };
 
     return (
-        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
-            <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-                <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
-                  <PageHeader
-                    >
-                    {event?.status == 'past' ? 'Past Event' : 'Upcoming Event'}
-                  </PageHeader>
-                </div>
-                <SearchInput className={'w-[240px]'}/>
-              </div>
-              <div className="flex flex-col items-start justify-start w-full">
-                  <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-201 pt-6 pb-9">
-                    <img
-                      src={event?.headerImage}
-                      alt="vector_three"
-                      className="w-full md:h-[180px] md:w-[240px] rounded-[12px]"
-                    />
-                    <div className="flex flex-col gap-3 flex-1">
-                        <div className="flex flex-row justify-between items-start gap-3 w-full">
-                            <Text
-                                className=" text-[24px] font-dm-sans-bold leading-7 text-left text-blue_gray-903 w-full"
-                                >
-                                { event?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
-                            </Text>
-                            {(event?.status == 'upcoming' && !event?.userParticipated) &&
-                            <button
-                            onClick={handleAddAttendee}
-                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer-green"
-                              type="button"
-                              >
-                              {bying ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
-                              <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-dm-sans-medium leading-[18.23px]">
-                                  Buy Ticket
-                              </span>
-                              }
-                              
-                            </button>
-                         }
-                        </div>
-                      <div className="flex flex-row gap-3 items-center text-left">
-                          <MdOutlineDateRange  size={18} className="text-teal-A300"/>
-                          <Text
-                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
-                          >
-                          {formatEventDate(event?.startDate , event?.endDate)}
-                          </Text>
-                      </div>
-                      <div className="flex flex-row gap-3 items-center  text-left">
-                          <IoMdTime  size={18} className="text-teal-A300"/>
-                          <Text
-                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
-                          >
-                          {formatEventTime(event?.startDate , event?.endDate , event?.startTime? event?.startTime : '', event?.endTime? event?.endTime : '')}
-                          </Text>
-                      </div>
-                      <div className="flex flex-row gap-3 items-center text-left">
-                          <BiMap  size={18} className="text-teal-A300"/>
-                          <Text
-                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
-                          >
-                          {event?.physicalLocation || "Online Only"}
-                          </Text>
-                      </div>
-                      {past? (
-                        <div className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 cursorpointer-green rounded-full">
+    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+    {isLoading ?
+        <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] h-full w-full py-28 rounded-b-[8px]">
+          <Loader />
+        </div> 
+        : 
+        <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+          <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+            <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
+              <PageHeader
+                >
+                {event?.status == 'past' ? 'Past Event' : 'Upcoming Event'}
+              </PageHeader>
+            </div>
+            <SearchInput className={'w-[240px]'}/>
+          </div>
+          <div className="flex flex-col items-start justify-start w-full">
+              <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-201 pt-6 pb-9">
+                <img
+                  src={event?.headerImage}
+                  alt="vector_three"
+                  className="w-full md:h-[180px] md:w-[240px] rounded-[12px]"
+                />
+                <div className="flex flex-col gap-3 flex-1">
+                    <div className="flex flex-row justify-between items-start gap-3 w-full">
+                        <Text
+                            className=" text-[24px] font-dm-sans-bold leading-7 text-left text-blue_gray-903 w-full"
+                            >
+                            { event?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
+                        </Text>
+                        {((event?.status === 'upcoming' && !event?.userParticipated) ) &&
                         <button
-                          style={{whiteSpace:'nowrap'}}
-                            type="button"
-                            className="text-base text-light_blue-51"
-                        >
-                          Participate
-                          </button>
-                      </div>
-                      ) : 
-                      ( 
-                        <div className="flex flex-row gap-3 items-center  text-left">
-                          <PiTagBold    size={18} className="text-teal-A300"/>
-                          <Text
-                          className="text-gray-801  text-base font-dm-sans-medium leading-6"
+                        onClick={handleAddAttendee}
+                          className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer-green"
+                          type="button"
                           >
-                          {event?.price !== undefined && event?.price !== null ? 
-                            (event.price === 0 ? 'Free' : `$ ${(event.price).toFixed(2)}`) : 
-                            'Free'}
-                          </Text>
-                      </div>
-                      )}
-                      
+                          {bying ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
+                          <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-dm-sans-medium leading-[18.23px]">
+                              Buy Ticket
+                          </span>
+                          }
+                          
+                        </button>
+                     }
                     </div>
-                  </div> 
-                  <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-201 pb-8">
-                    <Text className=" text-[22px] font-dm-sans-medium leading-8 text-left text-blue_gray-903">
-                        Overview
-                    </Text>
-                    <div className="flex flex-col gap-7 w-full">
-                        <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
-                            <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
-                              <div className="flex flex-row gap-3 items-center">
-                                <HiOutlineSpeakerphone size={20} className="text-teal-A700"/>
-                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Organized by
-                                </Text>
-                              </div>
-                              <div className="relative">
-                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.organizedBy || 'North Africa Dreamin'}
-                                </Text>
-                              </div>
-                            </div>
-                            <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
-                              <div className="flex flex-row gap-3 items-center">
-                                <BiMap  size={20} className="text-teal-A700"/>
-                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Location
-                                </Text>
-                              </div>
-                              <div className="relative">
-                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                { event?.physicalLocation || 'Online Only'}
-                                </Text>
-                              </div>
-                            </div>
+                  <div className="flex flex-row gap-3 items-center text-left">
+                      <MdOutlineDateRange  size={18} className="text-teal-A300"/>
+                      <Text
+                      className="text-gray-801  text-base font-dm-sans-medium leading-6"
+                      >
+                      {formatEventDate(event?.startDate , event?.endDate)}
+                      </Text>
+                  </div>
+                  <div className="flex flex-row gap-3 items-center  text-left">
+                      <IoMdTime  size={18} className="text-teal-A300"/>
+                      <Text
+                      className="text-gray-801  text-base font-dm-sans-medium leading-6"
+                      >
+                      {formatEventTime(event?.startDate , event?.endDate , event?.startTime? event?.startTime : '', event?.endTime? event?.endTime : '')}
+                      </Text>
+                  </div>
+                  <div className="flex flex-row gap-3 items-center text-left">
+                      <BiMap  size={18} className="text-teal-A300"/>
+                      <Text
+                      className="text-gray-801  text-base font-dm-sans-medium leading-6"
+                      >
+                      {event?.physicalLocation || "Online Only"}
+                      </Text>
+                  </div>
+                  {event?.userParticipated ? (
+                    <div className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 cursorpointer-green rounded-full">
+                    <button
+                      style={{whiteSpace:'nowrap'}}
+                        type="button"
+                        className="text-base text-light_blue-51"
+                    >
+                      Participate
+                      </button>
+                  </div>
+                  ) : 
+                  ( 
+                    <div className="flex flex-row gap-3 items-center  text-left">
+                      <PiTagBold    size={18} className="text-teal-A300"/>
+                      <Text
+                      className="text-gray-801  text-base font-dm-sans-medium leading-6"
+                      >
+                      {event?.price !== undefined && event?.price !== null ? 
+                        (event.price === 0 ? 'Free' : `$ ${(event.price).toFixed(2)}`) : 
+                        'Free'}
+                      </Text>
+                  </div>
+                  )}
+                  
+                </div>
+              </div> 
+              <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-201 pb-8">
+                <Text className=" text-[22px] font-dm-sans-medium leading-8 text-left text-blue_gray-903">
+                    Overview
+                </Text>
+                <div className="flex flex-col gap-7 w-full">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
+                        <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
+                          <div className="flex flex-row gap-3 items-center">
+                            <HiOutlineSpeakerphone size={20} className="text-teal-A700"/>
+                            <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
+                            Organized by
+                            </Text>
+                          </div>
+                          <div className="relative">
+                            <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
+                            {event?.organizedBy || 'North Africa Dreamin'}
+                            </Text>
+                          </div>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
-                            <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
-                              <div className="flex flex-row gap-3 items-center">
-                                <MdOutlineDateRange  size={20} className="text-teal-A700"/>
-                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Start Date
-                                </Text>
-                              </div>
-                              <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                              {event?.startDate ? format(event?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.startTime || ''}
-                              </Text>
-                            </div>
-                            <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
-                              <div className="flex flex-row gap-3 items-center">
-                                <MdOutlineDateRange   size={20} className="text-teal-A700"/>
-                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                End Date
-                                </Text>
-                              </div>
-                              <div className="relative">
-                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.endDate 
-                                  ? format(new Date(event?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                  : event?.startDate 
-                                    ? format(new Date(event?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                    : 'Coming Soon'} {event?.endTime || ''}
-                                </Text>
-                              </div>
-                            </div>
+                        <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
+                          <div className="flex flex-row gap-3 items-center">
+                            <BiMap  size={20} className="text-teal-A700"/>
+                            <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
+                            Location
+                            </Text>
+                          </div>
+                          <div className="relative">
+                            <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
+                            { event?.physicalLocation || 'Online Only'}
+                            </Text>
+                          </div>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
-                            <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
-                              <div className="flex flex-row gap-3 items-center">
-                                <BiPurchaseTagAlt    size={20} className="text-teal-A700"/>
-                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Industry
-                                </Text>
-                              </div>
-                              <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                              Artificial Intelligence (AI), Finance, FinTech, Salesforce
-                              </Text>
-                            </div>
-                            <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
-                              <div className="flex flex-row gap-3 items-center">
-                                <TbCopy   size={20} className="text-teal-A700"/>
-                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Event Type
-                                </Text>
-                              </div>
-                              <div className="relative flex flex-row gap-3 items-center">
-                                <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                { event?.category || 'Meetup, Networking, Conference'}
-                                </Text>
-                              </div>
-                            </div>
+                    </div>
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
+                        <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
+                          <div className="flex flex-row gap-3 items-center">
+                            <MdOutlineDateRange  size={20} className="text-teal-A700"/>
+                            <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
+                            Start Date
+                            </Text>
+                          </div>
+                          <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
+                          {event?.startDate ? format(event?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.startTime || ''}
+                          </Text>
                         </div>
-                        <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
-                            <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
-                              <div className="flex flex-row gap-3 items-center">
-                              <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
-                                <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Description
-                                </Text>
-                              </div>
-                              <div className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.description.split('\n').map((line , index) =>
-                                  <p key={index} className="mb-4">{line}</p>
-                                ) }
-                              </div>
-                            </div>
+                        <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
+                          <div className="flex flex-row gap-3 items-center">
+                            <MdOutlineDateRange   size={20} className="text-teal-A700"/>
+                            <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
+                            End Date
+                            </Text>
+                          </div>
+                          <div className="relative">
+                            <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
+                            {event?.endDate 
+                              ? format(new Date(event?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
+                              : event?.startDate 
+                                ? format(new Date(event?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
+                                : 'Coming Soon'} {event?.endTime || ''}
+                            </Text>
+                          </div>
                         </div>
-                        {(event?.status == 'past' && event?.attendeesUsers?.length > 0) &&
-                        <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
+                    </div>
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
+                        <div className="flex flex-col justify-center items-start w-full md:w-[50%] gap-2.5">
+                          <div className="flex flex-row gap-3 items-center">
+                            <BiPurchaseTagAlt    size={20} className="text-teal-A700"/>
+                            <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
+                            Industry
+                            </Text>
+                          </div>
+                          <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
+                          Artificial Intelligence (AI), Finance, FinTech, Salesforce
+                          </Text>
+                        </div>
+                        <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
+                          <div className="flex flex-row gap-3 items-center">
+                            <TbCopy   size={20} className="text-teal-A700"/>
+                            <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
+                            Event Type
+                            </Text>
+                          </div>
+                          <div className="relative flex flex-row gap-3 items-center">
+                            <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
+                            { event?.category || 'Meetup, Networking, Conference'}
+                            </Text>
+                          </div>
+                        </div>
+                    </div>
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                           <div className="flex flex-row gap-3 items-center">
                           <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
                             <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                            Attendance
+                            Description
                             </Text>
                           </div>
-                          <div className="flex flex-row gap-3 w-full items-center pl-8">
-                          {event?.attendeesUsers?.length > 0 && (
-                            <>
-                              {event?.attendeesUsers?.slice(0, 10).map((item, index) => (
-                                <img 
-                                  key={index}
-                                  src={item?.userId?.image}
-                                  alt="vector_three"
-                                  className="rounded-full w-12 h-12"
-                                />
-                              ))}
-                              {event?.attendeesUsers?.length > 10 && (
-                                <Text className="text-gray700  text-lg font-bold leading-26 tracking-wide text-left">
-                                  + {event?.attendeesUsers?.length - 10}
-                                </Text>
-                              )}
-                            </>
-                          )}
+                          <div className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
+                            {event?.description.split('\n').map((line , index) =>
+                              <p key={index} className="mb-4">{line}</p>
+                            ) }
                           </div>
                         </div>
                     </div>
-                        }
-                    </div>
-                  </div> 
-                  <div className="flex flex-col gap-6 pt-9 w-full pb-8">
-                    <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
-                    Sponsor
-                    </Text>
-                    <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-10 w-full items-center">
-                      {sponsors?.length > 0 && (
-                        sponsors.map((item, index) => (
-                          <img key={index}
-                        src={item.logo}
-                        alt="vector_three"
-                          />
-                        ))
+                    {(event?.status == 'past' && event?.attendeesUsers?.length > 0) &&
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
+                    <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
+                      <div className="flex flex-row gap-3 items-center">
+                      <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
+                        <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
+                        Attendance
+                        </Text>
+                      </div>
+                      <div className="flex flex-row gap-3 w-full items-center pl-8">
+                      {event?.attendeesUsers?.length > 0 && (
+                        <>
+                          {event?.attendeesUsers?.slice(0, 10).map((item, index) => (
+                            <img 
+                              key={index}
+                              src={item?.userId?.image || userDefaultProfil}
+                              alt="vector_three"
+                              className="rounded-full w-12 h-12"
+                            />
+                          ))}
+                          {event?.attendeesUsers?.length > 10 && (
+                            <Text className="text-gray700  text-lg font-bold leading-26 tracking-wide text-left">
+                              + {event?.attendeesUsers?.length - 10}
+                            </Text>
+                          )}
+                        </>
                       )}
+                      </div>
                     </div>
-                  </div>  
-              </div>
-            </div>
+                </div>
+                    }
+                </div>
+              </div> 
+              <div className="flex flex-col gap-6 pt-9 w-full pb-8">
+                <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
+                Sponsor
+                </Text>
+                <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-10 w-full items-center">
+                  {sponsors?.length > 0 && (
+                    sponsors.map((item, index) => (
+                      <img key={index}
+                    src={item?.logo}
+                    alt="vector_three"
+                      />
+                    ))
+                  )}
+                </div>
+              </div>  
+          </div>
         </div>
+    }
+    </div>
     )
 }
 export default UpcomingEventDetails;

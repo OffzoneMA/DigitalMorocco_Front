@@ -7,14 +7,14 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
-import { useGetAllProjectsQuery } from "../Services/Member.Service";
+import { useGetAllProjectsWithoutPageQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 
 const SendContactModal = (props) => {
     const [createContactReqProject] = useCreateConatctReqProjectMutation();
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { data, error, isLoading , refetch } = useGetAllProjectsQuery();
+    const { data, error, isLoading , refetch } = useGetAllProjectsWithoutPageQuery();
     const inputRef = useRef(null);
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
@@ -89,7 +89,7 @@ const SendContactModal = (props) => {
               </div>
               <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 {/* <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg> */}
               </div>
             </div>
@@ -160,7 +160,7 @@ const SendContactModal = (props) => {
                     </Text>
                     <div className="bg-white-A700 icon-container text-blue-700 border border-solid border-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] flex flex-row gap-[6px] items-center p-[7px] rounded-md w-auto">
                       <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.5 11.5L8.5 8.5M8.5 8.5L11.5 11.5M8.5 8.5V15.25M14.5 12.0571C15.4161 11.3005 16 10.156 16 8.875C16 6.59683 14.1532 4.75 11.875 4.75C11.7111 4.75 11.5578 4.6645 11.4746 4.5233C10.4965 2.86363 8.69082 1.75 6.625 1.75C3.5184 1.75 1 4.2684 1 7.375C1 8.92458 1.62659 10.3278 2.64021 11.3451" stroke="#2575F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5.5 11.5L8.5 8.5M8.5 8.5L11.5 11.5M8.5 8.5V15.25M14.5 12.0571C15.4161 11.3005 16 10.156 16 8.875C16 6.59683 14.1532 4.75 11.875 4.75C11.7111 4.75 11.5578 4.6645 11.4746 4.5233C10.4965 2.86363 8.69082 1.75 6.625 1.75C3.5184 1.75 1 4.2684 1 7.375C1 8.92458 1.62659 10.3278 2.64021 11.3451" stroke="#2575F0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       <input
                       ref={inputRef}
@@ -183,7 +183,7 @@ const SendContactModal = (props) => {
                 <div className="flex flex-col items-center gap-[16px] text-blue-A400 justify-end gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12"
                  onClick={()=> onButtonClick(inputRef)} >
                   <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 14.5L11 10.5M11 10.5L15 14.5M11 10.5V19.5M19 15.2428C20.2215 14.234 21 12.7079 21 11C21 7.96243 18.5376 5.5 15.5 5.5C15.2815 5.5 15.0771 5.386 14.9661 5.19774C13.6621 2.98484 11.2544 1.5 8.5 1.5C4.35786 1.5 1 4.85786 1 9C1 11.0661 1.83545 12.9371 3.18695 14.2935" stroke="#2575F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M7 14.5L11 10.5M11 10.5L15 14.5M11 10.5V19.5M19 15.2428C20.2215 14.234 21 12.7079 21 11C21 7.96243 18.5376 5.5 15.5 5.5C15.2815 5.5 15.0771 5.386 14.9661 5.19774C13.6621 2.98484 11.2544 1.5 8.5 1.5C4.35786 1.5 1 4.85786 1 9C1 11.0661 1.83545 12.9371 3.18695 14.2935" stroke="#2575F0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <input
                     ref={inputRef}
@@ -226,7 +226,7 @@ const SendContactModal = (props) => {
       </ModalProvider>
       <ConfirmedModal isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
         m1="Your contact request has been successfully sent to"
-        m2="Venture Catalys" 
+        m2={props?.rowData?.name || "Venture Catalys"} 
         m3="The investor will review your contact request and respond accordingly, keep an eye on your email for any additional communication or updates." />
     </>
     );

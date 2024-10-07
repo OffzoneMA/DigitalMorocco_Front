@@ -9,6 +9,7 @@ import { useGetAllUsersQuery } from "../Services/User.Service";
 import { FaUserCircle } from "react-icons/fa";
 import { useGetShareWithDataQuery, useShareDocumentMutation } from "../Services/Document.Service";
 import Loader from "./Loader";
+import userDefaultProfil from "../Media/User1.png";
 
 const ShareDocumentToMembersModal = (props) => {
   const [selectedMembers, setSelectedMembers] = useState(
@@ -90,8 +91,8 @@ const ShareDocumentToMembersModal = (props) => {
   };
 
 
-const filteredInvestors = filteredUsers.filter(investor =>
-  investor.name?.toLowerCase().includes(searchValue.toLowerCase())
+const filteredInvestors = filteredUsers?.filter(investor =>
+  investor?.name?.toLowerCase().includes(searchValue.toLowerCase())
 );
 
 const onSubmit = async () => {
@@ -128,31 +129,31 @@ const onSubmit = async () => {
                 <Text
                   className="md:text-lg text-[18px]  leading-7 font-DmSans text-[#1D2939] font-medium w-full"
                 >
-                  Share Document to members
+                  Share Document
                 </Text>
               </div>
               <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 {/* <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg> */}
               </div>
             </div>
-          <div className="flex w-full rounded-md p-2 border border-solid">
-            <input
-              className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
-              type="text"
-              name="search"
-              placeholder="Search Investors"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-            <IoSearch size={18} className="text-[#98A2B3] z-20 hover:text-gray-500"/>
-          </div>
+            <div className="relative w-full">
+              <input
+                className={`pl-3 pr-3 h-[44px] py-2 w-full border border-[#D0D5DD] rounded-md placeholder:text-blue_gray-301 text-gray700 font-manrope text-left text-sm tracking-[0.14px] focus:border-focusColor focus:shadow-inputBs`}
+                type="text"
+                name="search"
+                placeholder="Search"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+              <IoSearch size={18} className="absolute top-1/2 right-3 transform -translate-y-1/2 text-[#98A2B3] z-20 hover:text-gray-500" />
+            </div>
           <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
             {
               filteredInvestors?.length > 0 ?
               (filteredInvestors.map((item, index) => (
-              <div key={index} className="flex items-center justify-start space-x-3 border-b border-gray-201 py-3 cursorpointer-green" 
+              <div key={index} className="flex items-center justify-start space-x-3 border-b border-gray-201 py-3 hover:bg-gray-100 cursorpointer" 
               onClick={() => handleMembersSelection(item._id, item.role)}>
                 <label htmlFor={`check_inv_${index}`} className="cursorpointer-green relative inline-flex items-center">
                   <input id={`check_inv_${index}`}
@@ -180,10 +181,10 @@ const onSubmit = async () => {
                 {item?.image ? (
                   <img src={item.image} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
                 ) : (
-                  <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> 
+                  <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
                 )}
-                <Text className="text-sm leading-6 text-gray-900_01 tracking-normal" size="txtDMSansRegular14">
-                  {item.name}
+                <Text className="text-sm leading-6 text-gray-900_01 tracking-normal capitalize" size="txtDMSansRegular14">
+                  {item?.name}
                 </Text>
               </div>
             ))) :
@@ -196,7 +197,7 @@ const onSubmit = async () => {
               (
                 <div className="flex flex-col items-center h-screen  w-full py-28 gap-4">
                   <svg width="29" height="32" viewBox="0 0 29 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <Text
                     className="font-dm-sans-medium text-sm leading-[26px] text-gray700 w-auto"

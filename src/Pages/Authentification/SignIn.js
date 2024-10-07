@@ -103,7 +103,7 @@ export default function SignIn() {
               if (userInfo?.role?.toLowerCase() == "admin") { 
                 navigate('/Dashboard_Admin') 
               }
-              else if(userInfo?.role?.toLowerCase() == "member") {
+              else if(userInfo?.role?.toLowerCase() == "member" || userInfo?.role?.toLowerCase() == "investor") {
                 navigate('/Dashboard')
               }
               else if(userInfo?.status?.toLowerCase() == "pending") {

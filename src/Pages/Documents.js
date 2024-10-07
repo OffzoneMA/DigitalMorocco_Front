@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
 import { FiEdit3 } from "react-icons/fi";
@@ -18,11 +18,11 @@ import SearchInput from "../Components/SeachInput";
 import { useGetDocumentsForUserQuery , useCreateDocumentMutation , useUpdateDocumentMutation , useDeleteDocumentMutation} from "../Services/Document.Service";
 import Loader from "../Components/Loader";
 import { FaUserCircle } from "react-icons/fa";
+import userdefaultProfile from '../Media/User.png';
 
 const Documents = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
-  const { data: documents, error, isLoading , refetch} = useGetDocumentsForUserQuery();
   const [createDocument, createResponse] = useCreateDocumentMutation(); 
   const [updateDocument, updateResponse] = useUpdateDocumentMutation();
   const [deleteDocument, deleteResponse] = useDeleteDocumentMutation();  
@@ -35,16 +35,19 @@ const Documents = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
+  const [totalPages , setTotalPages] = useState(0);
+  const { data: documents, error, isLoading , refetch} = useGetDocumentsForUserQuery({page: cur , pageSize: itemsPerPage});
   const data = documents;
-  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return data?.slice(startIndex, endIndex);
-  };
+  const pageData = documents?.documents;
 
-  const pageData = getPageData();
+  useEffect(() => {
+    refetch();
+  }, [cur , itemsPerPage , refetch ]);
+
+  useEffect(() => {
+    setTotalPages(documents?.totalPages)
+  }, [documents]);
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
@@ -143,7 +146,7 @@ const Documents = () => {
                   type="button"
               >
                   <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.375 12.125V13.175C17.375 14.6451 17.375 15.3802 17.0889 15.9417C16.8372 16.4357 16.4357 16.8372 15.9417 17.0889C15.3802 17.375 14.6451 17.375 13.175 17.375H5.825C4.35486 17.375 3.61979 17.375 3.05827 17.0889C2.56435 16.8372 2.16278 16.4357 1.91111 15.9417C1.625 15.3802 1.625 14.6451 1.625 13.175V12.125M13.875 6L9.5 1.625M9.5 1.625L5.125 6M9.5 1.625V12.125" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17.375 12.125V13.175C17.375 14.6451 17.375 15.3802 17.0889 15.9417C16.8372 16.4357 16.4357 16.8372 15.9417 17.0889C15.3802 17.375 14.6451 17.375 13.175 17.375H5.825C4.35486 17.375 3.61979 17.375 3.05827 17.0889C2.56435 16.8372 2.16278 16.4357 1.91111 15.9417C1.625 15.3802 1.625 14.6451 1.625 13.175V12.125M13.875 6L9.5 1.625M9.5 1.625L5.125 6M9.5 1.625V12.125" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <span className="text-sm font-medium leading-[18.23px]">Upload New Document</span>
               </button>
@@ -182,7 +185,9 @@ const Documents = () => {
                           {item?.owner?.image ? (
                             <img src={item?.owner?.image} className="rounded-full h-8 w-8 mr-2" alt="" />
                           ) : (
-                            <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> // Placeholder icon
+                            <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                <img src={userdefaultProfile} alt="" className="" />
+                              </div>
                           )}
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.owner?.displayName}</span>
                         </div>
@@ -252,7 +257,7 @@ const Documents = () => {
                 {(!isLoading && !pageData?.length>0) && (
                   <div className="flex flex-col gap-[16px] rounded-[8px] items-center  w-full py-28">
                     <svg width="29" height="32" viewBox="0 0 29 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <Text
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
@@ -292,7 +297,7 @@ const Documents = () => {
             content={
               <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
                 <Text
-                  className="font-DmSans text-center text-base font-normal leading-6"
+                  className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6"
                   size=""
                 >
                   Are you sure you want to delete this document?

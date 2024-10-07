@@ -4,12 +4,12 @@ import { IoSearch } from "react-icons/io5";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import ConfirmedModal from "./ConfirmedModal";
-import { useGetInvestorsQuery } from "../Services/Investor.Service";
+import { useGetAllInvestorsWithoutPageQuery } from "../Services/Investor.Service";
 import Loader from "./Loader";
 import fileSearchImg from '../Media/file-search.svg';
 import { useShareProjectMutation } from "../Services/Member.Service";
 import { FaUserCircle } from "react-icons/fa";
-
+import userdefaultProfile from '../Media/User.png';
 
 const ShareToInvestorModal = (props) => {
   const [Mount, setMount] = useState(true)
@@ -17,7 +17,7 @@ const ShareToInvestorModal = (props) => {
   const projectId = props?.projectId;
   const [searchValue, setSearchValue] = useState("");
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-  const { data : investorsData, error, isLoading , refetch } = useGetInvestorsQuery();
+  const { data : investorsData, error, isLoading , refetch } = useGetAllInvestorsWithoutPageQuery();
   const [shareProject, { data: shareData, isLoading: shareLoding, isSuccess: shareSuccess , isError, error: shareError }] = useShareProjectMutation();
 
   const handleInvestorSelection = (id) => {
@@ -52,7 +52,7 @@ const ShareToInvestorModal = (props) => {
 //     { id: 9, logo: "/images/img_inv7.svg", name: "NextLevel Management" },
 // ];
 
-const filteredInvestors = investorsData?.investors.filter(investor =>
+const filteredInvestors = investorsData?.filter(investor =>
   investor?.name?.toLowerCase().includes(searchValue.toLowerCase())
 );
 
@@ -90,7 +90,7 @@ useEffect(() => {
       {...props}
     >
       <div className="max-h-[93vh] sm:w-full md:w-full">
-        <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-3 items-center justify-start max-w-screen-sm p-5 md:px-5 rounded-[8px] w-full">
+        <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-[18px] items-center justify-start max-w-screen-sm px-3 md:px-5 pt-5 pb-[30px] rounded-[8px] w-full">
             <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-4 mb-2 w-full">
               <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text
@@ -101,86 +101,89 @@ useEffect(() => {
               </div>
               <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
                 {/* <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#A9ACB0" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg> */}
               </div>
             </div>
-            <div className="relative flex w-full">
-              <input
-                className={`!placeholder:text-blue_gray-301 h-[44px] !text-gray700 font-manrope p-2 text-left text-sm tracking-[0.14px] w-full bg-transparent border-[1px] border-[#D0D5DD] rounded-[6px] pr-[30px]`}
-                type="text"
-                name="search"
-                placeholder="Search Investors"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-              <IoSearch
-                size={18}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#98A2B3] z-20 hover:text-gray-500"
-              />
-            </div>
-
-          <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
-            {isLoading ? (
-              <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                <Loader />
+            <div className="flex flex-col w-full gap-2">
+              <div className="relative flex w-full">
+                <input
+                  className={`!placeholder:text-blue_gray-301 h-[44px] !text-gray700 font-manrope p-2 text-left text-sm tracking-[0.14px] w-full bg-transparent border-[1px] border-[#D0D5DD] rounded-[6px] pr-[30px] focus:border-focusColor focus:shadow-inputBs`}
+                  type="text"
+                  name="search"
+                  placeholder="Search Investors"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+                <IoSearch
+                  size={18}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#98A2B3] z-20 hover:text-gray-500"
+                />
               </div>
-            ) : filteredInvestors?.length === 0 ? (
-              <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                <img src={fileSearchImg} alt="No Project Created" />
-                <Text className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                  No Project Created
-                </Text>
-              </div>
-            ) : (
-              filteredInvestors?.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center h-[64px] justify-start space-x-3 border-b border-gray-201 py-[14px] cursorpointer-green"
-                  onClick={() => handleInvestorSelection(item._id)}
-                >
-                  <label
-                    htmlFor={`check_inv_${index}`}
-                    className={`cursorpointer-green relative inline-flex items-center ${
-                      selectedInvestors.includes(item._id) ? 'animation' : ''
-                    }`}
-                  >
-                    <input
-                      id={`check_inv_${index}`}
-                      type="checkbox"
-                      checked={selectedInvestors.includes(item._id)}
-                      onChange={() => handleInvestorSelection(item._id)}
-                      className={`peer appearance-none w-[20px] h-[20px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-201 rounded-[6px] focus:ring-blue-500`}
-                    />
-                    <svg
-                      width="11"
-                      height="8"
-                      viewBox="0 0 11 7"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"
+              <div className="flex flex-col w-full max-h-[60vh] overflow-y-auto">
+                {isLoading ? (
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <Loader />
+                  </div>
+                ) : filteredInvestors?.length === 0 ? (
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <img src={fileSearchImg} alt="No Project Created" />
+                    <Text className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
+                      No Project Created
+                    </Text>
+                  </div>
+                ) : (
+                  filteredInvestors?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center h-[64px] justify-start space-x-3 border-b border-gray-201 py-[14px] hover:bg-gray-100 cursorpointer-green"
+                      onClick={() => handleInvestorSelection(item._id)}
                     >
-                      <path
-                        d="M1.5 3.5L4.14706 6L9.5 1"
-                        stroke="#1E0E62"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </label>
-                  {item?.image ? (
-                    <img src={item?.image} alt="investors" className="h-[32px] w-[32px] rounded-full" />
-                  ) : (
-                    <FaUserCircle className="h-9 w-9 text-gray-500" /> // Placeholder icon
-                  )}
-                  <Text className="text-sm text-gray-900_01 leading-6 tracking-normal font-dm-sans-regular">
-                    {item.name}
-                  </Text>
-                </div>
-              ))
-            )}
-          </div>
+                      <label
+                        htmlFor={`check_inv_${index}`}
+                        className={`cursorpointer-green relative inline-flex items-center ${
+                          selectedInvestors.includes(item._id) ? 'animation' : ''
+                        }`}
+                      >
+                        <input
+                          id={`check_inv_${index}`}
+                          type="checkbox"
+                          checked={selectedInvestors.includes(item._id)}
+                          onChange={() => handleInvestorSelection(item._id)}
+                          className={`peer appearance-none w-[20px] h-[20px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-201 rounded-[6px] focus:ring-blue-500`}
+                        />
+                        <svg
+                          width="11"
+                          height="8"
+                          viewBox="0 0 11 7"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"
+                        >
+                          <path
+                            d="M1.5 3.5L4.14706 6L9.5 1"
+                            stroke="#1E0E62"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </label>
+                      {item?.image ? (
+                        <img src={item?.image} alt="investors" className="h-[32px] w-[32px] rounded-full" />
+                      ) : (
+                        <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                          <img src={userdefaultProfile} alt="" className="" />
+                        </div>
+                      )}
+                      <Text className="text-sm text-gray-900_01 leading-6 tracking-normal font-dm-sans-regular">
+                        {item.name}
+                      </Text>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
                 <button 
                 onClick={props.onRequestClose}
@@ -194,7 +197,7 @@ useEffect(() => {
                     Share to Selected Investors
                 </button>
                 
-              </div>
+          </div>
         </div>
       </div>
     </ModalProvider>

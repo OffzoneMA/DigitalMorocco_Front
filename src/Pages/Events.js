@@ -20,11 +20,11 @@ import format from "date-fns/format";
 import DownloadTicket1 from "../Components/DownloadTicket1";
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import ReactDOM from 'react-dom';
+import userDefaultProfil from '../Media/User1.png';
 
 const Events = () => {
   const navigate = useNavigate();
   const field = 'physicalLocation';
-  const {data : eventsParticipate , error , isLoading , refetch } = useGetEventsForUserQuery();
   const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
@@ -39,6 +39,12 @@ const Events = () => {
   const [downloadFile , setDownloadFile] = useState(false);
   const itemsPerPage = 8;
   const itemsToShow = 4;
+  const [totalPages , setTotalPages] = useState(0);
+  const {data : eventsParticipate , error , isLoading , refetch } = useGetEventsForUserQuery({page :cur , pageSize: itemsPerPage ,
+    ...(filterApply && {
+    physicalLocation: location || undefined,
+    eventNames: eventName.length > 0 ? eventName : undefined,
+  })});
   const [activeDropdown, setActiveDropdown] = useState(-1);
   const dropdownRef = useRef(null);
   const [openDropdownIndexes, setOpenDropdownIndexes] = useState([]);
@@ -47,7 +53,11 @@ const Events = () => {
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+  }, [cur , itemsPerPage , refetch , filterApply]);
+
+  useEffect(() => {
+    setTotalPages(eventsParticipate?.totalPages)
+  }, [eventsParticipate]);
 
   const toggleDropdownClick = (index, event) => {
     event.stopPropagation();
@@ -98,19 +108,10 @@ const Events = () => {
     setDownloadFile(false);
   };
 
-  const events = eventsParticipate;
+  const events = eventsParticipate?.events;
 
   const filteredData = events?.filter(item => {
     const keywordMatch = item.title.toLowerCase().includes(keywords.toLowerCase());
-  
-    if (filterApply) {
-      const typeMatch = eventName.length === 0 || eventName.some(category => item.title.includes(category));
-  
-      const locationMatch = !location || item.physicalLocation.toLowerCase().includes(location.toLowerCase());
-  
-      return keywordMatch && typeMatch && locationMatch;
-    }
-  
     return keywordMatch;
   });
   
@@ -121,15 +122,8 @@ const Events = () => {
     seteventName([]);
     setLocation('');
   }
-  const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredData?.slice(startIndex, endIndex);
-  };
-
-  const pageData = getPageData();
+  const pageData = filteredData;
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
@@ -216,9 +210,9 @@ const Events = () => {
                       {filter && 
                     (
                         <>
-                        <div className="flex rounded-md p-2 border border-solid min-w-[160px] w-[25%] ">
+                        <div className="flex min-w-[160px] w-[25%] ">
                           <input
-                            className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                            className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                             type="text"
                             name="search"
                             placeholder="Keywords"
@@ -315,24 +309,26 @@ const Events = () => {
                     <tbody className="items-center w-full ">
                     {
                         (pageData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} >
-                      <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
-                          <div className="px-[18px] py-4 flex items-center" >
-                              <img src={item.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full cursorpointer`} onClick={()=> navigate(`/EventDetails/${item?._id}`)} >
+                      <td className="w-auto px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-tight">
+                          <div className=" flex items-center gap-4" >
+                              <img src={item.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300"/>
                               <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
                           </div>
                       </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
+                        <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed" 
                         style={{ whiteSpace: 'nowrap' }}>
-                          <div className="flex items-center" >
-                              <img src={item.organizerLogo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.organizername}</span>
+                          <div className="flex items-center gap-3" >
+                              {item?.organizerLogo ? <img src={item.organizerLogo} className="rounded-full h-8 w-8"/>
+                              :
+                              <img src={userDefaultProfil} className="rounded-full h-8 w-8"/>}
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.organizername || "-"}</span>
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
+                        <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-none">
                           {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy')} ${item?.startTime?.toLowerCase()}` : 'Coming Soon'}
                         </td>                        
-                        <td className="px-[18px] py-4  text-gray-801 font-dm-sans-regular text-sm leading-6"
+                        <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed"
                          style={{whiteSpace:"nowrap"}}>
                           <div style={{whiteSpace:"nowrap" , textDecoration: 'capitalize'}} className={`flex flex-row space-x-2 items-center px-2 capitalize font-dm-sans-regular text-sm leading-6 text-white-A700 rounded-full ${
                           item.status?.toLowerCase() === 'past' ? 'bg-[#F4A118]' :
@@ -342,9 +338,9 @@ const Events = () => {
                           {`${item.status} Event` }
                         </div>
                           </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
+                        <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed" 
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.physicalLocation || 'Virtual'}</td>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6"
+                        <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed"
                           >
                             <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >
                               <div className="dropdown relative">

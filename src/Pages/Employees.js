@@ -13,6 +13,7 @@ import { PiUsersThin } from "react-icons/pi";
 import { FiEdit3 } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi";
 import Loader from "../Components/Loader";
+import userdefaultProfile from '../Media/User.png';
 
 const Employees = () => {
   const [employees, setMembers] = useState([]);
@@ -28,19 +29,11 @@ const Employees = () => {
   const itemsPerPage = 8;
   const pagesToShow = 4;
 
-  const data = filteredEmployees;
-  const totalTablePages = Math.ceil(data.length / itemsPerPage);
-
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
-  }
-  const pageData = getPageData();
+  const pageData = filteredEmployees;
 
   useEffect(() => {
     fetchMembers();
-  } , []);
+  }, [cur]);
 
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
@@ -52,9 +45,15 @@ const Employees = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        params: {
+          page: cur,
+          pageSize : itemsPerPage,
+        },
+
       });
-      setMembers(response.data);
-      setFilteredEmployees(response.data);
+      setMembers(response.data?.employees);
+      setTotalPages(response.data.totalPages);
+      setFilteredEmployees(response.data?.employees);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -63,7 +62,7 @@ const Employees = () => {
   };
 
   const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalTablePages) {
+    if (page >= 1 && page <= totalPages) {
       setCur(page);
     }
   };
@@ -155,8 +154,14 @@ const Employees = () => {
                         onClick={() => handleEditEmployee(employee._id)}>
                         <td className="px-[18px] py-4 text-gray-900_01" >
                           <div className="flex items-center " style={{}}>
-                            <img src={ employee?.image || `data:image/png;base64,${employee.photo}`} alt="owner" className="hidden md:block h-9 w-9 mr-2 rounded-full"/>
-                            <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{employee.fullName}</span>
+                            {employee?.image ? (
+                              <img src={employee?.image} className="rounded-full h-9 w-9 " alt="" />
+                            ) : (
+                              <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                <img src={userdefaultProfile} alt="" className="" />
+                              </div>
+                            )}
+                            <span className="capitalize" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{employee?.fullName}</span>
                           </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray500">{employee.workEmail}</td>
@@ -237,7 +242,7 @@ const Employees = () => {
                 <div className='w-full flex items-center p-4'>
                     <TablePagination
                       currentPage={cur}
-                      totalPages={totalTablePages}
+                      totalPages={totalPages}
                       onPageChange={handlePageChange}
                       itemsToShow={pagesToShow}
                     />

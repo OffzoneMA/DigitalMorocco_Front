@@ -26,6 +26,8 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
 import { v4 as uuidv4 } from 'uuid';
 import Popup from "reactjs-popup";
+import userdefaultProfile from '../Media/User1.png'
+import { set } from "date-fns";
 
 const CreateProject = () => {
   const dividerRef = useRef(null);
@@ -77,6 +79,7 @@ const CreateProject = () => {
   const logoFileInputRef = useRef(null);
   const logoFileInputRefChange = useRef(null);
   const [isFormValid, setIsFormValid] = useState(true);
+  const [isAllFormValid , setIsAllFormValid] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
     country: false,
@@ -127,7 +130,7 @@ const CreateProject = () => {
     return '';
   }
 
-  const { register, handleSubmit, setValue, trigger, formState: { errors , isSubmitting } } = useForm(project !=null && {
+  const { register, handleSubmit, setValue, trigger, formState: { errors , isSubmitting , isValid:validForm } } = useForm(project !=null && {
     defaultValues: {
       name: project?.name,
       details: project?.details,
@@ -139,27 +142,24 @@ const CreateProject = () => {
   });
 
   useEffect(() => {
-    // if (Mount) { setMount(false) }
-    // else{
-      if (hasSubmitted ) {
-        const isCountryValid = selectedCountry !== null;
-        const isStageValid = selectedStage !== "";
-        const isSectorValid = selectedSector !== "";
-        const isPublicationValid = selectedPublication !== "";
-        const isStatusValid = selectedStatus !== "";
-        const isValid = isCountryValid && isStageValid && isSectorValid && isPublicationValid;
-    
-        setRequiredFields({
-          country: !isCountryValid,
-          stage: !isStageValid,
-          sector: !isSectorValid,
-          publication: !isPublicationValid,
-          status: !isStatusValid
-        });
-    
-        setIsFormValid(isValid);
-      }
-    // }
+    const isCountryValid = selectedCountry !== null;
+    const isStageValid = selectedStage !== "";
+    const isSectorValid = selectedSector !== "";
+    const isPublicationValid = selectedPublication !== "";
+    const isStatusValid = selectedStatus !== "";
+    const isValid = isCountryValid && isStageValid && isSectorValid && isPublicationValid;
+    setIsAllFormValid(isValid);
+    if (hasSubmitted ) {
+      setRequiredFields({
+        country: !isCountryValid,
+        stage: !isStageValid,
+        sector: !isSectorValid,
+        publication: !isPublicationValid,
+        status: !isStatusValid
+      });
+  
+      setIsFormValid(isValid);
+    }
   }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication, selectedStatus]);
   
   // useEffect(() => {
@@ -188,7 +188,7 @@ const CreateProject = () => {
   const fetchMembers = async () => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuser`, {
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuserWithoutPage`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -624,8 +624,8 @@ const handleStatusChangeAndUpdate = async () => {
                           trigger={open => (
                             <button
                               onClick={() => handleStatusChangeAndUpdate()}
-                              className="bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer-green rounded-md"
-                              type="button"
+                              className={`${(isAllFormValid && validForm) ? 'bg-teal-A700 text-white-A700 hover:bg-greenbtnhoverbg active:bg-[#018080]' : 'bg-[#e5e5e6] text-[#a7a6a8]'} text-sm font-dm-sans-medium flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer-green rounded-md`}
+                              type="button" disabled={!(isAllFormValid && validForm)}
                             >
                               <svg
                                 width="21"
@@ -636,7 +636,7 @@ const handleStatusChangeAndUpdate = async () => {
                               >
                                 <path
                                   d="M11.375 1.75L3.58178 11.1019C3.27657 11.4681 3.12396 11.6512 3.12163 11.8059C3.1196 11.9404 3.17952 12.0683 3.2841 12.1528C3.40441 12.25 3.64278 12.25 4.11953 12.25H10.5L9.625 19.25L17.4182 9.89813C17.7234 9.53188 17.876 9.34876 17.8784 9.1941C17.8804 9.05965 17.8205 8.93173 17.7159 8.84722C17.5956 8.75 17.3572 8.75 16.8805 8.75H10.5L11.375 1.75Z"
-                                  stroke="white"
+                                  stroke={(isAllFormValid && validForm) ? "white" : "#a7a6a8"}
                                   strokeWidth="1.4"
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
@@ -665,7 +665,7 @@ const handleStatusChangeAndUpdate = async () => {
                             <button
                               onClick={() => handleStatusChangeAndUpdate()}
                               className="bg-[#A9ACB0] hover:bg-[#a7a6a8] active:bg-[#E2E2EE] text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer-green rounded-md"
-                              type="button"
+                              type="button" disabled={!(isAllFormValid && validForm)}
                             >
                               <svg
                                 width="21"
@@ -809,7 +809,7 @@ const handleStatusChangeAndUpdate = async () => {
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
-                          <img src={ option?.image || `data:image/png;base64,${option.photo}` || `/images/img_avatar_2.png`} alt="teams" className="h-8 w-8 rounded-full"/>
+                          <img src={ option?.image || userdefaultProfile} alt="teams" className="h-8 w-8 rounded-full"/>
                           <div className="flex flex-col gap-1.5 items-start justify-center w-full">
                             <Text
                               className="text-[#101828] text-sm w-auto"

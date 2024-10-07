@@ -18,7 +18,12 @@ export const documentApi = createApi({
             query: () => '/all',
         }),
         getDocumentsForUser: builder.query({
-            query: () => '/user',
+            query: ({ page, pageSize }= {}) => ({
+                url: `/user`,
+                method: 'GET',
+                params: {page, pageSize },
+            }),
+
         }),
         getDocumentById: builder.query({
             query: (id) => `/${id}`,

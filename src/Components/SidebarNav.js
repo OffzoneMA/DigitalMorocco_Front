@@ -20,6 +20,8 @@ import simpleLogoText from '../Media/img_simple_logo_text.svg';
 import { useGetUserDetailsQuery } from "../Services/Auth";
 import { useLocation } from "react-router-dom";
 import ReactDOM from 'react-dom';
+import { PiAtomBold } from "react-icons/pi";
+import userDefaultProfil from '../Media/User1.png';
 
 const SidebarNav = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
@@ -91,11 +93,11 @@ const SidebarNav = () => {
   };
   
   const Menus = [
-    { title: "Dashboard", src: <RiHome6Line size={22} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": "Dashboard" },
+    { title: "Dashboard", src: <RiHome6Line size={23} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": "Dashboard" },
     
-    (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={22} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
-    (userData?.role?.toLowerCase() === "member") && {
-      title: "Company", src: <BiBuildings size={22} className="text-light_blue-100"/>,
+    (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={23} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
+    (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && {
+      title: "Company", src: <BiBuildings size={23} className="text-light_blue-100"/>,
       submenu: true, activeLinks: ["CreateOrEditEmployee" , "MyCompany" , "Employees" , "CompanyLegal"] ,
       child: [
         //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
@@ -106,28 +108,45 @@ const SidebarNav = () => {
     }
     ,
     (userData?.role?.toLowerCase() === "member") && { 
-    title: "Investor", src: <TiFlashOutline size={22} className="text-light_blue-100"/> , 
+    title: "Investor", src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
     submenu: true, activeLinks: ["InvestorDetails" , "InvestorRequestsHistoty" , "MyInvestors" , "Investors"] ,
     child: [
       //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
       { title: "Investor List", src: '', link: "Investors" , activeLinks: ["Investors" ,"InvestorDetails"] },
-      { title: "My Investors", src: '', link: "MyInvestors" , activeLinks: ["MyInvestors"]},
+      { title: "My Investors", src: '', link: "MyInvestors" , activeLinks: ["MyInvestors" , "MyInvestorDetails"]},
       { title: "Request History", src: '', link: "InvestorRequestsHistoty" , activeLinks:["InvesotrRequestsHistoty"] },
     ]
     },
-    { title: "Event", src: <HiOutlineTicket size={22} className="text-light_blue-100"/>  ,
-    submenu: true, activeLinks:["Participate" ,"UpcomingEventDetails" , "PastEventDetails" , "PastEvent" , "UpcomingEvent"],
+    (userData?.role?.toLowerCase() === "investor") && { 
+      title: "Investment", src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
+      submenu: true, activeLinks: ["Investment" , "MyInvestment" , "InvestmentRequestHistory" , "InvestmentDetails"] ,
+      child: [
+        { title: "Current Requests", src: '', link: "Investment" , activeLinks: ["Investment" ] },
+        { title: "My Investments", src: '', link: "MyInvestment" , activeLinks: ["MyInvestment" , "InvestmentDetails"]},
+        { title: "Request History", src: '', link: "InvestmentRequestHistory" , activeLinks:["InvestmentRequestHistory"] },
+      ]
+      },
+    { title: "Event", src: <HiOutlineTicket size={23} className="text-light_blue-100"/>  ,
+    submenu: true, activeLinks:["Participate" ,"UpcomingEventDetails" , "PastEventDetails" , "PastEvent" , "UpcomingEvent" ,"EventDetails"],
     child: [
-      { title: "Participate", src: '', link: "Participate" , activeLinks:["Participate"] },
+      { title: "Participate", src: '', link: "Participate" , activeLinks:["Participate" , "EventDetails"] },
       { title: "Upcoming Event", src: '', link: "UpcomingEvent" , activeLinks:["UpcomingEvent", "UpcomingEventDetails"] },
       { title: "Past Event", src: '', link: "PastEvent" , activeLinks:["PastEvent", "PastEventDetails"] },
     ]},
-    (userData?.role?.toLowerCase() === "member") && { title: "Document", src: <PiFolderThin size={22}  className="text-light_blue-100"/> , link:"Document"},
-    { title: "History", src: <PiHourglassLowFill size={22} className="text-light_blue-100"/> , link:"History" },
+    (userData?.role?.toLowerCase() === "investor") && { title: "Sponsoring", src: <PiAtomBold size={23} className="text-light_blue-100"/>  ,
+    submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , "UpcomingEvent"],
+    child: [
+      { title: "Upcoming Event", src: '', link: "UpcomingSponsorEvent" , activeLinks:["UpcomingSponsorEvent", "UpcomingEventDetails"] },
+      { title: "Current Requests", src: '', link: "SponsorCurrentRequest" , activeLinks:["SponsorCurrentRequest"] },
+      { title: "Past Event Sponsor", src: '', link: "PastSponsorEvent" , activeLinks:["PastSponsorEvent", "PastEventDetails"] },
+      { title: "Request History", src: '', link: "SponsorRequestHistory" , activeLinks:["SponsorRequestHistory"] },
+    ]},
+    (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && { title: "Document", src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
+    { title: "History", src: <PiHourglassLowFill size={23} className="text-light_blue-100"/> , link:"History" },
 
   ];
   if (userData?.role === "Admin") {
-    Menus.push({ title: "Users", src: <RiUser3Line size={22} className="text-light_blue-100"/> , link:"Users" });
+    Menus.push({ title: "Users", src: <RiUser3Line size={23} className="text-light_blue-100"/> , link:"Users" });
   }
 
   const handleMouseEnter = () => {
@@ -142,7 +161,7 @@ const SidebarNav = () => {
   }
 
   return (
-  <div className={`bg-blue_gray-901 flex flex-col h-auto min-h-screen pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative`}>
+  <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative `}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex px-5" >
       <img src={simpleLogo} className={`text-4xl rounded cursorpointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => openLink()}/>
@@ -150,7 +169,7 @@ const SidebarNav = () => {
         <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`} alt={""}/>
       </Link>
     </div>
-    <div className={`flex flex-col h-full ${open ? "w-auto" : "w-20"} w-full overflow-x-unset pb-5 px-5`}>
+    <div className={`flex flex-col flex-1 h-full ${open ? "w-auto" : "w-20"} w-full overflow-y-auto pb-5 px-5`}>
       <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
         {Menus.map((Menu, index) => (
           Menu && <div key={index} >
@@ -167,7 +186,7 @@ const SidebarNav = () => {
                     </span>
               {submenuOpen[`${Menu.title}`] && (
                 open ? (
-                  <BiChevronDown size={22} fontWeight={700} className={``} onClick={() => {setSubmenu(Menu.title, !submenuOpen[Menu.title])}} />
+                  <BiChevronDown size={23} fontWeight={700} className={``} onClick={() => {setSubmenu(Menu.title, !submenuOpen[Menu.title])}} />
                 ) : (
                   ""
                 )
@@ -218,7 +237,7 @@ const SidebarNav = () => {
           </div>
         ))}
       </ul>
-      <div className=" text-base font-dm-sans-regular leading-6">
+      <div className=" text-base font-dm-sans-regular justify-end leading-6">
         <div
           onClick={() => {setSettingsOpen(!settingsOpen)
                   setActiveParent("settings")
@@ -228,12 +247,12 @@ const SidebarNav = () => {
           className={` ${!open && 'w-fit'} relative group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu))? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
           // title={!open ? "Settings" : ""}
         >
-          <IoSettingsOutline size={22} className={`text-light_blue-100 ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu) )? "active-icon-color" : "hover-active-color"}`} />
+          <IoSettingsOutline size={23} className={`text-light_blue-100 ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu) )? "active-icon-color" : "hover-active-color"}`} />
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
               Settings
           </span>
           {(open && settingsOpen)  ? (
-              <BiChevronDown size={22} className={``}  />
+              <BiChevronDown size={23} className={``}  />
             ) : (
     ""    )}
           {!open && (
@@ -308,9 +327,9 @@ const SidebarNav = () => {
         onMouseLeave={handleMouseLeave}>
           <div className={`border-t border-blue_gray-601 flex px-1 pt-5 items-center ${open ? "flex-row" : "flex-col"}`} >
             <img
-              src={`${userData?.image || userImg}`}
+              src={`${userData?.image || userDefaultProfil}`}
               alt=""
-              className="w-9 h-9 rounded-full bg-cover"
+              className="w-9 h-auto rounded-full bg-cover"
             />
             {open && <div
               className={`
@@ -339,7 +358,7 @@ const SidebarNav = () => {
                 dispatch(logout());
                 navigate('/SignIn');
               }}>
-              <HiOutlineLogout size={22} className="text-light_blue-100 group-hover:text-red-500 transition-colors duration-300" />
+              <HiOutlineLogout size={23} className="text-light_blue-100 group-hover:text-red-500 transition-colors duration-300" />
               <span className={`${!open && "hidden"} origin-left duration-200 transition-colors duration-300 flex-1 group-hover:text-red-500`}>
                 SignOut
               </span>

@@ -46,7 +46,7 @@ export default function Pagination({ nbrPages }) {
                     className={`flex gap-[10px] text-[#15143966] hover:text-white-A700 hover:bg-gray700 border-[#EBEAED] text-base  items-center justify-center border border-r-0 px-[16px] py-[14px] rounded-l-full ${current <2 && 'disabled'}`}
             >
                 <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14.1663 6H0.833008M0.833008 6L5.83301 11M0.833008 6L5.83301 1" stroke="#667085" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14.1663 6H0.833008M0.833008 6L5.83301 11M0.833008 6L5.83301 1" stroke="#667085" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 Prev
             </button>

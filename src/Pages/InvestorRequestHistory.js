@@ -14,7 +14,7 @@ import { InvestorsRequestData } from "../data/tablesData";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
-
+import { useGetDistinctRequestFieldValuesQuery , useFetchInvestorRequestsQuery} from "../Services/Member.Service";
 import axios from 'axios';
 import Loading from "../Components/Loading";
 import Loader from "../Components/Loader";
@@ -29,51 +29,39 @@ const InvestorRequestHistory = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
+  const [totalPages , setTotalPages] = useState(0);
   const [investorRequests, setInvestorRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const queryParams = { page: cur, pageSize: itemsPerPage };
+
+  if (filterApply) {
+    queryParams.status = status.length > 0 ? status.join(',') : undefined;
+    queryParams.investorNames = user.length > 0 ? user.join(',') : undefined;
+  }
+  const { data, error, isFetching:loading , refetch } = useFetchInvestorRequestsQuery(queryParams);
+  const { data : statuses, isLoading:locationLoading } = useGetDistinctRequestFieldValuesQuery('status');
+  const { data : investorNames, isLoading:typeLoading } = useGetDistinctRequestFieldValuesQuery('investorNames');
 
   useEffect(() => {
-    const fetchInvestorRequests = async () => {
-      try {
-        const token = sessionStorage.getItem("userToken");
-        const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/ContactRequest`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setInvestorRequests(response.data?.ContactsHistory);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error member contact requests history:', error);
-        setLoading(false);
-      }
-    };
+    if (!loading && data) {
+      setInvestorRequests(data?.contactRequests);
+      setTotalPages(data?.totalPages);
+    }
+  }, [data, loading]);
 
-    fetchInvestorRequests();
-  }, []);
+  console.log(data)
 
-  const getDistinctInvestorNamesAndStatuses = (data) => {
-    const investorNames = [...new Set(data.map(item => item?.investor.name))];
-    const statuses = [...new Set(data.map(item => item?.status))];
-    return { investorNames, statuses };
-}
+  useEffect(() => {
+    refetch();
+  }, [cur,itemsPerPage , filterApply]);
 
- const { investorNames, statuses } = getDistinctInvestorNamesAndStatuses(investorRequests);
-
- const invNamedata = investorNames;
- const statusData = statuses;
+  const invNamedata = Array.isArray(investorNames?.distinctValues) ? investorNames?.distinctValues : [];
+  const statusData = Array.isArray(statuses?.distinctValues) ? statuses?.distinctValues : [];  
 
   // const invNamedata = ['Venture Catalysts', 'XYZ Combinator', 'Misk500 Accelerator ', 'Brendan Wallace', 'Family Business'];
   // const statusData = ['In Progress', 'Approved', 'Rejected', 'Stand by'];
 
-  const data = investorRequests;
-  const filteredData = data?.filter(item => {
+  const filteredData = investorRequests?.filter(item => {
     const keywordMatch = item?.investor?.name.toLowerCase().includes(keywords.toLowerCase());
-    if (filterApply) {
-      const investorNameMatch = user.length === 0 || user.includes(item?.investor?.name);
-      const statusMatch = status.length === 0 || status.includes(item?.status);
-      return keywordMatch && investorNameMatch && statusMatch;
-    }
     return keywordMatch;
   });
 
@@ -84,22 +72,14 @@ const InvestorRequestHistory = () => {
     setUser([]);
   };
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredData.slice(startIndex, endIndex);
-  };
-
-  const pageData = getPageData();
+  const pageData = filteredData;
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
       setCur(page);
     }
   }
-  console.log(pageData)
   function formatDateWithoutComma(date) {
     const options = {
         year: 'numeric',
@@ -216,7 +196,7 @@ const InvestorRequestHistory = () => {
                         <td className="px-[18px] py-4 w-auto text-gray500 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>
                           {formatDateWithoutComma(new Date(item.dateCreated))}</td>
                         <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>{item?.investor?.name}</td>
-                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.communicationStatus}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.communicationStatus || "Initial send email"}</td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                           <div style={{ whiteSpace: "nowrap" }} 
                             className={`flex flex-row space-x-2 items-center py-0.5 h-[28px] px-[10px] font-dm-sans-regular text-sm leading-6 rounded-full 
@@ -237,10 +217,10 @@ const InvestorRequestHistory = () => {
               {loading ? (
                 <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : pageData.length === 0 && (
+                 </div> ) : pageData?.length === 0 && (
                   <div className="flex flex-col items-center text-gray700 w-full py-28">
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                   <Text className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto py-4" size="">
                   No matching data identified</Text>

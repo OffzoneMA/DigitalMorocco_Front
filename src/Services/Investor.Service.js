@@ -22,6 +22,25 @@ export const investorApi = createApi({
                 }
             },
         }),
+        getInvestorsList: builder.query({
+            query: ({ page, pageSize, type, location, industries }={}) => {
+                return {
+                    url: '/',
+                    params: {
+                        page, pageSize, type, location, industries}
+                    }
+            },
+        }),
+
+        getAllInvestorsWithoutPage: builder.query({
+            query: (arg) => {
+                return {
+                    url: '/withoutPage',
+                    method: 'GET',
+                    params: arg,
+                }
+            },
+        }),
         getInvestors: builder.query({
             query: () => {
                 return {
@@ -31,12 +50,11 @@ export const investorApi = createApi({
             },
         }),
         getAllConatctReq: builder.query({
-            query: (arg) => {
-                const { page,status } = arg;
+            query: ({ page, pageSize, status, funding , projectSectors , country , projectStage , projectStatus }={}) => {
                 return {
                     url: '/ContactRequest',
                     method: 'GET',
-                    params: { page, status },
+                    params: { page, pageSize , status , funding , projectSectors , country , projectStage , projectStatus},
                 }
             },
         }),
@@ -71,9 +89,24 @@ export const investorApi = createApi({
         getInvestorById: builder.query({
             query: (id) => `/byId/${id}`,
         }),
+
+        getDistinctProjectFields: builder.query({
+            query: ({ field, status }) => {
+                return {
+                    url: '/contactRequests/distinct-project-fields',
+                    method: 'GET',
+                    params: { field , status },
+                }
+            },
+        }),
+        getDistinctRequestFieldValues: builder.query({
+            query: (field) => 
+                `/request/distinct/${field}`, 
+        }),
     }),
 })
 
 export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery , 
-    useGetInvestorsQuery , useGetDistinctValuesQuery , useGetInvestorByIdQuery
-} = investorApi
+    useGetInvestorsQuery , useGetDistinctValuesQuery , useGetInvestorByIdQuery , useGetAllConatctReqQuery ,
+useGetAllInvestorsWithoutPageQuery , useGetDistinctProjectFieldsQuery , useGetDistinctRequestFieldValuesQuery , 
+useGetInvestorsListQuery} = investorApi

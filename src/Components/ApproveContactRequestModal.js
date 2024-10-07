@@ -9,27 +9,27 @@ import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
+import { useApproveRequestMutation } from "../Services/ContactRequest.Service";
 
 const ApproveContactRequestModal = (props) => {
 
-    const [selectedInvestmentType , setSelectedInvestmentType] = useState(null);
+    const [typeInvestment , setSelectedInvestmentType] = useState(null);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const formData = new FormData();
     const rowData = props?.rowData ;
+
     const onSubmit = async (data) => {
-      
-      Object.keys(data).forEach((key) => {
-        formData.append(key, data[key]);
-      });
-      openModal();
-    //   try {
-    //     const response = await createContactReqProject(formData).unwrap();
-    //     console.log('Contact request created successfully');
-    //     openModal();
-    //   } catch (error) {
-    //     console.error('Failed to create contact request:', error);
-    //   }
+      try {
+        await props?.methode({
+                approvalNotes: data?.letter,
+                typeInvestment,
+            },
+        );
+        openModal();
+      } catch (error) {
+        console.error('Failed to create contact request:', error);
+      }
     };
 
     const openModal  = () =>  {
@@ -40,6 +40,15 @@ const ApproveContactRequestModal = (props) => {
     const closeModal = () => {
         setIsConfirmedModalOpen(false);
     };
+
+    const investmentTypes = [
+        'Capital-Risque',
+        'Investissement Immobilier',
+        'Actions',
+        'Obligations',
+        'Fonds Mutuels'
+    ]
+      
 
     return (
     <>
@@ -69,15 +78,15 @@ const ApproveContactRequestModal = (props) => {
                         >
                         Type of Investment
                         </Text>
-                        <SimpleSelect id='project' options={[]} onSelect={""} searchLabel='Search Type' setSelectedOptionVal={setSelectedInvestmentType} 
-                            placeholder="Select type of Investment" valuekey="name"
+                        <SimpleSelect id='project' options={investmentTypes} onSelect={""} searchLabel='Search Type' setSelectedOptionVal={setSelectedInvestmentType} 
+                            placeholder="Select type of Investment"
                             content={
                             ( option) =>{ return (
                                 <div className="flex  py-2 items-center  w-full">
                                     <Text
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
-                                    {option.name}
+                                    {option}
                                     </Text>
                                 </div>
                                 );
@@ -131,7 +140,7 @@ const ApproveContactRequestModal = (props) => {
         </ModalProvider>
         <ConfirmedModal isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
         m1="Your Sponsorship request has been successfully sent to"
-        m2={rowData?.name || "Venture Catalys"} 
+        m2={rowData?.member?.companyName || "Venture Catalys"} 
         m3="The investor will review your contact request and respond accordingly, keep an eye on your email for any additional communication or updates." />
     </>
     );

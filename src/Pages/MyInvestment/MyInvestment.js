@@ -19,10 +19,10 @@ import { FaUsers } from "react-icons/fa";
 import { FaRProject } from "react-icons/fa6";
 import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
-import ApproveContactRequestModal from "../../Components/ApproveContactRequestModal";
-import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
 import { companyType } from "../../data/companyType";
 import { BsDot } from "react-icons/bs";
+import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../Services/Investor.Service";
+import { useApproveRequestMutation , useRejectRequestMutation } from "../../Services/ContactRequest.Service";
 
 
 const MyInvestment = () => {
@@ -33,14 +33,26 @@ const MyInvestment = () => {
     const [rowData , setRowData] = useState(null);
     const [keywords, setKeywords] = useState('');
     const [investorRequests, setInvestorRequests] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [targetFund, setTargetFund] = useState('');
     const [location, setLocation] = useState('');
     const [industries, setIndustries] = useState([])
     const [cur, setCur] = useState(1);
     const itemsPerPage = 8;
     const itemsToShow = 4;
+    const navigate = useNavigate();
     const [totalPages , setTotalPages] = useState(0);
+    const queryParams = { page: cur, pageSize: itemsPerPage , status: "Approved" };
+
+    if (filterApply) {
+      queryParams.projectStatus = industries;
+      queryParams.funding = targetFund;
+      queryParams.projectStage = location;
+    }
+    const { data: myInvestments, error, isFetching: loading , refetch} = useGetAllConatctReqQuery(queryParams);
+    const { data : sectorData, isLoading:locationLoading } = useGetDistinctProjectFieldsQuery({field: "status" , status: "Approved" });
+    const { data : fundingData, isLoading:industryLoading } = useGetDistinctProjectFieldsQuery({field: "funding", status: "Approved" });
+    const { data : locationData, isLoading:typeLoading } = useGetDistinctProjectFieldsQuery({field: "stage" , status: "Approved"});
+
 
     function handlePageChange(page) {
       if (page >= 1 && page <= totalPages) {
@@ -55,110 +67,23 @@ const MyInvestment = () => {
         setLocation('');
         setTargetFund('');
     }
+    useEffect(() => {
+      refetch();
+    }, [cur , itemsPerPage , refetch , filterApply]);
 
     useEffect(() => {
-      const fetchInvestorRequests = async () => {
-        try {
-          const token = sessionStorage.getItem("userToken");
-          const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/ContactRequest`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setInvestorRequests(response.data?.ContactsHistory);
-          setTotalPages(response?.data?.totalPages);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error member contact requests history:', error);
-          setLoading(false);
-        }
-      };
-  
-      fetchInvestorRequests();
-    }, []);
+      setTotalPages(myInvestments?.totalPages);
+    }, [myInvestments]);
 
-    const pageData = [
-        {
-          name: "Startup 1",
-          funding: 5000000,
-          totalRaised: 1560000,
-          stage: "Angel Round",
-          milestone: "Development",
-          status: "Active",
-        },
-        {
-          name: "Startup 2",
-          funding: 3000000,
-          totalRaised: 90000,
-          stage: "Angel Round",
-          milestone: "Project Launch",
-          status: "In Progress",
-        },
-        {
-          name: "Startup 4",
-          funding: 3000000,
-          totalRaised: 90000,
-          stage: "Angel Round",
-          milestone: "Project Launch",
-          status: "Active",
-        },
-        {
-          name: "Startup 3",
-          funding: 1500000,
-          totalRaised: 0,
-          stage: "Seed A",
-          milestone: "Development",
-          status: "Stand by",
-        },
-        {
-          name: "Startup 6",
-          funding: 1500000,
-          totalRaised: 90000,
-          stage: "Seed A",
-          milestone: "Development",
-          status: "Active",
-        },
-        {
-          name: "Startup 5",
-          funding: 5000000,
-          totalRaised: 90000,
-          stage: "Angel Round",
-          milestone: "Project Launch",
-          status: "In Progress",
-        },
-        {
-          name: "Startup 7",
-          funding: 5000000,
-          totalRaised: 0,
-          stage: "Angel Round",
-          milestone: "Project Launch",
-          status: "Stand by",
-        },
-        {
-          name: "Startup 8",
-          funding: 1500000,
-          totalRaised: 1560000,
-          stage: "Seed A",
-          milestone: "Development",
-          status: "Active",
-        },
-      ];
+    const sectorValues = sectorData?.distinctValues || [];
+    const fundingValues = fundingData?.distinctValues || [];
+    const locationValues = locationData?.distinctValues || [];
 
-    const uniqueFundingValues = [...new Set(pageData.map((item) => item.funding))];
+    const pageData = myInvestments?.ContactsHistory ||  [];
 
-    const uniqueLocationValues = [...new Set(pageData.map((item) => item.stage))];
+    const filteredData = pageData?.filter(item => {
+      const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
 
-    const filteredData = pageData.filter(item => {
-      const keywordMatch = item?.name.toLowerCase().includes(keywords.toLowerCase());
-    
-      if (filterApply) {
-        const matchesTargetFund = targetFund ? item.funding === Number(targetFund) : true; 
-        const matchesLocation = location ? item.location === location : true;
-        const matchesIndustries = industries.length > 0 ? industries.includes(item.stage) : true;
-    
-        return keywordMatch && matchesTargetFund && matchesLocation && matchesIndustries;
-      }
-    
       return keywordMatch;
     });
 
@@ -182,7 +107,7 @@ const MyInvestment = () => {
                 <TableTitle
                   style={{whiteSpace:"nowrap"}}
                   >
-                  Current Requests
+                  My Investments
                 </TableTitle>
                 <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
@@ -197,7 +122,7 @@ const MyInvestment = () => {
                         onChange={e => setKeywords(e.target.value)}
                       />
                     </div>
-                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={uniqueFundingValues} onSelect={""} searchLabel='Search Target Fund' setSelectedOptionVal={setTargetFund} 
+                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues} onSelect={""} searchLabel='Search Target Fund' setSelectedOptionVal={setTargetFund} 
                     placeholder="Target Fund"
                     content={
                       ( option) =>{ return (
@@ -211,8 +136,8 @@ const MyInvestment = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={uniqueLocationValues} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
-                    placeholder="Location" 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='stage' options={locationValues} onSelect={""} searchLabel='Search Stage' setSelectedOptionVal={setLocation} 
+                    placeholder="Stage" 
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -225,8 +150,8 @@ const MyInvestment = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
-                    placeholder="Select Industry"
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setIndustries} 
+                    placeholder="Select Status"
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -300,31 +225,31 @@ const MyInvestment = () => {
                     <tbody className="items-center w-full ">
                     {
                       filteredData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/InvestmentDetails/${item?._id}` , { state: {contactRequest: item}})}>
                         <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                           <div className="relative flex">
                             <div className="px-[18px] py-4 flex items-center" >
                               {item?.logo ? (
-                                <img src={item.logo} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                                <img src={item?.project?.logo} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
                               ) : (
                                 <FaRProject className="h-8 w-8 mr-2 text-light_blue-200" /> 
                               )}                              
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
                             </div>
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item?.funding?.toLocaleString('en-US')}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item.totalRaised?.toLocaleString('en-US') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.stage}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.milestone}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('en-US')}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('en-US') || 0}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.stage}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.milestones?.[0]?.name}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
-                            item.status === 'Active' ? 'bg-green-100 text-green-700' :
-                                item.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
-                                item.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
+                            item?.project?.status === 'Active' ? 'bg-green-100 text-green-700' :
+                                item?.project?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
+                                item?.project?.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
                             } inline-flex`}  style={{whiteSpace:'nowrap'}}>
                             <BsDot  size={28} className=""/>
-                            {item.status}
+                            {item?.project?.status}
                             </div>
                         </td>
                       </tr>
@@ -339,7 +264,7 @@ const MyInvestment = () => {
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">

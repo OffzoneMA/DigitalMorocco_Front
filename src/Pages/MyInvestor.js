@@ -16,11 +16,12 @@ import SearchInput from "../Components/SeachInput";
 import { FaUsers } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import Loader from "../Components/Loader";
+import { useGetDistinctInvestorFieldValuesQuery , useGetInvestorsForMemberQuery } from "../Services/Member.Service";
+import userdefaultProfile from '../Media/User.png';
 
 const MyInvestors = () => {
   const [investors, setInvestors] = useState([]);
   const [filteredInvestors, setFilteredInvestors] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
@@ -28,6 +29,7 @@ const MyInvestors = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
+  const[totalPages  , setTotalPages] = useState(0);
   const navigate = useNavigate();
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
@@ -36,52 +38,36 @@ const MyInvestors = () => {
   const [location, setLocation] = useState('');
   const [industries, setIndustries] = useState([]);
   const dataCountries = Country.getAllCountries();
+  const queryParams = { page: cur, pageSize: itemsPerPage };
 
+  if (filterApply) {
+    queryParams.type = investmentType.length > 0 ? investmentType.join(',') : undefined;
+    queryParams.location = location || undefined;
+    queryParams.industries = industries.length > 0 ? industries.join(',') : undefined;
+  }
+  const { data, error, isFetching: loading , refetch } = useGetInvestorsForMemberQuery(queryParams);
+  const { data : locations0, isLoading:locationLoading } = useGetDistinctInvestorFieldValuesQuery('location');
+  const { data : locations1 } = useGetDistinctInvestorFieldValuesQuery('country');
+  const { data : industriesData, isLoading:industryLoading } = useGetDistinctInvestorFieldValuesQuery('PreferredInvestmentIndustry');
+  const { data : investorTypes, isLoading:typeLoading } = useGetDistinctInvestorFieldValuesQuery('type');
 
   useEffect(() => {
-    fetchInvestors(currentPage);
-  }, [currentPage]); // Écouter les changements de la page courante
-
-  const fetchInvestors = async () => {
-    try {
-      const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`${process.env.REACT_APP_baseURL}/members/my-investors`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response)
-      setInvestors(response.data.investors);
-      const filteredInvestors = response.data.investors.filter(investor => investor.owner?._id === userId);
-      setFilteredInvestors(response.data.investors);
-      setLoading(false);
-      
-      if (filteredInvestors.length === 0) {
-        setNoInvestors(true);
-      } else {
-        setNoInvestors(false);
-      }
-    } catch (error) {
-      console.error("Error fetching investors:", error);
-      setLoading(false);
+    if (data) {
+      setInvestors(data?.investors?.investors);
+      setTotalPages(data?.investors?.totalPages);
+      setFilteredInvestors(data?.investors?.investors);
+      setNoInvestors(filteredInvestors.length === 0);
     }
-  };
+  }, [data]);
 
-  const data = filteredInvestors;
+  const locations = locations0 || locations1;
 
-  const filteredData = data.filter(item => {
-    const keywordMatch = item?.name.toLowerCase().includes(keywords.toLowerCase());
-  
-    if (filterApply) {
-      const typeMatch = investmentType.length === 0 || investmentType.includes(item.Type);
-  
-      const locationMatch = !location || item?.location.toLowerCase().includes(location.toLowerCase());
-  
-      const industryMatch = industries.length === 0 || industries.some(ind => item?.PreferredInvestmentIndustry.includes(ind));
-  
-      return keywordMatch && typeMatch && locationMatch && industryMatch;
-    }
-  
+  useEffect(() => {
+    refetch();
+  }, [cur, itemsPerPage , filterApply]); 
+
+  const filteredData = filteredInvestors?.filter(item => {
+    const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());  
     return keywordMatch;
   });
 
@@ -92,40 +78,14 @@ const MyInvestors = () => {
     setInvestmentType([]);
     setLocation('');
   }
-  
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredData.slice(startIndex, endIndex);
-  };
-
-  const pageData = getPageData();
+  const pageData = filteredData;
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
       setCur(page);
     }
   }
-
-  const getDistinctInvestorNamesAndStatuses = (data) => {
-    const investorTypes = [...new Set(data.map(item => item?.type))];
-    const locations = [...new Set(data.map(item => item?.location))];
-    const industriesData = [...new Set(data.map(item => item?.investorType))];
-    return { investorTypes, locations , industriesData };
-}
-
-const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAndStatuses(investors);
-
-  const invTypedata = [
-    'Venture Capital',
-    'Angel',
-    'Accelerator',
-    'Angel Club',
-    'Family Business'
-  ];
 
   return (
     
@@ -164,7 +124,7 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
                         onChange={e => setKeywords(e.target.value)}
                       />
                     </div>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes} onSelect={""} searchLabel='Search Type' setSelectedOptionVal={setInvestmentType} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes?.distinctValues || []} onSelect={""} searchLabel='Search Type' setSelectedOptionVal={setInvestmentType} 
                     placeholder="Type of Investment"
                     content={
                       ( option) =>{ return (
@@ -178,7 +138,7 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations?.distinctValues || []} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
                     placeholder="Location" 
                     content={
                       ( option) =>{ return (
@@ -192,7 +152,7 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={industriesData?.distinctValues || []} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
                     placeholder="Select Industries"
                     content={
                       ( option) =>{ return (
@@ -268,14 +228,16 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
                   <tbody className="items-center w-full ">
                   {
                   pageData.map((item, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer-green w-full`}>
+                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/MyInvestorDetails/${item?._id}` , { state: {investor: item}})}>
                     <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="relative flex">
-                          <div className="px-[18px] py-4 flex items-center" >
+                          <div className="px-[18px] py-4 flex items-center gap-2" >
                             {item?.image ? (
-                              <img src={item.image} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                              <img src={item?.image} className="rounded-full h-8 w-8" alt="Profile" />
                             ) : (
-                              <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> // Placeholder icon
+                              <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                <img src={userdefaultProfile} alt="" className="" />
+                              </div>
                             )}                              
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
                           </div>
@@ -285,11 +247,11 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
                       style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
                       <td className="px-[18px] py-4 text-left text-gray500 font-dm-sans-regular text-sm leading-6">{item?.fundingRound || "-"}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6" 
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.location || item?.country || "-"}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {item.PreferredInvestmentIndustry}
-                      </td>
+                        {Array.isArray(item?.PreferredInvestmentIndustry) ? item.PreferredInvestmentIndustry.join(', ') : ''}
+                        </td>
                     </tr>
                   ))
                   }
@@ -299,11 +261,11 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
                 { loading ? (
                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : pageData.length === 0 && (
+                 </div> ) : (!loading && pageData.length === 0) && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
@@ -313,7 +275,7 @@ const { investorTypes, locations , industriesData } = getDistinctInvestorNamesAn
                 )                 
                 }
               </div>
-              {pageData?.length>0 && (
+              {(pageData?.length>0 && !loading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
                   currentPage={cur}

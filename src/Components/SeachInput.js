@@ -116,7 +116,6 @@ useEffect(() => {
     <div className={`relative h-[44px] ${className}`}>
       <div
         className={`flex w-full items-center h-auto cursorpointer-green`}
-        onClick={''}
       >
         <input
           type="search"

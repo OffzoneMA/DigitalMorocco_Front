@@ -67,10 +67,16 @@ export const subsApi = createApi({
                 method: 'POST',
             }),
         }),
+        checkSubscriptionStatus: builder.query({
+            query: () => ({
+                url: '/forUser',
+            }),
+        }),
 
     }),
 })
 
 export const { useGetAllSubscriptonsQuery , useCreateSubscriptionForUserMutation, useUpgradeSubscriptionMutation,
      useGetSubscriptionByIdQuery, useCancelSubscriptionMutation, useAutoCancelExpiredSubscriptionsMutation, 
-     usePauseSubscriptionMutation, useGetSubscriptionsByUserQuery, useRenewSubscriptionMutation } = subsApi
+     usePauseSubscriptionMutation, useGetSubscriptionsByUserQuery, useRenewSubscriptionMutation , 
+    useCheckSubscriptionStatusQuery} = subsApi

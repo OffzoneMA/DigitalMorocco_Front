@@ -23,6 +23,7 @@ import { useGetUserDetailsQuery } from "../Services/Auth";
 import { useGetAllConatctReqQuery } from "../Services/Member.Service";
 import { FaUserCircle } from "react-icons/fa";
 import { useGetTopSectorsQuery } from "../Services/Project.Service";
+import userdefaultProfile from '../Media/User.png';
 
 const Dashbord = () => {
 const { userInfo } = useSelector((state) => state.auth)
@@ -33,8 +34,8 @@ const { userInfo } = useSelector((state) => state.auth)
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
   const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading} = useGetAllConatctReqQuery();
-  const Requestdata =  contactReqs?.ContactsHistory?.slice(0, 3)
-  const recentProjects = [...(projects || [])] // shallow copy of the array
+  const Requestdata =  contactReqs?.contactRequests?.slice(0, 3)
+  const recentProjects = [...(projects?.projects || [])]
   .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
   .slice(0, 1); 
 
@@ -136,7 +137,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     <button className="flex gap-[8px] items-center text-sm text-blue_gray-901 bg-teal-A700 rounded-md w-[197px] h-[37px] cursorpointer hover:bg-greenbtnhoverbg  px-[12px] py-[8px] " onClick={() => navigate('/Subscription') }>
                       {/* <HiOutlineSparkles size={18} className="text-blue_gray-901 mr-2" /> */}
                       <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.9375 19.75V15.375M3.9375 6.625V2.25M1.75 4.4375H6.125M1.75 17.5625H6.125M11.375 3.125L9.85759 7.07025C9.61083 7.71183 9.48745 8.03262 9.29559 8.30245C9.12554 8.5416 8.9166 8.75054 8.67745 8.92059C8.40762 9.11245 8.08683 9.23583 7.44525 9.48259L3.5 11L7.44526 12.5174C8.08683 12.7642 8.40762 12.8875 8.67745 13.0794C8.9166 13.2495 9.12554 13.4584 9.29559 13.6975C9.48745 13.9674 9.61083 14.2882 9.8576 14.9297L11.375 18.875L12.8924 14.9297C13.1392 14.2882 13.2625 13.9674 13.4544 13.6976C13.6245 13.4584 13.8334 13.2495 14.0726 13.0794C14.3424 12.8875 14.6632 12.7642 15.3047 12.5174L19.25 11L15.3047 9.48259C14.6632 9.23583 14.3424 9.11245 14.0726 8.92059C13.8334 8.75054 13.6245 8.5416 13.4544 8.30245C13.2625 8.03262 13.1392 7.71183 12.8924 7.07025L11.375 3.125Z" stroke="#1F2545" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3.9375 19.75V15.375M3.9375 6.625V2.25M1.75 4.4375H6.125M1.75 17.5625H6.125M11.375 3.125L9.85759 7.07025C9.61083 7.71183 9.48745 8.03262 9.29559 8.30245C9.12554 8.5416 8.9166 8.75054 8.67745 8.92059C8.40762 9.11245 8.08683 9.23583 7.44525 9.48259L3.5 11L7.44526 12.5174C8.08683 12.7642 8.40762 12.8875 8.67745 13.0794C8.9166 13.2495 9.12554 13.4584 9.29559 13.6975C9.48745 13.9674 9.61083 14.2882 9.8576 14.9297L11.375 18.875L12.8924 14.9297C13.1392 14.2882 13.2625 13.9674 13.4544 13.6976C13.6245 13.4584 13.8334 13.2495 14.0726 13.0794C14.3424 12.8875 14.6632 12.7642 15.3047 12.5174L19.25 11L15.3047 9.48259C14.6632 9.23583 14.3424 9.11245 14.0726 8.92059C13.8334 8.75054 13.6245 8.5416 13.4544 8.30245C13.2625 8.03262 13.1392 7.71183 12.8924 7.07025L11.375 3.125Z" stroke="#1F2545" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       Upgrade Membership
                   </button>
@@ -176,11 +177,11 @@ const { userInfo } = useSelector((state) => state.auth)
                     >
                       Created Project
                     </Text>
-                    {userDetails?.member?.projectCount > 0 ? (
+                    {userDetails?.projectCount > 0 ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userDetails?.member?.projectCount < 10 ? `0${userDetails?.member?.projectCount}` : userData?.member?.projectCount}
+                        {userDetails?.projectCount < 10 ? `0${userDetails?.projectCount}` : userDetails?.projectCount}
                       </Text>
                     ) : (
                       <Text
@@ -200,13 +201,13 @@ const { userInfo } = useSelector((state) => state.auth)
                     >
                       Investors
                     </Text>
-                    {userDetails?.member?.investorsRequestsAccepted?.length > 0 ? (
+                    {userDetails?.investorsRequestsAccepted?.length > 0 ? (
                     <Text
                       className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                     >
-                      {userDetails?.member?.investorsRequestsAccepted?.length < 10 
-                        ? `0${userDetails?.member?.investorsRequestsAccepted?.length}` 
-                        : userDetails?.member?.investorsRequestsAccepted?.length}
+                      {userDetails?.investorsRequestsAccepted?.length < 10 
+                        ? `0${userDetails?.investorsRequestsAccepted?.length}` 
+                        : userDetails?.investorsRequestsAccepted?.length}
                     </Text>
                   ) : (
                     <Text
@@ -250,7 +251,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     >
                       My Company
                     </Text>
-                    {userDetails?.member?.companyName ? (
+                    {userDetails?.companyName ? (
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
@@ -381,22 +382,22 @@ const { userInfo } = useSelector((state) => state.auth)
                           <div key={index} className="flex flex-col px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>
                             <div className="flex flex-row items-center gap-3 py-2 justify-start w-full">
                                 <Text
-                                    className=" text-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal capitalize text-left"
+                                    className=" text-lg font-dm-sans-medium leading-8 text-[#101828] tracking-normal capitalize text-left"
                                     >
-                                {item.name}
+                                {item?.name}
                                 </Text>
-                                <div className={`flex flex-row gap-[6px] bg-green-100 text-green-700 items-center py-1 px-[12px] h-7 text-sm font-dm-sans-regular leading-6 rounded-full`}>
+                                <div className={`flex flex-row gap-[6px] bg-green-100 text-[#027A48] items-center py-1 px-[12px] h-7 text-sm font-dm-sans-regular leading-6 rounded-full`}>
                                   <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="4" cy="4" r="3" fill="#12B76A"/>
                                   </svg>
-                                  {item.stage}
+                                  {item?.stage}
                                 </div>
                             </div>
                             <div className="flex flex-row gap-[25px]  py-2 w-full">
                               <div className="flex flex-col items-start justify-start">
                                   <div className="flex flex-col items-center justify-start w-auto">
                                       <Text
-                                      className="text-blue_gray-301 text-xs tracking-[1.68px] uppercase w-auto"
+                                      className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
                                       Target{" "}
@@ -404,17 +405,17 @@ const { userInfo } = useSelector((state) => state.auth)
                                   </div>
                                   <div className="flex flex-col items-start justify-center py-4 w-full">
                                   <Text
-                                      className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
+                                      className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                       size="txtDMSansMedium22"
                                   >
-                                     {item.currency} {item.funding?.toLocaleString('en-US') || 0 }
+                                     {item?.currency} {item.funding?.toLocaleString('en-US') || 0 }
                                   </Text>
                                   </div>
                               </div>
                             <div className="flex flex-col items-start justify-start w-auto">
                                 <div className="flex flex-col items-center justify-start w-auto">
                                     <Text
-                                    className="text-blue_gray-301 text-xs tracking-[1.68px] uppercase w-auto"
+                                    className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                     size="txtDMSansBold12"
                                     >
                                     Stage
@@ -422,17 +423,17 @@ const { userInfo } = useSelector((state) => state.auth)
                                 </div>
                                 <div className="flex flex-col items-start justify-center py-4 w-full">
                                 <Text
-                                    className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
+                                    className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                     size="txtDMSansMedium22"
                                 >
-                                    {item.stage}
+                                    {item?.stage}
                                 </Text>
                                 </div>
                             </div>
                             <div className="flex flex-col items-start justify-start">
                                 <div className="flex flex-col items-center justify-start w-auto">
                                     <Text
-                                    className="text-blue_gray-301 text-xs tracking-[1.68px] uppercase w-auto"
+                                    className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                     size="txtDMSansBold12"
                                     >
                                     Total Raised
@@ -440,10 +441,10 @@ const { userInfo } = useSelector((state) => state.auth)
                                 </div>
                                 <div className="flex flex-col items-start justify-start py-4 w-full">
                                 <Text
-                                    className="text-[22px] text-blue_gray-800 sm:text-lg md:text-xl w-auto"
+                                    className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                     size="txtDMSansMedium22"
                                 >
-                                    {item.currency} {item?.totalRaised?.toLocaleString('en-US') || 0}
+                                    {item?.currency} {item?.totalRaised?.toLocaleString('en-US') || 0}
                                 </Text>
                                 </div>
                             </div>
@@ -492,11 +493,13 @@ const { userInfo } = useSelector((state) => state.auth)
                             ? Requestdata.map((item, index) => (
                                 <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}`)}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
-                                    <div className="flex items-center">
+                                    <div className="flex items-center gap-2">
                                       {item?.image ? (
-                                        <img src={item.image} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                                        <img src={item.image} className="rounded-full h-8 w-8" alt="Profile" />
                                       ) : (
-                                        <FaUserCircle className="h-8 w-8 mr-2 text-gray-500" /> // Placeholder icon
+                                        <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                          <img src={userdefaultProfile} alt="" className="" />
+                                        </div>
                                       )}
                                       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                         {item?.investor?.name || 'Unknown Investor'}

@@ -17,6 +17,7 @@ import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 import Loader from "../Components/Loader";
 import { formatDate } from "../data/helper";
+import userdefaultProfile from '../Media/User.png';
 
 const CompanyLegal = () => {
   const navigate = useNavigate();
@@ -28,18 +29,17 @@ const CompanyLegal = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
+  const [totalPages , setTotalPages] = useState(0);
   const itemsPerPage = 8;
   const pagesToShow = 4;
   const [legalDocuments, setLegalDocuments] = useState([]);
-  const data =legalDocuments;
-  const totalTablePages = Math.ceil(data.length / itemsPerPage);
   const [loading, setLoading] = useState(true);
   const [documentId, setDocumentId] = useState(null); 
 
 
   useEffect(() => {
     fetchLegalDocuments();
-}, []);
+}, [cur]);
 
 const fetchLegalDocuments = async () => {
   try {
@@ -47,28 +47,27 @@ const fetchLegalDocuments = async () => {
       const response = await axios.get(`${process.env.REACT_APP_baseURL}/legal-documents/byuser` , {
         headers: {
             Authorization: `Bearer ${token}`,
-          },
+        },
+        params: {
+          page: cur,
+          pageSize : itemsPerPage,
+        },
       });
-      setLegalDocuments(response.data);
+      setLegalDocuments(response.data?.documents);
+      setTotalPages(response.data.totalPages);
       setLoading(false);
   } catch (error) {
       console.error("Error fetching legal documents:", error);
       setLoading(false);
   }  };
 
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return data?.slice(startIndex, endIndex);
-  };
-
   function handlePageChange(page) {
-    if (page >= 1 && page <= totalTablePages) {
+    if (page >= 1 && page <= totalPages) {
       setCur(page);
     }
   }
 
-  const documentData = getPageData();
+  const documentData = legalDocuments;
   
   const openModal = () => {
     setIsModalOpen(true);
@@ -86,7 +85,6 @@ const fetchLegalDocuments = async () => {
   const closeEditModal = () => {
     setIsEditModalOpen(false);
     setDocument(null);
-
   };
 
     const openDeleteModal = (rowData) => {
@@ -259,7 +257,7 @@ const fetchLegalDocuments = async () => {
                     <td className="px-[18px] py-4" >
                       <div className="flex flex-row space-x-3 items-center">
                         <GrAttachment size={15} className="text-black" />
-                        <span className="text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{`${document?.title}.${document?.name?.split('.')?.pop()}`}</span>
+                        <span className="text-gray500 capitalize" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{`${document?.title}.${document?.name?.split('.')?.pop()}`}</span>
                       </div>
                     </td>
                     <td className="py-4 px-[18px] text-gray500" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -270,7 +268,9 @@ const fetchLegalDocuments = async () => {
                         {document?.createdBy?.image ? (
                           <img src={document?.createdBy?.image} className="rounded-full h-9 w-9 " alt="" />
                         ) : (
-                          <FaUserCircle className="h-9 w-9 text-gray-500" /> // Placeholder icon
+                          <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                <img src={userdefaultProfile} alt="" className="" />
+                              </div>
                         )}
                         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{document?.createdBy?.displayName}</span>
                       </div>
@@ -339,7 +339,7 @@ const fetchLegalDocuments = async () => {
                   ) : !documentData?.length>0 && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <svg width="29" height="32" viewBox="0 0 29 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M16 14.5H7M10 20.5H7M19 8.5H7M25 13.75V8.2C25 5.67976 25 4.41965 24.5095 3.45704C24.0781 2.61031 23.3897 1.9219 22.543 1.49047C21.5804 1 20.3202 1 17.8 1H8.2C5.67976 1 4.41965 1 3.45704 1.49047C2.61031 1.9219 1.9219 2.61031 1.49047 3.45704C1 4.41965 1 5.67976 1 8.2V23.8C1 26.3202 1 27.5804 1.49047 28.543C1.9219 29.3897 2.61031 30.0781 3.45704 30.5095C4.41965 31 5.67976 31 8.2 31H12.25M28 31L25.75 28.75M27.25 25C27.25 27.8995 24.8995 30.25 22 30.25C19.1005 30.25 16.75 27.8995 16.75 25C16.75 22.1005 19.1005 19.75 22 19.75C24.8995 19.75 27.25 22.1005 27.25 25Z" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <Text
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
@@ -354,7 +354,7 @@ const fetchLegalDocuments = async () => {
               <div className='w-full flex items-center p-4'>
                 <TablePagination
               currentPage={cur}
-              totalPages={totalTablePages}
+              totalPages={totalPages}
               onPageChange={handlePageChange}
               itemsToShow={pagesToShow}
             />

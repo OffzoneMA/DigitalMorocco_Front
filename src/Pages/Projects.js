@@ -22,7 +22,6 @@ import fileSearchImg from '../Media/file-search.svg';
 const Projects = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
-  const { data, error, isLoading , refetch } = useGetAllProjectsQuery();
   const [deleteProject, response] = useDeleteProjectMutation();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -31,21 +30,22 @@ const Projects = () => {
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
+  const [totalPages , setTotalPages] = useState(0);
+  const { data, error, isLoading , refetch } = useGetAllProjectsQuery({page :cur , pageSize: itemsPerPage});
+  console.log(data)
   // const data = projectsData;
 
   useEffect(() => {
     refetch();
-  }, [refetch]);
+  }, [cur, refetch]);
 
-  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return data?.slice(startIndex, endIndex);
-  };
+  useEffect(() => {
+    setTotalPages(data?.totalPages)
+  }, [data]);
 
-  const pageData = getPageData();
+
+  const pageData = data?.projects;
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
@@ -121,11 +121,11 @@ const Projects = () => {
                    {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`} onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6" >{item.name}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize" >{item?.name}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${formatNumber(item.totalRaised || 0)}`}</td>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item.stages?.[0] || item?.stage}</td>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item.milestones[0]?.name}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize">{item.stages?.[0] || item?.stage}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize">{item.milestones[0]?.name}</td>
                       <td className="px-[18px] py-4 items-center">
                         <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
                           item.status === 'Active' ? 'bg-green-100 text-green-700' :

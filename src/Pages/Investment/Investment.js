@@ -22,6 +22,8 @@ import { RiCloseLine } from "react-icons/ri";
 import ApproveContactRequestModal from "../../Components/ApproveContactRequestModal";
 import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
 import { companyType } from "../../data/companyType";
+import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../Services/Investor.Service";
+import { useApproveRequestMutation , useRejectRequestMutation } from "../../Services/ContactRequest.Service";
 
 const Investment = () => {
     const [filter , setFilter] = useState(false);
@@ -38,7 +40,22 @@ const Investment = () => {
     const [cur, setCur] = useState(1);
     const itemsPerPage = 8;
     const itemsToShow = 4;
+    const navigate = useNavigate();
     const [totalPages , setTotalPages] = useState(0);
+
+    const queryParams = { page: cur, pageSize: itemsPerPage };
+
+    if (filterApply) {
+      queryParams.projectSectors = industries;
+      queryParams.funding = targetFund;
+      queryParams.country = location;
+    }
+    const { data: currentData, error, refetch , isFetching: isLoading } = useGetAllConatctReqQuery(queryParams);
+    const { data : sectorData, isLoading:locationLoading } = useGetDistinctProjectFieldsQuery({field: "sector" });
+    const { data : fundingData, isLoading:industryLoading } = useGetDistinctProjectFieldsQuery({field: "funding" });
+    const { data : locationData, isLoading:typeLoading } = useGetDistinctProjectFieldsQuery({field: "country" });
+    const [approveRequest] = useApproveRequestMutation();
+    const [rejectRequest] = useRejectRequestMutation();
 
     function handlePageChange(page) {
       if (page >= 1 && page <= totalPages) {
@@ -54,100 +71,89 @@ const Investment = () => {
         setTargetFund('');
     }
 
+    const sectorValues = sectorData?.distinctValues || [];
+    const fundingValues = fundingData?.distinctValues || [];
+    const locationValues = locationData?.distinctValues || [];
+
     useEffect(() => {
-      const fetchInvestorRequests = async () => {
-        try {
-          const token = sessionStorage.getItem("userToken");
-          const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/ContactRequest`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setInvestorRequests(response.data?.ContactsHistory);
-          setTotalPages(response?.data?.totalPages);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error member contact requests history:', error);
-          setLoading(false);
-        }
-      };
-  
-      fetchInvestorRequests();
-    }, []);
+      refetch();
+    }, [cur , itemsPerPage , refetch , filterApply]);
 
-    const pageData = [
-      {
-        "name": "Startup 1",
-        "funding": 5000000,
-        "totalRaised": 1560000,
-        "location": "Sydney, Australia",
-        "stage": "SaaS"
-      },
-      {
-        "name": "Startup 2",
-        "funding": 3000000,
-        "totalRaised": 90000,
-        "location": "Abu Dhabi, UEA",
-        "stage": "Agriculture"
-      },
-      {
-        "name": "Startup 4",
-        "funding": 3000000,
-        "totalRaised": 90000,
-        "location": "Bogotá, Colombia",
-        "stage": "Artificial Intelligence"
-      },
-      {
-        "name": "Startup 3",
-        "funding": 1500000,
-        "totalRaised": 0,
-        "location": "Mumbai, India",
-        "stage": "Edutech"
-      },
-      {
-        "name": "Startup 6",
-        "funding": 1500000,
-        "totalRaised": 90000,
-        "location": "Cairo, Egypt",
-        "stage": "Big Data"
-      },
-      {
-        "name": "Startup 5",
-        "funding": 5000000,
-        "totalRaised": 90000,
-        "location": "London, United Kingdom",
-        "stage": "Agriculture"
-      },
-      {
-        "name": "Startup 7",
-        "funding": 5000000,
-        "totalRaised": 0,
-        "location": "New York City, USA",
-        "stage": "E-Learning"
-      },
-      {
-        "name": "Startup 8",
-        "funding": 1500000,
-        "totalRaised": 1560000,
-        "location": "Rio de Janeiro, Brazil",
-        "stage": "Crowdfunding"
-      }
-    ];
+    useEffect(() => {
+      setTotalPages(currentData?.totalPages);
+    }, [currentData]);
 
-    const uniqueFundingValues = [...new Set(pageData.map((item) => item.funding))];
+    // const pageData = [
+    //   {
+    //     "name": "Startup 1",
+    //     "funding": 5000000,
+    //     "totalRaised": 1560000,
+    //     "location": "Sydney, Australia",
+    //     "stage": "SaaS"
+    //   },
+    //   {
+    //     "name": "Startup 2",
+    //     "funding": 3000000,
+    //     "totalRaised": 90000,
+    //     "location": "Abu Dhabi, UEA",
+    //     "stage": "Agriculture"
+    //   },
+    //   {
+    //     "name": "Startup 4",
+    //     "funding": 3000000,
+    //     "totalRaised": 90000,
+    //     "location": "Bogotá, Colombia",
+    //     "stage": "Artificial Intelligence"
+    //   },
+    //   {
+    //     "name": "Startup 3",
+    //     "funding": 1500000,
+    //     "totalRaised": 0,
+    //     "location": "Mumbai, India",
+    //     "stage": "Edutech"
+    //   },
+    //   {
+    //     "name": "Startup 6",
+    //     "funding": 1500000,
+    //     "totalRaised": 90000,
+    //     "location": "Cairo, Egypt",
+    //     "stage": "Big Data"
+    //   },
+    //   {
+    //     "name": "Startup 5",
+    //     "funding": 5000000,
+    //     "totalRaised": 90000,
+    //     "location": "London, United Kingdom",
+    //     "stage": "Agriculture"
+    //   },
+    //   {
+    //     "name": "Startup 7",
+    //     "funding": 5000000,
+    //     "totalRaised": 0,
+    //     "location": "New York City, USA",
+    //     "stage": "E-Learning"
+    //   },
+    //   {
+    //     "name": "Startup 8",
+    //     "funding": 1500000,
+    //     "totalRaised": 1560000,
+    //     "location": "Rio de Janeiro, Brazil",
+    //     "stage": "Crowdfunding"
+    //   }
+    // ];
 
-    const uniqueLocationValues = [...new Set(pageData.map((item) => item.location))];
+    const pageData = currentData?.ContactsHistory;
 
-    const filteredData = pageData.filter(item => {
-      const keywordMatch = item?.name.toLowerCase().includes(keywords.toLowerCase());
+    const filteredData = pageData?.filter(item => {
+      const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
     
-      if (filterApply) {
-        const matchesTargetFund = targetFund ? item.funding === Number(targetFund) : true; 
-        const matchesLocation = location ? item.location === location : true;
-        const matchesIndustries = industries.length > 0 ? industries.includes(item.stage) : true;
+      // if (filterApply) {
+      //   const matchesTargetFund = targetFund ? item.funding === Number(targetFund) : true; 
+      //   const matchesLocation = location ? item.location === location : true;
+      //   const matchesIndustries = industries.length > 0 ? industries.includes(item.stage) : true;
     
-        return keywordMatch && matchesTargetFund && matchesLocation && matchesIndustries;
-      }
+      //   return keywordMatch && matchesTargetFund && matchesLocation && matchesIndustries;
+      // }
     
       return keywordMatch;
     });
@@ -171,6 +177,32 @@ const Investment = () => {
         setIsRejectModalOpen(false);
         // setRowData(null);
     };
+
+    const handleApprove = async (data) => {
+      try {
+          await approveRequest({
+              id: rowData?._id,
+              approvalData: data,
+          }).unwrap();
+          refetch();
+          console.log('Request approved successfully!');
+      } catch (error) {
+          console.error('Failed to approve request:', error);
+      }
+    };
+
+  const handleReject = async (data) => {
+      try {
+          await rejectRequest({
+              id: rowData?._id,
+              rejectionData: data,
+          }).unwrap();
+          refetch();
+          console.log('Request rejected successfully!');
+      } catch (error) {
+          console.error('Failed to reject request:', error);
+      }
+  };
 
     return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -207,7 +239,7 @@ const Investment = () => {
                         onChange={e => setKeywords(e.target.value)}
                       />
                     </div>
-                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={uniqueFundingValues} onSelect={""} searchLabel='Search Target Fund' setSelectedOptionVal={setTargetFund} 
+                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues} onSelect={""} searchLabel='Search Target Fund' setSelectedOptionVal={setTargetFund} 
                     placeholder="Target Fund"
                     content={
                       ( option) =>{ return (
@@ -221,7 +253,7 @@ const Investment = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={uniqueLocationValues} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locationValues} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
                     placeholder="Location" 
                     content={
                       ( option) =>{ return (
@@ -235,7 +267,7 @@ const Investment = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={sectorValues} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
                     placeholder="Select Industry"
                     content={
                       ( option) =>{ return (
@@ -266,10 +298,10 @@ const Investment = () => {
                 ):
                 (
                 <button
-                  className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                  className={`col-end-3 ${filteredData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                   onClick={() => setFilter(true)}
                   type="button"
-                  disabled={pageData?.length === 0}
+                  disabled={filteredData?.length === 0 || pageData?.length === 0 }
                 >
                   <BiFilterAlt size={18} className="mr-2" />
                   <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
@@ -306,11 +338,11 @@ const Investment = () => {
                         <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Decision</th>
                     </tr>
                   </thead>
-                  {(!loading && filteredData?.length > 0) ? 
+                  {(!isLoading && filteredData?.length > 0) ? 
                     <tbody className="items-center w-full ">
                     {
                       filteredData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/InvestmentDetails/${item?._id}` , { state: {contactRequest: item}})}>
                         <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                           <div className="relative flex">
                             <div className="px-[18px] py-4 flex items-center" >
@@ -319,18 +351,18 @@ const Investment = () => {
                               ) : (
                                 <FaRProject className="h-8 w-8 mr-2 text-light_blue-200" /> 
                               )}                              
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
                             </div>
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item?.funding?.toLocaleString('en-US')}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item.totalRaised?.toLocaleString('en-US') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.location || 'Sydney, Australia'}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.stage}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('en-US')}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('en-US') || 0}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.country || 'Sydney, Australia'}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.sector}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                           <div className="flex flex-row space-x-4 items-center">
                             <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex" onClick={() => openApproveModal(item)}>
+                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'approved'? 'bg-[#00CDAE]': 'bg-[#aeb6c5]'} hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex`} onClick={() => openApproveModal(item)}>
                                   <PiCheckBold size={21} className="text-white-A700"/>
                               </div>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
@@ -345,7 +377,7 @@ const Investment = () => {
                               </div>
                             </div>
                             <div className="relative group">
-                              <div className="w-[38px] h-8 px-1 py-1 bg-[#aeb6c5] hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex" onClick={() => openRejectModal(item)}>
+                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'rejected'? 'bg-[#EF4352]': 'bg-[#aeb6c5]'} hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex`} onClick={() => openRejectModal(item)}>
                                   <RiCloseLine size={21} className="text-white-A700"/>
                               </div>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
@@ -366,14 +398,14 @@ const Investment = () => {
                     </tbody> : 
                     ""}
                 </table>
-                { loading ? (
+                { isLoading ? (
                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
                  </div> ) : filteredData?.length === 0 && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
@@ -382,7 +414,7 @@ const Investment = () => {
                   </div>
                 )}
               </div>
-              {filteredData?.length>0 && (
+              {(filteredData?.length>0 && !isLoading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
                   currentPage={cur}
@@ -395,8 +427,8 @@ const Investment = () => {
             </div>
           </div>
         </div>
-        <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData}/>
-        <RejectContactRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData}/>
+        <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData} methode={handleApprove}/>
+        <RejectContactRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData} methode={handleReject} />
     </div>
     );
 }

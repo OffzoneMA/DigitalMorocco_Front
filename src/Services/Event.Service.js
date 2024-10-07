@@ -31,7 +31,7 @@ export const eventApi = createApi({
         }),
         getEventById: builder.query({
             query: (id) => ({
-              url: `/${id}`,
+              url: `/${id}/withParticipate`,
               method: 'GET',
             }),
             providesTags: ['Event'],
@@ -67,23 +67,26 @@ export const eventApi = createApi({
             invalidatesTags: ['Event'],
         }),
         getEventsForUser: builder.query({
-            query: () => ({
+            query: ({ page, pageSize, physicalLocation, eventNames }= {}) => ({
                 url: '/authuser',
                 method: 'GET',
+                params: {page, pageSize, physicalLocation, eventNames  },
               }),
               providesTags: ['Event'],
         }),
         getAllPastEventsUserParticipate: builder.query({
-            query: () => ({
+            query: ({ page, pageSize }= {}) => ({
               url: `/past/participate`,
               method: 'GET',
+              params: {page, pageSize },
             }),
             providesTags: ['Event'],
         }),
         getAllUpcomingEventsUserParticipate: builder.query({
-            query: () => ({
+            query: ({ page, pageSize }= {}) => ({
               url: `/upcoming/participate`,
               method: 'GET',
+              params: {page, pageSize },
             }),
             providesTags: ['Event'],
         }),

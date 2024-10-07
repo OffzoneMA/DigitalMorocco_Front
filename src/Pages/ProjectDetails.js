@@ -18,6 +18,7 @@ import SearchInput from "../Components/SeachInput";
 import TableTitle from "../Components/TableTitle";
 import axios from "axios";
 import { GoDotFill } from "react-icons/go";
+import userdefaultProfile from '../Media/User1.png'
 
 const ProjectDetails = () => {
   const dividerRef = useRef(null);
@@ -70,12 +71,11 @@ const ProjectDetails = () => {
 const fetchMembers = async () => {
   try {
     const token = sessionStorage.getItem("userToken");
-    const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuser`, {
+    const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuserWithoutPage`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    
     setMembers(response.data);
   } catch (error) {
     console.error("Error fetching employees:", error);
@@ -95,7 +95,7 @@ useEffect(() => {
       return rest;
     });
   } 
-  if (project != null) {
+  if (project != null && members?.length > 0) {
     const selectedProjectMembers = members?.filter(emp => {
       return project.listMember?.some(member => member === emp._id);
     });
@@ -318,7 +318,7 @@ useEffect(() => {
                     </button>
                     </div>
                     <div className="flex flex-col items-start justify-start w-full">
-                    {project?.milestones.length > 0 &&  
+                    {project?.milestones?.length > 0 &&  
                       project?.milestones?.slice()?.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
                         .map((item, index) => (
                           <ProjectTimelineItem
@@ -364,7 +364,7 @@ useEffect(() => {
                         <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-3 grid-cols-1 gap-5 items-center justify-between my-0 w-full">
                           {filteredTeamMembers?.map((item, index) => (
                             <TeamMemberItem key={index} 
-                            imageSrc={item?.image || `data:image/png;base64,${item?.photo}` || `/images/img_avatar_2.png`}
+                            imageSrc={item?.image || userdefaultProfile}
                             name={item?.fullName}
                             job={item?.jobTitle} />
                           ))}
@@ -386,7 +386,7 @@ useEffect(() => {
                       Documents
                     </Text>
                   </div>
-                  {project?.documents.length> 0 && project?.documents.map((document, index) => (
+                  {project?.documents?.length> 0 && project?.documents.map((document, index) => (
                     <ProjectDocumentItem
                       key={index}
                       docName={document.name}

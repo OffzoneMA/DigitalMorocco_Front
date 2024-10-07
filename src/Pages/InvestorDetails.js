@@ -27,6 +27,7 @@ import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import Loader from "../Components/Loader";
 import investorFakeImage from "../Media/investorFakeImage.jpg"
+import  userdefaultProfile from '../Media/User1.png'
 
 const InvestorDetails = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -60,7 +61,6 @@ useEffect(() => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response)
       setInvestor(response.data?.details)
       setInvestorRequestStatus(response.data?.status)
       setLoading(false);
@@ -121,9 +121,9 @@ getInvestorDetailsRequest();
                 <div className="flex flex-col md:flex-row justify-center items-start gap-8">
                       <div className="relative flex justify-center w-full h-[200px] md:w-[25%] max-w-[250px] p-2 border-blue_gray-100 border border-solid rounded-[10px]">
                         {investor?.image ? (
-                          <img src={investorRequestStatus?.toLowerCase() === 'accepted' ? investor.image : investorFakeImage} className="rounded-full h-full w-full" alt="Profile" />
+                          <img src={investorRequestStatus?.toLowerCase() === 'accepted' ? investor.image : userdefaultProfile} className="rounded-full h-full w-auto" alt="Profile" />
                         ) : (
-                          <FaUserCircle className="h-full w-full text-gray-500" /> // Placeholder icon
+                          <img src={userdefaultProfile} className="rounded-full h-full w-auto" alt="Profile" />
                         )}
                         {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
                         </div>}
@@ -316,7 +316,7 @@ getInvestorDetailsRequest();
                                 </Text>
                               </div>
                               <div className="grid md:flex md:flex-row md:flex-wrap pl-8 gap-[10px]">
-                              {investor?.PreferredInvestmentIndustry?.[0]?.split(", ")?.map((industry, index) => (
+                              {investor?.PreferredInvestmentIndustry?.map((industry, index) => (
                                 <div key={index} className="bg-blue-101 w-auto flex justify-center items-center rounded-full px-[14px] h-[30px]">
                                   <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-blue_gray-904">
                                     {industry}
@@ -461,7 +461,7 @@ getInvestorDetailsRequest();
             </div>
             }
             
-            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId}/>
+            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId} rowData={investor}/>
         </div>
     )
 }

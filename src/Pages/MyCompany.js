@@ -13,17 +13,17 @@ import { useGetUserDetailsQuery } from "../Services/Auth";
 
 const MyCompany = () => {
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
-  const [logoFile, setLogoFile] = useState(userDetails?.member?.logo || '');
+  const [logoFile, setLogoFile] = useState(userDetails?.logo || userDetails?.image || '');
   const [imgFile , setImgFile] = useState(null);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [isSaved , setIsSaved] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [taxIdentfier, settaxIdentfier] = useState(userDetails?.member?.taxNbr || '');
-  const [corporateIdentfier,setcorporateIdentfier] = useState(userDetails?.member?.corporateNbr || '');
-  const [selectedSector, setselectedSector] = useState(userDetails?.member?.companyType || '');
+  const [taxIdentfier, settaxIdentfier] = useState(userDetails?.taxNbr || '');
+  const [corporateIdentfier,setcorporateIdentfier] = useState(userDetails?.corporateNbr || '');
+  const [selectedSector, setselectedSector] = useState(userDetails?.companyType || '');
   const dataCountries = Country.getAllCountries();
-  const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.member?.country) || null);
-  const [selectedCity , setSelectedCity] = useState(userDetails?.member?.city || '');
+  const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.country) || null);
+  const [selectedCity , setSelectedCity] = useState(userDetails?.city || '');
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
@@ -31,7 +31,7 @@ const MyCompany = () => {
     city: false,
     sector: false,
   });
-
+console.log(userDetails)
   const logoFileInputRef = useRef(null);
   const logoFileInputRefChange = useRef(null);
 
@@ -61,14 +61,14 @@ const MyCompany = () => {
   useEffect(() => {
     if (userDetails) {
       reset({
-        companyName: userDetails?.member?.companyName,
-        address: userDetails?.member?.address,
-        legalName: userDetails?.member?.legalName,
-        description: userDetails?.member?.desc,
-        website: userDetails?.member?.website,
-        contactEmail: userDetails?.member?.contactEmail,
-        taxIdentfier: userDetails?.member?.taxNbr,
-        corporateIdentfier: userDetails?.member?.corporateNbr,
+        companyName: userDetails?.companyName,
+        address: userDetails?.address,
+        legalName: userDetails?.legalName,
+        description: userDetails?.desc,
+        website: userDetails?.website,
+        contactEmail: userDetails?.contactEmail,
+        taxIdentfier: userDetails?.taxNbr,
+        corporateIdentfier: userDetails?.corporateNbr,
       });
     }
   }, [userDetails, reset]);
@@ -119,12 +119,13 @@ const MyCompany = () => {
       const userData = JSON.parse(sessionStorage.getItem("userData"));
       const userId = userData._id;
 
-      // Convertir l'image en base64
-      const reader = new FileReader();
-      reader.readAsDataURL(imgFile);
-      reader.onloadend = async () => {
-      const base64Image = reader.result;
-        // Créer un objet JSON avec les données et l'image base64
+      const formData = new FormData();
+      formData.append('role', userData?.role?.toLowerCase());
+
+      if (imgFile) {
+        formData.append('logo', imgFile);
+      }
+
       const requestData = {
         companyName: data.companyName,
         legalName: data.legalName,
@@ -137,31 +138,38 @@ const MyCompany = () => {
         companyType: selectedSector,
         country: countryNameSelec,
         city: selectedCity,
-        logo: base64Image, // Ajouter l'image base64
       };
-      if(isFormValid){
-        // fetch(`${process.env.REACT_APP_baseURL}/members/company/${userId}`, {
-        //   method: 'POST',
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(requestData),
-        // })
-        // .then(response => response.json())
-        // .then(responseData => {
-        //   console.log("Réponse du serveur :", responseData);
-        //   setIsSaved(true);
-        //   setTimeout(() => {
-        //     setIsSaved(false);
-        // }, 5000); 
-        // }
-        // )
-        // .catch(error => {
-        //   console.error("Erreur lors de l'envoi du formulaire :", error);
-        // });
-      }
-      };
+      
+      formData.append('companyData', JSON.stringify(requestData));
+
+      // Object.keys(requestData).forEach(key => {
+      //   formData.append(key, requestData[key]);
+      // });
+
+      if (isFormValid) {
+        fetch(`${process.env.REACT_APP_baseURL}/members/companies`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: formData, 
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur dans la réponse du serveur');
+            }
+            return response.json(); 
+        })
+        .then(responseData => {
+            setIsSaved(true);
+            setTimeout(() => {
+                setIsSaved(false);
+            }, 5000); 
+        })
+        .catch(error => {
+            console.error("Erreur lors de l'envoi du formulaire :", error);
+        });
+      }    
       } catch (error) {
         console.error("Erreur lors de l'envoi du formulaire :", error);
       }
@@ -346,7 +354,7 @@ const MyCompany = () => {
                   Country
                 </Text>
                 <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setSelectedCountry} 
-                    placeholder="Select Country" valuekey="name" selectedOptionsDfault={userDetails?.member?.country? dataCountries.find(country => country.name === userDetails?.member?.country) : ""} 
+                    placeholder="Select Country" valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
                     required={requiredFields.country}
                     content={
                       ( option) =>{ return (
@@ -370,7 +378,7 @@ const MyCompany = () => {
                   City/State
                 </Text>
                 <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry?.['isoCode']): []} onSelect={""} searchLabel='Search City' setSelectedOptionVal={setSelectedCity} 
-                    placeholder="Select City" valuekey="name" selectedOptionsDfault={userDetails?.member?.city? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userDetails?.member?.city) : ""}
+                    placeholder="Select City" valuekey="name" selectedOptionsDfault={userDetails?.city? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userDetails?.city) : ""}
                     required={requiredFields.city}
                     content={
                       ( option) =>{ return (
@@ -394,7 +402,7 @@ const MyCompany = () => {
                   Company Sector
                 </Text>
                 <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Search Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
-                    placeholder="Select Company Sector" selectedOptionsDfault={userDetails?.member?.companyType || ''} 
+                    placeholder="Select Company Sector" selectedOptionsDfault={userDetails?.companyType || ''} 
                     required={requiredFields.sector}
                     content={
                       ( option) =>{ return (
@@ -466,9 +474,9 @@ const MyCompany = () => {
                         onMouseLeave={handleMouseLeave}>
                           <div className="relative mr-3 w-auto">
                             <svg width="14" height="4" viewBox="0 0 14 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M7.0013 2.66659C7.36949 2.66659 7.66797 2.36811 7.66797 1.99992C7.66797 1.63173 7.36949 1.33325 7.0013 1.33325C6.63311 1.33325 6.33464 1.63173 6.33464 1.99992C6.33464 2.36811 6.63311 2.66659 7.0013 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                              <path d="M11.668 2.66659C12.0362 2.66659 12.3346 2.36811 12.3346 1.99992C12.3346 1.63173 12.0362 1.33325 11.668 1.33325C11.2998 1.33325 11.0013 1.63173 11.0013 1.99992C11.0013 2.36811 11.2998 2.66659 11.668 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                              <path d="M2.33464 2.66659C2.70283 2.66659 3.0013 2.36811 3.0013 1.99992C3.0013 1.63173 2.70283 1.33325 2.33464 1.33325C1.96645 1.33325 1.66797 1.63173 1.66797 1.99992C1.66797 2.36811 1.96645 2.66659 2.33464 2.66659Z" stroke="#1D2939" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M7.0013 2.66659C7.36949 2.66659 7.66797 2.36811 7.66797 1.99992C7.66797 1.63173 7.36949 1.33325 7.0013 1.33325C6.63311 1.33325 6.33464 1.63173 6.33464 1.99992C6.33464 2.36811 6.63311 2.66659 7.0013 2.66659Z" stroke="#1D2939" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M11.668 2.66659C12.0362 2.66659 12.3346 2.36811 12.3346 1.99992C12.3346 1.63173 12.0362 1.33325 11.668 1.33325C11.2998 1.33325 11.0013 1.63173 11.0013 1.99992C11.0013 2.36811 11.2998 2.66659 11.668 2.66659Z" stroke="#1D2939" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M2.33464 2.66659C2.70283 2.66659 3.0013 2.36811 3.0013 1.99992C3.0013 1.63173 2.70283 1.33325 2.33464 1.33325C1.96645 1.33325 1.66797 1.63173 1.66797 1.99992C1.66797 2.36811 1.96645 2.66659 2.33464 2.66659Z" stroke="#1D2939" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                           </div>
                           {showLogoDropdown && 
@@ -478,7 +486,7 @@ const MyCompany = () => {
                               onClick={handleLogoFileInputChangeClick}>
                                 <span>
                                   <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
                                 <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Change</div>
@@ -487,7 +495,7 @@ const MyCompany = () => {
                               onClick={handleRemoveLogo}>
                                 <span>
                                   <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
                                 <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Delete</div>

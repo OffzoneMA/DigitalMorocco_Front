@@ -11,7 +11,6 @@ import NewMilestoneModal from "../../Components/NewMilestoneModal";
 import DeleteModal from "../../Components/DeleteModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { BsDot } from "react-icons/bs";
-import { useGetProjectByIdQuery, useAddMilestoneToProjectMutation } from "../../Services/Project.Service";
 import { formatNumber } from "../../data/helper";
 import PageHeader from "../../Components/PageHeader";
 import SearchInput from "../../Components/SeachInput";
@@ -19,6 +18,12 @@ import TableTitle from "../../Components/TableTitle";
 import axios from "axios";
 import { GoDotFill } from "react-icons/go";
 import { TbDownload } from "react-icons/tb";
+import { useGetContactRequestByIdQuery } from "../../Services/ContactRequest.Service";
+import { useApproveRequestMutation , useRejectRequestMutation } from "../../Services/ContactRequest.Service";
+import ApproveContactRequestModal from "../../Components/ApproveContactRequestModal";
+import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
+import { PiCheckBold } from "react-icons/pi";
+import { RiCloseLine } from "react-icons/ri";
 
 const MyInvestmentDetails = () => {
     const dividerRef = useRef(null);
@@ -51,16 +56,18 @@ const MyInvestmentDetails = () => {
     }, [div1Ref, div2Ref]);
 
     const location = useLocation();
-    const { projectId } = useParams();
+    const { id } = useParams();
     const [project, setProject] = useState(location.state?.project || null);
-    const { data, error, isLoading, refetch } = useGetProjectByIdQuery(projectId, { pollingInterval: 3000, refetchOnMountOrArgChange: true, skip: Boolean(project || !projectId) });
+    const { data, error, isLoading, refetch } = useGetContactRequestByIdQuery(id, { pollingInterval: 3000, refetchOnMountOrArgChange: true, skip: Boolean(!id) });
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+    const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const [teamData, setTeamData] = useState([]);
     const [members, setMembers] = useState([]);
+    const [approveRequest] = useApproveRequestMutation();
+    const [rejectRequest] = useRejectRequestMutation();
 
     function formatDate(isoDate) {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -68,10 +75,16 @@ const MyInvestmentDetails = () => {
         return months[date.getMonth()] + ' ' + date.getFullYear();
     }
 
+    useEffect(() => {
+      if (data) {
+          setProject(data?.project);
+      }
+  }, [data, project]);
+
     const fetchMembers = async () => {
         try {
             const token = sessionStorage.getItem("userToken");
-            const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuser`, {
+            const response = await axios.get(`${process.env.REACT_APP_baseURL}/employee/byuserWithoutPage`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -113,16 +126,51 @@ const MyInvestmentDetails = () => {
         setIsModalOpen(false);
     };
 
-
-    useEffect(() => {
-        if (data) {
-            setProject(data);
-        }
-    }, [data, project]);
-
     const filteredTeamMembers = teamData?.filter(member =>
         member?.fullName?.toLowerCase().includes(searchValue?.toLowerCase())
     );
+
+    const openApproveModal = () => {
+      setIsApproveModalOpen(true);
+    };
+    
+    const closeApproveModal = () => {
+        setIsApproveModalOpen(false);
+    };
+
+    const openRejectModal = () => {
+        setIsRejectModalOpen(true);
+    };
+    
+    const closeRejectModal = () => {
+        setIsRejectModalOpen(false);
+    };
+
+    const handleApprove = async (data) => {
+      try {
+          await approveRequest({
+              id: id,
+              approvalData: data,
+          }).unwrap();
+          refetch();
+          console.log('Request approved successfully!');
+      } catch (error) {
+          console.error('Failed to approve request:', error);
+      }
+    };
+
+  const handleReject = async (data) => {
+      try {
+          await rejectRequest({
+              id: id,
+              rejectionData: data,
+          }).unwrap();
+          refetch();
+          console.log('Request rejected successfully!');
+      } catch (error) {
+          console.error('Failed to reject request:', error);
+      }
+  };
 
     return (
         <>
@@ -132,7 +180,7 @@ const MyInvestmentDetails = () => {
               <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
                 <PageHeader
                   >
-                    Projects
+                    My Investment
                 </PageHeader>
               </div>
               <SearchInput className={'w-[240px]'}/>
@@ -145,10 +193,10 @@ const MyInvestmentDetails = () => {
                   <div className="flex items-center capitalize">
                     <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
                   </div>
-                  <div className="flex flex-wrap gap-3 items-center ">
+                  {data?.status?.toLowerCase() === "approved" && <div className="flex flex-wrap gap-3 items-center ">
                     <button
-                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
-                      onClick={openModal}
+                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
+                      // onClick={''}
                       type="button"
                       style={{whiteSpace: 'nowrap'}}
                     >
@@ -156,15 +204,35 @@ const MyInvestmentDetails = () => {
                       <span className="hidden md:inline-block">Share</span>
                     </button>
                     <button
-                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center gap-[12px] cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
-                      onClick={() => navigate(`/Editproject/${projectId}`, { state: { project: project } })}
+                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
+                      // onClick={() => navigate(``)}
                       type="button"
                       style={{whiteSpace: 'nowrap'}}
                     >
                       <TbDownload size={21} className="" />
                       <span className="hidden md:inline-block">Download</span>
                     </button>
-                  </div>
+                  </div>}
+                  {data?.status?.toLowerCase() == "in progress" && <div className="flex flex-wrap gap-3 items-center ">
+                    <button
+                      className="bg-[#00CDAE] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
+                      onClick={openApproveModal}
+                      type="button"
+                      style={{whiteSpace: 'nowrap'}}
+                    >
+                      <PiCheckBold size={21} className="text-white-A700" />
+                      <span className="hidden md:inline-block">Approve</span>
+                    </button>
+                    <button
+                      className="bg-[#EF4352] hover:bg-[#F02A3C] active:bg-[#F02A3C] text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
+                      onClick={openRejectModal}
+                      type="button"
+                      style={{whiteSpace: 'nowrap'}}
+                    >
+                      <RiCloseLine size={21} className="" />
+                      <span className="hidden md:inline-block">Reject</span>
+                    </button>
+                  </div>}
                 </div>
                 <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-201 justify-start py-5 w-full">
                   <div className="flex flex-wrap py-2 w-full">
@@ -273,7 +341,7 @@ const MyInvestmentDetails = () => {
                           </Text>
                         </div>
                         <div className="flex flex-col items-start justify-start w-full">
-                        {project?.milestones.length > 0 &&  
+                        {project?.milestones?.length > 0 &&  
                           project?.milestones?.slice()?.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
                             .map((item, index) => (
                               <ProjectTimelineItem
@@ -333,7 +401,7 @@ const MyInvestmentDetails = () => {
                     <div ref={dividerRef} className="bg-gray-201 md:h-[${maxDivHeight}] h-px w-full md:w-px" />
                     {/*Fin Divider */}
                     <div ref={div2Ref} className="flex flex-col items-start gap-[24px] justify-start w-full md:w-1/3">
-                        <div className="flex flex-col gap-[10px] pb-[41px] items-start justify-start w-full">
+                        {project?.logo && <div className="flex flex-col gap-[10px] pb-[41px] items-start justify-start w-full">
                             <Text
                                 className="text-[#1d1c21] text-base leading-relaxed font-dm-sans-medium w-auto"
                                 size="txtDMSansBold12"
@@ -341,12 +409,12 @@ const MyInvestmentDetails = () => {
                                 Project Logo
                             </Text>
                             <div className="h-[150px] w-full rounded-[6px] px-3 py-[50px] justify-center border border-[#D0D5DD] items-center gap-1.5 flex">
-                                <img src={''} alt="Logo" className="rounded-[6px] w-full" />
+                                <img src={project?.logo} alt="Logo" className="rounded-[6px] w-auto" />
                             </div>
-                        </div>
+                        </div>}
                       <div className="flex flex-row gap-[10px] w-full">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 6V3.9C12 3.05992 12 2.63988 11.8365 2.31901C11.6927 2.03677 11.4632 1.8073 11.181 1.66349C10.8601 1.5 10.4401 1.5 9.6 1.5H3.9C3.05992 1.5 2.63988 1.5 2.31901 1.66349C2.03677 1.8073 1.8073 2.03677 1.66349 2.31901C1.5 2.63988 1.5 3.05992 1.5 3.9V9.6C1.5 10.4401 1.5 10.8601 1.66349 11.181C1.8073 11.4632 2.03677 11.6927 2.31901 11.8365C2.63988 12 3.05992 12 3.9 12H6M8.4 16.5H14.1C14.9401 16.5 15.3601 16.5 15.681 16.3365C15.9632 16.1927 16.1927 15.9632 16.3365 15.681C16.5 15.3601 16.5 14.9401 16.5 14.1V8.4C16.5 7.55992 16.5 7.13988 16.3365 6.81901C16.1927 6.53677 15.9632 6.3073 15.681 6.16349C15.3601 6 14.9401 6 14.1 6H8.4C7.55992 6 7.13988 6 6.81901 6.16349C6.53677 6.3073 6.3073 6.53677 6.16349 6.81901C6 7.13988 6 7.55992 6 8.4V14.1C6 14.9401 6 15.3601 6.16349 15.681C6.3073 15.9632 6.53677 16.1927 6.81901 16.3365C7.13988 16.5 7.55992 16.5 8.4 16.5Z" stroke="#00CDAE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6V3.9C12 3.05992 12 2.63988 11.8365 2.31901C11.6927 2.03677 11.4632 1.8073 11.181 1.66349C10.8601 1.5 10.4401 1.5 9.6 1.5H3.9C3.05992 1.5 2.63988 1.5 2.31901 1.66349C2.03677 1.8073 1.8073 2.03677 1.66349 2.31901C1.5 2.63988 1.5 3.05992 1.5 3.9V9.6C1.5 10.4401 1.5 10.8601 1.66349 11.181C1.8073 11.4632 2.03677 11.6927 2.31901 11.8365C2.63988 12 3.05992 12 3.9 12H6M8.4 16.5H14.1C14.9401 16.5 15.3601 16.5 15.681 16.3365C15.9632 16.1927 16.1927 15.9632 16.3365 15.681C16.5 15.3601 16.5 14.9401 16.5 14.1V8.4C16.5 7.55992 16.5 7.13988 16.3365 6.81901C16.1927 6.53677 15.9632 6.3073 15.681 6.16349C15.3601 6 14.9401 6 14.1 6H8.4C7.55992 6 7.13988 6 6.81901 6.16349C6.53677 6.3073 6.3073 6.53677 6.16349 6.81901C6 7.13988 6 7.55992 6 8.4V14.1C6 14.9401 6 15.3601 6.16349 15.681C6.3073 15.9632 6.53677 16.1927 6.81901 16.3365C7.13988 16.5 7.55992 16.5 8.4 16.5Z" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <div className="flex flex-col gap-[10px] items-start justify-start w-auto">
                             <Text
@@ -360,8 +428,8 @@ const MyInvestmentDetails = () => {
                       </div>
                       <div className="flex flex-row gap-[10px] w-full">
                         <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 9.75C8.24264 9.75 9.25 8.74264 9.25 7.5C9.25 6.25736 8.24264 5.25 7 5.25C5.75736 5.25 4.75 6.25736 4.75 7.5C4.75 8.74264 5.75736 9.75 7 9.75Z" stroke="#00CDAE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M7 16.5C10 13.5 13 10.8137 13 7.5C13 4.18629 10.3137 1.5 7 1.5C3.68629 1.5 1 4.18629 1 7.5C1 10.8137 4 13.5 7 16.5Z" stroke="#00CDAE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 9.75C8.24264 9.75 9.25 8.74264 9.25 7.5C9.25 6.25736 8.24264 5.25 7 5.25C5.75736 5.25 4.75 6.25736 4.75 7.5C4.75 8.74264 5.75736 9.75 7 9.75Z" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M7 16.5C10 13.5 13 10.8137 13 7.5C13 4.18629 10.3137 1.5 7 1.5C3.68629 1.5 1 4.18629 1 7.5C1 10.8137 4 13.5 7 16.5Z" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <div className="flex flex-col gap-[10px] items-start justify-start w-auto">
                             <Text
@@ -375,7 +443,7 @@ const MyInvestmentDetails = () => {
                       </div>
                       <div className="flex flex-row gap-[10px] w-full">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.5 9H16.5M1.5 9C1.5 13.1421 4.85786 16.5 9 16.5M1.5 9C1.5 4.85786 4.85786 1.5 9 1.5M16.5 9C16.5 13.1421 13.1421 16.5 9 16.5M16.5 9C16.5 4.85786 13.1421 1.5 9 1.5M9 1.5C10.876 3.55376 11.9421 6.21903 12 9C11.9421 11.781 10.876 14.4462 9 16.5M9 1.5C7.12404 3.55376 6.05794 6.21903 6 9C6.05794 11.781 7.12404 14.4462 9 16.5" stroke="#00CDAE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1.5 9H16.5M1.5 9C1.5 13.1421 4.85786 16.5 9 16.5M1.5 9C1.5 4.85786 4.85786 1.5 9 1.5M16.5 9C16.5 13.1421 13.1421 16.5 9 16.5M16.5 9C16.5 4.85786 13.1421 1.5 9 1.5M9 1.5C10.876 3.55376 11.9421 6.21903 12 9C11.9421 11.781 10.876 14.4462 9 16.5M9 1.5C7.12404 3.55376 6.05794 6.21903 6 9C6.05794 11.781 7.12404 14.4462 9 16.5" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <div className="flex flex-col gap-[10px] items-start justify-start w-auto">
                             <Text
@@ -389,7 +457,7 @@ const MyInvestmentDetails = () => {
                       </div>
                       <div className="flex flex-row gap-[10px] w-full">
                         <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.5 3.25L7.62369 7.53658C8.11957 7.8837 8.36751 8.05726 8.6372 8.12448C8.87542 8.18386 9.12458 8.18386 9.3628 8.12448C9.63249 8.05726 9.88043 7.8837 10.3763 7.53658L16.5 3.25M5.1 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H5.1C3.83988 1 3.20982 1 2.72852 1.24524C2.30516 1.46095 1.96095 1.80516 1.74524 2.22852C1.5 2.70982 1.5 3.33988 1.5 4.6V9.4C1.5 10.6601 1.5 11.2902 1.74524 11.7715C1.96095 12.1948 2.30516 12.539 2.72852 12.7548C3.20982 13 3.83988 13 5.1 13Z" stroke="#00CDAE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1.5 3.25L7.62369 7.53658C8.11957 7.8837 8.36751 8.05726 8.6372 8.12448C8.87542 8.18386 9.12458 8.18386 9.3628 8.12448C9.63249 8.05726 9.88043 7.8837 10.3763 7.53658L16.5 3.25M5.1 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H5.1C3.83988 1 3.20982 1 2.72852 1.24524C2.30516 1.46095 1.96095 1.80516 1.74524 2.22852C1.5 2.70982 1.5 3.33988 1.5 4.6V9.4C1.5 10.6601 1.5 11.2902 1.74524 11.7715C1.96095 12.1948 2.30516 12.539 2.72852 12.7548C3.20982 13 3.83988 13 5.1 13Z" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <div className="flex flex-col gap-[10px] items-start justify-start w-auto">
                             <Text
@@ -401,26 +469,30 @@ const MyInvestmentDetails = () => {
                             <div className="text-[#344053] text-base font-dm-sans-regular leading-relaxed">investment@venture-catalysts.com</div>
                         </div>
                       </div>
-                      <div className="flex flex-col items-center pt-[41px] justify-start w-auto">
+                      {project?.documents?.length> 0 && <div className="flex flex-col pt-[41px] justify-start w-auto">
                         <Text
                           className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                           size="txtDMSansBold12"
                         >
                           Documents
                         </Text>
-                      </div>
-                      {project?.documents.length> 0 && project?.documents.map((document, index) => (
-                        <ProjectDocumentItem
-                          key={index}
-                          docName={document.name}
-                        />
-                      ))}
+                        <div className="flex flex-col w-full">
+                          {project?.documents?.length> 0 && project?.documents.map((document, index) => (
+                            <ProjectDocumentItem
+                              key={index}
+                              docName={document.name}
+                            />
+                          ))}
+                        </div>
+                      </div>}
                     </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={data} methode={handleApprove}/>
+        <RejectContactRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={data} methode={handleReject} />
         </>
     );
 }

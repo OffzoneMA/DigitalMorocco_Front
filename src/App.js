@@ -145,6 +145,7 @@ function App() {
                   <Route path="/Investors" element={<Investors />} />
                   <Route path="/MyInvestors" element={<MyInvestors />} />
                   <Route path="/InvestorDetails/:investorId" element={<InvestorDetails />} />
+                  <Route path="/MyInvestorDetails/:investorId" element={<InvestorDetails />} />
                   <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
                   <Route path="/Projects" element={<Projects />} />
                   <Route path="/Createproject" element={<CreateProject />} />
@@ -159,6 +160,7 @@ function App() {
                   <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
                   <Route path="/PastEvent" element={<PastEvents />} />
                   <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
+                  <Route path="/EventDetails/:id" element={<UpcomingEventDetails />} />
                   <Route path="/PastEventDetails/:id" element={<UpcomingEventDetails />} />
                   <Route path="/UserProfile" element={<UserProfile />} />
                   <Route path="/Subscription" element={<Subscription />} />
@@ -168,7 +170,7 @@ function App() {
                   <Route path="/SubscribePlan" element={<SubscribePlan />} />
                   <Route path="/Investment" element={<Investment />} />
                   <Route path="/MyInvestment" element={<MyInvestment />} />
-                  <Route path="/MyInvestmentDetails" element={<MyInvestmentDetails />} />
+                  <Route path="/InvestmentDetails/:id" element={<MyInvestmentDetails />} />
                   <Route path="/InvestmentRequestHistory" element={<InvestmentRequestHistory />} />
                 </Route>
                 <Route element={<GuardedAdminRoute />}>

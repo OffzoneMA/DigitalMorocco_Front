@@ -17,12 +17,9 @@ import Loader from "../../Components/Loader";
 import axios from 'axios';
 import { FaUsers } from "react-icons/fa";
 import { FaRProject } from "react-icons/fa6";
-import { PiCheckBold } from "react-icons/pi";
-import { RiCloseLine } from "react-icons/ri";
-import ApproveContactRequestModal from "../../Components/ApproveContactRequestModal";
-import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
-import { companyType } from "../../data/companyType";
-import { BsDot } from "react-icons/bs";
+import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../Services/Investor.Service";
+import { useGetDistinctRequestFieldValuesQuery } from "../../Services/Investor.Service";
+import CustomCalendar from "../../Components/CustomCalendar";
 
 const InvestmentRequestHistory = () => {
     const [filter , setFilter] = useState(false);
@@ -31,8 +28,6 @@ const InvestmentRequestHistory = () => {
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const [rowData , setRowData] = useState(null);
     const [keywords, setKeywords] = useState('');
-    const [investorRequests, setInvestorRequests] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [targetFund, setTargetFund] = useState('');
     const [location, setLocation] = useState('');
     const [industries, setIndustries] = useState([])
@@ -40,6 +35,20 @@ const InvestmentRequestHistory = () => {
     const itemsPerPage = 8;
     const itemsToShow = 4;
     const [totalPages , setTotalPages] = useState(0);
+    const queryParams = { page: cur, pageSize: itemsPerPage };
+    const [selectedDate , setSelectedDate] = useState('');
+
+    if (filterApply) {
+      queryParams.status = industries;
+      queryParams.funding = targetFund;
+      queryParams.projectStage = location;
+      queryParams.dateCreated = selectedDate;
+    }
+    const { data: investorRequests, error, isFetching: loading , refetch} = useGetAllConatctReqQuery(queryParams);
+    const { data : sectorData, isLoading:locationLoading } = useGetDistinctRequestFieldValuesQuery("status");
+    const { data : fundingData, isLoading:industryLoading } = useGetDistinctProjectFieldsQuery({field: "funding" });
+    const { data : locationData, isLoading:typeLoading } = useGetDistinctProjectFieldsQuery({field: "stage"});
+
 
     function handlePageChange(page) {
       if (page >= 1 && page <= totalPages) {
@@ -56,116 +65,36 @@ const InvestmentRequestHistory = () => {
     }
 
     useEffect(() => {
-      const fetchInvestorRequests = async () => {
-        try {
-          const token = sessionStorage.getItem("userToken");
-          const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/ContactRequest`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setInvestorRequests(response.data?.ContactsHistory);
-          setTotalPages(response?.data?.totalPages);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error member contact requests history:', error);
-          setLoading(false);
-        }
-      };
-  
-      fetchInvestorRequests();
-    }, []);
+      refetch();
+    }, [cur , itemsPerPage , refetch , filterApply]);
 
-    const pageData = [
-        {
-          name: "Startup 1",
-          date: new Date('2024-01-12T10:30:00'),
-          funding: 5000000,
-          totalRaised: 1560000,
-          stage: "Angel Round",
-          status: "In Progress",
-        },
-        {
-          name: "Startup 2",
-          date: new Date('2024-02-10T09:15:00'),
-          funding: 3000000,
-          totalRaised: 90000,
-          stage: "Seed A",
-          status: "Approved",
-        },
-        {
-          name: "Startup 3",
-          date: new Date('2024-03-05T12:45:00'),
-          funding: 1500000,
-          totalRaised: 0,
-          stage: "Seed A",
-          status: "In Progress",
-        },
-        {
-          name: "Startup 4",
-          date: new Date('2024-03-22T08:00:00'),
-          funding: 2000000,
-          totalRaised: 1000000,
-          stage: "Series A",
-          status: "Rejected",
-        },
-        {
-          name: "Startup 5",
-          date: new Date('2024-04-18T14:20:00'),
-          funding: 4000000,
-          totalRaised: 1200000,
-          stage: "Angel Round",
-          status: "Rejected",
-        },
-        {
-          name: "Startup 6",
-          date: new Date('2024-05-10T11:00:00'),
-          funding: 3500000,
-          totalRaised: 3000000,
-          stage: "Series B",
-          status: "Approved",
-        },
-        {
-          name: "Startup 7",
-          date: new Date('2024-06-12T09:45:00'),
-          funding: 2500000,
-          totalRaised: 500000,
-          stage: "Seed A",
-          status: "Rejected",
-        },
-        {
-          name: "Startup 8",
-          date: new Date('2024-07-15T16:30:00'),
-          funding: 1500000,
-          totalRaised: 1560000,
-          stage: "Angel Round",
-          status: "Approved",
-        },
-    ];
+    useEffect(() => {
+      setTotalPages(investorRequests?.totalPages);
+    }, [investorRequests]);
+
+    const sectorValues = sectorData?.distinctValues || [];
+    const fundingValues = fundingData?.distinctValues || [];
+    const locationValues = locationData?.distinctValues || [];
+
+    const pageData = investorRequests?.ContactsHistory ||  [];
       
     const formatDate = (date) => {
+        const dateValues = new Date(date)
         const options = { month: 'short', day: 'numeric', year: 'numeric' };
         const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
-        return `${date.toLocaleDateString('en-US', options)} ${date.toLocaleTimeString('en-US', timeOptions)}`;
+        return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
     };
 
-    const uniqueFundingValues = [...new Set(pageData.map((item) => item.funding))];
-
-    const uniqueLocationValues = [...new Set(pageData.map((item) => item.stage))];
-
     const filteredData = pageData.filter(item => {
-      const keywordMatch = item?.name.toLowerCase().includes(keywords.toLowerCase());
-    
-      if (filterApply) {
-        const matchesTargetFund = targetFund ? item.funding === Number(targetFund) : true; 
-        const matchesLocation = location ? item.location === location : true;
-        const matchesIndustries = industries.length > 0 ? industries.includes(item.stage) : true;
-    
-        return keywordMatch && matchesTargetFund && matchesLocation && matchesIndustries;
-      }
-    
+      const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
+
       return keywordMatch;
     });
+
+    function parseDateString(dateString) {
+      const [day, month, year] = dateString.split('/');
+      return new Date(`${year}-${month}-${day}`);
+  }
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -192,17 +121,13 @@ const InvestmentRequestHistory = () => {
                 <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
                 (<>
-                  <div className="flex min-w-[70px]">
-                      <input
-                        className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
-                        type="text"
-                        name="search"
-                        placeholder="Keywords"
-                        value={keywords}
-                        onChange={e => setKeywords(e.target.value)}
+                    <CustomCalendar
+                        className={'min-w-[70px]'} 
+                        inputPlaceholder={'Date'} 
+                        showIcon={false}
+                        onChangeDate={(date) => setSelectedDate(date)}
                       />
-                    </div>
-                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={uniqueFundingValues} onSelect={""} searchLabel='Search Target Fund' setSelectedOptionVal={setTargetFund} 
+                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues} onSelect={""} searchLabel='Search Target Fund' setSelectedOptionVal={setTargetFund} 
                     placeholder="Target Fund"
                     content={
                       ( option) =>{ return (
@@ -216,8 +141,8 @@ const InvestmentRequestHistory = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={uniqueLocationValues} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setLocation} 
-                    placeholder="Location" 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='stage' options={locationValues} onSelect={""} searchLabel='Search Stage' setSelectedOptionVal={setLocation} 
+                    placeholder="Stage" 
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -230,8 +155,8 @@ const InvestmentRequestHistory = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={companyType} onSelect={""} searchLabel='Search Industry' setSelectedOptionVal={setIndustries} 
-                    placeholder="Select Industry"
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setIndustries} 
+                    placeholder="Select Status"
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -307,21 +232,21 @@ const InvestmentRequestHistory = () => {
                       filteredData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
-                        {formatDate(item.date)}
+                        {formatDate(item?.dateCreated)}
                         </td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             <div className="flex items-center" >
                               {item?.logo ? (
-                                <img src={item.logo} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                                <img src={item?.project?.logo} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
                               ) : (
                                 <FaRProject className="h-8 w-8 mr-2 text-light_blue-200" /> 
                               )}                              
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
                             </div>
                         </td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item?.funding?.toLocaleString('en-US')}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.currency || 'USD'} ${item.totalRaised?.toLocaleString('en-US') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.stage}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('en-US')}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('en-US') || 0}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.stage}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             <div style={{ whiteSpace: "nowrap" }} 
                                 className={`flex flex-row space-x-2 items-center py-0.5 h-[28px] px-[10px] font-dm-sans-regular text-sm leading-6 rounded-full 
@@ -343,7 +268,7 @@ const InvestmentRequestHistory = () => {
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
