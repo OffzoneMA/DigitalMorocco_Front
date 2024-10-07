@@ -68,7 +68,7 @@ export default function SubscribePlan() {
     const annualDuration = monthlyDuration * 12;
 
   const annualPrice = choosedPlan?.annualPrice || (choosedPlan?.price * 12).toFixed(2);
-  const monthlyPrice = choosedPlan.price.toFixed(2);
+  const monthlyPrice = choosedPlan?.price.toFixed(2);
   const endDate = new Date();
   endDate.setFullYear(endDate.getFullYear() + 1);
 
