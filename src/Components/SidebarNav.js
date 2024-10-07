@@ -169,7 +169,7 @@ const SidebarNav = () => {
         <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`} alt={""}/>
       </Link>
     </div>
-    <div className={`flex flex-col flex-1 h-full ${open ? "w-auto" : "w-20"} w-full overflow-y-auto pb-5 px-5`}>
+    <div className={`flex flex-col flex-1 h-full ${open ? "w-auto" : "w-20"} w-full pb-5 px-5`}>
       <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
         {Menus.map((Menu, index) => (
           Menu && <div key={index} >
