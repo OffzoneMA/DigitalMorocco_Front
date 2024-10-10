@@ -198,7 +198,7 @@ export default function SignIn() {
 
   return (
     <>
-    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto px-[12px] py-[30px] md:px-10 min-h-screen w-full">
+    <div className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col  items-center justify-start mx-auto px-[12px] py-[30px] md:px-10 min-h-screen overflow-y-auto w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-full">
           <div className="flex flex-col items-center justify-center w-full ">
             <Link to="https://digitalmorocco.net" target='_blank'><img

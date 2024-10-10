@@ -48,7 +48,7 @@ export default function Success() {
     }, [auth , dispatch, navigate]);
      
     return (
-        <div className="flex flex-col items-center justify-center md:h-screen w-full">
+        <div className="flex flex-col items-center justify-center md:h-screen overflow-y-auto w-full">
         <Loader/>
         </div>
       )

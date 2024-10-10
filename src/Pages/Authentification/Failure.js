@@ -40,7 +40,7 @@ export default function Failure() {
   }, [error, navigate]);
   
     return (
-      <>
+      <div className='flex w-full min-h-screen overflow-y-auto items-center'>
         {(!isModalOpen && error !== "An account already exists with this email") &&
           <div className="flex flex-col items-center justify-start md:h-screen ">
             <ExclamationCircleIcon className='h-36 w-36 text-red-500' />
@@ -51,7 +51,7 @@ export default function Failure() {
           <EmailExistModal isOpen={isModalOpen}
                       onRequestClose={closeModal}
                       />
-        </>
+        </div>
       )
     }
  

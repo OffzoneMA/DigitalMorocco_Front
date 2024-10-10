@@ -13,7 +13,7 @@ const ContinueSignUp = () => {
     }, [userInfo?.status])
 
   return (
-    <div className="items-center border-5 flex-wrap md:space-y-8 p-7 py-12 pt-3 md:pt-40">
+    <div className="flex items-center border-5 flex-wrap md:space-y-8 p-7 py-12 pt-3 md:pt-40">
       <div className="flex flex-col md:flex-row  gap-24  md:gap-4 md:min-h-[350px]">
         <EmailVerify UserStatus={UserStatus} UserId={userInfo?._id}  />
         <Role UserStatus={UserStatus} UserId={userInfo?._id} />
