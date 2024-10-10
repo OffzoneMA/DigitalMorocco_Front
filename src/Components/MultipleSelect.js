@@ -143,8 +143,8 @@ console.log(selectedOptions)
 
   const isSelected = (option) => {
     if (optionkey) {
-      const optionValue = option[optionkey];
-      const selectedOptionValues = selectedOptions.map(selectedOption => selectedOption[optionkey]);
+      const optionValue = option?.[optionkey];
+      const selectedOptionValues = selectedOptions?.map(selectedOption => selectedOption?.[optionkey]);
       return selectedOptionValues.includes(optionValue);
     } else {
       return selectedOptions.includes(option);
