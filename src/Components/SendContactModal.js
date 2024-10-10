@@ -175,7 +175,7 @@ const SendContactModal = (props) => {
                         type="button"
                         className="font-dm-sans-medium text-sm leading-[26px] cursorpointer-green "
                       >
-                        update your document
+                        Update your document
                       </button>
                     </div>
                 </div>) :

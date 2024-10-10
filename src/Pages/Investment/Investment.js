@@ -362,7 +362,10 @@ const Investment = () => {
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                           <div className="flex flex-row space-x-4 items-center">
                             <div className="relative group">
-                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'approved'? 'bg-[#00CDAE]': 'bg-[#aeb6c5]'} hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex`} onClick={() => openApproveModal(item)}>
+                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'approved'? 'bg-[#00CDAE]': 'bg-[#aeb6c5]'} hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex`} 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openApproveModal(item)}}>
                                   <PiCheckBold size={21} className="text-white-A700"/>
                               </div>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
@@ -377,7 +380,10 @@ const Investment = () => {
                               </div>
                             </div>
                             <div className="relative group">
-                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'rejected'? 'bg-[#EF4352]': 'bg-[#aeb6c5]'} hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex`} onClick={() => openRejectModal(item)}>
+                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'rejected'? 'bg-[#EF4352]': 'bg-[#aeb6c5]'} hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex`} 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openRejectModal(item)}}>
                                   <RiCloseLine size={21} className="text-white-A700"/>
                               </div>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">

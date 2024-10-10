@@ -12,6 +12,12 @@ import Loader from '../Components/Loader';
 import { useAddPaymentMethodMutation , useGetPaymentMethodsQuery , useGetLastPaymentMethodsQuery , useUpdatePaymentMethodMutation } from '../Services/PaymentMethod.Service';
 import { paymentMethodsData } from '../data/tablesData';
 import PaymentMethode from '../Components/PaymentMethode';
+import { useGetBillingsForUserQuery } from '../Services/Billing.Service';
+import { formatDateValue , capitalizeFirstLetter } from '../data/helper';
+import ConfirmedModal from '../Components/ConfirmedModal';
+import checkVerifyImg from '../Media/check-verified-02.svg';
+import EmailExistModalOrConfirmation from '../Components/EmailExistModalOrConfirmation';
+import { IoFlashOffOutline } from 'react-icons/io5';
 
 export default function Subscription() {
   // const { data = [], isLoading, isFetching, isError } = useGetAllSubscriptonsQuery()
@@ -28,7 +34,7 @@ export default function Subscription() {
   const [anuualPlan , setAnnualPlan] = useState(false);
   const navigate=useNavigate()
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isConfirmRenewModalOpen, setIsConfirmRenewModalOpen] = useState(false);
   const [isEditPaymentModalOpen, setIsEditPaymentModalOpen] = useState(false);
   const token = sessionStorage.getItem("userToken");
   const userData = JSON.parse(sessionStorage.getItem("userData"));
@@ -36,7 +42,8 @@ export default function Subscription() {
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [cancelSubscription, { isLoading: cancelLoading, isError: cancelError, isSuccess: cancelSuccess }] = useCancelSubscriptionMutation();
-  const [renewSubscription, { isLoading: renewLoading, isSuccess: renewSuccess, isError: renewError }] = useRenewSubscriptionMutation();
+  const [renewSubscription, { isLoading: renewLoading, isFetching: renewFetching , isSuccess: renewSuccess, isError: renewError }] = useRenewSubscriptionMutation();
+  const {data: billingDataForUser , isFetching: billingDataFetching } = useGetBillingsForUserQuery();
 
   const fetchLastPaymentMethod = async () => {
     setLoadingLastPayment(true);
@@ -105,6 +112,7 @@ useEffect(() => {
     try {
       await renewSubscription(userSubscriptionData?._id).unwrap(); 
       getUserSusbcription();
+      openConfirmRenewModal();
     } catch (err) {
       console.log(err); 
     }
@@ -153,104 +161,14 @@ useEffect(() => {
     }
   };
 
-  const openPaymentModal = () => {
-    setIsPaymentModalOpen(true);
+  const openConfirmRenewModal = () => {
+    setIsConfirmRenewModalOpen(true);
   };
 
-  const closePaymentModal = () => {
-    setIsPaymentModalOpen(false);
+  const closeConfirmRenewModal = () => {
+    setIsConfirmRenewModalOpen(false);
   };
 
-  const openEditPaymentModal = () => {
-    setIsEditPaymentModalOpen(true);
-  };
-
-  const closeEditPaymentModal = () => {
-    setIsEditPaymentModalOpen(false);
-  };
-
-  const addMethode = async (data) => {
-    try {
-      const res = await addPaymentMethod(data);
-        if (res.data) {
-          toast.success("Payment method added successfully");
-          await fetchLastPaymentMethod();
-          closePaymentModal();
-        } else {
-          toast.error("Error adding payment method");
-        }
-      } catch (error) {
-        console.error('Error adding payment method:', error);
-      }
-  };
-
-  const updateMethode = async (data) => {
-    try {
-      const res = await updatePaymentMethod(data);
-      if (res.data) {
-        toast.success("Payment method updated successfully");
-        await fetchLastPaymentMethod();        
-        closeEditPaymentModal();
-      } else {
-        toast.error("Error updating payment method");
-      }
-    } catch (error) {
-      console.error('Error updating payment method:', error);
-      toast.error("An unexpected error occurred");
-    }
-  };
-
-  const data = [
-    {
-      uploadDate: "May 6, 2024 02:37:22 PM",
-      documentName: "Bill_n°1.pdf",
-      status: "Upcoming",
-      statusClass: "[#DBEDFF]",
-      statusTextClass: "blue-600"
-    },
-    {
-      uploadDate: "May 16, 2024 02:37:22 PM",
-      documentName: "Bill_n°2.pdf",
-      status: "Paid",
-      statusClass: "emerald-50",
-      statusTextClass: "emerald-700"
-    },
-    {
-      uploadDate: "May 4, 2024 11:20:56 AM",
-      documentName: "Subscription Bill_n°3.pdf",
-      status: "To be paid",
-      statusClass: "rose-100",
-      statusTextClass: "red-500"
-    },
-    {
-      uploadDate: "May 28, 2024 04:01:11 PM",
-      documentName: "Bill_n°3.pdf",
-      status: "Upcoming",
-      statusClass: "[#DBEDFF]",
-      statusTextClass: "blue-600"
-    },
-    {
-      uploadDate: "May 14, 2024 11:20:56 AM",
-      documentName: "Credits Bill_n°15.pdf",
-      status: "Paid",
-      statusClass: "emerald-50",
-      statusTextClass: "emerald-700"
-    },
-    {
-      uploadDate: "May 30, 2024 11:20:56 PM",
-      documentName: "Bill_n°4.pdf",
-      status: "To be paid",
-      statusClass: "rose-100",
-      statusTextClass: "red-500"
-    },
-    {
-      uploadDate: "May 22, 2024 12:45:15 PM",
-      documentName: "Bill_n°5.pdf",
-      status: "Paid",
-      statusClass: "emerald-50",
-      statusTextClass: "emerald-700"
-    }
-  ];
 
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -384,36 +302,62 @@ useEffect(() => {
                   type="button"
                   onClick={() => handleRenewSubscription()}
                 >
+                {renewFetching ? 
+                  <svg
+                    className="animate-spin h-5 w-5 mr-3 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    ></path>
+                  </svg> : 
+                  <>
                   <TiFlashOutline size={23} />
                   Renew my subscription
+                </>}
                 </button>
               </div>
               <div className='flex flex-col w-full gap-5'>
                 <div className="w-auto text-[#101828] text-lg font-dm-sans-medium leading-7">Billing Information</div>
-                <table class="w-full h-auto bg-white">
+                <table className="w-full h-auto bg-white">
                   <thead>
                     <tr className='text-left text-[#344054] font-DmSans font-medium h-[44px]'>
-                      <th class="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Upload Date</th>
-                      <th class="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Document Name</th>
-                      <th class="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Status</th>
-                      <th class="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Action</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Upload Date</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Document Name</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Status</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Action</th>
                     </tr>
                   </thead>
+                  { (!billingDataFetching && billingDataForUser?.length > 0 )?
                   <tbody>
-                    {data.map((item, index) => (
+                    {billingDataForUser?.map((item, index) => (
                       <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                        <td className="h-16 px-[18px] py-4 text-[#667085] text-sm font-dm-sans-regular leading-relaxed">{item.uploadDate}</td>
+                        <td className="h-16 px-[18px] py-4 text-[#667085] text-sm font-dm-sans-regular leading-relaxed">{formatDateValue(item?.dateCreated)}</td>
                         <td className="h-16 px-[18px] flex items-center gap-[10px] py-4 text-[#101828] text-sm font-dm-sans-regular leading-relaxed">
                           <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.33464 1.51294V4.26663C8.33464 4.64 8.33464 4.82669 8.4073 4.96929C8.47121 5.09473 8.5732 5.19672 8.69864 5.26064C8.84125 5.3333 9.02793 5.3333 9.4013 5.3333H12.155M8.33464 11.3333H4.33464M9.66797 8.66659H4.33464M12.3346 6.65874V11.4666C12.3346 12.5867 12.3346 13.1467 12.1166 13.5746C11.9249 13.9509 11.6189 14.2569 11.2426 14.4486C10.8148 14.6666 10.2547 14.6666 9.13463 14.6666H4.86797C3.74786 14.6666 3.18781 14.6666 2.75999 14.4486C2.38366 14.2569 2.0777 13.9509 1.88596 13.5746C1.66797 13.1467 1.66797 12.5867 1.66797 11.4666V4.53325C1.66797 3.41315 1.66797 2.85309 1.88596 2.42527C2.0777 2.04895 2.38366 1.74299 2.75999 1.55124C3.18781 1.33325 3.74786 1.33325 4.86797 1.33325H7.00915C7.49833 1.33325 7.74292 1.33325 7.9731 1.38851C8.17717 1.43751 8.37226 1.51831 8.5512 1.62797C8.75304 1.75166 8.92599 1.92461 9.27189 2.27051L11.3974 4.39599C11.7433 4.7419 11.9162 4.91485 12.0399 5.11668C12.1496 5.29563 12.2304 5.49072 12.2794 5.69479C12.3346 5.92496 12.3346 6.16955 12.3346 6.65874Z" stroke="#303030" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
-                          {item.documentName}
+                          {item?.document?.name}
                         </td>
                         <td className="h-16 px-[18px] py-4">
                           <div className='flex w-full items-center'>
-                          {item.status && (
-                            <div className={`px-[10px] h-[28px] py-[2px] flex items-center justify-center w-auto rounded-[16px] text-center text-[13px] font-dm-sans-regular leading-normal ${item?.status?.toLowerCase() === 'upcoming' ? 'bg-[#DBEEFF] text-[#1570EF]' : item?.status?.toLowerCase() === 'paid' ? 'bg-[#ECFDF3] text-[#027A48]' :'bg-[#FEE8E6] text-[#F04438]' }`}>
-                              {item.status}
+                          {item?.status && (
+                            <div 
+                            style={{whiteSpace:'nowrap'}}
+                              className={`px-[10px] h-[28px] py-[2px] flex items-center justify-center w-auto rounded-[16px] text-center text-[13px] font-dm-sans-regular leading-normal ${item?.status?.toLowerCase() === 'upcoming' ? 'bg-[#DBEEFF] text-[#1570EF]' : item?.status?.toLowerCase() === 'paid' ? 'bg-[#ECFDF3] text-[#027A48]' :'bg-[#FEE8E6] text-[#F04438]' }`}>
+                              {capitalizeFirstLetter(item.status)}
                             </div>
                           )}
                           </div>
@@ -421,9 +365,11 @@ useEffect(() => {
                         <td className="h-16 px-[18px] py-4">
                           <div className="flex items-center gap-[18px]">
                             <div className="relative group">
-                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14.75 10.25V11.15C14.75 12.4101 14.75 13.0402 14.5048 13.5215C14.289 13.9448 13.9448 14.289 13.5215 14.5048C13.0402 14.75 12.4101 14.75 11.15 14.75H4.85C3.58988 14.75 2.95982 14.75 2.47852 14.5048C2.05516 14.289 1.71095 13.9448 1.49524 13.5215C1.25 13.0402 1.25 12.4101 1.25 11.15V10.25M11.75 6.5L8 10.25M8 10.25L4.25 6.5M8 10.25V1.25" stroke="#98A2B3" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                              </svg>
+                              <a href={item?.document?.link} download={item?.document?.name} target="_blank">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M14.75 10.25V11.15C14.75 12.4101 14.75 13.0402 14.5048 13.5215C14.289 13.9448 13.9448 14.289 13.5215 14.5048C13.0402 14.75 12.4101 14.75 11.15 14.75H4.85C3.58988 14.75 2.95982 14.75 2.47852 14.5048C2.05516 14.289 1.71095 13.9448 1.49524 13.5215C1.25 13.0402 1.25 12.4101 1.25 11.15V10.25M11.75 6.5L8 10.25M8 10.25L4.25 6.5M8 10.25V1.25" stroke="#98A2B3" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                              </a>
                               <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
                                 <div className="mb-px mr-[3px]">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
@@ -456,7 +402,25 @@ useEffect(() => {
                       </tr>
                     ))}
                   </tbody>
+                  :
+                  ""}
                 </table>
+                {billingDataFetching ? 
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-40 rounded-b-[8px]">
+                    <Loader />
+                  </div>
+                  :
+                  (!billingDataForUser?.length>0) && (
+                    <div className="flex flex-col items-center text-gray700 w-full py-40">
+                        <IoFlashOffOutline  size={40} />
+                        <Text
+                        className="font-dm-sans-regular text-sm leading-6 text-gray-900_01 w-auto py-4"
+                        size=""
+                        >
+                        No matching data identified
+                        </Text>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
@@ -468,6 +432,30 @@ useEffect(() => {
         }
       </div>
       <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal} method={handleCancelSubscription}/>
+      <EmailExistModalOrConfirmation isOpen={isConfirmRenewModalOpen}
+            onRequestClose={closeConfirmRenewModal} content={
+              <div className="flex flex-col gap-[38px] items-center justify-start w-full">
+            <img
+              className="h-[80px] w-[80px]"
+              src={checkVerifyImg}
+              alt="successtick"
+            />
+            <div className="flex flex-col gap-5 items-center justify-start w-full">
+              <Text
+                className="leading-[26.00px] font-dm-sans-medium text-[18px] text-gray-801 text-center "
+              >
+                  {"Your subscription has been successfully renewed!"}
+              </Text>
+              <Text
+                className="leading-[26.00px] font-dm-sans-regular  text-gray-801 text-center text-sm"
+              >
+                <>
+                  {"Thank you for staying with us. Your account is now active for another billing cycle."}
+                </>
+              </Text>
+            </div>
+          </div>
+            }/>
     </div>
   )
 }

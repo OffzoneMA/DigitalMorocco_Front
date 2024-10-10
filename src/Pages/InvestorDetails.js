@@ -27,7 +27,8 @@ import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import Loader from "../Components/Loader";
 import investorFakeImage from "../Media/investorFakeImage.jpg"
-import  userdefaultProfile from '../Media/User1.png'
+import  userdefaultProfile from '../Media/User1.png';
+import { useGetAllContactReqByInvestorQuery } from "../Services/Investor.Service";
 
 const InvestorDetails = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -35,10 +36,15 @@ const InvestorDetails = () => {
   const location = useLocation();
   const [investor, setInvestor] = useState(location.state?.investor || null);
   const [investorRequestStatus , setInvestorRequestStatus] = useState('');
+  const [investments , setInvestments] = useState([]);
   const [cur, setCur] = useState(1);
   const [loading , setLoading] = useState(true);
   const itemsPerPage = 8;
   const itemsToShow = 4;
+  const [totalPages , setTotalPages] = useState(0);
+  const queryParams = {investorId , page: cur, pageSize: itemsPerPage , status: "Approved" };
+
+  const { data: myInvestments, error, isFetching: investmentLoading , refetch} = useGetAllContactReqByInvestorQuery(queryParams);
 
   const data = [
     {logo:"/images/img_inv.svg", AnnouncementDate: "November 28, 2015", CompanyName: "Volante Technologies", Location: "Sydney, Australia", FundingRound: "Series B", MoneyRaised: "$48M" },
@@ -50,40 +56,39 @@ const InvestorDetails = () => {
     {logo:"/images/img_inv6.svg", AnnouncementDate: "May 9, 2014", CompanyName: "DreamFarm WraithWatch", Location: "New York City, USA", FundingRound: "Debt Financing", MoneyRaised: "$8OM" }
   ];
 
-useEffect(() => {
-  setLoading(true);
-  const getInvestorDetailsRequest = async () => {
-    try {
-      setLoading(true);
-      const token = sessionStorage.getItem("userToken");
-      const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/${investorId}/details` , {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setInvestor(response.data?.details)
-      setInvestorRequestStatus(response.data?.status)
-      setLoading(false);
-      return response.data;
-    } catch (error) {
-      setLoading(false);
-        console.error('Error fetching investor details:', error);
-        throw error;
-    }
-};
+  console.log(myInvestments)
 
-getInvestorDetailsRequest();
-}, [investorId]);
-
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  const getPageData = () => {
-    const startIndex = (cur - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
+  useEffect(() => {
+    setLoading(true);
+    const getInvestorDetailsRequest = async () => {
+      try {
+        setLoading(true);
+        const token = sessionStorage.getItem("userToken");
+        const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/${investorId}/details` , {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setInvestor(response.data?.details)
+        setInvestorRequestStatus(response.data?.status)
+        setLoading(false);
+        return response.data;
+      } catch (error) {
+        setLoading(false);
+          console.error('Error fetching investor details:', error);
+          throw error;
+      }
   };
 
-  const pageData = getPageData();
+  getInvestorDetailsRequest();
+  }, [investorId]);
+
+  useEffect(() => {
+    setTotalPages(myInvestments?.totalPages);
+    setInvestments(myInvestments?.ContactsHistory);
+  }, [myInvestments]);
+
+  const pageData = investments;
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
@@ -98,6 +103,12 @@ getInvestorDetailsRequest();
   const closeModal = () => {
     setIsContactModalOpen(false);
   };
+
+  const formatDate = (date) => {
+    const dateValues = new Date(date);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return dateValues.toLocaleDateString('en-US', options);
+};
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -409,23 +420,26 @@ getInvestorDetailsRequest();
                                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Money Raised</th>
                                 </tr>
                                 </thead>
-                                { pageData?.length > 0 ?
+                                { (!investmentLoading && pageData?.length > 0 )?
                                 <tbody className="items-center w-full ">
                                 {
                                     (pageData.map((item, index) => (
                                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
                                     <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
-                                        {item.AnnouncementDate}
+                                        {formatDate(item?.dateCreated)}
                                     </td>
                                     <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
-                                        <div className="flex items-center" >
-                                            <img src={item.logo} className="rounded-full h-8 w-8 bg-gray-300 mr-2"/>
-                                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.CompanyName}</span>
+                                        <div className="flex items-center gap-2" >
+                                        {item?.member?.image ?
+                                          <img src={item?.member?.image} className="rounded-full h-8 w-8"/> :
+                                          <img src={userdefaultProfile} className="rounded-full h-8 w-8"/>
+                                        }
+                                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.member?.companyName || "-"}</span>
                                         </div>
                                     </td>
-                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.Location}</td>
-                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.FundingRound}</td>
-                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item.MoneyRaised}</td>
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.project?.country}</td>
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.project?.stage || "-"}</td>
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.investor?.MoneyRaised || "-"}</td>
                                     </tr>
                                 ))) }
                                 </tbody>
@@ -433,8 +447,13 @@ getInvestorDetailsRequest();
                                 ""
                                 }
                               </table>
-                              {!pageData?.length>0 && (
-                                <div className="flex flex-col items-center text-gray700 w-full py-28">
+                              {investmentLoading ? 
+                                <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-40 rounded-b-[8px]">
+                                  <Loader />
+                                </div>
+                                :
+                                (!pageData?.length>0) && (
+                                <div className="flex flex-col items-center text-gray700 w-full py-40">
                                     <IoFlashOffOutline  size={40} />
                                     <Text
                                     className="font-dm-sans-regular text-sm leading-6 text-gray-900_01 w-auto py-4"
@@ -445,7 +464,7 @@ getInvestorDetailsRequest();
                                 </div>
                                 )}
                             </div>
-                            {pageData?.length>0 && (
+                            {(!investmentLoading && pageData?.length>0) && (
                             <div className='w-full flex items-center p-4'>
                                 <TablePagination
                                 currentPage={cur}

@@ -9,10 +9,10 @@ import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
+import { useApproveRequestMutation } from "../Services/ContactRequest.Service";
 
-const RejectContactRequestModal = (props) => {
-
-    const [selectedRaison , setSelectedRaison] = useState(null);
+const ApproveSponsoringRequestModal = (props) => {
+    const [typeInvestment , setSelectedInvestmentType] = useState(null);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const formData = new FormData();
@@ -21,8 +21,8 @@ const RejectContactRequestModal = (props) => {
     const onSubmit = async (data) => {
       try {
         await props?.methode({
-                rejectionNotes: data?.letter,
-                reason: selectedRaison,
+                approvalNotes: data?.letter,
+                typeInvestment,
             },
         );
         openModal();
@@ -40,23 +40,21 @@ const RejectContactRequestModal = (props) => {
         setIsConfirmedModalOpen(false);
     };
 
-    const rejectionReasons = [
-     "Budget Constraints",
-     "Not Aligned with Current Goals",
-     "Timing Issues",
-     "High Risk",
-     "Lack of Market Potential",
-     "Insufficient Financial Projections",
-     "Inexperienced Team",
-     "Overvaluation",
-     "Competing Interests",
-     "Unclear Business Model"
-    ];
-    
-      
+    const sponsoringTypes = [
+        "Financial Sponsorship",
+        "In-Kind Sponsorship",
+         "Media Sponsorship",
+         "Promotional Sponsorship",
+        "Event Sponsorship",
+        "Digital Sponsorship",
+        "Cause-related Sponsorship",
+        "Product Sponsorship",
+         "Title Sponsorship",
+         "Co-Sponsorship",
+      ];
 
     return (
-    <>
+        <>
         <ModalProvider
             appElement={document.getElementById("root")}
             className="m-auto w-[95%] md:w-[100%] max-w-[640px] outline-none"
@@ -70,7 +68,7 @@ const RejectContactRequestModal = (props) => {
                         <Text
                         className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-[#1D2939] w-full"
                         >
-                        Reject Contact Request
+                        Approve Sponsorship Request
                         </Text>
                     </div>
                 </div>
@@ -81,13 +79,13 @@ const RejectContactRequestModal = (props) => {
                         className="text-base text-[#1D1C21] w-auto"
                         size="txtDMSansLablel"
                         >
-                        Reason for Rejection
+                        Type of Sponsoring
                         </Text>
-                        <SimpleSelect id='reason' options={rejectionReasons} onSelect={""} searchLabel='Search Raison' setSelectedOptionVal={setSelectedRaison}
-                            placeholder="Select Reason" 
+                        <SimpleSelect id='project' options={sponsoringTypes} onSelect={""} searchLabel='Search Type' setSelectedOptionVal={setSelectedInvestmentType} 
+                            placeholder="Select Type of Sponsoring"
                             content={
                             ( option) =>{ return (
-                                <div className={`flex  py-2 items-center w-full`}>
+                                <div className="flex  py-2 items-center  w-full">
                                     <Text
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
@@ -137,7 +135,7 @@ const RejectContactRequestModal = (props) => {
                     <button 
                     type="submit"
                     className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[20px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
-                        Reject
+                        Approve
                     </button>
                 </div>
               </div>
@@ -151,4 +149,4 @@ const RejectContactRequestModal = (props) => {
     );
 }
 
-export default RejectContactRequestModal;
+export default ApproveSponsoringRequestModal;

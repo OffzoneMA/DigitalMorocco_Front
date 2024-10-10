@@ -10,7 +10,8 @@ import { useForm } from "react-hook-form";
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 
-const RejectContactRequestModal = (props) => {
+
+const RejectSponsoringRequestModal = (props) => {
 
     const [selectedRaison , setSelectedRaison] = useState(null);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
@@ -41,22 +42,26 @@ const RejectContactRequestModal = (props) => {
     };
 
     const rejectionReasons = [
-     "Budget Constraints",
-     "Not Aligned with Current Goals",
-     "Timing Issues",
-     "High Risk",
-     "Lack of Market Potential",
-     "Insufficient Financial Projections",
-     "Inexperienced Team",
-     "Overvaluation",
-     "Competing Interests",
-     "Unclear Business Model"
-    ];
+        "Insufficient Budget",
+        "Misalignment with Brand Values",
+        "Target Audience Mismatch",
+        "Low ROI Expectation",
+        "Already Committed to Other Sponsorships",
+        "Lack of Visibility",
+        "High Risk Involvement",
+        "Conflict with Existing Partnerships",
+        "Inadequate Proposal",
+        "Negative Public Perception",
+        "Timing Conflict",
+        "No Long-Term Value",
+        "Overlapping with Competitors",
+        "Event Scale Too Small",
+        "Unclear Objectives",
+      ];
     
-      
 
     return (
-    <>
+        <>
         <ModalProvider
             appElement={document.getElementById("root")}
             className="m-auto w-[95%] md:w-[100%] max-w-[640px] outline-none"
@@ -70,7 +75,7 @@ const RejectContactRequestModal = (props) => {
                         <Text
                         className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-[#1D2939] w-full"
                         >
-                        Reject Contact Request
+                        Reject Sponsorship Request
                         </Text>
                     </div>
                 </div>
@@ -151,4 +156,4 @@ const RejectContactRequestModal = (props) => {
     );
 }
 
-export default RejectContactRequestModal;
+export default RejectSponsoringRequestModal;

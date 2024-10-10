@@ -17,20 +17,20 @@ export const billingApi = createApi({
     createBilling: builder.mutation({
       query: ({ userId, formData }) => {
         return {
-          url: `billing/${userId}`,
+          url: `/${userId}`,
           method: 'POST',
           body: formData,
         };
       },
     }),
     getBillingsForUser: builder.query({
-      query: (userId) => `billing/${userId}`,
+      query: (userId) => `/`,
       providesTags: ['Billing'],
     }),
 
     deleteBilling: builder.mutation({
       query: (billingId) => ({
-        url: `billing/${billingId}`,
+        url: `/${billingId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Billing'],

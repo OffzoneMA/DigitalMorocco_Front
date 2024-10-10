@@ -46,3 +46,22 @@ export function formatDate (dateString) {
   });
   return `${formattedDate} ${formattedTime}`;
 };
+
+export const formatDateValue = (date) => {
+  const dateValues = new Date(date);
+  
+  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  
+  const timeOptions = {
+    hour: '2-digit', // Pour afficher l'heure avec deux chiffres
+    minute: '2-digit', // Pour afficher les minutes avec deux chiffres
+    second: '2-digit', // Pour afficher les secondes avec deux chiffres
+    hour12: true, // Utilise AM/PM
+  };
+  
+  return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
+};
+
+export const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};

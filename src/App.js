@@ -75,7 +75,15 @@ const Investment = React.lazy(()  => import('./Pages/Investment/Investment'))
 const MyInvestment = React.lazy(() => import('./Pages/MyInvestment/MyInvestment'))
 const MyInvestmentDetails = React.lazy(() => import('./Pages/MyInvestment/MyInvestmentDetails'))
 const InvestmentRequestHistory = React.lazy(() => import('./Pages/Investment/InvestmentRequestHistory'))
-
+const UpcomingSponsorEvent = React.lazy(() => import('./Pages/Sponsoring/UpcomingSponsorEvent'))
+const SponsorEventDetails = React.lazy(() => import('./Pages/Sponsoring/SponsorEventDetails'))
+const SponsorCurrentRequests = React.lazy(() => import('./Pages/Sponsoring/SponsorCurrentRequests'))
+const PastSponsorEvent = React.lazy(() => import('./Pages/Sponsoring/PastSponsorEvent'))
+const SponsorCurrentRequestDetails = React.lazy(() => import('./Pages/Sponsoring/SponsorCurrentRequestDetails'))
+const PastSponsorEventDetails = React.lazy(() => import('./Pages/Sponsoring/PastSponsorEventDetails'))
+const SponsorRequestHistory = React.lazy(() => import('./Pages/Sponsoring/SponsorRequestHistory'))
+const SponsorRequestHistoryDetails = React.lazy(() => import('./Pages/Sponsoring/SponsorRequestHistoryDetails'))
+ 
 function App() {
 
   const dispatch = useDispatch();
@@ -172,6 +180,15 @@ function App() {
                   <Route path="/MyInvestment" element={<MyInvestment />} />
                   <Route path="/InvestmentDetails/:id" element={<MyInvestmentDetails />} />
                   <Route path="/InvestmentRequestHistory" element={<InvestmentRequestHistory />} />
+                  <Route path="/UpcomingSponsorEvent" element={<UpcomingSponsorEvent />} />
+                  <Route path="/SponsorEventDetails/:id" element={<SponsorEventDetails />} />
+                  <Route path="/SponsorCurrentRequests" element={<SponsorCurrentRequests />} />
+                  <Route path="/PastSponsorEvent" element={<PastSponsorEvent />} />
+                  <Route path="/SponsorCurrentRequestDetails/:id" element={<SponsorCurrentRequestDetails />} />
+                  <Route path="/PastSponsorEventDetails/:id" element={<PastSponsorEventDetails />} />
+                  <Route path="/SponsorRequestHistory" element={<SponsorRequestHistory />} />
+                  <Route path="/SponsorRequestHistoryDetails/:id" element={<SponsorRequestHistoryDetails />} />
+
                 </Route>
                 <Route element={<GuardedAdminRoute />}>
                   <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />

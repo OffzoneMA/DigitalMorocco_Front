@@ -23,8 +23,12 @@ import ReactDOM from 'react-dom';
 import userDefaultProfil from '../../Media/User1.png'
 import CustomCalendar from "../../Components/CustomCalendar";
 import SendSponsoringModal from "../../Components/SendSponsoringModal";
+import { PiCheckBold } from "react-icons/pi";
+import { RiCloseLine } from "react-icons/ri";
+import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
+import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
 
-const UpcomingSponsorEvent = () => {
+const SponsorRequestHistory = () => {
     const navigate = useNavigate();
     const field = 'physicalLocation';
     const {data : events , error , isLoading , refetch } = useGetAllUpcomingEventsUserParticipateQuery();
@@ -36,7 +40,7 @@ const UpcomingSponsorEvent = () => {
     const [isSubscribe , setIsSubscribe] = useState(false);
     const [profilVerified , setProfilVerified] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [eventName, seteventName] = useState([]);
+    const [types, setTypes] = useState([]);
     const [cur, setCur] = useState(1);
     const [rowData , setRowData] = useState(null);
     const [downloadFile , setDownloadFile] = useState(false);
@@ -50,7 +54,8 @@ const UpcomingSponsorEvent = () => {
     const [ticketDataRow , setTicketDataRow] = useState(null);
     const [selectedDate , setSelectedDate] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+    const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
     useEffect(() => {
       refetch();
@@ -69,7 +74,6 @@ const UpcomingSponsorEvent = () => {
     const clearFilter = () => {
       setFilter(false); 
       setFilterApply(false);
-      seteventName([]);
       setLocation('');
     }
 
@@ -91,15 +95,161 @@ const UpcomingSponsorEvent = () => {
     
   };
 
+  const openApproveModal = (data) => {
+    setIsApproveModalOpen(true);
+    setRowData(data);
+  };
+  
+  const closeApproveModal = () => {
+      setIsApproveModalOpen(false);
+      // setRowData(null);
+  };
+
+  const openRejectModal = (data) => {
+      setIsRejectModalOpen(true);
+      setRowData(data);
+  };
+  
+  const closeRejectModal = () => {
+      setIsRejectModalOpen(false);
+      // setRowData(null);
+  };
+
+  const handleApprove = async (data) => {
+    try {
+        // await approveRequest({
+        //     id: rowData?._id,
+        //     approvalData: data,
+        // }).unwrap();
+        refetch();
+        console.log('Request approved successfully!');
+    } catch (error) {
+        console.error('Failed to approve request:', error);
+    }
+  };
+
+    const handleReject = async (data) => {
+        try {
+            // await rejectRequest({
+            //     id: rowData?._id,
+            //     rejectionData: data,
+            // }).unwrap();
+            refetch();
+            console.log('Request rejected successfully!');
+        } catch (error) {
+            console.error('Failed to reject request:', error);
+        }
+    };
+
+  const openTicketModal = (rowData) => {
+    setIsTicketModalOpen(true);
+    setTicketDataRow(rowData);
+  };
+
+  const closeTicketModal = () => {
+    setIsTicketModalOpen(false);
+    setDownloadFile(false);
+  };
+
+  const toggleDropdownClick = (index, event) => {
+    event.stopPropagation();
+    if (openDropdownIndexes.includes(index)) {
+      setOpenDropdownIndexes(openDropdownIndexes.filter((i) => i !== index));
+    } else {
+      setOpenDropdownIndexes([...openDropdownIndexes, index]);
+    }
+  };
+
+  const toggleDropdown = (index, event) => {
+    event.stopPropagation();
+    setOpenDropdownIndexes([...openDropdownIndexes, index]);
+  };
+
+  const toggleDropdownClose = (index, event) => {
+    event.stopPropagation();
+    if (openDropdownIndexes.includes(index)) {
+      setOpenDropdownIndexes(openDropdownIndexes.filter((i) => i !== index));
+    } 
+  };
+
+  const formatDateValue = (date) => {
+    const dateValues = new Date(date);
+    
+    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+    
+    const timeOptions = {
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true, 
+    };
+    
+    return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
+  };
+
+  const isDropdownOpen = (index) => {
+    return openDropdownIndexes.includes(index);
+  };
+
+    const renderDropdown = (index , item) => {
+        const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
+        const triggerRect = triggerElement.getBoundingClientRect();
+    
+        return ReactDOM.createPortal(
+        <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
+            <div className="mt-3 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
+                <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
+                    <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
+                    <Text
+                    className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
+                    >
+                    View Details
+                    </Text>
+                </div>
+                <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
+                    {({ blob, url, loading, error }) => ( 
+                    loading ? 
+                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]">
+                        <FiDownload size={18} className="text-blue-A400 "/>
+                        <Text
+                            className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
+                        >
+                            Download
+                        </Text>
+                    </div>
+                    :
+                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]" >
+                        <FiDownload size={18} className="text-blue-A400 "/>
+                        <Text
+                            className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
+                        >
+                            Download
+                        </Text>
+                    </div>
+                    )}
+                </PDFDownloadLink>
+                <div className="flex flex-row gap-3 pt-5 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
+                    <PiCheckBold size={18} className="text-blue-A400"/>
+                    <Text
+                    className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
+                    >
+                    Approve
+                    </Text>
+                </div>
+            </div>
+        </div>,
+        document.getElementById('root')
+        );
+    }
+
     return (
-      <>
+        <>
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Event Participate
+                    Past Event
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -113,15 +263,15 @@ const UpcomingSponsorEvent = () => {
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >
-                      Event
+                      Event List
                     </TableTitle>
                     <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto">
                       {filter && 
                     (
                         <>
-                        <div className="flex rounded-md p-2 border border-solid min-w-[160px] w-[25%] ">
+                        <div className="flex min-w-[70px]">
                           <input
-                            className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                            className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                             type="text"
                             name="search"
                             placeholder="Keywords"
@@ -135,6 +285,20 @@ const UpcomingSponsorEvent = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
+                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received" , "Send"]} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setTypes} 
+                      placeholder="Type of Request" searchable={false} 
+                      content={
+                        ( option) =>{ return (
+                          <div className="flex  py-2 items-center  w-full">
+                              <Text
+                                className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                                >
+                                {option}
+                              </Text>
+                            </div>
+                          );
+                        }
+                      }/>
                         <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
                           placeholder="Location" 
                           content={
@@ -198,17 +362,22 @@ const UpcomingSponsorEvent = () => {
                   <table className=" w-full">
                     <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date/Time</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Organize by</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Date</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
                     <tbody className="items-center w-full ">
                     {
                         (pageData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorEventDetails/${item?._id}` , { state: { event: item } })}>
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { event: item } })}>
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
+                          {item?.startDate ? `${formatDateValue(item.startDate)}` : 'Coming Soon'}
+                        </td>
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
                                 <img src={item?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
@@ -228,22 +397,29 @@ const UpcomingSponsorEvent = () => {
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
                           {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy')}` : 'Coming Soon'}
-                        </td>                        
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
-                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.physicalLocation || 'Virtual'}</td>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6"
-                          >
-                          <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                             openModal(item)
-                             }}
-                          className="flex h-[34px] px-3 py-2 bg-[#2575f0] hover:bg-[#235DBD] active:bg-[#224a94] rounded-[200px] justify-center items-center gap-3 text-white-A700 text-sm font-dm-sans-medium cursorpointer-green ">
-                          Sponsorship
-                          </button>
-                            
                         </td>
-
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
+                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: '' }}>{item?.physicalLocation || 'Virtual'}</td>
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
+                            <div className="h-7 px-2.5 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center flex">
+                                <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">Approved</div>
+                            </div>
+                            {/* <div className="h-7 px-2.5 py-0.5 bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
+                                <div className="text-center text-[#f04437] text-[13px] font-dm-sans-regular leading-normal">Rejected</div>
+                            </div> */}
+                        </td>  
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
+                        <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >
+                              <div className="dropdown relative">
+                                <BsThreeDots className="mr-4 relative"
+                                id={`dropdown-trigger-${index}`}
+                                  size={18} 
+                                  onClick={(e) =>toggleDropdownClick(index, e) }
+                                />
+                                {isDropdownOpen(index) && renderDropdown(index , item)}
+                              </div>
+                            </div>
+                        </td>
                       </tr>
                     ))) }
                     </tbody>
@@ -288,9 +464,10 @@ const UpcomingSponsorEvent = () => {
               </div>
             </div>
         </div>
-        <SendSponsoringModal isOpen={isModalOpen} onRequestClose={closeModal} rowData={rowData} />
-        </>
+        <ApproveSponsoringRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData} methode={handleApprove}/>
+        <RejectSponsoringRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData} methode={handleReject} />
+      </>
     );
 }
 
-export default UpcomingSponsorEvent;
+export default SponsorRequestHistory;

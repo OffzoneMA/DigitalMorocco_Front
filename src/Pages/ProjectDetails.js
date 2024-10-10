@@ -264,7 +264,7 @@ useEffect(() => {
                       project?.visbility?.toLowerCase() === 'public' ? 'bg-green-100 text-green-700' :
                       project?.visbility?.toLowerCase() === 'private' ? 'bg-[#FFEEEA] text-[#FF5733]' : 'bg-green-100 text-green-700'
                     }`} style={{whiteSpace: 'nowrap', textDecoration: 'capitalize'}}>
-                      <GoDotFill  size={12} className={`${project?.visbility?.toLowerCase() === 'public' ? 'text-[#12B76A]': 'text-[#FF5733]'}`} />
+                      <GoDotFill  size={12} className={`${project?.visbility?.toLowerCase() === 'public' ? 'text-[#12B76A]': project?.visbility?.toLowerCase() === 'private' ? 'text-[#FF5733]' : ''}`} />
                       <label className="font-inter text-sm font-medium leading-[20px] text-center capitalize">
                         {project?.visbility ? project?.visbility : 'Public'}
                       </label>

@@ -19,6 +19,7 @@ import { useGetDocumentsForUserQuery , useCreateDocumentMutation , useUpdateDocu
 import Loader from "../Components/Loader";
 import { FaUserCircle } from "react-icons/fa";
 import userdefaultProfile from '../Media/User.png';
+import { formatDateValue  } from "../data/helper";
 
 const Documents = () => {
   const navigate = useNavigate();
@@ -105,21 +106,6 @@ const Documents = () => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const formattedDate = date.toLocaleDateString('en-US', {
-        month: 'short', // 'Jun'
-        day: 'numeric', // '6'
-        year: 'numeric', // '2023'
-    });
-    const formattedTime = date.toLocaleTimeString('en-US', {
-        hour: '2-digit', // '02'
-        minute: '2-digit', // '37'
-        second: '2-digit', // '22'
-        hour12: true, // 12-hour format with AM/PM
-    });
-    return `${formattedDate} ${formattedTime}`;
-};
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -172,7 +158,7 @@ const Documents = () => {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} onClick={()=> openEditModal(item)}>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
-                      {formatDate(item.uploadDate)}
+                      {formatDateValue(item?.uploadDate)}
                       </td>
                       <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center" >
