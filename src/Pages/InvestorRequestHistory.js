@@ -85,14 +85,16 @@ const InvestorRequestHistory = () => {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
-        hour12: true
+        hour12: true ,
+        timeZone: 'UTC',
     };
 
     const datePart = new Intl.DateTimeFormat('en-US', options).format(date);
     const timePart = date.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true
+        hour12: true ,
+        timeZone: 'UTC',
     });
 
     return `${datePart} ${timePart}`;
@@ -206,7 +208,7 @@ const InvestorRequestHistory = () => {
                             {item.status}
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.attachment || "-"}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.attachment || item?.document?.name?.split('.')?.slice(0, -1)?.join('.') || "-"}</td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.notes || "-"}</td>
                       </tr>
                     ))

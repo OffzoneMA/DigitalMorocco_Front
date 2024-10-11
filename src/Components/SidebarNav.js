@@ -133,8 +133,8 @@ const SidebarNav = () => {
       { title: "Upcoming Event", src: '', link: "UpcomingEvent" , activeLinks:["UpcomingEvent", "UpcomingEventDetails"] },
       { title: "Past Event", src: '', link: "PastEvent" , activeLinks:["PastEvent", "PastEventDetails"] },
     ]},
-    (userData?.role?.toLowerCase() === "investor") && { title: "Sponsoring", src: <PiAtomBold size={23} className="text-light_blue-100"/>  ,
-    submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , "UpcomingEvent"],
+    (userData?.role?.toLowerCase() === "partner") && { title: "Sponsoring", src: <PiAtomBold size={23} className="text-light_blue-100"/>  ,
+    submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , ],
     child: [
       { title: "Upcoming Event", src: '', link: "UpcomingSponsorEvent" , activeLinks:["UpcomingSponsorEvent", "UpcomingEventDetails"] },
       { title: "Current Requests", src: '', link: "SponsorCurrentRequest" , activeLinks:["SponsorCurrentRequest"] },

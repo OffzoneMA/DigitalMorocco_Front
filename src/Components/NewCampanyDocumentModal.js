@@ -11,8 +11,8 @@ const NewCampanyDocumentModal = (props) => {
   const { register, handleSubmit, formState: { errors } , setValue , reset} = useForm();
   const inputRef = useRef(null);
   const [files, setFiles] = useState(null);
-  const [preview , setPreview] = useState(null);
   const documentFile = props?.documentFile? props.documentFile : null;
+  const [preview , setPreview] = useState(documentFile?.name || null);
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
@@ -27,7 +27,7 @@ const NewCampanyDocumentModal = (props) => {
 
   useEffect(() => {
       if (hasSubmitted ) {
-        const isFileValid = (files !== null || preview !== null || documentFile?.name !== null);;
+        const isFileValid = (files !== null || preview !== null );;
     
         setRequiredFields({
           docFile: !isFileValid,

@@ -83,21 +83,32 @@ export const eventApi = createApi({
             providesTags: ['Event'],
         }),
         getAllUpcomingEventsUserParticipate: builder.query({
-            query: ({ page, pageSize }= {}) => ({
+          query: ({ page, pageSize, location, startDate } = {}) => {
+            const params = { page, pageSize , location , startDate };
+            return {
               url: `/upcoming/participate`,
               method: 'GET',
-              params: {page, pageSize },
-            }),
-            providesTags: ['Event'],
+              params,
+            };
+          },
+          providesTags: ['Event'],
         }),
+
         getDistinctValuesByUser: builder.query({
           query: ({field }) => `/distinct/user/${field}`,
+        }),
+        getDistinctValues: builder.query({
+          query: ({ field, filters }) => {
+            // Construire les filtres à ajouter à la requête
+            const queryParams = new URLSearchParams(filters).toString();
+            return `/distinct/${field}?${queryParams}`;
+          },
         }),
     }),
 })
 
 export const {
-    useCreateEventMutation,
+    useCreateEventMutation, useGetDistinctValuesQuery ,
     useGetEventsQuery,
     useGetEventByIdQuery,
     useUpdateEventMutation,

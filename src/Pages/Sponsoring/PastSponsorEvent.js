@@ -81,7 +81,7 @@ const PastSponsorEvent = () => {
 
     const formatDate = (date) => {
       const dateValues = new Date(date);
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = { year: 'numeric', month: 'long', day: 'numeric' , timeZone: 'UTC', };
       return dateValues.toLocaleDateString('en-US', options);
   };
 

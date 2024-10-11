@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Text } from "../Components/Text";
+import { useForm } from "react-hook-form";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { LiaUnlockAltSolid } from "react-icons/lia";
 import { HiOutlineSparkles } from "react-icons/hi";
@@ -26,12 +27,21 @@ import { useGetTopSectorsQuery } from "../Services/Project.Service";
 import SimpleSelect from "../Components/SimpleSelect";
 
 const ManageSubscriptionCredits = () => {
+    const currentLanguage = localStorage.getItem('language') || 'en'; 
+
     const { userInfo } = useSelector((state) => state.auth)
     const navigate = useNavigate();
     const [selectedCredits , setSelectedCredits] = useState(null);
     const [acceptTerms , setAcceptTerms] = useState(false);
     const [sending , setSending] = useState(false);
     const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+    const {
+        register,
+        handleSubmit,
+        reset, getValues,
+        watch,
+        formState: { errors },
+      } = useForm();
 
 
     const creditOptions = [
@@ -43,6 +53,10 @@ const ManageSubscriptionCredits = () => {
         {id: 6, credits: 12000, price: 210, formatted: `${(12000).toLocaleString()} Credits: 210$ USD` },
         {id: 7, credits: 14000, price: 250, formatted: `${(14000).toLocaleString()} Credits: 250$ USD` }
       ];
+
+      const onSubmit = (data) => {
+
+      };
       
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -131,7 +145,7 @@ const ManageSubscriptionCredits = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-[339px] h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-6 flex">
+                    <form onSubmit={handleSubmit(onSubmit)} className="w-[339px] h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-6 flex">
                         <div className="text-center text-[#1d2838] text-base font-dm-sans-bold capitalize">Order Summary</div>
                         <div className="self-stretch justify-between items-start flex">
                             <div className="text-[#98a1b2] text-base font-dm-sans-medium">Number of Credits:</div>
@@ -149,11 +163,15 @@ const ManageSubscriptionCredits = () => {
                         <div className="self-stretch justify-start items-start gap-[9px] flex">
                             <label htmlFor={`acceptTerms`} className="cursorpointer relative inline-flex items-center peer-checked:border-0 rounded-[3px] mr-2">
                                 <input
+                                    {...register("acceptTerms" , {
+                                      required: 'required',
+                                    }
+                                    )}
                                     id={`acceptTerms`}
                                     type="checkbox"
                                     name="acceptTerms"
-                                    className={`peer appearance-none w-[16px] h-[16px] bg-white_A700 checked:bg-blue-600 checked:border-blue-600 checked:shadow-none border-[0.5px]  ${(!acceptTerms && sending)? 'border-errorColor shadow-checkErrorbs': 'shadow-none border-[#303030]' } rounded-[4px]  relative`}
-                                />
+                                    className={`peer appearance-none w-[16px] h-[16px] bg-white-A700 checked:bg-blue-600 checked:border-blue-600 checked:shadow-none border-[0.5px]  ${(errors?.acceptTerms)? 'border-errorColor shadow-checkErrorbs': 'shadow-none border-[#303030]' } rounded-[4px]  relative`}
+                                    />
                                 <svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100">
                                     <path d="M5.10497 8.10407L5.08735 8.12169L0.6875 3.72185L2.12018 2.28917L5.10502 5.27402L9.87904 0.5L11.3117 1.93268L5.12264 8.12175L5.10497 8.10407Z" fill="white"/>
                                 </svg>
@@ -162,14 +180,15 @@ const ManageSubscriptionCredits = () => {
                             htmlFor='acceptTerms'
                             className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                             >
-                            I accept the <a href={``} target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>Terms of Service.</span></a>                     
+                            I accept the <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>Terms of Service.</span></a>                     
                             </label>
                         </div>
                         <button 
+                        type="submit"
                             className="w-full cursorpointer-green h-[50px] text-center text-white-A700 text-lg font-dm-sans-medium leading-relaxed bg-[#482be7] hover:bg-[#3016C0] active:bg-[#251192] rounded-[100px]">
                             Check Out
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

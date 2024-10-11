@@ -106,7 +106,7 @@ const InvestorDetails = () => {
 
   const formatDate = (date) => {
     const dateValues = new Date(date);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { year: 'numeric', month: 'long', day: 'numeric' ,timeZone: 'UTC', };
     return dateValues.toLocaleDateString('en-US', options);
 };
 
@@ -288,7 +288,8 @@ const InvestorDetails = () => {
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                   {investor?.website || 'http://venture-catalysts.com'}
                                 </Text>
-                                <IoOpenOutline size={22} className="text-blue-700"/>
+                                <IoOpenOutline size={22} className="text-blue-700" onClick={() => window.open(investor?.website || 'http://venture-catalysts.com', '_blank')}
+                                />
                                 {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
                                 </div>}
                               </div>

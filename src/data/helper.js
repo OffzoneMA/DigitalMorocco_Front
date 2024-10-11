@@ -31,32 +31,39 @@ export function getLocalStorageItemWithExpiration(key) {
   return localStorage.getItem(key);
 }
 
-export function formatDate (dateString) {
+export function formatDate(dateString) {
   const date = new Date(dateString);
+
   const formattedDate = date.toLocaleDateString('en-US', {
-      month: 'short', // 'Jun'
-      day: 'numeric', // '6'
-      year: 'numeric', // '2023'
+    month: 'short', // 'Oct'
+    day: 'numeric', // '10'
+    year: 'numeric', // '2024'
+    timeZone: 'UTC', // Utiliser le temps universel
   });
+
   const formattedTime = date.toLocaleTimeString('en-US', {
-      hour: '2-digit', // '02'
-      minute: '2-digit', // '37'
-      second: '2-digit', // '22'
-      hour12: true, // 12-hour format with AM/PM
+    hour: '2-digit', // '10'
+    minute: '2-digit', // '08'
+    second: '2-digit', // '11'
+    hour12: true, // AM/PM format
+    timeZone: 'UTC', // Utiliser le temps universel
   });
+
   return `${formattedDate} ${formattedTime}`;
-};
+}
+
 
 export const formatDateValue = (date) => {
   const dateValues = new Date(date);
   
-  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  const options = { month: 'short', day: 'numeric', year: 'numeric',timeZone: 'UTC', };
   
   const timeOptions = {
     hour: '2-digit', // Pour afficher l'heure avec deux chiffres
     minute: '2-digit', // Pour afficher les minutes avec deux chiffres
     second: '2-digit', // Pour afficher les secondes avec deux chiffres
     hour12: true, // Utilise AM/PM
+    timeZone: 'UTC',
   };
   
   return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
@@ -65,3 +72,8 @@ export const formatDateValue = (date) => {
 export const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
+
+export function parseDateString(dateString) {
+  const [day, month, year] = dateString.split('/');
+  return new Date(`${year}-${month}-${day}`);
+}

@@ -1960,5 +1960,10 @@ export const historyEventMessages = {
   event_ticket_view: "Viewed the ticket for ",
   contact_request_accepted: "Accepted contact request from ",
   contact_request_rejected: "Rejected contact request from ",
+  contact_sent: "Contact request sent to ",
+  contact_request_accepted: "Contact request accepted ",
+  contact_request_approved: "Contact request approved ",
+  contact_request_rejected: "Contact request rejected ",
+  contact_request_received: "New contact request received",
   default: "Action performed."
 };

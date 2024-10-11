@@ -18,6 +18,7 @@ import { activityHistoryApi } from '../Services/Histoty.Service'
 import { contactRequestApi } from '../Services/ContactRequest.Service'
 import LogRocket from 'logrocket';
 import { billingApi } from '../Services/Billing.Service'
+import { notificationApi } from '../Services/Notification.Service'
 
 
 const store = configureStore({
@@ -40,6 +41,7 @@ const store = configureStore({
     [activityHistoryApi.reducerPath]: activityHistoryApi.reducer,
     [contactRequestApi.reducerPath]: contactRequestApi.reducer,
     [billingApi.reducerPath]: billingApi.reducer,
+    [notificationApi.reducerPath]: notificationApi.reducer,
   },
   devTools: process.env.NODE_ENV === 'development',
 
@@ -50,7 +52,7 @@ const store = configureStore({
         , userApi.middleware, partnerApi.middleware, investorApi.middleware , projectApi.middleware ,
         eventApi.middleware , LogRocket.reduxMiddleware() , documentApi.middleware ,
         subscriptionPlanApi.middleware , paymentMethodApi.middleware , activityHistoryApi.middleware,
-        contactRequestApi.middleware , billingApi.middleware
+        contactRequestApi.middleware , billingApi.middleware , notificationApi.middleware
         ]) ,
 })
 export default store

@@ -36,12 +36,12 @@ const SimpleSelect = ({ options =[], onSelect ,valuekey='',placeholder='' , sear
     setIsOpen(false);
   };
 
-  const filteredData = options.filter(investor => {
+  const filteredData = options?.filter(investor => {
     if (typeof investor === 'string') {
       return investor.toLowerCase().includes(searchValue.toLowerCase());
     }
   
-    const valueToCheck = investor[valuekey] ? investor[valuekey].toLowerCase() : "";
+    const valueToCheck = investor[valuekey] ? investor?.[valuekey].toLowerCase() : "";
     return valueToCheck.includes(searchValue.toLowerCase());
   });
   

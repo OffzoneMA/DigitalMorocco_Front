@@ -209,7 +209,7 @@ const MyInvestors = () => {
                   </div>
               </div>
               <div className="relative flex flex-col w-full">
-              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0  || loading)? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -261,7 +261,7 @@ const MyInvestors = () => {
                 { loading ? (
                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : (!loading && pageData?.length === 0) && (
+                 </div> ) : (pageData?.length === 0) && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">

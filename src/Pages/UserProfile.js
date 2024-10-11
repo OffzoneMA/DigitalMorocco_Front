@@ -45,6 +45,7 @@ export default function UserProfile() {
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false); 
   const [isForm2Saved, setIsForm2Saved] = useState(false);
   const [isForm3Saved, setIsForm3Saved] = useState(false);
+  const [error , setError] = useState('');
   const selectedCountryName = selectedCountry ? selectedCountry["name"] : '';
   const selectedCityName = selectedCity ? selectedCity["name"] : '';
   const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue , getValues: getValues1 } = useForm();
@@ -406,16 +407,16 @@ useEffect(() => {
         closeDeleteModal();
         navigate("/SignIn");
         dispatch(logout());
-      } else {
-        console.error('Failed to delete account');
       }
     } catch (error) {
+      setError(error?.response?.data?.message);
       console.error('An error occurred:', error);
     }
   };
 
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
+    setError('');
   };
 
   const handleRemoveLogo = () => {
@@ -909,7 +910,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      <DeleteAccountModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} handleDeleteAccount={handleDeleteAccount} />
+      <DeleteAccountModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} handleDeleteAccount={handleDeleteAccount} error={error} />
     </div>
   );
 }

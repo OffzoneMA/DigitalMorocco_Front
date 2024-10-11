@@ -82,7 +82,7 @@ const SponsorCurrentRequests = () => {
 
     const formatDate = (date) => {
       const dateValues = new Date(date);
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = { year: 'numeric', month: 'long', day: 'numeric' , timeZone: 'UTC', };
       return dateValues.toLocaleDateString('en-US', options);
   };
 
@@ -159,7 +159,6 @@ const handleReject = async (data) => {
             </div>
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              { pageData?.length > 0 ?
                 <div className="relative w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
                   <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-[19.5px] px-5">
                     <TableTitle
@@ -353,8 +352,25 @@ const handleReject = async (data) => {
                     ))) }
                     </tbody>
                   </table>
+                  {
+                  isLoading ? 
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <Loader />
                   </div>
-                  {pageData?.length > 0 && <div className='w-full flex items-center p-4'>
+                  :
+                  (pageData?.length === 0  && 
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <div >
+                    <img src={ticketEmptyImg} />
+                    </div>
+                    <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
+                      <span>No Sponsor Current Requests </span>
+                    </div>
+                  </div>
+                  )
+              }
+                  </div>
+                  {(pageData?.length > 0 && !isLoading) && <div className='w-full flex items-center p-4'>
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
@@ -363,33 +379,6 @@ const handleReject = async (data) => {
                     />              
                   </div>}
                 </div>
-                : (
-                  isLoading ? 
-                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                    <Loader />
-                  </div>
-                  :
-                  <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
-                    <img src={ticketEmptyImg} />
-                    <Text
-                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto pb-4"
-                      size=""
-                    >
-                      It seems like you haven't taken part in any events yet
-                    </Text>
-                    <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
-                        <button
-                            type="button"
-                            onClick={() => navigate('/UpcomingEvent')}
-                            className=" font-dm-sans-medium text-sm leading-[18.23px] text-white-A700 cursorpointer-green"
-                            style={{whiteSpace:'nowrap'}}
-                        >
-                          Browse Upcoming Event
-                        </button>
-                    </div>
-                  </div>
-                )
-              }
               </div>
             </div>
         </div>

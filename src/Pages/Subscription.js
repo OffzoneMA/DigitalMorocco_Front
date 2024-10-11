@@ -455,7 +455,7 @@ useEffect(() => {
               </Text>
             </div>
           </div>
-            }/>
+            } m3={'Need assistance? If you have any questions or suggestions, feel free to contact our support team at'} />
     </div>
   )
 }

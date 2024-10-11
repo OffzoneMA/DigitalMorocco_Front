@@ -80,8 +80,8 @@ const InvestmentRequestHistory = () => {
       
     const formatDate = (date) => {
         const dateValues = new Date(date)
-        const options = { month: 'short', day: 'numeric', year: 'numeric' };
-        const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
+        const options = { month: 'short', day: 'numeric', year: 'numeric' ,timeZone: 'UTC', };
+        const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true ,timeZone: 'UTC', };
         return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
     };
 

@@ -14,7 +14,7 @@ import PageHeader from "../../Components/PageHeader";
 import TableTitle from "../../Components/TableTitle";
 import SearchInput from "../../Components/SeachInput";
 import Loader from "../../Components/Loader";
-import { useGetEventsForUserQuery , useGetDistinctValuesByUserQuery , useGetAllUpcomingEventsUserParticipateQuery} from "../../Services/Event.Service";
+import { useGetDistinctValuesQuery , useGetAllUpcomingEventsUserParticipateQuery } from "../../Services/Event.Service";
 import ticketEmptyImg from '../../Media/ticket_empty.svg';
 import format from "date-fns/format";
 import DownloadTicket1 from "../../Components/DownloadTicket1";
@@ -23,12 +23,15 @@ import ReactDOM from 'react-dom';
 import userDefaultProfil from '../../Media/User1.png'
 import CustomCalendar from "../../Components/CustomCalendar";
 import SendSponsoringModal from "../../Components/SendSponsoringModal";
+import { parseDateString } from "../../data/helper";
 
 const UpcomingSponsorEvent = () => {
     const navigate = useNavigate();
     const field = 'physicalLocation';
-    const {data : events , error , isLoading , refetch } = useGetAllUpcomingEventsUserParticipateQuery();
-    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
+    const { data: distinctValues, isLoading: distinctsValueLoading } = useGetDistinctValuesQuery({
+      field,
+      filters: { status: 'upcoming' }
+    });
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [keywords, setKeywords] = useState('');
@@ -43,18 +46,25 @@ const UpcomingSponsorEvent = () => {
     const itemsPerPage = 8;
     const itemsToShow = 4;
     const [totalPages , setTotalPages] = useState(0);
+    const [selectedDate , setSelectedDate] = useState('');
+
+    const queryParams = { page: cur, pageSize: itemsPerPage };
+
+    if (filterApply) {
+      queryParams.location = location || undefined;
+      queryParams.startDate = parseDateString(selectedDate);
+    }
+    const {data : events , error , isFetching: isLoading , refetch } = useGetAllUpcomingEventsUserParticipateQuery(queryParams);
     const [activeDropdown, setActiveDropdown] = useState(-1);
     const dropdownRef = useRef(null);
     const [openDropdownIndexes, setOpenDropdownIndexes] = useState([]);
     const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
     const [ticketDataRow , setTicketDataRow] = useState(null);
-    const [selectedDate , setSelectedDate] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-
 
     useEffect(() => {
       refetch();
-    }, [cur , refetch]);
+    }, [cur , refetch , filterApply]);
   
     useEffect(() => {
       setTotalPages(events?.totalPages);
@@ -77,7 +87,7 @@ const UpcomingSponsorEvent = () => {
 
     const formatDate = (date) => {
       const dateValues = new Date(date);
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = { year: 'numeric', month: 'long', day: 'numeric' ,timeZone: 'UTC', };
       return dateValues.toLocaleDateString('en-US', options);
   };
 
@@ -99,7 +109,7 @@ const UpcomingSponsorEvent = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Event Participate
+                    Upcoming Event
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -107,13 +117,12 @@ const UpcomingSponsorEvent = () => {
             </div>
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              { pageData?.length > 0 ?
                 <div className="relative w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
                   <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-[19.5px] px-5">
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >
-                      Event
+                      Event List
                     </TableTitle>
                     <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto">
                       {filter && 
@@ -135,7 +144,7 @@ const UpcomingSponsorEvent = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.distinctValues || []} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
                           placeholder="Location" 
                           content={
                             ( option) =>{ return (
@@ -189,7 +198,7 @@ const UpcomingSponsorEvent = () => {
                         )}
                       </div>
                   </div>
-                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 || isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -205,9 +214,10 @@ const UpcomingSponsorEvent = () => {
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
-                    <tbody className="items-center w-full ">
+                    {pageData?.length > 0 && !isLoading ? 
+                      <tbody className="items-center w-full ">
                     {
-                        (pageData.map((item, index) => (
+                        (pageData?.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorEventDetails/${item?._id}` , { state: { event: item } })}>
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
@@ -247,9 +257,29 @@ const UpcomingSponsorEvent = () => {
                       </tr>
                     ))) }
                     </tbody>
+                    :
+                    ""}
+                    
                   </table>
+                  {
+                  isLoading ? 
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <Loader />
                   </div>
-                  {pageData?.length > 0 && <div className='w-full flex items-center p-4'>
+                  :
+                  (pageData?.length === 0  && 
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <div >
+                    <img src={ticketEmptyImg} />
+                    </div>
+                    <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
+                      <span>No Upcoming Event </span>
+                    </div>
+                  </div>
+                  )
+              }
+                  </div>
+                  {(pageData?.length > 0 && !isLoading) && <div className='w-full flex items-center p-4'>
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
@@ -258,33 +288,6 @@ const UpcomingSponsorEvent = () => {
                     />              
                   </div>}
                 </div>
-                : (
-                  isLoading ? 
-                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                    <Loader />
-                  </div>
-                  :
-                  <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
-                    <img src={ticketEmptyImg} />
-                    <Text
-                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto pb-4"
-                      size=""
-                    >
-                      It seems like you haven't taken part in any events yet
-                    </Text>
-                    <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
-                        <button
-                            type="button"
-                            onClick={() => navigate('/UpcomingEvent')}
-                            className=" font-dm-sans-medium text-sm leading-[18.23px] text-white-A700 cursorpointer-green"
-                            style={{whiteSpace:'nowrap'}}
-                        >
-                          Browse Upcoming Event
-                        </button>
-                    </div>
-                  </div>
-                )
-              }
               </div>
             </div>
         </div>

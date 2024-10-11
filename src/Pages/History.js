@@ -61,7 +61,7 @@ const History = () => {
                               className={`font-dm-sans-medium text-sm leading-6 text-gray700`}
                             >
                               {historyEventMessages[item?.eventType]}{` `} 
-                              {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventData?.targetName} {` `}</span>}
+                              {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName} {` `}</span>}
                             </Text>
                             <div className="flex flex-row w-full items-center gap-4">
                             {item?.user?.image ? (

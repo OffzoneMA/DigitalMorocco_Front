@@ -25,7 +25,7 @@ const NewDocumentModal = (props) => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const [files, setFiles] = useState(null);
-  const [preview , setPreview] = useState(null);
+  const [preview , setPreview] = useState(documentFile?.documentName || null);
   const [shareType , setShareType] = useState('');
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -36,7 +36,7 @@ const NewDocumentModal = (props) => {
 
   useEffect(() => {
       if (hasSubmitted ) {
-        const isFileValid = (files !== null || preview !== null || documentFile?.documentName !== null);
+        const isFileValid = (files !== null || preview !== null );
     
         setRequiredFields({
           docFile: !isFileValid,
