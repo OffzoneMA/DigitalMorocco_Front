@@ -322,7 +322,7 @@ const Investment = () => {
                     )}
                 </div>
               </div>
-              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(filteredData?.length > 0 && !isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
                 style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -351,7 +351,7 @@ const Investment = () => {
                               ) : (
                                 <FaRProject className="h-8 w-8 mr-2 text-light_blue-200" /> 
                               )}                              
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
+                              <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
                             </div>
                           </div>
                         </td>
