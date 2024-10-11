@@ -20,6 +20,7 @@ import { FaRProject } from "react-icons/fa6";
 import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../Services/Investor.Service";
 import { useGetDistinctRequestFieldValuesQuery } from "../../Services/Investor.Service";
 import CustomCalendar from "../../Components/CustomCalendar";
+import { parseDateString } from "../../data/helper";
 
 const InvestmentRequestHistory = () => {
     const [filter , setFilter] = useState(false);
@@ -42,7 +43,7 @@ const InvestmentRequestHistory = () => {
       queryParams.status = industries;
       queryParams.funding = targetFund;
       queryParams.projectStage = location;
-      queryParams.dateCreated = selectedDate;
+      queryParams.dateCreated = parseDateString(selectedDate);
     }
     const { data: investorRequests, error, isFetching: loading , refetch} = useGetAllConatctReqQuery(queryParams);
     const { data : sectorData, isLoading:locationLoading } = useGetDistinctRequestFieldValuesQuery("status");
@@ -61,6 +62,7 @@ const InvestmentRequestHistory = () => {
         setFilterApply(false);
         setIndustries([]);
         setLocation('');
+        setSelectedDate('');
         setTargetFund('');
     }
 
@@ -90,11 +92,6 @@ const InvestmentRequestHistory = () => {
 
       return keywordMatch;
     });
-
-    function parseDateString(dateString) {
-      const [day, month, year] = dateString.split('/');
-      return new Date(`${year}-${month}-${day}`);
-  }
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
