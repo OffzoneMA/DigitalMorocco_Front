@@ -44,13 +44,7 @@ const RejectContactRequestModal = (props) => {
      "Budget Constraints",
      "Not Aligned with Current Goals",
      "Timing Issues",
-     "High Risk",
-     "Lack of Market Potential",
-     "Insufficient Financial Projections",
-     "Inexperienced Team",
-     "Overvaluation",
-     "Competing Interests",
-     "Unclear Business Model"
+     "Other"
     ];
     
       

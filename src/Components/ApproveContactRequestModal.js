@@ -42,11 +42,10 @@ const ApproveContactRequestModal = (props) => {
     };
 
     const investmentTypes = [
-        'Capital-Risque',
-        'Investissement Immobilier',
-        'Actions',
-        'Obligations',
-        'Fonds Mutuels'
+        'Venture Capital',
+        'Angel',
+        'Accelerator',
+        'Other',
     ]
       
 

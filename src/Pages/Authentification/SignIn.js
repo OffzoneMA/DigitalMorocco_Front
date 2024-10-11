@@ -103,7 +103,7 @@ export default function SignIn() {
               if (userInfo?.role?.toLowerCase() == "admin") { 
                 navigate('/Dashboard_Admin') 
               }
-              else if(userInfo?.role?.toLowerCase() == "member" || userInfo?.role?.toLowerCase() == "investor" || userInfo?.role?.toLowerCase() == "partner") {
+              else if((userInfo?.role?.toLowerCase() == "member" || userInfo?.role?.toLowerCase() == "investor" || userInfo?.role?.toLowerCase() == "partner") && userInfo?.status?.toLowerCase() == "accepted") {
                 navigate('/Dashboard')
               }
               else if(userInfo?.status?.toLowerCase() == "pending") {

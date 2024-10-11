@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect} from "react";
 import { Text } from "../Components/Text";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { LiaUnlockAltSolid } from "react-icons/lia";
@@ -31,13 +31,17 @@ const { userInfo } = useSelector((state) => state.auth)
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const { data: progessdata , error: errorTopSectors, isLoading: loadingTopSectors } = useGetTopSectorsQuery();
-  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
   const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading} = useGetAllConatctReqQuery();
   const Requestdata =  contactReqs?.contactRequests?.slice(0, 3)
   const recentProjects = [...(projects?.projects || [])]
   .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
   .slice(0, 1); 
+
+  useEffect(() => {
+    refetchUser();
+  }, [refetchUser]);
 
   const chartData = [
         { name: 'Jan', value: 150 },

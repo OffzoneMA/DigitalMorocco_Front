@@ -22,10 +22,12 @@ import { useLocation } from "react-router-dom";
 import ReactDOM from 'react-dom';
 import { PiAtomBold } from "react-icons/pi";
 import userDefaultProfil from '../Media/User1.png';
+import { useGetNotificationSummaryQuery } from "../Services/Notification.Service";
 
 const SidebarNav = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
-  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch} = useGetUserDetailsQuery();
+  const { data: notifications, error: notificationsError, isLoading: notificationsLoading , refetch: refetchNotifications } = useGetNotificationSummaryQuery();
   const [open, setOpen] = useState(true);
   const dispatch = useDispatch()
   const [submenuOpen, setSubmenuOpen] = useState({
@@ -47,6 +49,18 @@ const SidebarNav = () => {
 
   const settingActiveLinks = ["settings" , "Subscription" , "UserProfile" , "ChoosePlan" , "SubscribePlan"];
   const subscriptionActiveLinks = ["Subscription" , "ChoosePlan" , "SubscribePlan"];
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetchNotifications(); // Refresh the notifications from the API
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(interval); // Cleanup the interval on unmount
+  }, [refetchNotifications]);
 
   useEffect(() => {
     setActiveMenu(location.pathname.split('/')[1]);
@@ -325,7 +339,7 @@ const SidebarNav = () => {
         <div className="flex flex-col relative" 
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
-          <div className={`border-t border-blue_gray-601 flex px-1 pt-5 items-center ${open ? "flex-row" : "flex-col"}`} >
+          <div className={`border-t border-blue_gray-601 flex px-1 pt-5 items-center ${open ? "flex-row" : "flex-col gap-3"}`} >
             <img
               src={`${userData?.image || userDefaultProfil}`}
               alt=""
@@ -341,14 +355,22 @@ const SidebarNav = () => {
               <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : "Camille Olivia"}</span>
               </div>
             </div>}
-            <div className={`flex ${activeMenu === "Notification" ? 'bg-teal-401' :""}  p-1 rounded-full items-center justify-center cursorpointer`} 
-            onClick={()=> {
-              setNotifOpen(true)
-              navigate('/Notification')
-              setActiveMenu("Notification")
-            }}>
-            <IoNotificationsOutline size={20} className={`text-white-A700 ${activeMenu === "Notification"? 'text-blue_gray-801' :""}`}/>
-            </div>
+            <div className={`relative flex ${(activeMenu === "Notification" || notifications?.unreadCount > 0) ? 'bg-teal-401' : ""}  p-1 rounded-full items-center justify-center cursor-pointer`}
+              onClick={() => {
+                  setNotifOpen(true);
+                  navigate('/Notification');
+                  setActiveMenu("Notification");
+              }}>
+              {/* Icône de notification */}
+              <IoNotificationsOutline size={20} className={`text-white-A700 ${activeMenu === "Notification" ? 'text-blue_gray-801' : ""}`} />
+              
+              {/* Badge de notifications non lues */}
+              {notifications?.unreadCount > 0 && (
+                  <div className="absolute top-[-10px] right-[-10px] bg-blue-A400 text-white-A700 rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                      {notifications.unreadCount}
+                  </div>
+              )}
+          </div>
           </div>
           {showLogout && (
           <div className="absolute top-full left-0 w-full">

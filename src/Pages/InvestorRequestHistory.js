@@ -174,7 +174,7 @@ const InvestorRequestHistory = () => {
                 )}
               </div>
             </div>
-            <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+            <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !loading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -230,7 +230,7 @@ const InvestorRequestHistory = () => {
                 )                 
               }
             </div>
-            {pageData?.length > 0 && (
+            {(pageData?.length > 0 && !loading) && (
               <div className='w-full flex items-center p-4'>
                 <TablePagination currentPage={cur} totalPages={totalPages} onPageChange={handlePageChange} itemsToShow={itemsToShow} />
               </div>

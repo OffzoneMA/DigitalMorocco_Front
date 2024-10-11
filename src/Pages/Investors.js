@@ -222,8 +222,8 @@ const Investors = () => {
                   </div>
               </div>
               <div className="relative flex flex-col w-full">
-              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 || loading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
-              style={{
+              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !(loading || subscriptionLoading)) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+                style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
                 }}>

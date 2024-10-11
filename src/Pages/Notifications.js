@@ -1,18 +1,39 @@
 import { Text } from "../Components/Text";
+import React , {useEffect} from "react";
 import { historyData } from "../data/tablesData";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
-import { useGetNotificationSummaryQuery } from "../Services/Notification.Service";
+import { useGetNotificationSummaryQuery , useMarkNotificationsAsReadMutation} from "../Services/Notification.Service";
 import Loader from "../Components/Loader";
 import { formatDate } from "../data/helper";
 
 const Notifications = () => {
 
-  const { data: notifications, error, isLoading } = useGetNotificationSummaryQuery();
+  const { data: notifications, error, isLoading , refetch } = useGetNotificationSummaryQuery();
+  const [markNotificationsAsRead] = useMarkNotificationsAsReadMutation();
+
 
 console.log(notifications)
 
 const NotificationsData = notifications?.notifications;
+
+useEffect(() => {
+  if (NotificationsData?.length > 0) {
+    const unreadNotifications = NotificationsData?.filter(notification => !notification?.read);
+
+    if (unreadNotifications.length > 0) {
+      const timer = setTimeout(() => {
+        const notificationIds = unreadNotifications.map(notification => notification?._id); 
+        markNotificationsAsRead(notificationIds);
+        refetch();
+      }, 5000); // 5 secondes
+      
+      console.log(unreadNotifications)
+      
+      return () => clearTimeout(timer); // Nettoyer le timer si le composant est démonté
+    }
+  }
+}, [notifications?.notifications, markNotificationsAsRead]);
 
 
     return (
@@ -32,7 +53,7 @@ const NotificationsData = notifications?.notifications;
                 (NotificationsData.map((item, index) => (
                     <div key={index} className="flex flex-col gap-1 py-4  w-full border-b border-gray-201">
                         <Text
-                            className={`font-DmSans text-sm font-bold leading-6 text-gray-801`}
+                            className={`${item?.read  ? 'text-[#667084] font-dm-sans-medium' : 'text-gray-801 font-dm-sans-bold'} text-sm leading-6`}
                         >
                             {item?.message}{` `} <span className="text-blue-501 capitalize">{item?.referenceName}</span>{` `}{item.message2} <span className="text-blue-501 capitalize">{item?.referenceName2}</span>
                         </Text>
