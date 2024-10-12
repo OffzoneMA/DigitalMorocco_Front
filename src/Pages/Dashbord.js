@@ -383,8 +383,8 @@ const { userInfo } = useSelector((state) => state.auth)
                          ) : (
                         recentProjects?.length > 0 ? 
                         recentProjects.map((item, index) => (
-                          <div key={index} className="flex flex-col px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>
-                            <div className="flex flex-row items-center gap-3 py-2 justify-start w-full">
+                          <div key={index} className="flex flex-col gap-[24px] px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>
+                            <div className="flex flex-row items-center gap-[24px] py-[20px] justify-start w-full">
                                 <Text
                                     className=" text-lg font-dm-sans-medium leading-8 text-[#101828] tracking-normal capitalize text-left"
                                     >
@@ -397,8 +397,8 @@ const { userInfo } = useSelector((state) => state.auth)
                                   {item?.stage}
                                 </div>
                             </div>
-                            <div className="flex flex-row gap-[25px]  py-2 w-full">
-                              <div className="flex flex-col items-start justify-start">
+                            <div className="flex flex-row  py-2 w-full">
+                              <div className="flex flex-col flex-1 items-start justify-start">
                                   <div className="flex flex-col items-center justify-start w-auto">
                                       <Text
                                       className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
@@ -416,42 +416,42 @@ const { userInfo } = useSelector((state) => state.auth)
                                   </Text>
                                   </div>
                               </div>
-                            <div className="flex flex-col items-start justify-start w-auto">
-                                <div className="flex flex-col items-center justify-start w-auto">
-                                    <Text
-                                    className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
-                                    size="txtDMSansBold12"
-                                    >
-                                    Stage
-                                    </Text>
-                                </div>
-                                <div className="flex flex-col items-start justify-center py-4 w-full">
-                                <Text
-                                    className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
-                                    size="txtDMSansMedium22"
-                                >
-                                    {item?.stage}
-                                </Text>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-start justify-start">
-                                <div className="flex flex-col items-center justify-start w-auto">
-                                    <Text
-                                    className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
-                                    size="txtDMSansBold12"
-                                    >
-                                    Total Raised
-                                    </Text>
-                                </div>
-                                <div className="flex flex-col items-start justify-start py-4 w-full">
-                                <Text
-                                    className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
-                                    size="txtDMSansMedium22"
-                                >
-                                    {item?.currency} {item?.totalRaised?.toLocaleString('en-US') || 0}
-                                </Text>
-                                </div>
-                            </div>
+                              <div className="flex flex-col flex-1 items-start justify-start w-auto">
+                                  <div className="flex flex-col items-center justify-start w-auto">
+                                      <Text
+                                      className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
+                                      size="txtDMSansBold12"
+                                      >
+                                      Stage
+                                      </Text>
+                                  </div>
+                                  <div className="flex flex-col items-start justify-center py-4 w-full">
+                                  <Text
+                                      className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
+                                      size="txtDMSansMedium22"
+                                  >
+                                      {item?.stage}
+                                  </Text>
+                                  </div>
+                              </div>
+                              <div className="flex flex-col flex-1 items-start justify-start">
+                                  <div className="flex flex-col items-center justify-start w-auto">
+                                      <Text
+                                      className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
+                                      size="txtDMSansBold12"
+                                      >
+                                      Total Raised
+                                      </Text>
+                                  </div>
+                                  <div className="flex flex-col items-start justify-start py-4 w-full">
+                                  <Text
+                                      className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
+                                      size="txtDMSansMedium22"
+                                  >
+                                      {item?.currency} {item?.totalRaised?.toLocaleString('en-US') || 0}
+                                  </Text>
+                                  </div>
+                              </div>
                           </div>
                         </div>
                         )) : (

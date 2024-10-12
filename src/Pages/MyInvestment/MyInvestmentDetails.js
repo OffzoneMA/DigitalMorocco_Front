@@ -409,7 +409,7 @@ const MyInvestmentDetails = () => {
                                 Project Logo
                             </Text>
                             <div className="h-[150px] w-full rounded-[6px] px-3 py-[50px] justify-center border border-[#D0D5DD] items-center gap-1.5 flex">
-                                <img src={project?.logo} alt="Logo" className="rounded-[6px] w-auto" />
+                                <img src={project?.logo} alt="Logo" className="rounded-[6px] h-[150px] w-auto" />
                             </div>
                         </div>}
                       <div className="flex flex-row gap-[10px] w-full">

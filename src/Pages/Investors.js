@@ -294,7 +294,7 @@ const Investors = () => {
                   </div>
                 )
                 }              
-                {(!isSubscribe && !loading) &&
+                {(!isSubscribe && !loading && !subscriptionLoading) &&
                 (
                   <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
                   <BsEyeSlash size={35} className="text-gray500 "/>
