@@ -24,6 +24,7 @@ import ApproveContactRequestModal from "../../Components/ApproveContactRequestMo
 import RejectContactRequestModal from "../../Components/RejectContactRequestModal";
 import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
+import { IoOpenOutline } from "react-icons/io5";
 
 const MyInvestmentDetails = () => {
     const dividerRef = useRef(null);
@@ -195,7 +196,7 @@ const MyInvestmentDetails = () => {
                   </div>
                   {data?.status?.toLowerCase() === "approved" && <div className="flex flex-wrap gap-3 items-center ">
                     <button
-                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
+                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer rounded-md"
                       // onClick={''}
                       type="button"
                       style={{whiteSpace: 'nowrap'}}
@@ -204,7 +205,7 @@ const MyInvestmentDetails = () => {
                       <span className="hidden md:inline-block">Share</span>
                     </button>
                     <button
-                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
+                      className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer px-[12px] px-[10px] h-[41px] rounded-md"
                       // onClick={() => navigate(``)}
                       type="button"
                       style={{whiteSpace: 'nowrap'}}
@@ -215,7 +216,7 @@ const MyInvestmentDetails = () => {
                   </div>}
                   {data?.status?.toLowerCase() == "in progress" && <div className="flex flex-wrap gap-3 items-center ">
                     <button
-                      className="bg-[#00CDAE] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
+                      className="bg-[#00CDAE] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer rounded-md"
                       onClick={openApproveModal}
                       type="button"
                       style={{whiteSpace: 'nowrap'}}
@@ -224,7 +225,7 @@ const MyInvestmentDetails = () => {
                       <span className="hidden md:inline-block">Approve</span>
                     </button>
                     <button
-                      className="bg-[#EF4352] hover:bg-[#F02A3C] active:bg-[#F02A3C] text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
+                      className="bg-[#EF4352] hover:bg-[#F02A3C] active:bg-[#F02A3C] text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer px-[12px] px-[10px] h-[41px] rounded-md"
                       onClick={openRejectModal}
                       type="button"
                       style={{whiteSpace: 'nowrap'}}
@@ -452,7 +453,10 @@ const MyInvestmentDetails = () => {
                                 >
                                Website
                             </Text>
-                            <div className="text-[#344053] text-base font-dm-sans-regular leading-relaxed">http://venture-catalysts.com</div>
+                            <div className="text-[#344053] flex gap-[10px] text-base font-dm-sans-regular leading-relaxed">
+                            {project?.website || 'http://venture-catalysts.com'}
+                            <IoOpenOutline size={22} className="text-blue-700" onClick={() => window.open(project?.website || 'http://venture-catalysts.com', '_blank')}/>
+                            </div>
                         </div>
                       </div>
                       <div className="flex flex-row gap-[10px] w-full">

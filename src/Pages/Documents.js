@@ -127,7 +127,7 @@ const Documents = () => {
                   My Document
                 </TableTitle>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row gap-[8px] h-[37px] items-center ml-auto px-[12px] rounded-md min-w-[206px] cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row gap-[8px] h-[37px] items-center ml-auto px-[12px] rounded-md min-w-[206px] cursorpointer"
                   onClick={openNewModal}
                   type="button"
               >

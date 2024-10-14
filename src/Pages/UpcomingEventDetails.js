@@ -194,7 +194,7 @@ console.log(eventFromApi)
                         {((event?.status === 'upcoming' && !event?.userParticipated) ) &&
                         <button
                         onClick={handleAddAttendee}
-                          className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer-green"
+                          className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer"
                           type="button"
                           >
                           {bying ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
@@ -231,7 +231,7 @@ console.log(eventFromApi)
                       </Text>
                   </div>
                   {event?.userParticipated ? (
-                    <div className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 cursorpointer-green rounded-full">
+                    <div className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 cursorpointer rounded-full">
                     <button
                       style={{whiteSpace:'nowrap'}}
                         type="button"

@@ -938,6 +938,10 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       Project publication
                     </Text>
+                    <Text className="text-[10px] font-dm-sans-regular text-[#98A2B3] w-auto"
+                    >
+                      If you choose the Public mode, your project will be visible on the Members page of the official website.
+                    </Text>
                     <SimpleSelect id='publication'
                     options={["public" , "private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
                     setSelectedOptionVal={setSelectedPublication} searchable={false}

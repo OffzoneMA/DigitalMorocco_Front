@@ -93,7 +93,7 @@ const Projects = () => {
                   >
                   Project List
                 </TableTitle>
-                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] cursorpointer-green rounded-md min-w-[133px] text-sm font-medium leading-[18.23px]" 
+                <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] cursorpointer rounded-md min-w-[133px] text-sm font-medium leading-[18.23px]" 
                 onClick={() => navigate('/CreateProject')}>
                   <FaRegPlusSquare size={18} className="mr-2" />
                   <span style={{ whiteSpace: 'nowrap' }}>New Project</span>
@@ -222,7 +222,7 @@ const Projects = () => {
           onDelete={handleDelete}
           content={
             <Text
-              className="font-dm-sans-regular text-[#1d1c21] text-center text-base leading-6"
+              className="font-dm-sans-regular text-[#1D1C21] text-center text-base leading-6"
             >
               Are you sure you want to delete this project?
             </Text>

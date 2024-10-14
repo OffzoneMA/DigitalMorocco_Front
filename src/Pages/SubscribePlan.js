@@ -141,7 +141,7 @@ export default function SubscribePlan() {
                       </Text>
                       <div className="flex flex-row ml-auto">
                         <button
-                          className={`flex justify-center items-center gap-3 w-[150px] h-[44px] p-[18px_30px] rounded-md hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer-green ${
+                          className={`flex justify-center items-center gap-3 w-[150px] h-[44px] p-[18px_30px] rounded-md hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer ${
                             selectedPlan === 'Monthly' ? 'bg-blue-A400 text-white-A700' : 'border border-blue-A400 text-blue-A400 hover:text-[#EDF7FF]'
                           }`}
                           onClick={() => setSelectedPlan('Monthly')}
@@ -150,7 +150,7 @@ export default function SubscribePlan() {
                           <span className="text-base leading-[20.83px] font-dm-sans-medium">Monthly</span>
                         </button>
                         <button
-                          className={`flex justify-center items-center gap-3 ml-[10px] w-[150px] h-[44px] p-[18px_30px] rounded-md hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer-green ${
+                          className={`flex justify-center items-center gap-3 ml-[10px] w-[150px] h-[44px] p-[18px_30px] rounded-md hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer ${
                             selectedPlan === 'Annual' ? 'bg-blue-A400 text-white-A700' : 'border border-blue-A400 text-blue-A400 hover:text-[#EDF7FF]'
                           }`}
                           onClick={() => setSelectedPlan('Annual')}
@@ -210,14 +210,14 @@ export default function SubscribePlan() {
               <div className="flex space-x-3 md:space-x-5 items-end  w-full py-2 justify-end">
                 <button
                   onClick={() =>navigate('/ChoosePlan')}
-                  className="flex flex-row text-base leading-[20.83px] gap-3 w-[147px] h-11 px-[30px] py-[18px] ml-auto items-center justify-center min-w-[93px] rounded-md bg-gray-201 text-blue_gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
+                  className="flex flex-row text-base leading-[20.83px] gap-3 w-[147px] h-11 px-[30px] py-[18px] ml-auto items-center justify-center min-w-[93px] rounded-md bg-gray-201 text-blue_gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 py-3 px-5 font-dm-sans-medium tracking-normal cursorpointer"
                   type="button"
                 >
                   <FiTrash2 size={22} />
                   Cancel 
                 </button>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] w-[282px] h-11 px-[30px] py-[18px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] w-[282px] h-11 px-[30px] py-[18px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer"
                   type="button"
                   onClick={()=> confirmSubscription()}
                 >

@@ -369,7 +369,7 @@ const fetchLegalDocuments = async () => {
       content={
       <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
         <Text className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6" size="">
-          This will <span className="text-[#E02D3C]">immediately and permanently</span> 
+          This will <span className="text-[#E02D3C]">immediately and permanently </span> 
           delete document.<br />Are you sure you want to delete this?
         </Text>
       </div>} />

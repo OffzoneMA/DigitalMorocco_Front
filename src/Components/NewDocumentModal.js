@@ -247,7 +247,7 @@ const NewDocumentModal = (props) => {
                           <button
                             onClick={() =>onButtonClick(inputRef)}
                             type="button"
-                            className="text-sm font-dm-sans-medium leading-[26px]  "
+                            className="text-sm font-dm-sans-medium leading-[26px] cursorpointer-green "
                           >
                             Update your document
                           </button>

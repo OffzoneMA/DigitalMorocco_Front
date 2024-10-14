@@ -375,7 +375,7 @@ const NewEmployee = () => {
               </button>
               :
               <button
-                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursorpointer-green"
+                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row md:h-auto items-center ml-auto p-[7px] rounded-md w-auto cursorpointer"
                 type="submit" onClick={() => setHasSubmitted(true)}
               >
                 <FiSave size={18} className="mr-2" />

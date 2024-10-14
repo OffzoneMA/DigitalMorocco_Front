@@ -28,13 +28,8 @@ const DeleteModal = (props) => {
         </div>
         <div className="bg-gray-201 h-px w-full" />
           <div className="flex flex-col items-center justify-start gap-[24px] px-5 w-full">
-            <div className="flex flex-col gap-2 items-center justify-start  w-full">
-              <Text
-                className=""
-                size=""
-              >
+            <div className="flex flex-col gap-2 text-[#1D1C21] items-center justify-start  w-full">
                 {props.content}
-              </Text>
             </div>
             <div className="flex flex-row gap-[18px] items-center justify-between w-auto">
               <button 

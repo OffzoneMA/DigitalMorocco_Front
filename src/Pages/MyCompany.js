@@ -215,7 +215,7 @@ console.log(userDetails)
           <SearchInput className={'w-[240px]'}/>
           {isSaved? 
               <button
-                className="bg-teal-A700 text-base px-[12px] py-[7px] h-[44px] text-white-A700 flex flex-row  items-center ml-auto cursorpointer-green rounded-md w-auto"
+                className="bg-teal-A700 text-base px-[12px] py-[7px] h-[44px] text-white-A700 flex flex-row  items-center ml-auto cursorpointer rounded-md w-auto"
                 type="submit"
               >
                 <BsCheck2Circle size={18} className="mr-2" />
@@ -223,7 +223,7 @@ console.log(userDetails)
               </button>
               :
               <button
-                className="bg-blue-501 text-sm px-[12px] py-[7px] h-[44px] text-white-A700 flex flex-row items-center ml-auto min-w-[85px] cursorpointer-green rounded-md w-auto"
+                className="bg-blue-501 hover:bg-[#235DBD] active:bg-[#224a94 text-sm px-[12px] py-[7px] h-[44px] text-white-A700 flex flex-row items-center ml-auto min-w-[85px] cursorpointer rounded-md w-auto"
                 onClick={() => setHasSubmitted(true)}
                 type="submit"
                 >

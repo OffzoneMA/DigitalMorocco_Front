@@ -73,7 +73,7 @@ const ManageSubscriptionCredits = () => {
                             <SearchInput className={'w-[240px] '}/>
                             <button 
                             style={{whiteSpace: 'nowrap'}}
-                            className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer-green rounded-md w-auto" 
+                            className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer rounded-md w-auto" 
                             onClick={() => navigate("/CreateProject")}
                         >
                             <FaRegPlusSquare size={18} className="mr-2" />
@@ -185,7 +185,7 @@ const ManageSubscriptionCredits = () => {
                         </div>
                         <button 
                         type="submit"
-                            className="w-full cursorpointer-green h-[50px] text-center text-white-A700 text-lg font-dm-sans-medium leading-relaxed bg-[#482be7] hover:bg-[#3016C0] active:bg-[#251192] rounded-[100px]">
+                            className="w-full cursorpointer h-[50px] text-center text-white-A700 text-lg font-dm-sans-medium leading-relaxed bg-[#482be7] hover:bg-[#3016C0] active:bg-[#251192] rounded-[100px]">
                             Check Out
                         </button>
                     </form>

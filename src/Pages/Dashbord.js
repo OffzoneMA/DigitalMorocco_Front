@@ -105,7 +105,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         <SearchInput className={'w-[240px] '}/>
                         <button 
                         style={{whiteSpace: 'nowrap'}}
-                          className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer-green rounded-md w-auto" 
+                          className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer rounded-md w-auto" 
                           onClick={() => navigate("/CreateProject")}
                       >
                           <FaRegPlusSquare size={18} className="mr-2" />

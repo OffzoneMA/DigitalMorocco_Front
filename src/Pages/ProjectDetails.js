@@ -168,7 +168,7 @@ useEffect(() => {
               </div>
               <div className="flex flex-wrap gap-3 items-center ">
                 <button
-                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center px-[12px] px-[10px] h-[41px] cursorpointer-green rounded-md"
+                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center px-[12px] px-[10px] h-[41px] cursorpointer rounded-md"
                   onClick={openModal}
                   type="button"
                   style={{whiteSpace: 'nowrap'}}
@@ -177,7 +177,7 @@ useEffect(() => {
                   <span className="hidden md:inline-block">Share to Investor</span>
                 </button>
                 <button
-                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 cursorpointer-green flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
+                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 cursorpointer flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
                   onClick={openDeleteModal}
                   type="button"
                   style={{whiteSpace: 'nowrap'}}
@@ -186,7 +186,7 @@ useEffect(() => {
                   <span className="hidden md:inline-block">Delete Project</span>
                 </button>
                 <button
-                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center cursorpointer-green px-[12px] px-[10px] h-[41px] rounded-md"
+                  className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center cursorpointer px-[12px] px-[10px] h-[41px] rounded-md"
                   onClick={() => navigate(`/Editproject/${projectId}`, { state: { project: project } })}
                   type="button"
                   style={{whiteSpace: 'nowrap'}}
@@ -310,11 +310,11 @@ useEffect(() => {
                         Project Milestone
                       </Text>
                       <button
-                        className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row h-[30px] items-center cursorpointer-green ml-auto px-[8px] py-[7px] rounded-md w-auto"
+                        className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row h-[30px] items-center cursorpointer ml-auto px-[8px] py-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
                         type="button"
                     >
-                        <span className="cursorpointer-green font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
+                        <span className="cursorpointer font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
                     </button>
                     </div>
                     <div className="flex flex-col items-start justify-start w-full">

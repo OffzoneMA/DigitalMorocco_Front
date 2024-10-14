@@ -80,7 +80,7 @@ export default function ChoosePlan() {
                   <div className='w-full flex-end ' onClick={() => navigate('/subscribePlan' , {state: { choosedPlan: plan }})}>
                     <button
                       type="button"
-                      className="bg-blue-A400 text-white-A700 flex flex-row h-[44px] items-center justify-center rounded-md w-full hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[24px] cursorpointer-green font-dm-sans-medium"
+                      className="bg-blue-A400 text-white-A700 flex flex-row h-[44px] items-center justify-center rounded-md w-full hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[24px] cursorpointer font-dm-sans-medium"
                       >
                       Get started
                     </button>

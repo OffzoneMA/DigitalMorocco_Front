@@ -207,7 +207,7 @@ useEffect(() => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </Text>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto cursorpointer"
                   type="button"
                   onClick={() => navigate('/ChoosePlan')}
                 >
@@ -290,7 +290,7 @@ useEffect(() => {
               </div>
               <div className="flex space-x-3 md:space-x-5 items-end w-full  py-2 justify-end">
                 <button
-                  className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center justify-center min-w-[210px] rounded-md bg-[#E4E7EC] hover:bg-[#D0D5DD] active:bg-light_blue-100 text-[#98A2B3] py-3 h-[44px] px-5 font-dm-sans-medium tracking-normal cursorpointer-green"
+                  className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center justify-center min-w-[210px] rounded-md bg-[#E4E7EC] hover:bg-[#D0D5DD] active:bg-light_blue-100 text-[#98A2B3] py-3 h-[44px] px-5 font-dm-sans-medium tracking-normal cursorpointer"
                   onClick={openCancelModal}
                   type="button"
                 >
@@ -298,7 +298,7 @@ useEffect(() => {
                   Cancel My Plan
                 </button>
                 <button
-                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center min-w-[271px] justify-center tracking-normal gap-3 ml-auto py-3 h-[44px] px-5 rounded-md w-auto cursorpointer-green"
+                  className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center min-w-[271px] justify-center tracking-normal gap-3 ml-auto py-3 h-[44px] px-5 rounded-md w-auto cursorpointer"
                   type="button"
                   onClick={() => handleRenewSubscription()}
                 >

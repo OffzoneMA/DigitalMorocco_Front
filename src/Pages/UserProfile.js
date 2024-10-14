@@ -498,7 +498,7 @@ useEffect(() => {
               accept="image/*"
               style={{ display: 'none' }}
             />
-            <button className="icon-container cursorpointer-green text-blue-501 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] flex flex-row items-center justify-center p-2 gap-3 rounded-full border-[2px] border-blue-501 w-full"
+            <button className="icon-container cursorpointer text-blue-501 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] flex flex-row items-center justify-center p-2 gap-3 rounded-full border-[2px] border-blue-501 w-full"
               onClick={handleUploadClick} type="button" >
               <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.625 6V0.75M13 3.375H18.25M18.25 9.5V14.05C18.25 15.5201 18.25 16.2552 17.9639 16.8167C17.7122 17.3107 17.3107 17.7122 16.8167 17.9639C16.2552 18.25 15.5201 18.25 14.05 18.25H4.95C3.47986 18.25 2.74479 18.25 2.18327 17.9639C1.68935 17.7122 1.28778 17.3107 1.03611 16.8167C0.75 16.2552 0.75 15.5201 0.75 14.05V4.95C0.75 3.47986 0.75 2.74479 1.03611 2.18327C1.28778 1.68935 1.68935 1.28778 2.18327 1.03611C2.74479 0.75 3.47986 0.75 4.95 0.75H9.5M0.877522 16.4355C1.28802 14.9588 2.64245 13.875 4.25 13.875H10.375C11.1881 13.875 11.5947 13.875 11.9328 13.9423C13.3212 14.2184 14.4066 15.3038 14.6827 16.6922C14.75 17.0303 14.75 17.4369 14.75 18.25M11.25 7.3125C11.25 9.2455 9.683 10.8125 7.75 10.8125C5.817 10.8125 4.25 9.2455 4.25 7.3125C4.25 5.3795 5.817 3.8125 7.75 3.8125C9.683 3.8125 11.25 5.3795 11.25 7.3125Z" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -638,11 +638,11 @@ useEffect(() => {
               {!isForm1Saved ? (
                 <button 
                 onClick={() => setHasSubmitted1(true)}
-                className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit">
+                className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit">
                   Save
                 </button>
               ) : (
-                <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
+                <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
                   <SlCheck size={20} />
                   <span className="text-base text-gray500">Saved</span>
                 </button>
@@ -667,7 +667,7 @@ useEffect(() => {
                   {/* {getValues2('currentPassword') && getValues2('currentPassword')?.length > 0 &&  */}
                     <button
                       type="button"
-                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
+                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer"
                       onClick={toggleCurrentPasswordVisibility}
                     >
                       {showCurrentPassword ? (
@@ -707,7 +707,7 @@ useEffect(() => {
                   {/* {getValues2('newPassword')?.length > 0 &&  */}
                     <button
                       type="button"
-                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
+                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer"
                       onClick={togglePasswordVisibility}
                     >
                       {showPassword ? (
@@ -822,7 +822,7 @@ useEffect(() => {
                     {/* {getValues2('confirmNewPassword')?.length > 0 &&  */}
                       <button
                         type="button"
-                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
+                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer"
                         onClick={togglePasswordConfirmVisibility}
                       >
                         {showPasswordConfirm ? (
@@ -841,10 +841,10 @@ useEffect(() => {
               </div>
               {!isForm2Saved ?
                 (
-                  <button className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
+                  <button className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
                     Save </button>
                 ) : (
-                  <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                  <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
                     <SlCheck size={20} /> <span className="text-base text-gray500">Saved</span> </button>
                 )
               }
@@ -885,11 +885,11 @@ useEffect(() => {
               {!isForm3Saved ? (
                 <button 
                 onClick={() => setHasSubmitted3(true)}
-                  className="bg-blue-A400 cursorpointer-green hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" 
+                  className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" 
                   type="submit" >
                   Save </button>
               ) : (
-                <button className="bg-gray-201 cursorpointer-green font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
                   <SlCheck size={20} /> <span className="text-base text-gray500">
                     Saved</span> </button>
               )
@@ -902,7 +902,7 @@ useEffect(() => {
               <Text className="font-dm-sans-regular text-base leading-6 text-blue_gray-601 w-full" >
                 By deleting your account, you’ll no longer be able to access your account or log in to Digital Morocco.
               </Text>
-              <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[178px] mr-auto py-2 px-5 rounded-md w-auto cursorpointer-green"
+              <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[178px] mr-auto py-2 px-5 rounded-md w-auto cursorpointer"
                 onClick={openDeleteModal} type="button" >
                 Delete Account
               </button>
