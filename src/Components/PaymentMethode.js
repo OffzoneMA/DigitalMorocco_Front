@@ -21,6 +21,8 @@ const PaymentMethode = () => {
     const userData = JSON.parse(sessionStorage.getItem("userData"));
     const userId = userData?._id;
     const [selectedMethod, setSelectedMethod] = useState(null);
+    const [sendingOk , setSendingOk] = useState(false);
+
 
     const fetchLastPaymentMethod = async () => {
         setLoadingLastPayment(true);
@@ -73,6 +75,7 @@ const PaymentMethode = () => {
 
     const addMethode = async (data) => {
         try {
+          setSendingOk(true);
           const res = await addPaymentMethod(data);
             if (res.data) {
               toast.success("Payment method added successfully");
@@ -81,7 +84,9 @@ const PaymentMethode = () => {
             } else {
               toast.error("Error adding payment method");
             }
+            setSendingOk(false);
         } catch (error) {
+          setSendingOk(false);
         console.error('Error adding payment method:', error);
         }
     };
@@ -123,7 +128,7 @@ const PaymentMethode = () => {
               </div>
             </div>
             <button
-              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center h-[44px] gap-3 mr-auto py-3 rounded-md w-full cursorpointer-green"
+              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center h-[44px] gap-3 mr-auto py-3 rounded-md w-full cursorpointer"
               onClick={openEditPaymentModal}
               type="button"
             >
@@ -137,7 +142,7 @@ const PaymentMethode = () => {
               Payment and Billing
             </Text>
             <button
-              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 mr-auto py-3 justify-center rounded-md w-full cursorpointer-green"
+              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 mr-auto py-3 justify-center rounded-md w-full cursorpointer"
               type="button"
               onClick={()=> openPaymentModal()}
             >

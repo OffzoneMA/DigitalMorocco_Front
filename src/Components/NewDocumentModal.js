@@ -47,6 +47,16 @@ const NewDocumentModal = (props) => {
   }, [hasSubmitted , files]);
 
   useEffect(() => {
+    if (!props.isOpen) {
+      reset(); 
+      setPreview(null); 
+      setFiles(null);
+      setHasSubmitted(false); 
+      setRequiredFields({ docFile: false }); 
+    }
+  }, [props.isOpen, reset]);
+
+  useEffect(() => {
     if (shareWithData) {
       setFilteredUsers(shareWithData);
     }
@@ -139,7 +149,7 @@ const NewDocumentModal = (props) => {
     for (let pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
     }
-    if(isFormValid){
+    if(isFormValid && preview !==null){
       try {
         documentFile?._id ? 
         props?.onSubmit({ id: documentFile._id, formData }).unwrap() : 
@@ -247,7 +257,7 @@ const NewDocumentModal = (props) => {
                           <button
                             onClick={() =>onButtonClick(inputRef)}
                             type="button"
-                            className="text-sm font-dm-sans-medium leading-[26px] cursorpointer-green "
+                            className="text-sm font-dm-sans-medium leading-[26px] cursorpointer "
                           >
                             Update your document
                           </button>
@@ -295,17 +305,16 @@ const NewDocumentModal = (props) => {
                       }
                     }/>
             </div>
-
           </div>
           <div className="flex items-end w-full mx-auto justify-end">
             <div className="flex space-x-5 w-auto">
               <button type="reset" 
-              className="flex items-center justify-center min-w-[93px] bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
+              className="flex items-center justify-center min-w-[93px] bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
               onClick={closeModal}>Cancel</button>
               <button 
               type="submit" 
               onClick={() => setHasSubmitted(true)}
-              className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] min-w-[116px] leading-5 tracking-normal rounded-[6px] cursorpointer-green" 
+              className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] min-w-[116px] leading-5 tracking-normal rounded-[6px] cursorpointer" 
               >{documentFile?._id ? 'Save' : 'Add Document'}</button>
             </div>
           </div>

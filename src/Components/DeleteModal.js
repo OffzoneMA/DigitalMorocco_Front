@@ -33,13 +33,13 @@ const DeleteModal = (props) => {
             </div>
             <div className="flex flex-row gap-[18px] items-center justify-between w-auto">
               <button 
-              className="flex items-center hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[93px] text-center bg-[#E4E7EC] text-[#475467]"
+              className="flex items-center hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[93px] text-center bg-[#E4E7EC] text-[#475467]"
               onClick={props.onRequestClose}>
                 Cancel
               </button>
               <button 
               onClick={props.onDelete}
-              className="flex items-center cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[127px] bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 text-center">
+              className="flex items-center cursorpointer py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[127px] bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 text-center">
                 Delete Now
               </button>
             </div>

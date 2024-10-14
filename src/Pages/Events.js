@@ -149,7 +149,7 @@ const Events = () => {
     return ReactDOM.createPortal(
       <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
         <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
-          <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={() => openTicketModal(item)}>
+          <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={(e) => {e.stopPropagation(); openTicketModal(item)}}>
             <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
             <Text
               className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "

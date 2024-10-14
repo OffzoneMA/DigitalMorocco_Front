@@ -624,7 +624,7 @@ const handleStatusChangeAndUpdate = async () => {
                           trigger={open => (
                             <button
                               onClick={() => handleStatusChangeAndUpdate()}
-                              className={`${(isAllFormValid && validForm) ? 'bg-teal-A700 text-white-A700 hover:bg-greenbtnhoverbg active:bg-[#018080]' : 'bg-[#e5e5e6] text-[#a7a6a8]'} text-sm font-dm-sans-medium flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer-green rounded-md`}
+                              className={`${(isAllFormValid && validForm) ? 'bg-teal-A700 text-white-A700 hover:bg-greenbtnhoverbg active:bg-[#018080]' : 'bg-[#e5e5e6] text-[#a7a6a8]'} text-sm font-dm-sans-medium flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer rounded-md`}
                               type="button" disabled={!(isAllFormValid && validForm)}
                             >
                               <svg
@@ -664,7 +664,7 @@ const handleStatusChangeAndUpdate = async () => {
                           trigger={open => (
                             <button
                               onClick={() => handleStatusChangeAndUpdate()}
-                              className="bg-[#A9ACB0] hover:bg-[#a7a6a8] active:bg-[#E2E2EE] text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer-green rounded-md"
+                              className="bg-[#A9ACB0] hover:bg-[#a7a6a8] active:bg-[#E2E2EE] text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] gap-[8px] items-center justify-center px-[12px] cursorpointer rounded-md"
                               type="button" disabled={!(isAllFormValid && validForm)}
                             >
                               <svg
@@ -938,7 +938,7 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       Project publication
                     </Text>
-                    <Text className="text-[10px] font-dm-sans-regular text-[#98A2B3] w-auto"
+                    <Text className="text-[12px] font-dm-sans-regular text-[#98A2B3] w-auto"
                     >
                       If you choose the Public mode, your project will be visible on the Members page of the official website.
                     </Text>

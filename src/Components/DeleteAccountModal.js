@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
@@ -11,16 +11,26 @@ const DeleteAccountModal = (props) => {
   const userId = userData?._id;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { register, handleSubmit, watch, getValues, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, getValues, formState: { errors } , reset } = useForm();
     const [showPassword, setShowPassword] = useState(false); 
+    const [sendingOk , setSendingOk] = useState(false);
   
     // const handleSubmit = (e) => {
     //   e.preventDefault();
     //   props.handleDeleteAccount(email, password);
     // };
+
+    useEffect(() => {
+      if (!props.isOpen) {
+        reset(); 
+        setSendingOk(false);
+      }
+    }, [props.isOpen, reset]);
     
     const onSubmit = async (data) => {
+      setSendingOk(true);
       await props?.handleDeleteAccount(data.new_email, data.new_password);
+      setSendingOk(false);
     };
 
     const newPassword = watch("new_password", "");
@@ -109,8 +119,8 @@ const DeleteAccountModal = (props) => {
               </div>
               <div className="flex items-end w-full pt-3 justify-end">
                 <div className="flex space-x-3 md:space-x-5 w-auto">
-                  <button onClick={props.onRequestClose} type="reset" className="flex items-center justify-center cursorpointer-green bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Cancel</button>
-                  <button type="submit" className="flex items-center justify-center cursorpointer-green ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Delete account</button>
+                  <button onClick={props.onRequestClose} type="reset" className="flex items-center justify-center cursorpointer bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Cancel</button>
+                  <button type="submit" className="flex items-center justify-center cursorpointer ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">Delete account</button>
                 </div>
               </div>
             </div>

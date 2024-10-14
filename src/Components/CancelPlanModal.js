@@ -72,11 +72,11 @@ const CancelPlanModal = (props) => {
                         </div>
                     </div>
                     <div className="flex space-x-3 md:space-x-5 items-start w-full justify-start pt-1 pb-2">
-                        <button onClick={props.onRequestClose} type="button" className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 h-[44px] min-w-[179px] py-2 px-[30px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer-green">Keep Basic Plan</button>
+                        <button onClick={props.onRequestClose} type="button" className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 h-[44px] min-w-[179px] py-2 px-[30px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer">{`Keep ${userSubscriptionData?.plan?.name || 'Basic'} Plan`}</button>
                         <button 
                             onClick={props?.method}
                             type="button" 
-                            className="flex items-center justify-center ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 h-[44px] py-2 px-[20px] min-w-[209px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer-green">Continue Cancellation</button>
+                            className="flex items-center justify-center ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 h-[44px] py-2 px-[20px] min-w-[209px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer">Continue Cancellation</button>
                     </div>
                 </div>
             </div>

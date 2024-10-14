@@ -34,7 +34,7 @@ const InvestorRequestHistory = () => {
   const queryParams = { page: cur, pageSize: itemsPerPage };
 
   if (filterApply) {
-    queryParams.status = status.length > 0 ? status.join(',') : undefined;
+    queryParams.status = status.length > 0 ? status : undefined;
     queryParams.investorNames = user.length > 0 ? user.join(',') : undefined;
   }
   const { data, error, isFetching:loading , refetch } = useFetchInvestorRequestsQuery(queryParams);

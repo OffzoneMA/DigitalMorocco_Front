@@ -133,9 +133,9 @@ const SidebarNav = () => {
     },
     (userData?.role?.toLowerCase() === "investor") && { 
       title: "Investment", src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
-      submenu: true, activeLinks: ["Investment" , "MyInvestment" , "InvestmentRequestHistory" , "InvestmentDetails"] ,
+      submenu: true, activeLinks: ["Investment" , "MyInvestment" , "InvestmentRequestHistory" , "InvestmentDetails" , "InvestmentRequestDetails"] ,
       child: [
-        { title: "Current Requests", src: '', link: "Investment" , activeLinks: ["Investment" ] },
+        { title: "Current Requests", src: '', link: "Investment" , activeLinks: ["Investment" , "InvestmentRequestDetails" ] },
         { title: "My Investments", src: '', link: "MyInvestment" , activeLinks: ["MyInvestment" , "InvestmentDetails"]},
         { title: "Request History", src: '', link: "InvestmentRequestHistory" , activeLinks:["InvestmentRequestHistory"] },
       ]

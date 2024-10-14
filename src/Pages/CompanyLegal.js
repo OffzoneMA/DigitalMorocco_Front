@@ -228,7 +228,7 @@ const fetchLegalDocuments = async () => {
                   Legal Document
                 </TableTitle>
               <button
-                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94]  text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer-green"
+                className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94]  text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer"
                 onClick={openModal}
                 type="button"
               >

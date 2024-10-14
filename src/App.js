@@ -179,6 +179,7 @@ function App() {
                   <Route path="/Investment" element={<Investment />} />
                   <Route path="/MyInvestment" element={<MyInvestment />} />
                   <Route path="/InvestmentDetails/:id" element={<MyInvestmentDetails />} />
+                  <Route path="/InvestmentRequestDetails/:id" element={<MyInvestmentDetails />} />
                   <Route path="/InvestmentRequestHistory" element={<InvestmentRequestHistory />} />
                   <Route path="/UpcomingSponsorEvent" element={<UpcomingSponsorEvent />} />
                   <Route path="/SponsorEventDetails/:id" element={<SponsorEventDetails />} />

@@ -24,6 +24,7 @@ const ShareDocumentToMembersModal = (props) => {
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const [shareDocument, response] = useShareDocumentMutation();
   const [shareType , setShareType] = useState('');
+  const [sendingOk , setSendingOk] = useState(false);
 
   useEffect(() => {
     if (Array.isArray(props?.rowData?.shareWithUsers)) {
@@ -99,11 +100,13 @@ const onSubmit = async () => {
   const type = determineShareWith(); 
   setShareType(type)
     try {
+      setSendingOk(true);
       await shareDocument({
         id: props?.rowData?._id, 
         userIds: selectedMembers,
         shareWith: type,
       }).unwrap();
+      setSendingOk(false);
       props.onRequestClose();
       setSelectedMembers([]);
       openModal();

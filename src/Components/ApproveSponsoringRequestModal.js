@@ -1,4 +1,4 @@
-import React , {useState , useRef} from "react";
+import React , {useState , useRef , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
@@ -14,21 +14,35 @@ import { useApproveRequestMutation } from "../Services/ContactRequest.Service";
 const ApproveSponsoringRequestModal = (props) => {
     const [typeInvestment , setSelectedInvestmentType] = useState(null);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } , reset } = useForm();
     const formData = new FormData();
     const rowData = props?.rowData ;
+    const [sendingOk , setSendingOk] = useState(false);
+
+    useEffect(() => {
+        if (!props.isOpen) {
+          reset(); 
+          setSelectedInvestmentType(null);
+          setSendingOk(false);
+        }
+      }, [props.isOpen, reset]);
 
     const onSubmit = async (data) => {
-      try {
-        await props?.methode({
-                approvalNotes: data?.letter,
-                typeInvestment,
-            },
-        );
-        openModal();
-      } catch (error) {
-        console.error('Failed to create contact request:', error);
-      }
+        if(typeInvestment !== null) {
+            try {
+                setSendingOk(true);
+                await props?.methode({
+                        approvalNotes: data?.letter,
+                        typeInvestment,
+                    },
+                );
+                setSendingOk(false);
+                openModal();
+              } catch (error) {
+                console.error('Failed to create contact request:', error);
+              }
+        }
+     
     };
 
     const openModal  = () =>  {
@@ -133,7 +147,7 @@ const ApproveSponsoringRequestModal = (props) => {
                         Cancel
                     </button>
                     <button 
-                    type="submit"
+                    type="submit" onClick={() => setSendingOk(true)}
                     className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[20px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
                         Approve
                     </button>

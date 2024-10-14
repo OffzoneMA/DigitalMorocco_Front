@@ -15,6 +15,7 @@ const SendSponsoringModal = (props) => {
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
     const [selectedType , setSelectedType] = useState(null);
+    const [sendingOk , setSendingOk] = useState(false);
 
     const handleDragOver = (event) => {
       event.preventDefault();
@@ -46,9 +47,12 @@ const SendSponsoringModal = (props) => {
       });
       
       try {
+        setSendingOk(true);
         console.log('Contact request created successfully');
+        setSendingOk(false);
         openModal();
       } catch (error) {
+        setSendingOk(false);
         console.error('Failed to create contact request:', error);
       }
     };

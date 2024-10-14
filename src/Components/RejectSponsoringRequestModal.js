@@ -18,16 +18,20 @@ const RejectSponsoringRequestModal = (props) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const formData = new FormData();
     const rowData = props?.rowData ;
+    const [sendingOk , setSendingOk] = useState(false);
 
     const onSubmit = async (data) => {
       try {
+        setSendingOk(true);
         await props?.methode({
                 rejectionNotes: data?.letter,
                 reason: selectedRaison,
             },
         );
+        setSendingOk(false);
         openModal();
       } catch (error) {
+        setSendingOk(false);
         console.error('Failed to create contact request:', error);
       }
     };

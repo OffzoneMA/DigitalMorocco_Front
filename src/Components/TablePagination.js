@@ -21,7 +21,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
     <div className='flex items-center justify-between w-full font-inter text-sm font-medium leading-5'>
       <button
         onClick={() => onPageChange(currentPage - 1)}
-        className={`flex h-[36px] min-w-[114px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer-green gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage < 2 && 'diseable'}`}
+        className={`flex h-[36px] min-w-[114px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage < 2 && 'diseable'}`}
       >
         <PiArrowLeftBold  className='h-4 w-4 ' />
         Previous
@@ -33,7 +33,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={` w-[40px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] h-[40px] flex items-center justify-center cursorpointer-green  rounded-[8px] ${currentPage === page ? 'text-[#7F56D9] bg-[#F9F5FF]' : 'text-gray500 bg-white-A700'}`}
+            className={` w-[40px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] h-[40px] flex items-center justify-center cursorpointer  rounded-[8px] ${currentPage === page ? 'text-[#7F56D9] bg-[#F9F5FF]' : 'text-gray500 bg-white-A700'}`}
           >
             {page}
           </button>
@@ -41,7 +41,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
       </div>
       <button
         onClick={() => onPageChange(currentPage + 1)}
-        className={`flex h-[36px] min-w-[88px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer-green gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage === totalPages && 'diseable'}`}
+        className={`flex h-[36px] min-w-[88px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage === totalPages && 'diseable'}`}
       >
         Next
         <PiArrowRightBold  className='h-4 w-4 ' />

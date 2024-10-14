@@ -324,7 +324,7 @@ const Investors = () => {
                 </div>
                 )}
               </div>
-              {(pageData?.length>0 && !loading) && (
+              {(pageData?.length>0 && !loading && !subscriptionLoading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
                   currentPage={cur}

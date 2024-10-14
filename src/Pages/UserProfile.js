@@ -667,7 +667,7 @@ useEffect(() => {
                   {/* {getValues2('currentPassword') && getValues2('currentPassword')?.length > 0 &&  */}
                     <button
                       type="button"
-                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer"
+                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
                       onClick={toggleCurrentPasswordVisibility}
                     >
                       {showCurrentPassword ? (
@@ -707,7 +707,7 @@ useEffect(() => {
                   {/* {getValues2('newPassword')?.length > 0 &&  */}
                     <button
                       type="button"
-                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer"
+                      className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
                       onClick={togglePasswordVisibility}
                     >
                       {showPassword ? (
@@ -822,7 +822,7 @@ useEffect(() => {
                     {/* {getValues2('confirmNewPassword')?.length > 0 &&  */}
                       <button
                         type="button"
-                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer"
+                        className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
                         onClick={togglePasswordConfirmVisibility}
                       >
                         {showPasswordConfirm ? (

@@ -18,12 +18,24 @@ const NewCampanyDocumentModal = (props) => {
   const [requiredFields, setRequiredFields] = useState({
     docFile: false,
   });
+  const [sendingOk , setSendingOk] = useState(false);
+
 
   useEffect(() => {
     if (documentFile ) {
       setValue('title' , documentFile?.title)
     }
 }, [documentFile]);
+
+useEffect(() => {
+    if (!props.isOpen) {
+      reset(); 
+      setPreview(null); 
+      setFiles(null); 
+      setHasSubmitted(false); 
+      setRequiredFields({ docFile: false }); 
+    }
+  }, [props.isOpen, reset]);
 
   useEffect(() => {
       if (hasSubmitted ) {
@@ -59,6 +71,7 @@ const NewCampanyDocumentModal = (props) => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
+    setSendingOk(true);
 
     formData.append("title", data.title);
     formData.append("file", files); 
@@ -69,13 +82,20 @@ const NewCampanyDocumentModal = (props) => {
     if (documentFile?.ownerId) {
         formData.append("ownerId", documentFile.ownerId);
     }
-    if(isFormValid){
+    if(isFormValid && preview !== null){
         props.onSubmit(formData);
     }
+    setSendingOk(false);
+
 };
 
 const handleCancelClick = () => {
     setPreview(null);
+    setHasSubmitted(false);
+    setRequiredFields({
+        docFile: false,
+    });
+    setValue('title' , '');
     props.onRequestClose();
 };
 
@@ -139,7 +159,7 @@ const handleCancelClick = () => {
                                 <button
                                     onClick={() => onButtonClick(inputRef)}
                                     type="button"
-                                    className="text-sm cursorpointer-green font-dm-sans-medium  leading-[26px] mr-2"
+                                    className="text-sm cursorpointer font-dm-sans-medium  leading-[26px] mr-2"
                                 >
                                     Update your document
                                 </button>
@@ -171,7 +191,7 @@ const handleCancelClick = () => {
                 <div className="flex space-x-5 w-auto">
                     <button
                         type="reset"
-                        className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green"
+                        className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer"
                         onClick={handleCancelClick}
                         style={{ width: "101px", height: "44px" }}
                     >
@@ -180,7 +200,7 @@ const handleCancelClick = () => {
                     <button
                         type="submit"
                         onClick={() => setHasSubmitted(true)}
-                        className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer-green text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                        className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
                         style={{ width: "195px", height: "44px" }}
                     >
                         {documentFile?._id ? "Edit Document" : "Add Document"}

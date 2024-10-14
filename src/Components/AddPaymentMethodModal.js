@@ -13,6 +13,7 @@ const AddPaymentMethodModal = (props) => {
   const [cardNumber, setCardNumber] = useState('');
   const [selectedMethod, setSelectedMethod] = useState({ id: 1, name: 'Mastercard', image: 'images/img_mastercard.svg', icon: "images/img_mastercard_icon.svg", info: 'Mastercard information' });
   const [haveMethod , setHaveMethod] = useState(false);
+  const [sendingOk , setSendingOk] = useState(false);
 
   useEffect(() => {
     if (paymentMethod) {
@@ -91,12 +92,14 @@ const AddPaymentMethodModal = (props) => {
   
 
   const onSubmit = (data) => {
+    setSendingOk(true);
     const updatedData  = {
       ...data ,
        paymentMethod: selectedMethod?.name
     }
     paymentMethod?._id ?  props?.payMethod({paymentMethodId: paymentMethod?._id , paymentMethodData: updatedData}) : props?.payMethod(updatedData) ;
     reset();
+    setSendingOk(false);
     props.onRequestClose();
   };
 
@@ -217,13 +220,13 @@ const AddPaymentMethodModal = (props) => {
                   <button
                     onClick={props.onRequestClose}
                     type="button"
-                    className="flex items-center justify-center flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green"
+                    className="flex items-center justify-center flex-1 border border-gray-301 hover:bg-[#D0D5DD] active:bg-light_blue-100 text-gray700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex items-center justify-center flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green"
+                    className="flex items-center justify-center flex-1 bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer"
                   >
                     Update
                   </button>

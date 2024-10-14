@@ -20,6 +20,7 @@ const SendContactModal = (props) => {
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
     const [selectedProject , setSelectedProject] = useState(null);
+    const [sendingOk , setSendingOk] = useState(false);
 
     const handleDragOver = (event) => {
       event.preventDefault();
@@ -51,10 +52,13 @@ const SendContactModal = (props) => {
       });
       
       try {
+        setSendingOk(true);
         const response = await createContactReqProject(formData).unwrap();
         console.log('Contact request created successfully');
+        setSendingOk(false);
         openModal();
       } catch (error) {
+        setSendingOk(false);
         console.error('Failed to create contact request:', error);
       }
     };
