@@ -182,7 +182,7 @@ export default function SubscribePlan() {
                   </div>
                   {selectedPlan === "Annual" ? (
                     <div className="flex flex-row items-center w-full pt-1">
-                        <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-500 line-through">
+                        <Text className="font-dm-sans-medium text-base leading-8 text-left text-gray-500 line-through">
                             ${annualPrice}
                         </Text>
                         <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-801 ml-2">

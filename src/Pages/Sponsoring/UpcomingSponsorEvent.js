@@ -24,6 +24,7 @@ import userDefaultProfil from '../../Media/User1.png'
 import CustomCalendar from "../../Components/CustomCalendar";
 import SendSponsoringModal from "../../Components/SendSponsoringModal";
 import { parseDateString } from "../../data/helper";
+import { useCreateSponsorMutation } from "../../Services/Sponsor.Service";
 
 const UpcomingSponsorEvent = () => {
     const navigate = useNavigate();
@@ -47,6 +48,8 @@ const UpcomingSponsorEvent = () => {
     const itemsToShow = 4;
     const [totalPages , setTotalPages] = useState(0);
     const [selectedDate , setSelectedDate] = useState('');
+    const [createSponsor, { isLoading: createLoading, error: createError }] = useCreateSponsorMutation();
+
 
     const queryParams = { page: cur, pageSize: itemsPerPage };
 
@@ -85,12 +88,6 @@ const UpcomingSponsorEvent = () => {
 
     const pageData = events?.events;
 
-    const formatDate = (date) => {
-      const dateValues = new Date(date);
-      const options = { year: 'numeric', month: 'long', day: 'numeric' ,timeZone: 'UTC', };
-      return dateValues.toLocaleDateString('en-US', options);
-  };
-
   const openModal = (data) => {
     setIsModalOpen(true);
     setRowData(data);
@@ -99,6 +96,16 @@ const UpcomingSponsorEvent = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     
+  };
+
+  const handleCreateSponsor = async (data) => {
+    try {
+      await createSponsor(
+        data).unwrap();
+      refetch();
+    } catch (err) {
+      console.error(err); 
+    }
   };
 
     return (
@@ -162,7 +169,7 @@ const UpcomingSponsorEvent = () => {
                     )}
                       {filter ?
                       (<button
-                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[37px] rounded-md"
+                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer p-[6px] h-[37px] rounded-md"
                         onClick={() => setFilterApply(true)}
                         type="button"
                     >
@@ -174,7 +181,7 @@ const UpcomingSponsorEvent = () => {
                     ):
                       (
                       <button
-                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                         onClick={() => setFilter(true)}
                         type="button"
                         disabled={pageData?.length === 0}
@@ -188,13 +195,15 @@ const UpcomingSponsorEvent = () => {
                       }
                         {filterApply && (
                           <button
-                          className="text-[#15143966] flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer-green"
-                          onClick={clearFilter}
-                          type="button"
-                      >
-                          <FiDelete size={18} className="mr-2" />
-                          <span className="text-base font-dm-sans-regular leading-[26px] text-[#15143966]">Clear</span>
-                        </button>
+                            className="text-[#15143966] hover:text-[#1514397e] flex flex-row gap-[4px] items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer"
+                            onClick={clearFilter}
+                            type="button"
+                            >
+                            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.75 4.75L8.25 9.25M8.25 4.75L12.75 9.25M2.04 7.72L5.28 12.04C5.544 12.392 5.676 12.568 5.84329 12.6949C5.99145 12.8074 6.15924 12.8913 6.33808 12.9423C6.54 13 6.76 13 7.2 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H7.2C6.76 1 6.54 1 6.33808 1.05767C6.15924 1.10874 5.99145 1.19264 5.84329 1.30506C5.676 1.432 5.544 1.608 5.28 1.96L2.04 6.28C1.84635 6.53819 1.74953 6.66729 1.71221 6.80907C1.67926 6.93423 1.67926 7.06577 1.71221 7.19093C1.74953 7.33271 1.84635 7.46181 2.04 7.72Z" stroke="#151439" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span className="text-base font-dm-sans-regular leading-[26px]">Clear</span>
+                          </button>
                         )}
                       </div>
                   </div>
@@ -291,7 +300,7 @@ const UpcomingSponsorEvent = () => {
               </div>
             </div>
         </div>
-        <SendSponsoringModal isOpen={isModalOpen} onRequestClose={closeModal} rowData={rowData} />
+        <SendSponsoringModal isOpen={isModalOpen} onRequestClose={closeModal} rowData={rowData} methode={handleCreateSponsor} />
         </>
     );
 }

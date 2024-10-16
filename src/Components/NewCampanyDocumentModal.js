@@ -19,19 +19,23 @@ const NewCampanyDocumentModal = (props) => {
     docFile: false,
   });
   const [sendingOk , setSendingOk] = useState(false);
+  const [sending , setSending] = useState(false);
 
+console.log(preview)
 
   useEffect(() => {
-    if (documentFile ) {
-      setValue('title' , documentFile?.title)
+    if (props?.documentFile ) {
+      setValue('title' , props?.documentFile?.title)
+      setPreview(props?.documentFile?.name)
     }
-}, [documentFile]);
+}, [props?.documentFile]);
 
 useEffect(() => {
     if (!props.isOpen) {
       reset(); 
       setPreview(null); 
       setFiles(null); 
+      setSendingOk(false);
       setHasSubmitted(false); 
       setRequiredFields({ docFile: false }); 
     }
@@ -69,25 +73,27 @@ useEffect(() => {
     setPreview(URL.createObjectURL(e.target.files[0]))
   }
 
+  console.log(sendingOk)
+
   const onSubmit = async (data) => {
     const formData = new FormData();
-    setSendingOk(true);
-
-    formData.append("title", data.title);
-    formData.append("file", files); 
-
-    if (documentFile?._id) {
-        formData.append("_id", documentFile._id);
-    }
-    if (documentFile?.ownerId) {
-        formData.append("ownerId", documentFile.ownerId);
-    }
+    // setSendingOk(true);
     if(isFormValid && preview !== null){
+        setSendingOk(true);
+        formData.append("title", data.title);
+        formData.append("file", files); 
+    
+        if (documentFile?._id) {
+            formData.append("_id", documentFile._id);
+        }
+        if (documentFile?.ownerId) {
+            formData.append("ownerId", documentFile.ownerId);
+        }
         props.onSubmit(formData);
     }
-    setSendingOk(false);
 
 };
+
 
 const handleCancelClick = () => {
     setPreview(null);
@@ -138,11 +144,11 @@ const handleCancelClick = () => {
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
                 >
-                    {(preview || documentFile?._id) ? (
+                    {(preview || documentFile?.name) ? (
                         <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md md:h-[206px] py-14">
                             <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-[26px] tracking-normal items-center">
                                 <IoDocumentTextOutline size={16} className="mr-2" />
-                                {preview ? files.name : documentFile?.name}
+                                {files?.name ? files?.name : documentFile?.name}
                             </Text>
                             <div className="font-DmSans icon-container bg-white-A700 gap-[6px] text-blue-A400 border border-solid hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] border-blue-A400 flex flex-row h-[46px] items-center py-[7px] px-[12px] rounded-md w-auto min-w-[213px]">
                                 <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -186,7 +192,6 @@ const handleCancelClick = () => {
                     )}
                 </div>
             </div>
-
             <div className="flex items-end w-full mx-auto justify-end">
                 <div className="flex space-x-5 w-auto">
                     <button
@@ -199,11 +204,17 @@ const handleCancelClick = () => {
                     </button>
                     <button
                         type="submit"
-                        onClick={() => setHasSubmitted(true)}
-                        className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]"
+                        onClick={() => {setHasSubmitted(true); }}
+                        className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#235DBD] min-w-[180px]' : 'bg-blue-A400'} hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]`}
                         style={{ width: "195px", height: "44px" }}
                     >
-                        {documentFile?._id ? "Edit Document" : "Add Document"}
+                    {(sendingOk && preview !== null) ? 
+                    <div className="flex items-center justify-center gap-6"> Sending... 
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>  :  
+                    documentFile?._id ? "Edit Document" : "Add Document"}
                     </button>
                 </div>
             </div>

@@ -14,10 +14,10 @@ export const sponsorApi = createApi({
     }),
     endpoints: (builder) => ({
         createSponsor: builder.mutation({
-            query: (sponsorData) => ({
+            query: (formData) => ({
                 url: '/',
                 method: 'POST',
-                body: sponsorData,
+                body: formData,
             }),
         }),
         getAllSponsors: builder.query({
@@ -30,17 +30,17 @@ export const sponsorApi = createApi({
             query: (sponsorId) => `/${sponsorId}`,
         }),
         approveSponsor: builder.mutation({
-            query: ({ sponsorId, letter }) => ({
+            query: ({ sponsorId, data }) => ({
                 url: `/${sponsorId}/approve`,
                 method: 'POST',
-                params: { letter },
+                body: data,
             }),
         }),
         rejectSponsor: builder.mutation({
-            query: ({ sponsorId, reasonForRejection }) => ({
+            query: ({ sponsorId , data }) => ({
                 url: `/${sponsorId}/reject`,
                 method: 'POST',
-                params: { reasonForRejection },
+                body: data,
             }),
         }),
         updateSponsor: builder.mutation({
@@ -57,24 +57,33 @@ export const sponsorApi = createApi({
             }),
         }),
         getSponsorsByPartner: builder.query({
-            query: ({ partnerId, page = 1, pageSize = 10, ...filters }) => {
-                const query = new URLSearchParams({ page, pageSize, ...filters }).toString();
-                return `/${partnerId}/partners?${query}`;
-            },
+            query: ({ page = 1, pageSize = 8, location , exactDate , requestType }={}) => ({
+                url: `/partners`,
+                params: {page, pageSize, requestType, location, exactDate}
+            }),
         }),
         getApprovedSponsorsForPastEvents: builder.query({
-            query: (filters) => {
-                const query = new URLSearchParams(filters).toString();
-                return `/past-events?${query}`;
-            },
+            query: ({ page = 1, pageSize = 8, location , exactDate , requestType }={}) => ({
+                url:  `/past-events`,
+                params: {page, pageSize, requestType, location, exactDate}
+            }),
         }),
         getApprovedSponsorsForPartner: builder.query({
-            query: ({ partnerId, ...filters }) => {
-                const query = new URLSearchParams(filters).toString();
-                return `/${partnerId}/approved-sponsors?${query}`;
-            },
+            query: ({ page = 1, pageSize = 8, location , exactDate , requestType }={}) => ({
+                url: `/approved-sponsors`,
+                params: {page, pageSize, requestType, location, exactDate}
+            }),
+        }),
+        getDistinctEventFieldsByPartner: builder.query({
+            query: ({field, status }) => 
+                `/partner/distinct?field=${field}${status ? `&status=${status}` : ''}`,
+            providesTags: ['Event'],
         }),
     }),
 })
 
-export const { } = sponsorApi
+export const { useCreateSponsorMutation  , useApproveSponsorMutation , useDeleteSponsorMutation , 
+    useGetAllSponsorsQuery , useGetApprovedSponsorsForPartnerQuery , useGetApprovedSponsorsForPastEventsQuery , 
+    useGetSponsorByIdQuery , useGetSponsorsByPartnerQuery , useRejectSponsorMutation , useUpdateSponsorMutation , 
+    useGetDistinctEventFieldsByPartnerQuery
+} = sponsorApi

@@ -53,7 +53,7 @@ export default function VerificationEmail() {
       if (userEmail) {
         try {
           const payload = await userTrigger(userEmail);
-          if (payload?.isSuccess && payload?.data?.status === 'verified') {
+          if (payload?.isSuccess && (payload?.data?.status === 'verified' || payload?.data?.status  === 'pending')) {
             setTimeout(() => {
               if (!payload?.data?.role) {
                 // sessionStorage.setItem('firtSession' , true)
@@ -78,7 +78,7 @@ export default function VerificationEmail() {
   
     const interval = setInterval(() => {
       checkAccountVerification();
-    }, 1000); 
+    }, 3000); 
   
     return () => clearInterval(interval);
   }, [userInfo, navigate]);

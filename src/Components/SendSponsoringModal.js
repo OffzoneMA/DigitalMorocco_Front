@@ -1,4 +1,4 @@
-import React , {useState , useRef} from "react";
+import React , {useState , useRef , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
@@ -10,12 +10,23 @@ import { useForm } from "react-hook-form";
 
 const SendSponsoringModal = (props) => {
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }  , reset} = useForm();
     const inputRef = useRef(null);
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);
     const [selectedType , setSelectedType] = useState(null);
     const [sendingOk , setSendingOk] = useState(false);
+    const [sending , setSending] = useState(false);
+
+    useEffect(() => {
+      if (!props.isOpen) {
+        reset(); 
+        setPreview(null);
+        setSelectedType(null);
+        setSendingOk(false);
+        setSending(false);
+      }
+    }, [props.isOpen, reset]);
 
     const handleDragOver = (event) => {
       event.preventDefault();
@@ -39,21 +50,25 @@ const SendSponsoringModal = (props) => {
     const formData = new FormData();
 
     const onSubmit = async (data) => {
-      formData.append('document', files); 
-      formData.append('type', selectedType);
-      formData.append('investorId' , props?.investorId)
-      Object.keys(data).forEach((key) => {
-        formData.append(key, data[key]);
-      });
-      
-      try {
-        setSendingOk(true);
-        console.log('Contact request created successfully');
-        setSendingOk(false);
-        openModal();
-      } catch (error) {
-        setSendingOk(false);
-        console.error('Failed to create contact request:', error);
+
+      if(selectedType !== null) {
+        formData.append('document', files); 
+        formData.append('eventId', props?.rowData?._id);
+        formData.append('sponsorshipAmount', 100);
+        formData.append('sponsorshipType', selectedType);
+        formData.append('letter' , data?.letter)
+        formData.append('requestType', "Sent");
+
+        try {
+          setSendingOk(true);
+          await props?.methode(formData);
+          console.log('Contact request created successfully');
+          openModal();
+        } catch (error) {
+          setSendingOk(false);
+          console.error('Failed to create contact request:', error);
+        }
+
       }
     };
 
@@ -69,16 +84,10 @@ const SendSponsoringModal = (props) => {
     };
 
     const typesOfSponsoring = [
-        "Financial Sponsorship",
-        "In-Kind Sponsorship",
-         "Media Sponsorship",
-         "Promotional Sponsorship",
-        "Event Sponsorship",
-        "Digital Sponsorship",
-        "Cause-related Sponsorship",
-        "Product Sponsorship",
-         "Title Sponsorship",
-         "Co-Sponsorship",
+        "Financial",
+        "Venue Partner",
+        "Prize Sponsors",
+         "Other",
       ];
       
     return (
@@ -115,7 +124,7 @@ const SendSponsoringModal = (props) => {
                     Type of Sponsoring
                   </Text>
                   <SimpleSelect id='type' options={typesOfSponsoring} onSelect={""} searchLabel='Search sponsorship type' setSelectedOptionVal={setSelectedType} 
-                      placeholder="Select sponsorship type"
+                      placeholder="Select sponsorship type" required={selectedType === null && sending}
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
@@ -185,7 +194,7 @@ const SendSponsoringModal = (props) => {
                         <button
                           onClick={() =>onButtonClick(inputRef)}
                           type="button"
-                          className="font-dm-sans-medium text-sm leading-[26px] cursorpointer-green "
+                          className="font-dm-sans-medium text-sm leading-[26px] cursorpointer "
                         >
                           Update your document
                         </button>
@@ -226,9 +235,15 @@ const SendSponsoringModal = (props) => {
                       Cancel
                   </button>
                   <button 
-                  type="submit"
-                  className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
-                      Send Sponsorship Request
+                  type="submit" onClick={() => setSending(true)}
+                  className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#235DBD] min-w-[180px]' : 'bg-blue-A400'} hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green`}>
+                      {sendingOk ? 
+                      <div className="flex items-center justify-center gap-6"> Sending... 
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>  :  
+                      'Send Sponsorship Request'}
                   </button>
                   
                 </div>

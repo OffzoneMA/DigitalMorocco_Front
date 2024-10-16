@@ -26,19 +26,20 @@ import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
+import { useGetSponsorByIdQuery , useApproveSponsorMutation , useRejectSponsorMutation } from "../../Services/Sponsor.Service";
 
 const SponsorCurrentRequestDetails = () => {
     const userData = JSON.parse(sessionStorage.getItem("userData"));
     const location = useLocation();
+    const [approveSponsor] = useApproveSponsorMutation();
+    const [rejectSponsor] = useRejectSponsorMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const past = location.state ? location.state.past : false;
     const [bying , setBying] = useState(false);
     const { id } = useParams();
     const eventFromState = location.state ? location.state.event : null;
     const navigate = useNavigate();
-    const { data: eventFromApi, error, isLoading  , refetch} = useGetEventByIdQuery(id, {
-        skip: !!eventFromState,
-    });
+    const { data: eventFromApi, error, isLoading  , refetch} = useGetSponsorByIdQuery(id);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const event = eventFromState || eventFromApi;
@@ -195,27 +196,27 @@ const openModal = () => {
 
   const handleApprove = async (data) => {
     try {
-        // await approveRequest({
-        //     id: rowData?._id,
-        //     approvalData: data,
-        // }).unwrap();
+        await approveSponsor({
+            sponsorId: event?._id,
+            data,
+        }).unwrap();
         refetch();
-        console.log('Request approved successfully!');
+        console.log('Sponsor approved successfully!');
     } catch (error) {
-        console.error('Failed to approve request:', error);
+        console.error('Failed to approve Sponsor:', error);
     }
   };
 
 const handleReject = async (data) => {
     try {
-        // await rejectRequest({
-        //     id: rowData?._id,
-        //     rejectionData: data,
-        // }).unwrap();
+        await rejectSponsor({
+            sponsorId: event?._id,
+            data,
+        }).unwrap();
         refetch();
-        console.log('Request rejected successfully!');
+        console.log('Sponsor rejected successfully!');
     } catch (error) {
-        console.error('Failed to reject request:', error);
+        console.error('Failed to reject Sponsor:', error);
     }
 };
 
@@ -223,7 +224,7 @@ const handleReject = async (data) => {
         <>
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         {isLoading ?
-            <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] h-full w-full py-28 rounded-b-[8px]">
+            <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] h-screen w-full py-28 rounded-b-[8px]">
               <Loader />
             </div> 
             : 
@@ -232,7 +233,7 @@ const handleReject = async (data) => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.status == 'past' ? 'Past Event' : 'Current Request'}
+                    {event?.eventId?.status == 'past' ? 'Past Event' : 'Current Request'}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -240,7 +241,7 @@ const handleReject = async (data) => {
               <div className="flex flex-col items-start justify-start w-full">
                   <div className="flex flex-col md:flex-row gap-3 w-full bg-white-A700 border-b border-gray-201 pt-6 pb-9">
                     <img
-                      src={event?.headerImage}
+                      src={event?.eventId?.headerImage}
                       alt="vector_three"
                       className="w-full md:h-[180px] md:w-[240px] rounded-[12px]"
                     />
@@ -249,37 +250,46 @@ const handleReject = async (data) => {
                             <Text
                                 className=" text-[24px] font-dm-sans-bold leading-7 text-left text-blue_gray-903 w-full"
                                 >
-                                { event?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
+                                { event?.eventId?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
                             </Text>
                             <div className="flex item-center gap-[18px]">
+                                {event?.requestType?.toLowerCase() === 'sent' ? 
                                 <div className="w-[97px] gap-[4px] h-[38px] px-2.5 py-2 rounded-[50px] border border-[#ff9123] justify-center items-center gap-1 inline-flex">
                                     <FiSend size={12} className="text-[#ff9123]" />
                                     <div className="text-[#ff9123] text-sm font-dm-sans-regular leading-[18.20px] tracking-tight">Sent</div>
                                 </div>
-                                {/* <div className="h-[38px] gap-[4px] px-2.5 py-2 rounded-[50px] border border-[#af66e7] justify-center items-center gap-1 inline-flex">
+                                :
+                                <div className="h-[38px] gap-[4px] px-2.5 py-2 rounded-[50px] border border-[#af66e7] justify-center items-center gap-1 inline-flex">
                                     <PiCheckBold size={12} className={`text-[#af66e7]`} />
                                     <div className="text-[#af66e7] text-sm font-dm-sans-regular leading-[18.20px] tracking-tight">Received</div>
-                                </div>
-                                <div className="h-[38px] px-3 py-2 bg-[#00cdae] rounded-[200px] justify-center items-center gap-3 inline-flex">
+                                </div>}
+                                {event?.status?.toLowerCase() !== 'pending' ? 
+                                (<>
+                                {event?.status?.toLowerCase() === 'approved' && <div className="h-[38px] px-3 py-2 bg-[#00cdae] rounded-[200px] justify-center items-center gap-3 inline-flex">
                                     <div className="justify-center items-center gap-2 flex">
                                         <div className="text-white-A700 text-sm font-dm-sans-medium ">Approved</div>
                                     </div>
-                                </div> */}
-                                {/* <div className="h-[38px] px-3 py-2 bg-[#ef4352] rounded-[200px] justify-center items-center gap-3 inline-flex">
+                                </div>} 
+                                {event?.status?.toLowerCase() === 'rejected' && <div className="h-[38px] px-3 py-2 bg-[#ef4352] rounded-[200px] justify-center items-center gap-3 inline-flex">
                                     <div className="justify-center items-center gap-2 flex">
                                         <div className="text-white-A700 text-sm font-dm-sans-medium">Rejected</div>
                                     </div>
-                                </div> */}
-                                <button className={`h-[38px] px-3 py-2.5 bg-[#00cdae] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg rounded-md justify-center items-center gap-2 flex cursorpointer-green`}>
+                                </div>}
+                                </>) :
+                                (<>
+                                <button 
+                                className={`h-[38px] px-3 py-2.5 bg-[#00cdae] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg rounded-md justify-center items-center gap-2 flex cursorpointer`} 
+                                onClick={openApproveModal} >
                                     <PiCheckBold size={21} className="text-white-A700"/>
                                     <div className="text-white-A700 text-sm font-dm-sans-medium">Approve</div>
                                 </button>
-                                <>
-                                <button className={`h-[38px] px-3 py-2.5 bg-[#ef4352] hover:bg-[#F02A3C] active:bg-[#F02A3C] rounded-md justify-center items-center gap-2 flex cursorpointer-green`}>
+                                <button 
+                                className={`h-[38px] px-3 py-2.5 bg-[#ef4352] hover:bg-[#F02A3C] active:bg-[#F02A3C] rounded-md justify-center items-center gap-2 flex cursorpointer`} 
+                                onClick={openRejectModal}>
                                     <RiCloseLine size={21} className="text-white-A700"/>
                                     <div className="text-white-A700 text-sm font-dm-sans-medium">Reject</div>
                                 </button>
-                                </>
+                                </>)}
                             </div>
                         </div>
                       <div className="flex flex-row gap-3 items-center text-left">
@@ -287,7 +297,7 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {formatEventDate(event?.startDate , event?.endDate)}
+                          {formatEventDate(event?.eventId?.startDate , event?.eventId?.endDate)}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center  text-left">
@@ -295,7 +305,7 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {formatEventTime(event?.startDate , event?.endDate , event?.startTime? event?.startTime : '', event?.endTime? event?.endTime : '')}
+                          {formatEventTime(event?.eventId?.startDate , event?.eventId?.endDate , event?.eventId?.startTime? event?.eventId?.startTime : '', event?.eventId?.endTime? event?.eventId?.endTime : '')}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center text-left">
@@ -303,7 +313,7 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {event?.physicalLocation || "Online Only"}
+                          {event?.eventId?.physicalLocation || "Online Only"}
                           </Text>
                       </div>
                         <div className="flex flex-row gap-3 items-center  text-left">
@@ -311,8 +321,8 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {event?.price !== undefined && event?.price !== null ? 
-                            (event.price === 0 ? 'Free' : `$ ${(event.price).toFixed(2)}`) : 
+                          {event?.eventId?.price !== undefined && event?.eventId?.price !== null ? 
+                            (event.eventId?.price === 0 ? 'Free' : `$ ${(event.eventId?.price).toFixed(2)}`) : 
                             'Free'}
                           </Text>
                       </div>                  
@@ -333,7 +343,7 @@ const handleReject = async (data) => {
                               </div>
                               <div className="relative">
                                 <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.organizedBy || 'North Africa Dreamin'}
+                                {event?.eventId?.organizedBy || 'North Africa Dreamin'}
                                 </Text>
                               </div>
                             </div>
@@ -346,7 +356,7 @@ const handleReject = async (data) => {
                               </div>
                               <div className="relative">
                                 <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                { event?.physicalLocation || 'Online Only'}
+                                { event?.eventId?.physicalLocation || 'Online Only'}
                                 </Text>
                               </div>
                             </div>
@@ -360,7 +370,7 @@ const handleReject = async (data) => {
                                 </Text>
                               </div>
                               <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                              {event?.startDate ? format(event?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.startTime || ''}
+                              {event?.eventId?.startDate ? format(event?.eventId?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.eventId?.startTime || ''}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -372,11 +382,11 @@ const handleReject = async (data) => {
                               </div>
                               <div className="relative">
                                 <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.endDate 
-                                  ? format(new Date(event?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                  : event?.startDate 
-                                    ? format(new Date(event?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                    : 'Coming Soon'} {event?.endTime || ''}
+                                {event?.eventId?.endDate 
+                                  ? format(new Date(event?.eventId?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
+                                  : event?.eventId?.startDate 
+                                    ? format(new Date(event?.eventId?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
+                                    : 'Coming Soon'} {event?.eventId?.endTime || ''}
                                 </Text>
                               </div>
                             </div>
@@ -402,7 +412,7 @@ const handleReject = async (data) => {
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
                                 <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                { event?.category || 'Meetup, Networking, Conference'}
+                                { event?.eventId?.category || 'Meetup, Networking, Conference'}
                                 </Text>
                               </div>
                             </div>
@@ -416,13 +426,13 @@ const handleReject = async (data) => {
                                 </Text>
                               </div>
                               <div className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.description.split('\n').map((line , index) =>
+                                {event?.eventId?.description.split('\n').map((line , index) =>
                                   <p key={index} className="mb-4">{line}</p>
                                 ) }
                               </div>
                             </div>
                         </div>
-                        {(event?.status == 'past' && event?.attendeesUsers?.length > 0) &&
+                        {(event?.eventId?.status == 'past' && event?.eventId?.attendeesUsers?.length > 0) &&
                         <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                           <div className="flex flex-row gap-3 items-center">
@@ -432,19 +442,19 @@ const handleReject = async (data) => {
                             </Text>
                           </div>
                           <div className="flex flex-row gap-3 w-full items-center pl-8">
-                          {event?.attendeesUsers?.length > 0 && (
+                          {event?.eventId?.attendeesUsers?.length > 0 && (
                             <>
-                              {event?.attendeesUsers?.slice(0, 10).map((item, index) => (
+                              {event?.eventId?.attendeesUsers?.slice(0, 10).map((item, index) => (
                                 <img 
                                   key={index}
-                                  src={item?.userId?.image || userDefaultProfil}
+                                  src={item?.eventId?.userId?.image || userDefaultProfil}
                                   alt="vector_three"
                                   className="rounded-full w-12 h-12"
                                 />
                               ))}
-                              {event?.attendeesUsers?.length > 10 && (
+                              {event?.eventId?.attendeesUsers?.length > 10 && (
                                 <Text className="text-gray700  text-lg font-bold leading-26 tracking-wide text-left">
-                                  + {event?.attendeesUsers?.length - 10}
+                                  + {event?.eventId?.attendeesUsers?.length - 10}
                                 </Text>
                               )}
                             </>
@@ -474,7 +484,8 @@ const handleReject = async (data) => {
             </div>
         }
         </div>
-        <SendSponsoringModal isOpen={isModalOpen} onRequestClose={closeModal}  rowData={event}/>
+        <ApproveSponsoringRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={event} methode={handleApprove}/>
+        <RejectSponsoringRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={event} methode={handleReject} />
         </>
     );
 }

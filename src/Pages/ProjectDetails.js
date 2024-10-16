@@ -18,25 +18,43 @@ import SearchInput from "../Components/SeachInput";
 import TableTitle from "../Components/TableTitle";
 import axios from "axios";
 import { GoDotFill } from "react-icons/go";
-import userdefaultProfile from '../Media/User1.png'
+import userdefaultProfile from '../Media/User1.png';
+import Loader from "../Components/Loader";
 
 const ProjectDetails = () => {
   const dividerRef = useRef(null);
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
+  const [addMilestoneToProject, {isSuccess, isError }] = useAddMilestoneToProjectMutation();
+  const location = useLocation();
+  const { projectId } = useParams();
+  const [project, setProject] = useState(null);
+  // const [project, setProject] = useState(location.state?.project || null);
+  const { data, error, isLoading ,refetch } = useGetProjectByIdQuery(projectId , {refetchOnMountOrArgChange: true , skip: Boolean(!projectId)});
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [teamData , setTeamData ] = useState([]);
+  const [members, setMembers] = useState([]);
+
   useEffect(() => {
     const setMaxHeight = () => {
       const div1Height = div1Ref.current?.clientHeight;
       const div2Height = div2Ref.current?.clientHeight;
       const maxHeight = Math.max(div1Height + 50, div2Height + 50);
-      if (window.innerWidth >= 768) { 
-        dividerRef.current.style.height = `${maxHeight}px`;
-        setDivMaxHeight(`${maxHeight}px`);
-      } else {
-        dividerRef.current.style.height = '1px';
-        setDivMaxHeight('auto');
+      if(dividerRef.current) {
+        if (window.innerWidth >= 768) { 
+          dividerRef.current.style.height = `${maxHeight}px`;
+          setDivMaxHeight(`${maxHeight}px`);
+        } else {
+          dividerRef.current.style.height = '1px';
+          setDivMaxHeight('auto');
+        }
       }
+
     };
   
     setMaxHeight();
@@ -49,24 +67,18 @@ const ProjectDetails = () => {
       clearInterval(intervalId); 
     };
   }, [div1Ref, div2Ref]);
-  const [addMilestoneToProject, {isSuccess, isError }] = useAddMilestoneToProjectMutation();
-  const location = useLocation();
-  const { projectId } = useParams();
-  const [project, setProject] = useState(location.state?.project || null);
-  const { data, error, isLoading ,refetch } = useGetProjectByIdQuery(projectId , {pollingInterval: 3000 , refetchOnMountOrArgChange: true , skip: Boolean(project || !projectId)});
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [teamData , setTeamData ] = useState([]);
-  const [members, setMembers] = useState([]);
 
   function formatDate(isoDate) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const date = new Date(isoDate);
     return months[date.getMonth()] + ' ' + date.getFullYear();
 }
+
+useEffect(() => {
+  if (data) {
+    setProject(data);
+  }
+}, [data, project]);
 
 const fetchMembers = async () => {
   try {
@@ -128,25 +140,24 @@ useEffect(() => {
     setIsModalOpenMilestone(false);
   };
 
-  useEffect(() => {
-    if (data) {
-      setProject(data);
-    }
-  }, [data, project]);
-
   const filteredTeamMembers = teamData?.filter(member =>
     member?.fullName?.toLowerCase().includes(searchValue?.toLowerCase())
   );
 
   const addMilestoneToProjectFonction = async (data) => {
     const response = await addMilestoneToProject({ projectId: projectId , milestoneData: data  });
-    // refetch();
+    refetch();
     closeModalMilestone();
      setProject(response);
   }
 
   return (
     <>
+    {isLoading ? 
+    <div className="bg-white-A700 flex items-center justify-center h-screen">
+      <Loader />
+    </div>
+    :
     <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full min-h-screen overflow-auto w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -397,10 +408,11 @@ useEffect(() => {
           </div>
         </div>
       </div>
-    </div>
+    </div>}
+    
     <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone} rowData={project} method={addMilestoneToProjectFonction}/>
 
-    <ShareToInvestorModal isOpen={isModalOpen} projectId={projectId} onRequestClose={closeModal}/>
+    <ShareToInvestorModal isOpen={isModalOpen} projectId={projectId} project={project} onRequestClose={closeModal}/>
 
     <DeleteModal isOpen={isDeleteModalOpen}
     onRequestClose={closeDeleteModal} title="Delete Project" 

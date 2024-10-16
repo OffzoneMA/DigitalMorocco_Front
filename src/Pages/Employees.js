@@ -153,7 +153,7 @@ const Employees = () => {
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`} 
                         onClick={() => handleEditEmployee(employee._id)}>
                         <td className="px-[18px] py-4 text-gray-900_01" >
-                          <div className="flex items-center " style={{}}>
+                          <div className="flex items-center gap-3" style={{}}>
                             {employee?.image ? (
                               <img src={employee?.image} className="rounded-full h-9 w-9 " alt="" />
                             ) : (

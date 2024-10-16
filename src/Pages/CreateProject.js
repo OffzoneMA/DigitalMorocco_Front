@@ -94,13 +94,14 @@ const CreateProject = () => {
       const div1Height = div1Ref.current?.clientHeight || 0;
       const div2Height = div2Ref.current?.clientHeight || 0;
       const maxHeight = Math.max(div1Height, div2Height);
-      
-      if (window.innerWidth >= 768) { 
-        dividerRef.current.style.height = `${maxHeight}px`;
-        setDivMaxHeight(`${maxHeight}px`);
-      } else {
-        dividerRef.current.style.height = '1px';
-        setDivMaxHeight('auto');
+      if(dividerRef.current) {
+        if (window.innerWidth >= 768) { 
+          dividerRef.current.style.height = `${maxHeight}px`;
+          setDivMaxHeight(`${maxHeight}px`);
+        } else {
+          dividerRef.current.style.height = '1px';
+          setDivMaxHeight('auto');
+        }
       }
     };
   

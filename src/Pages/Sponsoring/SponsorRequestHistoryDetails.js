@@ -256,7 +256,7 @@ const handleReject = async (data) => {
                             <div className="flex item-center gap-[18px]">
                                 {/*<div className="h-[34px] px-3 py-2 bg-[#e5e5e6] rounded-[200px] justify-center items-center gap-2 flex">
                                     <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10.4996 11.0001H10.5083M13.5932 14.0937C9.49266 18.1942 4.7835 20.1333 3.07495 18.4247C1.36641 16.7162 3.30548 12.007 7.40598 7.90653C11.5065 3.80603 16.2157 1.86696 17.9242 3.5755C19.6327 5.28405 17.6937 9.99321 13.5932 14.0937ZM13.5931 7.90637C17.6936 12.0069 19.6327 16.716 17.9242 18.4246C16.2156 20.1331 11.5065 18.1941 7.40595 14.0936C3.30544 9.99305 1.36637 5.28389 3.07492 3.57535C4.78346 1.8668 9.49263 3.80587 13.5931 7.90637ZM10.9371 11.0001C10.9371 11.2417 10.7412 11.4376 10.4996 11.4376C10.2579 11.4376 10.0621 11.2417 10.0621 11.0001C10.0621 10.7585 10.2579 10.5626 10.4996 10.5626C10.7412 10.5626 10.9371 10.7585 10.9371 11.0001Z" stroke="#8F8D95" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M10.4996 11.0001H10.5083M13.5932 14.0937C9.49266 18.1942 4.7835 20.1333 3.07495 18.4247C1.36641 16.7162 3.30548 12.007 7.40598 7.90653C11.5065 3.80603 16.2157 1.86696 17.9242 3.5755C19.6327 5.28405 17.6937 9.99321 13.5932 14.0937ZM13.5931 7.90637C17.6936 12.0069 19.6327 16.716 17.9242 18.4246C16.2156 20.1331 11.5065 18.1941 7.40595 14.0936C3.30544 9.99305 1.36637 5.28389 3.07492 3.57535C4.78346 1.8668 9.49263 3.80587 13.5931 7.90637ZM10.9371 11.0001C10.9371 11.2417 10.7412 11.4376 10.4996 11.4376C10.2579 11.4376 10.0621 11.2417 10.0621 11.0001C10.0621 10.7585 10.2579 10.5626 10.4996 10.5626C10.7412 10.5626 10.9371 10.7585 10.9371 11.0001Z" stroke="#8F8D95" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                     <div className="text-[#a7a6a8] text-sm font-dm-sans-medium">Sponsored</div>
                                 </div>
@@ -451,7 +451,7 @@ const handleReject = async (data) => {
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5 pt-3">
                             <div className="flex flex-row gap-3 items-center">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.75 15.75H4.65C3.80992 15.75 3.38988 15.75 3.06901 15.5865C2.78677 15.4427 2.5573 15.2132 2.41349 14.931C2.25 14.6101 2.25 14.1901 2.25 13.35V2.25M5.25 7.875V13.125M8.625 4.125V13.125M12 7.875V13.125M15.375 4.125V13.125" stroke="#00CDAE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15.75 15.75H4.65C3.80992 15.75 3.38988 15.75 3.06901 15.5865C2.78677 15.4427 2.5573 15.2132 2.41349 14.931C2.25 14.6101 2.25 14.1901 2.25 13.35V2.25M5.25 7.875V13.125M8.625 4.125V13.125M12 7.875V13.125M15.375 4.125V13.125" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Impact of Sponsorship
@@ -486,7 +486,7 @@ const handleReject = async (data) => {
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5 pt-3">
                             <div className="flex flex-row gap-3 items-center">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4.5 4.5L6 3M6 3L4.5 1.5M6 3H4.5C2.84315 3 1.5 4.34315 1.5 6M13.5 13.5L12 15M12 15L13.5 16.5M12 15H13.5C15.1569 15 16.5 13.6569 16.5 12M10.0629 10.0629C10.6496 10.3431 11.3065 10.5 12 10.5C14.4853 10.5 16.5 8.48528 16.5 6C16.5 3.51472 14.4853 1.5 12 1.5C9.51472 1.5 7.5 3.51472 7.5 6C7.5 6.69354 7.65689 7.35043 7.93712 7.93712M10.5 12C10.5 14.4853 8.48528 16.5 6 16.5C3.51472 16.5 1.5 14.4853 1.5 12C1.5 9.51472 3.51472 7.5 6 7.5C8.48528 7.5 10.5 9.51472 10.5 12Z" stroke="#00CDAE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M4.5 4.5L6 3M6 3L4.5 1.5M6 3H4.5C2.84315 3 1.5 4.34315 1.5 6M13.5 13.5L12 15M12 15L13.5 16.5M12 15H13.5C15.1569 15 16.5 13.6569 16.5 12M10.0629 10.0629C10.6496 10.3431 11.3065 10.5 12 10.5C14.4853 10.5 16.5 8.48528 16.5 6C16.5 3.51472 14.4853 1.5 12 1.5C9.51472 1.5 7.5 3.51472 7.5 6C7.5 6.69354 7.65689 7.35043 7.93712 7.93712M10.5 12C10.5 14.4853 8.48528 16.5 6 16.5C3.51472 16.5 1.5 14.4853 1.5 12C1.5 9.51472 3.51472 7.5 6 7.5C8.48528 7.5 10.5 9.51472 10.5 12Z" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
                                 Cost and Benefits Analysis

@@ -24,6 +24,7 @@ import { PiAtomBold } from "react-icons/pi";
 import userDefaultProfil from '../Media/User1.png';
 import { useGetNotificationSummaryQuery } from "../Services/Notification.Service";
 
+
 const SidebarNav = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch} = useGetUserDetailsQuery();
@@ -148,11 +149,11 @@ const SidebarNav = () => {
       { title: "Past Event", src: '', link: "PastEvent" , activeLinks:["PastEvent", "PastEventDetails"] },
     ]},
     (userData?.role?.toLowerCase() === "partner") && { title: "Sponsoring", src: <PiAtomBold size={23} className="text-light_blue-100"/>  ,
-    submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , ],
+    submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , "SponsorEventDetails" ,"SponsorCurrentRequestDetails" , "PastSponsorEventDetails" ],
     child: [
-      { title: "Upcoming Event", src: '', link: "UpcomingSponsorEvent" , activeLinks:["UpcomingSponsorEvent", "UpcomingEventDetails"] },
-      { title: "Current Requests", src: '', link: "SponsorCurrentRequest" , activeLinks:["SponsorCurrentRequest"] },
-      { title: "Past Event Sponsor", src: '', link: "PastSponsorEvent" , activeLinks:["PastSponsorEvent", "PastEventDetails"] },
+      { title: "Upcoming Event", src: '', link: "UpcomingSponsorEvent" , activeLinks:["UpcomingSponsorEvent", "SponsorEventDetails"] },
+      { title: "Current Requests", src: '', link: "SponsorCurrentRequest" , activeLinks:["SponsorCurrentRequest" , "SponsorCurrentRequestDetails"] },
+      { title: "Past Event Sponsor", src: '', link: "PastSponsorEvent" , activeLinks:["PastSponsorEvent", "PastSponsorEventDetails"] },
       { title: "Request History", src: '', link: "SponsorRequestHistory" , activeLinks:["SponsorRequestHistory"] },
     ]},
     (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && { title: "Document", src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
@@ -183,7 +184,7 @@ const SidebarNav = () => {
         <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`} alt={""}/>
       </Link>
     </div>
-    <div className={`flex flex-col flex-1 h-full ${open ? "w-auto" : "w-20"} w-full pb-5 px-5`}>
+    <div className={`flex flex-col overflow-y-auto flex-1 h-full ${open ? "w-auto" : "w-20"} w-full pb-5 px-5`}>
       <ul className=" text-base font-dm-sans-regular leading-6 pt-3 flex-1">
         {Menus.map((Menu, index) => (
           Menu && <div key={index} >
@@ -251,7 +252,7 @@ const SidebarNav = () => {
           </div>
         ))}
       </ul>
-      <div className=" text-base font-dm-sans-regular justify-end leading-6">
+      <div className=" text-base font-dm-sans-regular justify-end leading-6 ">
         <div
           onClick={() => {setSettingsOpen(!settingsOpen)
                   setActiveParent("settings")
@@ -291,13 +292,14 @@ const SidebarNav = () => {
             setActiveParent("settings")
             setActiveMenu("UserProfile");}}
           className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "UserProfile") ? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center gap-x-2  mt-1 `} 
-          title={!open ? "My Profil" : ""}
+          // title={!open ? "My Profil" : ""}
         >
           <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
           My Profil
           </span>
-          {!open && (
-          <div className="absolute top-[100%] z-50 left-0 transform hidden group-hover:flex flex-col items-start">
+          {!open && 
+            ReactDOM.createPortal(
+          <div className="absolute top-[100%] z-[1000] left-0 transform hidden group-hover:flex flex-col items-start">
             <div className="mb-px ml-[12px]">
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
                 <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
@@ -307,7 +309,8 @@ const SidebarNav = () => {
               <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
               style={{whiteSpace: 'nowrap'}}>{'My Profil'}</div>
             </div>
-          </div>
+          </div>,
+          document.body
           )}
         </div>
         <div
@@ -411,6 +414,7 @@ const SidebarNav = () => {
             }
           </div>
           {/* <img src={questionImg} /> */}
+          <div className="flex items-center">
           <Popup
           className="text-[#2C3462] creditQuestion"
             trigger={open => (
@@ -428,10 +432,11 @@ const SidebarNav = () => {
             </div>
             </div>
           </Popup>
+          </div>
           {open && 
             <button
             onClick={() => navigate('/ManageCredits')}
-             className={`px-3 py-2 bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] rounded-[100px] justify-center items-center cursorpointer-green flex`}>
+             className={`px-3 py-2 bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] rounded-[100px] justify-center items-center cursorpointer flex`}>
             <span className="text-white-A700 text-sm font-dm-sans-medium">Manage</span>
           </button>
           }

@@ -27,11 +27,13 @@ import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
+import { useGetApprovedSponsorsForPastEventsQuery , useGetApprovedSponsorsForPartnerQuery } from "../../Services/Sponsor.Service";
+import { parseDateString } from "../../data/helper";
 
 const PastSponsorEvent = () => {
     const navigate = useNavigate();
-    const field = 'physicalLocation';
-    const {data : events , error , isLoading , refetch } = useGetAllUpcomingEventsUserParticipateQuery();
+    const [field, setField] = useState('physicalLocation');
+    const [status, setStatus] = useState('');
     const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
@@ -57,9 +59,20 @@ const PastSponsorEvent = () => {
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
+    
+    const queryParams = { page: cur, pageSize: itemsPerPage };
+
+    if (filterApply) {
+      queryParams.location = location || undefined;
+      queryParams.exactDate = selectedDate !== '' ? parseDateString(selectedDate) : '';
+      queryParams.requestType =  types;
+    }
+    const {data : events , error , isLoading , refetch } = useGetApprovedSponsorsForPartnerQuery(queryParams);
+
+
     useEffect(() => {
       refetch();
-    }, [cur , refetch]);
+    }, [cur , refetch , filterApply]);
   
     useEffect(() => {
       setTotalPages(events?.totalPages);
@@ -77,13 +90,13 @@ const PastSponsorEvent = () => {
       setLocation('');
     }
 
-    const pageData = events?.events;
+    const filteredData = events?.data?.filter(item => {
+      const keywordMatch = item?.eventId?.title?.toLowerCase().includes(keywords.toLowerCase());
 
-    const formatDate = (date) => {
-      const dateValues = new Date(date);
-      const options = { year: 'numeric', month: 'long', day: 'numeric' , timeZone: 'UTC', };
-      return dateValues.toLocaleDateString('en-US', options);
-  };
+      return keywordMatch;
+    });
+
+    const pageData = filteredData;
 
   const openModal = (data) => {
     setIsModalOpen(true);
@@ -234,7 +247,6 @@ const PastSponsorEvent = () => {
             </div>
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              { pageData?.length > 0 ?
                 <div className="relative w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
                   <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-[19.5px] px-5">
                     <TableTitle
@@ -347,43 +359,51 @@ const PastSponsorEvent = () => {
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
+                    {(pageData?.length > 0 && !isLoading)  ? 
                     <tbody className="items-center w-full ">
                     {
                         (pageData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
-                                <img src={item?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
-                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
+                                <img src={item?.eventId?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
+                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
                             </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
                         style={{ whiteSpace: 'nowrap' }}>
                           <div className="flex items-center gap-2" >
-                          {item?.organizerLogo ?
-                            <img src={item?.organizerLogo} className="rounded-full h-8 w-8 mr-2"/>
+                          {item?.eventId?.organizerLogo ?
+                            <img src={item?.eventId?.organizerLogo} className="rounded-full h-8 w-8 mr-2"/>
                               :
                             <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2"/>
                           }
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.organizername || "-"}</span>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.eventId?.organizername || "-"}</span>
                           </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
-                          {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy')}` : 'Coming Soon'}
+                          {item?.dateCreated ? `${format(new Date(item.dateCreated), 'MMM d, yyyy')}` : 'Coming Soon'}
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
-                            <div className="px-[13px] py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 flex">
-                                <div className="text-[#444ce6] text-xs font-dm-sans-regular leading-none tracking-tight">Financial</div>
-                            </div>
-                            {/* <div className="px-[13px] py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 flex">
+                            {item?.sponsorshipType?.toLowerCase() === "financial" && 
+                            <div className="px-[13px] h-[34px py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
+                                <div className="text-[#444ce6] text-xs font-dm-sans-regular leading-none tracking-tight">{item?.sponsorshipType}</div>
+                            </div>}
+                            {item?.sponsorshipType?.toLowerCase() === "prize sponsors" && 
+                            <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
                                 <div className="text-[#e49614] text-xs font-dm-sans-regular leading-none tracking-tight">Prize Sponsors</div>
-                            </div>
-                            <div className="px-[13px] py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 flex">
-                                <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">Food Sponsors</div>
-                            </div> */}
+                            </div>}
+                            {item?.sponsorshipType?.toLowerCase() === "venue partner" && 
+                            <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
+                              <div className="text-[#7f4be7] text-xs font-dm-sans-regular leading-none tracking-tight">Venue Partner</div>
+                            </div>}
+                            {item?.sponsorshipType?.toLowerCase() === "food sponsors" && 
+                            <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
+                              <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">Food Sponsors</div>
+                            </div>}
                         </td>                        
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
-                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: '' }}>{item?.physicalLocation || 'Virtual'}</td>
+                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: '' }}>{item?.eventId?.physicalLocation || 'Virtual'}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                         <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >
                               <div className="dropdown relative">
@@ -398,8 +418,22 @@ const PastSponsorEvent = () => {
                         </td>
                       </tr>
                     ))) }
-                    </tbody>
+                    </tbody> :
+                    ""}
                   </table>
+                  { isLoading ? 
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <Loader />
+                  </div>
+                  :
+                  pageData?.length === 0 && 
+                  <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
+                    <img src={ticketEmptyImg} />
+                    <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
+                      <span>No Past Events Sponsor Requests Approved</span>
+                    </div>
+                  </div>
+                }
                   </div>
                   {pageData?.length > 0 && <div className='w-full flex items-center p-4'>
                     <TablePagination
@@ -410,33 +444,6 @@ const PastSponsorEvent = () => {
                     />              
                   </div>}
                 </div>
-                : (
-                  isLoading ? 
-                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                    <Loader />
-                  </div>
-                  :
-                  <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
-                    <img src={ticketEmptyImg} />
-                    <Text
-                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto pb-4"
-                      size=""
-                    >
-                      It seems like you haven't taken part in any events yet
-                    </Text>
-                    <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
-                        <button
-                            type="button"
-                            onClick={() => navigate('/UpcomingEvent')}
-                            className=" font-dm-sans-medium text-sm leading-[18.23px] text-white-A700 cursorpointer-green"
-                            style={{whiteSpace:'nowrap'}}
-                        >
-                          Browse Upcoming Event
-                        </button>
-                    </div>
-                  </div>
-                )
-              }
               </div>
             </div>
         </div>

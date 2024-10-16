@@ -1,4 +1,4 @@
-import React , {useState , useRef} from "react";
+import React , {useState , useRef , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
@@ -15,25 +15,36 @@ const RejectSponsoringRequestModal = (props) => {
 
     const [selectedRaison , setSelectedRaison] = useState(null);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }  , reset} = useForm();
     const formData = new FormData();
     const rowData = props?.rowData ;
     const [sendingOk , setSendingOk] = useState(false);
+    const [sending , setSending] = useState(false);
+
+    useEffect(() => {
+        if (!props.isOpen) {
+          reset(); 
+          setSelectedRaison(null);
+          setSendingOk(false);
+          setSending(false);
+        }
+      }, [props.isOpen, reset]);
 
     const onSubmit = async (data) => {
-      try {
-        setSendingOk(true);
-        await props?.methode({
-                rejectionNotes: data?.letter,
-                reason: selectedRaison,
-            },
-        );
-        setSendingOk(false);
-        openModal();
-      } catch (error) {
-        setSendingOk(false);
-        console.error('Failed to create contact request:', error);
-      }
+        if(selectedRaison !== null ){
+            try {
+                setSendingOk(true);
+                await props?.methode({
+                        rejectionNotes: data?.letter,
+                        reasonForRejection: selectedRaison,
+                    },
+                );
+                openModal();
+              } catch (error) {
+                setSendingOk(false);
+                console.error('Failed to create contact request:', error);
+              }
+        }
     };
 
     const openModal  = () =>  {
@@ -46,21 +57,9 @@ const RejectSponsoringRequestModal = (props) => {
     };
 
     const rejectionReasons = [
-        "Insufficient Budget",
-        "Misalignment with Brand Values",
-        "Target Audience Mismatch",
-        "Low ROI Expectation",
-        "Already Committed to Other Sponsorships",
-        "Lack of Visibility",
-        "High Risk Involvement",
-        "Conflict with Existing Partnerships",
-        "Inadequate Proposal",
-        "Negative Public Perception",
-        "Timing Conflict",
-        "No Long-Term Value",
-        "Overlapping with Competitors",
-        "Event Scale Too Small",
-        "Unclear Objectives",
+        "Budget Constraints",
+        "Not Aligned with Current Goals",
+        "Timing Issues",
       ];
     
 
@@ -93,7 +92,7 @@ const RejectSponsoringRequestModal = (props) => {
                         Reason for Rejection
                         </Text>
                         <SimpleSelect id='reason' options={rejectionReasons} onSelect={""} searchLabel='Search Raison' setSelectedOptionVal={setSelectedRaison}
-                            placeholder="Select Reason" 
+                            placeholder="Select Reason" required={sending && selectedRaison === null}
                             content={
                             ( option) =>{ return (
                                 <div className={`flex  py-2 items-center w-full`}>
@@ -144,9 +143,15 @@ const RejectSponsoringRequestModal = (props) => {
                         Cancel
                     </button>
                     <button 
-                    type="submit"
-                    className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[20px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
-                        Reject
+                    type="submit" onClick={() => setSending(true)}
+                    className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#235DBD] min-w-[180px]' : 'bg-blue-A400'} hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[20px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green`}>
+                        {sendingOk ? 
+                        <div className="flex items-center justify-center gap-6"> Sending... 
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        </div>  :  
+                        'Reject'}
                     </button>
                 </div>
               </div>

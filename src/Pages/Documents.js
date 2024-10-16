@@ -161,15 +161,15 @@ const Documents = () => {
                       {formatDateValue(item?.uploadDate)}
                       </td>
                       <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
-                        <div className="flex items-center" >
-                            <IoDocumentTextOutline size={17}  className="text-gray-900_01 mr-2"/>
+                        <div className="flex items-center gap-2.5" >
+                            <IoDocumentTextOutline size={17}  className="text-gray-900_01"/>
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{`${item?.title}.${item?.documentName?.split('.')?.pop()}`}</span>
                         </div>
                       </td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
-                        <div className="flex items-center" >
+                        <div className="flex items-center gap-3" >
                           {item?.owner?.image ? (
-                            <img src={item?.owner?.image} className="rounded-full h-8 w-8 mr-2" alt="" />
+                            <img src={item?.owner?.image} className="rounded-full h-8 w-8" alt="" />
                           ) : (
                             <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                 <img src={userdefaultProfile} alt="" className="" />

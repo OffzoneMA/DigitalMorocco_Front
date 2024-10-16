@@ -183,7 +183,7 @@ function App() {
                   <Route path="/InvestmentRequestHistory" element={<InvestmentRequestHistory />} />
                   <Route path="/UpcomingSponsorEvent" element={<UpcomingSponsorEvent />} />
                   <Route path="/SponsorEventDetails/:id" element={<SponsorEventDetails />} />
-                  <Route path="/SponsorCurrentRequests" element={<SponsorCurrentRequests />} />
+                  <Route path="/SponsorCurrentRequest" element={<SponsorCurrentRequests />} />
                   <Route path="/PastSponsorEvent" element={<PastSponsorEvent />} />
                   <Route path="/SponsorCurrentRequestDetails/:id" element={<SponsorCurrentRequestDetails />} />
                   <Route path="/PastSponsorEventDetails/:id" element={<PastSponsorEventDetails />} />

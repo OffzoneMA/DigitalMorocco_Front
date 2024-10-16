@@ -33,6 +33,7 @@ const NewDocumentModal = (props) => {
     docFile: false,
   });
   const userData = JSON.parse(sessionStorage.getItem('userData'));
+  const [sendingOk , setSendingOk] = useState(false);
 
   useEffect(() => {
       if (hasSubmitted ) {
@@ -52,6 +53,7 @@ const NewDocumentModal = (props) => {
       setPreview(null); 
       setFiles(null);
       setHasSubmitted(false); 
+      setSendingOk(false);
       setRequiredFields({ docFile: false }); 
     }
   }, [props.isOpen, reset]);
@@ -88,16 +90,19 @@ const NewDocumentModal = (props) => {
   };
 
   useEffect(() => {
-    // Réinitialiser le formulaire lorsque documentFile change
-    reset({
-      title: documentFile?.title,
-    });
-  }, [documentFile, reset]);
+    if (props?.rowData ) {
+      reset({
+        title: props?.rowData?.title,
+      });
+      setPreview(props?.rowData?.documentName)
+    }
+  }, [props?.rowData, reset]);
 
   const handleFileChange = (e) => {
     setFiles(e.target.files[0]);
     setPreview(URL.createObjectURL(e.target.files[0]))
   }
+  console.log(preview)
 
   const closeModal =() => {
     props.onRequestClose();
@@ -132,24 +137,21 @@ const NewDocumentModal = (props) => {
   const formData = new FormData();
 
   const onSubmit = (data) => {
-    const shareWith = determineShareWith(); 
-    setShareType(shareWith)
-    formData.append('docFile', files); 
-    const documentData = {
-      ...data,  
-      shareWith,  
-      shareWithUsers: selectedMembers.map(user => user._id)  
-    };
-    // Step 2: Stringify the entire documentData object
-    formData.append('documentData', JSON.stringify(documentData));
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
-    }); 
-
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
     if(isFormValid && preview !==null){
+      setSendingOk(true)
+      const shareWith = determineShareWith(); 
+      setShareType(shareWith)
+      formData.append('docFile', files); 
+      const documentData = {
+        ...data,  
+        shareWith,  
+        shareWithUsers: selectedMembers.map(user => user._id)  
+      };
+      // Step 2: Stringify the entire documentData object
+      formData.append('documentData', JSON.stringify(documentData));
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
+      }); 
       try {
         documentFile?._id ? 
         props?.onSubmit({ id: documentFile._id, formData }).unwrap() : 
@@ -234,13 +236,13 @@ const NewDocumentModal = (props) => {
               >
                 Upload Document
               </Text>
-                <div className={`${(preview || documentFile?._id)?  "border-dashed ": ""} ${requiredFields.docFile ? "border-errorColor shadow-inputBsError" : "border-[1px] border-[#d0d5dd]"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
+                <div className={`${(preview || documentFile?.documentName)?  "border-dashed ": ""} ${(requiredFields.docFile) ? "border-errorColor shadow-inputBsError" : "border-[1px] border-[#d0d5dd]"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
-                  {(preview || documentFile?._id) ? (
+                  {(preview || documentFile?.documentName) ? (
                     <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
                         <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
-                        <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {preview? files.name : documentFile?._id? documentFile?.documentName: ""}
+                        <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {files?.name ? files.name : documentFile?._id? documentFile?.documentName: ""}
                         </Text>
                         <div className="font-DmSans icon-container bg-white-A700 gap-[6px] text-blue-A400 border border-solid hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] border-blue-A400 flex flex-row h-[46px] items-center py-[7px] px-[12px] rounded-md w-auto min-w-[213px]">
                           <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -315,7 +317,15 @@ const NewDocumentModal = (props) => {
               type="submit" 
               onClick={() => setHasSubmitted(true)}
               className="flex items-center justify-center ml-auto bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] min-w-[116px] leading-5 tracking-normal rounded-[6px] cursorpointer" 
-              >{documentFile?._id ? 'Save' : 'Add Document'}</button>
+              >
+              {sendingOk ? 
+                <div className="flex items-center justify-center gap-6"> Sending... 
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>  :  
+                documentFile?._id ? 'Save' : 'Add Document'}
+              </button>
             </div>
           </div>
         </div>
