@@ -81,20 +81,20 @@ export default function UserProfile() {
   
       setIsForm1Valid(isValid);
     }
-}, [hasSubmitted1 ,selectedCountry, selectedCity]);
+  }, [hasSubmitted1 ,selectedCountry, selectedCity]);
 
-useEffect(() => {
-  if (hasSubmitted3 ) {
-    const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined);
-    const isValid = isRegionValid ;
+  useEffect(() => {
+    if (hasSubmitted3 ) {
+      const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined);
+      const isValid = isRegionValid ;
 
-    setRequiredFields3({
-      region: !isRegionValid,
-    });
+      setRequiredFields3({
+        region: !isRegionValid,
+      });
 
-    setIsForm3Valid(isValid);
-  }
-}, [hasSubmitted3 ,selectedRegion]);
+      setIsForm3Valid(isValid);
+    }
+  }, [hasSubmitted3 ,selectedRegion]);
 
   useEffect(() => {
     const UserInfo = async () => {
@@ -256,9 +256,8 @@ useEffect(() => {
         }
       });
   
-      // Check for image and append it
       if (selectedImage) {
-        formData.append('image', selectedImage); // No need for base64 encoding, just append the image file
+        formData.append('image', selectedImage); 
       }
       if(isForm1Valid) {
         // Check if there are any changes to save
@@ -281,7 +280,6 @@ useEffect(() => {
             setIsForm1Saved(false);
           }, 5000);
           console.log("Data saved successfully!");
-
         } else {
           console.log("No changes to save.");
         }
@@ -291,8 +289,6 @@ useEffect(() => {
       console.error("Error saving data:", error);
     }
   };
-
-  console.log(getValues2('newPassword'))
   
   const onSubmit2 = async (data) => {
     try {

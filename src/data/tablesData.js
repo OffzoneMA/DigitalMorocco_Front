@@ -1965,5 +1965,6 @@ export const historyEventMessages = {
   contact_request_approved: "Contact request approved ",
   contact_request_rejected: "Contact request rejected ",
   contact_request_received: "New contact request received",
+  sponsor_request_send: "Sponsor request send for event ",
   default: "Action performed."
 };

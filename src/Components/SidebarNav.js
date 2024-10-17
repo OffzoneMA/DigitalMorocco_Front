@@ -149,12 +149,12 @@ const SidebarNav = () => {
       { title: "Past Event", src: '', link: "PastEvent" , activeLinks:["PastEvent", "PastEventDetails"] },
     ]},
     (userData?.role?.toLowerCase() === "partner") && { title: "Sponsoring", src: <PiAtomBold size={23} className="text-light_blue-100"/>  ,
-    submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , "SponsorEventDetails" ,"SponsorCurrentRequestDetails" , "PastSponsorEventDetails" ],
+    submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , "SponsorEventDetails" ,"SponsorCurrentRequestDetails" , "PastSponsorEventDetails" , "SponsorRequestHistoryDetails" ],
     child: [
       { title: "Upcoming Event", src: '', link: "UpcomingSponsorEvent" , activeLinks:["UpcomingSponsorEvent", "SponsorEventDetails"] },
       { title: "Current Requests", src: '', link: "SponsorCurrentRequest" , activeLinks:["SponsorCurrentRequest" , "SponsorCurrentRequestDetails"] },
       { title: "Past Event Sponsor", src: '', link: "PastSponsorEvent" , activeLinks:["PastSponsorEvent", "PastSponsorEventDetails"] },
-      { title: "Request History", src: '', link: "SponsorRequestHistory" , activeLinks:["SponsorRequestHistory"] },
+      { title: "Request History", src: '', link: "SponsorRequestHistory" , activeLinks:["SponsorRequestHistory" ,"SponsorRequestHistoryDetails"] },
     ]},
     (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && { title: "Document", src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
     { title: "History", src: <PiHourglassLowFill size={23} className="text-light_blue-100"/> , link:"History" },
@@ -207,7 +207,7 @@ const SidebarNav = () => {
                 )
               )}
               {!open && (
-              <div className="absolute top-[100%] z-50 left-0 transform hidden group-hover:flex flex-col items-start">
+              <div className="absolute top-[100%] z-[1000] left-0 transform hidden group-hover:flex flex-col items-start">
                 <div className="mb-px ml-[12px]">
                   <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
                     <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>

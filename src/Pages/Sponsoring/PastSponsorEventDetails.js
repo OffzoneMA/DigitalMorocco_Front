@@ -276,7 +276,7 @@ const handleReject = async (data) => {
                                   <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">Food Sponsors</div>
                                 </div>}
                                 <>
-                                <button className="w-[60px] h-[34px] px-3 py-1.5 rounded-[50px] border border-[#24a561] text-[#24a561] justify-center items-center gap-1 flex cursorpointer-green">
+                                <button className="w-[60px] h-[34px] px-3 py-1.5 rounded-[50px] border border-[#24a561] text-[#24a561] justify-center items-center gap-1 flex cursorpointer">
                                     <LuDownload size={18} />
                                 </button>
                                 </>
@@ -546,7 +546,6 @@ const handleReject = async (data) => {
             </div>
         }
         </div>
-        <SendSponsoringModal isOpen={isModalOpen} onRequestClose={closeModal}  rowData={event}/>
         </>
     );
 }

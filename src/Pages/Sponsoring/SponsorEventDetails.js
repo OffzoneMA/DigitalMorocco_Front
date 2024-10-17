@@ -203,7 +203,7 @@ const openModal = () => {
                             </Text>
                             <button
                             onClick={openModal}
-                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer-green"
+                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer"
                               type="button"
                               >
                               {bying ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :

@@ -14,7 +14,7 @@ import PageHeader from "../../Components/PageHeader";
 import TableTitle from "../../Components/TableTitle";
 import SearchInput from "../../Components/SeachInput";
 import Loader from "../../Components/Loader";
-import { useGetEventsForUserQuery , useGetDistinctValuesByUserQuery , useGetAllUpcomingEventsUserParticipateQuery} from "../../Services/Event.Service";
+import { useGetDistinctValuesByUserQuery } from "../../Services/Event.Service";
 import ticketEmptyImg from '../../Media/ticket_empty.svg';
 import format from "date-fns/format";
 import DownloadTicket1 from "../../Components/DownloadTicket1";
@@ -22,19 +22,17 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import ReactDOM from 'react-dom';
 import userDefaultProfil from '../../Media/User1.png'
 import CustomCalendar from "../../Components/CustomCalendar";
-import SendSponsoringModal from "../../Components/SendSponsoringModal";
-import { PiCheckBold } from "react-icons/pi";
-import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
-import { useGetApprovedSponsorsForPastEventsQuery , useGetApprovedSponsorsForPartnerQuery } from "../../Services/Sponsor.Service";
+import { useGetApprovedSponsorsForPartnerQuery , useGetDistinctEventFieldsByPartnerQuery } from "../../Services/Sponsor.Service";
 import { parseDateString } from "../../data/helper";
 
 const PastSponsorEvent = () => {
     const navigate = useNavigate();
     const [field, setField] = useState('physicalLocation');
-    const [status, setStatus] = useState('');
-    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
+    const [eventStatus, setStatus] = useState(['past']);
+    const [sponsorStatus, setSponsorStatus] = useState(['Approved']);
+    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctEventFieldsByPartnerQuery({field , eventStatus , sponsorStatus});
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [keywords, setKeywords] = useState('');
@@ -65,9 +63,9 @@ const PastSponsorEvent = () => {
     if (filterApply) {
       queryParams.location = location || undefined;
       queryParams.exactDate = selectedDate !== '' ? parseDateString(selectedDate) : '';
-      queryParams.requestType =  types;
+      queryParams.sponsorshipType =  types;
     }
-    const {data : events , error , isLoading , refetch } = useGetApprovedSponsorsForPartnerQuery(queryParams);
+    const {data : events , error , isFetching: isLoading , refetch } = useGetApprovedSponsorsForPartnerQuery(queryParams);
 
 
     useEffect(() => {
@@ -97,72 +95,6 @@ const PastSponsorEvent = () => {
     });
 
     const pageData = filteredData;
-
-  const openModal = (data) => {
-    setIsModalOpen(true);
-    setRowData(data);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    
-  };
-
-  const openApproveModal = (data) => {
-    setIsApproveModalOpen(true);
-    setRowData(data);
-  };
-  
-  const closeApproveModal = () => {
-      setIsApproveModalOpen(false);
-      // setRowData(null);
-  };
-
-  const openRejectModal = (data) => {
-      setIsRejectModalOpen(true);
-      setRowData(data);
-  };
-  
-  const closeRejectModal = () => {
-      setIsRejectModalOpen(false);
-      // setRowData(null);
-  };
-
-  const handleApprove = async (data) => {
-    try {
-        // await approveRequest({
-        //     id: rowData?._id,
-        //     approvalData: data,
-        // }).unwrap();
-        refetch();
-        console.log('Request approved successfully!');
-    } catch (error) {
-        console.error('Failed to approve request:', error);
-    }
-  };
-
-    const handleReject = async (data) => {
-        try {
-            // await rejectRequest({
-            //     id: rowData?._id,
-            //     rejectionData: data,
-            // }).unwrap();
-            refetch();
-            console.log('Request rejected successfully!');
-        } catch (error) {
-            console.error('Failed to reject request:', error);
-        }
-    };
-
-  const openTicketModal = (rowData) => {
-    setIsTicketModalOpen(true);
-    setTicketDataRow(rowData);
-  };
-
-  const closeTicketModal = () => {
-    setIsTicketModalOpen(false);
-    setDownloadFile(false);
-  };
 
   const toggleDropdownClick = (index, event) => {
     event.stopPropagation();
@@ -196,7 +128,7 @@ const PastSponsorEvent = () => {
         return ReactDOM.createPortal(
         <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
             <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
-            <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
+            <div className="flex flex-row gap-3 items-center cursorpointer hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
                 <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
                 <Text
                 className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
@@ -207,7 +139,7 @@ const PastSponsorEvent = () => {
             <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
                 {({ blob, url, loading, error }) => ( 
                 loading ? 
-                <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]">
+                <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]">
                     <FiDownload size={18} className="text-blue-A400 "/>
                     <Text
                         className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
@@ -216,7 +148,7 @@ const PastSponsorEvent = () => {
                     </Text>
                 </div>
                 :
-                <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]" >
+                <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]" >
                     <FiDownload size={18} className="text-blue-A400 "/>
                     <Text
                         className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
@@ -231,6 +163,13 @@ const PastSponsorEvent = () => {
         document.getElementById('root')
         );
     }
+
+    const sponsoringTypes = [
+      "Financial",
+      "Venue Partner",
+      "Prize Sponsors",
+       "Other",
+    ];
     return (
         <>
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -274,8 +213,8 @@ const PastSponsorEvent = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received" , "Send"]} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setTypes} 
-                      placeholder="Type of Request" searchable={false} 
+                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfSponsoring' options={sponsoringTypes} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setTypes} 
+                      placeholder="Type of Sponsoring" searchable={false} 
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
@@ -288,7 +227,7 @@ const PastSponsorEvent = () => {
                           );
                         }
                       }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
                           placeholder="Location" 
                           content={
                             ( option) =>{ return (
@@ -306,7 +245,7 @@ const PastSponsorEvent = () => {
                     )}
                       {filter ?
                       (<button
-                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[37px] rounded-md"
+                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer p-[6px] h-[37px] rounded-md"
                         onClick={() => setFilterApply(true)}
                         type="button"
                     >
@@ -318,7 +257,7 @@ const PastSponsorEvent = () => {
                     ):
                       (
                       <button
-                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                         onClick={() => setFilter(true)}
                         type="button"
                         disabled={pageData?.length === 0}
@@ -332,17 +271,19 @@ const PastSponsorEvent = () => {
                       }
                         {filterApply && (
                           <button
-                          className="text-[#15143966] flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer-green"
-                          onClick={clearFilter}
-                          type="button"
-                      >
-                          <FiDelete size={18} className="mr-2" />
-                          <span className="text-base font-dm-sans-regular leading-[26px] text-[#15143966]">Clear</span>
-                        </button>
+                            className="text-[#15143966] hover:text-[#1514397e] flex flex-row gap-[4px] items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer"
+                            onClick={clearFilter}
+                            type="button"
+                            >
+                            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.75 4.75L8.25 9.25M8.25 4.75L12.75 9.25M2.04 7.72L5.28 12.04C5.544 12.392 5.676 12.568 5.84329 12.6949C5.99145 12.8074 6.15924 12.8913 6.33808 12.9423C6.54 13 6.76 13 7.2 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H7.2C6.76 1 6.54 1 6.33808 1.05767C6.15924 1.10874 5.99145 1.19264 5.84329 1.30506C5.676 1.432 5.544 1.608 5.28 1.96L2.04 6.28C1.84635 6.53819 1.74953 6.66729 1.71221 6.80907C1.67926 6.93423 1.67926 7.06577 1.71221 7.19093C1.74953 7.33271 1.84635 7.46181 2.04 7.72Z" stroke="#151439" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span className="text-base font-dm-sans-regular leading-[26px]">Clear</span>
+                          </button>
                         )}
                       </div>
                   </div>
-                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0  && !isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -447,8 +388,6 @@ const PastSponsorEvent = () => {
               </div>
             </div>
         </div>
-        <ApproveSponsoringRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData} methode={handleApprove}/>
-        <RejectSponsoringRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData} methode={handleReject} />
       </>
     );
 }

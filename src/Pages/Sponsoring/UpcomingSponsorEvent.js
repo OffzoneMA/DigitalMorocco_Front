@@ -86,7 +86,13 @@ const UpcomingSponsorEvent = () => {
       setLocation('');
     }
 
-    const pageData = events?.events;
+    const filteredData = events?.events?.filter(item => {
+      const keywordMatch = item?.title?.toLowerCase().includes(keywords.toLowerCase());
+
+      return keywordMatch;
+    });
+
+    const pageData = filteredData;
 
   const openModal = (data) => {
     setIsModalOpen(true);
@@ -135,9 +141,9 @@ const UpcomingSponsorEvent = () => {
                       {filter && 
                     (
                         <>
-                        <div className="flex rounded-md p-2 border border-solid min-w-[160px] w-[25%] ">
+                        <div className="flex min-w-[150px]">
                           <input
-                            className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope p-0 text-left text-sm tracking-[0.14px] w-full bg-transparent border-0`}
+                            className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                             type="text"
                             name="search"
                             placeholder="Keywords"
@@ -181,7 +187,7 @@ const UpcomingSponsorEvent = () => {
                     ):
                       (
                       <button
-                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                         onClick={() => setFilter(true)}
                         type="button"
                         disabled={pageData?.length === 0}
@@ -207,7 +213,7 @@ const UpcomingSponsorEvent = () => {
                         )}
                       </div>
                   </div>
-                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 || isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -257,7 +263,7 @@ const UpcomingSponsorEvent = () => {
                             e.stopPropagation();
                              openModal(item)
                              }}
-                          className="flex h-[34px] px-3 py-2 bg-[#2575f0] hover:bg-[#235DBD] active:bg-[#224a94] rounded-[200px] justify-center items-center gap-3 text-white-A700 text-sm font-dm-sans-medium cursorpointer-green ">
+                          className="flex h-[34px] px-3 py-2 bg-[#2575f0] hover:bg-[#235DBD] active:bg-[#224a94] rounded-[200px] justify-center items-center gap-3 text-white-A700 text-sm font-dm-sans-medium cursorpointer ">
                           Sponsorship
                           </button>
                             

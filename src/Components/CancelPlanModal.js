@@ -9,6 +9,8 @@ const CancelPlanModal = (props) => {
     const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
     const [isSubscribeLoading , setIsSubscribeLoading] = useState(true);
     const token = sessionStorage.getItem("userToken");
+    const [sendingOk , setSendingOk] = useState(false);
+
 
     useEffect(() => {
         const getUserSusbcription = async () => {
@@ -27,6 +29,17 @@ const CancelPlanModal = (props) => {
         getUserSusbcription();
         
     }, []);
+
+    useEffect(() => {
+        if (!props.isOpen) {
+          setSendingOk(false);
+        }
+      }, [props.isOpen]);
+
+    const submit = () => {
+        setSendingOk(true);
+        props?.method();
+    }
 
     return (
         <ModalProvider
@@ -74,9 +87,17 @@ const CancelPlanModal = (props) => {
                     <div className="flex space-x-3 md:space-x-5 items-start w-full justify-start pt-1 pb-2">
                         <button onClick={props.onRequestClose} type="button" className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 h-[44px] min-w-[179px] py-2 px-[30px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer">{`Keep ${userSubscriptionData?.plan?.name || 'Basic'} Plan`}</button>
                         <button 
-                            onClick={props?.method}
+                            onClick={submit}
                             type="button" 
-                            className="flex items-center justify-center ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 h-[44px] py-2 px-[20px] min-w-[209px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer">Continue Cancellation</button>
+                            className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#F02A3C] min-w-[180px]' : 'bg-[#EF4352]'} hover:bg-[#F02A3C] text-white-A700 h-[44px] py-2 px-[20px] min-w-[209px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer`}>
+                            {sendingOk ? 
+                            <div className="flex items-center justify-center gap-6"> Sending... 
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            </div>  :  
+                            'Continue Cancellation'}
+                            </button>
                     </div>
                 </div>
             </div>

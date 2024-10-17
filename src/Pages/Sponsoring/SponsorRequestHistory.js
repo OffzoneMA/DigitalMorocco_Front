@@ -27,12 +27,15 @@ import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
+import { useGetSponsorsByPartnerQuery , useGetDistinctEventFieldsByPartnerQuery , useApproveSponsorMutation } from "../../Services/Sponsor.Service";
+import { parseDateString } from "../../data/helper";
 
 const SponsorRequestHistory = () => {
     const navigate = useNavigate();
+    const [approveSponsor] = useApproveSponsorMutation();
     const field = 'physicalLocation';
-    const {data : events , error , isLoading , refetch } = useGetAllUpcomingEventsUserParticipateQuery();
-    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
+    const [sponsorStatus, setSponsorStatus] = useState(['Approved','Rejected']);
+    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctEventFieldsByPartnerQuery({field , sponsorStatus});
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [keywords, setKeywords] = useState('');
@@ -40,7 +43,7 @@ const SponsorRequestHistory = () => {
     const [isSubscribe , setIsSubscribe] = useState(false);
     const [profilVerified , setProfilVerified] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [types, setTypes] = useState([]);
+    const [types, setTypes] = useState(['Approved','Rejected']);
     const [cur, setCur] = useState(1);
     const [rowData , setRowData] = useState(null);
     const [downloadFile , setDownloadFile] = useState(false);
@@ -57,13 +60,27 @@ const SponsorRequestHistory = () => {
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
+    const queryParams = { page: cur, pageSize: itemsPerPage , status: ['Approved', 'Rejected'] };
+
+    if (filterApply) {
+      queryParams.location = location || undefined;
+      queryParams.exactDate = selectedDate !== '' ? parseDateString(selectedDate) : '';
+      if (types && types.length > 0) {
+        queryParams.status = types;
+      } else {
+        queryParams.status = ['Approved', 'Rejected']; 
+      }
+    }
+    const {data : currentRequests , error: currentRequestsError , isFetching: isLoading , refetch } = useGetSponsorsByPartnerQuery(queryParams);
+
+
     useEffect(() => {
       refetch();
-    }, [cur , refetch]);
+    }, [cur , refetch , filterApply]);
   
     useEffect(() => {
-      setTotalPages(events?.totalPages);
-    }, [events]);
+      setTotalPages(currentRequests?.totalPages);
+    }, [currentRequests]);
 
     function handlePageChange(page) {
       if (page >= 1 && page <= totalPages) {
@@ -75,25 +92,16 @@ const SponsorRequestHistory = () => {
       setFilter(false); 
       setFilterApply(false);
       setLocation('');
+      setTypes(['Approved','Rejected']);
     }
 
-    const pageData = events?.events;
+    const filteredData = currentRequests?.data?.filter(item => {
+      const keywordMatch = item?.eventId?.title?.toLowerCase().includes(keywords.toLowerCase());
 
-    const formatDate = (date) => {
-      const dateValues = new Date(date);
-      const options = { year: 'numeric', month: 'long', day: 'numeric' ,timeZone: 'UTC', };
-      return dateValues.toLocaleDateString('en-US', options);
-  };
+      return keywordMatch;
+    });
 
-  const openModal = (data) => {
-    setIsModalOpen(true);
-    setRowData(data);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    
-  };
+    const pageData = filteredData;
 
   const openApproveModal = (data) => {
     setIsApproveModalOpen(true);
@@ -105,50 +113,17 @@ const SponsorRequestHistory = () => {
       // setRowData(null);
   };
 
-  const openRejectModal = (data) => {
-      setIsRejectModalOpen(true);
-      setRowData(data);
-  };
-  
-  const closeRejectModal = () => {
-      setIsRejectModalOpen(false);
-      // setRowData(null);
-  };
-
   const handleApprove = async (data) => {
     try {
-        // await approveRequest({
-        //     id: rowData?._id,
-        //     approvalData: data,
-        // }).unwrap();
+        await approveSponsor({
+            sponsorId: rowData?._id,
+            data,
+        }).unwrap();
         refetch();
-        console.log('Request approved successfully!');
+        console.log('Sponsor approved successfully!');
     } catch (error) {
-        console.error('Failed to approve request:', error);
+        console.error('Failed to approve Sponsor:', error);
     }
-  };
-
-    const handleReject = async (data) => {
-        try {
-            // await rejectRequest({
-            //     id: rowData?._id,
-            //     rejectionData: data,
-            // }).unwrap();
-            refetch();
-            console.log('Request rejected successfully!');
-        } catch (error) {
-            console.error('Failed to reject request:', error);
-        }
-    };
-
-  const openTicketModal = (rowData) => {
-    setIsTicketModalOpen(true);
-    setTicketDataRow(rowData);
-  };
-
-  const closeTicketModal = () => {
-    setIsTicketModalOpen(false);
-    setDownloadFile(false);
   };
 
   const toggleDropdownClick = (index, event) => {
@@ -197,7 +172,7 @@ const SponsorRequestHistory = () => {
         return ReactDOM.createPortal(
         <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
             <div className="mt-3 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
-                <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
+                <div className="flex flex-row gap-3 items-center cursorpointer hover:text-[#35D8BF]" onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { event: item } })}>
                     <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
                     <Text
                     className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
@@ -208,7 +183,7 @@ const SponsorRequestHistory = () => {
                 <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
                     {({ blob, url, loading, error }) => ( 
                     loading ? 
-                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]">
+                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]">
                         <FiDownload size={18} className="text-blue-A400 "/>
                         <Text
                             className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
@@ -217,7 +192,7 @@ const SponsorRequestHistory = () => {
                         </Text>
                     </div>
                     :
-                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer-green hover:text-[#35D8BF]" >
+                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]" >
                         <FiDownload size={18} className="text-blue-A400 "/>
                         <Text
                             className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
@@ -227,14 +202,16 @@ const SponsorRequestHistory = () => {
                     </div>
                     )}
                 </PDFDownloadLink>
-                <div className="flex flex-row gap-3 pt-5 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
+                {item?.status?.toLowerCase() === "rejected" && 
+                <button className="flex flex-row gap-3 pt-5 items-center cursorpointer hover:text-[#35D8BF]" 
+                onClick={(e)=> {e.stopPropagation(); openApproveModal(item)} }>
                     <PiCheckBold size={18} className="text-blue-A400"/>
                     <Text
                     className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
                     >
                     Approve
                     </Text>
-                </div>
+                </button>}
             </div>
         </div>,
         document.getElementById('root')
@@ -249,7 +226,7 @@ const SponsorRequestHistory = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Past Event
+                    Request History
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -257,7 +234,6 @@ const SponsorRequestHistory = () => {
             </div>
             <div className="flex flex-col items-start justify-start w-full">
               <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              { pageData?.length > 0 ?
                 <div className="relative w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs ">
                   <div className="flex flex-row gap-4 items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-[19.5px] px-5">
                     <TableTitle
@@ -285,8 +261,8 @@ const SponsorRequestHistory = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received" , "Send"]} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setTypes} 
-                      placeholder="Type of Request" searchable={false} 
+                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='requestStatus' options={["Approved" , "Rejected"]} onSelect={""} searchLabel='Search Status' setSelectedOptionVal={setTypes} 
+                      placeholder="Status" searchable={false} 
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
@@ -299,7 +275,7 @@ const SponsorRequestHistory = () => {
                           );
                         }
                       }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
                           placeholder="Location" 
                           content={
                             ( option) =>{ return (
@@ -317,7 +293,7 @@ const SponsorRequestHistory = () => {
                     )}
                       {filter ?
                       (<button
-                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer-green p-[6px] h-[37px] rounded-md"
+                        className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer p-[6px] h-[37px] rounded-md"
                         onClick={() => setFilterApply(true)}
                         type="button"
                     >
@@ -329,7 +305,7 @@ const SponsorRequestHistory = () => {
                     ):
                       (
                       <button
-                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer-green px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                         onClick={() => setFilter(true)}
                         type="button"
                         disabled={pageData?.length === 0}
@@ -343,22 +319,23 @@ const SponsorRequestHistory = () => {
                       }
                         {filterApply && (
                           <button
-                          className="text-[#15143966] flex flex-row items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer-green"
-                          onClick={clearFilter}
-                          type="button"
-                      >
-                          <FiDelete size={18} className="mr-2" />
-                          <span className="text-base font-dm-sans-regular leading-[26px] text-[#15143966]">Clear</span>
-                        </button>
+                            className="text-[#15143966] hover:text-[#1514397e] flex flex-row gap-[4px] items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer"
+                            onClick={clearFilter}
+                            type="button"
+                            >
+                            <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.75 4.75L8.25 9.25M8.25 4.75L12.75 9.25M2.04 7.72L5.28 12.04C5.544 12.392 5.676 12.568 5.84329 12.6949C5.99145 12.8074 6.15924 12.8913 6.33808 12.9423C6.54 13 6.76 13 7.2 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H7.2C6.76 1 6.54 1 6.33808 1.05767C6.15924 1.10874 5.99145 1.19264 5.84329 1.30506C5.676 1.432 5.544 1.608 5.28 1.96L2.04 6.28C1.84635 6.53819 1.74953 6.66729 1.71221 6.80907C1.67926 6.93423 1.67926 7.06577 1.71221 7.19093C1.74953 7.33271 1.84635 7.46181 2.04 7.72Z" stroke="#151439" stroke-opacity="0.4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span className="text-base font-dm-sans-regular leading-[26px]">Clear</span>
+                          </button>
                         )}
                       </div>
                   </div>
-                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
                 }}>
-                  
                   <table className=" w-full">
                     <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
@@ -371,42 +348,43 @@ const SponsorRequestHistory = () => {
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
+                    {(pageData?.length > 0 && !isLoading) ?
                     <tbody className="items-center w-full ">
                     {
                         (pageData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { event: item } })}>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
-                          {item?.startDate ? `${formatDateValue(item.startDate)}` : 'Coming Soon'}
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { historyRequest: item } })}>
+                        <td className="px-[18px] py-4 text-[#667084] font-dm-sans-regular text-sm leading-6">
+                          {item?.dateCreated ? `${formatDateValue(item.dateCreated)}` : 'Coming Soon'}
                         </td>
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
-                                <img src={item?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
-                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
+                                <img src={item?.eventId?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
+                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
                             </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
                         style={{ whiteSpace: 'nowrap' }}>
                           <div className="flex items-center gap-2" >
-                          {item?.organizerLogo ?
-                            <img src={item?.organizerLogo} className="rounded-full h-8 w-8 mr-2"/>
+                          {item?.eventId?.organizerLogo ?
+                            <img src={item?.eventId?.organizerLogo} className="rounded-full h-8 w-8 mr-2"/>
                               :
                             <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2"/>
                           }
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.organizername || "-"}</span>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.eventId?.organizername || "-"}</span>
                           </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
-                          {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy')}` : 'Coming Soon'}
+                          {item?.eventId?.startDate ? `${format(new Date(item.eventId?.startDate), 'MMM d, yyyy')}` : 'Coming Soon'}
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
-                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: '' }}>{item?.physicalLocation || 'Virtual'}</td>
+                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: '' }}>{item?.eventId?.physicalLocation || 'Virtual'}</td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
-                            <div className="h-7 px-2.5 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center flex">
+                            {item?.status?.toLowerCase() === "approved" && <div className="h-7 px-2.5 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center flex">
                                 <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">Approved</div>
-                            </div>
-                            {/* <div className="h-7 px-2.5 py-0.5 bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
+                            </div>}
+                            {item?.status?.toLowerCase() === "rejected" && <div className="h-7 px-2.5 py-0.5 bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
                                 <div className="text-center text-[#f04437] text-[13px] font-dm-sans-regular leading-normal">Rejected</div>
-                            </div> */}
+                            </div>}
                         </td>  
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                         <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >
@@ -423,9 +401,26 @@ const SponsorRequestHistory = () => {
                       </tr>
                     ))) }
                     </tbody>
+                    :
+                    ""}
                   </table>
+                  {
+                  isLoading ? 
+                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <Loader />
                   </div>
-                  {pageData?.length > 0 && <div className='w-full flex items-center p-4'>
+                  :
+                  ( pageData?.length === 0  && <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                    <div >
+                    <img src={ticketEmptyImg} />
+                    </div>
+                    <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
+                      <span>No Sponsor Requests History</span>
+                    </div>
+                  </div>)
+                }
+                  </div>
+                  {(pageData?.length > 0 && !isLoading) && <div className='w-full flex items-center p-4'>
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
@@ -434,38 +429,10 @@ const SponsorRequestHistory = () => {
                     />              
                   </div>}
                 </div>
-                : (
-                  isLoading ? 
-                  <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                    <Loader />
-                  </div>
-                  :
-                  <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
-                    <img src={ticketEmptyImg} />
-                    <Text
-                      className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto pb-4"
-                      size=""
-                    >
-                      It seems like you haven't taken part in any events yet
-                    </Text>
-                    <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
-                        <button
-                            type="button"
-                            onClick={() => navigate('/UpcomingEvent')}
-                            className=" font-dm-sans-medium text-sm leading-[18.23px] text-white-A700 cursorpointer-green"
-                            style={{whiteSpace:'nowrap'}}
-                        >
-                          Browse Upcoming Event
-                        </button>
-                    </div>
-                  </div>
-                )
-              }
               </div>
             </div>
         </div>
         <ApproveSponsoringRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData} methode={handleApprove}/>
-        <RejectSponsoringRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData} methode={handleReject} />
       </>
     );
 }

@@ -57,26 +57,26 @@ export const sponsorApi = createApi({
             }),
         }),
         getSponsorsByPartner: builder.query({
-            query: ({ page = 1, pageSize = 8, location , exactDate , requestType }={}) => ({
+            query: ({ page = 1, pageSize = 8, location , exactDate , requestType , status}={}) => ({
                 url: `/partners`,
-                params: {page, pageSize, requestType, location, exactDate}
+                params: {page, pageSize, requestType, location, exactDate , status}
             }),
         }),
         getApprovedSponsorsForPastEvents: builder.query({
-            query: ({ page = 1, pageSize = 8, location , exactDate , requestType }={}) => ({
+            query: ({ page = 1, pageSize = 8, location , exactDate , sponsorshipType }={}) => ({
                 url:  `/past-events`,
-                params: {page, pageSize, requestType, location, exactDate}
+                params: {page, pageSize, sponsorshipType, location, exactDate}
             }),
         }),
         getApprovedSponsorsForPartner: builder.query({
-            query: ({ page = 1, pageSize = 8, location , exactDate , requestType }={}) => ({
+            query: ({ page = 1, pageSize = 8, location , exactDate , sponsorshipType }={}) => ({
                 url: `/approved-sponsors`,
-                params: {page, pageSize, requestType, location, exactDate}
+                params: {page, pageSize, sponsorshipType, location, exactDate}
             }),
         }),
         getDistinctEventFieldsByPartner: builder.query({
-            query: ({field, status }) => 
-                `/partner/distinct?field=${field}${status ? `&status=${status}` : ''}`,
+            query: ({field, eventStatus , sponsorStatus }) => 
+                `/partner/distinct?field=${field}${eventStatus ? `&eventStatus=${eventStatus}` : ''}${sponsorStatus ? `&sponsorStatus=${sponsorStatus}` : ''}`,
             providesTags: ['Event'],
         }),
     }),

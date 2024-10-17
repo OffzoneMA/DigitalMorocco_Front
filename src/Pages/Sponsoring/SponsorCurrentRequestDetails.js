@@ -233,7 +233,7 @@ const handleReject = async (data) => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.eventId?.status == 'past' ? 'Past Event' : 'Current Request'}
+                    {event?.eventId?.status == 'past' ? 'Current Request' : 'Current Request'}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
