@@ -222,7 +222,7 @@ const handleReject = async (data) => {
 
     return (
         <>
-        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+        <div className="bg-white-A700 flex flex-col gap-8 h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         {isLoading ?
             <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] h-screen w-full py-28 rounded-b-[8px]">
               <Loader />
@@ -260,23 +260,23 @@ const handleReject = async (data) => {
                                     <div className="text-[#a7a6a8] text-sm font-dm-sans-medium">Sponsored</div>
                                 </div>
                                 {event?.sponsorshipType?.toLowerCase() === "financial" && 
-                                <div className="px-[13px] h-[34px py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
-                                    <div className="text-[#444ce6] text-xs font-dm-sans-regular leading-none tracking-tight">{event?.sponsorshipType}</div>
+                                <div className="px-[13px] h-[34px] whitespace-nowrap py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
+                                    <div className="text-[#444ce6] text-sm font-manrope font-normalleading-none tracking-tight">{event?.sponsorshipType}</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "prize sponsors" && 
-                                <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
-                                    <div className="text-[#e49614] text-xs font-dm-sans-regular leading-none tracking-tight">Prize Sponsors</div>
+                                <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
+                                    <div className="text-[#e49614] text-sm font-manrope font-normal leading-none tracking-tight">Prize Sponsors</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "venue partner" && 
-                                <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
-                                  <div className="text-[#7f4be7] text-xs font-dm-sans-regular leading-none tracking-tight">Venue Partner</div>
+                                <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
+                                  <div className="text-[#7f4be7] text-sm font-manrope font-normal leading-none tracking-tight">Venue Partner</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "food sponsors" && 
-                                <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
-                                  <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">Food Sponsors</div>
+                                <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
+                                  <div className="text-[#028942] text-sm font-manrope font-normal leading-none tracking-tight">Food Sponsors</div>
                                 </div>}
                                 <>
-                                <button className="w-[60px] h-[34px] px-3 py-1.5 rounded-[50px] border border-[#24a561] text-[#24a561] justify-center items-center gap-1 flex cursorpointer">
+                                <button className="w-[60px] h-[34px] px-3 py-1.5 rounded-[50px] border border-[#24a561] text-[#24a561] hover:bg-[#24a561] hover:text-white-A700 justify-center items-center gap-1 flex cursorpointer">
                                     <LuDownload size={18} />
                                 </button>
                                 </>

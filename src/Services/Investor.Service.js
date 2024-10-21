@@ -58,6 +58,9 @@ export const investorApi = createApi({
                 }
             },
         }),
+        getRecentApprovedContactRequests: builder.query({
+            query: () => '/contact-requests/recent-approved',
+        }),
         getAllContactReqByInvestor: builder.query({
             query: ({ investorId, page, pageSize, status, funding, projectSectors, country, projectStage, projectStatus } = {}) => {
                 return {
@@ -118,4 +121,4 @@ export const investorApi = createApi({
 export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery , 
     useGetInvestorsQuery , useGetDistinctValuesQuery , useGetInvestorByIdQuery , useGetAllConatctReqQuery ,
 useGetAllInvestorsWithoutPageQuery , useGetDistinctProjectFieldsQuery , useGetDistinctRequestFieldValuesQuery , 
-useGetInvestorsListQuery , useGetAllContactReqByInvestorQuery} = investorApi
+useGetInvestorsListQuery , useGetAllContactReqByInvestorQuery , useGetRecentApprovedContactRequestsQuery} = investorApi

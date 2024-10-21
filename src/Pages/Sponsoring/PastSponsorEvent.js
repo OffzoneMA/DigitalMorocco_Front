@@ -129,7 +129,9 @@ const PastSponsorEvent = () => {
         <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
             <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
             <div className="flex flex-row gap-3 items-center cursorpointer hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
-                <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.33317 1.51306V4.26676C9.33317 4.64012 9.33317 4.82681 9.40583 4.96942C9.46975 5.09486 9.57173 5.19684 9.69718 5.26076C9.83978 5.33342 10.0265 5.33342 10.3998 5.33342H13.1535M9.33317 11.3334H5.33317M10.6665 8.66671H5.33317M13.3332 6.65886V11.4667C13.3332 12.5868 13.3332 13.1469 13.1152 13.5747C12.9234 13.951 12.6175 14.257 12.2412 14.4487C11.8133 14.6667 11.2533 14.6667 10.1332 14.6667H5.8665C4.7464 14.6667 4.18635 14.6667 3.75852 14.4487C3.3822 14.257 3.07624 13.951 2.88449 13.5747C2.6665 13.1469 2.6665 12.5868 2.6665 11.4667V4.53337C2.6665 3.41327 2.6665 2.85322 2.88449 2.42539C3.07624 2.04907 3.3822 1.74311 3.75852 1.55136C4.18635 1.33337 4.7464 1.33337 5.8665 1.33337H8.00769C8.49687 1.33337 8.74146 1.33337 8.97163 1.38863C9.17571 1.43763 9.3708 1.51844 9.54974 1.62809C9.75157 1.75178 9.92453 1.92473 10.2704 2.27063L12.3959 4.39612C12.7418 4.74202 12.9148 4.91497 13.0385 5.1168C13.1481 5.29575 13.2289 5.49084 13.2779 5.69491C13.3332 5.92509 13.3332 6.16968 13.3332 6.65886Z" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 <Text
                 className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
                 >
@@ -327,19 +329,19 @@ const PastSponsorEvent = () => {
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
                             {item?.sponsorshipType?.toLowerCase() === "financial" && 
-                            <div className="px-[13px] h-[34px py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
+                            <div className="px-[13px] h-[34px] whitespace-nowrap py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
                                 <div className="text-[#444ce6] text-xs font-dm-sans-regular leading-none tracking-tight">{item?.sponsorshipType}</div>
                             </div>}
                             {item?.sponsorshipType?.toLowerCase() === "prize sponsors" && 
-                            <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
+                            <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
                                 <div className="text-[#e49614] text-xs font-dm-sans-regular leading-none tracking-tight">Prize Sponsors</div>
                             </div>}
                             {item?.sponsorshipType?.toLowerCase() === "venue partner" && 
-                            <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
+                            <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
                               <div className="text-[#7f4be7] text-xs font-dm-sans-regular leading-none tracking-tight">Venue Partner</div>
                             </div>}
                             {item?.sponsorshipType?.toLowerCase() === "food sponsors" && 
-                            <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
+                            <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
                               <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">Food Sponsors</div>
                             </div>}
                         </td>                        

@@ -62,6 +62,12 @@ export const sponsorApi = createApi({
                 params: {page, pageSize, requestType, location, exactDate , status}
             }),
         }),
+        getSponsorsHistoryByPartner: builder.query({
+            query: ({ page = 1, pageSize = 8, location , exactDate , requestType , status}={}) => ({
+                url: `/partners/history`,
+                params: {page, pageSize, requestType, location, exactDate , status}
+            }),
+        }),
         getApprovedSponsorsForPastEvents: builder.query({
             query: ({ page = 1, pageSize = 8, location , exactDate , sponsorshipType }={}) => ({
                 url:  `/past-events`,
@@ -79,11 +85,16 @@ export const sponsorApi = createApi({
                 `/partner/distinct?field=${field}${eventStatus ? `&eventStatus=${eventStatus}` : ''}${sponsorStatus ? `&sponsorStatus=${sponsorStatus}` : ''}`,
             providesTags: ['Event'],
         }),
+        getDistinctEventFieldsByPartnerHistory: builder.query({
+            query: ({field, eventStatus , sponsorStatus }) => 
+                `/partner/history/distinct?field=${field}${eventStatus ? `&eventStatus=${eventStatus}` : ''}${sponsorStatus ? `&sponsorStatus=${sponsorStatus}` : ''}`,
+            providesTags: ['Event'],
+        }),
     }),
 })
 
 export const { useCreateSponsorMutation  , useApproveSponsorMutation , useDeleteSponsorMutation , 
     useGetAllSponsorsQuery , useGetApprovedSponsorsForPartnerQuery , useGetApprovedSponsorsForPastEventsQuery , 
     useGetSponsorByIdQuery , useGetSponsorsByPartnerQuery , useRejectSponsorMutation , useUpdateSponsorMutation , 
-    useGetDistinctEventFieldsByPartnerQuery
+    useGetDistinctEventFieldsByPartnerQuery , useGetSponsorsHistoryByPartnerQuery , useGetDistinctEventFieldsByPartnerHistoryQuery
 } = sponsorApi

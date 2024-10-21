@@ -14,7 +14,7 @@ import PageHeader from "../../Components/PageHeader";
 import TableTitle from "../../Components/TableTitle";
 import SearchInput from "../../Components/SeachInput";
 import Loader from "../../Components/Loader";
-import { useGetDistinctValuesQuery , useGetAllUpcomingEventsUserParticipateQuery } from "../../Services/Event.Service";
+import { useGetDistinctValuesByPartnerSponsorQuery , useGetAllUpcomingEventsSponsorsQuery } from "../../Services/Event.Service";
 import ticketEmptyImg from '../../Media/ticket_empty.svg';
 import format from "date-fns/format";
 import DownloadTicket1 from "../../Components/DownloadTicket1";
@@ -29,10 +29,7 @@ import { useCreateSponsorMutation } from "../../Services/Sponsor.Service";
 const UpcomingSponsorEvent = () => {
     const navigate = useNavigate();
     const field = 'physicalLocation';
-    const { data: distinctValues, isLoading: distinctsValueLoading } = useGetDistinctValuesQuery({
-      field,
-      filters: { status: 'upcoming' }
-    });
+    const { data: distinctValues, isLoading: distinctsValueLoading } = useGetDistinctValuesByPartnerSponsorQuery(field);
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [keywords, setKeywords] = useState('');
@@ -50,14 +47,13 @@ const UpcomingSponsorEvent = () => {
     const [selectedDate , setSelectedDate] = useState('');
     const [createSponsor, { isLoading: createLoading, error: createError }] = useCreateSponsorMutation();
 
-
     const queryParams = { page: cur, pageSize: itemsPerPage };
 
     if (filterApply) {
       queryParams.location = location || undefined;
       queryParams.startDate = parseDateString(selectedDate);
     }
-    const {data : events , error , isFetching: isLoading , refetch } = useGetAllUpcomingEventsUserParticipateQuery(queryParams);
+    const {data : events , error , isFetching: isLoading , refetch } = useGetAllUpcomingEventsSponsorsQuery(queryParams);
     const [activeDropdown, setActiveDropdown] = useState(-1);
     const dropdownRef = useRef(null);
     const [openDropdownIndexes, setOpenDropdownIndexes] = useState([]);
@@ -84,6 +80,7 @@ const UpcomingSponsorEvent = () => {
       setFilterApply(false);
       seteventName([]);
       setLocation('');
+      setSelectedDate('');
     }
 
     const filteredData = events?.events?.filter(item => {
@@ -213,7 +210,7 @@ const UpcomingSponsorEvent = () => {
                         )}
                       </div>
                   </div>
-                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+                  <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
               style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',

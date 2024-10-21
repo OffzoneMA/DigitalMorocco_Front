@@ -27,15 +27,16 @@ import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
-import { useGetSponsorsByPartnerQuery , useGetDistinctEventFieldsByPartnerQuery , useApproveSponsorMutation } from "../../Services/Sponsor.Service";
+import { useGetSponsorsHistoryByPartnerQuery , useGetDistinctEventFieldsByPartnerHistoryQuery , useApproveSponsorMutation } from "../../Services/Sponsor.Service";
 import { parseDateString } from "../../data/helper";
+import { FiSend } from "react-icons/fi";
 
 const SponsorRequestHistory = () => {
     const navigate = useNavigate();
     const [approveSponsor] = useApproveSponsorMutation();
     const field = 'physicalLocation';
     const [sponsorStatus, setSponsorStatus] = useState(['Approved','Rejected']);
-    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctEventFieldsByPartnerQuery({field , sponsorStatus});
+    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctEventFieldsByPartnerHistoryQuery({field });
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [keywords, setKeywords] = useState('');
@@ -60,18 +61,19 @@ const SponsorRequestHistory = () => {
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
-    const queryParams = { page: cur, pageSize: itemsPerPage , status: ['Approved', 'Rejected'] };
+    const queryParams = { page: cur, pageSize: itemsPerPage  };
 
     if (filterApply) {
       queryParams.location = location || undefined;
       queryParams.exactDate = selectedDate !== '' ? parseDateString(selectedDate) : '';
       if (types && types.length > 0) {
         queryParams.status = types;
-      } else {
-        queryParams.status = ['Approved', 'Rejected']; 
       }
+      //  else {
+      //   queryParams.status = ['Approved', 'Rejected']; 
+      // }
     }
-    const {data : currentRequests , error: currentRequestsError , isFetching: isLoading , refetch } = useGetSponsorsByPartnerQuery(queryParams);
+    const {data : currentRequests , error: currentRequestsError , isFetching: isLoading , refetch } = useGetSponsorsHistoryByPartnerQuery(queryParams);
 
 
     useEffect(() => {
@@ -92,7 +94,7 @@ const SponsorRequestHistory = () => {
       setFilter(false); 
       setFilterApply(false);
       setLocation('');
-      setTypes(['Approved','Rejected']);
+      setTypes([]);
     }
 
     const filteredData = currentRequests?.data?.filter(item => {
@@ -344,6 +346,7 @@ const SponsorRequestHistory = () => {
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Organize by</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Date</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Requests</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
@@ -378,6 +381,21 @@ const SponsorRequestHistory = () => {
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: '' }}>{item?.eventId?.physicalLocation || 'Virtual'}</td>
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6"
+                          >
+                            {item?.requestType?.toLowerCase() === 'sent' ? 
+                            <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ff9123] min-w-[97px] justify-center items-center gap-1 flex">
+                              <FiSend size={12} className="text-[#ff9123]" />
+                              <div className="text-[#ff9123] text-sm font-normal font-manrope leading-[18.20px] tracking-tight">{item?.requestType}</div>
+                            </div>:
+                            <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ae65e6] min-w-[97px] justify-center items-center gap-1 flex">
+                              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clipRule="evenodd" d="M10.3536 2.64645C10.5488 2.84171 10.5488 3.15829 10.3536 3.35355L4.85355 8.85355C4.65829 9.04882 4.34171 9.04882 4.14645 8.85355L1.64645 6.35355C1.45118 6.15829 1.45118 5.84171 1.64645 5.64645C1.84171 5.45118 2.15829 5.45118 2.35355 5.64645L4.5 7.79289L9.64645 2.64645C9.84171 2.45118 10.1583 2.45118 10.3536 2.64645Z" fill="#AF66E7"/>
+                              </svg>
+                                <div className="text-[#af66e7] text-sm font-normal font-manrope leading-[18.20px] tracking-tight">{item?.requestType}</div>
+                            </div>
+                            }
+                        </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
                             {item?.status?.toLowerCase() === "approved" && <div className="h-7 px-2.5 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center flex">
                                 <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">Approved</div>
@@ -385,6 +403,9 @@ const SponsorRequestHistory = () => {
                             {item?.status?.toLowerCase() === "rejected" && <div className="h-7 px-2.5 py-0.5 bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
                                 <div className="text-center text-[#f04437] text-[13px] font-dm-sans-regular leading-normal">Rejected</div>
                             </div>}
+                            {item?.status?.toLowerCase() === "pending" && 
+                                <div className="text-center text-gray-801 text-sm font-dm-sans-regular leading-normal">-</div>
+                            }
                         </td>  
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                         <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >

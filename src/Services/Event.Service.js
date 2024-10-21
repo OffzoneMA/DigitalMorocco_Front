@@ -94,6 +94,18 @@ export const eventApi = createApi({
           providesTags: ['Event'],
         }),
 
+        getAllUpcomingEventsSponsors: builder.query({
+          query: ({ page, pageSize, location, startDate } = {}) => {
+            const params = { page, pageSize , location , startDate };
+            return {
+              url: `/upcoming/partner`,
+              method: 'GET',
+              params,
+            };
+          },
+          providesTags: ['Event'],
+        }),
+
         getDistinctValuesByUser: builder.query({
           query: ({field }) => `/distinct/user/${field}`,
         }),
@@ -103,6 +115,9 @@ export const eventApi = createApi({
             const queryParams = new URLSearchParams(filters).toString();
             return `/distinct/${field}?${queryParams}`;
           },
+        }),
+        getDistinctValuesByPartnerSponsor: builder.query({
+          query: (field) => `/partner/distinct/${field}`,
         }),
     }),
 })
@@ -116,5 +131,6 @@ export const {
     useGetAllEventsByUserQuery,
     useAddAttendeeToEventMutation, useGetEventsForUserQuery, 
     useGetAllPastEventsUserParticipateQuery , useGetDistinctValuesByUserQuery ,
-    useGetAllUpcomingEventsUserParticipateQuery
+    useGetAllUpcomingEventsUserParticipateQuery , useGetAllUpcomingEventsSponsorsQuery ,
+    useGetDistinctValuesByPartnerSponsorQuery
   } = eventApi;

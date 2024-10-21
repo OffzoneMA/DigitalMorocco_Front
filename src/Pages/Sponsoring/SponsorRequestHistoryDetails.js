@@ -241,20 +241,20 @@ const openModal = () => {
                                     <div className="text-[#a7a6a8] text-sm font-dm-sans-medium">Sponsored</div>
                                 </div>
                                 {event?.sponsorshipType?.toLowerCase() === "financial" && 
-                                <div className="px-[13px] h-[34px py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
-                                    <div className="text-[#444ce6] text-xs font-dm-sans-regular leading-none tracking-tight">{event?.sponsorshipType}</div>
+                                <div className="px-[13px] h-[34px] whitespace-nowrap py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
+                                    <div className="text-[#444ce6] text-sm font-manrope font-normal leading-none tracking-tight">{event?.sponsorshipType}</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "prize sponsors" && 
-                                <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
-                                    <div className="text-[#e49614] text-xs font-dm-sans-regular leading-none tracking-tight">Prize Sponsors</div>
+                                <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
+                                    <div className="text-[#e49614] text-sm font-manrope font-normal leading-none tracking-tight">Prize Sponsors</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "venue partner" && 
-                                <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
-                                  <div className="text-[#7f4be7] text-xs font-dm-sans-regular leading-none tracking-tight">Venue Partner</div>
+                                <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
+                                  <div className="text-[#7f4be7] text-sm font-manrope font-normal leading-none tracking-tight">Venue Partner</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "food sponsors" && 
-                                <div className="h-[34px] px-[13px] py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
-                                  <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">Food Sponsors</div>
+                                <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
+                                  <div className="text-[#028942] text-sm font-manrope font-normal leading-none tracking-tight">Food Sponsors</div>
                                 </div>}
                                 <div className="h-[38px] px-3 py-2 bg-[#00cdae] rounded-[200px] justify-center items-center gap-3 flex">
                                     <div className="text-white-A700 text-sm font-dm-sans-medium ">Approved</div>
@@ -264,7 +264,7 @@ const openModal = () => {
                                className={`h-[38px] px-3 py-2.5 bg-[#00cdae] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg rounded-md justify-center items-center gap-2 flex cursorpointer`} 
                                onClick={() => openApproveModal(event)}>
                                     <PiCheckBold size={21} className="text-white-A700"/>
-                                    <div className="text-white-A700 text-sm font-dm-sans-medium">Approve Now</div>
+                                    <div className="text-white-A700 whitespace-nowrap text-sm font-dm-sans-medium">Approve Now</div>
                                 </button>
                                 <div className="h-[38px] px-3 py-2 bg-[#ef4352] rounded-[200px] justify-center items-center gap-3 flex">
                                     <div className="text-white-A700 text-sm font-dm-sans-medium">Rejected</div>

@@ -63,12 +63,12 @@ const SponsorCurrentRequests = () => {
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
-    const queryParams = { page: cur, pageSize: itemsPerPage };
+    const queryParams = { page: cur, pageSize: itemsPerPage , requestType: ['Received'], status: ['Pending'] };
 
     if (filterApply) {
       queryParams.location = location || undefined;
       queryParams.exactDate = selectedDate !== '' ? parseDateString(selectedDate) : '';
-      queryParams.requestType =  types;
+      // queryParams.requestType =  types;
     }
     const {data : currentRequests , error: currentRequestsError , isFetching: isLoading , refetch } = useGetSponsorsByPartnerQuery(queryParams);
 

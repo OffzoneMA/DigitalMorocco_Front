@@ -454,8 +454,8 @@ const MyInvestmentDetails = () => {
                                Website
                             </Text>
                             <div className="text-[#344053] flex gap-[10px] text-base font-dm-sans-regular leading-relaxed">
-                            {project?.website || 'http://venture-catalysts.com'}
-                            <IoOpenOutline size={22} className="text-blue-700" onClick={() => window.open(project?.website || 'http://venture-catalysts.com', '_blank')}/>
+                            {project?.website || '-'}
+                            {project?.website && <IoOpenOutline size={22} className="text-blue-700 cursorpointer" onClick={() => window.open(project?.website, '_blank')}/>}
                             </div>
                         </div>
                       </div>
