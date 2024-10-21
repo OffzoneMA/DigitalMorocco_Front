@@ -115,10 +115,17 @@ export const investorApi = createApi({
             query: (field) => 
                 `/request/distinct/${field}`, 
         }),
+        getLastRecentContactRequests: builder.query({
+            query: ({status }) => ({
+                url: '/recent-requests/last',
+                params: {status }, 
+            }),
+        }),
     }),
 })
 
 export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConatctsQuery,useGetAllProjectsQuery , 
     useGetInvestorsQuery , useGetDistinctValuesQuery , useGetInvestorByIdQuery , useGetAllConatctReqQuery ,
 useGetAllInvestorsWithoutPageQuery , useGetDistinctProjectFieldsQuery , useGetDistinctRequestFieldValuesQuery , 
-useGetInvestorsListQuery , useGetAllContactReqByInvestorQuery , useGetRecentApprovedContactRequestsQuery} = investorApi
+useGetInvestorsListQuery , useGetAllContactReqByInvestorQuery , useGetRecentApprovedContactRequestsQuery ,
+useGetLastRecentContactRequestsQuery} = investorApi

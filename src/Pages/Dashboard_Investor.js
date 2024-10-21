@@ -24,7 +24,7 @@ import { useGetAllConatctReqQuery } from "../Services/Member.Service";
 import { FaUserCircle } from "react-icons/fa";
 import { useGetTopSectorsQuery } from "../Services/Project.Service";
 import userdefaultProfile from '../Media/User.png';
-import { useGetRecentApprovedContactRequestsQuery } from "../Services/Investor.Service";
+import { useGetRecentApprovedContactRequestsQuery , useGetLastRecentContactRequestsQuery } from "../Services/Investor.Service";
 
 const Dashbord_Investor = () => {
 const { userInfo } = useSelector((state) => state.auth)
@@ -34,12 +34,12 @@ const { userInfo } = useSelector((state) => state.auth)
   const { data: progessdata , error: errorTopSectors, isLoading: loadingTopSectors } = useGetTopSectorsQuery();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const { data: projects, error, isLoading , refetch } = useGetRecentApprovedContactRequestsQuery();
-  const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading , refetch: refetchRequest} = useGetAllConatctReqQuery();
-  const Requestdata =  contactReqs?.contactRequests?.slice(0, 3)
+  const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading , refetch: refetchRequest} = useGetLastRecentContactRequestsQuery({});
+  const Requestdata =  contactReqs?.recentRequests?.slice(0, 3)
   const recentProjects = [...(projects?.data || [])]
   .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
   .slice(0, 1); 
-
+  console.log(contactReqs)
   useEffect(() => {
     refetchUser();
     refetch();
@@ -448,7 +448,7 @@ const { userInfo } = useSelector((state) => state.auth)
                        <table className="w-full mb-3">
                         <thead>
                           <tr className="bg-white-A700 text-sm leading-6">
-                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Investor Name</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Project Name</th>
                             <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Communication Status</th>
                             <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                           </tr>
@@ -459,22 +459,22 @@ const { userInfo } = useSelector((state) => state.auth)
                                 <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}`)}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center gap-2">
-                                      {item?.image ? (
-                                        <img src={item.image} className="rounded-full h-8 w-8" alt="Profile" />
+                                      {item?.project?.image ? (
+                                        <img src={item.project?.image} className="rounded-full h-8 w-8" alt="Profile" />
                                       ) : (
                                         <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                           <img src={userdefaultProfile} alt="" className="" />
                                         </div>
                                       )}
-                                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                        {item?.investor?.name || 'Unknown Investor'}
+                                      <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {item?.project?.name || 'Unknown Project'}
                                       </span>
                                     </div>
                                   </td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus || "Initial send email"}</td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div
-                                      className={`flex flex-row space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
+                                      className={`flex flex-row whitespace-nowrap space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
                                         (item.status === 'Approved' || item.status === 'Accepted')
                                           ? 'bg-green-100 text-green-700'
                                           : item.status === 'In Progress'

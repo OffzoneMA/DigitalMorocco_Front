@@ -500,7 +500,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                           <img src={userdefaultProfile} alt="" className="" />
                                         </div>
                                       )}
-                                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                      <span className="capilalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                         {item?.investor?.name || 'Unknown Investor'}
                                       </span>
                                     </div>
@@ -508,7 +508,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus || "Initial send email"}</td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div
-                                      className={`flex flex-row space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
+                                      className={`flex flex-row whitespace-nowrap space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
                                         (item.status === 'Approved' || item.status === 'Accepted')
                                           ? 'bg-green-100 text-green-700'
                                           : item.status === 'In Progress'
