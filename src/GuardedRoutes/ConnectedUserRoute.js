@@ -9,7 +9,14 @@ const ConnectedUserRoute = () => {
       if (userData?.role) {
         if(userData?.role.toLowerCase() === "admin") {
           return <Navigate to="/Dashboard_Admin" />;
-        }else {
+        }
+        else if(userData?.role.toLowerCase() === "investor") {
+          return <Navigate to="/Dashboard_Investor" />;
+        }
+        else if(userData?.role.toLowerCase() === "member" || userData?.role?.toLowerCase() === "partner") {
+          return <Navigate to="/Dashboard" />;
+        }
+        else {
           return <Navigate to="/RedirectFromSignIn" />;
         }
       } else {
