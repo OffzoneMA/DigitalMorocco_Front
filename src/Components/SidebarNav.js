@@ -108,7 +108,7 @@ const SidebarNav = () => {
   };
   
   const Menus = [
-    { title: "Dashboard", src: <RiHome6Line size={23} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": "Dashboard" },
+    { title: "Dashboard", src: <RiHome6Line size={23} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": userData?.role?.toLowerCase() === "investor"? "Dashboard_Investor" : "Dashboard" },
     
     (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={23} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
     (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && {
