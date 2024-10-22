@@ -270,6 +270,10 @@ const openModal = () => {
                                     <div className="text-white-A700 text-sm font-dm-sans-medium">Rejected</div>
                                 </div>
                                 </>}
+                                {event?.status?.toLowerCase() === "pending" && 
+                                <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#dbedff] text-[#156fee] rounded-2xl justify-center items-center inline-flex">
+                                  <div className="text-center text-[#156fee] text-[13px] font-dm-sans-regular leading-normal">In Progress</div>
+                                </div>}
                             </div>
                         </div>
                       <div className="flex flex-row gap-3 items-center text-left">

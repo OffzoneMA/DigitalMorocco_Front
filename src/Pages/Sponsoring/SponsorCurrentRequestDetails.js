@@ -248,7 +248,7 @@ const handleReject = async (data) => {
                     <div className="flex flex-col gap-3 flex-1">
                         <div className="flex flex-row justify-between items-start gap-3 w-full">
                             <Text
-                                className=" text-[24px] font-dm-sans-bold leading-7 text-left text-blue_gray-903 w-full"
+                                className="line-clamp-1 h-auto text-[24px] font-dm-sans-bold leading-7 text-left text-blue_gray-903 w-full"
                                 >
                                 { event?.eventId?.title || 'Monthly #FirstFridayFair Business, Data & Technology Virtual Event'}
                             </Text>

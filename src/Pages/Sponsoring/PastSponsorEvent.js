@@ -310,7 +310,7 @@ const PastSponsorEvent = () => {
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
                                 <img src={item?.eventId?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
-                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
+                                <span className="line-clamp-3" style={{ maxWidth:"400px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
                             </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
@@ -324,7 +324,7 @@ const PastSponsorEvent = () => {
                               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.eventId?.organizername || "-"}</span>
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6 whitespace-nowrap">
                           {item?.dateCreated ? `${format(new Date(item.dateCreated), 'MMM d, yyyy')}` : 'Coming Soon'}
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">

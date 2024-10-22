@@ -234,7 +234,7 @@ const UpcomingSponsorEvent = () => {
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
                                 <img src={item?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
-                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
+                                <span className="line-clamp-3" style={{ maxWidth:"400px" , overflow:"hidden"}}>{item.title}</span>
                             </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 

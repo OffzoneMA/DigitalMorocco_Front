@@ -22,24 +22,27 @@ import fileSearchImg from '../Media/file-search.svg';
 import { useGetUserDetailsQuery } from "../Services/Auth";
 import { useGetAllConatctReqQuery } from "../Services/Member.Service";
 import { FaUserCircle } from "react-icons/fa";
+import format from "date-fns/format";
 import { useGetTopSectorsQuery } from "../Services/Project.Service";
 import userdefaultProfile from '../Media/User.png';
 import { useGetRecentApprovedContactRequestsQuery , useGetLastRecentContactRequestsQuery } from "../Services/Investor.Service";
+import { useGetRecentSponsorsByPartnerAndStatusQuery } from "../Services/Sponsor.Service";
+import { FiSend } from "react-icons/fi";
 
-const Dashbord_Investor = () => {
+const Dashboard_Partner = () => {
 const { userInfo } = useSelector((state) => state.auth)
-  const status = 'Active'
+  const status = 'Approved';
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const { data: progessdata , error: errorTopSectors, isLoading: loadingTopSectors } = useGetTopSectorsQuery();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
-  const { data: projects, error, isLoading , refetch } = useGetRecentApprovedContactRequestsQuery();
-  const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading , refetch: refetchRequest} = useGetLastRecentContactRequestsQuery({});
-  const Requestdata =  contactReqs?.recentRequests?.slice(0, 3)
-  const recentProjects = [...(projects?.data || [])]
+  const { data: sponsors, isLoading , refetch} = useGetRecentSponsorsByPartnerAndStatusQuery({status , requestType:''});
+  const { data: sponsorReqs , error: contactReqsError , isLoading: contactReqsLoading , refetch: refetchRequest} = useGetRecentSponsorsByPartnerAndStatusQuery({status:'' , requestType:'Received'});
+  const Requestdata =  sponsorReqs;
+  const recentProjects = [...(sponsors || [])]
   .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
   .slice(0, 1); 
-  console.log(contactReqs)
+  console.log(sponsorReqs)
   useEffect(() => {
     refetchUser();
     refetch();
@@ -157,22 +160,22 @@ const { userInfo } = useSelector((state) => state.auth)
                     )}
                   </div>
                   <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]"  
-                    onClick={() => navigate('/MyInvestment')}>
+                    onClick={() => navigate('/MyInvestors')}>
                     <div className="rounded-[6px] p-2 bg-blue-51">
                       <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
                     <Text
                       className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
-                      Investments
+                      Sponsorships
                     </Text>
-                    {userDetails?.investmentCount?.count > 0 ? (
+                    {userDetails?.sponsorCount?.count > 0 ? (
                     <Text
                       className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                     >
-                      {userDetails?.investmentCount?.count < 10 
-                        ? `0${userDetails?.investmentCount?.count}` 
-                        : userDetails?.investmentCount?.count}
+                      {userDetails?.sponsorCount?.count < 10 
+                        ? `0${userDetails?.sponsorCount?.count}` 
+                        : userDetails?.sponsorCount?.count}
                     </Text>
                   ) : (
                     <Text
@@ -325,7 +328,7 @@ const { userInfo } = useSelector((state) => state.auth)
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
                     <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 ">
                       <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full" 
-                      onClick={() => navigate('/MyInvestment')}>
+                      onClick={() => navigate('/SponsorRequestHistory')}>
                         <div className="flex rounded-md bg-violet-100 p-2">
                           <GoRocket size={28} className="text-blue-601 "/>
                         </div>
@@ -333,7 +336,7 @@ const { userInfo } = useSelector((state) => state.auth)
                             <Text
                                 className=" text-lg font-dm-sans-medium leading-6 text-gray-900_01 tracking-normal w-full"
                                 >
-                            Last Project
+                            Last Sponsor Event
                             </Text>
                         </div>
                       </div>
@@ -344,19 +347,17 @@ const { userInfo } = useSelector((state) => state.auth)
                          ) : (
                         recentProjects?.length > 0 ? 
                         recentProjects.map((item, index) => (
-                          <div key={index} className="flex flex-col gap-[24px] px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/InvestmentDetails/${item?._id}` , {state: { contactRequest: item }})}>
+                          <div key={index} className="flex flex-col gap-[24px] px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/SponsorEventDetails/${item._id}` , {state: { eventSponsor: item }})}>
                             <div className="flex flex-row items-center gap-[24px] py-[20px] justify-start w-full">
                                 <Text
                                     className=" text-lg font-dm-sans-medium leading-8 text-[#101828] tracking-normal capitalize text-left"
                                     >
-                                {item?.project?.name}
+                                {item?.eventId?.title}
                                 </Text>
-                                <div className={`flex flex-row gap-[6px] bg-green-100 text-[#027A48] items-center py-1 px-[12px] h-7 text-sm font-dm-sans-regular leading-6 rounded-full`}>
-                                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="4" cy="4" r="3" fill="#12B76A"/>
-                                  </svg>
-                                  {item?.project?.stage}
-                                </div>
+                                {item?.eventId?.status?.toLowerCase() === "approved" && 
+                                <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#ebfdf2] rounded-2xl justify-center items-center inline-flex">
+                                    <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">Approved</div>
+                                </div>}
                             </div>
                             <div className="flex flex-row gap-2 py-2 w-full">
                               <div className="flex flex-col flex-1 items-start justify-start">
@@ -365,7 +366,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
-                                      Target{" "}
+                                      Date{" "}
                                       </Text>
                                   </div>
                                   <div className="flex flex-col items-start justify-center py-4 w-full">
@@ -373,17 +374,17 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                       size="txtDMSansMedium22"
                                   >
-                                     {item?.project?.currency} {item?.project?.funding?.toLocaleString('en-US') || 0 }
+                                    {item?.eventId?.startDate ? `${format(new Date(item.eventId?.startDate), 'MMM d, yyyy')}` : 'Coming Soon'}
                                   </Text>
                                   </div>
                               </div>
-                              <div className="flex flex-col flex-1 items-start justify-start w-auto">
+                              <div className="flex flex-col grow basis-flex-1 max-w-[50%] items-start justify-start w-auto">
                                   <div className="flex flex-col items-center justify-start w-auto">
                                       <Text
                                       className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
-                                      Stage
+                                      Location
                                       </Text>
                                   </div>
                                   <div className="flex flex-col items-start justify-center py-4 w-full">
@@ -391,7 +392,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                       size="txtDMSansMedium22"
                                   >
-                                      {item?.project?.stage}
+                                      {item?.eventId?.physicalLocation || 'Online [Virtual]'}
                                   </Text>
                                   </div>
                               </div>
@@ -401,7 +402,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
-                                      Total Raised
+                                      Price
                                       </Text>
                                   </div>
                                   <div className="flex flex-col items-start justify-start py-4 w-full">
@@ -409,8 +410,8 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                       size="txtDMSansMedium22"
                                   >
-                                      {item?.project?.currency} {item?.project?.totalRaised?.toLocaleString('en-US') || 0}
-                                  </Text>
+                                     {item?.eventId?.currency || "USD"} {item?.eventId?.price?.toLocaleString('en-US') || 0 }
+                                     </Text>
                                   </div>
                               </div>
                           </div>
@@ -432,7 +433,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     </div>
                     <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 ">
                       <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full" 
-                        onClick={() => navigate('/InvestmentRequestHistory')}>
+                        onClick={() => navigate('/SponsorRequestHistory')}>
                         <div className="flex rounded-md bg-violet-100 p-2">
                           <GoRocket size={28} className="text-blue-601 "/>
                         </div>
@@ -448,44 +449,56 @@ const { userInfo } = useSelector((state) => state.auth)
                        <table className="w-full mb-3">
                         <thead>
                           <tr className="bg-white-A700 text-sm leading-6">
-                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Project Name</th>
-                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Communication Status</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Requests</th>
                             <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
                           </tr>
                         </thead>
                         <tbody className="items-center w-full">
                         {(!contactReqsLoading && Requestdata?.length > 0) 
                             ? Requestdata.map((item, index) => (
-                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestmentRequestDetails/${item?._id}`)}>
+                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}`)}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center gap-2">
-                                      {item?.project?.image ? (
-                                        <img src={item.project?.image} className="rounded-full h-8 w-8" alt="Profile" />
+                                      {item?.eventId?.headerImage ? (
+                                        <img src={item.eventId?.headerImage} className="rounded-full h-8 w-8" alt="Profile" />
                                       ) : (
                                         <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                           <img src={userdefaultProfile} alt="" className="" />
                                         </div>
                                       )}
                                       <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                        {item?.project?.name || 'Unknown Project'}
+                                        {item?.eventId?.title || 'Unknown Project'}
                                       </span>
                                     </div>
                                   </td>
-                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus || "Initial send email"}</td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
-                                    <div
-                                      className={`flex flex-row whitespace-nowrap space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${
-                                        (item.status === 'Approved' || item.status === 'Accepted')
-                                          ? 'bg-green-100 text-green-700'
-                                          : item.status === 'In Progress'
-                                          ? 'bg-[#dbedff] text-[#156fee]'
-                                          : item.status === 'Rejected'
-                                          ? 'bg-rose-100 text-red-500'
-                                          : ''
-                                      } inline-flex`}
-                                    >
-                                      {item.status}
+                                    {item?.requestType?.toLowerCase() === 'sent' ? 
+                                    <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ff9123] min-w-[97px] justify-center items-center gap-1 flex">
+                                    <FiSend size={12} className="text-[#ff9123]" />
+                                    <div className="text-[#ff9123] text-sm font-normal font-manrope leading-[18.20px] tracking-tight">{item?.requestType}</div>
+                                    </div>:
+                                    <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ae65e6] min-w-[97px] justify-center items-center gap-1 flex">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clipRule="evenodd" d="M10.3536 2.64645C10.5488 2.84171 10.5488 3.15829 10.3536 3.35355L4.85355 8.85355C4.65829 9.04882 4.34171 9.04882 4.14645 8.85355L1.64645 6.35355C1.45118 6.15829 1.45118 5.84171 1.64645 5.64645C1.84171 5.45118 2.15829 5.45118 2.35355 5.64645L4.5 7.79289L9.64645 2.64645C9.84171 2.45118 10.1583 2.45118 10.3536 2.64645Z" fill="#AF66E7"/>
+                                    </svg>
+                                        <div className="text-[#af66e7] text-sm font-normal font-manrope leading-[18.20px] tracking-tight">{item?.requestType}</div>
                                     </div>
+                                    }
+                                  </td>
+                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
+                                        {item?.status?.toLowerCase() === "approved" && 
+                                        <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#ebfdf2] rounded-2xl justify-center items-center inline-flex">
+                                            <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">Approved</div>
+                                        </div>}
+                                        {item?.status?.toLowerCase() === "rejected" && 
+                                        <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
+                                            <div className="text-center text-[#f04437] text-[13px] font-dm-sans-regular leading-normal">Rejected</div>
+                                        </div>}
+                                        {item?.status?.toLowerCase() === "pending" && 
+                                        <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#dbedff] text-[#156fee] rounded-2xl justify-center items-center inline-flex">
+                                            <div className="text-center text-[#156fee] text-[13px] font-dm-sans-regular leading-normal">In Progress</div>
+                                        </div>}
                                   </td>
                                 </tr>
                               ))
@@ -519,4 +532,4 @@ const { userInfo } = useSelector((state) => state.auth)
         </div>
     )
 }
-export default Dashbord_Investor;
+export default Dashboard_Partner;

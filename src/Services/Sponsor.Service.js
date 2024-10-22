@@ -90,11 +90,17 @@ export const sponsorApi = createApi({
                 `/partner/history/distinct?field=${field}${eventStatus ? `&eventStatus=${eventStatus}` : ''}${sponsorStatus ? `&sponsorStatus=${sponsorStatus}` : ''}`,
             providesTags: ['Event'],
         }),
+        getRecentSponsorsByPartnerAndStatus: builder.query({
+            query: ({status , requestType}) => 
+                `/recentByPartner?status=${status}&requestType=${requestType}`, 
+            transformResponse: (response) => response.data, 
+        }),
     }),
 })
 
 export const { useCreateSponsorMutation  , useApproveSponsorMutation , useDeleteSponsorMutation , 
     useGetAllSponsorsQuery , useGetApprovedSponsorsForPartnerQuery , useGetApprovedSponsorsForPastEventsQuery , 
     useGetSponsorByIdQuery , useGetSponsorsByPartnerQuery , useRejectSponsorMutation , useUpdateSponsorMutation , 
-    useGetDistinctEventFieldsByPartnerQuery , useGetSponsorsHistoryByPartnerQuery , useGetDistinctEventFieldsByPartnerHistoryQuery
+    useGetDistinctEventFieldsByPartnerQuery , useGetSponsorsHistoryByPartnerQuery , useGetDistinctEventFieldsByPartnerHistoryQuery ,
+    useGetRecentSponsorsByPartnerAndStatusQuery
 } = sponsorApi

@@ -317,7 +317,7 @@ const Events = () => {
                       <td className="w-auto px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-tight">
                           <div className=" flex items-center gap-4" >
                               <img src={item.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300"/>
-                              <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
+                              <span className="line-clamp-3" style={{ maxWidth:"260px" , overflow:"hidden"}}>{item.title}</span>
                           </div>
                       </td>
                         <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed" 

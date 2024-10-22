@@ -53,7 +53,8 @@ const MyCompany = lazy(() => import('./Pages/MyCompany'));
 const Employees = lazy(() => import('./Pages/Employees'));
 const NewEmployee = lazy(() => import('./Pages/NewEmployee'));
 const Dashbord = lazy(() => import('./Pages/Dashbord'));
-const Dashboard_Investor = lazy(() => import('./Pages/Dashboard_Investor'))
+const Dashboard_Investor = lazy(() => import('./Pages/Dashboard_Investor'));
+const Dashboard_Partner = lazy(() => import('./Pages/Dashboard_Partner'));
 const Investors = lazy(() => import('./Pages/Investors'));
 const InvestorDetails = lazy(() => import('./Pages/InvestorDetails'));
 const InvestorRequestHistory = lazy(() => import('./Pages/InvestorRequestHistory'));
@@ -150,6 +151,7 @@ function App() {
                 <Route element={<GuardedConnectedUserRoute />}>
                   <Route path="/Dashboard" element={<Dashbord />} />
                   <Route path="/Dashboard_Investor" element={<Dashboard_Investor />} />
+                  <Route path="/Dashboard_Partner" element={<Dashboard_Partner />} />
                   <Route path="/ManageCredits" element={<ManageSubscriptionCredits />} />
                   <Route path="/Users" element={<Users />} />
                   <Route path="/Investors" element={<Investors />} />

@@ -362,7 +362,7 @@ const SponsorRequestHistory = () => {
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
                                 <img src={item?.eventId?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
-                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
+                                <span className="line-clamp-3" style={{ maxWidth:"260px" , overflow:"hidden" , textOverflow: 'ellipsis'}}>{item?.eventId?.title}</span>
                             </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
@@ -397,15 +397,18 @@ const SponsorRequestHistory = () => {
                             }
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
-                            {item?.status?.toLowerCase() === "approved" && <div className="h-7 px-2.5 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center flex">
+                            {item?.status?.toLowerCase() === "approved" && 
+                            <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#ebfdf2] rounded-2xl justify-center items-center inline-flex">
                                 <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">Approved</div>
                             </div>}
-                            {item?.status?.toLowerCase() === "rejected" && <div className="h-7 px-2.5 py-0.5 bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
+                            {item?.status?.toLowerCase() === "rejected" && 
+                            <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
                                 <div className="text-center text-[#f04437] text-[13px] font-dm-sans-regular leading-normal">Rejected</div>
                             </div>}
                             {item?.status?.toLowerCase() === "pending" && 
-                                <div className="text-center text-gray-801 text-sm font-dm-sans-regular leading-normal">-</div>
-                            }
+                              <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#dbedff] text-[#156fee] rounded-2xl justify-center items-center inline-flex">
+                                <div className="text-center text-[#156fee] text-[13px] font-dm-sans-regular leading-normal">In Progress</div>
+                            </div>}
                         </td>  
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                         <div ref={dropdownRef} className="relative" onMouseEnter={(e) => toggleDropdown(index, e)} onMouseLeave={(e) => toggleDropdownClose(index, e)} >

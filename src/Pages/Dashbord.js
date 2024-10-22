@@ -142,7 +142,7 @@ const { userInfo } = useSelector((state) => state.auth)
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
                   onClick={() => navigate('/ManageCredits')}>
                     <div className="rounded-[6px] p-2 bg-[#F9EDFD] ">
                       <img src={creditsImg} className="w-[28px] h-[28px]"  alt={""}/>
@@ -166,7 +166,7 @@ const { userInfo } = useSelector((state) => state.auth)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
                   onClick={() => navigate('/Projects')}>
                     <div className="rounded-[6px] p-2 bg-teal-50">
                       <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
@@ -190,7 +190,7 @@ const { userInfo } = useSelector((state) => state.auth)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]"  
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]"  
                     onClick={() => navigate('/MyInvestors')}>
                     <div className="rounded-[6px] p-2 bg-blue-51">
                       <TiFlashOutline size={28} className="text-blue-701" />
@@ -216,7 +216,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     </Text>
                   )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
                     onClick={() => navigate('/Participate')}>
                     <div className="rounded-[6px] p-2 bg-orange-51">
                       <HiOutlineSpeakerphone size={28} className="text-amber-601" />
@@ -240,7 +240,7 @@ const { userInfo } = useSelector((state) => state.auth)
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
                     onClick={() => navigate('/MyCompany')}>
                     <div className="rounded-[6px] p-2 bg-violet-100">
                       <BiBuildings size={28} className="text-blue-601" />
@@ -392,7 +392,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                   {item?.stage}
                                 </div>
                             </div>
-                            <div className="flex flex-row  py-2 w-full">
+                            <div className="flex flex-row gap-2 py-2 w-full">
                               <div className="flex flex-col flex-1 items-start justify-start">
                                   <div className="flex flex-col items-center justify-start w-auto">
                                       <Text
@@ -512,7 +512,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                         (item.status === 'Approved' || item.status === 'Accepted')
                                           ? 'bg-green-100 text-green-700'
                                           : item.status === 'In Progress'
-                                          ? 'bg-blue-101 text-blue-600'
+                                          ? 'bg-[#dbedff] text-[#156fee]'
                                           : item.status === 'Rejected'
                                           ? 'bg-rose-100 text-red-500'
                                           : ''

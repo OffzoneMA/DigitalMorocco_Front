@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import Cookies from "js-cookie";
 
 
 export const registerUser = createAsyncThunk(
@@ -49,15 +50,15 @@ export const LoginUser = createAsyncThunk(
         sessionStorage.setItem('userToken', data.accessToken);
         sessionStorage.setItem('userData', JSON.stringify(data.user));
         // Utiliser localStorage ou sessionStorage en fonction de rememberMe
-        if (user.rememberme) {
-          const expirationDate = new Date();
-          expirationDate.setDate(expirationDate.getDate() + 3);
-          localStorage.setItem('rememberMe', user.rememberme);
-          localStorage.setItem('rememberMe_id', data?.user?._id);
-          localStorage.setItem('userToken', data.accessToken);
-          localStorage.setItem('userData', JSON.stringify(data.user));
-          localStorage.setItem('expirationDate', expirationDate.getTime());
-        } 
+        if (user?.rememberme) {
+          Cookies.set("rememberedEmail", user.email, { expires: 7, secure: true });
+          Cookies.set("rememberMe", true, { expires: 7, secure: true });
+          Cookies.set("authToken", data?.accessToken, { expires: 7, secure: true, sameSite: 'Strict' });
+        } else {
+          Cookies.remove("rememberedEmail");
+          Cookies.remove("rememberMe");
+          Cookies.set("authToken", data?.accessToken, { expires: 7, secure: true, sameSite: 'Strict' });
+        }
         // else {
         //   localStorage.removeItem('rememberMe');
         //   localStorage.removeItem('userToken');

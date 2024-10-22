@@ -304,7 +304,7 @@ const handleReject = async (data) => {
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center gap-3" >
                                 <img src={item?.eventId?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300"/>
-                                <span style={{ maxWidth:"260px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
+                                <span className="line-clamp-3" style={{ maxWidth:"400px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
                             </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
@@ -318,7 +318,7 @@ const handleReject = async (data) => {
                               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.eventId?.organizername || "-"}</span>
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
+                        <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6 whitespace-nowrap">
                           {item?.dateCreated ? `${format(new Date(item.dateCreated), 'MMM d, yyyy')}` : 'Coming Soon'}
                         </td>                        
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
@@ -326,11 +326,11 @@ const handleReject = async (data) => {
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6"
                           >
                             {item?.requestType?.toLowerCase() === 'sent' ? 
-                            <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ff9123] min-w-[97px] justify-center items-center gap-1 flex">
+                            <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ff9123] min-w-[97px] justify-center items-center gap-1 inline-flex">
                               <FiSend size={12} className="text-[#ff9123]" />
                               <div className="text-[#ff9123] text-sm font-normal font-manrope leading-[18.20px] tracking-tight">{item?.requestType}</div>
                             </div>:
-                            <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ae65e6] min-w-[97px] justify-center items-center gap-1 flex">
+                            <div className="px-2.5 h-[34px] py-2 rounded-[50px] border border-[#ae65e6] min-w-[97px] justify-center items-center gap-1 inline-flex">
                               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clipRule="evenodd" d="M10.3536 2.64645C10.5488 2.84171 10.5488 3.15829 10.3536 3.35355L4.85355 8.85355C4.65829 9.04882 4.34171 9.04882 4.14645 8.85355L1.64645 6.35355C1.45118 6.15829 1.45118 5.84171 1.64645 5.64645C1.84171 5.45118 2.15829 5.45118 2.35355 5.64645L4.5 7.79289L9.64645 2.64645C9.84171 2.45118 10.1583 2.45118 10.3536 2.64645Z" fill="#AF66E7"/>
                               </svg>

@@ -18,6 +18,7 @@ import { authApi } from '../../Services/Auth';
 import { setCredentials } from '../../Redux/auth/authSlice';
 import axios from 'axios';
 import emailError from '../../Media/emailError.svg';
+import Cookies from "js-cookie";
 
 
 export default function SignIn() {
@@ -42,7 +43,7 @@ export default function SignIn() {
     handleSubmit,
     reset,
     getValues,
-    formState: { errors },
+    formState: { errors }, setValue
   } = useForm();
 
   /**
@@ -103,11 +104,14 @@ export default function SignIn() {
               if (userInfo?.role?.toLowerCase() == "admin") { 
                 navigate('/Dashboard_Admin') 
               }
-              else if((userInfo?.role?.toLowerCase() == "member" || userInfo?.role?.toLowerCase() == "partner") && userInfo?.status?.toLowerCase() == "accepted") {
+              else if((userInfo?.role?.toLowerCase() == "member") && userInfo?.status?.toLowerCase() == "accepted") {
                 navigate('/Dashboard')
               }
               else if(userInfo?.role?.toLowerCase() == "investor"  && userInfo?.status?.toLowerCase() == "accepted"){
                 navigate('/Dashboard_Investor')
+              }
+              else if( userInfo?.role?.toLowerCase() == "partner" && userInfo?.status?.toLowerCase() == "accepted"){
+                navigate('/Dashboard_Partner')
               }
               else if(userInfo?.status?.toLowerCase() == "pending") {
                 navigate('/RedirectFromSignIn')
@@ -163,6 +167,17 @@ export default function SignIn() {
       setLoginError("");
     }
   }, [error]);
+
+  useEffect(() => {
+    // Récupérer les informations de connexion si elles sont stockées dans les cookies
+    const savedEmail = Cookies.get("rememberedEmail");
+    const savedPassword = Cookies.get("rememberedPassword");
+    if (savedEmail && savedPassword) {
+      setValue("email", savedEmail); 
+      setValue("password", savedPassword);
+      // setValue("rememberme" , true); 
+    }
+  }, [setValue]);
 
 
   const handleGoogleButtonClick = () => {
