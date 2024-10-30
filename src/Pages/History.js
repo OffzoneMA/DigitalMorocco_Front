@@ -7,10 +7,16 @@ import { useGetActivityHistoriesQuery } from "../Services/Histoty.Service";
 import { historyEventMessages } from "../data/tablesData";
 import Loader from "../Components/Loader";
 import userdefaultProfile from '../Media/User.png';
+import { useTranslation } from "react-i18next";
+import { Trans } from 'react-i18next';
+
 
 const History = () => {
+  const { t } = useTranslation();
   const { data, error, isLoading } = useGetActivityHistoriesQuery();
   const HistoryData = data;
+
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
 
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
@@ -21,11 +27,25 @@ const History = () => {
         hour: 'numeric',
         minute: 'numeric',
         second: 'numeric',
-        hour12: true
+        hour12: currentLanguage === 'en' // 12-hour format for English, 24-hour for French
     };
 
-    return date.toLocaleString('en-US', options);
-}
+    const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
+
+    // Format and capitalize the month for French
+    let formattedDate = date.toLocaleString(locale, options);
+    if (currentLanguage === 'fr') {
+      // Extracting day, month, and year by splitting
+      const [day, month, year, time] = formattedDate.split(/,?\s+/);
+      const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+
+      // Reassemble with the capitalized month
+      formattedDate = `${day} ${capitalizedMonth} ${year}, ${time}`;
+    }
+
+    return formattedDate?.replace('.' , '');
+  }
+
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -34,7 +54,7 @@ const History = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    History
+                    {t("sidebar.history")}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -60,8 +80,10 @@ const History = () => {
                             <Text
                               className={`font-dm-sans-medium text-sm leading-6 text-gray700`}
                             >
-                              {historyEventMessages[item?.eventType]}{` `} 
-                              {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName} {` `}</span>}
+                              {/* {historyEventMessages[item?.eventType]}{` `} 
+                              {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName} {` `}</span>} */}
+
+                              {t(`historyEventMessages.${item?.eventType}`)} <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName}</span>
                             </Text>
                             <div className="flex flex-row w-full items-center gap-4">
                             {item?.user?.image ? (

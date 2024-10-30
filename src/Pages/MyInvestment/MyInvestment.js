@@ -23,9 +23,11 @@ import { companyType } from "../../data/companyType";
 import { BsDot } from "react-icons/bs";
 import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../Services/Investor.Service";
 import { useApproveRequestMutation , useRejectRequestMutation } from "../../Services/ContactRequest.Service";
-
+import { useTranslation } from "react-i18next";
 
 const MyInvestment = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
@@ -94,7 +96,7 @@ const MyInvestment = () => {
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <PageHeader
                 >
-                Investment
+                {t("sidebar.investment.main")}
               </PageHeader>
             </div>
             <SearchInput className={'w-[240px]'}/>
@@ -107,7 +109,7 @@ const MyInvestment = () => {
                 <TableTitle
                   style={{whiteSpace:"nowrap"}}
                   >
-                  My Investments
+                  {t('investment.myInvestments')}
                 </TableTitle>
                 <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
@@ -215,12 +217,12 @@ const MyInvestment = () => {
                 <table className=" w-full" >
                   <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Project Name</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Target Fund</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Raised</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Stage</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Milestone</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.projectName')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.targetFund')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.raised')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.stage')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.milestone')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.status')}</th>
                     </tr>
                   </thead>
                   {(!loading && filteredData?.length > 0) ? 
@@ -270,7 +272,7 @@ const MyInvestment = () => {
                       </svg>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                      <span>No matching data identified</span>
+                      <span>{t("common.noMatchingData")}</span>
                     </div>
                   </div>
                 )}

@@ -18,11 +18,10 @@ import ConfirmedModal from '../Components/ConfirmedModal';
 import checkVerifyImg from '../Media/check-verified-02.svg';
 import EmailExistModalOrConfirmation from '../Components/EmailExistModalOrConfirmation';
 import { IoFlashOffOutline } from 'react-icons/io5';
+import { useTranslation } from 'react-i18next';
 
 export default function Subscription() {
-  // const { data = [], isLoading, isFetching, isError } = useGetAllSubscriptonsQuery()
-  // const [buySub, response] = useBuySubMutation()
-  // const { userInfo, loading } = useSelector((state) => state.auth);
+  const { t } = useTranslation();
   const [userLastPaymentMethod, setUserLastPaymentMethod] = useState(null);
   const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
   const [loadingLastPayment, setLoadingLastPayment] = useState(true);  
@@ -44,6 +43,12 @@ export default function Subscription() {
   const [cancelSubscription, { isLoading: cancelLoading, isError: cancelError, isSuccess: cancelSuccess }] = useCancelSubscriptionMutation();
   const [renewSubscription, { isLoading: renewLoading, isFetching: renewFetching , isSuccess: renewSuccess, isError: renewError }] = useRenewSubscriptionMutation();
   const {data: billingDataForUser , isFetching: billingDataFetching } = useGetBillingsForUserQuery();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
+
+  const formatPrice = (price) => {
+    const locale = currentLanguage; // Get current language
+    return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'fr' ? 'EUR' : 'USD' }).format(price);
+  };
 
   const fetchLastPaymentMethod = async () => {
     setLoadingLastPayment(true);
@@ -128,15 +133,16 @@ useEffect(() => {
 
   const monthlyDuration = 1; 
   const annualDuration = monthlyDuration * 12;
-  const annualPrice = userSubscriptionData?.plan?.annualPrice || (userSubscriptionData?.plan?.price * 12).toFixed(2);
-  const monthlyPrice = userSubscriptionData?.plan.price.toFixed(2);
+  const annualPrice = formatPrice(userSubscriptionData?.plan?.annualPrice || (userSubscriptionData?.plan?.price * 12).toFixed(2));
+  const annualPriceNotFormat = userSubscriptionData?.plan?.annualPrice || (userSubscriptionData?.plan?.price * 12).toFixed(2);
+  const monthlyPrice = formatPrice(userSubscriptionData?.plan.price.toFixed(2));
   const endDate = new Date();
   endDate.setFullYear(endDate.getFullYear() + 1);
 
   const getEndDate = (durationInMonths) => {
     const startDate = new Date(userSubscriptionData?.dateExpired);
-    // startDate.setMonth(startDate.getMonth() + durationInMonths);
-    return startDate.toLocaleDateString('en-US', {
+    const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US'; 
+    return startDate.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -177,7 +183,7 @@ useEffect(() => {
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader
               >
-              Subscription & Billing
+              {t('settings.subscription.title')}
             </PageHeader>
           </div>
         </div>
@@ -191,20 +197,23 @@ useEffect(() => {
           (
             <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 w-full lg:flex-1 gap-4">
               <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
-                Subscription Management 
+              {t('settings.subscription.subscriptionManagement')}
               </Text>
               <div className="flex flex-col w-full rounded-[6px] border p-5 border-gray-301 gap-5">
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18 12V18M18 24H18.015M4.5 11.9122V24.0878C4.5 24.6018 4.5 24.8588 4.57573 25.088C4.64272 25.2907 4.75224 25.4769 4.89695 25.6339C5.06053 25.8114 5.28517 25.9362 5.73446 26.1858L16.8345 32.3525C17.2599 32.5888 17.4726 32.707 17.6978 32.7533C17.8972 32.7943 18.1028 32.7943 18.3022 32.7533C18.5274 32.707 18.7401 32.5888 19.1655 32.3525L30.2655 26.1858C30.7148 25.9362 30.9395 25.8114 31.1031 25.6339C31.2478 25.4769 31.3573 25.2907 31.4243 25.088C31.5 24.8588 31.5 24.6018 31.5 24.0878V11.9122C31.5 11.3982 31.5 11.1412 31.4243 10.912C31.3573 10.7093 31.2478 10.5231 31.1031 10.3661C30.9395 10.1886 30.7148 10.0638 30.2655 9.81419L19.1655 3.64753C18.7401 3.41119 18.5274 3.29302 18.3022 3.24669C18.1028 3.20569 17.8972 3.20569 17.6978 3.24669C17.4726 3.29302 17.2599 3.41119 16.8345 3.64753L5.73446 9.81419C5.28517 10.0638 5.06053 10.1886 4.89695 10.3661C4.75224 10.5231 4.64272 10.7093 4.57573 10.912C4.5 11.1412 4.5 11.3982 4.5 11.9122Z" stroke="#DB7712" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
-                  You don’t have any subscription yet
+                {t('settings.subscription.noSubscription')}
                 </Text>
                 <Text className="font-dm-sans-bold text-base leading-6 text-left text-col1 w-full">
-                  Try Digital Morocco Pro free for 7 days
+                {userData?.role?.toLowerCase() === "member" ? t('settings.subscription.subscriptionPromo') : t('settings.subscription.subscriptionOffer')}
                 </Text>
                 <Text className="font-dm-sans-regular text-sm leading-[22.4px] text-[#1D2939] text-left w-full">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                {t('settings.subscription.subscriptionBenefits')}
+                </Text>
+                <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
+                {t('settings.subscription.subscriptionCta')}
                 </Text>
                 <button
                   className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto cursorpointer"
@@ -212,24 +221,24 @@ useEffect(() => {
                   onClick={() => navigate('/ChoosePlan')}
                 >
                   <TiFlashOutline size={23} />
-                  Start Your Free Trial
+                  {userData?.role?.toLowerCase() === "member" ? t('settings.subscription.startFreeTrial') : t('settings.subscription.startFree')}
                 </button>
               </div>
             </div>
           ) : ( 
           <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 w-full lg:flex-1 gap-4">
             <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
-              Subscription Management
+            {t('settings.subscription.subscriptionManagement')}
             </Text>
             <div className="flex flex-col w-full rounded-[12px] border p-5 border-gray-301 gap-4">
               <div className="flex flex-col w-full border-b pb-4 border-gray-301 gap-[18px] ">
                 <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
-                  Your active plan
+                {t('settings.subscription.yourActivePlan')}
                 </Text>
                 <div className="flex flex-col w-full rounded-[12px] border p-[24px] border-gray-301 gap-[24px]">
                   <div className="flex flex-row w-full items-center pb-1">
                     <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
-                      {userSubscriptionData?.plan?.name || 'Basic'}
+                      {t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`)}
                     </Text>
                     <button
                       onClick={() => navigate('/ChoosePlan')}
@@ -238,7 +247,7 @@ useEffect(() => {
                     >
                       <TiFlashOutline size={25} />
                       <span className="text-base leading-[20.83px] font-medium">
-                        Upgrade Plan
+                      {t('settings.subscription.upgradePlan')}
                       </span>
                     </button>
                   </div>
@@ -251,7 +260,7 @@ useEffect(() => {
                           </svg>
                         </div>
                         <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
-                          {feature}
+                        {t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.features.feature${index}`)}
                         </Text>
                       </div>
                     ))}
@@ -259,29 +268,29 @@ useEffect(() => {
                   {userSubscriptionData?.billing === "year" ? (
                   <div className="flex flex-row items-center w-full pt-1">
                       <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-500 line-through">
-                          ${annualPrice}
+                          {annualPrice}
                       </Text>
                       <Text className="font-dm-sans-medium text-lg leading-8 text-left text-[#1D2939] ml-2">
-                          ${(annualPrice*(100 - (userSubscriptionData?.plan?.annualDiscountRate || 20))/100).toFixed(2)}, ends on  {getEndDate(annualDuration)}
+                      {formatPrice((annualPriceNotFormat*(100 - (userSubscriptionData?.plan?.annualDiscountRate || 20))/100).toFixed(2))}, {t('subscriptionPlans.endsOn')}  {getEndDate(annualDuration)}
                       </Text>
                       <div className="inline-flex h-[24px] p-[2px_10px] justify-center items-center inline-flex rounded-[6px] bg-[#E1FFED] ml-6">
                           <span className="text-[#00CDAE] text-center font-dm-sans text-[10px] font-bold leading-[24px]">
-                              {userSubscriptionData?.plan?.annualDiscountRate || 20}% Off
+                              {t('settings.subscription.annualDiscount', { rate: userSubscriptionData?.plan?.annualDiscountRate || 20 })}
                           </span>
                       </div>
                   </div>
                 ) : (
                   <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-[#1D2939]">
-                    ${monthlyPrice}/month, ends on  {getEndDate(monthlyDuration)}
+                    {monthlyPrice}/{t('subscriptionPlans.monthlyFee')}, {t('subscriptionPlans.endsOn')}  {getEndDate(monthlyDuration)}
                   </Text>
                 )}
                 </div>
                 {showNotification  && <>
                   <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
-                    Your subscription is expiring soon.
+                  {t('subscription.expiringSoon')}
                   </Text>
                   <Text className="font-dm-sans-bold text-base leading-6 text-left text-col1 w-full">
-                    We strongly encourage you to renew it to avoid losing access to paid features.
+                  {t('subscription.renewEncouragement')}
                   </Text>
                   <Text className="font-dm-sans-regular text-sm leading-[19.2px] text-[#1D2939] text-left w-full">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -295,7 +304,7 @@ useEffect(() => {
                   type="button"
                 >
                   <FiTrash2 size={23} />
-                  Cancel My Plan
+                  {t('settings.subscription.cancelMyPlan')}
                 </button>
                 <button
                   className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center min-w-[271px] justify-center tracking-normal gap-3 ml-auto py-3 h-[44px] px-5 rounded-md w-auto cursorpointer"
@@ -325,26 +334,26 @@ useEffect(() => {
                   </svg> : 
                   <>
                   <TiFlashOutline size={23} />
-                  Renew my subscription
+                  {t('settings.subscription.renewSubscription')}
                 </>}
                 </button>
               </div>
               <div className='flex flex-col w-full gap-5'>
-                <div className="w-auto text-[#101828] text-lg font-dm-sans-medium leading-7">Billing Information</div>
+                <div className="w-auto text-[#101828] text-lg font-dm-sans-medium leading-7">{t('settings.subscription.billingInformation')}</div>
                 <table className="w-full h-auto bg-white">
                   <thead>
                     <tr className='text-left text-[#344054] font-DmSans font-medium h-[44px]'>
-                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Upload Date</th>
-                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Document Name</th>
-                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Status</th>
-                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">Action</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">{t('settings.subscription.uploadDate')}</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">{t('settings.subscription.documentName')}</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">{t('settings.subscription.status')}</th>
+                      <th className="h-[44px] px-[18px] py-2 bg-white text-sm font-DmSans font-medium leading-relaxed">{t('settings.subscription.action')}</th>
                     </tr>
                   </thead>
                   { (!billingDataFetching && billingDataForUser?.length > 0 )?
                   <tbody>
                     {billingDataForUser?.map((item, index) => (
                       <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                        <td className="h-16 px-[18px] py-4 text-[#667085] text-sm font-dm-sans-regular leading-relaxed">{formatDateValue(item?.dateCreated)}</td>
+                        <td className="h-16 px-[18px] py-4 text-[#667085] text-sm font-dm-sans-regular leading-relaxed">{formatDateValue(item?.dateCreated , currentLanguage)}</td>
                         <td className="h-16 px-[18px] flex items-center gap-[10px] py-4 text-[#101828] text-sm font-dm-sans-regular leading-relaxed">
                           <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.33464 1.51294V4.26663C8.33464 4.64 8.33464 4.82669 8.4073 4.96929C8.47121 5.09473 8.5732 5.19672 8.69864 5.26064C8.84125 5.3333 9.02793 5.3333 9.4013 5.3333H12.155M8.33464 11.3333H4.33464M9.66797 8.66659H4.33464M12.3346 6.65874V11.4666C12.3346 12.5867 12.3346 13.1467 12.1166 13.5746C11.9249 13.9509 11.6189 14.2569 11.2426 14.4486C10.8148 14.6666 10.2547 14.6666 9.13463 14.6666H4.86797C3.74786 14.6666 3.18781 14.6666 2.75999 14.4486C2.38366 14.2569 2.0777 13.9509 1.88596 13.5746C1.66797 13.1467 1.66797 12.5867 1.66797 11.4666V4.53325C1.66797 3.41315 1.66797 2.85309 1.88596 2.42527C2.0777 2.04895 2.38366 1.74299 2.75999 1.55124C3.18781 1.33325 3.74786 1.33325 4.86797 1.33325H7.00915C7.49833 1.33325 7.74292 1.33325 7.9731 1.38851C8.17717 1.43751 8.37226 1.51831 8.5512 1.62797C8.75304 1.75166 8.92599 1.92461 9.27189 2.27051L11.3974 4.39599C11.7433 4.7419 11.9162 4.91485 12.0399 5.11668C12.1496 5.29563 12.2304 5.49072 12.2794 5.69479C12.3346 5.92496 12.3346 6.16955 12.3346 6.65874Z" stroke="#303030" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -376,8 +385,8 @@ useEffect(() => {
                                     <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                   </svg>
                                 </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Download</div>
+                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.download")}</div>
                                 </div>
                               </div>
                             </div>
@@ -392,8 +401,8 @@ useEffect(() => {
                                     <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                   </svg>
                                 </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">View</div>
+                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.view")}</div>
                                 </div>
                               </div>
                             </div>
@@ -417,7 +426,7 @@ useEffect(() => {
                         className="font-dm-sans-regular text-sm leading-6 text-gray-900_01 w-auto py-4"
                         size=""
                         >
-                        No matching data identified
+                        {t("common.noMatchingData")}
                         </Text>
                     </div>
                   )}
@@ -425,7 +434,7 @@ useEffect(() => {
             </div>
           </div>
           )}
-          <div className='flex min-w-[250px] w-full md:w-1/3 lg:w-1/4'>
+          <div className={`flex w-full ${currentLanguage === 'fr' ? 'md:min-w-1/3 md:max-w-[300px] lg:min-w-1/4 lg:max-w-[300px]' : 'md:w-1/3 lg:w-1/4' }`}>
             <PaymentMethode />
           </div>
         </div>

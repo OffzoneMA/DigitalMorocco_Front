@@ -4,8 +4,10 @@ import axios from "axios";
 import debounce from 'lodash.debounce';
 import { historyEventMessages } from "../data/tablesData";
 import Loader from "./Loader";
+import { useTranslation } from "react-i18next";
 
 const SearchInput = ({ setValue, className }) => {
+  const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -119,7 +121,7 @@ useEffect(() => {
       >
         <input
           type="search"
-          placeholder="Search..."
+          placeholder={t('dashboard.search')}
           value={searchValue}
           onChange={handleInputChange}
           className="py-[11.5px] pl-8 min-w-[100px] w-full font-manrope text-[14px] placeholder-[#98A2B3] text-gray700 font-normal tracking-[0.01em] border border-[#D0D5DD] rounded-md px-4 focus:border-focusColor focus:shadow-inputBs"

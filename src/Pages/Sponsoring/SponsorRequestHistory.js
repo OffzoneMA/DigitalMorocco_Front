@@ -28,10 +28,15 @@ import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
 import { useGetSponsorsHistoryByPartnerQuery , useGetDistinctEventFieldsByPartnerHistoryQuery , useApproveSponsorMutation } from "../../Services/Sponsor.Service";
-import { parseDateString } from "../../data/helper";
+import { parseDateString , formatDateValue } from "../../data/helper";
 import { FiSend } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
+import { fr, enUS } from 'date-fns/locale';
+
 
 const SponsorRequestHistory = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const navigate = useNavigate();
     const [approveSponsor] = useApproveSponsorMutation();
     const field = 'physicalLocation';
@@ -149,76 +154,83 @@ const SponsorRequestHistory = () => {
     } 
   };
 
-  const formatDateValue = (date) => {
-    const dateValues = new Date(date);
+  // const formatDateValue = (date) => {
+  //   const dateValues = new Date(date);
     
-    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  //   const options = { month: 'short', day: 'numeric', year: 'numeric' };
     
-    const timeOptions = {
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: true, 
-    };
+  //   const timeOptions = {
+  //     hour: '2-digit', 
+  //     minute: '2-digit',
+  //     hour12: true, 
+  //   };
     
-    return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
-  };
+  //   return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
+  // };
 
   const isDropdownOpen = (index) => {
     return openDropdownIndexes.includes(index);
   };
 
-    const renderDropdown = (index , item) => {
-        const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
-        const triggerRect = triggerElement.getBoundingClientRect();
-    
-        return ReactDOM.createPortal(
-        <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
-            <div className="mt-3 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
-                <div className="flex flex-row gap-3 items-center cursorpointer hover:text-[#35D8BF]" onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { event: item } })}>
-                    <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
-                    <Text
-                    className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
-                    >
-                    View Details
-                    </Text>
-                </div>
-                <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
-                    {({ blob, url, loading, error }) => ( 
-                    loading ? 
-                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]">
-                        <FiDownload size={18} className="text-blue-A400 "/>
-                        <Text
-                            className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
-                        >
-                            Download
-                        </Text>
-                    </div>
-                    :
-                    <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]" >
-                        <FiDownload size={18} className="text-blue-A400 "/>
-                        <Text
-                            className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
-                        >
-                            Download
-                        </Text>
-                    </div>
-                    )}
-                </PDFDownloadLink>
-                {item?.status?.toLowerCase() === "rejected" && 
-                <button className="flex flex-row gap-3 pt-5 items-center cursorpointer hover:text-[#35D8BF]" 
-                onClick={(e)=> {e.stopPropagation(); openApproveModal(item)} }>
-                    <PiCheckBold size={18} className="text-blue-A400"/>
-                    <Text
-                    className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
-                    >
-                    Approve
-                    </Text>
-                </button>}
-            </div>
-        </div>,
-        document.getElementById('root')
-        );
-    }
+  const renderDropdown = (index , item) => {
+      const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
+      const triggerRect = triggerElement.getBoundingClientRect();
+  
+      return ReactDOM.createPortal(
+      <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
+          <div className="mt-3 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 min-w-40  fex flex-col rounded-md">
+              <div className="flex flex-row gap-3 items-center cursorpointer hover:text-[#35D8BF]" onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { event: item } })}>
+                  <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
+                  <Text
+                  className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
+                  >
+                  {t('eventListSponsoring.viewDetails')}
+                  </Text>
+              </div>
+              <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
+                  {({ blob, url, loading, error }) => ( 
+                  loading ? 
+                  <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]">
+                      <FiDownload size={18} className="text-blue-A400 "/>
+                      <Text
+                          className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
+                      >
+                          {t('eventListSponsoring.download')}
+                      </Text>
+                  </div>
+                  :
+                  <div className="flex flex-row gap-3 items-center pt-5 cursorpointer hover:text-[#35D8BF]" >
+                      <FiDownload size={18} className="text-blue-A400 "/>
+                      <Text
+                          className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
+                      >
+                          {t('eventListSponsoring.download')}
+                      </Text>
+                  </div>
+                  )}
+              </PDFDownloadLink>
+              {item?.status?.toLowerCase() === "rejected" && 
+              <button className="flex flex-row gap-3 pt-5 items-center cursorpointer hover:text-[#35D8BF]" 
+              onClick={(e)=> {e.stopPropagation(); openApproveModal(item)} }>
+                  <PiCheckBold size={18} className="text-blue-A400"/>
+                  <Text
+                  className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
+                  >
+                  {t("common.approve")}
+                  </Text>
+              </button>}
+          </div>
+      </div>,
+      document.getElementById('root')
+      );
+  }
+
+  const formatDateWithLocale = (date, language) => {
+    const locales = { en: enUS, fr: fr }; 
+    const selectedLocale = locales[language] || enUS;
+  
+    return format(new Date(date), 'MMM d, yyyy', { locale: selectedLocale });
+  };
 
     return (
         <>
@@ -228,7 +240,7 @@ const SponsorRequestHistory = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Request History
+                    {t('eventListSponsoring.requestHistory')}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -241,7 +253,7 @@ const SponsorRequestHistory = () => {
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >
-                      Event List
+                      {t('eventListSponsoring.eventList')}
                     </TableTitle>
                     <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto">
                       {filter && 
@@ -341,13 +353,13 @@ const SponsorRequestHistory = () => {
                   <table className=" w-full">
                     <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date/Time</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Organize by</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Date</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Requests</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.dateTime')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.eventName')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.organizedBy')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.eventDate')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.location')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.requests')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.status')}</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
@@ -357,7 +369,7 @@ const SponsorRequestHistory = () => {
                         (pageData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { historyRequest: item } })}>
                         <td className="px-[18px] py-4 text-[#667084] font-dm-sans-regular text-sm leading-6">
-                          {item?.dateCreated ? `${formatDateValue(item.dateCreated)}` : 'Coming Soon'}
+                          {item?.dateCreated ? `${formatDateValue(item.dateCreated , currentLanguage)}` : t("event.comingSoon")}
                         </td>
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
@@ -377,7 +389,7 @@ const SponsorRequestHistory = () => {
                           </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
-                          {item?.eventId?.startDate ? `${format(new Date(item.eventId?.startDate), 'MMM d, yyyy')}` : 'Coming Soon'}
+                          {item?.eventId?.startDate ? `${format(new Date(item.eventId?.startDate), 'MMM d, yyyy')}` : t('event.comingSoon')}
                         </td>
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: '' }}>{item?.eventId?.physicalLocation || 'Virtual'}</td>
@@ -439,7 +451,7 @@ const SponsorRequestHistory = () => {
                     <img src={ticketEmptyImg} />
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                      <span>No Sponsor Requests History</span>
+                      <span>{t("common.noSponsorRequestsHistory")}</span>
                     </div>
                   </div>)
                 }

@@ -234,23 +234,34 @@ const Users = () => {
 
                     <td className="px-[18px] py-4 ">
                       <div className="flex flex-row space-x-3 px-3 items-center">
-                        <div className="w-[38px] h-8 px-3 py-2 bg-[#aeb6c5] rounded-md justify-end items-start gap-3 inline-flex" onClick={() => handleApproveUser(user._id, user.role)} >
+                        <div className="relative group w-[38px] h-8 px-3 py-2 bg-[#aeb6c5] hover:bg-[#00CDAE] rounded-md justify-center items-center gap-3 inline-flex" onClick={() => handleApproveUser(user._id, user.role)} >
                           <div className="justify-center items-center gap-2 flex">
                             <HiCheck size={17}  className="text-white-A700" />
                           </div>
-                          {/* <div className="w-[100px] h-11 pl-2 pt-1.5 justify-end items-center inline-flex">
-                            <div className="w-[92px] h-[38px] relative flex-col justify-start items-start flex">
-                                <div className="w-[92px] h-[30px] px-[18px] py-2.5 bg-[#334080] rounded-md justify-start items-center gap-[105px] inline-flex">
-                                    <div className="grow shrink basis-0 h-[26px] justify-start items-center gap-4 flex">
-                                        <div className="grow shrink basis-0 text-center text-white text-sm font-dm-sans-regular leading-relaxed">Approve</div>
-                                    </div>
-                                </div>
+                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                            <div className="mb-px mr-[12px]">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                              </svg>
                             </div>
-                          </div> */}
+                            <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Approve</div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="w-[38px] h-8 px-3 py-2 bg-[#aeb6c5] rounded-md justify-end items-start gap-3 inline-flex" onClick={() => handleRejectUser(user._id, user.role)} >
+                        <div className="relative group w-[38px] h-8 px-3 py-2 bg-[#aeb6c5] hover:bg-[#EF4352] rounded-md justify-center items-center gap-3 inline-flex" onClick={() => handleRejectUser(user._id, user.role)} >
                           <div className="justify-center items-center gap-2 flex">
                             <HiBan size={17} className="text-white-A700"/>
+                          </div>
+                          <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
+                            <div className="mb-px mr-[12px]">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                              </svg>
+                            </div>
+                            <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Reject</div>
+                            </div>
                           </div>
                         </div>                        
                       </div>

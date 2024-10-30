@@ -2,9 +2,12 @@ import React from 'react';
 import { Text } from './Text';
 import {default as ModalProvider} from "react-modal";
 import { IoCloseOutline } from "react-icons/io5";
+import { useTranslation } from 'react-i18next';
 
 const DeleteModal = (props) => {
-
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
+  
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
@@ -35,7 +38,7 @@ const DeleteModal = (props) => {
               <button 
               className="flex items-center hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[93px] text-center bg-[#E4E7EC] text-[#475467]"
               onClick={props.onRequestClose}>
-                Cancel
+                {t("common.cancel")}
               </button>
               <button 
               onClick={props.onDelete}

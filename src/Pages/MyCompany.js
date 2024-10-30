@@ -10,8 +10,10 @@ import {companyType} from "../data/companyType";
 import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import { useGetUserDetailsQuery } from "../Services/Auth";
+import { useTranslation } from "react-i18next";
 
 const MyCompany = () => {
+  const { t } = useTranslation();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
   const [logoFile, setLogoFile] = useState(userDetails?.logo || userDetails?.image || '');
   const [imgFile , setImgFile] = useState(null);
@@ -31,7 +33,7 @@ const MyCompany = () => {
     city: false,
     sector: false,
   });
-console.log(userDetails)
+
   const logoFileInputRef = useRef(null);
   const logoFileInputRefChange = useRef(null);
 
@@ -209,7 +211,7 @@ console.log(userDetails)
           <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
             <PageHeader
               >
-              Company
+              {t("sidebar.company.main")}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'}/>
@@ -219,7 +221,7 @@ console.log(userDetails)
                 type="submit"
               >
                 <BsCheck2Circle size={18} className="mr-2" />
-                Saved
+                {t("common.saved")}
               </button>
               :
               <button
@@ -228,7 +230,7 @@ console.log(userDetails)
                 type="submit"
                 >
                 <FiSave size={18} className="mr-2" />
-                Save
+                {t('myCompany.save')}
               </button>          
             }
         </div>
@@ -242,14 +244,14 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Company Name
+                  {t('myCompany.companyName')}
                 </Text>
                   <input
                     {...register("companyName", { required: {value:true , message: "Company name is required"} })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.companyName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="companyName"
-                    placeholder="Your Company Name"
+                    placeholder={t('myCompany.enterCompanyName')}
                   />
                 {/* {errors.companyName && <span className="text-sm font-DmSans text-red-500">{errors.companyName?.message}</span>} */}
               </div>
@@ -258,14 +260,14 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Legal Name
+                  {t('myCompany.legalName')}
                 </Text>
                   <input
                     {...register("legalName", { required: {value:true , message:"Company Legal name is required"} })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.legalName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="legalName"
-                    placeholder="Your Company Legal Name"
+                    placeholder={t('myCompany.enterLegalName')}
                   />
                 {/* {errors.legalName && <span className="text-sm font-DmSans text-red-500">{errors.legalName?.message}</span>} */}
               </div>
@@ -274,14 +276,14 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Description
+                  {t('myCompany.description')}
                 </Text>
                   <textarea
                     {...register("description", { required: true })}
                     className={`!placeholder:text-blue_gray-301 h-[139px] !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] ${errors?.description ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     name="description"
                     rows={4}
-                    placeholder="Write your company’s short description here"
+                    placeholder={t('myCompany.enterDescription')}
                     style={{
                           scrollbarWidth: 'none', 
                           msOverflowStyle: 'none',
@@ -294,14 +296,14 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Website
+                  {t('myCompany.website')}
                 </Text>
                   <input
                   {...register("website", { required: {value:false , message:"Company website is required"} })}
                   className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="website"
-                    placeholder="Your Company Website"
+                    placeholder={t('myCompany.enterWebsite')}
                   />
                 {/* {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>} */}
               </div>
@@ -310,7 +312,7 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Contact Email
+                  {t('myCompany.contactEmail')}
                 </Text>
                   <input
                     {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"},
@@ -326,7 +328,7 @@ console.log(userDetails)
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="contactEmail"
-                    placeholder="Your Company email"
+                    placeholder={t('myCompany.enterEmail')}
                   />
                 {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
               </div>
@@ -335,14 +337,14 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Address
+                  {t('myCompany.address')}
                 </Text>
                   <input
                     {...register("address", { required: {value:false , message:"Company address is required"} })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="address"
-                    placeholder="Your Company address"
+                    placeholder={t('myCompany.enterAddress')}
                   />
                 {/* {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>} */}
               </div>
@@ -351,10 +353,10 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Country
+                  {t('myCompany.country')}
                 </Text>
-                <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setSelectedCountry} 
-                    placeholder="Select Country" valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
+                <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
+                    placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
                     required={requiredFields.country}
                     content={
                       ( option) =>{ return (
@@ -375,10 +377,10 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  City/State
+                  {t('myCompany.cityState')}
                 </Text>
-                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry?.['isoCode']): []} onSelect={""} searchLabel='Search City' setSelectedOptionVal={setSelectedCity} 
-                    placeholder="Select City" valuekey="name" selectedOptionsDfault={userDetails?.city? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userDetails?.city) : ""}
+                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry?.['isoCode']): []} onSelect={""} searchLabel={t('common.searchCity')} setSelectedOptionVal={setSelectedCity} 
+                    placeholder={t('myCompany.selectCity')} valuekey="name" selectedOptionsDfault={userDetails?.city? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userDetails?.city) : ""}
                     required={requiredFields.city}
                     content={
                       ( option) =>{ return (
@@ -399,10 +401,10 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Company Sector
+                  {t('myCompany.companySector')}
                 </Text>
-                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Search Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
-                    placeholder="Select Company Sector" selectedOptionsDfault={userDetails?.companyType || ''} 
+                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel={t("common.searchSector")} searchable={false} setSelectedOptionVal={setselectedSector} 
+                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
                     required={requiredFields.sector}
                     content={
                       ( option) =>{ return (
@@ -424,7 +426,7 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Tax Identifier Number
+                  {t('myCompany.taxIdentifierNumber')}
                 </Text>
                   <input
                     {...register("taxIdentfier", { required: {value:false , message:"Company taxIdentfier is required"} })}
@@ -441,7 +443,7 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  Corporate Identifier Number
+                  {t('myCompany.corporateIdentifierNumber')}
                 </Text>
                   <input
                     {...register("corporateIdentfier", { required: {value:false , message:"Company corporateIdentfier is required"} })}
@@ -461,7 +463,7 @@ console.log(userDetails)
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansRegular16"
                 >
-                  Company Logo
+                  {t('myCompany.companyLogo')}
                 </Text>
                 <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center relative rounded-md w-full"
                     onDragOver={handleDragOver}
@@ -513,7 +515,7 @@ console.log(userDetails)
                         className="text-[13px] text-base leading-6 tracking-normal w-auto"
                         size="txtDMSansRegular13"
                       >
-                      {isDragging? "Drop Your logo here" : "Upload Your Logo"}  
+                      {isDragging? "Drop Your logo here" : t('myCompany.uploadLogo')} 
                       </Text>
                     </div>
                   </div>

@@ -6,10 +6,82 @@ import { MdOutlineDateRange } from "react-icons/md";
 import { BiMap } from "react-icons/bi";
 import { PiTagBold } from "react-icons/pi";
 import QRCode from "react-qr-code";
-import format from "date-fns/format";
+import { useTranslation } from "react-i18next";
+import { formatPrice } from "../data/helper";
+import { fr , enUS } from 'date-fns/locale';
+import { format, parse  , isValid} from 'date-fns';
+
 
 const ViewTicketModal = (props) => {
+    const { t } = useTranslation();
+    const currentLanguage = localStorage.getItem('language') || 'en'; 
     const rowData = props?.rowData? props.rowData : null;
+
+    const formatEventStartDate = () => {
+        const currentLocale = currentLanguage === 'fr' ? fr : enUS;
+        const startDate = rowData?.startDate ? new Date(rowData?.startDate) : null;
+        const startTime = rowData?.startTime; 
+
+        if(startDate || !isValid(startDate)) {
+            return t("event.comingSoon");
+        }else{
+        // Assuming startTime is in format 'hh:mm AM/PM'
+    
+        // Format the start date
+        const formattedStartDate = startDate && isValid(startDate)
+            ? format(startDate, currentLanguage === 'fr' ? 'eee dd MMM yyyy' : 'eee, MMM d, yyyy', { locale: currentLocale })
+            : t("event.comingSoon");
+    
+        // Format the time correctly for both languages
+        const formatTime = (time) => {
+            if (!time) return ''; // If no time is provided, return an empty string
+    
+            // Create a new Date object using startDate
+            const date = new Date(startDate);
+            
+            // Parse the time and set hours and minutes
+            const [timePart, modifier] = time.split(' '); // Split the time and AM/PM part
+            let [hours, minutes] = timePart.split(':').map(Number); // Split the time into hours and minutes
+            
+            // Convert to 24-hour format if it's PM and hours are not 12
+            if (modifier === 'PM' && hours < 12) {
+                hours += 12;
+            }
+            // Handle the case for 12 AM
+            if (modifier === 'AM' && hours === 12) {
+                hours = 0;
+            }
+    
+            // Set the hours and minutes to the date object
+            date.setHours(hours, minutes);
+    
+            const timeOptions = {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: currentLanguage === 'en', // Use 12-hour format for English
+                hourCycle: 'h11' // Set to 12-hour format for en-US
+            };
+    
+            let formattedTime = date.toLocaleTimeString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', timeOptions);
+            if (currentLanguage === 'fr') {
+                formattedTime = formattedTime.replace(':', 'H'); // Change ':' to 'H' for French
+            }
+    
+            return formattedTime;
+        };
+    
+        // Capitalize the first letter of the formatted date for French
+        const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+    
+        // Construct the final output with the correct formatting
+        return currentLanguage === 'fr' 
+        ? `${capitalizeFirstLetter(formattedStartDate.replace('.', ''))?.replace('.', '')} à ${formatTime(startTime)}`
+        : `${capitalizeFirstLetter(formattedStartDate.replace('.', ''))?.replace('.', '')} ${formatTime(startTime)}`;
+        }
+        
+    };
+
+    
     return (
         <ModalProvider
           appElement={document.getElementById("root")}
@@ -37,7 +109,8 @@ const ViewTicketModal = (props) => {
                         <Text
                         className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                         >
-                        {rowData?.startDate ? `${format(new Date(rowData.startDate), 'MMM d, yyyy')} • ${rowData?.startTime?.toLowerCase()}` : 'Coming Soon'}
+                        {formatEventStartDate()}
+                        {/* {rowData?.startDate ? `${format(new Date(rowData.startDate), 'MMM d, yyyy')} • ${rowData?.startTime?.toLowerCase()}` : 'Coming Soon'} */}
                         {/* Fri, Sep 1, 2023<span style={{ marginRight: '10px', marginLeft: '10px' }}>•</span>11:00 AM */}
                         </Text>
                     </div>
@@ -54,24 +127,22 @@ const ViewTicketModal = (props) => {
                         <Text
                         className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                         >
-                        {rowData?.price ? ` From $${rowData?.price?.toFixed(2)}` : 'Free' }
+                        {formatPrice(rowData?.price , currentLanguage) }
                         </Text>
                     </div>
                     <div className="flex flex-row py-3 items-center justify-center">
                         <QRCode size={170} value={rowData?.title}></QRCode>
                     </div>
                     <div className="flex flex-row px-12 items-center justify-center">
-                        <Text
-                        className="text-blue_gray-601 font-DmSans text-center text-xs font-normal leading-[19.2px]"
-                        >
-                        The <span className="text-blue-A400">Ticket Terms and Conditions</span> apply to the booking of all Event tickets to the exclusion of all other terms and conditions.
+                        <Text className="text-blue_gray-601 font-DmSans text-center text-xs font-normal leading-[19.2px]">
+                            {t('event.termsConditionsStart')}
+                            <a className="text-blue-A400" href="#">{t('event.termsConditionsLink')}</a> {t('event.termsConditionsEnd')}
                         </Text>
                     </div>
-                    <div className="flex flex-row px-12  pb-5 items-center justify-center">
-                        <Text
-                        className="text-blue_gray-601 font-DmSans text-center text-xs font-normal leading-[19.2px]"
-                        >
-                        Need Assistance? If you have any questions or need assistance, feel free to contact our support team at<span className="text-blue-A400">support@digitalmorocco.com</span>.
+                    <div className="flex flex-row px-12 pb-5 items-center justify-center">
+                        <Text className="text-blue_gray-601 font-DmSans text-center text-xs font-normal leading-[19.2px]">
+                            {t('event.needAssistanceStart')}
+                            <span className="text-blue-A400">{t('event.supportEmail')}</span>.
                         </Text>
                     </div>
                 </div>

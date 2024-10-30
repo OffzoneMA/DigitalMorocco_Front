@@ -18,8 +18,10 @@ import SearchInput from "../Components/SeachInput";
 import Loader from "../Components/Loader";
 import { formatDate } from "../data/helper";
 import userdefaultProfile from '../Media/User.png';
+import { useTranslation } from "react-i18next";
 
 const CompanyLegal = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -213,7 +215,7 @@ const fetchLegalDocuments = async () => {
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader
               >
-              Company
+              {t("sidebar.company.main")}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'}/>
@@ -225,7 +227,7 @@ const fetchLegalDocuments = async () => {
             <div className="flex flex-row flex-wrap  items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
                 <TableTitle
                   >
-                  Legal Document
+                  {t('legal.title')}
                 </TableTitle>
               <button
                 className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94]  text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer"
@@ -233,7 +235,7 @@ const fetchLegalDocuments = async () => {
                 type="button"
               >
                 <FaRegPlusSquare size={21} className="mr-2" />
-                <span className="text-sm font-medium leading-[18.23px]">Add New Document</span>
+                <span className="text-sm font-medium leading-[18.23px]">{t('legal.addNewDocument')}</span>
              </button>
             </div>
             <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${documentData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
@@ -244,9 +246,9 @@ const fetchLegalDocuments = async () => {
               <table className="w-full border-collapse">
                 <thead>
                 <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Document Name</th>
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Last Modified</th>
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Owner</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('legal.documentName')}</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('legal.lastModified')}</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('legal.owner')}</th>
                   <th className="p-3 w-auto"></th>
                 </tr>
                 </thead>
@@ -287,8 +289,8 @@ const fetchLegalDocuments = async () => {
                                 <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                               </svg>
                             </div>
-                            <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Edit</div>
+                            <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.edit")}</div>
                             </div>
                           </div>
                         </div>
@@ -302,8 +304,8 @@ const fetchLegalDocuments = async () => {
                                 <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                               </svg>
                             </div>
-                            <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                            <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.delete")}</div>
                             </div>
                           </div>
                         </div>
@@ -317,8 +319,8 @@ const fetchLegalDocuments = async () => {
                                 <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                               </svg>
                             </div>
-                            <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Download</div>
+                            <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.download")}</div>
                             </div>
                           </div>
                         </div>
@@ -365,12 +367,12 @@ const fetchLegalDocuments = async () => {
     </div>
     <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal} onSubmit={handleAddDocument} />
     <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document} onSubmit={handleEditDocument} />
-    <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title="Delete" onDelete={() => handleDelete()} 
+    <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title={t('legal.deleteDocumentConfirmation.title')} onDelete={() => handleDelete()} 
       content={
-      <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
-        <Text className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6" size="">
-          This will <span className="text-[#E02D3C]">immediately and permanently </span> 
-          delete document.<br />Are you sure you want to delete this?
+      <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full ">
+        <Text className="font-dm-sans-regular text-center text-base text-[#1D1C21] max-w-[420px] leading-6" size="">
+        {t('legal.deleteDocumentConfirmation.confirmationMessage.text')} <span className="text-[#E02D3C]">{t('legal.deleteDocumentConfirmation.confirmationMessage.highlightedText')} </span> 
+        {t('legal.deleteDocumentConfirmation.confirmationMessage.textAfter')}
         </Text>
       </div>} />
 </div>

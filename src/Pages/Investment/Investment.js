@@ -24,8 +24,11 @@ import RejectContactRequestModal from "../../Components/RejectContactRequestModa
 import { companyType } from "../../data/companyType";
 import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../Services/Investor.Service";
 import { useApproveRequestMutation , useRejectRequestMutation } from "../../Services/ContactRequest.Service";
+import { useTranslation } from "react-i18next";
 
 const Investment = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
@@ -211,7 +214,7 @@ const Investment = () => {
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <PageHeader
                 >
-                Investment
+                {t("sidebar.investment.main")}
               </PageHeader>
             </div>
             <SearchInput className={'w-[240px]'}/>
@@ -224,7 +227,7 @@ const Investment = () => {
                 <TableTitle
                   style={{whiteSpace:"nowrap"}}
                   >
-                  Current Requests
+                  {t('investment.currentRequests')}
                 </TableTitle>
                 <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
@@ -332,12 +335,12 @@ const Investment = () => {
                 <table className=" w-full" >
                   <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Project Name</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Target Fund</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Raised</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Industry / Sector</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Decision</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.projectName')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.targetFund')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.raised')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.location')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.industrySector')}</th>
+                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.decision')}</th>
                     </tr>
                   </thead>
                   {(!isLoading && filteredData?.length > 0) ? 
@@ -376,8 +379,8 @@ const Investment = () => {
                                     <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                   </svg>
                                 </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Approve</div>
+                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.approve")}</div>
                                 </div>
                               </div>
                             </div>
@@ -394,8 +397,8 @@ const Investment = () => {
                                     <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                   </svg>
                                 </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Reject</div>
+                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.reject")}</div>
                                 </div>
                               </div>
                             </div>
@@ -417,7 +420,7 @@ const Investment = () => {
                       </svg>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                      <span>No matching data identified</span>
+                      <span>{t("common.noMatchingData")}</span>
                     </div>
                   </div>
                 )}

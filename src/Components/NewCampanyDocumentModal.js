@@ -6,8 +6,10 @@ import { LuUploadCloud } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { City } from "country-state-city";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const NewCampanyDocumentModal = (props) => {
+  const { t } = useTranslation();
   const { register, handleSubmit, formState: { errors } , setValue , reset} = useForm();
   const inputRef = useRef(null);
   const [files, setFiles] = useState(null);
@@ -73,8 +75,6 @@ useEffect(() => {
     setPreview(URL.createObjectURL(e.target.files[0]))
   }
 
-  console.log(sendingOk)
-
   const onSubmit = async (data) => {
     const formData = new FormData();
     // setSendingOk(true);
@@ -117,7 +117,7 @@ const handleCancelClick = () => {
         <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                 <Text className="md:text-lg text-[18px] font-dm-sans-medium leading-7 text-[#1D2939] w-full">
-                    {documentFile?._id ? "Edit Document" : "Add New Document"}
+                    {documentFile?._id ? t('legal.editDocument') : t('legal.addNewDocument')}
                 </Text>
             </div>
             {/* <div className="hover:bg-gray-201 rounded-full p-1" onClick={props.onRequestClose}>
@@ -127,18 +127,18 @@ const handleCancelClick = () => {
 
         <div className="flex flex-col gap-3 w-full max-h-[70vh]">
             <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">Document Title</Text>
+                <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">{t('legal.addNewDocumentSection.documentTitle')}</Text>
                 <input
                     {...register("title", { required: { value: true, message: "Document title is required." } })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.title ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="title"
-                    placeholder="Document Title"
+                    placeholder={t('legal.addNewDocumentSection.enterDocumentTitle')}
                     defaultValue={documentFile?.title || ""}
                 />
             </div>
             <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">Upload Document</Text>
+                <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">{t('legal.addNewDocumentSection.uploadDocument')}</Text>
                 <div
                     className={`${(preview || documentFile?._id) ? "border-dashed" : ""} ${requiredFields.docFile ? "border-errorColor shadow-inputBsError" : "border-[1px] border-[#d0d5dd]"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border`}
                     onDragOver={handleDragOver}
@@ -167,7 +167,7 @@ const handleCancelClick = () => {
                                     type="button"
                                     className="text-sm cursorpointer font-dm-sans-medium  leading-[26px] mr-2"
                                 >
-                                    Update your document
+                                    {t('legal.addNewDocumentSection.updateDocument')}
                                 </button>
                             </div>
                         </div>
@@ -186,7 +186,7 @@ const handleCancelClick = () => {
                                 name="name"
                             />
                             <Text className="font-dm-sans-regular text-sm leading-[26px] tracking-normal">
-                                Drop file or <span>click here to upload your document</span>
+                            {t('legal.addNewDocumentSection.uploadPrompt')}
                             </Text>
                         </div>
                     )}
@@ -200,13 +200,13 @@ const handleCancelClick = () => {
                         onClick={handleCancelClick}
                         style={{ width: "101px", height: "44px" }}
                     >
-                        Cancel
+                        {t("common.cancel")}
                     </button>
                     <button
                         type="submit"
                         onClick={() => {setHasSubmitted(true); }}
                         className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#235DBD] min-w-[180px]' : 'bg-blue-A400'} hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]`}
-                        style={{ width: "195px", height: "44px" }}
+                        style={{ height: "44px" }}
                     >
                     {(sendingOk && preview !== null) ? 
                     <div className="flex items-center justify-center gap-6"> Sending... 
@@ -214,7 +214,7 @@ const handleCancelClick = () => {
                         <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </div>  :  
-                    documentFile?._id ? "Edit Document" : "Add Document"}
+                    documentFile?._id ? t('legal.editDocument') : t('legal.addNewDocumentSection.addDocument')}
                     </button>
                 </div>
             </div>

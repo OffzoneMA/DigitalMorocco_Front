@@ -21,8 +21,11 @@ import { AiOutlineLoading } from "react-icons/ai";
 import Loader from "../../Components/Loader";
 import userDefaultProfil from '../../Media/User1.png';
 import SendSponsoringModal from "../../Components/SendSponsoringModal";
+import { useTranslation } from "react-i18next";
 
 const SponsorEventDetails = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const userData = JSON.parse(sessionStorage.getItem("userData"));
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -251,7 +254,7 @@ const openModal = () => {
                   </div> 
                   <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-201 pb-8">
                     <Text className=" text-[22px] font-dm-sans-medium leading-8 text-left text-blue_gray-903">
-                        Overview
+                        {t('event.eventDetails.overview')}
                     </Text>
                     <div className="flex flex-col gap-7 w-full">
                         <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
@@ -259,7 +262,7 @@ const openModal = () => {
                               <div className="flex flex-row gap-3 items-center">
                                 <HiOutlineSpeakerphone size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Organized by
+                                {t('event.eventDetails.organizedBy')}
                                 </Text>
                               </div>
                               <div className="relative">
@@ -272,7 +275,7 @@ const openModal = () => {
                               <div className="flex flex-row gap-3 items-center">
                                 <BiMap  size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Location
+                                {t('event.eventDetails.location')}
                                 </Text>
                               </div>
                               <div className="relative">
@@ -287,7 +290,7 @@ const openModal = () => {
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange  size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Start Date
+                                {t('event.eventDetails.startDate')}
                                 </Text>
                               </div>
                               <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
@@ -298,7 +301,7 @@ const openModal = () => {
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange   size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                End Date
+                                {t('event.eventDetails.endDate')}
                                 </Text>
                               </div>
                               <div className="relative">
@@ -317,7 +320,7 @@ const openModal = () => {
                               <div className="flex flex-row gap-3 items-center">
                                 <BiPurchaseTagAlt    size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Industry
+                                {t('event.eventDetails.industry')}
                                 </Text>
                               </div>
                               <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
@@ -328,7 +331,7 @@ const openModal = () => {
                               <div className="flex flex-row gap-3 items-center">
                                 <TbCopy   size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Event Type
+                                {t('event.eventDetails.eventType')}
                                 </Text>
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
@@ -343,7 +346,7 @@ const openModal = () => {
                               <div className="flex flex-row gap-3 items-center">
                               <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Description
+                                {t('event.eventDetails.description')}
                                 </Text>
                               </div>
                               <div className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
@@ -359,7 +362,7 @@ const openModal = () => {
                           <div className="flex flex-row gap-3 items-center">
                           <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
                             <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                            Attendance
+                            {t('event.eventDetails.attendance')}
                             </Text>
                           </div>
                           <div className="flex flex-row gap-3 w-full items-center pl-8">
@@ -388,7 +391,7 @@ const openModal = () => {
                   </div> 
                   <div className="flex flex-col gap-6 pt-9 w-full pb-8">
                     <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
-                    Sponsor
+                    {t('event.eventDetails.sponsor')}
                     </Text>
                     <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-10 w-full items-center">
                       {sponsors?.length > 0 && (

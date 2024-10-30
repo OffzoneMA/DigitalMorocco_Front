@@ -10,8 +10,11 @@ import { useForm } from "react-hook-form";
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 import { useApproveRequestMutation } from "../Services/ContactRequest.Service";
+import { useTranslation } from "react-i18next";
 
 const ApproveSponsoringRequestModal = (props) => {
+    const { t } = useTranslation();
+    const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [typeInvestment , setSelectedInvestmentType] = useState(null);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } , reset } = useForm();
@@ -140,7 +143,7 @@ const ApproveSponsoringRequestModal = (props) => {
                     props.onRequestClose();
                     }}
                     className="flex items-center justify-center min-w-[93px] bg-light_blue-100 hover:bg-[#E2E2EE] text-blue-500 active:bg-[#E2E2EE] py-[10px] md:py-[20px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
-                        Cancel
+                        {t("common.cancel")}
                     </button>
                     <button 
                     type="submit" onClick={() => setSending(true)}

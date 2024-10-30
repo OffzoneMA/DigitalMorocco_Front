@@ -28,8 +28,10 @@ import { v4 as uuidv4 } from 'uuid';
 import Popup from "reactjs-popup";
 import userdefaultProfile from '../Media/User1.png'
 import { set } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 const CreateProject = () => {
+  const { t } = useTranslation();
   const dividerRef = useRef(null);
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
@@ -600,7 +602,7 @@ const handleStatusChangeAndUpdate = async () => {
             <div className="flex flex-1 flex-col font-dmsans h-full items-start justify-start w-full">
               <PageHeader
                 >
-                  Projects
+                  {t('sidebar.projects')}
               </PageHeader>
             </div>
             <SearchInput className={'w-[240px]'}/>
@@ -613,7 +615,7 @@ const handleStatusChangeAndUpdate = async () => {
                   className="text-lg leading-7 text-gray-900_01 pt-1"
                   size="txtDmSansMedium16"
                 >
-                  Create New Project
+                  {t('projects.createNewProject.title')}
                 </Text>
                 <div className="flex flex-row ml-auto gap-[16px] items-center">
                   {selectedStatus !== '' && (
@@ -643,7 +645,7 @@ const handleStatusChangeAndUpdate = async () => {
                                   strokeLinejoin="round"
                                 />
                               </svg>
-                              Activate
+                              {t('projects.createNewProject.activate')}
                             </button>
                           )}
                           position="bottom center"
@@ -653,7 +655,7 @@ const handleStatusChangeAndUpdate = async () => {
                         <div className="w-[259px] h-[59px] px-[18px] py-[10px] bg-[#2C3462] rounded-lg justify-center items-center flex">
                           <div className="grow w-full shrink basis-0 h-full justify-center items-center flex">
                             <div className="w-full text-[#D0D5DD] text-[10px] font-dm-sans-regular">
-                            By clicking <span className="font-dm-sans-medium text-[#35D8BF] ">Activate</span>, your project will be visible to your investors. Ensure all information is up to date before making it accessible.
+                            {t('projects.createNewProject.activatePop.description')} <span className="font-dm-sans-medium text-[#35D8BF] ">{t('projects.createNewProject.activatePop.title')}</span>, {t('projects.createNewProject.activatePop.activatePop')}
                             </div>
                           </div>
                           </div>
@@ -683,7 +685,7 @@ const handleStatusChangeAndUpdate = async () => {
                                   strokeLinejoin="round"
                                 />
                               </svg>
-                              Stand By
+                              {t('projects.createNewProject.standBy')}
                             </button>
                           )}
                           position="bottom center"
@@ -693,7 +695,7 @@ const handleStatusChangeAndUpdate = async () => {
                         <div className="w-[259px] h-[59px] px-[18px] py-[10px] bg-[#2C3462] rounded-lg justify-center items-center flex">
                           <div className="grow w-full shrink basis-0 h-full justify-center items-center flex">
                             <div className="w-full text-[#D0D5DD] text-[10px] font-dm-sans-regular">
-                            By clicking <span className="font-dm-sans-medium text-[#35D8BF] ">Stand By</span>, your project will be hidden from your investors. You can reactivate it once you’ve completed the necessary updates.
+                            {t('projects.createNewProject.standByPop.description')} <span className="font-dm-sans-medium text-[#35D8BF] ">{t('projects.createNewProject.standByPop.title')}</span>, {t('projects.createNewProject.standByPop.standByPop')}
                             </div>
                           </div>
                         </div>
@@ -717,7 +719,7 @@ const handleStatusChangeAndUpdate = async () => {
                   ) : (
                     <>
                       <FiSave size={21} className="mr-2" />
-                      Save
+                      {t('projects.createNewProject.save')}
                     </>
                   )}
                   </button>
@@ -729,14 +731,14 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Project Name
+                      {t('projects.createNewProject.projectName')}
                     </Text>
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.name ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="name"
-                        placeholder="Enter Project Name"
+                        placeholder={t('projects.createNewProject.enterProjectName')}
                       />
                     {/* {errors.name && <span className="text-sm font-dm-sans-regular text-red-500">{errors.name?.message}</span>} */}
                   </div>
@@ -744,14 +746,14 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Project Details
+                      {t('projects.createNewProject.projectDetails')}
                     </Text>
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
                        className={`!placeholder:text-blue_gray-300 !text-gray700 max-h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.details ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="details"
                         rows={7}
-                        placeholder="Write your project detals here"
+                        placeholder={t('projects.createNewProject.enterProjectDetails')}
                         style={{
                           scrollbarWidth: 'none', 
                           msOverflowStyle: 'none',
@@ -764,14 +766,14 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Website
+                      {t('projects.createNewProject.website')}
                     </Text>
                       <input
                       {...register("website", { required: {value:false , message:"Project website is required"} })}
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="website"
-                        placeholder="Project Website"
+                        placeholder={t('projects.createNewProject.enterWebsite')}
                       />
                     {/* {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>} */}
                   </div>
@@ -779,7 +781,7 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Contact Email
+                      {t('projects.createNewProject.contactEmail')}
                     </Text>
                       <input
                         {...register("contactEmail", { required: {value:true , message:"Project Contact Email is required"} ,
@@ -795,7 +797,7 @@ const handleStatusChangeAndUpdate = async () => {
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="contactEmail"
-                        placeholder="Enter Project email"
+                        placeholder={t('projects.createNewProject.enterEmail')}
                       />
                     {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
                   </div>
@@ -803,10 +805,10 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Team Member
+                      {t('projects.createNewProject.teamMember')}
                     </Text>
-                    <MultipleSelect id='teams' options={members} onSelect={""} searchLabel='Search member' setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
-                    itemClassName='py-2 border-b border-gray-201' placeholder='Assign Team Member to this Project' valuekey="fullName" optionkey="workEmail" 
+                    <MultipleSelect id='teams' options={members} onSelect={""} searchLabel={t('projects.createNewProject.searchMember')} setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
+                    itemClassName='py-2 border-b border-gray-201' placeholder={t('projects.createNewProject.assignTeamMember')} valuekey="fullName" optionkey="workEmail" 
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
@@ -835,7 +837,7 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Funding Target
+                      {t('projects.createNewProject.fundingTarget')}
                     </Text>
                     <div className="relative flex items-center w-full">
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
@@ -846,7 +848,7 @@ const handleStatusChangeAndUpdate = async () => {
                         type="text"
                         value={fundingValue}
                         onChange={(e) => formatFundingValue(e.target.value)}
-                        placeholder="Enter Funding Target"
+                        placeholder={t('projects.createNewProject.enterFundingTarget')}
                       />
                     </div>
                     {/* {errors.funding && <span className="text-sm font-dm-sans-regular text-red-500">{errors.funding.message}</span>} */}
@@ -855,7 +857,7 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Total Raised
+                      {t('projects.createNewProject.totalRaised')}
                     </Text>
                     <div className="relative flex items-center w-full">
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
@@ -866,7 +868,7 @@ const handleStatusChangeAndUpdate = async () => {
                         type="text"
                         value={raisedValue}
                         onChange={(e) => formatFunding(e.target.value)}
-                        placeholder="Enter Total Raised"
+                        placeholder={t('projects.createNewProject.enterTotalRaised')}
                       />
                     </div>
                     {/* {errors.totalRaised && <span className="text-sm font-dm-sans-regular text-red-500">{errors.totalRaised.message}</span>} */}
@@ -875,10 +877,10 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Stage
+                      {t('projects.createNewProject.stage')}
                     </Text>
                     <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Search stage' setSelectedOptionVal={setSelectedStage} 
-                    placeholder="Select Stage" selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage}
+                    placeholder={t('projects.createNewProject.selectStage')} selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage}
                     content={
                       ( option) =>{ return (
                           <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 py-2 items-center  w-full">
@@ -894,10 +896,10 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Country
+                      {t('projects.createNewProject.country')}
                     </Text>
                     <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setSelectedCountry} 
-                        placeholder="Select Country" valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""} 
+                        placeholder={t('projects.createNewProject.selectCountry')} valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""} 
                         required={requiredFields.country}
                         content={
                           ( option) =>{ return (
@@ -916,10 +918,10 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Project Sector
+                      {t('projects.createNewProject.projectSector')}
                     </Text>
                     <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Search Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
-                        placeholder="Select Project Sector" selectedOptionsDfault={project?.sector || ''} required={requiredFields.sector}
+                        placeholder={t('projects.createNewProject.selectProjectSector')} selectedOptionsDfault={project?.sector || ''} required={requiredFields.sector}
                         content={
                           ( option) =>{ return (
                             <div className="flex  py-2 items-center  w-full">
@@ -937,16 +939,16 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Project publication
+                      {t('projects.createNewProject.projectPublication.title')}
                     </Text>
                     <Text className="text-[12px] font-dm-sans-regular text-[#98A2B3] w-auto"
                     >
-                      If you choose the Public mode, your project will be visible on the Members page of the official website.
+                      {t('projects.createNewProject.projectPublication.description')}
                     </Text>
                     <SimpleSelect id='publication'
                     options={["public" , "private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
                     setSelectedOptionVal={setSelectedPublication} searchable={false}
-                    placeholder={"Select Type of Publication"}
+                    placeholder={t('projects.createNewProject.projectPublication.selectType')}
                     required={requiredFields.publication}
                     content={
                       (option) => {
@@ -955,7 +957,7 @@ const handleStatusChangeAndUpdate = async () => {
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                             >
-                              {option}
+                              {t(`projects.createNewProject.projectPublication.${option}`)}
                             </Text>
                           </div>
                         );
@@ -992,7 +994,7 @@ const handleStatusChangeAndUpdate = async () => {
                       <Text className="text-base text-[#1D1C21] w-auto"
                         size="txtDMSansLablel"
                       >
-                        Project Milestone
+                        {t('projects.createNewProject.projectMilestone')}
                       </Text>
                       {milestones?.length > 1 && <button
                           className="hover:bg-light_blue-100 text-sm hover:border hover:border-solid hover:border-blue-500 text-blue-500 flex flex-row gap-1 h-7 items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
@@ -1005,7 +1007,7 @@ const handleStatusChangeAndUpdate = async () => {
                             <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                           </span>
-                          <span className="hidden sm:inline">More</span>
+                          <span className="hidden sm:inline">{t('projects.createNewProject.more')}</span>
                       </button>}
                     </div>
                     {milestones.map((milestone, index) => (
@@ -1014,13 +1016,14 @@ const handleStatusChangeAndUpdate = async () => {
                         <input
                           className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs`}
                           name={`name-${milestone.id}`}
-                          placeholder="Enter your project milestone"
+                          placeholder={t('projects.createNewProject.enterProjectMilestone')}
                           value={milestone.name}
                           onChange={e => handleMilestoneChange(e, milestone.id, 'name')}
                         />
                       </div>
                       <CustomCalendar
                         className={' w-[30%]'} 
+                        inputPlaceholder={t('projects.createNewProject.dueDate')}
                         defaultValue={milestone.dueDate}
                         onChangeDate={(date) => handleMilestoneDateChange(milestone.id, 'dueDate', parseDateString(date))}
                       />
@@ -1036,7 +1039,7 @@ const handleStatusChangeAndUpdate = async () => {
                             <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                           </span>
-                          <span className="hidden sm:inline">More</span>
+                          <span className="hidden sm:inline">{t('projects.createNewProject.more')}</span>
                         </button>
                       ) : (
                         <button
@@ -1050,7 +1053,7 @@ const handleStatusChangeAndUpdate = async () => {
                          <svg width="13" height="2" viewBox="0 0 13 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M1.25 1H11.75" stroke="#EF4352" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        Hide
+                        {t('projects.createNewProject.hide')}
                          </span>}
                         </button>
                       )}
@@ -1068,7 +1071,7 @@ const handleStatusChangeAndUpdate = async () => {
                       className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansCardHeader16"
                     >
-                      Project Logo
+                      {t('projects.createNewProject.projectLogo.title')}
                     </Text>
                     <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center rounded-md w-full py-1 cursorpointer relative"
                         onDragOver={handleDragOver}
@@ -1120,7 +1123,7 @@ const handleStatusChangeAndUpdate = async () => {
                             className="text-[13px] text-base leading-6 tracking-normal w-auto"
                             size="txtDMSansRegular13"
                           >
-                          {isDragging? "Drop Your logo here" : "Upload Your Logo"}  
+                          {isDragging? "Drop Your logo here" : t('projects.createNewProject.projectLogo.uploadLogo')}  
                           </Text>
                         </div>
                       </div>
@@ -1134,7 +1137,7 @@ const handleStatusChangeAndUpdate = async () => {
                       className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansCardHeader16"
                     >
-                      Upload Document
+                      {t('projects.createNewProject.uploadDocument')}
                     </Text>
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}
@@ -1143,7 +1146,7 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Upload Pitch Deck
+                      {t('projects.createNewProject.uploadPitchDeck.title')}
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed cursorpointer bg-blue_gray-50" 
                     onClick={()=> onButtonClick(inputRef)}>
@@ -1161,8 +1164,8 @@ const handleStatusChangeAndUpdate = async () => {
                       >
                         {isDragging ? <span className="text-blue_gray-300">Drop Pitch Deck file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500">choose file</span>
+                          <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
+                        <span className="text-blue-500">{t('projects.createNewProject.uploadPitchDeck.description1')}</span>
                         </> 
                         }
                       </label>
@@ -1192,7 +1195,7 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Upload Business Plan
+                      {t('projects.createNewProject.uploadBusinessPlan.title')}
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 cursorpointer border border-dashed bg-blue_gray-50" 
                     onClick={()=> onButtonClick(inputRef1)}>
@@ -1210,8 +1213,8 @@ const handleStatusChangeAndUpdate = async () => {
                       >
                         {isDragging ? <span className="text-blue_gray-300">Drop Business Plan file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500" >choose file</span>
+                          <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
+                        <span className="text-blue-500" >{t('projects.createNewProject.uploadPitchDeck.description1')}</span>
                         </> 
                         }
                       </label>
@@ -1241,7 +1244,7 @@ const handleStatusChangeAndUpdate = async () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Upload Financial Projection
+                      {t('projects.createNewProject.uploadFinancialProjection.title')}
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed bg-blue_gray-50" 
                     onClick={()=> onButtonClick(inputRef2)}>
@@ -1259,8 +1262,8 @@ const handleStatusChangeAndUpdate = async () => {
                       >
                         {isDragging ? <span className="text-blue_gray-300">Drop Financial Projection file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
-                        <span className="text-blue-500" >choose file</span>
+                          <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
+                        <span className="text-blue-500" >{t('projects.createNewProject.uploadPitchDeck.description1')}</span>
                         </> 
                         }
                       </label>
@@ -1287,7 +1290,7 @@ const handleStatusChangeAndUpdate = async () => {
                   {documentDivs.map((div, index) => (
                   <div key={div.id} className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text className="text-base text-[#1D1C21] w-auto" size="txtDMSansLablel">
-                      Upload Other Document
+                    {t('projects.createNewProject.uploadOtherDocument.title')}
                     </Text>
                     <div
                       className="flex md:flex-1 w-full md:w-full cursorpointer rounded-md px-2 py-3 border border-dashed bg-blue_gray-50"
@@ -1307,9 +1310,9 @@ const handleStatusChangeAndUpdate = async () => {
                       <label className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto">
                       {isDragging ? <span className="text-blue_gray-300">Drop file here</span> :
                         <>
-                          <span className="text-blue_gray-300"> Drag and drop a file here or </span>
+                          <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
                         <span className="text-blue-500" >
-                          choose file
+                          {t('projects.createNewProject.uploadPitchDeck.description1')}
                         </span>
                         </> 
                         }
@@ -1346,7 +1349,7 @@ const handleStatusChangeAndUpdate = async () => {
                     type="button"
                   >
                     <ImFileText2 size={20} className="mr-2 text-blue-500" />
-                    Add More Document
+                    {t('projects.createNewProject.addMoreDocument')}
                   </button>
                 </div>
               </div>

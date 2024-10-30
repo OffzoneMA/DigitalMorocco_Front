@@ -3,12 +3,22 @@ import { Text } from '../Components/Text';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllSubscriptionPlansQuery } from '../Services/SubscriptionPlan.service';
 import Loader from '../Components/Loader';
+import { useTranslation } from 'react-i18next';
 
 export default function ChoosePlan() {
+  const { t } = useTranslation();
   const { data: plans, error, isLoading } = useGetAllSubscriptionPlansQuery();
   const memberPlans = plans?.filter(plan => plan.forUser === 'Member');
   const [isSubscribe , setIsSubscribe] = useState(false);
   const navigate=useNavigate()
+
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
+
+
+  const formatPrice = (price) => {
+    const locale = currentLanguage 
+    return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'fr' ? 'EUR' : 'USD' }).format(price);
+  };
 
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -19,7 +29,7 @@ export default function ChoosePlan() {
               className="text-3xl font-dm-sans-bold leading-11 text-[#101828] w-full"
               size="txtDmSansBold32"
             >
-              Subscription & Billing
+              {t('subscriptionPlans.title')}
             </Text>
           </div>
         </div>
@@ -27,12 +37,12 @@ export default function ChoosePlan() {
             <Text
                 className="text-base font-dm-sans-bold leading-6 text-gray-900_01 w-full"
                 >
-              Accelerates your journey to success
+              {t('subscriptionPlans.accelerateJourney')}
             </Text>
             <Text
                 className="text-[28px] font-dm-sans-bold leading-[42px] text-gray-900_01 w-full"
                 >
-              Choose the plan that suits for your startup 
+              {t('subscriptionPlans.choosePlan')}
             </Text>
             {isLoading ? 
                 <div className='flex justify-center w-full'>
@@ -47,17 +57,17 @@ export default function ChoosePlan() {
                       <Text
                           className="text-[22px]  font-dm-sans-medium leading-8 text-center text-[#1D2939] w-full"
                           >
-                      {plan?.name}
+                      {t(`subscriptionPlans.${plan.name.toLowerCase()}.name`)}
                       </Text>
                       <Text
                           className="text-base font-dm-sans-medium leading-[26px] text-center text-[#667085] w-full"
                           >
-                      {plan?.description}
+                      {t(`subscriptionPlans.${plan.name.toLowerCase()}.description`)}
                       </Text>
                       <Text
                           className=" text-center text-col1  font-dm-sans-bold pt-1 w-full"
                           >
-                      <span className='text-[2.5rem] leading-13 tracking-wide'>${plan?.price}/</span><span className='text-[1.9rem] leading-12'>month</span>
+                      <span className='text-[2.5rem] leading-13 tracking-wide'>{formatPrice(plan?.price)}/</span><span className='text-[1.9rem] leading-12'>{t('subscriptionPlans.monthlyFee')}</span>
                       </Text>
                   </div>
                   <div className='flex flex-col flex-1 w-full py-6 gap-[16px] '>
@@ -72,7 +82,7 @@ export default function ChoosePlan() {
                       <Text
                         className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700"
                       >
-                      {feature}
+                      {t(`subscriptionPlans.${plan.name.toLowerCase()}.features.feature${index}`)}
                       </Text>
                     </div>
                   ))}
@@ -82,7 +92,7 @@ export default function ChoosePlan() {
                       type="button"
                       className="bg-blue-A400 text-white-A700 flex flex-row h-[44px] items-center justify-center rounded-md w-full hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[24px] cursorpointer font-dm-sans-medium"
                       >
-                      Get started
+                      {t('subscriptionPlans.getStarted')}
                     </button>
                   </div>
                 </div>

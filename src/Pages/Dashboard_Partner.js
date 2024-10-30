@@ -28,9 +28,11 @@ import userdefaultProfile from '../Media/User.png';
 import { useGetRecentApprovedContactRequestsQuery , useGetLastRecentContactRequestsQuery } from "../Services/Investor.Service";
 import { useGetRecentSponsorsByPartnerAndStatusQuery } from "../Services/Sponsor.Service";
 import { FiSend } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 const Dashboard_Partner = () => {
-const { userInfo } = useSelector((state) => state.auth)
+  const { t, i18n } = useTranslation();
+  const { userInfo } = useSelector((state) => state.auth)
   const status = 'Approved';
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
@@ -96,16 +98,26 @@ const { userInfo } = useSelector((state) => state.auth)
                     <div className="flex h-full items-start justify-start w-auto">
                         <PageHeader
                         >
-                        Welcome back, {userData?.displayName? userData?.displayName : 'Olivia'}
+                        {t('dashboard.welcome')}, {userData?.displayName? userData?.displayName : 'Olivia'}
                         </PageHeader>
                     </div>
-                    <SearchInput className={'w-[240px] '}/>
+                    <div className="flex flex-row w-full lg:w-auto gap-4 justify-between ">
+                        <SearchInput className={'w-[240px] '}/>
+                        <button 
+                        style={{whiteSpace: 'nowrap'}}
+                          className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer rounded-md w-auto" 
+                          onClick={() => navigate("/CreateProject")}
+                      >
+                          <FaRegPlusSquare size={18} className="mr-2" />
+                          {t('dashboard.createProject')}
+                      </button>
+                    </div>
                 </div>
                 <div className="flex pb-6">
                      <Text
                         className="text-sm md:text-base lg:text-lg font-inter text-gray-500 leading-6 tracking-normal w-full"
                         >
-                        Track, manage and forecast your customers and orders.
+                        {t('dashboard.trackManageForecast')}
                     </Text>
                 </div>
                 <div className="flex flex-row flex-wrap bg-blue-A400 justify-between items-center rounded-[12px] px-5 py-3  w-full flex-1">
@@ -117,7 +129,7 @@ const { userInfo } = useSelector((state) => state.auth)
                       <Text
                           className="text-base md:text-[18px] lg:text-[22px] font-dm-sans-medium leading-8 text-white-A700 tracking-normal w-full"
                           >
-                          Upgrade your account and get full access to Digital Morocco
+                          {t('dashboard.upgradeAccount')}
                       </Text>
                       <Text
                         className="text-sm font-dm-sans-regular leading-[26px] tracking-normal  text-white-A700 w-full"
@@ -131,7 +143,7 @@ const { userInfo } = useSelector((state) => state.auth)
                       <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3.9375 19.75V15.375M3.9375 6.625V2.25M1.75 4.4375H6.125M1.75 17.5625H6.125M11.375 3.125L9.85759 7.07025C9.61083 7.71183 9.48745 8.03262 9.29559 8.30245C9.12554 8.5416 8.9166 8.75054 8.67745 8.92059C8.40762 9.11245 8.08683 9.23583 7.44525 9.48259L3.5 11L7.44526 12.5174C8.08683 12.7642 8.40762 12.8875 8.67745 13.0794C8.9166 13.2495 9.12554 13.4584 9.29559 13.6975C9.48745 13.9674 9.61083 14.2882 9.8576 14.9297L11.375 18.875L12.8924 14.9297C13.1392 14.2882 13.2625 13.9674 13.4544 13.6976C13.6245 13.4584 13.8334 13.2495 14.0726 13.0794C14.3424 12.8875 14.6632 12.7642 15.3047 12.5174L19.25 11L15.3047 9.48259C14.6632 9.23583 14.3424 9.11245 14.0726 8.92059C13.8334 8.75054 13.6245 8.5416 13.4544 8.30245C13.2625 8.03262 13.1392 7.71183 12.8924 7.07025L11.375 3.125Z" stroke="#1F2545" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                      Upgrade Membership
+                      {t('dashboard.upgradeMembership')}
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
@@ -167,7 +179,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     <Text
                       className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
-                      Sponsorships
+                      {t('partnerDashboard.sponsorships')}
                     </Text>
                     {userDetails?.sponsorCount?.count > 0 ? (
                     <Text
@@ -181,7 +193,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     <Text
                       className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                     >
-                      Start sending requests to investors
+                      {t('partnerDashboard.sponsorshipsNote')}
                     </Text>
                   )}
                   </div>
@@ -193,7 +205,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     <Text
                       className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
-                      Events
+                      {t('dashboard.events')}
                     </Text>
                     {userDetails?.eventCount > 0 ? (
                       <Text
@@ -205,7 +217,7 @@ const { userInfo } = useSelector((state) => state.auth)
                       <Text
                         className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                       >
-                        Buy your tickets and join our special events
+                        {t('dashboard.eventsNote')}
                       </Text>
                     )}
                   </div>
@@ -217,7 +229,7 @@ const { userInfo } = useSelector((state) => state.auth)
                     <Text
                       className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
-                      My Company
+                      {t('dashboard.myCompany')}
                     </Text>
                     {userDetails?.companyName ? (
                       <Text
@@ -229,7 +241,7 @@ const { userInfo } = useSelector((state) => state.auth)
                       <Text
                         className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                       >
-                        Create a profile for your company
+                        {t('dashboard.createCompanyNote')}
                       </Text>
                     )}
                   </div>
@@ -244,7 +256,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         <Text
                             className=" text-lg font-dm-sans-medium leading-6 text-gray-900_01 tracking-normal w-full"
                             >
-                           The Top Markets
+                           {t('dashboard.topMarkets')}
                         </Text>
                         <Text
                             className="text-sm font-dm-sans-regular leading-6 text-blue_gray-301 tracking-normal  w-full"
@@ -286,7 +298,7 @@ const { userInfo } = useSelector((state) => state.auth)
                         <Text
                             className=" text-lg font-dm-sans-medium leading-6 text-gray-900_01 tracking-normal w-full"
                             >
-                           Investment Volume 
+                           {t('dashboard.investmentVolume')}
                         </Text>
                         <Text
                             className="text-sm font-dm-sans-regular leading-6 text-blue_gray-301 tracking-normal  w-full"
@@ -336,7 +348,7 @@ const { userInfo } = useSelector((state) => state.auth)
                             <Text
                                 className=" text-lg font-dm-sans-medium leading-6 text-gray-900_01 tracking-normal w-full"
                                 >
-                            Last Sponsor Event
+                            {t('partnerDashboard.lastSponsorEvent')}
                             </Text>
                         </div>
                       </div>
@@ -366,7 +378,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
-                                      Date{" "}
+                                      {t('partnerDashboard.sponsorEventDetails.date')}
                                       </Text>
                                   </div>
                                   <div className="flex flex-col items-start justify-center py-4 w-full">
@@ -384,7 +396,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
-                                      Location
+                                      {t('partnerDashboard.sponsorEventDetails.location')}
                                       </Text>
                                   </div>
                                   <div className="flex flex-col items-start justify-center py-4 w-full">
@@ -402,7 +414,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                       className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                                       size="txtDMSansBold12"
                                       >
-                                      Price
+                                      {t('partnerDashboard.sponsorEventDetails.price')}
                                       </Text>
                                   </div>
                                   <div className="flex flex-col items-start justify-start py-4 w-full">
@@ -425,7 +437,7 @@ const { userInfo } = useSelector((state) => state.auth)
                                     className="text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                                     size=""
                                 >
-                                    No Active Project
+                                    {t('partnerDashboard.noSponsorEvent')}
                                 </Text>
                             </div>
                         )
@@ -441,7 +453,7 @@ const { userInfo } = useSelector((state) => state.auth)
                             <Text
                                 className=" text-lg font-dm-sans-medium leading-6 text-gray-900_01 tracking-normal w-full"
                                 >
-                            Lastest Request
+                            {t('partnerDashboard.latestRequest')}
                             </Text>
                         </div>
                        </div>
@@ -449,9 +461,9 @@ const { userInfo } = useSelector((state) => state.auth)
                        <table className="w-full mb-3">
                         <thead>
                           <tr className="bg-white-A700 text-sm leading-6">
-                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
-                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Requests</th>
-                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('partnerDashboard.requestTable.eventName')}</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('partnerDashboard.requestTable.requests')}</th>
+                            <th scope="col" className="px-[16px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('partnerDashboard.requestTable.status')}</th>
                           </tr>
                         </thead>
                         <tbody className="items-center w-full">
@@ -521,7 +533,7 @@ const { userInfo } = useSelector((state) => state.auth)
                             className=" text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
-                            No Request Yet
+                            {t('dashboard.notAvailable')}
                             </Text>
                         </div>
                        ) 

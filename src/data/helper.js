@@ -53,20 +53,38 @@ export function formatDate(dateString) {
 }
 
 
-export const formatDateValue = (date) => {
+export const formatDateValue = (date, currentLanguage) => {
   const dateValues = new Date(date);
-  
-  const options = { month: 'short', day: 'numeric', year: 'numeric',timeZone: 'UTC', };
-  
+
+  // Define options for date formatting based on the selected language
+  const dateOptions = { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }; 
+
+  // Define options for time formatting
   const timeOptions = {
-    hour: '2-digit', // Pour afficher l'heure avec deux chiffres
-    minute: '2-digit', // Pour afficher les minutes avec deux chiffres
-    second: '2-digit', // Pour afficher les secondes avec deux chiffres
-    hour12: true, // Utilise AM/PM
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: currentLanguage === 'en', 
     timeZone: 'UTC',
   };
-  
-  return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
+
+  // Format the date and time
+  const formattedDate = dateValues.toLocaleDateString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', dateOptions);
+  const formattedTime = dateValues.toLocaleTimeString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', timeOptions);
+
+  // Capitalize the first letter of the month for French
+  const capitalizeMonth = (dateStr) => {
+    return dateStr.replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
+  const finalDate = currentLanguage === 'fr'
+    ? capitalizeMonth(formattedDate) // Capitalize first letter for French date
+    : formattedDate;
+
+  // Combine formatted date and time
+  return currentLanguage === 'fr'
+    ? `${finalDate?.replace('.' , '')} à ${formattedTime}` // French format
+    : `${finalDate} ${formattedTime}`; // English format
 };
 
 export const capitalizeFirstLetter = (str) => {
@@ -77,3 +95,19 @@ export function parseDateString(dateString) {
   const [day, month, year] = dateString.split('/');
   return new Date(`${year}-${month}-${day}`);
 }
+
+
+export const formatPrice = (price, currentLanguage) => {
+  if (price === 0) {
+      return currentLanguage === 'fr' ? 'Gratuit' : 'Free';
+  } else {
+      const formattedPrice = new Intl.NumberFormat(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', {
+          style: 'currency',
+          currency: currentLanguage === 'fr' ? 'EUR' : 'USD',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+      }).format(price);
+
+      return currentLanguage === 'fr' ? `À partir de ${formattedPrice}` : `From ${formattedPrice}`;
+  }
+};

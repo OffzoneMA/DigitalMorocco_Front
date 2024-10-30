@@ -14,18 +14,19 @@ import coinsIcon from '../Media/credits_img.svg';
 import questionImg from '../Media/question.svg';
 import Popup from "reactjs-popup";
 import { logout } from "../Redux/auth/authSlice";
-import userImg from '../Media/img_avatar_1.png';
 import simpleLogo from '../Media/img_simple_logo.svg';
 import simpleLogoText from '../Media/img_simple_logo_text.svg';
 import { useGetUserDetailsQuery } from "../Services/Auth";
 import { useLocation } from "react-router-dom";
-import ReactDOM from 'react-dom';
 import { PiAtomBold } from "react-icons/pi";
 import userDefaultProfil from '../Media/User1.png';
 import { useGetNotificationSummaryQuery } from "../Services/Notification.Service";
+import { useTranslation } from 'react-i18next';
+
 
 
 const SidebarNav = () => {
+  const { t, i18n } = useTranslation();
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch} = useGetUserDetailsQuery();
   const { data: notifications, error: notificationsError, isLoading: notificationsLoading , refetch: refetchNotifications } = useGetNotificationSummaryQuery();
@@ -48,8 +49,8 @@ const SidebarNav = () => {
 
   const userData = JSON.parse(sessionStorage.getItem('userData'));
 
-  const settingActiveLinks = ["settings" , "Subscription" , "UserProfile" , "ChoosePlan" , "SubscribePlan"];
-  const subscriptionActiveLinks = ["Subscription" , "ChoosePlan" , "SubscribePlan"];
+  const settingActiveLinks = ["settings" , "Subscription" , "UserProfile" , "ChoosePlan" , "SubscribePlan" , "subscribePlan"];
+  const subscriptionActiveLinks = ["Subscription" , "ChoosePlan" , "SubscribePlan" , "subscribePlan"];
 
   useEffect(() => {
     refetch();
@@ -108,60 +109,60 @@ const SidebarNav = () => {
   };
   
   const Menus = [
-    { title: "Dashboard", src: <RiHome6Line size={23} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": userData?.role?.toLowerCase() === "investor"? "Dashboard_Investor" : userData?.role?.toLowerCase() === "partner"? "Dashboard_Partner" : "Dashboard" },
+    { title: t('sidebar.dashboard'), src: <RiHome6Line size={23} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": userData?.role?.toLowerCase() === "investor"? "Dashboard_Investor" : userData?.role?.toLowerCase() === "partner"? "Dashboard_Partner" : "Dashboard" },
     
-    (userData?.role?.toLowerCase() === "member") &&  { title: "Projects", src: <GoRocket size={23} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
+    (userData?.role?.toLowerCase() === "member") &&  { title: t('sidebar.projects') , src: <GoRocket size={23} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
     (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && {
-      title: "Company", src: <BiBuildings size={23} className="text-light_blue-100"/>,
+      title: t('sidebar.company.main') , src: <BiBuildings size={23} className="text-light_blue-100"/>,
       submenu: true, activeLinks: ["CreateOrEditEmployee" , "MyCompany" , "Employees" , "CompanyLegal"] ,
       child: [
         //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
-        { title: "My Company", src: '', link: "MyCompany" },
-        { title: "Employee", src: '', link: "Employees" , activeLinks: ["CreateOrEditEmployee"] },
-        { title: "Legal", src: '', link: "CompanyLegal" },
+        { title: t('sidebar.company.myCompany'), src: '', link: "MyCompany" },
+        { title: t('sidebar.company.employee'), src: '', link: "Employees" , activeLinks: ["CreateOrEditEmployee"] },
+        { title: t('sidebar.company.legal'), src: '', link: "CompanyLegal" },
       ]
     }
     ,
     (userData?.role?.toLowerCase() === "member") && { 
-    title: "Investor", src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
+    title: t('sidebar.investor.main'), src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
     submenu: true, activeLinks: ["InvestorDetails" , "InvestorRequestsHistoty" , "MyInvestors" , "Investors"] ,
     child: [
       //(userInfo?.member?.companyName || userInfo?.partner?.companyName) && 
-      { title: "Investor List", src: '', link: "Investors" , activeLinks: ["Investors" ,"InvestorDetails"] },
-      { title: "My Investors", src: '', link: "MyInvestors" , activeLinks: ["MyInvestors" , "MyInvestorDetails"]},
-      { title: "Request History", src: '', link: "InvestorRequestsHistoty" , activeLinks:["InvesotrRequestsHistoty"] },
+      { title: t('sidebar.investor.investorList'), src: '', link: "Investors" , activeLinks: ["Investors" ,"InvestorDetails"] },
+      { title: t('sidebar.investor.myInvestors'), src: '', link: "MyInvestors" , activeLinks: ["MyInvestors" , "MyInvestorDetails"]},
+      { title: t('sidebar.investor.requestHistory'), src: '', link: "InvestorRequestsHistoty" , activeLinks:["InvesotrRequestsHistoty"] },
     ]
     },
     (userData?.role?.toLowerCase() === "investor") && { 
-      title: "Investment", src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
+      title: t('sidebar.investment.main'), src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
       submenu: true, activeLinks: ["Investment" , "MyInvestment" , "InvestmentRequestHistory" , "InvestmentDetails" , "InvestmentRequestDetails"] ,
       child: [
-        { title: "Current Requests", src: '', link: "Investment" , activeLinks: ["Investment" , "InvestmentRequestDetails" ] },
-        { title: "My Investments", src: '', link: "MyInvestment" , activeLinks: ["MyInvestment" , "InvestmentDetails"]},
-        { title: "Request History", src: '', link: "InvestmentRequestHistory" , activeLinks:["InvestmentRequestHistory"] },
+        { title: t('sidebar.investment.currentRequests'), src: '', link: "Investment" , activeLinks: ["Investment" , "InvestmentRequestDetails" ] },
+        { title: t('sidebar.investment.myInvestments'), src: '', link: "MyInvestment" , activeLinks: ["MyInvestment" , "InvestmentDetails"]},
+        { title: t('sidebar.investment.requestHistory'), src: '', link: "InvestmentRequestHistory" , activeLinks:["InvestmentRequestHistory"] },
       ]
       },
-    { title: "Event", src: <HiOutlineTicket size={23} className="text-light_blue-100"/>  ,
+    { title: t('sidebar.event.main'), src: <HiOutlineTicket size={23} className="text-light_blue-100"/>  ,
     submenu: true, activeLinks:["Participate" ,"UpcomingEventDetails" , "PastEventDetails" , "PastEvent" , "UpcomingEvent" ,"EventDetails"],
     child: [
-      { title: "Participate", src: '', link: "Participate" , activeLinks:["Participate" , "EventDetails"] },
-      { title: "Upcoming Event", src: '', link: "UpcomingEvent" , activeLinks:["UpcomingEvent", "UpcomingEventDetails"] },
-      { title: "Past Event", src: '', link: "PastEvent" , activeLinks:["PastEvent", "PastEventDetails"] },
+      { title: t('sidebar.event.participate'), src: '', link: "Participate" , activeLinks:["Participate" , "EventDetails"] },
+      { title: t('sidebar.event.upcomingEvent'), src: '', link: "UpcomingEvent" , activeLinks:["UpcomingEvent", "UpcomingEventDetails"] },
+      { title: t('sidebar.event.pastEvent'), src: '', link: "PastEvent" , activeLinks:["PastEvent", "PastEventDetails"] },
     ]},
-    (userData?.role?.toLowerCase() === "partner") && { title: "Sponsoring", src: <PiAtomBold size={23} className="text-light_blue-100"/>  ,
+    (userData?.role?.toLowerCase() === "partner") && { title: t('sidebar.sponsoring.main'), src: <PiAtomBold size={23} className="text-light_blue-100"/>  ,
     submenu: true, activeLinks:["UpcomingSponsorEvent" ,"SponsorCurrentRequest" , "PastSponsorEvent" , "SponsorRequestHistory" , "SponsorEventDetails" ,"SponsorCurrentRequestDetails" , "PastSponsorEventDetails" , "SponsorRequestHistoryDetails" ],
     child: [
-      { title: "Upcoming Event", src: '', link: "UpcomingSponsorEvent" , activeLinks:["UpcomingSponsorEvent", "SponsorEventDetails"] },
-      { title: "Current Requests", src: '', link: "SponsorCurrentRequest" , activeLinks:["SponsorCurrentRequest" , "SponsorCurrentRequestDetails"] },
-      { title: "Past Event Sponsor", src: '', link: "PastSponsorEvent" , activeLinks:["PastSponsorEvent", "PastSponsorEventDetails"] },
-      { title: "Request History", src: '', link: "SponsorRequestHistory" , activeLinks:["SponsorRequestHistory" ,"SponsorRequestHistoryDetails"] },
+      { title: t('sidebar.sponsoring.upcomingEvent'), src: '', link: "UpcomingSponsorEvent" , activeLinks:["UpcomingSponsorEvent", "SponsorEventDetails"] },
+      { title: t('sidebar.sponsoring.currentRequests'), src: '', link: "SponsorCurrentRequest" , activeLinks:["SponsorCurrentRequest" , "SponsorCurrentRequestDetails"] },
+      { title: t('sidebar.sponsoring.pastEventSponsor'), src: '', link: "PastSponsorEvent" , activeLinks:["PastSponsorEvent", "PastSponsorEventDetails"] },
+      { title: t('sidebar.sponsoring.requestHistory'), src: '', link: "SponsorRequestHistory" , activeLinks:["SponsorRequestHistory" ,"SponsorRequestHistoryDetails"] },
     ]},
-    (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && { title: "Document", src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
-    { title: "History", src: <PiHourglassLowFill size={23} className="text-light_blue-100"/> , link:"History" },
+    (userData?.role?.toLowerCase() === "member" || userData?.role?.toLowerCase() === "investor" || userData?.role?.toLowerCase() === "partner") && { title: t('sidebar.document'), src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
+    { title: t('sidebar.history'), src: <PiHourglassLowFill size={23} className="text-light_blue-100"/> , link:"History" },
 
   ];
   if (userData?.role === "Admin") {
-    Menus.push({ title: "Users", src: <RiUser3Line size={23} className="text-light_blue-100"/> , link:"Users" });
+    Menus.push({ title: t('sidebar.users') , src: <RiUser3Line size={23} className="text-light_blue-100"/> , link:"Users" });
   }
 
   const handleMouseEnter = () => {
@@ -209,7 +210,7 @@ const SidebarNav = () => {
               {!open && (
               <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
                 <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{Menu?.title}</div>
+                  <div style={{whiteSpace: 'nowrap'}} className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{Menu?.title}</div>
                 </div>
               </div>
               )}
@@ -253,7 +254,7 @@ const SidebarNav = () => {
         >
           <IoSettingsOutline size={23} className={`text-light_blue-100 ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu) )? "active-icon-color" : "hover-active-color"}`} />
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
-              Settings
+          {t('sidebar.settings.main')}
           </span>
           {(open && settingsOpen)  ? (
               <BiChevronDown size={23} className={``}  />
@@ -263,7 +264,7 @@ const SidebarNav = () => {
           <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
             <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
               <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-              style={{whiteSpace: 'nowrap'}}>{'Settings'}</div>
+              style={{whiteSpace: 'nowrap'}}>{t('sidebar.settings.main')}</div>
             </div>
           </div>
           )}
@@ -278,14 +279,14 @@ const SidebarNav = () => {
           className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "UserProfile") ? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center gap-x-2  mt-1 `} 
         >
           <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
-          My Profil
+          {t('sidebar.settings.myProfile')}
           </span>
           {!open && 
             (
           <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
             <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
               <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-              style={{whiteSpace: 'nowrap'}}>{'My Profil'}</div>
+              style={{whiteSpace: 'nowrap'}}>{t('sidebar.settings.myProfile')}</div>
             </div>
           </div>      
           )}
@@ -298,13 +299,13 @@ const SidebarNav = () => {
           className={`relative group mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "subscribePlan" || subscriptionActiveLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
         >
           <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
-          Subscription & Billing
+          {t('sidebar.settings.subscriptionBilling')}
           </span>
           {!open && (
           <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
             <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
               <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-              style={{whiteSpace: 'nowrap'}}>{'Subscription & Billing'}</div>
+              style={{whiteSpace: 'nowrap'}}>{t('sidebar.settings.subscriptionBilling')}</div>
             </div>
           </div>
           )}
@@ -340,14 +341,14 @@ const SidebarNav = () => {
                 <span className={`${!open && "hidden"} origin-left duration-200 transition-colors duration-300 flex-1 group-hover:text-red-500`}>
                   SignOut
                 </span>
-                {!open && (
+                {/* {!open && (
                 <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
                   <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
                     <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
                     style={{whiteSpace: 'nowrap'}}>{'SignOut'}</div>
                   </div>
                 </div>
-                )}
+                )} */}
               </div>
               <div className="pb-5"></div>
             </div>
@@ -406,7 +407,7 @@ const SidebarNav = () => {
             <button
             onClick={() => navigate('/ManageCredits')}
              className={`px-3 py-2 bg-teal-A700 hover:bg-greenbtnhoverbg active:bg-[#018080] rounded-[100px] justify-center items-center cursorpointer flex`}>
-            <span className="text-white-A700 text-sm font-dm-sans-medium">Manage</span>
+            <span className="text-white-A700 text-sm font-dm-sans-medium">{t('sidebar.manage')}</span>
           </button>
           }
         </div>

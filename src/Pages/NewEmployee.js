@@ -14,9 +14,10 @@ import axios from "axios";
 import { format } from "date-fns";
 import moment from "moment/moment";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-
+import { useTranslation } from "react-i18next";
 
 const NewEmployee = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [imgFile, setImgFile] = useState(null);
@@ -346,7 +347,7 @@ const NewEmployee = () => {
           <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
             <PageHeader
               >
-              Company
+              {t("sidebar.company.main")}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'}/>
@@ -363,7 +364,7 @@ const NewEmployee = () => {
                 className="text-lg leading-7 text-gray-900_01 pt-1"
                 size="txtDmSansMedium16"
               >
-                  {employee? "Edit Employee": "Add Employee"} 
+                  {employee? t('employee.addEmployee.editEmployee'): t('employee.addEmployee.addEmployeeButton')} 
               </Text>
               {isSaved? 
               <button
@@ -371,7 +372,7 @@ const NewEmployee = () => {
                 type="submit"
               >
                 <BsCheck2Circle size={18} className="mr-2" />
-                Saved
+                {t('common.saved')}
               </button>
               :
               <button
@@ -379,7 +380,7 @@ const NewEmployee = () => {
                 type="submit" onClick={() => setHasSubmitted(true)}
               >
                 <FiSave size={18} className="mr-2" />
-                Save
+                {t('employee.addEmployee.save')}
               </button>
               }
             </div>
@@ -390,14 +391,14 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    Full Name
+                    {t('employee.addEmployee.fullName')}
                   </Text>
                     <input
                       {...register("fullName", { required: { value: true, message: "Employee First Name is required" } })}
                       className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.fullName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="fullName"
-                      placeholder="Enter Full Name"
+                      placeholder={t('employee.addEmployee.enterFullName')}
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     />
@@ -408,7 +409,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                   Work Email
+                   {t('employee.addEmployee.workEmail')}
                   </Text>
                     <input
                       {...register("workEmail", { required: { value: true, message: "Employee Work Email is required" } ,
@@ -424,7 +425,7 @@ const NewEmployee = () => {
                       className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.workEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="workEmail"
-                      placeholder="Enter Work Email"
+                      placeholder={t('employee.addEmployee.enterWorkEmail')}
                       value={formData.workEmail}
                       onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}                    
                     />
@@ -435,7 +436,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                   Personal Email
+                   {t('employee.addEmployee.personalEmail')}
                   </Text>
                     <input
                       {...register("personalEmail", { required: { value: false, message: "Employee Personal Email is required" } ,
@@ -451,7 +452,7 @@ const NewEmployee = () => {
                       className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.personalEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="personalEmail"
-                      placeholder="Enter Personal Email"
+                      placeholder={t('employee.addEmployee.enterPersonalEmail')}
                       value={formData.personalEmail}
                       onChange={(e) => setFormData({ ...formData, personalEmail: e.target.value })}                    
                     />
@@ -462,7 +463,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    Phone Number
+                    {t('employee.addEmployee.phoneNumber')}
                   </Text>
                     <input
                       {...register("phoneNumber", { required: { value: true, message: "Employee Phone Number is required" } ,
@@ -481,14 +482,14 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    Address
+                    {t('employee.addEmployee.address')}
                   </Text>
                     <input
                       {...register("address", { required: { value: false, message: "Employee address is required" } })}
                       className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="address"
-                      placeholder="Enter Address of Employee"
+                      placeholder={t('employee.addEmployee.enterAddress')}
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     />
@@ -499,14 +500,14 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    Country
+                    {t('employee.addEmployee.country')}
                   </Text>
                   <SimpleSelect id='country'
                     options={dataCountries} onSelect={""}
-                    searchLabel='Search Country'
+                    searchLabel={t("common.searchCountry")}
                     setSelectedOptionVal={setSelectedCountry}
                     selectedOptionsDfault={employee?.country? dataCountries.find(country => country.name === employee.country) : ""}
-                    placeholder={"Select Country"} valuekey="name" required={requiredFields.country} 
+                    placeholder={t('employee.addEmployee.selectCountry')} valuekey="name" required={requiredFields.country} 
                     content={
                       (option) => {
                         return (
@@ -526,11 +527,11 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    City/State
+                    {t('employee.addEmployee.cityState')}
                   </Text>
                   <SimpleSelect id='city'
-                    options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []} onSelect={""} searchLabel='Search City' setSelectedOptionVal={setSelectedCity}
-                    placeholder={"Select City"} valuekey="name" required={requiredFields.city} 
+                    options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []} onSelect={""} searchLabel={t("common.searchCity")} setSelectedOptionVal={setSelectedCity}
+                    placeholder={t('employee.addEmployee.selectCity')} valuekey="name" required={requiredFields.city} 
                     selectedOptionsDfault={employee?.cityState? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === employee?.cityState) : ""}
                     content={
                       (option) => {
@@ -551,7 +552,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    Personal Tax Identifier Number
+                    {t('employee.addEmployee.personalTaxIdentifierNumber')}
                   </Text>
                     <input
                       {...register("personalTaxIdentifierNumber", { required: { value: false, message: "Employee Personal Tax Identifier Number is required" } })}
@@ -620,7 +621,7 @@ const NewEmployee = () => {
                           className="text-[13px] text-base leading-6 tracking-normal w-auto"
                           size="txtDMSansRegular13"
                         >
-                        {"Upload Photo Here"}  
+                        {t('employee.addEmployee.uploadPhoto')}  
                         </Text>
                       </div>
                     </div>
@@ -632,16 +633,16 @@ const NewEmployee = () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Job Title
+                      {t('employee.addEmployee.job')}
                     </Text>
                     <SimpleSelect
                       id='job'
                       options={jobTitles}
                       onSelect={(selectedOption) => setSelectedJobTitle(selectedOption)}
-                      searchLabel="Search position / title"
+                      searchLabel={t('employee.addEmployee.searchJob')}
                       setSelectedOptionVal={setSelectedJobTitle}
                       selectedOptionsDfault={employee?.jobTitle ? jobTitles.find(job => job.title === employee.jobTitle) : ""}
-                      placeholder={"Select position / title"}
+                      placeholder={t('employee.addEmployee.selectJobTitle')}
                       valuekey="title"
                       content={(option) => {
                         return (
@@ -655,19 +656,16 @@ const NewEmployee = () => {
 
                       value={selectedJobTitle}
                       onChange={e => handleChange(e, setSelectedJobTitle)}
-
-
                     />
-
                   </div>
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Level
+                      {t('employee.addEmployee.level')}
                     </Text>
-                    <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel='Search Level' setSelectedOptionVal={setSelectedLevel}
-                      placeholder={"Select employee level"}
+                    <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel={t('employee.addEmployee.searchLevel')} setSelectedOptionVal={setSelectedLevel}
+                      placeholder={t('employee.addEmployee.selectLevel')}
                       selectedOptionsDfault={employee?.level? employeeLevels.find(lev => lev.level === employee.level) : ""}
                       valuekey="level"
                       content={
@@ -688,10 +686,10 @@ const NewEmployee = () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Department
+                      {t('employee.addEmployee.department')}
                     </Text>
-                    <SimpleSelect id='department' options={departments} onSelect={""} searchLabel='Search Department' setSelectedOptionVal={setSelectedDepartment}
-                      placeholder={"Select Department"} 
+                    <SimpleSelect id='department' options={departments} onSelect={""} searchLabel={t('employee.addEmployee.searchDepartment')} setSelectedOptionVal={setSelectedDepartment}
+                      placeholder={t('employee.addEmployee.selectDepartment')}
                       selectedOptionsDfault={employee?.department? departments.find(dep => dep.name === employee.department) : ""}
                       valuekey="name"
                       content={
@@ -712,7 +710,7 @@ const NewEmployee = () => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      Start Date
+                      {t('employee.addEmployee.startDate')}
                     </Text>
                     <CustomCalendar
                       className={' w-full'}

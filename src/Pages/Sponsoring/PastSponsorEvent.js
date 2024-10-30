@@ -26,8 +26,11 @@ import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringReq
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
 import { useGetApprovedSponsorsForPartnerQuery , useGetDistinctEventFieldsByPartnerQuery } from "../../Services/Sponsor.Service";
 import { parseDateString } from "../../data/helper";
+import { useTranslation } from "react-i18next";
 
 const PastSponsorEvent = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const navigate = useNavigate();
     const [field, setField] = useState('physicalLocation');
     const [eventStatus, setStatus] = useState(['past']);
@@ -127,7 +130,7 @@ const PastSponsorEvent = () => {
     
         return ReactDOM.createPortal(
         <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
-            <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
+            <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 min-w-40  fex flex-col rounded-md">
             <div className="flex flex-row gap-3 items-center cursorpointer hover:text-[#35D8BF]" onClick={()=> navigate(`/PastSponsorEventDetails/${item?._id}` , { state: { event: item } })}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9.33317 1.51306V4.26676C9.33317 4.64012 9.33317 4.82681 9.40583 4.96942C9.46975 5.09486 9.57173 5.19684 9.69718 5.26076C9.83978 5.33342 10.0265 5.33342 10.3998 5.33342H13.1535M9.33317 11.3334H5.33317M10.6665 8.66671H5.33317M13.3332 6.65886V11.4667C13.3332 12.5868 13.3332 13.1469 13.1152 13.5747C12.9234 13.951 12.6175 14.257 12.2412 14.4487C11.8133 14.6667 11.2533 14.6667 10.1332 14.6667H5.8665C4.7464 14.6667 4.18635 14.6667 3.75852 14.4487C3.3822 14.257 3.07624 13.951 2.88449 13.5747C2.6665 13.1469 2.6665 12.5868 2.6665 11.4667V4.53337C2.6665 3.41327 2.6665 2.85322 2.88449 2.42539C3.07624 2.04907 3.3822 1.74311 3.75852 1.55136C4.18635 1.33337 4.7464 1.33337 5.8665 1.33337H8.00769C8.49687 1.33337 8.74146 1.33337 8.97163 1.38863C9.17571 1.43763 9.3708 1.51844 9.54974 1.62809C9.75157 1.75178 9.92453 1.92473 10.2704 2.27063L12.3959 4.39612C12.7418 4.74202 12.9148 4.91497 13.0385 5.1168C13.1481 5.29575 13.2289 5.49084 13.2779 5.69491C13.3332 5.92509 13.3332 6.16968 13.3332 6.65886Z" stroke="#2575F0" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -135,7 +138,7 @@ const PastSponsorEvent = () => {
                 <Text
                 className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
                 >
-                View Report
+                {t('eventListSponsoring.view')}
                 </Text>
             </div>
             <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
@@ -146,7 +149,7 @@ const PastSponsorEvent = () => {
                     <Text
                         className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
                     >
-                        Download
+                        {t('eventListSponsoring.download')}
                     </Text>
                 </div>
                 :
@@ -155,7 +158,7 @@ const PastSponsorEvent = () => {
                     <Text
                         className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
                     >
-                        Download
+                        {t('eventListSponsoring.download')}
                     </Text>
                 </div>
                 )}
@@ -180,7 +183,7 @@ const PastSponsorEvent = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Past Event
+                    {t("event.pastEvent")}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -193,7 +196,7 @@ const PastSponsorEvent = () => {
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >
-                      Event List
+                      {t('eventListSponsoring.eventList')}
                     </TableTitle>
                     <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto">
                       {filter && 
@@ -294,11 +297,11 @@ const PastSponsorEvent = () => {
                   <table className=" w-full">
                     <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Organize by</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Type of sponsoring</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.eventName')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.organizedBy')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.date')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.typeOfSponsoring')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.location')}</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
@@ -373,7 +376,7 @@ const PastSponsorEvent = () => {
                   <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
                     <img src={ticketEmptyImg} />
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                      <span>No Past Events Sponsor Requests Approved</span>
+                      <span>{t("common.noPastSponsorApproved")}</span>
                     </div>
                   </div>
                 }

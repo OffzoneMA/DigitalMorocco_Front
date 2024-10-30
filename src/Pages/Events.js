@@ -22,9 +22,11 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import ReactDOM from 'react-dom';
 import userDefaultProfil from '../Media/User1.png';
 import { RiDeleteBack2Line } from "react-icons/ri";
-
+import { useTranslation } from "react-i18next";
+import { fr, enUS } from 'date-fns/locale';
 
 const Events = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const field = 'physicalLocation';
   const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
@@ -52,6 +54,9 @@ const Events = () => {
   const [openDropdownIndexes, setOpenDropdownIndexes] = useState([]);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const [ticketDataRow , setTicketDataRow] = useState(null);
+
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
+  const locale = currentLanguage === 'fr' ? fr : enUS;
 
   useEffect(() => {
     refetch();
@@ -141,6 +146,51 @@ const Events = () => {
     "North Africa Dreamin"
   ];
 
+  const formatEventDate = (startDate, startTime, currentLanguage) => {
+    const locale = currentLanguage === 'fr' ? fr : enUS;
+
+    // If there is no start date, return "Coming Soon"
+    if (!startDate) {
+        return 'Coming Soon';
+    }
+
+    const dateObj = new Date(startDate);
+
+    // Format the date according to the selected language
+    const dateFormatted = currentLanguage === 'fr'
+        ? format(dateObj, 'd MMM yyyy', { locale }) // French format: 3 Sep 2024
+        : format(dateObj, 'MMM d, yyyy', { locale }); // English format: Sep 3, 2024
+
+    // Capitalize the first letter of the month for French
+    const finalDateFormatted = currentLanguage === 'fr' 
+        ? dateFormatted.replace(/\b\w/g, (char) => char.toUpperCase()).slice(1)
+        : dateFormatted;
+
+    // Format the time based on the current language
+    let timeFormatted = '';
+
+    if (currentLanguage === 'fr') {
+        // In French, time is presented in 24-hour format
+        if (startTime) {
+            const [timePart, modifier] = startTime.split(' '); // Split the time into components
+            const [hours, minutes] = timePart.split(':');
+
+            // Format time without AM/PM
+            timeFormatted = `${hours.padStart(2, '0')}H${minutes}`; // Use 'H' instead of ':'
+        }
+    } else {
+        // For English, retain the original format
+        timeFormatted = startTime ? startTime.toLowerCase() : '';
+    }
+
+    // Combine date and time, considering language specifics
+    const output = currentLanguage === 'fr'
+        ? `${finalDateFormatted?.replace('.' , '')} à ${timeFormatted}` // French: "3 Septembre 2024 à 11H00"
+        : `${dateFormatted} ${timeFormatted}`; // English: "Sep 3, 2024 11:00 AM"
+
+    return output.trim();
+};
+
 
   const renderDropdown = (index , item) => {
     const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
@@ -148,13 +198,13 @@ const Events = () => {
   
     return ReactDOM.createPortal(
       <div className="absolute top-[calc(100%)] right-0 z-50" style={{ top: `${triggerRect.bottom}px`, right: `${30}px` }}>
-        <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 w-40  fex flex-col rounded-md">
+        <div className="mt-4 px-3 py-6 shadow-sm md:shadow-lg bg-white-A700 min-w-40  fex flex-col rounded-md">
           <div className="flex flex-row gap-3 items-center cursorpointer-green hover:text-[#35D8BF]" onClick={(e) => {e.stopPropagation(); openTicketModal(item)}}>
             <HiOutlineQrcode size={18} className="text-blue-A400 transform scale-x-[-1]"/>
             <Text
               className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF] "
             >
-              View Ticket
+              {t('event.eventParticipate.viewTicket')}
             </Text>
           </div>
           <PDFDownloadLink document={<DownloadTicket1 title={item?.title} date={item?.startDate ? `${format(new Date(item.startDate), 'E, MMM d, yyyy')}${item.startTime ? `  ${item?.startTime || ''}` : ''}` : 'Coming Soon'} TicketCode='OpenMic' name='Ichane Roukéya' ticketNumber={2}/>} fileName="ticket.pdf">
@@ -165,7 +215,7 @@ const Events = () => {
                   <Text
                     className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
                   >
-                    Download
+                    {t('event.eventParticipate.download')}
                   </Text>
               </div>
               :
@@ -174,7 +224,7 @@ const Events = () => {
                   <Text
                     className="text-gray-801 font-dm-sans-regular text-sm leading-6 hover:text-[#35D8BF]"
                   >
-                    Download
+                    {t('event.eventParticipate.download')}
                   </Text>
               </div>
               )}
@@ -185,6 +235,7 @@ const Events = () => {
     );
   }
 
+  
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -192,7 +243,7 @@ const Events = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Event Participate
+                    {t('event.eventParticipate.title')}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -206,7 +257,7 @@ const Events = () => {
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >
-                      Event
+                      {t('event.eventParticipate.event')}
                     </TableTitle>
                     <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto">
                       {filter && 
@@ -301,11 +352,11 @@ const Events = () => {
                   <table className=" w-full">
                     <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Organize by</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('event.eventParticipate.eventName')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('event.eventParticipate.organizedBy')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('event.eventParticipate.date')}</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('event.eventParticipate.location')}</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
@@ -330,7 +381,8 @@ const Events = () => {
                           </div>
                         </td>
                         <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-none">
-                          {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy')} ${item?.startTime?.toLowerCase()}` : 'Coming Soon'}
+                          {/* {item.startDate ? `${format(new Date(item.startDate), 'MMM d, yyyy', { locale })} ${item?.startTime?.toLowerCase()}` : 'Coming Soon'}   */}
+                          {formatEventDate(item.startDate, item?.startTime, currentLanguage) }                     
                         </td>                        
                         <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed"
                          style={{whiteSpace:"nowrap"}}>
@@ -424,7 +476,7 @@ const Events = () => {
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto pb-4"
                       size=""
                     >
-                      It seems like you haven't taken part in any events yet
+                      {t("event.noParticipationMessage")}
                     </Text>
                     <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
                         <button
@@ -433,7 +485,7 @@ const Events = () => {
                             className=" font-dm-sans-medium text-sm leading-[18.23px] text-white-A700 cursorpointer"
                             style={{whiteSpace:'nowrap'}}
                         >
-                          Browse Upcoming Event
+                          {t("event.browseUpcomingEvents")}
                         </button>
                     </div>
                   </div>

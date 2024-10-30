@@ -25,8 +25,11 @@ import RejectContactRequestModal from "../../Components/RejectContactRequestModa
 import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
 import { IoOpenOutline } from "react-icons/io5";
+import { useTranslation } from "react-i18next";
 
 const MyInvestmentDetails = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const dividerRef = useRef(null);
     const div1Ref = useRef(null);
     const div2Ref = useRef(null);
@@ -70,10 +73,17 @@ const MyInvestmentDetails = () => {
     const [approveRequest] = useApproveRequestMutation();
     const [rejectRequest] = useRejectRequestMutation();
 
-    function formatDate(isoDate) {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const date = new Date(isoDate);
-        return months[date.getMonth()] + ' ' + date.getFullYear();
+    function formatDate(isoDate, locale = currentLanguage) {
+      const date = new Date(isoDate);
+      const options = { month: 'short', year: 'numeric' };
+      let formattedDate = new Intl.DateTimeFormat(locale, options).format(date);
+  
+      // Remove the period in French month abbreviations
+      if (locale === 'fr') {
+          formattedDate = formattedDate.replace('.', '');
+      }
+  
+      return formattedDate;
     }
 
     useEffect(() => {
@@ -181,7 +191,7 @@ const MyInvestmentDetails = () => {
               <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
                 <PageHeader
                   >
-                    My Investment
+                    {t("sidebar.investment.main")}
                 </PageHeader>
               </div>
               <SearchInput className={'w-[240px]'}/>
@@ -202,7 +212,7 @@ const MyInvestmentDetails = () => {
                       style={{whiteSpace: 'nowrap'}}
                     >
                       <HiOutlineShare size={21} className="text-[#EDF7FF]" />
-                      <span className="hidden md:inline-block">Share</span>
+                      <span className="hidden md:inline-block">{t("common.share")}</span>
                     </button>
                     <button
                       className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer px-[12px] px-[10px] h-[41px] rounded-md"
@@ -211,7 +221,7 @@ const MyInvestmentDetails = () => {
                       style={{whiteSpace: 'nowrap'}}
                     >
                       <TbDownload size={21} className="" />
-                      <span className="hidden md:inline-block">Download</span>
+                      <span className="hidden md:inline-block">{t("common.download")}</span>
                     </button>
                   </div>}
                   {data?.status?.toLowerCase() == "in progress" && <div className="flex flex-wrap gap-3 items-center ">
@@ -222,7 +232,7 @@ const MyInvestmentDetails = () => {
                       style={{whiteSpace: 'nowrap'}}
                     >
                       <PiCheckBold size={21} className="text-white-A700" />
-                      <span className="hidden md:inline-block">Approve</span>
+                      <span className="hidden md:inline-block">{t("common.approve")}</span>
                     </button>
                     <button
                       className="bg-[#EF4352] hover:bg-[#F02A3C] active:bg-[#F02A3C] text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] cursorpointer px-[12px] px-[10px] h-[41px] rounded-md"
@@ -231,7 +241,7 @@ const MyInvestmentDetails = () => {
                       style={{whiteSpace: 'nowrap'}}
                     >
                       <RiCloseLine size={21} className="" />
-                      <span className="hidden md:inline-block">Reject</span>
+                      <span className="hidden md:inline-block">{t("common.reject")}</span>
                     </button>
                   </div>}
                 </div>
@@ -240,7 +250,7 @@ const MyInvestmentDetails = () => {
                     <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                         <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                          Total Raised
+                        {t('investment.project.totalRaised')}
                         </Text>
                       </div>
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -252,7 +262,7 @@ const MyInvestmentDetails = () => {
                     <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                         <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                          Target
+                        {t('investment.project.target')}
                         </Text>
                       </div>
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -264,7 +274,7 @@ const MyInvestmentDetails = () => {
                     <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                         <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                          Stage
+                        {t('investment.project.stage')}
                         </Text>
                       </div>
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -276,7 +286,7 @@ const MyInvestmentDetails = () => {
                     <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                         <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                          Sector
+                        {t('investment.project.sector')}
                         </Text>
                       </div>
                       <div className="h-[26px] px-[13px] py-2 rounded-[50px] border border-[#c653dd] justify-center items-center gap-1 inline-flex">
@@ -286,7 +296,7 @@ const MyInvestmentDetails = () => {
                     <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                         <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                          Status
+                        {t('investment.project.status')}
                         </Text>
                       </div>
                       <div className="flex flex-row items-start justify-start w-full">
@@ -312,7 +322,7 @@ const MyInvestmentDetails = () => {
                             className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                             size="txtDMSansBold12"
                           >
-                            Project Description
+                            {t('investment.project.description')}
                           </Text>
                         </div>
                         <div className="flex flex-col justify-start py-4 w-full">
@@ -338,7 +348,7 @@ const MyInvestmentDetails = () => {
                             className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                             size="txtDMSansBold12"
                           >
-                            Project Milestone
+                            {t('investment.project.mmilestone')}
                           </Text>
                         </div>
                         <div className="flex flex-col items-start justify-start w-full">
@@ -363,14 +373,14 @@ const MyInvestmentDetails = () => {
                             className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                             size="txtDMSansBold12"
                           >
-                            Team Member
+                            {t('investment.project.teamMember')}
                           </Text>
                           <div className="relative w-[50%] min-w-[120px] max-w-[350px]">
                             <input
                               className={`!placeholder:text-[#98A2B3] !text-gray700 font-manrope p-2 h-[36px] pr-[30px] text-left text-sm tracking-[0.14px] w-full bg-transparent border border-solid border-gray-201 focus:border-focusColor focus:shadow-inputBs rounded-md`}
                               type="text"
                               name="search"
-                              placeholder="Search..."
+                              placeholder={t('projects.createNewProject.searchMember')}
                               value={searchValue}
                               onChange={(e) => setSearchValue(e.target.value)}
                             />
@@ -407,7 +417,7 @@ const MyInvestmentDetails = () => {
                                 className="text-[#1d1c21] text-base leading-relaxed font-dm-sans-medium w-auto"
                                 size="txtDMSansBold12"
                                 >
-                                Project Logo
+                                {t('investment.project.projectLogo')}
                             </Text>
                             <div className="h-[150px] w-full rounded-[6px] px-3 py-[50px] justify-center border border-[#D0D5DD] items-center gap-1.5 flex">
                                 <img src={project?.logo} alt="Logo" className="rounded-[6px] h-[150px] w-auto" />
@@ -422,7 +432,7 @@ const MyInvestmentDetails = () => {
                                 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                                 size="txtDMSansBold12"
                                 >
-                                Project Name
+                                {t('investment.project.projectName')}
                             </Text>
                             <div className="text-[#344053] text-base font-dm-sans-regular leading-relaxed">Startup 8</div>
                         </div>
@@ -437,7 +447,7 @@ const MyInvestmentDetails = () => {
                                 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                                 size="txtDMSansBold12"
                                 >
-                                Country
+                                {t('investment.project.country')}
                             </Text>
                             <div className="text-[#344053] text-base font-dm-sans-regular leading-relaxed">Morocco</div>
                         </div>
@@ -451,7 +461,7 @@ const MyInvestmentDetails = () => {
                                 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                                 size="txtDMSansBold12"
                                 >
-                               Website
+                               {t('investment.project.website')}
                             </Text>
                             <div className="text-[#344053] flex gap-[10px] text-base font-dm-sans-regular leading-relaxed">
                             {project?.website || '-'}
@@ -468,7 +478,7 @@ const MyInvestmentDetails = () => {
                                 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                                 size="txtDMSansBold12"
                                 >
-                                Email Address
+                                {t('investment.project.email')}
                             </Text>
                             <div className="text-[#344053] text-base font-dm-sans-regular leading-relaxed">investment@venture-catalysts.com</div>
                         </div>
@@ -478,7 +488,7 @@ const MyInvestmentDetails = () => {
                           className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                           size="txtDMSansBold12"
                         >
-                          Documents
+                          {t('investment.project.documents')}
                         </Text>
                         <div className="flex flex-col w-full">
                           {project?.documents?.length> 0 && project?.documents.map((document, index) => (

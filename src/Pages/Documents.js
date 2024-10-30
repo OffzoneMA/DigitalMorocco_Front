@@ -20,8 +20,10 @@ import Loader from "../Components/Loader";
 import { FaUserCircle } from "react-icons/fa";
 import userdefaultProfile from '../Media/User.png';
 import { formatDateValue  } from "../data/helper";
+import { useTranslation } from "react-i18next";
 
 const Documents = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
   const [createDocument, createResponse] = useCreateDocumentMutation(); 
@@ -39,6 +41,7 @@ const Documents = () => {
   const [totalPages , setTotalPages] = useState(0);
   const { data: documents, error, isLoading , refetch} = useGetDocumentsForUserQuery({page: cur , pageSize: itemsPerPage});
   const data = documents;
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
 
   const pageData = documents?.documents;
 
@@ -113,7 +116,7 @@ const Documents = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Document
+                    {t('document.title')}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -124,7 +127,7 @@ const Documents = () => {
               <div className="flex flex-row flex-wrap items-center text-gray-500 border-b border-gray-201 rounded-t-lg bg-white-A700 py-[19.5px] px-5">
                 <TableTitle
                 >
-                  My Document
+                  {t('document.myDocument')}
                 </TableTitle>
                 <button
                   className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row gap-[8px] h-[37px] items-center ml-auto px-[12px] rounded-md min-w-[206px] cursorpointer"
@@ -134,7 +137,7 @@ const Documents = () => {
                   <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M17.375 12.125V13.175C17.375 14.6451 17.375 15.3802 17.0889 15.9417C16.8372 16.4357 16.4357 16.8372 15.9417 17.0889C15.3802 17.375 14.6451 17.375 13.175 17.375H5.825C4.35486 17.375 3.61979 17.375 3.05827 17.0889C2.56435 16.8372 2.16278 16.4357 1.91111 15.9417C1.625 15.3802 1.625 14.6451 1.625 13.175V12.125M13.875 6L9.5 1.625M9.5 1.625L5.125 6M9.5 1.625V12.125" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  <span className="text-sm font-medium leading-[18.23px]">Upload New Document</span>
+                  <span className="text-sm font-medium leading-[18.23px]">{t('document.uploadNewDocument')}</span>
               </button>
               </div>
               <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
@@ -145,11 +148,11 @@ const Documents = () => {
                 <table className=" w-full">
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Upload Date</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Document Name</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Upload By</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Share With</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Action</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('document.uploadDate')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('document.documentName')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('document.uploadBy')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('document.shareWith')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('document.action')}</th>
                   </tr>
                   </thead>
                   { (pageData?.length > 0 && !isLoading) ?
@@ -158,7 +161,7 @@ const Documents = () => {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} onClick={()=> openEditModal(item)}>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
-                      {formatDateValue(item?.uploadDate)}
+                      {formatDateValue(item?.uploadDate , currentLanguage)}
                       </td>
                       <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center gap-2.5" >
@@ -191,8 +194,8 @@ const Documents = () => {
                                   <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                 </svg>
                               </div>
-                              <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Edit</div>
+                              <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.edit")}</div>
                               </div>
                             </div>
                           </div>
@@ -206,8 +209,8 @@ const Documents = () => {
                                   <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                 </svg>
                               </div>
-                              <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                              <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.delete")}</div>
                               </div>
                             </div>
                           </div>
@@ -221,8 +224,8 @@ const Documents = () => {
                                   <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                 </svg>
                               </div>
-                              <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Share</div>
+                              <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.share")}</div>
                               </div>
                             </div>
                           </div>
@@ -278,7 +281,7 @@ const Documents = () => {
               onRequestClose={closeShareModal} 
           />
           <DeleteModal isOpen={isDeleteModalOpen}
-            onRequestClose={closeDeleteModal} title="Delete Document" 
+            onRequestClose={closeDeleteModal} title={t('document.deleteDocumentConfirmation.title')}
             onDelete={handleDelete}
             content={
               <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full">
@@ -286,7 +289,7 @@ const Documents = () => {
                   className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6"
                   size=""
                 >
-                  Are you sure you want to delete this document?
+                  {t('document.deleteDocumentConfirmation.confirmationMessage')}
                 </Text>
               </div>
             }/>

@@ -61,7 +61,7 @@ export default function ProjectDetails({project,onClose}){
                     <div><span className="font-semibold">City : </span><span className={` text-gray-500`}>{project?.owner?.city}</span></div>
                     <div><span className="font-semibold">Company Type : </span><span className={` text-gray-500`}>{project?.owner?.companyType}</span></div>
                   <div>
-                      <span className="font-semibold">Project Name : </span>
+                      <span className="font-semibold">{t('projects.createNewProject.projectName')} : </span>
                       <span className='  '>
                         <span className=' text-gray-800'>{project?.name}</span>
                       </span>

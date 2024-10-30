@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
   const { userInfo } = useSelector((state) => state.auth)
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
@@ -434,13 +435,13 @@ export default function UserProfile() {
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader >
-              My Profil
+            {t('settings.myProfile.title')}
             </PageHeader>
           </div>
         </div>
         <div className="flex flex-col  md:flex-row items-center md:items-start w-full py-6 gap-8">
-          <div className='flex flex-col gap-4 w-[180px] 2xl:w-[220px] 3xl:w-[250px] items-center'>
-            <div className={`relative flex w-full h-[180px] 2xl:h-[220px] 3xl:w-[250px] rounded-full items-center justify-center ${(preview || userData?.image) ? '' : 'bg-light_blue-100'}`} 
+          <div className='flex flex-col gap-4 w-[200px] 2xl:w-[240px] 3xl:w-[270px] items-center'>
+            <div className={`relative flex w-full h-[200px] 2xl:h-[240px] 3xl:h-[270px] rounded-full items-center justify-center ${(preview || userData?.image) ? '' : 'bg-light_blue-100'}`} 
             onClick={handleUploadClick}>
               {preview ? (
                 <img src={preview} alt="Uploaded" className='w-full h-full rounded-full ' />
@@ -500,7 +501,7 @@ export default function UserProfile() {
                 <path d="M15.625 6V0.75M13 3.375H18.25M18.25 9.5V14.05C18.25 15.5201 18.25 16.2552 17.9639 16.8167C17.7122 17.3107 17.3107 17.7122 16.8167 17.9639C16.2552 18.25 15.5201 18.25 14.05 18.25H4.95C3.47986 18.25 2.74479 18.25 2.18327 17.9639C1.68935 17.7122 1.28778 17.3107 1.03611 16.8167C0.75 16.2552 0.75 15.5201 0.75 14.05V4.95C0.75 3.47986 0.75 2.74479 1.03611 2.18327C1.28778 1.68935 1.68935 1.28778 2.18327 1.03611C2.74479 0.75 3.47986 0.75 4.95 0.75H9.5M0.877522 16.4355C1.28802 14.9588 2.64245 13.875 4.25 13.875H10.375C11.1881 13.875 11.5947 13.875 11.9328 13.9423C13.3212 14.2184 14.4066 15.3038 14.6827 16.6922C14.75 17.0303 14.75 17.4369 14.75 18.25M11.25 7.3125C11.25 9.2455 9.683 10.8125 7.75 10.8125C5.817 10.8125 4.25 9.2455 4.25 7.3125C4.25 5.3795 5.817 3.8125 7.75 3.8125C9.683 3.8125 11.25 5.3795 11.25 7.3125Z" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <span className="text-[13px]">
-                Upload Photo
+              {t('settings.myProfile.uploadPhoto')}
               </span>
             </button>
           </div>
@@ -509,27 +510,27 @@ export default function UserProfile() {
               <div className='flex flex-row w-full gap-5'>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    First Name
+                  {t('settings.myProfile.firstName')}
                   </Text>
                   <input
                     {...register1('firstName', { required: {value:true } })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.firstName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text" name="firstName" placeholder="First Name" />
+                    type="text" name="firstName" placeholder={t('settings.myProfile.firstName')} />
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    Last Name
+                  {t('settings.myProfile.lastName')}
                   </Text>
                   <input
                     {...register1('lastName', { required: {value:true } })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.lastName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text" name="lastName" placeholder="Last Name" />
+                    type="text" name="lastName" placeholder={t('settings.myProfile.lastName')} />
                 </div>
               </div>
               <div className='flex flex-row w-full gap-5'>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    Email
+                  {t('settings.myProfile.email')}
                   </Text>
                   <input
                     {...register1('email', { 
@@ -544,11 +545,11 @@ export default function UserProfile() {
                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         }, })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.email ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="email" name="email" placeholder="Your Email" />
+                    type="email" name="email" placeholder={t('settings.myProfile.emailPlaceholder')} />
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    Phone Number
+                  {t('settings.myProfile.phoneNumber')}
                   </Text>
                   <input
                     {...register1('phoneNumber', 
@@ -556,44 +557,44 @@ export default function UserProfile() {
                         validate: validatePhoneNumber
                       })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.phoneNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text" name="phoneNumber" placeholder="Your Phone Number" />
+                    type="text" name="phoneNumber" placeholder={t('settings.myProfile.phoneNumberPlaceholder')} />
                 </div>
               </div>
               <div className='flex flex-row w-full gap-5'>
                 {/* {userData?.role === "member" && ( */}
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    Website
+                  {t('settings.myProfile.website')}
                   </Text>
                   <input
                     {...register1('website', { required: {value:false } })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text" name="website" placeholder="Enter Website" />
+                    type="text" name="website" placeholder={t('settings.myProfile.websitePlaceholder')} />
                 </div>
                 {/* )} */}
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    Address
+                  {t('settings.myProfile.address')}
                   </Text>
                   <input
                     {...register1('address' , { required: {value:false } })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text" name="address" placeholder="Enter Address" />
+                    type="text" name="address" placeholder={t('settings.myProfile.addressPlaceholder')} />
                 </div>
               </div>
               <div className='flex flex-row w-full gap-5'>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    Country
+                  {t('settings.myProfile.country')}
                   </Text>
                   <SimpleSelect
                     id='country'
                     options={allCountries}
                     onSelect={""}
-                    searchLabel='Search Country'
+                    searchLabel={t("common.searchCountry")}
                     setSelectedOptionVal={setSelectedCountry}
                     selectedOptionsDfault={userData?.country ? allCountries.find(country => country.name === userData.country) : ""}
-                    placeholder={"Select Country"} required={requiredFields1.country}
+                    placeholder={t('settings.myProfile.countryPlaceholder')} required={requiredFields1.country}
                     valuekey="name"
                     content={(option) => {
                       return (
@@ -608,16 +609,16 @@ export default function UserProfile() {
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
-                    City/State
+                  {t('settings.myProfile.cityState')}
                   </Text>
                   <SimpleSelect
                     id='city'
                     options={selectedCountry  ? City.getCitiesOfCountry(selectedCountry?.['isoCode']) : userData?.cityState ? City.getCitiesOfCountry(selectedCountry?.['isoCode']) : []}
                     onSelect={""}
-                    searchLabel='Search City'
+                    searchLabel={t("common.searchCity")}
                     selectedOptionsDfault={userData?.cityState ? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userData?.cityState) : ""}
                     setSelectedOptionVal={setSelectedCity}
-                    placeholder={"Select City"}
+                    placeholder={t('settings.myProfile.cityStatePlaceholder')}
                     valuekey="name" required={requiredFields1.city}
                     content={(option) => {
                       return (
@@ -635,21 +636,21 @@ export default function UserProfile() {
                 <button 
                 onClick={() => setHasSubmitted1(true)}
                 className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit">
-                  Save
+                  {t('settings.myProfile.save')}
                 </button>
               ) : (
                 <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
                   <SlCheck size={20} />
-                  <span className="text-base text-gray500">Saved</span>
+                  <span className="text-base text-gray500">{t("common.saved")}</span>
                 </button>
               )}
             </form>
             <form onSubmit={handleSubmit2(onSubmit2)} className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-dm-sans-medium text-base leading-6 text-[#101828] w-full" >
-                Password Setting </Text>
+              {t('settings.myProfile.passwordSetting')} </Text>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
                 <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel" >
-                  Current Password </Text>
+                {t('settings.myProfile.currentPassword')} </Text>
                 <div className="relative w-full">
                   <input {...register2('currentPassword',
                     { required: { value: true, message: 'Current Password is required' } , 
@@ -658,7 +659,7 @@ export default function UserProfile() {
                       style={{ appearance: 'none' }}
                       className={`${!showCurrentPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.currentPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.currentPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.currentPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
                       name="currentPassword" 
-                      placeholder="Your Current Password" 
+                      placeholder={t('settings.myProfile.currentPasswordPlaceholder')}
                   />
                   {/* {getValues2('currentPassword') && getValues2('currentPassword')?.length > 0 &&  */}
                     <button
@@ -682,7 +683,7 @@ export default function UserProfile() {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
                 <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel" >
-                  New Password </Text>
+                {t('settings.myProfile.newPassword')} </Text>
                 <div className="relative w-full">
                   <input {...register2('newPassword',
                     { required: { value: true, message: 'New Password is required' } ,
@@ -698,7 +699,7 @@ export default function UserProfile() {
                     style={{ appearance: 'none' }}
                     className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.newPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.newPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.newPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
                     name="newPassword" 
-                    placeholder="Enter New Password" 
+                    placeholder={t('settings.myProfile.newPasswordPlaceholder')}
                   />
                   {/* {getValues2('newPassword')?.length > 0 &&  */}
                     <button
@@ -803,7 +804,7 @@ export default function UserProfile() {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start  w-full`}>
                 <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel" >
-                  Confirm New Password </Text>
+                {t('settings.myProfile.confirmNewPassword')} </Text>
                 <div className="relative w-full">
                   <input {...register2('confirmNewPassword',
                     {
@@ -814,7 +815,7 @@ export default function UserProfile() {
                     style={{ appearance: 'none' }}
                     className={`${!showPasswordConfirm ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.confirmNewPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.confirmNewPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.confirmNewPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
                     name="confirmNewPassword" 
-                    placeholder="Confirm New Password" />
+                    placeholder={t('settings.myProfile.newPasswordPlaceholder')} />
                     {/* {getValues2('confirmNewPassword')?.length > 0 &&  */}
                       <button
                         type="button"
@@ -838,24 +839,24 @@ export default function UserProfile() {
               {!isForm2Saved ?
                 (
                   <button className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
-                    Save </button>
+                  {t('settings.myProfile.save')} </button>
                 ) : (
                   <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
-                    <SlCheck size={20} /> <span className="text-base text-gray500">Saved</span> </button>
+                    <SlCheck size={20} /> <span className="text-base text-gray500">{t("common.saved")}</span> </button>
                 )
               }
             </form>
             <form onSubmit={handleSubmit3(onSubmit3)}
               className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-dm-sans-medium text-base leading-6 text-[#101828] w-full" >
-                Language and Region Settings </Text>
+              {t('settings.myProfile.languageAndRegionSettings')} </Text>
               <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
-                <Text className="text-base text-gray-901 w-[130px] " size="txtDMSansLablel" >
-                  Select Language </Text>
+                <Text className={`text-base text-gray-901 ${currentLanguage === 'fr' ? 'w-[170px]' : 'w-[130px]'}`} size="txtDMSansLablel" >
+                {t('settings.myProfile.selectLanguage')} </Text>
                 <SimpleSelect className='max-w-[40%]' id='language' options={languages} onSelect={""}
-                  searchLabel='Search Language' setSelectedOptionVal={setSelectedLanguage}
+                  searchLabel={t('settings.myProfile.searchLanguage')} setSelectedOptionVal={setSelectedLanguage}
                   selectedOptionsDfault={userData?.language? languages.find(lang => lang.label === userData.language) : ""}
-                  placeholder={"Select Language"}
+                  placeholder={t('settings.myProfile.selectLanguage')}
                   valuekey="label"
                   content={(option) => {
                     return (<div className="flex  py-2 items-center  w-full">
@@ -863,13 +864,13 @@ export default function UserProfile() {
                         {option.label} </Text> </div>);
                   }} />
               </div> <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
-                <Text className="text-base text-gray-901 w-[130px]" size="txtDMSansLablel" >
-                  Select Region </Text>
+                <Text className={`text-base text-gray-901 ${currentLanguage === 'fr' ? 'w-[170px]' : 'w-[130px]'}`} size="txtDMSansLablel" >
+                {t('settings.myProfile.selectRegion')}</Text>
                 <SimpleSelect className='max-w-[40%]' id='region'
-                  options={regions} onSelect={""} searchLabel='Search Region'
+                  options={regions} onSelect={""} searchLabel={t('settings.myProfile.searchRegion')}
                   setSelectedOptionVal={setSelectedRegion}
                   selectedOptionsDfault={userData?.region? regions.find(region => region.label === userData.region) : ""}
-                  placeholder={"Select Your Region"} required={requiredFields3.region} 
+                  placeholder={t('settings.myProfile.selectRegionPlaceholder')} required={requiredFields3.region} 
                   valuekey="label"
                   content={(option) => {
                     return (
@@ -883,24 +884,24 @@ export default function UserProfile() {
                 onClick={() => setHasSubmitted3(true)}
                   className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" 
                   type="submit" >
-                  Save </button>
+                  {t('settings.myProfile.save')} </button>
               ) : (
                 <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
                   <SlCheck size={20} /> <span className="text-base text-gray500">
-                    Saved</span> </button>
+                    {t("common.saved")}</span> </button>
               )
               } 
             </form>
 
             <div className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <Text className="font-dm-sans-medium text-base leading-6 text-[#101828] w-full" >
-                Delete Your Account </Text>
+              {t('settings.myProfile.deleteYourAccount')} </Text>
               <Text className="font-dm-sans-regular text-base leading-6 text-blue_gray-601 w-full" >
-                By deleting your account, you’ll no longer be able to access your account or log in to Digital Morocco.
+              {t('settings.myProfile.deleteAccountMessage')}
               </Text>
               <button className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[178px] mr-auto py-2 px-5 rounded-md w-auto cursorpointer"
                 onClick={openDeleteModal} type="button" >
-                Delete Account
+                {t('settings.myProfile.deleteAccount')}
               </button>
             </div>
           </div>

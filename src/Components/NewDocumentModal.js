@@ -9,8 +9,10 @@ import MultipleSelect from "./MultipleSelect";
 import { useCreateDocumentMutation  , useGetShareWithDataQuery } from "../Services/Document.Service";
 import { useNavigate } from "react-router-dom";
 import { useGetAllUsersQuery } from "../Services/User.Service";
+import { useTranslation } from "react-i18next";
 
 const NewDocumentModal = (props) => {
+  const { t } = useTranslation();
   const [Mount, setMount] = useState(true)
   const { data: users} = useGetAllUsersQuery();
   const {data: shareWithData , isLoading, isError , refetch } = useGetShareWithDataQuery();
@@ -203,7 +205,7 @@ const NewDocumentModal = (props) => {
               <Text
                 className="md:text-lg text-[18px] leading-7 text-[#1D2939] font-medium w-full font-DmSans"
               >
-                {documentFile?._id? "Edit Document": "Upload New Document"} 
+                {documentFile?._id? t('document.editDocument'): t('document.uploadNewDocument')} 
               </Text>
             </div>
             <div className="hover:bg-gray-201 rounded-full p-1" onClick={closeModal}>
@@ -218,14 +220,14 @@ const NewDocumentModal = (props) => {
                 className="text-base text-[#1D1C21] w-auto"
                 size="txtDMSansLablel"
               >
-                Document Title
+                {t('document.uploadNewDocumentSection.documentTitle')}
               </Text>
               <input
                 {...register("title", { required: {value:true , message: "Document title is required."} })}
                 className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.title ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                 type="text"
                 name="title"
-                placeholder="Document Title"
+                placeholder={t('document.uploadNewDocumentSection.enterDocumentTitle')}
                 defaultValue={documentFile?.title}
               />
             </div>
@@ -234,7 +236,7 @@ const NewDocumentModal = (props) => {
                 className="text-base text-[#1D1C21] w-auto"
                 size="txtDMSansLablel"
               >
-                Upload Document
+                {t('document.uploadNewDocumentSection.uploadDocument')}
               </Text>
                 <div className={`${(preview || documentFile?.documentName)?  "border-dashed ": ""} ${(requiredFields.docFile) ? "border-errorColor shadow-inputBsError" : "border-[1px] border-[#d0d5dd]"} flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-auto rounded-md border `} 
                 onDragOver={handleDragOver}
@@ -261,7 +263,7 @@ const NewDocumentModal = (props) => {
                             type="button"
                             className="text-sm font-dm-sans-medium leading-[26px] cursorpointer "
                           >
-                            Update your document
+                            {t('document.uploadNewDocumentSection.updateDocument')}
                           </button>
                         </div>
                     </div>) :
@@ -278,7 +280,7 @@ const NewDocumentModal = (props) => {
                           name="name"
                         />
                   <Text className="font-dm-sans-regular text-sm leading-[26px] tracking-normal">
-                    Drop file or <span className="" >click here to upload your document</span>  
+                  {t('document.uploadNewDocumentSection.uploadPrompt')}  
                   </Text>
                 </div>
                   )
@@ -290,10 +292,10 @@ const NewDocumentModal = (props) => {
                 style={{whiteSpace:'nowrap'}}
                     className="text-base text-[#1D1C21] w-auto mr-4"
                 >
-                Share with
+                {t('document.uploadNewDocumentSection.shareWith')}
               </Text>
               <MultipleSelect id='sector' options={filteredUsers} onSelect={""} searchLabel='Seach members' searchable={false} setSelectedOptionVal={setSelectedMembers} 
-                    placeholder="Select name" valuekey="name" optionkey="_id" selectedOptionsDfault={props.rowData?.shareWithUsers?.map(userId => filteredUsers.find(user => user._id === userId))}
+                    placeholder={t('document.uploadNewDocumentSection.selectName')} valuekey="name" optionkey="_id" selectedOptionsDfault={props.rowData?.shareWithUsers?.map(userId => filteredUsers.find(user => user._id === userId))}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -312,7 +314,7 @@ const NewDocumentModal = (props) => {
             <div className="flex space-x-5 w-auto">
               <button type="reset" 
               className="flex items-center justify-center min-w-[93px] bg-[#E4E7EC]  hover:bg-[#D0D5DD] active:bg-light_blue-100 cursorpointer text-[#475467] py-[10px] md:py-[18px] px-[12px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]" 
-              onClick={closeModal}>Cancel</button>
+              onClick={closeModal}>{t("common.cancel")}</button>
               <button 
               type="submit" 
               onClick={() => setHasSubmitted(true)}
@@ -324,7 +326,7 @@ const NewDocumentModal = (props) => {
                     <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>  :  
-                documentFile?._id ? 'Save' : 'Add Document'}
+                documentFile?._id ? t('document.uploadNewDocumentSection.save') : t('document.uploadNewDocumentSection.addDocument')}
               </button>
             </div>
           </div>

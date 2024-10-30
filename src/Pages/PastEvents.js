@@ -10,11 +10,13 @@ import PageHeader from "../Components/PageHeader";
 import SearchInput from "../Components/SeachInput";
 import { useGetEventsQuery , useGetAllPastEventsUserParticipateQuery } from "../Services/Event.Service";
 import Loader from "../Components/Loader";
-import { enUS } from "date-fns/locale";
+import { enUS, fr } from 'date-fns/locale';
 import { format, parse } from 'date-fns';
-
+import { useTranslation } from "react-i18next";
+import { formatPrice } from "../data/helper";
 
 const PastEvents = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const itemsPerPage = 5;
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,31 +38,67 @@ const PastEvents = () => {
     setTotalPages(eventsDT?.totalPages);
   }, [eventsDT]);
 
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
 
-function formatEventDateTime(startDate, endDate, startTime, endTime) {
-    
-  if (!startDate || !endDate || !startTime || !endTime || startTime=='' || endTime=='' ) {
-      return 'Coming Soon';
+  function formatEventDateTime(startDate, endDate, startTime, endTime) {
+    const locale = currentLanguage === 'fr' ? fr : enUS;
+
+    // Check for missing values
+    if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
+        return currentLanguage === 'fr' ? 'À venir' : 'Coming Soon';
+    }
+
+    try {
+        const parsedStartTime = parse(startTime, 'h:mm a', new Date());
+        const parsedEndTime = parse(endTime, 'h:mm a', new Date());
+
+        // Format time based on language
+        const formattedStartTime = format(parsedStartTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale }).toLowerCase();
+        const formattedEndTime = format(parsedEndTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale }).toLowerCase();
+
+        const startDateTime = new Date(startDate);
+        const endDateTime = new Date(endDate);
+
+        // Calculate GMT offset in hours
+        const gmtOffset = -startDateTime.getTimezoneOffset() / 60; // Offset in hours
+        const gmt = `GMT${gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset}`;
+
+        // Check if start and end dates are the same
+        if (startDateTime.getDate() === endDateTime.getDate() &&
+            startDateTime.getMonth() === endDateTime.getMonth() &&
+            startDateTime.getFullYear() === endDateTime.getFullYear()) {
+            
+            // Format date for the same day
+            const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM' : 'EEEE, MMMM d', { locale });
+            
+            // Capitalize the first letter of the day and month correctly
+            const formattedDateCapitalized = formattedDate.replace(/^(.)/, (char) => char.toUpperCase()).replace(/(\b\w)/g, (char, index) => {
+                if (currentLanguage === 'fr' && index > 0 && formattedDate[index - 1] === ' ') {
+                    return char.toUpperCase(); // Capitalize the first letter after a space for French
+                }
+                return char; // Keep other characters as they are
+            });
+
+            return `${formattedDateCapitalized.replace(/\./g, '')} • ${formattedStartTime} - ${formattedEndTime} ${gmt}`;
+        } else {
+            // Format date for different days
+            const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMM yyyy' : 'EEE, MMM d, yyyy', { locale });
+            
+            // Capitalize the first letter correctly for French dates
+            const formattedStartDateCapitalized = formattedStartDate.replace(/^(.)/, (char) => char.toUpperCase()).replace(/(\b\w)/g, (char, index) => {
+                if (currentLanguage === 'fr' && index > 0 && formattedStartDate[index - 1] === ' ') {
+                    return char.toUpperCase(); // Capitalize the first letter after a space for French
+                }
+                return char; // Keep other characters as they are
+            });
+
+            return `${formattedStartDateCapitalized.replace(/\./g, '')} • ${formattedStartTime} ${gmt}`;
+        }
+    } catch (error) {
+        console.error('Error formatting date/time:', error);
+        return currentLanguage === 'fr' ? 'Date/heure invalide' : 'Invalid Date/Time';
+    }
   }
-  else {
-      const formattedStartTimev = format(parse(startTime, 'h:mm a', new Date()), 'ha', { locale: enUS }).toLowerCase();
-      const formattedEndTimev = format(parse(endTime, 'h:mm a', new Date()), 'ha', { locale: enUS }).toLowerCase();
-
-      const startDateTime = new Date(startDate);
-      const endDateTime = new Date(endDate);
-
-      if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-          const formattedDate = format(startDateTime, 'EEEE, MMMM d', { locale: enUS });
-          const gmtOffset = startDateTime.getUTCHours(); 
-          const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
-          return `${formattedDate}\u00A0\u00A0 • \u00A0\u00A0${formattedStartTimev} - ${formattedEndTimev} ${gmt}`;
-      } else {
-          const formattedStartDate = format(startDateTime, 'EEE, MMM d, yyyy', { locale: enUS });
-          return `${formattedStartDate}\u00A0\u00A0 • \u00A0\u00A0${startTime.toUpperCase()}`;
-      }
-
-          }
-}
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -69,7 +107,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Past Event
+                    {t('event.pastEvent')}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -112,7 +150,7 @@ function formatEventDateTime(startDate, endDate, startTime, endTime) {
                         className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 rounded-full"
                         type="button"
                       >
-                        <span style={{ whiteSpace: 'nowrap' }} className="text-base text-light_blue-51">Participate</span>
+                        <span style={{ whiteSpace: 'nowrap' }} className="text-base text-light_blue-51">{t('event.eventDetails.participate')}</span>
                       </button>
                       )} 
                     </div>

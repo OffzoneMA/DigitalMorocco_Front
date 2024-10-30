@@ -14,8 +14,10 @@ import { FiEdit3 } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi";
 import Loader from "../Components/Loader";
 import userdefaultProfile from '../Media/User.png';
+import { useTranslation } from "react-i18next";
 
 const Employees = () => {
+  const { t } = useTranslation();
   const [employees, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -107,7 +109,7 @@ const Employees = () => {
           <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
             <PageHeader
               >
-              Company
+              {t("sidebar.company.main")}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'}/>
@@ -119,7 +121,7 @@ const Employees = () => {
             <div className="flex flex-row flex-wrap  items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
               <TableTitle
                   >
-                  Team members
+                  {t('employee.teamMembers')}
                 </TableTitle>
               <button
                 className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium cursorpointer rounded-md w-auto"
@@ -127,7 +129,7 @@ const Employees = () => {
                 type="button"
               >
                 <FaRegPlusSquare size={21} className="mr-2 cursorpointer" />
-                <span className="text-sm font-dm-sans-medium leading-[18.23px]">Add New Employee</span>
+                <span className="text-sm font-dm-sans-medium leading-[18.23px]">{t('employee.addNewEmployee')}</span>
               </button>
             </div>
             <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
@@ -138,11 +140,11 @@ const Employees = () => {
             <table className="w-full mx-auto table-auto">
               <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Name</th>
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Email address</th>
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Title</th>
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Type</th>
-                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('employee.name')}</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('employee.emailAddress')}</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('employee.title')}</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('employee.type')}</th>
+                  <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('employee.status')}</th>
                   <th scope="col" className="p-3 w-auto"></th>
                   </tr>
                 </thead>
@@ -194,8 +196,8 @@ const Employees = () => {
                                     <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                   </svg>
                                 </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Delete</div>
+                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.delete")}</div>
                                 </div>
                               </div>
                             </div>
@@ -209,8 +211,8 @@ const Employees = () => {
                                     <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
                                   </svg>
                                 </div>
-                                <div className="bg-[#334081] w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">Edit</div>
+                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.edit")}</div>
                                 </div>
                               </div>
                             </div>
@@ -235,7 +237,7 @@ const Employees = () => {
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
                       size=""
                     >
-                      No Team Mmembers 
+                      {t('employee.noTeamMembers')} 
                     </Text>
                   </div>
                 ))}
@@ -254,7 +256,7 @@ const Employees = () => {
         </div>
       </div>
       <DeleteModal isOpen={isDeleteModalOpen}
-        onRequestClose={closeDeleteModal} title="Delete Employee" 
+        onRequestClose={closeDeleteModal} title={t('employee.deleteEmployeeConfirmation.title')} 
         onDelete={() => handleDeleteEmployee()}
         content={
           <div className="flex flex-col gap-5 items-center justify-start w-auto sm:py-5 w-full">
@@ -262,7 +264,7 @@ const Employees = () => {
               className="font-dm-sans-regular text-center text-base text-[#1D1C21] leading-6"
               size=""
             >
-              Are you sure you want to delete this employee?
+              {t('employee.deleteEmployeeConfirmation.confirmationMessage')}
             </Text>
           </div>
         }/>

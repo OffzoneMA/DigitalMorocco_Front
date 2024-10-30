@@ -20,8 +20,10 @@ import axios from "axios";
 import { GoDotFill } from "react-icons/go";
 import userdefaultProfile from '../Media/User1.png';
 import Loader from "../Components/Loader";
+import { useTranslation } from "react-i18next";
 
 const ProjectDetails = () => {
+  const { t } = useTranslation();
   const dividerRef = useRef(null);
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
@@ -39,6 +41,9 @@ const ProjectDetails = () => {
   const [searchValue, setSearchValue] = useState("");
   const [teamData , setTeamData ] = useState([]);
   const [members, setMembers] = useState([]);
+
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
+
 
   useEffect(() => {
     const setMaxHeight = () => {
@@ -68,11 +73,18 @@ const ProjectDetails = () => {
     };
   }, [div1Ref, div2Ref]);
 
-  function formatDate(isoDate) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function formatDate(isoDate, locale = currentLanguage) {
     const date = new Date(isoDate);
-    return months[date.getMonth()] + ' ' + date.getFullYear();
-}
+    const options = { month: 'short', year: 'numeric' };
+    let formattedDate = new Intl.DateTimeFormat(locale, options).format(date);
+
+    // Remove the period in French month abbreviations
+    if (locale === 'fr') {
+        formattedDate = formattedDate.replace('.', '');
+    }
+
+    return formattedDate;
+  }
 
 useEffect(() => {
   if (data) {
@@ -164,7 +176,7 @@ useEffect(() => {
           <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
             <PageHeader
               >
-                Projects
+                {t("common.projects")}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'}/>
@@ -185,7 +197,7 @@ useEffect(() => {
                   style={{whiteSpace: 'nowrap'}}
                 >
                   <HiOutlineShare size={21} className="md:mr-2" />
-                  <span className="hidden md:inline-block">Share to Investor</span>
+                  <span className="hidden md:inline-block">{t('projects.projectDetails.shareToInvestor')}</span>
                 </button>
                 <button
                   className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 cursorpointer flex items-center px-[12px] px-[10px] h-[41px] rounded-md"
@@ -194,7 +206,7 @@ useEffect(() => {
                   style={{whiteSpace: 'nowrap'}}
                 >
                   <RiDeleteBinLine size={21} className="md:mr-2" />
-                  <span className="hidden md:inline-block">Delete Project</span>
+                  <span className="hidden md:inline-block">{t('projects.projectDetails.deleteProject')}</span>
                 </button>
                 <button
                   className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm font-dm-sans-medium leading-5 text-blue-501 flex items-center cursorpointer px-[12px] px-[10px] h-[41px] rounded-md"
@@ -203,7 +215,7 @@ useEffect(() => {
                   style={{whiteSpace: 'nowrap'}}
                 >
                   <FiEdit3 size={21} className="md:mr-2" />
-                  <span className="hidden md:inline-block">Edit Project</span>
+                  <span className="hidden md:inline-block">{t('projects.projectDetails.editProject')}</span>
                 </button>
               </div>
             </div>
@@ -212,7 +224,7 @@ useEffect(() => {
                 <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                      Total Raised
+                    {t('projects.createNewProject.totalRaised')}
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -224,7 +236,7 @@ useEffect(() => {
                 <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                      Target
+                    {t('projects.projectDetails.target')}
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -236,7 +248,7 @@ useEffect(() => {
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                      Stage
+                    {t('projects.createNewProject.stage')}
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
@@ -248,7 +260,7 @@ useEffect(() => {
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                      Status
+                    {t('projects.status')}
                     </Text>
                   </div>
                   <div className="flex flex-row items-start justify-start w-full">
@@ -267,7 +279,7 @@ useEffect(() => {
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                      Publication
+                    {t('projects.projectDetails.publication')}
                     </Text>
                   </div>
                   <div className="flex flex-row items-start justify-start w-full">
@@ -292,7 +304,7 @@ useEffect(() => {
                         className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                         size="txtDMSansBold12"
                       >
-                        Project Description
+                        {t('projects.projectDetails.projectDescription')}
                       </Text>
                     </div>
                     <div className="flex flex-col justify-start py-4 w-full">
@@ -318,14 +330,14 @@ useEffect(() => {
                         className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                         size="txtDMSansBold12"
                       >
-                        Project Milestone
+                        {t('projects.projectDetails.projectMilestone')}
                       </Text>
                       <button
                         className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row h-[30px] items-center cursorpointer ml-auto px-[8px] py-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
                         type="button"
                     >
-                        <span className="cursorpointer font-medium leading-[normal] text-center text-xs">Add New Milestone</span>
+                        <span className="cursorpointer font-medium leading-[normal] text-center text-xs">{t('projects.projectDetails.addNewMilestone')}</span>
                     </button>
                     </div>
                     <div className="flex flex-col items-start justify-start w-full">
@@ -350,14 +362,14 @@ useEffect(() => {
                         className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                         size="txtDMSansBold12"
                       >
-                        Team Member
+                        {t('projects.createNewProject.teamMember')}
                       </Text>
                       <div className="relative w-[50%] min-w-[120px] max-w-[350px]">
                         <input
                           className={`!placeholder:text-[#98A2B3] !text-gray700 font-manrope p-2 h-[36px] pr-[30px] text-left text-sm tracking-[0.14px] w-full bg-transparent border border-solid border-gray-201 focus:border-focusColor focus:shadow-inputBs rounded-md`}
                           type="text"
                           name="search"
-                          placeholder="Search..."
+                          placeholder={t('projects.createNewProject.searchMember')}
                           value={searchValue}
                           onChange={(e) => setSearchValue(e.target.value)}
                         />
@@ -394,7 +406,7 @@ useEffect(() => {
                       className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                       size="txtDMSansBold12"
                     >
-                      Documents
+                      {t('projects.projectDetails.documents')}
                     </Text>
                   </div>
                   {project?.documents?.length> 0 && project?.documents.map((document, index) => (
@@ -415,14 +427,14 @@ useEffect(() => {
     <ShareToInvestorModal isOpen={isModalOpen} projectId={projectId} project={project} onRequestClose={closeModal}/>
 
     <DeleteModal isOpen={isDeleteModalOpen}
-    onRequestClose={closeDeleteModal} title="Delete Project" 
+    onRequestClose={closeDeleteModal} title={t('projects.deleteProjectConfirmation.title')}
     content={
       <div className="flex flex-col gap-5 items-center justify-start py-4 w-full">
         <Text
           className="font-DmSans text-center text-base font-normal leading-6"
           size=""
         >
-          Are you sure you want to delete this project?
+          {t('projects.deleteProjectConfirmation.confirmationMessage')}
         </Text>
       </div>
     }/>

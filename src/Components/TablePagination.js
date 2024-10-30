@@ -1,8 +1,11 @@
 // TablePagination.js
 import React from 'react';
 import { PiArrowLeftBold, PiArrowRightBold } from "react-icons/pi";
+import { useTranslation } from 'react-i18next';
 
 function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow }) {
+  const { t, i18n } = useTranslation();
+
   const generatePages = () => {
     const pageArray = [];
     let startPage = currentPage - Math.floor(itemsToShow / 2);
@@ -24,7 +27,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
         className={`flex h-[36px] min-w-[114px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage < 2 && 'diseable'}`}
       >
         <PiArrowLeftBold  className='h-4 w-4 ' />
-        Previous
+        {t('pagination.previous')}
       </button>
 
       {/* Page Number Buttons */}
@@ -43,7 +46,7 @@ function TablePagination({ currentPage, totalPages, onPageChange, itemsToShow })
         onClick={() => onPageChange(currentPage + 1)}
         className={`flex h-[36px] min-w-[88px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage === totalPages && 'diseable'}`}
       >
-        Next
+        {t('pagination.next')}
         <PiArrowRightBold  className='h-4 w-4 ' />
       </button>
     </div>

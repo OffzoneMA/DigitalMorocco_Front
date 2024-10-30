@@ -23,9 +23,11 @@ import { useGetDistinctValuesQuery , useGetInvestorsListQuery} from "../Services
 import { FaUserCircle } from "react-icons/fa";
 import userdefaultProfile from '../Media/User.png';
 import { useCheckSubscriptionStatusQuery } from "../Services/Subscription.Service";
+import { useTranslation } from "react-i18next";
 
 
 const Investors = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
   const [filter , setFilter] = useState(false);
@@ -108,7 +110,7 @@ const Investors = () => {
             <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
               <PageHeader
                 >
-                Investor
+                {t("sidebar.investor.main")}
               </PageHeader>
             </div>
             <SearchInput className={'w-[240px]'}/>
@@ -121,7 +123,7 @@ const Investors = () => {
                 <TableTitle
                   style={{whiteSpace:"nowrap"}}
                   >
-                  Investors List
+                  {t('investor.title')}
                 </TableTitle>
                 <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                   {filter && 
@@ -232,12 +234,12 @@ const Investors = () => {
                 <table className=" w-full">
                   <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Investor Name</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Type</th>
-                    <th scope="col" className="px-[18px] py-3 text-center text-[#344054] font-DmSans font-medium">Number of Investment</th>
-                    <th scope="col" className="px-[18px] py-3 text-center text-[#344054] font-DmSans font-medium">Number of Exits</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Preferred Investment Industry</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.investorName')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.type')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-center text-[#344054] font-DmSans font-medium">{t('investor.numberOfInvestments')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-center text-[#344054] font-DmSans font-medium">{t('investor.numberOfExits')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.location')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.preferredInvestmentIndustry')}</th>
                   </tr>
                   </thead>
                   {(!loading && !subscriptionLoading && pageData?.length > 0) ? 
@@ -291,7 +293,7 @@ const Investors = () => {
                       </svg>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                      <span>No matching data identified</span>
+                      <span>{t("common.noMatchingData")}</span>
                     </div>
                   </div>
                 )
@@ -304,13 +306,19 @@ const Investors = () => {
                     className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
                     size=""
                   >
-                    View all 261,765 Investors
+                    {t('investor.viewAllInvestors', { count: (261765).toLocaleString('en-US') })} 
                   </Text>
                   <Text
                     className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
                     size=""
                   >
-                    Upgrade to <a className="text-blue-500" href="/ChoosePlan">Digital Morocco Pro</a>,  and get access all search results, save to custom lists and get connected with investors
+                  {t('investor.upgradeMessage', {
+                    link: (
+                      <a className="text-blue-500" href="/ChoosePlan">
+                        {t('investor.digitalMoroccoPro')}
+                      </a>
+                    ),
+                  })}
                   </Text>
                   <button
                     className="flex items-center justify-center gap-[12px] bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-[12px] py-[8px] h-[37px] rounded-md cursorpointer"
@@ -318,7 +326,7 @@ const Investors = () => {
                     type="button"
                   >
                     <TiFlashOutline size={25} className="" />
-                    <span className="text-sm font-dm-sans-medium leading-[18.23px] text-white-A700">Upgrade Membership</span>
+                    <span className="text-sm font-dm-sans-medium leading-[18.23px] text-white-A700">{t("dashboard.upgradeMembership")}</span>
                   </button>
 
                 </div>

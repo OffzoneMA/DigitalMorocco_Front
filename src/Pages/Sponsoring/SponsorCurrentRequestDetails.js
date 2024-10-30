@@ -12,7 +12,7 @@ import { BiPurchaseTagAlt } from "react-icons/bi";
 import { useLocation  , useNavigate } from "react-router-dom";
 import PageHeader from "../../Components/PageHeader";
 import SearchInput from "../../Components/SeachInput";
-import { format, parse } from 'date-fns';
+import { format, parse , isValid } from 'date-fns';
 import { fr , enUS } from 'date-fns/locale';
 import { useGetEventByIdQuery } from "../../Services/Event.Service";
 import { useParams } from "react-router-dom";
@@ -27,8 +27,12 @@ import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringRequestModal";
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
 import { useGetSponsorByIdQuery , useApproveSponsorMutation , useRejectSponsorMutation } from "../../Services/Sponsor.Service";
+import { useTranslation } from "react-i18next";
+import { formatPrice } from "../../data/helper";
 
 const SponsorCurrentRequestDetails = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const userData = JSON.parse(sessionStorage.getItem("userData"));
     const location = useLocation();
     const [approveSponsor] = useApproveSponsorMutation();
@@ -90,66 +94,135 @@ const SponsorCurrentRequestDetails = () => {
       {image:"/images/img_avatar_12.png"}, 
     ];
 
-    const formattedTime = (time, language) => {
-      const parsedTime = parse(time, 'h:mm a', new Date());
-      // if (language === 'fr-FR') {
-      //   return format(parsedTime, 'H', { locale: fr }) + 'h';
-      // }
-      return format(parsedTime, 'h a', { locale: enUS }).toLowerCase();
-    };
+    function capitalizeAndClean(dateString) {
+      return dateString.charAt(0).toUpperCase() + dateString.slice(1);
+    }
 
     function formatEventDate(startDate, endDate) {
-    
-      if (!startDate || !endDate ) {
-          return 'Coming Soon';
-      }
-      else {
-
-          const startDateTime = new Date(startDate);
-          const endDateTime = new Date(endDate);
-
-          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              const formattedDate = format(startDateTime, 'EEEE, MMMM d, yyyy', { locale: enUS });
-              return `${formattedDate}`;
-          } else {
-              const formattedStartDate = format(startDateTime,'EEE, MMM d, yyyy', { locale: enUS });
-              return `${formattedStartDate}`;
-          }
-
-          }
-  }
-
-  function formatEventTime(startDate, endDate, startTime, endTime) {
+      const locale = currentLanguage === 'fr' ? fr : enUS;
   
-      if (!startDate || !endDate || !startTime || !endTime || startTime=='' || endTime=='' ) {
-          return '24 hours a day, 7 days a week';
-      }
-      else {
-          const formattedStartTimev = formattedTime(startTime, '');
-          const formattedEndTimev = formattedTime(endTime, '');
-
+      if (!startDate || !endDate) {
+          return t("event.comingSoon");
+      } else {
           const startDateTime = new Date(startDate);
           const endDateTime = new Date(endDate);
-
-          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              const gmtOffset = startDateTime.getTimezoneOffset() / 60; 
-
-              console.log(gmtOffset)
-              const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
-              // if(language =='fr-FR') {
-              //     return `De ${formattedStartTimev} à ${formattedEndTimev} GMT${gmt}`
-              // }
-              return `${formattedStartTimev} - ${formattedEndTimev} ${gmt}`;
+  
+          // Check if the start and end dates are the same
+          if (startDateTime.getDate() === endDateTime.getDate() &&
+              startDateTime.getMonth() === endDateTime.getMonth() &&
+              startDateTime.getFullYear() === endDateTime.getFullYear()) {
+              const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM yyyy' : 'EEEE, MMMM d, yyyy', { locale });
+              return capitalizeAndClean(formattedDate);
           } else {
-              
-              const parsedTime = parse(startTime, 'h:mm a', new Date());
-              // if (language === 'fr-FR') {
-              //   return format(parsedTime, 'H:mm', { locale: fr }).replace(':', 'h');
-              // }
-              return format(parsedTime, 'h:mm a', { locale: enUS }).toUpperCase();            }
-
+              const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMMM yyyy' : 'EEE, MMM d, yyyy', { locale });
+              return capitalizeAndClean(formattedStartDate)?.replace('.', '');
+          }
       }
-  }
+    }
+  
+    function formatEventTime(startDate, endDate, startTime, endTime) {
+      const locale = currentLanguage === 'fr' ? fr : enUS;
+  
+      if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
+          return currentLanguage === 'fr' ? '24 heures par jour, 7 jours par semaine' : '24 hours a day, 7 days a week';
+      } else {
+          const startDateTime = new Date(startDate);
+          const endDateTime = new Date(endDate);
+  
+          // Check if the start and end dates are the same
+          if (startDateTime.getDate() === endDateTime.getDate() &&
+              startDateTime.getMonth() === endDateTime.getMonth() &&
+              startDateTime.getFullYear() === endDateTime.getFullYear()) {
+              const gmtOffset = -startDateTime.getTimezoneOffset() / 60; // GMT offset in hours
+              const gmt = `GMT${gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset}`; // Format GMT offset
+  
+              const formattedStartTime = format(parse(startTime, 'h:mm a', new Date()), currentLanguage === 'fr' ? 'H:mm' : 'h:mm a', { locale });
+              const formattedEndTime = format(parse(endTime, 'h:mm a', new Date()), currentLanguage === 'fr' ? 'H:mm' : 'h:mm a', { locale });
+  
+              return currentLanguage === 'fr'
+                  ? `De ${formattedStartTime.replace(':', 'h')} à ${formattedEndTime.replace(':', 'h')} ${gmt}` // French format with 'h'
+                  : `${formattedStartTime} - ${formattedEndTime} ${gmt}`; // English format
+          } else {
+              const parsedTime = parse(startTime, 'h:mm a', new Date());
+              const formattedParsedTime = format(parsedTime, currentLanguage === 'fr' ? 'H:mm' : 'h:mm a', { locale });
+  
+              return currentLanguage === 'fr'
+                  ? formattedParsedTime.replace(':', 'h').toUpperCase() // For French format: replace ':' with 'h'
+                  : formattedParsedTime.toUpperCase(); // For English format
+          }
+      }
+    }
+  
+    const formatEventStartEndDate = (event) => {
+      const currentLocale = currentLanguage === 'fr' ? fr : enUS;
+  
+      const startDate = event?.startDate ? new Date(event.startDate) : null;
+      const endDate = event?.endDate ? new Date(event.endDate) : null;
+  
+      const startTime = event?.startTime; // Assuming startTime is in format 'hh:mm AM/PM'
+      const endTime = event?.endTime; // Assuming endTime is in format 'hh:mm AM/PM'
+  
+      const formattedStartDate = startDate && isValid(startDate)
+          ? format(startDate, currentLanguage === 'fr' ? 'eee dd MMM yyyy' : 'eee, MMM d, yyyy', { locale: currentLocale })
+          : t("event.comingSoon");
+  
+      // Format the end date
+      const formattedEndDate = endDate && isValid(endDate)
+          ? format(endDate, currentLanguage === 'fr' ? 'eee dd MMM yyyy' : 'eee, MMM d, yyyy', { locale: currentLocale })
+          : startDate && isValid(startDate)
+              ? format(startDate, currentLanguage === 'fr' ? 'eee dd MMM yyyy' : 'eee, MMM d, yyyy', { locale: currentLocale })
+              : t("event.comingSoon");
+  
+      // Function to format time from 'hh:mm AM/PM'
+      const formatTimeFromString = (time) => {
+          if (!time) return ''; // If no time is provided, return an empty string
+  
+          // Parse the time and set hours and minutes
+          const [timePart, modifier] = time.split(' '); // Split the time and AM/PM part
+          let [hours, minutes] = timePart.split(':').map(Number); // Split the time into hours and minutes
+          
+          // Convert to 24-hour format if it's PM and hours are not 12
+          if (modifier === 'PM' && hours < 12) {
+              hours += 12;
+          }
+          // Handle the case for 12 AM
+          if (modifier === 'AM' && hours === 12) {
+              hours = 0;
+          }
+  
+          // Create a new Date object for formatting the time
+          const date = new Date(startDate); // Use startDate or endDate as needed
+          date.setHours(hours, minutes); // Set the hours and minutes
+  
+          const timeOptions = {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: currentLanguage === 'en', // Use 12-hour format for English
+              hourCycle: 'h11' // Set to 12-hour format for en-US
+          };
+  
+          let formattedTime = date.toLocaleTimeString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', timeOptions);
+          if (currentLanguage === 'fr') {
+              formattedTime = formattedTime.replace(':', 'H'); // Change ':' to 'H' for French
+          }
+  
+          return formattedTime;
+      };
+  
+      // Capitalize the first letter of the formatted date for French
+      const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  
+      // Construct the final output with the correct formatting
+      return {
+        formattedStart: (currentLanguage === 'fr' && isValid(startDate) )
+            ? `${capitalizeFirstLetter(formattedStartDate.replace('.', ''))?.replace('.', '')} à ${formatTimeFromString(startTime)}`
+            : `${capitalizeFirstLetter(formattedStartDate.replace('.', ''))?.replace('.', '')} ${formatTimeFromString(startTime)}`,
+        
+        formattedEnd: (currentLanguage === 'fr'&& isValid(endDate) )
+            ? `${capitalizeFirstLetter(formattedEndDate.replace('.', ''))?.replace('.', '')} à ${formatTimeFromString(endTime)}`
+            : `${capitalizeFirstLetter(formattedEndDate.replace('.', ''))?.replace('.', '')} ${formatTimeFromString(endTime)}`,
+    };
+  };
 
   const handleAddAttendee = async () => {
     try {
@@ -166,7 +239,7 @@ const SponsorCurrentRequestDetails = () => {
         setBying(false);
         console.log(error.response?.data?.message || 'Error adding attendee');
     }
-};
+  };
 
 const openModal = () => {
     setIsModalOpen(true);
@@ -233,7 +306,7 @@ const handleReject = async (data) => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.eventId?.status == 'past' ? 'Current Request' : 'Current Request'}
+                    {event?.eventId?.status == 'past' ? t("sidebar.sponsoring.currentRequests") : t("sidebar.sponsoring.currentRequests")}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -256,23 +329,23 @@ const handleReject = async (data) => {
                                 {event?.requestType?.toLowerCase() === 'sent' ? 
                                 <div className="w-[97px] gap-[4px] h-[38px] px-2.5 py-2 rounded-[50px] border border-[#ff9123] justify-center items-center gap-1 inline-flex">
                                     <FiSend size={12} className="text-[#ff9123]" />
-                                    <div className="text-[#ff9123] text-sm font-dm-sans-regular leading-[18.20px] tracking-tight">Sent</div>
+                                    <div className="text-[#ff9123] text-sm font-dm-sans-regular leading-[18.20px] tracking-tight">{t("common.sent")}</div>
                                 </div>
                                 :
                                 <div className="h-[38px] gap-[4px] px-2.5 py-2 rounded-[50px] border border-[#af66e7] justify-center items-center gap-1 inline-flex">
                                     <PiCheckBold size={12} className={`text-[#af66e7]`} />
-                                    <div className="text-[#af66e7] text-sm font-dm-sans-regular leading-[18.20px] tracking-tight">Received</div>
+                                    <div className="text-[#af66e7] text-sm font-dm-sans-regular leading-[18.20px] tracking-tight">{t("common.received")}</div>
                                 </div>}
                                 {event?.status?.toLowerCase() !== 'pending' ? 
                                 (<>
                                 {event?.status?.toLowerCase() === 'approved' && <div className="h-[38px] px-3 py-2 bg-[#00cdae] rounded-[200px] justify-center items-center gap-3 inline-flex">
                                     <div className="justify-center items-center gap-2 flex">
-                                        <div className="text-white-A700 text-sm font-dm-sans-medium ">Approved</div>
+                                        <div className="text-white-A700 text-sm font-dm-sans-medium ">{t("common.approved")}</div>
                                     </div>
                                 </div>} 
                                 {event?.status?.toLowerCase() === 'rejected' && <div className="h-[38px] px-3 py-2 bg-[#ef4352] rounded-[200px] justify-center items-center gap-3 inline-flex">
                                     <div className="justify-center items-center gap-2 flex">
-                                        <div className="text-white-A700 text-sm font-dm-sans-medium">Rejected</div>
+                                        <div className="text-white-A700 text-sm font-dm-sans-medium">{t("common.rejected")}</div>
                                     </div>
                                 </div>}
                                 </>) :
@@ -281,13 +354,13 @@ const handleReject = async (data) => {
                                 className={`h-[38px] px-3 py-2.5 bg-[#00cdae] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg rounded-md justify-center items-center gap-2 flex cursorpointer`} 
                                 onClick={openApproveModal} >
                                     <PiCheckBold size={21} className="text-white-A700"/>
-                                    <div className="text-white-A700 text-sm font-dm-sans-medium">Approve</div>
+                                    <div className="text-white-A700 text-sm font-dm-sans-medium">{t("common.approve")}</div>
                                 </button>
                                 <button 
                                 className={`h-[38px] px-3 py-2.5 bg-[#ef4352] hover:bg-[#F02A3C] active:bg-[#F02A3C] rounded-md justify-center items-center gap-2 flex cursorpointer`} 
                                 onClick={openRejectModal}>
                                     <RiCloseLine size={21} className="text-white-A700"/>
-                                    <div className="text-white-A700 text-sm font-dm-sans-medium">Reject</div>
+                                    <div className="text-white-A700 text-sm font-dm-sans-medium">{t("common.reject")}</div>
                                 </button>
                                 </>)}
                             </div>
@@ -321,16 +394,14 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {event?.eventId?.price !== undefined && event?.eventId?.price !== null ? 
-                            (event.eventId?.price === 0 ? 'Free' : `$ ${(event.eventId?.price).toFixed(2)}`) : 
-                            'Free'}
+                            {formatPrice(event?.eventId?.price , currentLanguage)}
                           </Text>
                       </div>                  
                     </div>
                   </div> 
                   <div className="flex flex-col gap-6 pt-9 w-full border-b border-gray-201 pb-8">
                     <Text className=" text-[22px] font-dm-sans-medium leading-8 text-left text-blue_gray-903">
-                        Overview
+                        {t('event.eventDetails.overview')}
                     </Text>
                     <div className="flex flex-col gap-7 w-full">
                         <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
@@ -338,7 +409,7 @@ const handleReject = async (data) => {
                               <div className="flex flex-row gap-3 items-center">
                                 <HiOutlineSpeakerphone size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Organized by
+                                {t('event.eventDetails.organizedBy')}
                                 </Text>
                               </div>
                               <div className="relative">
@@ -351,7 +422,7 @@ const handleReject = async (data) => {
                               <div className="flex flex-row gap-3 items-center">
                                 <BiMap  size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Location
+                                {t('event.eventDetails.location')}
                                 </Text>
                               </div>
                               <div className="relative">
@@ -366,27 +437,23 @@ const handleReject = async (data) => {
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange  size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Start Date
+                                {t('event.eventDetails.startDate')}
                                 </Text>
                               </div>
                               <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                              {event?.eventId?.startDate ? format(event?.eventId?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.eventId?.startTime || ''}
+                              {formatEventStartEndDate(event?.eventId)?.formattedStart}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
                               <div className="flex flex-row gap-3 items-center">
                                 <MdOutlineDateRange   size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                End Date
+                                {t('event.eventDetails.endDate')}
                                 </Text>
                               </div>
                               <div className="relative">
                                 <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.eventId?.endDate 
-                                  ? format(new Date(event?.eventId?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                  : event?.eventId?.startDate 
-                                    ? format(new Date(event?.eventId?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                    : 'Coming Soon'} {event?.eventId?.endTime || ''}
+                                {formatEventStartEndDate(event?.eventId)?.formattedEnd}
                                 </Text>
                               </div>
                             </div>
@@ -396,7 +463,7 @@ const handleReject = async (data) => {
                               <div className="flex flex-row gap-3 items-center">
                                 <BiPurchaseTagAlt    size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Industry
+                                {t('event.eventDetails.industry')}
                                 </Text>
                               </div>
                               <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
@@ -407,7 +474,7 @@ const handleReject = async (data) => {
                               <div className="flex flex-row gap-3 items-center">
                                 <TbCopy   size={20} className="text-teal-A700"/>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Event Type
+                                {t('event.eventDetails.eventType')}
                                 </Text>
                               </div>
                               <div className="relative flex flex-row gap-3 items-center">
@@ -422,7 +489,7 @@ const handleReject = async (data) => {
                               <div className="flex flex-row gap-3 items-center">
                               <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Description
+                                {t('event.eventDetails.description')}
                                 </Text>
                               </div>
                               <div className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
@@ -438,7 +505,7 @@ const handleReject = async (data) => {
                           <div className="flex flex-row gap-3 items-center">
                           <BiMessageAltError size={20} className="text-teal-A700 transform scale-x-[-1]" />
                             <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                            Attendance
+                            {t('event.eventDetails.attendance')}
                             </Text>
                           </div>
                           <div className="flex flex-row gap-3 w-full items-center pl-8">
@@ -467,7 +534,7 @@ const handleReject = async (data) => {
                   </div> 
                   <div className="flex flex-col gap-6 pt-9 w-full pb-8">
                     <Text className=" text-lg font-semibold leading-8 text-left text-blue_gray-903">
-                    Sponsor
+                    {t('event.eventDetails.sponsor')}
                     </Text>
                     <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-10 w-full items-center">
                       {sponsors?.length > 0 && (

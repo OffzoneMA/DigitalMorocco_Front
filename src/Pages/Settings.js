@@ -79,7 +79,7 @@ export default function Settings() {
                 className="px-4 h-fit py-1 bg-gray-500 text-white rounded-md hover:bg-gray-600"
                 onClick={() => setIsEditingPassword(false)}
               >
-                cancel
+                {t("common.cancel")}
               </button>
             </div> 
           }

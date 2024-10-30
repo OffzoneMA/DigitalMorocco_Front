@@ -11,9 +11,10 @@ import { useSelector } from 'react-redux';
 import PageHeader from "../../Components/PageHeader";
 import SearchInput from "../../Components/SeachInput";
 import { useGetAllUsersQuery } from "../../Services/User.Service";
-
+import { useTranslation } from "react-i18next";
 
 const Dashboard_Admin = () => {
+  const { t, i18n } = useTranslation();
   const { userInfo } = useSelector((state) => state.auth)
   const navigate = useNavigate();
 
@@ -100,7 +101,10 @@ const Dashboard_Admin = () => {
   // }, [users, role]);
 
   const groupUsersByMonth = (users, year) => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [t('common.shortMonths.january'), t('common.shortMonths.february'), t('common.shortMonths.march'),
+      t('common.shortMonths.april'), t('common.shortMonths.may'), t('common.shortMonths.june'),
+      t('common.shortMonths.july'), t('common.shortMonths.august'), t('common.shortMonths.september'),
+      t('common.shortMonths.october'), t('common.shortMonths.november'), t('common.shortMonths.december')];
     const grouped = {};
   
     users.forEach(user => {
@@ -123,21 +127,24 @@ const Dashboard_Admin = () => {
     users.forEach(user => {
       const date = new Date(user.dateCreated);
       if (date.getFullYear() === year && date.getMonth() === monthsOrder1.indexOf(month) ) {
-        const week = `Week ${Math.ceil((date.getDate() + (new Date(date.getFullYear(), date.getMonth(), 1).getDay() + 1)) / 7)}`;
+        const week = `${t('adminDashboard.week')} ${Math.ceil((date.getDate() + (new Date(date.getFullYear(), date.getMonth(), 1).getDay() + 1)) / 7)}`;
+        console.log(week)
         if (!grouped[week]) {
           grouped[week] = 0;
         }
         grouped[week]++;
       }
     });
-
     return grouped;
   };
 
   const formatChartData = (groupedData, timeFrame) => {
     const timeFrames = timeFrame === 'month' 
-      ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      : Array.from({ length: 5 }, (_, i) => `Week ${i + 1}`);
+      ? [t('common.shortMonths.january'), t('common.shortMonths.february'), t('common.shortMonths.march'),
+        t('common.shortMonths.april'), t('common.shortMonths.may'), t('common.shortMonths.june'),
+        t('common.shortMonths.july'), t('common.shortMonths.august'), t('common.shortMonths.september'),
+        t('common.shortMonths.october'), t('common.shortMonths.november'), t('common.shortMonths.december')]
+      : Array.from({ length: 5 }, (_, i) => `${t('adminDashboard.week')} ${i + 1}`);
     
     return timeFrames.map(frame => ({
       name: frame,
@@ -163,7 +170,7 @@ const Dashboard_Admin = () => {
     }
     return 0;
   };
-
+console.log(chartData)
   const off = gradientOffset();
 
   const CustomTooltip = ({ active, payload }) => {
@@ -207,8 +214,6 @@ const Dashboard_Admin = () => {
     setTimeFrame('week');
   }
 
-  console.log(chartData)
-
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
@@ -216,7 +221,7 @@ const Dashboard_Admin = () => {
           <div className="flex flex-1 h-full items-start justify-start w-auto">
             <PageHeader
             >
-              Welcome back, {userInfo?.displayName ? userInfo?.displayName : 'Olivia'}
+              {t('dashboard.welcome')}, {userInfo?.displayName ? userInfo?.displayName : 'Olivia'}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'} />
@@ -225,7 +230,7 @@ const Dashboard_Admin = () => {
           <Text
             className="text-lg font-inter text-gray-500 leading-6 tracking-normal w-full"
           >
-            Track, manage and forecast your customers and orders.
+            {t('adminDashboard.trackManageForecast')}
           </Text>
         </div>
         <div className="flex flex-wrap justify-center gap-10 pt-8 w-full">
@@ -237,10 +242,10 @@ const Dashboard_Admin = () => {
               <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
             </div>
             <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
-              Start Up
+            {t('adminDashboard.startUp')}
             </Text>
             <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
-              Total registered startups
+            {t('adminDashboard.totalStartups')}
             </Text>
             <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
               {members?.length}
@@ -255,10 +260,10 @@ const Dashboard_Admin = () => {
               <TiFlashOutline size={28} className="text-blue-701" />
             </div>
             <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
-              Investors
+            {t('adminDashboard.investors')}
             </Text>
             <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
-              Total registered Investors
+            {t('adminDashboard.totalInvestors')}
             </Text>
             <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
               {investors?.length}
@@ -273,10 +278,10 @@ const Dashboard_Admin = () => {
               <BiBuildings size={28} className="text-blue-601" />
             </div>
             <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
-              Partners
+            {t('adminDashboard.partners')}
             </Text>
             <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
-              Total registered Partners
+            {t('adminDashboard.totalPartners')}
             </Text>
             <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
               {partners?.length}
@@ -294,30 +299,30 @@ const Dashboard_Admin = () => {
                   <Text
                     className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
                   >
-                    Sign-Up Volume
+                    {t('adminDashboard.signUpVolume')}
                   </Text>
                   <Text
                     className="text-sm font-dm-sans-regular leading-[26px] text-blue_gray-301 tracking-normal  w-full"
                   >
-                    Track Sign-Up Volume Trends Over Time!
+                    {t('adminDashboard.trackSignUpTrends')}
                   </Text>
                 </div>
               </div>
               <div className="flex flex-row items-center justify-center border border-gray_200 px-[9px] py-[7px] rounded-[48px] w-auto gap-2.5">
-                <div className="h-[19px] text-[13px] text-[#303030] font-Montserrat-semiBold " style={{whiteSpace: 'nowrap'}}>Show by:</div>
+                <div className="h-[19px] text-[13px] text-[#303030] font-Montserrat-semiBold " style={{whiteSpace: 'nowrap'}}>{t('adminDashboard.showBy')}</div>
                 <div className="w-auto justify-start items-center gap-2.5 flex">
                   <div className="px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex" onClick={() => setTimeFrame('week')}>
-                    <div className={`${timeFrame === 'week' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-medium font-dm-sans-regular`}>Week</div>
+                    <div className={`${timeFrame === 'week' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-medium font-dm-sans-regular`}>{t('adminDashboard.week')}</div>
                   </div>
                   <div className={`px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex`} onClick={() => setTimeFrame('month')}>
-                    <div className={`${timeFrame === 'month' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-normal font-dm-sans-regular`}>Month</div>
+                    <div className={`${timeFrame === 'month' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-normal font-dm-sans-regular`}>{t('adminDashboard.month')}</div>
                   </div>
                   <div className={`px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex relative`} 
                   onMouseEnter={() => setIsOpen(true)}
                   onMouseLeave={() => setIsOpen(false)}
                   onClick={() => setIsOpen(!isOpen)}
                   >
-                    <div className="text-[#303030] text-sm font-normal font-dm-sans-regular" style={{whiteSpace: 'nowrap'}}>{selectedMonth || 'Select Month'}</div>
+                    <div className="text-[#303030] text-sm font-normal font-dm-sans-regular" style={{whiteSpace: 'nowrap'}}>{selectedMonth || t('adminDashboard.selectMonth')}</div>
                     {isOpen && (
                       <div className="absolute top-full right-0 z-10 ">
                         <div className="flex flex-col justify-start items-start mt-1 max-h-[310px] px-4 py-5 bg-white-A700 rounded-xl border border-gray-201 shadow-lg gap-2.5  overflow-y-auto">
@@ -327,7 +332,7 @@ const Dashboard_Admin = () => {
                               className="flex items-center w-full px-3 text-left hover-select-color hover:text-[#35D8BF] cursorpointer text-[#1d2838] text-sm font-dm-sans-regular capitalize"
                               onClick={() => handleSelectMonth(month)}
                             >
-                              {month}
+                              {t(`common.months.${month?.toLowerCase()}`)}
                             </div>
                           ))}
                         </div>

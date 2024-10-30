@@ -18,8 +18,10 @@ import { useGetDistinctRequestFieldValuesQuery , useFetchInvestorRequestsQuery} 
 import axios from 'axios';
 import Loading from "../Components/Loading";
 import Loader from "../Components/Loader";
+import { useTranslation } from "react-i18next";
 
 const InvestorRequestHistory = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useState(false);
   const [filterApply, setFilterApply] = useState(false);
@@ -80,25 +82,38 @@ const InvestorRequestHistory = () => {
       setCur(page);
     }
   }
-  function formatDateWithoutComma(date) {
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
+
+  function formatDateWithoutComma(date, locale = currentLanguage === "en" ? 'en-US' : currentLanguage === 'fr' ? 'fr-FR' : 'en-US') {
     const options = {
         year: 'numeric',
-        month: 'short',
+        month: 'short', // Full month name
         day: 'numeric',
-        hour12: true ,
         timeZone: 'UTC',
     };
 
-    const datePart = new Intl.DateTimeFormat('en-US', options).format(date);
-    const timePart = date.toLocaleTimeString('en-US', {
+    // Format the date part
+    const datePart = new Intl.DateTimeFormat(locale, options).format(date);
+
+    // Capitalize the first letter of the month and ensure no period at the end
+    const formattedDatePart = currentLanguage === 'fr'
+        ? datePart.replace(/\b\w/g, (char) => char.toUpperCase())?.slice(1).replace('.', '') 
+        : datePart.replace('.', ''); 
+
+    // Format the time part
+    const timePart = date.toLocaleTimeString(locale, {
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true ,
+        hour12: locale === 'en-US',
         timeZone: 'UTC',
     });
 
-    return `${datePart} ${timePart}`;
+    // Combine and return the final formatted string
+    return currentLanguage === 'fr'
+        ? `${formattedDatePart} à ${timePart}` // French format: "15 Octobre 2024 à 14:30"
+        : `${formattedDatePart} ${timePart}`; // English format: "October 15, 2024 14:30"
 }
+
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -107,7 +122,7 @@ const InvestorRequestHistory = () => {
                   <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                     <PageHeader
                       >
-                      Investor
+                      {t("sidebar.investor.main")}
                     </PageHeader>
                   </div>
                   <SearchInput className={'w-[240px]'}/>
@@ -120,7 +135,7 @@ const InvestorRequestHistory = () => {
                     <TableTitle
                     style={{whiteSpace: 'nowrap'}}
                       >
-                      Request History
+                      {t('investor.requestHistory')}
                     </TableTitle>
                 <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 xs:grid-cols-1 gap-3 w-auto items-center justify-end ml-auto w-auto">
                   {filter && 
@@ -188,12 +203,12 @@ const InvestorRequestHistory = () => {
               <table className=" w-full">
                 <thead>
                   <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Investor Name</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Communication Status</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Status</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Attachment</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Notes</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.date')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.investorName')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.communicationStatus')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.status')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.attachment')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.notes')}</th>
                   </tr>
                 </thead>
                 {(!loading && pageData?.length > 0) ?
@@ -231,7 +246,7 @@ const InvestorRequestHistory = () => {
                         <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                   <Text className="font-dm-sans-medium text-sm leading-6 text-gray-900_01 w-auto py-4" size="">
-                  No matching data identified</Text>
+                  {t("common.noMatchingData")}</Text>
                 </div>
                 )                 
               }

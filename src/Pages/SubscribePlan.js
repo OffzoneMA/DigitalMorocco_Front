@@ -10,8 +10,10 @@ import { useNavigate , useLocation} from 'react-router-dom';
 import { useCreateSubscriptionForUserMutation  , useUpgradeSubscriptionMutation} from '../Services/Subscription.Service';
 import PaymentMethode from '../Components/PaymentMethode';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function SubscribePlan() {
+  const { t } = useTranslation();
     const token = sessionStorage.getItem("userToken");
     const [createSubscriptionForUser] = useCreateSubscriptionForUserMutation();
     const [upgradeSubscription, { isLoading: upgradeLoading, isSuccess:upgradeSuccess, isError, error }] = useUpgradeSubscriptionMutation();
@@ -22,6 +24,12 @@ export default function SubscribePlan() {
     const location = useLocation();
     const [choosedPlan, setChoosedPlan] = useState(location.state?.choosedPlan || null);
     const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
+    const currentLanguage = localStorage.getItem('language') || 'en'; 
+
+    const formatPrice = (price) => {
+      const locale = currentLanguage; // Get current language
+      return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'fr' ? 'EUR' : 'USD' }).format(price);
+    };
 
     const getUserSusbcription = async () => {
       try {
@@ -57,18 +65,21 @@ export default function SubscribePlan() {
     const getEndDate = (durationInMonths) => {
       const startDate = new Date();
       startDate.setMonth(startDate.getMonth() + durationInMonths);
-      return startDate.toLocaleDateString('en-US', {
+    
+      return startDate.toLocaleDateString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
       });
     };
+    
 
     const monthlyDuration = 1; 
     const annualDuration = monthlyDuration * 12;
 
-  const annualPrice = choosedPlan?.annualPrice || (choosedPlan?.price * 12).toFixed(2);
-  const monthlyPrice = choosedPlan?.price.toFixed(2);
+  const annualPrice = formatPrice(choosedPlan?.annualPrice || (choosedPlan?.price * 12).toFixed(2));
+  const annualPriceNotFormat = choosedPlan?.annualPrice || (choosedPlan?.price * 12).toFixed(2);
+  const monthlyPrice = formatPrice(choosedPlan?.price.toFixed(2));
   const endDate = new Date();
   endDate.setFullYear(endDate.getFullYear() + 1);
 
@@ -119,25 +130,26 @@ export default function SubscribePlan() {
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader
               >
-              Subscription & Billing
+              {t('settings.subscription.title')}
             </PageHeader>
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-start py-6 w-full h-full md:min-h-[540px] gap-8">
           <div className="flex flex-col md:border-r border-gray-201 pr-8 md:flex-1 lg:flex-1 gap-4">
             <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
-              Subscription Management
+            {t('settings.subscription.subscriptionManagement')}
             </Text>
             <div className="flex flex-col w-full rounded-[12px]  border p-4 border-gray-301 gap-4">
               <div className="flex flex-col w-full border-b pb-4 border-gray-301 gap-4">
                 <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
-                Your selected plan
+                {t('subscriptionPlans.selectedPlan')}
                 </Text>
                 <div className="flex flex-col w-full rounded-[12px] border border-[#E4E7EC] gap-[24px] p-4 ">
                   <div className='flex flex-col gap-1 w-full'>
                     <div className="flex flex-row w-full items-center">
                       <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
-                      {choosedPlan?.name}
+                      {t(`subscriptionPlans.${choosedPlan?.name.toLowerCase()}.name`)}
+
                       </Text>
                       <div className="flex flex-row ml-auto">
                         <button
@@ -147,7 +159,7 @@ export default function SubscribePlan() {
                           onClick={() => setSelectedPlan('Monthly')}
                           type="button"
                         >
-                          <span className="text-base leading-[20.83px] font-dm-sans-medium">Monthly</span>
+                          <span className="text-base leading-[20.83px] font-dm-sans-medium">{t('subscriptionPlans.billingCycle.monthly')}</span>
                         </button>
                         <button
                           className={`flex justify-center items-center gap-3 ml-[10px] w-[150px] h-[44px] p-[18px_30px] rounded-md hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer ${
@@ -156,13 +168,13 @@ export default function SubscribePlan() {
                           onClick={() => setSelectedPlan('Annual')}
                           type="button"
                         >
-                          <span className="text-base leading-[20.83px] font-medium">Annual</span>
+                          <span className="text-base leading-[20.83px] font-medium">{t('subscriptionPlans.billingCycle.annual')}</span>
                         </button>
                       </div>
                     </div>
                     <div className="inline-flex h-[24px] py-[2px] px-[10px] justify-center items-center rounded-[6px] bg-[#E1FFED] ml-auto">
                       <span className="text-[#00CDAE] text-center font-dm-sans text-[10px] font-bold leading-[24px]">
-                        Save up to 40%
+                      {t('subscriptionPlans.billingCycle.annualSave')} 40%
                       </span>
                     </div>
                   </div>
@@ -175,7 +187,8 @@ export default function SubscribePlan() {
                         </svg>
                       </div>
                       <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
-                        {feature}
+                      {t(`subscriptionPlans.${choosedPlan?.name.toLowerCase()}.features.feature${index}`)}
+
                       </Text>
                     </div>
                   ))}
@@ -183,28 +196,28 @@ export default function SubscribePlan() {
                   {selectedPlan === "Annual" ? (
                     <div className="flex flex-row items-center w-full pt-1">
                         <Text className="font-dm-sans-medium text-base leading-8 text-left text-gray-500 line-through">
-                            ${annualPrice}
+                            {annualPrice}
                         </Text>
                         <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-801 ml-2">
-                            ${(annualPrice*(100 - (choosedPlan?.annualDiscountRate || 20))/100).toFixed(2)}, ends on  {getEndDate(annualDuration)}
+                           {formatPrice((annualPriceNotFormat*(100 - (userSubscriptionData?.plan?.annualDiscountRate || 20))/100).toFixed(2))}, {t('subscriptionPlans.endsOn')}  {getEndDate(annualDuration)}
                         </Text>
                         <div className="inline-flex h-[24px] p-[2px_10px] justify-center items-center inline-flex rounded-[6px] bg-[#E1FFED] ml-6">
                             <span className="text-[#00CDAE] text-center font-dm-sans text-[10px] font-bold leading-[24px]">
-                                {choosedPlan?.annualDiscountRate || 20}% Off
+                            {t('settings.subscription.annualDiscount', { rate: choosedPlan?.annualDiscountRate || 20 })}
                             </span>
                         </div>
                     </div>
                   ) : (
                     <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-gray-801">
-                      ${monthlyPrice}/month, ends on  {getEndDate(monthlyDuration)}
+                      {monthlyPrice}/{t('subscriptionPlans.monthlyFee')}, {t('subscriptionPlans.endsOn')}  {getEndDate(monthlyDuration)}
                     </Text>
                   )}
                 </div>
                 <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
-                    Your subscription is about to be finalized.
+                {t('subscriptionPlans.finalizationMessage')}
                 </Text>
                 <Text className="font-dm-sans-bold text-base leading-6 text-left text-col1 w-full">
-                    Start the adventure now and explore more features to scale up your project.                
+                {t('subscriptionPlans.callToAction')}                
                 </Text>
               </div>
               <div className="flex space-x-3 md:space-x-5 items-end  w-full py-2 justify-end">
@@ -214,7 +227,7 @@ export default function SubscribePlan() {
                   type="button"
                 >
                   <FiTrash2 size={22} />
-                  Cancel 
+                  {t("common.cancel")} 
                 </button>
                 <button
                   className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] w-[282px] h-11 px-[30px] py-[18px] font-dm-sans-medium text-white-A700 flex flex-row items-center justify-center tracking-normal gap-3 ml-auto py-3 px-5 rounded-md w-auto cursorpointer"
@@ -222,13 +235,13 @@ export default function SubscribePlan() {
                   onClick={()=> confirmSubscription()}
                 >
                   <TiFlashOutline size={23} />
-                  Confirm my subscription
+                  {t('subscriptionPlans.confirm')}
                 </button>
               </div>
               
             </div>
           </div>
-          <div className='flex w-full md:w-1/3 lg:w-1/4'>
+          <div className={`flex w-full ${currentLanguage === 'fr' ? 'md:min-w-1/3 md:max-w-[300px] lg:min-w-1/4 lg:max-w-[300px]' : 'md:w-1/3 lg:w-1/4' }`}>
             <PaymentMethode />
           </div>
         </div>

@@ -25,8 +25,11 @@ import CustomCalendar from "../../Components/CustomCalendar";
 import SendSponsoringModal from "../../Components/SendSponsoringModal";
 import { parseDateString } from "../../data/helper";
 import { useCreateSponsorMutation } from "../../Services/Sponsor.Service";
+import { useTranslation } from "react-i18next";
 
 const UpcomingSponsorEvent = () => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
     const navigate = useNavigate();
     const field = 'physicalLocation';
     const { data: distinctValues, isLoading: distinctsValueLoading } = useGetDistinctValuesByPartnerSponsorQuery(field);
@@ -119,7 +122,7 @@ const UpcomingSponsorEvent = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    Upcoming Event
+                    {t('event.upcomingEvent')}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -132,7 +135,7 @@ const UpcomingSponsorEvent = () => {
                     <TableTitle
                       style={{whiteSpace:"nowrap"}}
                     >
-                      Event List
+                      {t('eventListSponsoring.eventList')}
                     </TableTitle>
                     <div className=" grid-cols-auto-fit md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 gap-3 w-auto items-center justify-end ml-auto">
                       {filter && 
@@ -219,10 +222,10 @@ const UpcomingSponsorEvent = () => {
                   <table className=" w-full">
                     <thead>
                     <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px]">
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Event Name</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Organize by</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Date</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">Location</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.eventName')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.organizedBy')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.date')}</th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.location')}</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
                     </tr>
                     </thead>
@@ -261,7 +264,7 @@ const UpcomingSponsorEvent = () => {
                              openModal(item)
                              }}
                           className="flex h-[34px] px-3 py-2 bg-[#2575f0] hover:bg-[#235DBD] active:bg-[#224a94] rounded-[200px] justify-center items-center gap-3 text-white-A700 text-sm font-dm-sans-medium cursorpointer ">
-                          Sponsorship
+                          {t('eventListSponsoring.sponsorship')}
                           </button>
                             
                         </td>
@@ -285,7 +288,7 @@ const UpcomingSponsorEvent = () => {
                     <img src={ticketEmptyImg} />
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                      <span>No Upcoming Event </span>
+                      <span>{t("common.noUpcomingEvent")}</span>
                     </div>
                   </div>
                   )
