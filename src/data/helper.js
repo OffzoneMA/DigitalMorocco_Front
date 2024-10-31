@@ -1,3 +1,10 @@
+import { format, parse  , isValid  } from 'date-fns';
+import { fr , enUS } from 'date-fns/locale';
+
+
+const currentLanguage = localStorage.getItem('language') || 'en'; 
+
+
 /**
  * Format a number with commas as thousand separators.
  * 
@@ -108,6 +115,112 @@ export const formatPrice = (price, currentLanguage) => {
           maximumFractionDigits: 2
       }).format(price);
 
-      return currentLanguage === 'fr' ? `À partir de ${formattedPrice}` : `From ${formattedPrice}`;
+      return `${formattedPrice}`;
   }
 };
+
+
+export const formatEventStartEndDate = (event , t) => {
+  const currentLocale = currentLanguage === 'fr' ? fr : enUS;
+
+  const startDate = event?.startDate ? new Date(event.startDate) : null;
+  const endDate = event?.endDate ? new Date(event.endDate) : null;
+
+  const startTime = event?.startTime; // Assuming startTime is in format 'hh:mm AM/PM'
+  const endTime = event?.endTime; // Assuming endTime is in format 'hh:mm AM/PM'
+
+  // Format the start date
+  const formattedStartDate = startDate && isValid(startDate)
+      ? format(startDate, currentLanguage === 'fr' ? 'eee dd MMM yyyy' : 'eee, MMM d, yyyy', { locale: currentLocale })
+      : t("event.comingSoon");
+
+  // Format the end date
+  const formattedEndDate = endDate && isValid(endDate)
+      ? format(endDate, currentLanguage === 'fr' ? 'eee dd MMM yyyy' : 'eee, MMM d, yyyy', { locale: currentLocale })
+      : startDate && isValid(startDate)
+          ? format(startDate, currentLanguage === 'fr' ? 'eee dd MMM yyyy' : 'eee, MMM d, yyyy', { locale: currentLocale })
+          : t("event.comingSoon");
+
+  // Function to format time from 'hh:mm AM/PM'
+  const formatTimeFromString = (time) => {
+      if (!time) return ''; // If no time is provided, return an empty string
+
+      // Parse the time and set hours and minutes
+      const [timePart, modifier] = time.split(' '); // Split the time and AM/PM part
+      let [hours, minutes] = timePart.split(':').map(Number); // Split the time into hours and minutes
+      
+      // Convert to 24-hour format if it's PM and hours are not 12
+      if (modifier === 'PM' && hours < 12) {
+          hours += 12;
+      }
+      // Handle the case for 12 AM
+      if (modifier === 'AM' && hours === 12) {
+          hours = 0;
+      }
+
+      // Create a new Date object for formatting the time
+      const date = new Date(startDate); // Use startDate or endDate as needed
+      date.setHours(hours, minutes); // Set the hours and minutes
+
+      const timeOptions = {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: currentLanguage === 'en', // Use 12-hour format for English
+          hourCycle: 'h11' // Set to 12-hour format for en-US
+      };
+
+      let formattedTime = date.toLocaleTimeString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', timeOptions);
+      if (currentLanguage === 'fr') {
+          formattedTime = formattedTime.replace(':', 'H'); // Change ':' to 'H' for French
+      }
+
+      return formattedTime;
+  };
+
+  // Capitalize the first letter of the formatted date for French
+  const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+  // Construct the final output with the correct formatting
+  return {
+    formattedStart: (currentLanguage === 'fr' && isValid(startDate))
+        ? `${capitalizeFirstLetter(formattedStartDate.replace('.', ''))?.replace('.', '')} à ${formatTimeFromString(startTime)}`
+        : `${capitalizeFirstLetter(formattedStartDate.replace('.', ''))?.replace('.', '')} ${formatTimeFromString(startTime)}`,
+    
+    formattedEnd: (currentLanguage === 'fr' && isValid(endDate))
+        ? `${capitalizeFirstLetter(formattedEndDate.replace('.', ''))?.replace('.', '')} à ${formatTimeFromString(endTime)}`
+        : `${capitalizeFirstLetter(formattedEndDate.replace('.', ''))?.replace('.', '')} ${formatTimeFromString(endTime)}`,
+};
+};
+
+export function formatEventTime(startDate, endDate, startTime, endTime , t) {
+  const locale = currentLanguage === 'fr' ? fr : enUS;
+
+  if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
+      return currentLanguage === 'fr' ? '24 heures par jour, 7 jours par semaine' : '24 hours a day, 7 days a week';
+  } else {
+      const startDateTime = new Date(startDate);
+      const endDateTime = new Date(endDate);
+
+      // Check if the start and end dates are the same
+      if (startDateTime.getDate() === endDateTime.getDate() &&
+          startDateTime.getMonth() === endDateTime.getMonth() &&
+          startDateTime.getFullYear() === endDateTime.getFullYear()) {
+          const gmtOffset = -startDateTime.getTimezoneOffset() / 60; // GMT offset in hours
+          const gmt = `GMT${gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset}`; // Format GMT offset
+
+          const formattedStartTime = format(parse(startTime, 'h:mm a', new Date()), currentLanguage === 'fr' ? 'H:mm' : 'h:mm a', { locale });
+          const formattedEndTime = format(parse(endTime, 'h:mm a', new Date()), currentLanguage === 'fr' ? 'H:mm' : 'h:mm a', { locale });
+
+          return currentLanguage === 'fr'
+              ? `De ${formattedStartTime.replace(':', 'h')} à ${formattedEndTime.replace(':', 'h')} ${gmt}` // French format with 'h'
+              : `${formattedStartTime} - ${formattedEndTime} ${gmt}`; // English format
+      } else {
+          const parsedTime = parse(startTime, 'h:mm a', new Date());
+          const formattedParsedTime = format(parsedTime, currentLanguage === 'fr' ? 'H:mm' : 'h:mm a', { locale });
+
+          return currentLanguage === 'fr'
+              ? formattedParsedTime.replace(':', 'h').toUpperCase() // For French format: replace ':' with 'h'
+              : formattedParsedTime.toUpperCase(); // For English format
+      }
+  }
+}

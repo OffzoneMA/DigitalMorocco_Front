@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 import { useTranslation } from "react-i18next";
+import { reasonsForRejectionSponsoring } from "../data/data";
 
 const RejectSponsoringRequestModal = (props) => {
     const { t } = useTranslation();
@@ -55,14 +56,7 @@ const RejectSponsoringRequestModal = (props) => {
     
     const closeModal = () => {
         setIsConfirmedModalOpen(false);
-    };
-
-    const rejectionReasons = [
-        "Budget Constraints",
-        "Not Aligned with Current Goals",
-        "Timing Issues",
-      ];
-    
+    };    
 
     return (
         <>
@@ -79,7 +73,7 @@ const RejectSponsoringRequestModal = (props) => {
                         <Text
                         className="font-DmSans md:text-lg text-[18px] leading-7 font-medium text-[#1D2939] w-full"
                         >
-                        Reject Sponsorship Request
+                        {t('eventListSponsoring.reject.title')}
                         </Text>
                     </div>
                 </div>
@@ -90,17 +84,17 @@ const RejectSponsoringRequestModal = (props) => {
                         className="text-base text-[#1D1C21] w-auto"
                         size="txtDMSansLablel"
                         >
-                        Reason for Rejection
+                        {t('eventListSponsoring.reject.rejectionReason')}
                         </Text>
-                        <SimpleSelect id='reason' options={rejectionReasons} onSelect={""} searchLabel='Search Raison' setSelectedOptionVal={setSelectedRaison}
-                            placeholder="Select Reason" required={sending && selectedRaison === null}
+                        <SimpleSelect id='reason' options={reasonsForRejectionSponsoring} onSelect={""} searchLabel={t("common.searchRaison")} setSelectedOptionVal={setSelectedRaison}
+                            placeholder={t('eventListSponsoring.reject.rejectionReasonPlaceholder')} required={sending && selectedRaison === null}
                             content={
                             ( option) =>{ return (
                                 <div className={`flex  py-2 items-center w-full`}>
                                     <Text
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
-                                    {option}
+                                    {t(`${option}`)}
                                     </Text>
                                 </div>
                                 );
@@ -112,13 +106,13 @@ const RejectSponsoringRequestModal = (props) => {
                         className="text-base text-[#1D1C21] w-auto"
                         size="txtDMSansLablel"
                         >
-                        Write Your Request Letter
+                        {t('eventListSponsoring.reject.letterLabel')} 
                         </Text>
                         <textarea 
                         {...register("letter", { required: {value:true , message: "Request Letter is required."} })}
                         className={`!placeholder:text-blue_gray-301 !text-gray700 h-[139px] leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px]  border border-[#D0D5DD] ${errors?.letter ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         rows={5}
-                        placeholder="Write your request letter here" 
+                        placeholder={t('eventListSponsoring.reject.requestLetter')} 
                         style={{
                                 scrollbarWidth: 'none', 
                                 msOverflowStyle: 'none',
@@ -130,7 +124,7 @@ const RejectSponsoringRequestModal = (props) => {
                         className="font-dm-sans-regular text-sm leading-relaxed text-left text-[#555458]"
                         size=""
                         >
-                        Introduce your Company or provide additional context about your Sponsorship
+                        {t('eventListSponsoring.reject.companyIntroduction')}
                         </Text>
                     </div>
                 </div>
@@ -152,7 +146,7 @@ const RejectSponsoringRequestModal = (props) => {
                             <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         </div>  :  
-                        'Reject'}
+                        t("common.reject")}
                     </button>
                 </div>
               </div>

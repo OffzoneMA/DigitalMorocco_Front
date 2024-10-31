@@ -252,7 +252,7 @@ const Documents = () => {
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
                       size=""
                     >
-                      No Document Found
+                      {t('common.noDocumentFound')}
                     </Text>
                   </div>
                 )}

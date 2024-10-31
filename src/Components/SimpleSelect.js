@@ -2,8 +2,11 @@ import React, { useState , useRef , useEffect} from 'react';
 import { BiChevronDown , BiChevronUp} from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
+import { useTranslation } from 'react-i18next';
 
 const SimpleSelect = ({ options =[], onSelect ,valuekey='',placeholder='' , searchable = true, searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',className='' ,required = false, }) => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [searchValue, setSearchValue] = useState("");
@@ -16,12 +19,19 @@ const SimpleSelect = ({ options =[], onSelect ,valuekey='',placeholder='' , sear
     }
   }, [selectedOption , selectedOptionsDfault]);
 
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
+  const [dropdownPosition, setDropdownPosition] = useState({ top: null, left: null, width: '100%' });
   const [dropdownDirection, setDropdownDirection] = useState('down');
 
   const toggleDropdown = (event) => {
     event.stopPropagation(); // Stop event propagation to prevent handleClickOutside from being triggered
-    setIsOpen(prevState => !prevState);
+    const newIsOpen = !isOpen;
+
+    if (newIsOpen) {
+      // Calculate dropdown position first
+      calculateDropdownPosition();
+    }
+
+    setIsOpen(newIsOpen); // Then set the dropdown state
   };
 
   const handleClickOutside = (event) => {
@@ -111,7 +121,7 @@ const SimpleSelect = ({ options =[], onSelect ,valuekey='',placeholder='' , sear
           name="target"
           type="text"
           placeholder={placeholder}
-          value={valuekey ? selectedOption?.[valuekey] : selectedOption? selectedOption: ""}
+          value={valuekey ? t(selectedOption?.[valuekey]) : selectedOption ? t(selectedOption) : ""}
           readOnly
           style={{overflow:'hidden' , textOverflow:'ellipsis'}}
         />

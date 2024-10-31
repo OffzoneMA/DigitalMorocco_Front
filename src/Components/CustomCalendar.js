@@ -3,8 +3,10 @@ import 'react-calendar/dist/Calendar.css';
 import React, {useEffect, useRef, useState} from "react";
 import {MdOutlineDateRange} from "react-icons/md";
 import ReactDOM from 'react-dom';
+import { useTranslation } from "react-i18next";
 
 const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultValue ,required = false, showIcon = true}) => {
+  const { t } = useTranslation();
     const formatDefaultValut = (defaultValue) => {
         if(defaultValue) {
             return new Intl.DateTimeFormat('en-GB').format(defaultValue);
@@ -16,8 +18,8 @@ const CustomCalendar = ({className , onChangeDate , inputPlaceholder , defaultVa
     const [valueDate, setValueDate] = useState(formatDefaultValut(defaultValue));
     const dropdownRef = useRef(null);
     const parentRef = useRef(null);
-    const userLanguage = navigator.language.split('-')[0];
-    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
+    const userLanguage = localStorage.getItem('language') || 'en'; 
+    const [dropdownPosition, setDropdownPosition] = useState({ top: null, left: null, width: '100%' });
     const [dropdownDirection, setDropdownDirection] = useState('down');
 
 
@@ -136,7 +138,7 @@ const calculateDropdownPosition = () => {
                   type="text"
                   className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                   name={`due-date`}
-                  placeholder={inputPlaceholder || "Due Date"}
+                  placeholder={t(`${inputPlaceholder}`) || "Due Date"}
                   value={valueDate}
                   readOnly
               //   onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}

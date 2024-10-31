@@ -714,12 +714,12 @@ const handleStatusChangeAndUpdate = async () => {
                   ) : submitting === 'ok' ? (
                     <>
                     <BsCheck2Circle size={18} className="mr-2" />
-                    Saved
+                    {t("common.saved")}
                     </>
                   ) : (
                     <>
                       <FiSave size={21} className="mr-2" />
-                      {t('projects.createNewProject.save')}
+                      {t('common.save')}
                     </>
                   )}
                   </button>
@@ -884,7 +884,7 @@ const handleStatusChangeAndUpdate = async () => {
                     content={
                       ( option) =>{ return (
                           <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 py-2 items-center  w-full">
-                               {option}
+                               {t(`${option}`)}
                            </div>
                         );
                       }
@@ -898,7 +898,7 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       {t('projects.createNewProject.country')}
                     </Text>
-                    <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel='Search Country' setSelectedOptionVal={setSelectedCountry} 
+                    <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel={t("common.searchCountry")} setSelectedOptionVal={setSelectedCountry} 
                         placeholder={t('projects.createNewProject.selectCountry')} valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""} 
                         required={requiredFields.country}
                         content={
@@ -928,7 +928,7 @@ const handleStatusChangeAndUpdate = async () => {
                                 <Text
                                   className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
                                   >
-                                  {option}
+                                  {t(`${option}`)}
                                 </Text>
                               </div>
                             );
@@ -957,7 +957,7 @@ const handleStatusChangeAndUpdate = async () => {
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                             >
-                              {t(`projects.createNewProject.projectPublication.${option}`)}
+                              {t(`${option}`)}
                             </Text>
                           </div>
                         );

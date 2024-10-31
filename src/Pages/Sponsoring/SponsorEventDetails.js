@@ -22,6 +22,7 @@ import Loader from "../../Components/Loader";
 import userDefaultProfil from '../../Media/User1.png';
 import SendSponsoringModal from "../../Components/SendSponsoringModal";
 import { useTranslation } from "react-i18next";
+import { formatEventStartEndDate , formatEventTime , formatPrice } from "../../data/helper";
 
 const SponsorEventDetails = () => {
   const { t } = useTranslation();
@@ -113,38 +114,6 @@ const SponsorEventDetails = () => {
           }
 
           }
-  }
-
-  function formatEventTime(startDate, endDate, startTime, endTime) {
-  
-      if (!startDate || !endDate || !startTime || !endTime || startTime=='' || endTime=='' ) {
-          return '24 hours a day, 7 days a week';
-      }
-      else {
-          const formattedStartTimev = formattedTime(startTime, '');
-          const formattedEndTimev = formattedTime(endTime, '');
-
-          const startDateTime = new Date(startDate);
-          const endDateTime = new Date(endDate);
-
-          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              const gmtOffset = startDateTime.getTimezoneOffset() / 60; 
-
-              console.log(gmtOffset)
-              const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
-              // if(language =='fr-FR') {
-              //     return `De ${formattedStartTimev} à ${formattedEndTimev} GMT${gmt}`
-              // }
-              return `${formattedStartTimev} - ${formattedEndTimev} ${gmt}`;
-          } else {
-              
-              const parsedTime = parse(startTime, 'h:mm a', new Date());
-              // if (language === 'fr-FR') {
-              //   return format(parsedTime, 'H:mm', { locale: fr }).replace(':', 'h');
-              // }
-              return format(parsedTime, 'h:mm a', { locale: enUS }).toUpperCase();            }
-
-      }
   }
 
   const handleAddAttendee = async () => {
@@ -245,9 +214,7 @@ const openModal = () => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {event?.price !== undefined && event?.price !== null ? 
-                            (event.price === 0 ? 'Free' : `$ ${(event.price).toFixed(2)}`) : 
-                            'Free'}
+                          {t('From')} {formatPrice(event?.price , currentLanguage)}
                           </Text>
                       </div>                  
                     </div>
@@ -294,7 +261,7 @@ const openModal = () => {
                                 </Text>
                               </div>
                               <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                              {event?.startDate ? format(event?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.startTime || ''}
+                              {formatEventStartEndDate(event , t)?.formattedStart}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -306,11 +273,7 @@ const openModal = () => {
                               </div>
                               <div className="relative">
                                 <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.endDate 
-                                  ? format(new Date(event?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                  : event?.startDate 
-                                    ? format(new Date(event?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                    : 'Coming Soon'} {event?.endTime || ''}
+                                {formatEventStartEndDate(event , t)?.formattedEnd}
                                 </Text>
                               </div>
                             </div>

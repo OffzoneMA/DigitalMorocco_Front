@@ -13,6 +13,7 @@ import SearchInput from "../Components/SeachInput";
 import axios from "axios";
 import { format } from "date-fns";
 import moment from "moment/moment";
+import { jobTitles , employeeLevels , departments } from "../data/data";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useTranslation } from "react-i18next";
 
@@ -177,9 +178,9 @@ const NewEmployee = () => {
   
           formData.append('image', imgFile); 
           
-          updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
-          updatedFields.level = selectedLevel?.level || currentData.level;
-          updatedFields.department = selectedDepartment?.name || currentData.department;
+          updatedFields.jobTitle = selectedJobTitle || currentData.jobTitle;
+          updatedFields.level = selectedLevel || currentData.level;
+          updatedFields.department = selectedDepartment || currentData.department;
           updatedFields.country = selectedCountry?.name || currentData.country;
           updatedFields.cityState = selectedCity?.name || currentData.cityState;
           updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
@@ -205,9 +206,9 @@ const NewEmployee = () => {
           }
         } else {
           const formData = new FormData();
-          updatedFields.jobTitle = selectedJobTitle?.title || currentData.jobTitle;
-          updatedFields.level = selectedLevel?.level || currentData.level;
-          updatedFields.department = selectedDepartment?.name || currentData.department;
+          updatedFields.jobTitle = selectedJobTitle || currentData.jobTitle;
+          updatedFields.level = selectedLevel || currentData.level;
+          updatedFields.department = selectedDepartment || currentData.department;
           updatedFields.country = selectedCountry?.name || currentData.country;
           updatedFields.cityState = selectedCity?.name || currentData.cityState;
           updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
@@ -302,43 +303,6 @@ const NewEmployee = () => {
   //   }
   // };
 
-  const employeeLevels = [
-    { level: 'Junior', description: 'Entry-level position for beginners in the field.' },
-    { level: 'Intermediate', description: 'Mid-level position with some experience and skills.' },
-    { level: 'Senior', description: 'Experienced position with advanced skills and responsibilities.' },
-    { level: 'Manager', description: 'Supervisory position overseeing a team or department.' },
-    { level: 'Executive', description: 'Top-level management position with strategic decision-making.' },
-    { level: 'Associate', description: 'Position with specialized skills supporting various functions.' },
-    { level: 'Director', description: 'Leadership position responsible for a specific area or department.' },
-    { level: 'Consultant', description: 'External expert providing specialized advice and guidance.' },
-    {level:'Other' , description: 'Other'}
-  ];
-
-  const jobTitles = [
-    { title: 'Software Engineer', department: 'Engineering' },
-    { title: 'Marketing Manager', department: 'Marketing' },
-    { title: 'Financial Analyst', department: 'Finance' },
-    { title: 'HR Specialist', department: 'Human Resources' },
-    { title: 'Product Manager', department: 'Product Management' },
-    { title: 'Sales Representative', department: 'Sales' },
-    { title: 'Data Scientist', department: 'Information Technology' },
-    { title: 'Customer Success Manager', department: 'Customer Service' },
-    { title: 'Other' , department: 'Other'},
-  ];
-
-  const departments = [
-    { name: 'Engineering' },
-    { name: 'Marketing' },
-    { name: 'Finance' },
-    { name: 'Human Resources' },
-    { name: 'Product Management' },
-    { name: 'Customer Service' },
-    { name: 'Sales' },
-    { name: 'Research and Development' },
-    { name: 'Information Technology' },
-    { name: 'Operations' },
-    { name: 'Other'}
-  ];
     
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
@@ -641,14 +605,13 @@ const NewEmployee = () => {
                       onSelect={(selectedOption) => setSelectedJobTitle(selectedOption)}
                       searchLabel={t('employee.addEmployee.searchJob')}
                       setSelectedOptionVal={setSelectedJobTitle}
-                      selectedOptionsDfault={employee?.jobTitle ? jobTitles.find(job => job.title === employee.jobTitle) : ""}
+                      selectedOptionsDfault={employee?.jobTitle ? jobTitles.find(job => job === employee.jobTitle) : ""}
                       placeholder={t('employee.addEmployee.selectJobTitle')}
-                      valuekey="title"
                       content={(option) => {
                         return (
                           <div className="flex py-2 items-center w-full">
                             <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">
-                              {option.title}
+                              {t(`${option}`)}
                             </Text>
                           </div>
                         );
@@ -666,8 +629,7 @@ const NewEmployee = () => {
                     </Text>
                     <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel={t('employee.addEmployee.searchLevel')} setSelectedOptionVal={setSelectedLevel}
                       placeholder={t('employee.addEmployee.selectLevel')}
-                      selectedOptionsDfault={employee?.level? employeeLevels.find(lev => lev.level === employee.level) : ""}
-                      valuekey="level"
+                      selectedOptionsDfault={employee?.level? employeeLevels.find(lev => lev === employee.level) : ""}
                       content={
                         (option) => {
                           return (
@@ -675,7 +637,7 @@ const NewEmployee = () => {
                               <Text
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
-                                {option.level}
+                                {t(`${option}`)}
                               </Text>
                             </div>
                           );
@@ -690,8 +652,7 @@ const NewEmployee = () => {
                     </Text>
                     <SimpleSelect id='department' options={departments} onSelect={""} searchLabel={t('employee.addEmployee.searchDepartment')} setSelectedOptionVal={setSelectedDepartment}
                       placeholder={t('employee.addEmployee.selectDepartment')}
-                      selectedOptionsDfault={employee?.department? departments.find(dep => dep.name === employee.department) : ""}
-                      valuekey="name"
+                      selectedOptionsDfault={employee?.department? departments.find(dep => dep === employee.department) : ""}
                       content={
                         (option) => {
                           return (
@@ -699,7 +660,7 @@ const NewEmployee = () => {
                               <Text
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
-                                {option.name}
+                                {t(`${option}`)}
                               </Text>
                             </div>
                           );

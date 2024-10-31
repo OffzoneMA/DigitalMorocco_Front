@@ -390,7 +390,7 @@ const Dashbord = () => {
                                   <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="4" cy="4" r="3" fill="#12B76A"/>
                                   </svg>
-                                  {item?.status}
+                                  {t(item?.status)}
                                 </div>
                             </div>
                             <div className="flex flex-row gap-2 py-2 w-full">
@@ -519,7 +519,7 @@ const Dashbord = () => {
                                           : ''
                                       } inline-flex`}
                                     >
-                                      {item.status}
+                                      {t(item?.status)}
                                     </div>
                                   </td>
                                 </tr>

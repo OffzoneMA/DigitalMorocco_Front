@@ -501,15 +501,15 @@ const Dashboard_Partner = () => {
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
                                         {item?.status?.toLowerCase() === "approved" && 
                                         <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#ebfdf2] rounded-2xl justify-center items-center inline-flex">
-                                            <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">Approved</div>
+                                            <div className="text-center text-[#027947] text-[13px] font-dm-sans-regular leading-normal">{t(item?.status)}</div>
                                         </div>}
                                         {item?.status?.toLowerCase() === "rejected" && 
                                         <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#fee7e6] rounded-2xl justify-center items-center inline-flex">
-                                            <div className="text-center text-[#f04437] text-[13px] font-dm-sans-regular leading-normal">Rejected</div>
+                                            <div className="text-center text-[#f04437] text-[13px] font-dm-sans-regular leading-normal">{t(item?.status)}</div>
                                         </div>}
                                         {item?.status?.toLowerCase() === "pending" && 
                                         <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#dbedff] text-[#156fee] rounded-2xl justify-center items-center inline-flex">
-                                            <div className="text-center text-[#156fee] text-[13px] font-dm-sans-regular leading-normal">In Progress</div>
+                                            <div className="text-center text-[#156fee] text-[13px] font-dm-sans-regular leading-normal">{t(item?.status)}</div>
                                         </div>}
                                   </td>
                                 </tr>

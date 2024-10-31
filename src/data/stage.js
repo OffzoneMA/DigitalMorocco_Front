@@ -1,19 +1,21 @@
 export const stage = [
-    "Idea",
-    "Pree-Seed",
+    "Ideation",
+    "Concept Validation",
+    "Pre-Seed",
     "Seed",
-    "Pree-Serie A",
-    "Serie A",
-    "Pree-Serie B",
-    "Serie B",
-    "Pree-Serie C",
-    "Serie C",
-    "Pree-Serie D",
-    "Serie D",
-    "Pree-Serie E",
-    "Serie E",
-    "IPO",
- ];
+    "Pre-Series A",
+    "Series A",
+    "Pre-Series B",
+    "Series B",
+    "Pre-Series C",
+    "Series C",
+    "Growth Stage",
+    "International Expansion",
+    "Market Maturity",
+    "IPO Preparation",
+    "Initial Public Offering (IPO)",
+    "Acquisition or Exit"
+  ];
 
  export const stages = [
     { id: 1, name: "Idea" },

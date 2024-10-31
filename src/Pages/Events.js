@@ -268,13 +268,13 @@ const Events = () => {
                             className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                             type="text"
                             name="search"
-                            placeholder="Keywords"
+                            placeholder={t("common.keywords")}
                             value={keywords}
                             onChange={e => setKeywords(e.target.value)}
                           />
                         </div>
-                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={eventNameData} onSelect={""} searchLabel='Search Event' setSelectedOptionVal={seteventName} 
-                          placeholder="Event Name"
+                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={eventNameData} onSelect={""} searchLabel={t('common.searchEvent')} setSelectedOptionVal={seteventName} 
+                          placeholder={t("common.eventName")}
                           content={
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
@@ -287,8 +287,8 @@ const Events = () => {
                               );
                             }
                           }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel='Search Location' setSelectedOptionVal={setLocation} 
-                          placeholder="Location" 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                          placeholder={t("common.location")} 
                           content={
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
@@ -311,7 +311,7 @@ const Events = () => {
                     >
                         <BiFilterAlt size={18} className="mr-2" />
                         <span className="font-dm-sans-medium text-sm leading-[18.23px] text-white-A700" style={{ whiteSpace: 'nowrap' }}>
-                            Apply Filters
+                            {t("common.applyFilters")}
                         </span>
                     </button>
                     ):
@@ -324,7 +324,7 @@ const Events = () => {
                       >
                         <BiFilterAlt size={18} className="mr-2" />
                         <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
-                            Filters
+                            {t('common.filters')}
                         </span>
                       </button>
                       )
@@ -338,7 +338,7 @@ const Events = () => {
                           <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.75 4.75L8.25 9.25M8.25 4.75L12.75 9.25M2.04 7.72L5.28 12.04C5.544 12.392 5.676 12.568 5.84329 12.6949C5.99145 12.8074 6.15924 12.8913 6.33808 12.9423C6.54 13 6.76 13 7.2 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H7.2C6.76 1 6.54 1 6.33808 1.05767C6.15924 1.10874 5.99145 1.19264 5.84329 1.30506C5.676 1.432 5.544 1.608 5.28 1.96L2.04 6.28C1.84635 6.53819 1.74953 6.66729 1.71221 6.80907C1.67926 6.93423 1.67926 7.06577 1.71221 7.19093C1.74953 7.33271 1.84635 7.46181 2.04 7.72Z" stroke="#151439" stroke-opacity="0.4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
-                          <span className="text-base font-dm-sans-regular leading-[26px]">Clear</span>
+                          <span className="text-base font-dm-sans-regular leading-[26px]">{t('common.clear')}</span>
                         </button>
                         )}
                       </div>
@@ -391,7 +391,7 @@ const Events = () => {
                             item.status?.toLowerCase() === 'upcoming' ? 'bg-[#6172F3]' :
                               item.status?.toLowerCase() === 'ongoing' ? 'bg-[#12B76A] ' : ''
                         } inline-flex`}>
-                          {`${item.status} Event` }
+                          {t(item?.status)} {`Event`}
                         </div>
                           </td>
                         <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed" 
@@ -476,7 +476,7 @@ const Events = () => {
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto pb-4"
                       size=""
                     >
-                      {t("event.noParticipationMessage")}
+                      {t("event.eventParticipate.noParticipationMessage")}
                     </Text>
                     <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-3 py-2 rounded-md ">
                         <button
@@ -485,7 +485,7 @@ const Events = () => {
                             className=" font-dm-sans-medium text-sm leading-[18.23px] text-white-A700 cursorpointer"
                             style={{whiteSpace:'nowrap'}}
                         >
-                          {t("event.browseUpcomingEvents")}
+                          {t("event.eventParticipate.browseUpcomingEvents")}
                         </button>
                     </div>
                   </div>

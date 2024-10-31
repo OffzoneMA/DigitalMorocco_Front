@@ -134,7 +134,7 @@ const Projects = () => {
                               item.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
                         } inline-flex`}  style={{whiteSpace:'nowrap'}}>
                           <BsDot  size={28} className=""/>
-                          {item.status}
+                          {t(item?.status)}
                         </div>
                       </td>
                       <td className="py-4 px-4 ">

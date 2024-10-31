@@ -497,7 +497,7 @@ const Dashbord_Investor = () => {
                                           : ''
                                       } inline-flex`}
                                     >
-                                      {item.status}
+                                      {t(item?.status)}
                                     </div>
                                   </td>
                                 </tr>

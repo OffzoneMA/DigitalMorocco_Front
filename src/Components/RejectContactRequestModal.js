@@ -11,6 +11,7 @@ import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 import { FaBullseye } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import {reasonsForRejectionInvestment} from "../data/data.js";
 
 const RejectContactRequestModal = (props) => {
     const { t } = useTranslation();
@@ -63,14 +64,6 @@ const RejectContactRequestModal = (props) => {
     const closeModal = () => {
         setIsConfirmedModalOpen(false);
     };
-
-    const rejectionReasons = [
-     "Budget Constraints",
-     "Not Aligned with Current Goals",
-     "Timing Issues",
-     "Other"
-    ];
-    
       
 
     return (
@@ -101,7 +94,7 @@ const RejectContactRequestModal = (props) => {
                         >
                         {t('investment.rejectContactRequest.reasonForRejection')}
                         </Text>
-                        <SimpleSelect id='reason' options={rejectionReasons} onSelect={""} searchLabel={t("common.searchRaison")} setSelectedOptionVal={setSelectedRaison}
+                        <SimpleSelect id='reason' options={reasonsForRejectionInvestment} onSelect={""} searchLabel={t("common.searchRaison")} setSelectedOptionVal={setSelectedRaison}
                             placeholder={t('investment.rejectContactRequest.reasonForRejectionPlaceholder')} required={sending && selectedRaison === null}
                             content={
                             ( option) =>{ return (
@@ -109,7 +102,7 @@ const RejectContactRequestModal = (props) => {
                                     <Text
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
-                                    {option}
+                                    {t(`${option}`)}
                                     </Text>
                                 </div>
                                 );

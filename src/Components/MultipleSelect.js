@@ -11,7 +11,7 @@ const MultipleSelect = ({ options =[], onSelect, valuekey='',optionkey='',placeh
   const [searchValue, setSearchValue] = useState("");
   const dropdownRef = useRef(null);
   const parentRef = useRef(null);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: '100%' });
+  const [dropdownPosition, setDropdownPosition] = useState({ top: null, left: null, width: '100%' });
   const [dropdownDirection, setDropdownDirection] = useState('down');
 
 

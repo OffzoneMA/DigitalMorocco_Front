@@ -11,6 +11,7 @@ import { useGetAllProjectsQuery } from "../Services/Member.Service";
 import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
 import { useApproveRequestMutation } from "../Services/ContactRequest.Service";
 import { useTranslation } from "react-i18next";
+import {investmentTypes} from "../data/data.js";
 
 const ApproveContactRequestModal = (props) => {
     const { t } = useTranslation();
@@ -62,13 +63,6 @@ const ApproveContactRequestModal = (props) => {
     const closeModal = () => {
         setIsConfirmedModalOpen(false);
     };
-
-    const investmentTypes = [
-        'Venture Capital',
-        'Angel',
-        'Accelerator',
-        'Other',
-    ]
       
 
     return (
@@ -107,7 +101,7 @@ const ApproveContactRequestModal = (props) => {
                                     <Text
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
-                                    {option}
+                                    {t(`${option}`)}
                                     </Text>
                                 </div>
                                 );

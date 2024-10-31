@@ -29,6 +29,7 @@ import RejectSponsoringRequestModal from '../../Components/RejectSponsoringReque
 import { LuDownload } from "react-icons/lu";
 import { useGetSponsorByIdQuery , useApproveSponsorMutation } from "../../Services/Sponsor.Service";
 import { useTranslation } from "react-i18next";
+import { formatEventStartEndDate , formatEventTime , formatPrice} from "../../data/helper";
 
 const SponsorRequestHistoryDetails = () => {
   const { t } = useTranslation();
@@ -121,38 +122,6 @@ const SponsorRequestHistoryDetails = () => {
           }
 
           }
-  }
-
-  function formatEventTime(startDate, endDate, startTime, endTime) {
-  
-      if (!startDate || !endDate || !startTime || !endTime || startTime=='' || endTime=='' ) {
-          return '24 hours a day, 7 days a week';
-      }
-      else {
-          const formattedStartTimev = formattedTime(startTime, '');
-          const formattedEndTimev = formattedTime(endTime, '');
-
-          const startDateTime = new Date(startDate);
-          const endDateTime = new Date(endDate);
-
-          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              const gmtOffset = startDateTime.getTimezoneOffset() / 60; 
-
-              console.log(gmtOffset)
-              const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
-              // if(language =='fr-FR') {
-              //     return `De ${formattedStartTimev} à ${formattedEndTimev} GMT${gmt}`
-              // }
-              return `${formattedStartTimev} - ${formattedEndTimev} ${gmt}`;
-          } else {
-              
-              const parsedTime = parse(startTime, 'h:mm a', new Date());
-              // if (language === 'fr-FR') {
-              //   return format(parsedTime, 'H:mm', { locale: fr }).replace(':', 'h');
-              // }
-              return format(parsedTime, 'h:mm a', { locale: enUS }).toUpperCase();            }
-
-      }
   }
 
   const handleAddAttendee = async () => {
@@ -307,9 +276,7 @@ const openModal = () => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {event?.eventId?.price !== undefined && event?.eventId?.price !== null ? 
-                            (event.eventId?.price === 0 ? 'Free' : `$ ${(event.eventId?.price).toFixed(2)}`) : 
-                            'Free'}
+                          {t('From')} {formatPrice(event?.eventId?.price , currentLanguage)}
                           </Text>
                       </div>                  
                     </div>
@@ -356,7 +323,7 @@ const openModal = () => {
                                 </Text>
                               </div>
                               <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                              {event?.eventId?.startDate ? format(event?.eventId?.startDate, 'EEE, MMM d , yyyy', { locale: enUS }) : 'Coming Soon'} {event?.eventId?.startTime || ''}
+                              {formatEventStartEndDate(event?.eventId , t)?.formattedStart}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -368,11 +335,7 @@ const openModal = () => {
                               </div>
                               <div className="relative">
                                 <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-                                {event?.eventId?.endDate 
-                                  ? format(new Date(event?.eventId?.endDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                  : event?.eventId?.startDate 
-                                    ? format(new Date(event?.eventId?.startDate), 'EEE, MMM d, yyyy', { locale: enUS })
-                                    : 'Coming Soon'} {event?.eventId?.endTime || ''}
+                                {formatEventStartEndDate(event?.eventId , t)?.formattedEnd}
                                 </Text>
                               </div>
                             </div>

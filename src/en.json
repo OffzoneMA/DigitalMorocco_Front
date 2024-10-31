@@ -201,7 +201,7 @@
       "main": "Investor",
       "investorList": "List of Investors",
       "myInvestors": "My Investors",
-      "requestHistory": "Investment Request History"
+      "requestHistory": "Request History"
     },
     "event": {
       "main": "Events & Participation",
@@ -217,10 +217,10 @@
     },
     "sponsoring": {
       "main": "Sponsorship",
-      "upcomingEvent": "Upcoming Sponsored Events",
-      "currentRequests": "Current Sponsorship Requests",
+      "upcomingEvent": "Upcoming Events",
+      "currentRequests": "Current Requests",
       "pastEventSponsor": "Previous Sponsorships",
-      "requestHistory": "Sponsorship Request History"
+      "requestHistory": "Request History"
     },
     "users": "Users",
     "document": "Documents",
@@ -262,7 +262,7 @@
       "stage": "Stage",
       "totalRaised": "Total Raised"
     },
-    "latestRequest": "Latest Request",
+    "latestRequest": "Latest Requests",
     "noRequestYet": "No Request Yet",
     "investorTable": {
       "investorName": "Investor Name",
@@ -1026,7 +1026,8 @@
     },
     "reject": {
       "title": "Reject Sponsorship Request",
-      "rejectionReason": "Select Reason for Rejection",
+      "rejectionReason": "Reason for Rejection",
+      "rejectionReasonPlaceholder": "Select Reason",
       "letterLabel": "Request Letter",
       "requestLetter": "Write your request letter here",
       "companyIntroduction": "Introduce your company or provide additional context"
@@ -1061,6 +1062,25 @@
     "sent": "Sent",
     "received": "Received",
     "filters": "Filters",
+    "date": "Date",
+    "typeRequest": "Type of Request",
+    "location": "Location",
+    "searchLocation": "Search Location",
+    "typeOfSponsoring":"Sponsorship Type",
+    "typeofInvestment": "Type of Investment",
+    "selectIndustries" : "Select Industries",
+    "searchIndustry" : "Search Industry",
+    "searchStatus" : "Search Status",
+    "investorName": "Investor Name",
+    "eventName": "Event Name",
+    "searchEvent": "Search Event",
+    "searchInvestor": "Search Investor",
+    "status" : "Status",
+    "selectStatus": "Select Status",
+    "searchStage": "Search Stage",
+    "stage" :"Stage",
+    "searchTargetFund" : "Search Target Fund",
+    "targetFund": "Target Fund",
     "keywords": "Keywords",
     "clear": "Clear",
     "applyFilters": "Apply Filters",
@@ -1072,10 +1092,13 @@
     "searchSector": "Search Sector",
     "city": "City",
     "searchType": "Search Type",
-    "searchRaison": "Search Raison",
+    "searchRaison": "Search Reason",
     "saved": "Saved",
+    "save": "Save",
     "noData": "No Data Available",
     "noUpcomingEvent": "No Upcoming Event",
+    "noDocumentAvailable": "No Document Available",
+    "noDocumentFound": "No Document Found",
     "searchSponsorshipType": "Search Sponsorship type",
     "noMatchingData": "No matching data identified",
     "noSponsorCurrentRequests": "No Sponsor Current Requests",
@@ -1115,17 +1138,5 @@
     "inProgress": "In Progress",
     "approved": "Approved",
     "rejected": "Rejected"
-  },
-
-
-  "sector": {
-    "fintech": "Fintech",
-    "healthtech": "Healthtech",
-    "ecommerce": "ECommerce",
-    "edutech": "Edutech",
-    "crm": "CRM",
-    "travel": "Travel",
-    "hrm": "HRM",
-    "other": "OTHER"
   }
 }

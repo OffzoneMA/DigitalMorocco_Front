@@ -8,6 +8,7 @@ import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { typesOfSponsoring } from "../data/data";
 
 const SendSponsoringModal = (props) => {
   const { t } = useTranslation();
@@ -86,12 +87,6 @@ const SendSponsoringModal = (props) => {
     setIsConfirmedModalOpen(false);
     };
 
-    const typesOfSponsoring = [
-        "Financial",
-        "Venue Partner",
-        "Prize Sponsors",
-         "Other",
-      ];
       
     return (
         <>
@@ -134,7 +129,7 @@ const SendSponsoringModal = (props) => {
                               <Text
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                 >
-                                 {option}
+                                 {t(`${option}`)}
                               </Text>
                              </div>
                           );

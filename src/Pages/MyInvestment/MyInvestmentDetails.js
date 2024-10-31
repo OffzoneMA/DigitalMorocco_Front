@@ -279,7 +279,7 @@ const MyInvestmentDetails = () => {
                       </div>
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                         <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium w-auto">
-                          {project?.stages?.[0] ? project?.stages?.[0] : project?.stage}
+                          {t(project?.stages?.[0] ? project?.stages?.[0] : project?.stage)}
                         </Text>
                       </div>
                     </div>
@@ -290,7 +290,7 @@ const MyInvestmentDetails = () => {
                         </Text>
                       </div>
                       <div className="h-[26px] px-[13px] py-2 rounded-[50px] border border-[#c653dd] justify-center items-center gap-1 inline-flex">
-                        <div className="text-[#c552dd] text-xs font-dm-sans-regular leading-none tracking-tight">Fintech</div>
+                        <div className="text-[#c552dd] text-xs font-dm-sans-regular leading-none tracking-tight">{t(project?.sector)}</div>
                       </div>
                     </div>
                     <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
@@ -307,7 +307,7 @@ const MyInvestmentDetails = () => {
                         }`} style={{whiteSpace: 'nowrap'}}>
                           <GoDotFill  size={12} className={`${project?.status === 'Active' ? "text-[#12B76A]" : project?.status === 'In Progress' ? "text-blue-501" : "text-blue_gray-700" }`}/>
                           <label className="font-inter text-sm font-medium leading-[20px] text-center">
-                            {project?.status ? project?.status : 'Active'}
+                            {t(project?.status ? project?.status : 'Active')}
                           </label>
                         </div>
                       </div>
@@ -348,7 +348,7 @@ const MyInvestmentDetails = () => {
                             className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
                             size="txtDMSansBold12"
                           >
-                            {t('investment.project.mmilestone')}
+                            {t('investment.project.milestone')}
                           </Text>
                         </div>
                         <div className="flex flex-col items-start justify-start w-full">

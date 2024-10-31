@@ -412,7 +412,7 @@ const MyCompany = () => {
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
                               >
-                               {option}
+                               {t(`${option}`)}
                             </Text>
                            </div>
                         );
