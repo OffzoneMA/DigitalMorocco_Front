@@ -190,7 +190,7 @@
 
   "sidebar": {
     "dashboard": "Dashboard",
-    "projects": "Manage Projects",
+    "projects": "My Projects",
     "company": {
       "main": "Company",
       "myCompany": "Company Profile",
@@ -204,10 +204,11 @@
       "requestHistory": "Request History"
     },
     "event": {
-      "main": "Events & Participation",
-      "participate": "Join Events",
+      "main": "Events",
+      "participate": "My Events",
       "upcomingEvent": "Upcoming Events",
-      "pastEvent": "Past Events"
+      "pastEvent": "Past Events",
+      "requestHistory": "Request History"
     },
     "investment": {
       "main": "Investments",
@@ -224,7 +225,7 @@
     },
     "users": "Users",
     "document": "Documents",
-    "history": "Activity History",
+    "history": "History",
     "settings": {
       "main": "Settings",
       "myProfile": "My Profile",
@@ -278,6 +279,8 @@
     "upgradeAccount": "Upgrade your account for full access to Digital Morocco.",
     "projectNote": "Ensure you have created projects before engaging.",
     "investments": "Investments",
+    "totalRequests" : "Total Requests",
+    "currentRequests" :"Current Requests",
     "investmentsNote": "Start investing in projects.",
     "lastProject": "Latest Approved Request",
     "latestRequest": "Request History",
@@ -291,9 +294,12 @@
 
   "partnerDashboard": {
     "trackManageForecast": "Monitor, manage, and forecast your projects and orders.",
-    "upgradeAccount": "Upgrade your account for full access to Digital Morocco.",
-    "upgradeMembership": "Upgrade Membership",
+    "upgradeAccount": "Boost Your Brand with Digital Morocco's Exclusive Events",
+    "upgradeAccountSub": "Gain strategic visibility, connect with key players, and make a lasting impact by sponsoring our events.",
+    "upgradeMembership": "Discover Upcoming Events",
     "sponsorships": "Sponsorships",
+    "totalRequests" : "Total Requests",
+    "currentRequests" :"Current Requests",
     "lastSponsorEvent": "Latest Sponsored Event",
     "latestRequest": "Request History",
     "sponsorEventDetails": {
@@ -491,8 +497,8 @@
     "addNewEmployee": "Add New Employee",
     "name": "Name",
     "emailAddress": "Email Address",
-    "title": "Title",
-    "type": "Employee Type",
+    "title": "Job Title",
+    "type": "Employee Level",
     "status": "Employment Status",
     "noTeamMembers":"No Team Mmembers",
     "addEmployee": {
@@ -542,7 +548,7 @@
       "documentTitle": "Document Title",
       "enterDocumentTitle": "Enter the document title",
       "uploadDocument": "Upload Document",
-      "updateDocument": "Update Document",
+      "updateDocument": "Update Your Document",
       "uploadPrompt": "Drop file here or click to upload",
       "cancel": "Cancel",
       "addDocument": "Add Document"
@@ -574,8 +580,10 @@
     "myInvestors": "My Investors",
     "requestHistory": "Request History",
     "viewAllInvestors": "View all {{count}} Investors",
-    "upgradeMessage": "Upgrade to {{link}} to access all search results, save to custom lists, and connect with investors.",
+    "upgradeMessage": "Upgrade to",
+    "upgradeMessage2": "to access all search results, save to custom lists, and connect with investors.",
     "digitalMoroccoPro": "Digital Morocco Pro",
+    "notice": "Please note that all investors' contact information remains hidden until your contact request has been validated by the investor! However, you will have access to all other information, such as type, location, preferred industry, etc.",
     "investorDetails": {
       "sendContactRequest": "Send Contact Request",
       "investment": "Investments",
@@ -627,7 +635,7 @@
     "noUpcomingEvent": "No Upcoming Event",
     "comingSoon": "Coming Soon",
     "eventParticipate": {
-      "title": "Participate in Event",
+      "title": "My Events",
       "event": "Event",
       "eventName": "Event Name",
       "organizedBy": "Organized By",
@@ -809,6 +817,7 @@
       "subscriptionOffer": "Unlock the full potential of Digital Morocco.",
       "subscriptionBenefits": "Gain access to exclusive tools and insights designed to enhance your digital journey, from sector insights to user engagement metrics.",
       "subscriptionCta": "Start your free trial today and empower your projects like never before!",
+      "subscriptionCtaIn": "Start your free subscription today and empower your projects like never before!",
       "startFreeTrial": "Start Your Free Trial",
       "startFree": "Start For Free",
       "expiringSoon": "Your subscription is expiring soon.",
@@ -834,6 +843,10 @@
     "confirm": "Confirm My Subscription",
     "monthlyFee": "month",
     "endsOn": "ends on",
+    "discoverFeatures": "Discover all the features for investors",
+    "upgradeMessage1": "Upgrade to",
+    "upgradeMessage2": "Digital Morocco Premium",
+    "upgradeMessage3": "to access all features, investment management tools, tracking, and much more.",
     "billingCycle": {
       "monthly": "Monthly",
       "annual": "Annual",
@@ -895,6 +908,38 @@
         "feature11": "Event pricing with 30% discount + 1 free ticket after 6 months",
         "feature12": "Creation of 5 projects included*",
         "feature13": "20% discount on transaction fees, payable in credits"
+      }
+    },
+    "investor": {
+      "standard in": {
+        "name": "Standard",
+        "description": "Unleash unlimited potential with our elite events, exclusive reports, and priority connections.",
+        "features": {
+          "feature0": "Full access to our networking platform",
+          "feature1": "Discover an exclusive selection of promising startups",
+          "feature2": "In-depth analysis of projects for informed decisions",
+          "feature3": "Explore targeted investment opportunities according to your interests",
+          "feature4": "Highlight your profile for increased visibility",
+          "feature5": "Join our VIP Club to access exclusive benefits",
+          "feature6": "Stay informed with our VIP Newsletter",
+          "feature7": "Full access to premium industry resources, reports, and workshops and more other features",
+          "feature8": "Dedicated account manager for personalized connections and support"
+        }
+      },
+      "premium in": {
+        "name": "Premium",
+        "description": "Explore an exceptional VIP network, exclusive events, and advanced management tools.",
+        "features": {
+          "feature0": "Full access to our networking platform",
+          "feature1": "Discover an exclusive selection of promising startups",
+          "feature2": "In-depth analysis of projects for informed decisions",
+          "feature3": "Explore targeted investment opportunities according to your interests",
+          "feature4": "Highlight your profile for increased visibility",
+          "feature5": "Join our VIP Club to access exclusive benefits",
+          "feature6": "Stay informed with our VIP Newsletter",
+          "feature7": "Full access to premium industry resources, reports, and workshops and more other features",
+          "feature8": "Dedicated account manager for personalized connections and support"
+        }
       }
     }
   },
@@ -1060,6 +1105,7 @@
     "approved": "Approved",
     "rejected": "Rejected",
     "sent": "Sent",
+    "view" : "View",
     "received": "Received",
     "filters": "Filters",
     "date": "Date",

@@ -43,7 +43,7 @@ const DeleteModal = (props) => {
               <button 
               onClick={props.onDelete}
               className="flex items-center cursorpointer py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] min-w-[127px] bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 text-center">
-                Delete Now
+                {t("common.deleteNow")}
               </button>
             </div>
           </div>

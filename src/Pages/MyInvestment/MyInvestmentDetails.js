@@ -289,9 +289,9 @@ const MyInvestmentDetails = () => {
                         {t('investment.project.sector')}
                         </Text>
                       </div>
-                      <div className="h-[26px] px-[13px] py-2 rounded-[50px] border border-[#c653dd] justify-center items-center gap-1 inline-flex">
-                        <div className="text-[#c552dd] text-xs font-dm-sans-regular leading-none tracking-tight">{t(project?.sector)}</div>
-                      </div>
+                      {project?.sector ? <div className="h-[26px] px-[13px] py-2 rounded-[50px] border border-[#c653dd] justify-center items-center gap-1 inline-flex">
+                        <div className="text-[#c552dd] text-xs font-dm-sans-regular leading-none tracking-tight">{t(`${project?.sector}`)}</div>
+                      </div> : '-'}
                     </div>
                     <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                       <div className="bg-white-A700 flex flex-col items-start justify-start w-full">

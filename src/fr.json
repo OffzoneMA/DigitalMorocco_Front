@@ -191,7 +191,7 @@
 
   "sidebar": {
     "dashboard": "Tableau de bord",
-    "projects": "Gérer les projets",
+    "projects": "Mes Projets",
     "company": {
       "main": "Entreprise",
       "myCompany": "Profil de l'entreprise",
@@ -205,10 +205,11 @@
       "requestHistory": "Historique des demandes"
     },
     "event": {
-      "main": "Événements et participation",
-      "participate": "Participer aux événements",
+      "main": "Événements",
+      "participate": "Mes Événements",
       "upcomingEvent": "Événements à venir",
-      "pastEvent": "Événements passés"
+      "pastEvent": "Événements passés",
+      "requestHistory": "Historique des demandes"
     },
     "investment": {
       "main": "Investissements",
@@ -225,7 +226,7 @@
     },
     "users": "Utilisateurs",
     "document": "Documents",
-    "history": "Historique des activités",
+    "history": "Historique",
     "settings": {
       "main": "Paramètres",
       "myProfile": "Mon profil",
@@ -279,6 +280,8 @@
     "upgradeAccount": "Améliorez votre compte pour un accès complet à Digital Morocco.",
     "projectNote": "Assurez-vous d'avoir créé des projets avant de continuer.",
     "investments": "Investissements",
+    "totalRequests" : "Total des Demandes",
+    "currentRequests" :"Demandes en cours",
     "investmentsNote": "Commencez à investir dans des projets.",
     "lastProject": "Dernière demande approuvée",
     "latestRequest": "Historique des demandes",
@@ -292,9 +295,12 @@
 
   "partnerDashboard": {
     "trackManageForecast": "Surveiller, gérer et anticiper vos projets et commandes.",
-    "upgradeAccount": "Améliorez votre compte pour un accès complet à Digital Morocco.",
-    "upgradeMembership": "Améliorer l'abonnement",
+    "upgradeAccount": "Boostez votre visibilité avec les événements exclusifs de Digital Morocco",
+    "upgradeAccountSub": "Gagnez en visibilité stratégique, connectez-vous avec des acteurs clés et laissez une empreinte durable en sponsorisant nos événements.",
+    "upgradeMembership": "Découvrir les événements à venir",
     "sponsorships": "Sponsorisations",
+    "totalRequests" : "Total des Demandes",
+    "currentRequests" :"Demandes en cours",
     "lastSponsorEvent": "Dernier événement sponsorisé",
     "latestRequest": "Historique des demandes",
     "sponsorEventDetails": {
@@ -349,7 +355,6 @@
     "lastLogin": "Dernière connexion",
     "status": "Statut"
   },
-
 
   "projects": {
     "projectList": "Liste des projets",
@@ -492,8 +497,8 @@
     "addNewEmployee": "Ajouter un nouvel employé",
     "name": "Nom",
     "emailAddress": "Adresse email",
-    "title": "Titre",
-    "type": "Type d'employé",
+    "title": "Intitulé du poste",
+    "type": "Niveau de l'employé",
     "status": "Statut de l'emploi",
     "noTeamMembers":"Aucun membre de l'équipe",
     "addEmployee": {
@@ -543,7 +548,7 @@
       "documentTitle": "Titre du document",
       "enterDocumentTitle": "Entrez le titre du document",
       "uploadDocument": "Télécharger un document",
-      "updateDocument": "Mettre à jour le document",
+      "updateDocument": "Mettre à jour votre document",
       "uploadPrompt": "Déposez un fichier ici ou cliquez pour télécharger",
       "cancel": "Annuler",
       "addDocument": "Ajouter un document"
@@ -576,8 +581,11 @@
     "myInvestors": "Mes investisseurs",
     "requestHistory": "Historique des demandes",
     "viewAllInvestors": "Voir les {{count}} investisseurs",
-    "upgradeMessage": "Passez à {{link}} pour accéder à tous les résultats de recherche, enregistrer dans des listes personnalisées et entrer en contact avec des investisseurs.",
+    "upgradeMessage": "Passez à",
+    "upgradeLink": "",
+    "upgradeMessage2": "pour accéder à tous les résultats de recherche, enregistrer dans des listes personnalisées et entrer en contact avec des investisseurs.",
     "digitalMoroccoPro": "Digital Morocco Pro",
+    "notice": "Veuillez noter que les informations de contact de tous les investisseurs restent cachées jusqu'à ce que votre demande de contact soit validée par l'investisseur ! Cependant, vous aurez accès à toutes les autres informations, telles que le type, la localisation, le secteur d'activité préféré, etc.",
     "investorDetails": {
       "sendContactRequest": "Envoyer une demande de contact",
       "investment": "Investissements",
@@ -630,7 +638,7 @@
     "noUpcomingEvent": "Aucun Événements à venir",
     "comingSoon": "Bientôt disponible",
     "eventParticipate": {
-      "title": "Participer à l'événement",
+      "title": "Mes Événements",
       "event": "Événement",
       "eventName": "Nom de l'événement",
       "organizedBy": "Organisé par",
@@ -811,6 +819,7 @@
       "subscriptionOffer": "Débloquez tout le potentiel de Digital Morocco.",
       "subscriptionBenefits": "Accédez à des outils et analyses exclusifs pour enrichir votre parcours digital, des perspectives sectorielles aux indicateurs d’engagement des utilisateurs.",
       "subscriptionCta": "Commencez votre essai gratuit dès aujourd'hui et propulsez vos projets comme jamais auparavant !",
+      "subscriptionCtaIn": "Commencez votre abonnement gratuit dès aujourd'hui et propulsez vos projets comme jamais auparavant !",
       "startFreeTrial": "Commencez votre essai gratuit",
       "startFree" : "Commencez gratuitement",
       "expiringSoon": "Votre abonnement expire bientôt.",
@@ -836,6 +845,10 @@
     "confirm": "Confirmer mon abonnement",
     "monthlyFee": "mois",
     "endsOn": "se termine le",
+    "discoverFeatures": "Discover all the features for investors",
+    "upgradeMessage1": "Passez à",
+    "upgradeMessage2": "Digital Morocco Premium",
+    "upgradeMessage3": "pour accéder à toutes les fonctionnalités, aux outils de gestion des investissements, de suivi, et bien plus encore.",
     "billingCycle": {
       "monthly": "Mensuel",
       "annual": "Annuel",
@@ -898,7 +911,37 @@
         "feature12": "Création de 5 projets incluse*",
         "feature13": "Réduction de 20% sur les frais de transaction, payables en crédits"
       }
-    }
+    },
+    "investor":{
+      "standard in": {
+        "name": "Standard",
+        "description": "Libérez un potentiel illimité avec nos événements d'élite, des rapports exclusifs et des connexions prioritaires.",
+        "features": {
+          "feature0": "Accès complet à notre plateforme de networking",
+          "feature1": "Découvrez une sélection exclusive de startups prometteuses",
+          "feature2": "Analyse approfondie des projets pour des décisions éclairées",
+          "feature3": "Explorez des opportunités d'investissement ciblées selon vos intérêts",
+          "feature4": "Mise en avant de votre profil pour une visibilité accrue",
+          "feature5": "Rejoignez notre Club VIP pour accéder à des avantages exclusifs",
+          "feature6": "Restez informé avec notre Newsletter VIP"
+        }
+      },
+      "premium in": {
+        "name": "Premium",
+        "description": "Explorez un réseau VIP d'exception, des événements exclusifs et des outils de gestion avancés.",
+        "features": {
+          "feature0": "Accès complet à notre plateforme de networking",
+          "feature1": "Découvrez une sélection exclusive de startups prometteuses",
+          "feature2": "Analyse approfondie des projets pour des décisions éclairées",
+          "feature3": "Explorez des opportunités d'investissement ciblées selon vos intérêts",
+          "feature4": "Mise en avant de votre profil pour une visibilité accrue",
+          "feature5": "Rejoignez notre Club VIP pour accéder à des avantages exclusifs",
+          "feature6": "Restez informé avec notre Newsletter VIP",
+          "feature7": "Accès complet aux ressources, rapports et ateliers de l'industrie premium, ainsi que d'autres fonctionnalités",
+          "feature8": "Gestionnaire de compte dédié pour des connexions et un support personnalisés"
+        }
+      }
+    } 
   },
 
   "payment": {
@@ -1039,6 +1082,7 @@
     "approved": "Approuvé",
     "rejected": "Rejeté",
     "sent": "Envoyé",
+    "view": "Consulter",
     "received": "Reçu",
     "filters": "Filtres",
     "date": "Date",
@@ -1113,6 +1157,80 @@
     }
   },
 
+  "Basic": "Basique",
+  "Connect, join exclusive events, and access essential resources for your project.": "Connectez-vous, participez à des événements triés sur le volet et accédez à des ressources cruciales pour votre projet.",
+  "3200 Credits": "3200 Crédits",
+  "Full access to the investor list": "Accès total à la liste des investisseurs",
+  "AI-powered investor matching": "Appariement des investisseurs via l'IA",
+  "Real-time tracking of investment requests": "Suivi en temps réel des demandes d'investissement",
+  "Generate a comprehensive technical report":"Générer un dossier technique complet",
+  "Secure and simple Pitch Deck sharing":"Partage sécurisé et simple de Pitch Deck",
+  "360° panoramic view":"Vision panoramique à 360°",
+  "Priority access to events":"Accès prioritaire aux événements",
+  "Event pricing (standard rate)":"Tarifs événements (tarif standard)",
+  "1 project creation (included)*":"Création d'un seul projet (inclus)*",
+  "Standard transaction fees, payable in credits":"Frais de transaction standard, payables en crédits",
+  "Start":"Commencer",
+
+
+  "Standard": "Standard",
+  "Unleash unlimited potential with premium events, reports, and priority connections.": "Optimisez vos opportunités d'investissement avec plus d'avantages et des connexions prioritaires, doublant ainsi vos chances de succès.",
+  "6400 Credits": "6400 Crédits",
+  "Creation of 2 projects (included)*": "Création de 2 projets (inclus)*",
+  "Project visibility on our official website": "Visibilité du projet sur notre site officiel",
+  "Transaction fees discount (-10%), payable in credits": "Réduction des frais de transaction (-10%), payable en crédits",
+  "Event pricing (-15%)": "Tarifs événements (-15%)",
+  
+    
+  "premium": "premium",
+  "Experience VIP networking, comprehensive event access, and personalized support.": "Explorez un réseau VIP, vivez le succès éclatant de votre projet et amplifiez votre expérience de networking incomparable.",
+  "9600 Credits": "9600 Crédits",
+  "VIP Club (Early access to our activities)": "Club VIP (Accès en avant-première à nos activités)",
+  "VIP Newsletter": "Newsletter VIP",
+  "Event pricing (-30%) + 1 free ticket after 6 months of continuous subscription": "Tarifs événements (-30%) + 1 ticket offert après 6 mois d'abonnement continu",
+  "Creation of 5 projects (included)*": "Création de 5 projets (inclus)*",
+  "Transaction fees discount (-20%), payable in credits":"Réduction des frais de transaction (-20%), payable en crédits",
+  "per month": "par mois",
+  "For":"Pour",
+  "months":"mois",
+  "Upcoming": "À Venir",
+  "*Possibility to add additional projects: up to 2 for the Standard Plan and 5 for the Premium Plan. See pricing conditions in our Terms of Use.":"*Possibilité d'ajouter des projets supplémentaires : jusqu'à 2 pour le Plan Standard et 5 pour le Plan Premium. Voir conditions tarifaires dans nos CGU.",
+  "Start Free Trial": "Commencer l'essai gratuit",
+  "Free Trial": "Essai Gratuit",
+  "Benefit from a VIP network, full access to events, and management tools.":"Profitez d'un réseau VIP, d'un accès complet aux événements et d'outils de gestion.",
+  "Coming soon":"Bientôt disponible",
+  "Discover all the features for investors":"Découvrez toutes les fonctionnalités pour les investisseurs",
+  "Upgrade to":"Passez à",
+  "to access all features, investment management tools, tracking, and much more.":"pour accéder à toutes les fonctionnalités, aux outils de gestion des investissements, de suivi, et bien plus encore.",
+
+  "Unleash unlimited potential with our elite events, exclusive reports, and priority connections.":"Libérez un potentiel illimité avec nos événements d'élite, des rapports exclusifs et des connexions prioritaires.",
+  "Full access to our networking platform":"Accès complet à notre plateforme de networking",
+  "Discover an exclusive selection of promising startups":"Découvrez une sélection exclusive de startups prometteuses",
+  "In-depth analysis of projects for informed decisions":"Analyse approfondie des projets pour des décisions éclairées",
+  "Explore targeted investment opportunities according to your interests":"Explorez des opportunités d'investissement ciblées selon vos intérêts",
+  "Highlight your profile for increased visibility":"Mise en avant de votre profil pour une visibilité accrue",
+  "Join our VIP Club to access exclusive benefits":"Rejoignez notre Club VIP pour accéder à des avantages exclusifs",
+  "Stay informed with our VIP Newsletter":"Restez informé avec notre Newsletter VIP",
+
+  "Explore an exceptional VIP network, exclusive events, and advanced management tools.":"Explorez un réseau VIP d'exception, des événements exclusifs et des outils de gestion avancés.",
+
+  "Action Required: Create Project": "Action requise : Créer un projet",
+  "To gain access to the list of investors, please add a project by clicking the button below or by navigating to the 'Projects' tab.": "Pour accéder à la liste des investisseurs, veuillez ajouter un projet en cliquant sur le bouton ci-dessous ou en naviguant vers l'onglet 'Projets'.",
+
+  "Back to Dashboard": "Retour au tableau de bord",
+  "Create Project": "Créer un projet",
+
+  "This action will result in a charge of": "Cette action entraînera un coût de",
+  "Are you ready to proceed?": "Êtes-vous prêt à continuer ?",
+  "100 credits" : "100 crédits",
+  "Confirm": "Confirmer",
+
+  "Action Required: Contact Request": "Action requise : Demande de contact",
+  "You already have a contact request in progress.": "Vous avez déjà une demande de contact en cours.",
+  "Would you like to validate it?": "Voulez-vous la valider ?",
+  "Continue Navigation": "Continuer la navigation",
+  "Go to Contact Request": "Aller à la demande de contact",
+
   
   "Ideation": "Idéation",
   "Concept Validation": "Validation de concept",
@@ -1161,6 +1279,7 @@
   "Greentech and CleanTech": "Greentech et CleanTech",
   "Health and Biotechnology": "Santé et Biotechnologie",
   "HealthTech": "HealthTech",
+  "Edutech": "Edutech fr",
   "Hydropower": "Hydroélectricité",
   "Immersive Technologies (VR/AR/MR)": "Technologies immersives (VR/AR/MR)",
   "Industry 4.0 and Automation": "Industrie 4.0 et Automatisation",
@@ -1506,6 +1625,7 @@
   "Unclear Objectives": "Objectifs Peu Clairs",
 
   "From": "À partir de",
+  "Free": "Gratuit",
 
   "public" : "public",
   "private" : "privé",
@@ -1513,6 +1633,10 @@
   "Approved": "Approuvé",
   "In Progress": "En cours",
   "Rejected": "Rejeté",
+  "Approve Now": "Approuver maintenant",
+
+  "Sent": "Envoyé",
+  "Received": "Reçu",
 
 
   "January": "Janvier",
@@ -1527,6 +1651,19 @@
   "October": "Octobre",
   "November": "Novembre",
   "December": "Décembre",
+
+  "Jan": "Janv",
+  "Feb": "Févr",
+  "Mar": "Mars",
+  "Apr": "Avr",
+  "Jun": "Juin",
+  "Jul": "Juil",
+  "Aug": "Août",
+  "Sep": "Sept",
+  "Oct": "Oct",
+  "Nov": "Nov",
+  "Dec": "Déc",
+
 
   "DD/MM/YYYY": "JJ/MM/AAAA",
 

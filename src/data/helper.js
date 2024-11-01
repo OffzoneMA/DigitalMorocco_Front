@@ -224,3 +224,91 @@ export function formatEventTime(startDate, endDate, startTime, endTime , t) {
       }
   }
 }
+
+function capitalizeAndClean(dateString) {
+  return dateString.charAt(0).toUpperCase() + dateString.slice(1);
+}
+
+
+export function formatEventDate(startDate, endDate , t) {
+  const locale = currentLanguage === 'fr' ? fr : enUS;
+
+  if (!startDate || !endDate) {
+      return t("event.comingSoon");
+  } else {
+      const startDateTime = new Date(startDate);
+      const endDateTime = new Date(endDate);
+
+      // Check if the start and end dates are the same
+      if (startDateTime.getDate() === endDateTime.getDate() &&
+          startDateTime.getMonth() === endDateTime.getMonth() &&
+          startDateTime.getFullYear() === endDateTime.getFullYear()) {
+          const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM yyyy' : 'EEEE, MMMM d, yyyy', { locale });
+          return capitalizeAndClean(formattedDate);
+      } else {
+          const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMMM yyyy' : 'EEE, MMM d, yyyy', { locale });
+          return capitalizeAndClean(formattedStartDate)?.replace('.', '');
+      }
+  }
+}
+
+
+export function formatEventDateTime(startDate, endDate, startTime, endTime , t) {
+  const locale = currentLanguage === 'fr' ? fr : enUS;
+
+  // Check for missing values
+  if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
+      return t("event.comingSoon");
+  }
+
+  try {
+      const parsedStartTime = parse(startTime, 'h:mm a', new Date());
+      const parsedEndTime = parse(endTime, 'h:mm a', new Date());
+
+      // Format time based on language
+      const formattedStartTime = format(parsedStartTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale }).toLowerCase();
+      const formattedEndTime = format(parsedEndTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale }).toLowerCase();
+
+      const startDateTime = new Date(startDate);
+      const endDateTime = new Date(endDate);
+
+      // Calculate GMT offset in hours
+      const gmtOffset = -startDateTime.getTimezoneOffset() / 60; // Offset in hours
+      const gmt = `GMT${gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset}`;
+
+      // Check if start and end dates are the same
+      if (startDateTime.getDate() === endDateTime.getDate() &&
+          startDateTime.getMonth() === endDateTime.getMonth() &&
+          startDateTime.getFullYear() === endDateTime.getFullYear()) {
+          
+          // Format date for the same day
+          const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM' : 'EEEE, MMMM d', { locale });
+          
+          // Capitalize the first letter of the day and month correctly
+          const formattedDateCapitalized = formattedDate.replace(/^(.)/, (char) => char.toUpperCase()).replace(/(\b\w)/g, (char, index) => {
+              if (currentLanguage === 'fr' && index > 0 && formattedDate[index - 1] === ' ') {
+                  return char.toUpperCase(); // Capitalize the first letter after a space for French
+              }
+              return char; // Keep other characters as they are
+          });
+
+          return `${formattedDateCapitalized.replace(/\./g, '')} • ${formattedStartTime} - ${formattedEndTime} ${gmt}`;
+      } else {
+          // Format date for different days
+          const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMM yyyy' : 'EEE, MMM d, yyyy', { locale });
+          
+          // Capitalize the first letter correctly for French dates
+          const formattedStartDateCapitalized = formattedStartDate.replace(/^(.)/, (char) => char.toUpperCase()).replace(/(\b\w)/g, (char, index) => {
+              if (currentLanguage === 'fr' && index > 0 && formattedStartDate[index - 1] === ' ') {
+                  return char.toUpperCase(); // Capitalize the first letter after a space for French
+              }
+              return char; // Keep other characters as they are
+          });
+
+          return `${formattedStartDateCapitalized.replace(/\./g, '')} • ${formattedStartTime} ${gmt}`;
+      }
+  } catch (error) {
+      console.error('Error formatting date/time:', error);
+      return currentLanguage === 'fr' ? 'Date/heure invalide' : 'Invalid Date/Time';
+  }
+}

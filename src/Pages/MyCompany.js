@@ -403,14 +403,14 @@ const MyCompany = () => {
                 >
                   {t('myCompany.companySector')}
                 </Text>
-                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel={t("common.searchSector")} searchable={false} setSelectedOptionVal={setselectedSector} 
+                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
                     placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
                     required={requiredFields.sector}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {t(`${option}`)}
                             </Text>

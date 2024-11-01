@@ -29,7 +29,7 @@ import RejectSponsoringRequestModal from '../../Components/RejectSponsoringReque
 import { LuDownload } from "react-icons/lu";
 import { useGetSponsorByIdQuery } from "../../Services/Sponsor.Service";
 import { useTranslation } from "react-i18next";
-import { formatEventStartEndDate , formatEventTime , formatPrice} from "../../data/helper";
+import { formatEventStartEndDate , formatEventTime , formatPrice , formatEventDate} from "../../data/helper";
 
 const PastSponsorEventDetails = () => {
   const { t } = useTranslation();
@@ -78,118 +78,6 @@ const PastSponsorEventDetails = () => {
       {logo:"/images/spon_logo8.svg"}, 
       {logo:"/images/spon_logo9.svg"}, 
     ];
-    const attendance = [
-      {image:"/images/img_avatar_1.png"}, 
-      {image:"/images/img_avatar_2.png"}, 
-      {image:"/images/img_avatar_3.png"}, 
-      {image:"/images/img_avatar_4.png"}, 
-      {image:"/images/img_avatar_5.png"}, 
-      {image:"/images/img_avatar_12.png"},
-      {image:"/images/img_avatar_7.png"}, 
-      {image:"/images/img_avatar_8.png"}, 
-      {image:"/images/img_avatar_9.png"}, 
-      {image:"/images/img_avatar_10.png"}, 
-      {image:"/images/img_avatar_11.png"}, 
-      {image:"/images/img_avatar_12.png"}, 
-    ];
-
-    const formattedTime = (time, language) => {
-      const parsedTime = parse(time, 'h:mm a', new Date());
-      // if (language === 'fr-FR') {
-      //   return format(parsedTime, 'H', { locale: fr }) + 'h';
-      // }
-      return format(parsedTime, 'h a', { locale: enUS }).toLowerCase();
-    };
-
-    function formatEventDate(startDate, endDate) {
-    
-      if (!startDate || !endDate ) {
-          return 'Coming Soon';
-      }
-      else {
-
-          const startDateTime = new Date(startDate);
-          const endDateTime = new Date(endDate);
-
-          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              const formattedDate = format(startDateTime, 'EEEE, MMMM d, yyyy', { locale: enUS });
-              return `${formattedDate}`;
-          } else {
-              const formattedStartDate = format(startDateTime,'EEE, MMM d, yyyy', { locale: enUS });
-              return `${formattedStartDate}`;
-          }
-
-          }
-  }
-
-  const handleAddAttendee = async () => {
-    try {
-      setBying(true)
-      const response = await axios.post(`${process.env.REACT_APP_baseURL}/events/${id}/attendeesuser`, {
-        userId: userData?._id, 
-        role: userData?.role
-      });
-        setBying(false);
-        setTimeout(() => {
-          navigate("/Participate");
-        }, 2000);
-    } catch (error) {
-        setBying(false);
-        console.log(error.response?.data?.message || 'Error adding attendee');
-    }
-};
-
-const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const openApproveModal = () => {
-    setIsApproveModalOpen(true);
-  };
-  
-  const closeApproveModal = () => {
-      setIsApproveModalOpen(false);
-      // setRowData(null);
-  };
-
-  const openRejectModal = () => {
-      setIsRejectModalOpen(true);
-  };
-  
-  const closeRejectModal = () => {
-      setIsRejectModalOpen(false);
-      // setRowData(null);
-  };
-
-  const handleApprove = async (data) => {
-    try {
-        // await approveRequest({
-        //     id: rowData?._id,
-        //     approvalData: data,
-        // }).unwrap();
-        refetch();
-        console.log('Request approved successfully!');
-    } catch (error) {
-        console.error('Failed to approve request:', error);
-    }
-  };
-
-const handleReject = async (data) => {
-    try {
-        // await rejectRequest({
-        //     id: rowData?._id,
-        //     rejectionData: data,
-        // }).unwrap();
-        refetch();
-        console.log('Request rejected successfully!');
-    } catch (error) {
-        console.error('Failed to reject request:', error);
-    }
-};
 
     return (
         <>
@@ -232,19 +120,19 @@ const handleReject = async (data) => {
                                 </div>
                                 {event?.sponsorshipType?.toLowerCase() === "financial" && 
                                 <div className="px-[13px] h-[34px] whitespace-nowrap py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
-                                    <div className="text-[#444ce6] text-sm font-manrope font-normalleading-none tracking-tight">{event?.sponsorshipType}</div>
+                                    <div className="text-[#444ce6] text-sm font-manrope font-normalleading-none tracking-tight">{t(event?.sponsorshipType)}</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "prize sponsors" && 
                                 <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
-                                    <div className="text-[#e49614] text-sm font-manrope font-normal leading-none tracking-tight">Prize Sponsors</div>
+                                    <div className="text-[#e49614] text-sm font-manrope font-normal leading-none tracking-tight">{t(event?.sponsorshipType)}</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "venue partner" && 
                                 <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
-                                  <div className="text-[#7f4be7] text-sm font-manrope font-normal leading-none tracking-tight">Venue Partner</div>
+                                  <div className="text-[#7f4be7] text-sm font-manrope font-normal leading-none tracking-tight">{t(event?.sponsorshipType)}</div>
                                 </div>}
                                 {event?.sponsorshipType?.toLowerCase() === "food sponsors" && 
                                 <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
-                                  <div className="text-[#028942] text-sm font-manrope font-normal leading-none tracking-tight">Food Sponsors</div>
+                                  <div className="text-[#028942] text-sm font-manrope font-normal leading-none tracking-tight">{t(event?.sponsorshipType)}</div>
                                 </div>}
                                 <>
                                 <button className="w-[60px] h-[34px] px-3 py-1.5 rounded-[50px] border border-[#24a561] text-[#24a561] hover:bg-[#24a561] hover:text-white-A700 justify-center items-center gap-1 flex cursorpointer">
@@ -258,7 +146,7 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {formatEventDate(event?.eventId?.startDate , event?.eventId?.endDate)}
+                          {formatEventDate(event?.eventId?.startDate , event?.eventId?.endDate , t)}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center  text-left">
@@ -282,7 +170,7 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {t('From')} {formatPrice(event?.eventId?.price , currentLanguage)}
+                          {formatPrice(event?.eventId?.price , currentLanguage) !== t('Free') ? t('From'): ''} {formatPrice(event?.eventId?.price , currentLanguage)}
                           </Text>
                       </div>                  
                     </div>

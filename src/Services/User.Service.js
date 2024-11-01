@@ -41,7 +41,11 @@ export const userApi = createApi({
                 }
             },
         }),
+        getUsersCountByMonth: builder.query({
+            query: () => '/count-by-month',
+        }),
     }),
 })
 
-export const { useUpdateUserMutation , useUpdateFullNameMutation , useGetAllUsersQuery} = userApi
+export const { useUpdateUserMutation , useUpdateFullNameMutation , useGetAllUsersQuery , 
+    useGetUsersCountByMonthQuery } = userApi

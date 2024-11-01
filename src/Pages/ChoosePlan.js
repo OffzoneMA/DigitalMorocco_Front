@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { useGetAllSubscriptionPlansQuery } from '../Services/SubscriptionPlan.service';
 import Loader from '../Components/Loader';
 import { useTranslation } from 'react-i18next';
+import MemberPlan from '../Components/MemberPlan';
 
 export default function ChoosePlan() {
   const { t } = useTranslation();
+  const userData = JSON.parse(sessionStorage.getItem('userData'));
+  const userRole = userData?.role?.toLowerCase() === 'investor' ? 'Investor' : 'Member' ;
   const { data: plans, error, isLoading } = useGetAllSubscriptionPlansQuery();
-  const memberPlans = plans?.filter(plan => plan.forUser === 'Member');
+  const memberPlans = plans?.filter(plan => plan.forUser === userRole);
   const [isSubscribe , setIsSubscribe] = useState(false);
   const navigate=useNavigate()
 
@@ -52,50 +55,7 @@ export default function ChoosePlan() {
             <div className='flex justify-center flex-wrap gap-5 w-full py-5 '>
             {memberPlans?.map(plan =>
                 (
-                <div key={plan?._id} className='flex flex-col border border-col1 basis-[300px] grow max-w-[420px] rounded-[12px] px-6 py-8 bg-bg_plan '>
-                  <div className='w-full flex flex-col items-center gap-1.5 h-auto'>
-                      <Text
-                          className="text-[22px]  font-dm-sans-medium leading-8 text-center text-[#1D2939] w-full"
-                          >
-                      {t(`subscriptionPlans.${plan.name.toLowerCase()}.name`)}
-                      </Text>
-                      <Text
-                          className="text-base font-dm-sans-medium leading-[26px] text-center text-[#667085] w-full"
-                          >
-                      {t(`subscriptionPlans.${plan.name.toLowerCase()}.description`)}
-                      </Text>
-                      <Text
-                          className=" text-center text-col1  font-dm-sans-bold pt-1 w-full"
-                          >
-                      <span className='text-[2.5rem] leading-13 tracking-wide'>{formatPrice(plan?.price)}/</span><span className='text-[1.9rem] leading-12'>{t('subscriptionPlans.monthlyFee')}</span>
-                      </Text>
-                  </div>
-                  <div className='flex flex-col flex-1 w-full py-6 gap-[16px] '>
-                  {plan?.featureDescriptions?.map((feature, index) => 
-                  (
-                    <div key={index} className='flex flex-row w-full items-start gap-[12px]'>
-                      <div className="flex flex-col items-center justify-center w-[24px] h-[22px] bg-light_blue-100 rounded-full p-1">
-                      <svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path fillRule="evenodd" clipRule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
-                      </svg>
-                      </div>
-                      <Text
-                        className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700"
-                      >
-                      {t(`subscriptionPlans.${plan.name.toLowerCase()}.features.feature${index}`)}
-                      </Text>
-                    </div>
-                  ))}
-                  </div>
-                  <div className='w-full flex-end ' onClick={() => navigate('/subscribePlan' , {state: { choosedPlan: plan }})}>
-                    <button
-                      type="button"
-                      className="bg-blue-A400 text-white-A700 flex flex-row h-[44px] items-center justify-center rounded-md w-full hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[24px] cursorpointer font-dm-sans-medium"
-                      >
-                      {t('subscriptionPlans.getStarted')}
-                    </button>
-                  </div>
-                </div>
+                <MemberPlan plan={plan} key={plan?._id}  buttonText={plan?.price === 0 ? t("Start") : plan?.planType === "upcoming" ? t("Coming soon"): null}/>
                 )
             )}
             </div>

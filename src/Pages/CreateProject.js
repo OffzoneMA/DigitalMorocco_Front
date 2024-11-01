@@ -97,7 +97,7 @@ const CreateProject = () => {
       const div2Height = div2Ref.current?.clientHeight || 0;
       const maxHeight = Math.max(div1Height, div2Height);
       if(dividerRef.current) {
-        if (window.innerWidth >= 768) { 
+        if (window.innerWidth >= 1024) { 
           dividerRef.current.style.height = `${maxHeight}px`;
           setDivMaxHeight(`${maxHeight}px`);
         } else {
@@ -725,7 +725,7 @@ const handleStatusChangeAndUpdate = async () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-auto">
+              <div className="flex flex-col lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-auto">
                 <div ref={div1Ref} className="flex  flex-1 flex-col gap-6 items-start justify-start w-full h-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text className="text-base text-[#1D1C21] w-auto"
@@ -920,13 +920,13 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       {t('projects.createNewProject.projectSector')}
                     </Text>
-                    <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel='Search Sector' searchable={false} setSelectedOptionVal={setselectedSector} 
+                    <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
                         placeholder={t('projects.createNewProject.selectProjectSector')} selectedOptionsDfault={project?.sector || ''} required={requiredFields.sector}
                         content={
                           ( option) =>{ return (
                             <div className="flex  py-2 items-center  w-full">
                                 <Text
-                                  className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto"
+                                  className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                   >
                                   {t(`${option}`)}
                                 </Text>
@@ -1061,11 +1061,11 @@ const handleStatusChangeAndUpdate = async () => {
                     ))}
                   </div>
                 </div>
-                <div ref={dividerRef} className={`bg-gray-201 md:min-h-fit md:h-[${maxDivHeight}] md:max-h-[${maxDivHeight}] h-px w-full md:w-px`} />
+                <div ref={dividerRef} className={`bg-gray-201 lg:min-h-fit lg:h-[${maxDivHeight}] lg:max-h-[${maxDivHeight}] h-px w-full lg:w-px`} />
                 {/* <div className="flex flex-col md:divide-x md:min-h-[750px] md:h-full divide-gray-201 hover:divide-pink-400">
                   {` `}
                 </div> */}
-                <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start md:w-[40%] w-full">
+                <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start lg:w-[40%] w-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-[#1D1C21] w-auto"

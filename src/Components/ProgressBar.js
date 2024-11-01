@@ -1,13 +1,17 @@
 import React from 'react';
 import { Text } from './Text';
+import { useTranslation } from 'react-i18next';
 
 const Progressbar = ({filled , filledValue ,text}) => {
+  const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('language') || 'en'; 
+
   return (
 	<div className='flex flex-col w-full'>
         <Text
          className="text-sm font-dm-sans-regular leading-[26px] tracking-normal  w-full"
             >
-            {text || 'Artificial Intelligence'}
+            {t(text) || t('Artificial Intelligence')}
         </Text>
 		<div className="flex flex-row items-center w-full">
 		    <div className='bg-blue-101' style={{

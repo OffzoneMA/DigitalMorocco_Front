@@ -22,6 +22,7 @@ import { useGetAllConatctReqQuery } from "../Services/Member.Service";
 import { useGetTopSectorsQuery } from "../Services/Project.Service";
 import userdefaultProfile from '../Media/User.png';
 import { useTranslation } from "react-i18next";
+import DashboardCommon from "./Dashboard_Common";
 
 const Dashbord = () => {
   const { t, i18n } = useTranslation();
@@ -29,7 +30,6 @@ const Dashbord = () => {
   const status = 'Active'
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
-  const { data: progessdata , error: errorTopSectors, isLoading: loadingTopSectors } = useGetTopSectorsQuery();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const { data: projects, error, isLoading , refetch } = useGetAllProjectsQuery({status});
   const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading , refetch:refetchRequest} = useGetAllConatctReqQuery();
@@ -43,47 +43,6 @@ const Dashbord = () => {
     refetch();
     refetchRequest();
   }, [refetchUser , refetch , refetchRequest]);
-
-  const chartData = [
-        { name: 'Jan', value: 150 },
-        { name: 'Feb', value: 145 },
-        { name: 'Mar', value: 240 },
-        { name: 'Apr', value: 140 },
-        { name: 'May', value: 420 },
-        { name: 'Jun', value: 300 },
-        { name: 'Jul', value: 400 },
-        { name: 'Aug', value: 410 },
-        { name: 'Sep', value: 550 },
-        { name: 'Oct', value: 420 },
-        { name: 'Nov', value: 580 },
-        { name: 'Dec', value: 555 },
-        
-      ];
-    console.log(progessdata)
-  
-      const gradientOffset = () => {
-        const data = chartData;
-        if (data.length > 0) {
-          const sortedData = data.slice().sort((a, b) => a.value - b.value);
-          return sortedData[0].value;
-        }
-        return 0;
-      };
-      
-      const off = gradientOffset(); 
-
-      const CustomTooltip = ({ active, payload }) => {
-        if (active && payload && payload.length) {
-          const { name, value } = payload[0].payload;
-          return (
-            <div className="custom-tooltip flex flex-row bg-transparent text-sm font-dm-sans-regular " >
-              <p className="label">{name}: <span className="text-[#45C68A] text-sm">{value}</span></p>
-            </div>
-          );
-        }
-    
-        return null;
-      };
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -140,7 +99,7 @@ const Dashbord = () => {
                         <path d="M3.9375 19.75V15.375M3.9375 6.625V2.25M1.75 4.4375H6.125M1.75 17.5625H6.125M11.375 3.125L9.85759 7.07025C9.61083 7.71183 9.48745 8.03262 9.29559 8.30245C9.12554 8.5416 8.9166 8.75054 8.67745 8.92059C8.40762 9.11245 8.08683 9.23583 7.44525 9.48259L3.5 11L7.44526 12.5174C8.08683 12.7642 8.40762 12.8875 8.67745 13.0794C8.9166 13.2495 9.12554 13.4584 9.29559 13.6975C9.48745 13.9674 9.61083 14.2882 9.8576 14.9297L11.375 18.875L12.8924 14.9297C13.1392 14.2882 13.2625 13.9674 13.4544 13.6976C13.6245 13.4584 13.8334 13.2495 14.0726 13.0794C14.3424 12.8875 14.6632 12.7642 15.3047 12.5174L19.25 11L15.3047 9.48259C14.6632 9.23583 14.3424 9.11245 14.0726 8.92059C13.8334 8.75054 13.6245 8.5416 13.4544 8.30245C13.2625 8.03262 13.1392 7.71183 12.8924 7.07025L11.375 3.125Z" stroke="#1F2545" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       {t('dashboard.upgradeMembership')}
-                  </button>
+                    </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
                   <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
@@ -266,96 +225,8 @@ const Dashbord = () => {
                     )}
                   </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201 px-6">
-                    <div className="flex flex-row py-4 items-start w-full">
-                     <div className="flex rounded-md bg-violet-100 p-2">
-                       <FaArrowTrendUp size={28} className="text-blue-601 "/>
-                     </div>
-                     <div className="flex flex-col px-3 items-center gap-1 ml-2">
-                        <Text
-                            className=" text-lg font-dm-sans-medium leading-5 text-gray-900_01 tracking-normal w-full"
-                            >
-                           {t('dashboard.topMarkets')}
-                        </Text>
-                        <Text
-                            className="text-sm font-dm-sans-regular leading-5 text-blue_gray-301 tracking-normal  w-full"
-                            >
-                            {t('dashboard.topMarketsSub')}
-                        </Text>
-                      </div>
-                    </div>
-                    <div className="flex flex-col w-full gap-3 pb-4">
-                    {loadingTopSectors ? (
-                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                        <Loader />
-                      </div>
-                      ) : progessdata?.sectors?.length > 0 ? (
-                          progessdata?.sectors?.map((item, index) => (
-                              <ProgressBar
-                                  key={index}
-                                  filled={parseFloat(item.percentage).toFixed(2)} 
-                                  filledValue={`${parseFloat(item.percentage).toFixed(2)}%`}
-                                  text={item.sector}
-                              />
-                          ))
-                      ) : (
-                          <div className="flex flex-col gap-[16px] items-center text-gray-600 w-full py-24">
-                              <img src={fileSearchImg} alt="" />
-                              <Text className="text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto">
-                                  Data not available
-                              </Text>
-                          </div>
-                      )}
-                    </div>
-                   </div>
-                   <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201 px-6">
-                    <div className="flex flex-row py-4 items-start w-full">
-                     <div className="flex rounded-md bg-violet-100 p-2">
-                       <FaArrowTrendUp size={28} className="text-blue-601 "/>
-                     </div>
-                     <div className="flex flex-col px-3 items-center gap-1 ml-2">
-                        <Text
-                            className=" text-lg font-dm-sans-medium leading-5 text-gray-900_01 tracking-normal w-full"
-                            >
-                           {t('dashboard.investmentVolume')}
-                        </Text>
-                        <Text
-                            className="text-sm font-dm-sans-regular leading-5 text-blue_gray-301 tracking-normal  w-full"
-                            >
-                            {t('dashboard.investmentVolumeSub')}
-                        </Text>
-                      </div>
-                    </div>
-                    <div className="flex flex-col w-full ">
-                      {chartData.length > 0 ? 
-                        <div className="flex-grow">
-                            <ResponsiveContainer width="100%" height={260}>
-                                <AreaChart data={chartData}>
-                                <Tooltip content={<CustomTooltip />} />
-                                <defs>
-                                    <linearGradient id="colorvalue" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor={"#A9FCE5"} stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor={"#A9FCE5"} stopOpacity={0} />
-                                    </linearGradient>
-                                    </defs>
-                                    <Area type="monotone" dataKey="value" stroke="#45C68A" strokeWidth={2} fill="url(#colorvalue)" />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        </div>
-                        :
-                        <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                            <img src={fileSearchImg}  alt={""}/>
-                            <Text
-                            className=" text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
-                            size=""
-                            >
-                            Data not available
-                            </Text>
-                        </div>
-                      }
-                    </div>
-                   </div>
+                <div className="w-full">
+                  <DashboardCommon />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
                     <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 ">

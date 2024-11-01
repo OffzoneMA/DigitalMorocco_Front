@@ -81,7 +81,7 @@ const CancelPlanModal = (props) => {
                                     </svg>
                                     </div>
                                     <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-[#344053]">
-                                    {t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.features.feature${index}`)}
+                                    {t(feature)}
                                     </Text>
                                 </div>
                             ))}

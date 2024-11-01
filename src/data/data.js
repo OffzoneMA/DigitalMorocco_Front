@@ -205,7 +205,8 @@ export const jobTitles = [
     "Senior Vice President",
     "Team Leader",
     "Technical Director",
-    "Vice President"
+    "Vice President",
+    "Other"
   ];
 
 
@@ -239,7 +240,8 @@ export const departments = [
     "Sustainability",
     "Talent Management",
     "Technical Support",
-    "Training and Development"
+    "Training and Development",
+    "Other"
   ];
 
 

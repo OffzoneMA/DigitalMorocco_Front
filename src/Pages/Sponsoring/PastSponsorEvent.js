@@ -333,19 +333,19 @@ const PastSponsorEvent = () => {
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6">
                             {item?.sponsorshipType?.toLowerCase() === "financial" && 
                             <div className="px-[13px] h-[34px] whitespace-nowrap py-2 rounded-[50px] border border-[#6071f3] justify-center items-center gap-1 w-auto inline-flex">
-                                <div className="text-[#444ce6] text-xs font-dm-sans-regular leading-none tracking-tight">{item?.sponsorshipType}</div>
+                                <div className="text-[#444ce6] text-xs font-dm-sans-regular leading-none tracking-tight">{t(item?.sponsorshipType)}</div>
                             </div>}
                             {item?.sponsorshipType?.toLowerCase() === "prize sponsors" && 
                             <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#ffc564] justify-center items-center gap-1 inline-flex">
-                                <div className="text-[#e49614] text-xs font-dm-sans-regular leading-none tracking-tight">Prize Sponsors</div>
+                                <div className="text-[#e49614] text-xs font-dm-sans-regular leading-none tracking-tight">{t(item?.sponsorshipType)}</div>
                             </div>}
                             {item?.sponsorshipType?.toLowerCase() === "venue partner" && 
                             <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#996fec] justify-center items-center gap-1 inline-flex">
-                              <div className="text-[#7f4be7] text-xs font-dm-sans-regular leading-none tracking-tight">Venue Partner</div>
+                              <div className="text-[#7f4be7] text-xs font-dm-sans-regular leading-none tracking-tight">{t(item?.sponsorshipType)}</div>
                             </div>}
                             {item?.sponsorshipType?.toLowerCase() === "food sponsors" && 
                             <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
-                              <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">Food Sponsors</div>
+                              <div className="text-[#028942] text-xs font-dm-sans-regular leading-none tracking-tight">{t(item?.sponsorshipType)}</div>
                             </div>}
                         </td>                        
                         <td className="px-[18px] py-4 text-gray-801 font-dm-sans-regular text-sm leading-6" 

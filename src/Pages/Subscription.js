@@ -213,7 +213,7 @@ useEffect(() => {
                 {t('settings.subscription.subscriptionBenefits')}
                 </Text>
                 <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
-                {t('settings.subscription.subscriptionCta')}
+                {userData?.role?.toLowerCase() === "member" ? t('settings.subscription.subscriptionCta') : t('settings.subscription.subscriptionCtaIn')}
                 </Text>
                 <button
                   className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto cursorpointer"
@@ -238,7 +238,7 @@ useEffect(() => {
                 <div className="flex flex-col w-full rounded-[12px] border p-[24px] border-gray-301 gap-[24px]">
                   <div className="flex flex-row w-full items-center pb-1">
                     <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
-                      {t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`)}
+                      {userSubscriptionData?.plan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${userSubscriptionData?.plan?.name.toLowerCase()}.name`) : t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`)}
                     </Text>
                     <button
                       onClick={() => navigate('/ChoosePlan')}
@@ -260,7 +260,7 @@ useEffect(() => {
                           </svg>
                         </div>
                         <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
-                        {t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.features.feature${index}`)}
+                        {t(feature)}
                         </Text>
                       </div>
                     ))}
@@ -270,9 +270,9 @@ useEffect(() => {
                       <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-500 line-through">
                           {annualPrice}
                       </Text>
-                      <Text className="font-dm-sans-medium text-lg leading-8 text-left text-[#1D2939] ml-2">
+                      {(userSubscriptionData?.plan?.price > 0 && userSubscriptionData?.planType !== "upcoming") && <Text className="font-dm-sans-medium text-lg leading-8 text-left text-[#1D2939] ml-2">
                       {formatPrice((annualPriceNotFormat*(100 - (userSubscriptionData?.plan?.annualDiscountRate || 20))/100).toFixed(2))}, {t('subscriptionPlans.endsOn')}  {getEndDate(annualDuration)}
-                      </Text>
+                      </Text>}
                       <div className="inline-flex h-[24px] p-[2px_10px] justify-center items-center inline-flex rounded-[6px] bg-[#E1FFED] ml-6">
                           <span className="text-[#00CDAE] text-center font-dm-sans text-[10px] font-bold leading-[24px]">
                               {t('settings.subscription.annualDiscount', { rate: userSubscriptionData?.plan?.annualDiscountRate || 20 })}
@@ -280,7 +280,7 @@ useEffect(() => {
                       </div>
                   </div>
                 ) : (
-                  <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-[#1D2939]">
+                  (userSubscriptionData?.plan?.price > 0 && userSubscriptionData?.planType !== "upcoming") && <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-[#1D2939]">
                     {monthlyPrice}/{t('subscriptionPlans.monthlyFee')}, {t('subscriptionPlans.endsOn')}  {getEndDate(monthlyDuration)}
                   </Text>
                 )}

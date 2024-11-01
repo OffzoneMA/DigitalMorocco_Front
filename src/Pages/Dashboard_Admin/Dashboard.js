@@ -368,7 +368,7 @@ console.log(chartData)
                     className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
                     size=""
                   >
-                    Data not available
+                    {t("common.noData")}
                   </Text>
                 </div>
               }

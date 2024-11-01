@@ -16,7 +16,7 @@ import { format, parse } from 'date-fns';
 import { fr , enUS } from 'date-fns/locale';
 import Loader from "../Components/Loader";
 import { useTranslation } from "react-i18next";
-import { formatPrice } from "../data/helper";
+import { formatPrice , formatEventDateTime } from "../data/helper";
 
 const UpcomingEvents = () => {
   const { t } = useTranslation();
@@ -44,105 +44,7 @@ const UpcomingEvents = () => {
     setTotalPages(events?.totalPages);
   }, [events]);
 
-  // function parseTime(time) {
-  //   let parsedTime;
-  //   try {
-  //     parsedTime = parse(time, 'hh:mm a', new Date());
-  //   } catch (error) {
-  //     parsedTime = parse(time, 'h:mm a', new Date());
-  //   }
-  //   return parsedTime;
-  // }
 
-  function parseTime(time) {
-    let parsedTime;
-    try {
-      if (currentLanguage === 'fr') {
-        parsedTime = parse(time, 'HH:mm', new Date());
-      }
-        parsedTime = parse(time, 'hh:mm a', new Date());
-
-    } catch (error) {
-        parsedTime = parse(time, 'h:mm a', new Date());
-    }
-    // If parsing fails, attempt to parse as 24-hour time for the French locale
-    return parsedTime;
-}
-
-  // function formatEventDateTime(startDate, endDate, startTime, endTime) {
-  //   if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
-  //     return 'Coming Soon';
-  //   }
-
-  //   try {
-  //     const parsedStartTime = parseTime(startTime);
-  //     const parsedEndTime = parseTime(endTime);
-
-  //     const formattedStartTime = format(parsedStartTime, 'ha', { locale: enUS }).toLowerCase();
-  //     const formattedEndTime = format(parsedEndTime, 'ha', { locale: enUS }).toLowerCase();
-
-  //     const startDateTime = new Date(startDate);
-  //     const endDateTime = new Date(endDate);
-
-  //     if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-  //       const formattedDate = format(startDateTime, 'EEEE, MMMM d', { locale: enUS });
-  //       const gmtOffset = startDateTime.getTimezoneOffset() / 60; // Obtenez l'offset en heures
-  //       const gmt = gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset.toString(); 
-  //       return `${formattedDate}\u00A0\u00A0 • \u00A0\u00A0${formattedStartTime} - ${formattedEndTime}`;
-  //     } else {
-  //       const formattedStartDate = format(startDateTime, 'EEE, MMM d, yyyy', { locale: enUS });
-  //       return `${formattedStartDate}\u00A0\u00A0 • \u00A0\u00A0${startTime.toUpperCase()}`;
-  //     }
-  //   } catch (error) {
-  //     console.error('Error formatting date/time:', error);
-  //     return 'Invalid Date/Time';
-  //   }
-  // }
-
-  // function capitalizeFirstLetter(text) {
-  //   return text.charAt(0).toUpperCase() + text.slice(1);
-  // }
-
-  function capitalizeFirstLetter(text) {
-    return text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-  }
-
-  function formatEventDateTime(startDate, endDate, startTime, endTime) {
-      const locale = currentLanguage === 'fr' ? fr : enUS;
-
-      // Check for empty or undefined date and time values
-      if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
-          return t("event.comingSoon");
-      }
-
-      try {
-          const parsedStartTime = parseTime(startTime, locale);
-          const parsedEndTime = parseTime(endTime, locale);
-
-          const formattedStartTime = format(parsedStartTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale });
-          const formattedEndTime = format(parsedEndTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale });
-
-          const startDateTime = new Date(startDate);
-          const endDateTime = new Date(endDate);
-
-          // Check if the start and end dates are the same
-          if (startDateTime.getDate() === endDateTime.getDate() && 
-              startDateTime.getMonth() === endDateTime.getMonth() && 
-              startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              
-              const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM' : 'EEEE, MMMM d', { locale });
-              const capitalizedDate = currentLanguage === 'fr' ? capitalizeFirstLetter(formattedDate) : formattedDate;
-              return `${capitalizedDate} • ${formattedStartTime} - ${formattedEndTime}`;
-          } else {
-              const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMMM yyyy' : 'EEE, MMM d, yyyy', { locale });
-              const capitalizedStartDate = currentLanguage === 'fr' ? capitalizeFirstLetter(formattedStartDate) : formattedStartDate;
-              return `${capitalizedStartDate?.replace('.', '')} • ${formattedStartTime}`;
-          }
-      } catch (error) {
-          console.error('Error formatting date/time:', error);
-          return 'Invalid Date/Time';
-      }
-  }
   
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -178,7 +80,7 @@ const UpcomingEvents = () => {
                           <Text
                           className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                           >
-                          {formatEventDateTime(item?.startDate , item?.endDate , item?.startTime? item?.startTime : '', item?.endTime? item?.endTime : '')}
+                          {formatEventDateTime(item?.startDate , item?.endDate , item?.startTime? item?.startTime : '', item?.endTime? item?.endTime : '' , t)}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center text-left">

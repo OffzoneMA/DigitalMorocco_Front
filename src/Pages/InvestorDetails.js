@@ -30,11 +30,13 @@ import investorFakeImage from "../Media/investorFakeImage.jpg"
 import  userdefaultProfile from '../Media/User1.png';
 import { useGetAllContactReqByInvestorQuery } from "../Services/Investor.Service";
 import { useTranslation } from "react-i18next";
+import CommonModal from "../Components/CommonModal";
 
 const InvestorDetails = () => {
   const { t } = useTranslation();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const { investorId } = useParams();
+  const [showPopup, setShowPopup] = useState(false);
   const location = useLocation();
   const [investor, setInvestor] = useState(location.state?.investor || null);
   const [investorRequestStatus , setInvestorRequestStatus] = useState('');
@@ -48,17 +50,6 @@ const InvestorDetails = () => {
 
   const { data: myInvestments, error, isFetching: investmentLoading , refetch} = useGetAllContactReqByInvestorQuery(queryParams);
 
-  const data = [
-    {logo:"/images/img_inv.svg", AnnouncementDate: "November 28, 2015", CompanyName: "Volante Technologies", Location: "Sydney, Australia", FundingRound: "Series B", MoneyRaised: "$48M" },
-    { logo:"/images/img_inv1.svg" ,AnnouncementDate: "May 29, 2017", CompanyName: "New Era Cap", Location: "Abu Dhabi, UAE", FundingRound: "Venture Round", MoneyRaised: "$240M" },
-    {logo:"/images/img_inv2.svg" , AnnouncementDate: "May 12, 2019", CompanyName: "Pay Joy", Location: "Rio de Janeiro, Brazil", FundingRound: "Series B", MoneyRaised: "$30M" },
-    {logo:"/images/img_inv3.svg" , AnnouncementDate: "February 11, 2014", CompanyName: "Virtualitios", Location: "Mumbai, India", FundingRound: "Debt Financing", MoneyRaised: "$124M" },
-    {logo:"/images/img_inv4.svg" , AnnouncementDate: "August 24, 2013", CompanyName: "Reliance", Location: "Bogotá, Colombia", FundingRound: "Corporate Round", MoneyRaised: "$214M" },
-    {logo:"/images/img_inv5.svg", AnnouncementDate: "April 28, 2016", CompanyName: "Fleximize", Location: "London, United Kingdom", FundingRound: "Series C", MoneyRaised: "$16M" },
-    {logo:"/images/img_inv6.svg", AnnouncementDate: "May 9, 2014", CompanyName: "DreamFarm WraithWatch", Location: "New York City, USA", FundingRound: "Debt Financing", MoneyRaised: "$8OM" }
-  ];
-
-  console.log(myInvestments)
 
   useEffect(() => {
     setLoading(true);
@@ -100,11 +91,16 @@ const InvestorDetails = () => {
 
   const openModal = () => {
     setIsContactModalOpen(true);
+    setShowPopup(false);
   };
 
   const closeModal = () => {
     setIsContactModalOpen(false);
   };
+
+  const closePopup = () => {
+    setShowPopup(false)
+  }
 
   const formatDate = (date) => {
     const dateValues = new Date(date);
@@ -113,6 +109,7 @@ const InvestorDetails = () => {
 };
 
     return (
+      <>
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -138,7 +135,8 @@ const InvestorDetails = () => {
                         ) : (
                           <img src={userdefaultProfile} className="rounded-full h-full w-auto" alt="Profile" />
                         )}
-                        {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
+                        {investorRequestStatus?.toLowerCase() === 'pending' && 
+                        <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
                         </div>}
                       </div>
                       <div className="flex flex-col gap-6 flex-1 w-full">
@@ -152,7 +150,7 @@ const InvestorDetails = () => {
                           </div>
                           <button style={{ whiteSpace: 'nowrap'}}
                               className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center justify-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer"
-                              onClick={openModal}
+                              onClick={() =>setShowPopup(true)}
                               type="button"
                           >
                               <TbSend size={14} className="mr-2" />
@@ -485,6 +483,27 @@ const InvestorDetails = () => {
             
             <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId} rowData={investor}/>
         </div>
+        <CommonModal isOpen={showPopup}
+        onRequestClose={closePopup} title={t('Confirmation')}
+        content={
+        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+          <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
+          {t("This action will result in a charge of")} <span className="text-[#2575f0]">{t('100 credits')}</span> <br/>
+          <span className="pt-2">{t('Are you ready to proceed?')}</span>
+          </div>
+          <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+              <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
+              onClick={() => setShowPopup(false)}>
+                <div className="text-[#475466] text-base font-dm-sans-medium">{t('common.cancel')}</div>
+              </button>
+              <button className="h-11 min-w-[195px] px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
+              onClick={() => openModal()}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">{t('Confirm')}</div>
+              </button>
+          </div>
+        </div>
+      }/>
+      </>
     )
 }
 export default InvestorDetails;

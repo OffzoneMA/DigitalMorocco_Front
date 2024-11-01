@@ -21,7 +21,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import Loader from "../Components/Loader";
 import userDefaultProfil from '../Media/User1.png';
 import { useTranslation } from "react-i18next";
-import { formatPrice , formatEventStartEndDate , formatEventTime } from "../data/helper";
+import { formatPrice , formatEventStartEndDate , formatEventTime , formatEventDate} from "../data/helper";
 
 
 const UpcomingEventDetails = () => {
@@ -72,33 +72,6 @@ const UpcomingEventDetails = () => {
       {logo:"/images/spon_logo8.svg"}, 
       {logo:"/images/spon_logo9.svg"}, 
     ];
-
-  function capitalizeAndClean(dateString) {
-    return dateString.charAt(0).toUpperCase() + dateString.slice(1);
-  }
-
-  function formatEventDate(startDate, endDate) {
-    const locale = currentLanguage === 'fr' ? fr : enUS;
-
-    if (!startDate || !endDate) {
-        return t("event.comingSoon");
-    } else {
-        const startDateTime = new Date(startDate);
-        const endDateTime = new Date(endDate);
-
-        // Check if the start and end dates are the same
-        if (startDateTime.getDate() === endDateTime.getDate() &&
-            startDateTime.getMonth() === endDateTime.getMonth() &&
-            startDateTime.getFullYear() === endDateTime.getFullYear()) {
-            const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM yyyy' : 'EEEE, MMMM d, yyyy', { locale });
-            return capitalizeAndClean(formattedDate);
-        } else {
-            const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMMM yyyy' : 'EEE, MMM d, yyyy', { locale });
-            return capitalizeAndClean(formattedStartDate)?.replace('.', '');
-        }
-    }
-  }
-
 
   const handleAddAttendee = async () => {
     try {
@@ -172,7 +145,7 @@ const UpcomingEventDetails = () => {
                       <Text
                       className="text-gray-801  text-base font-dm-sans-medium leading-6"
                       >
-                      {formatEventDate(event?.startDate , event?.endDate)}
+                      {formatEventDate(event?.startDate , event?.endDate , t)}
                       </Text>
                   </div>
                   <div className="flex flex-row gap-3 items-center  text-left">
@@ -208,7 +181,7 @@ const UpcomingEventDetails = () => {
                       <Text
                       className="text-gray-801  text-base font-dm-sans-medium leading-6"
                       >
-                      {t('From')} {formatPrice(event?.price , currentLanguage)}
+                      {formatPrice(event?.price , currentLanguage) !== t('Free') ? t('From'): ''} {formatPrice(event?.price , currentLanguage)}
                       </Text>
                   </div>
                   )}

@@ -13,7 +13,7 @@ import Loader from "../Components/Loader";
 import { enUS, fr } from 'date-fns/locale';
 import { format, parse } from 'date-fns';
 import { useTranslation } from "react-i18next";
-import { formatPrice } from "../data/helper";
+import { formatEventDateTime } from "../data/helper";
 
 const PastEvents = () => {
   const { t } = useTranslation();
@@ -40,65 +40,6 @@ const PastEvents = () => {
 
   const currentLanguage = localStorage.getItem('language') || 'en'; 
 
-  function formatEventDateTime(startDate, endDate, startTime, endTime) {
-    const locale = currentLanguage === 'fr' ? fr : enUS;
-
-    // Check for missing values
-    if (!startDate || !endDate || !startTime || !endTime || startTime === '' || endTime === '') {
-        return currentLanguage === 'fr' ? 'À venir' : 'Coming Soon';
-    }
-
-    try {
-        const parsedStartTime = parse(startTime, 'h:mm a', new Date());
-        const parsedEndTime = parse(endTime, 'h:mm a', new Date());
-
-        // Format time based on language
-        const formattedStartTime = format(parsedStartTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale }).toLowerCase();
-        const formattedEndTime = format(parsedEndTime, currentLanguage === 'fr' ? 'HH:mm' : 'ha', { locale }).toLowerCase();
-
-        const startDateTime = new Date(startDate);
-        const endDateTime = new Date(endDate);
-
-        // Calculate GMT offset in hours
-        const gmtOffset = -startDateTime.getTimezoneOffset() / 60; // Offset in hours
-        const gmt = `GMT${gmtOffset >= 0 ? `+${gmtOffset}` : gmtOffset}`;
-
-        // Check if start and end dates are the same
-        if (startDateTime.getDate() === endDateTime.getDate() &&
-            startDateTime.getMonth() === endDateTime.getMonth() &&
-            startDateTime.getFullYear() === endDateTime.getFullYear()) {
-            
-            // Format date for the same day
-            const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM' : 'EEEE, MMMM d', { locale });
-            
-            // Capitalize the first letter of the day and month correctly
-            const formattedDateCapitalized = formattedDate.replace(/^(.)/, (char) => char.toUpperCase()).replace(/(\b\w)/g, (char, index) => {
-                if (currentLanguage === 'fr' && index > 0 && formattedDate[index - 1] === ' ') {
-                    return char.toUpperCase(); // Capitalize the first letter after a space for French
-                }
-                return char; // Keep other characters as they are
-            });
-
-            return `${formattedDateCapitalized.replace(/\./g, '')} • ${formattedStartTime} - ${formattedEndTime} ${gmt}`;
-        } else {
-            // Format date for different days
-            const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMM yyyy' : 'EEE, MMM d, yyyy', { locale });
-            
-            // Capitalize the first letter correctly for French dates
-            const formattedStartDateCapitalized = formattedStartDate.replace(/^(.)/, (char) => char.toUpperCase()).replace(/(\b\w)/g, (char, index) => {
-                if (currentLanguage === 'fr' && index > 0 && formattedStartDate[index - 1] === ' ') {
-                    return char.toUpperCase(); // Capitalize the first letter after a space for French
-                }
-                return char; // Keep other characters as they are
-            });
-
-            return `${formattedStartDateCapitalized.replace(/\./g, '')} • ${formattedStartTime} ${gmt}`;
-        }
-    } catch (error) {
-        console.error('Error formatting date/time:', error);
-        return currentLanguage === 'fr' ? 'Date/heure invalide' : 'Invalid Date/Time';
-    }
-  }
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -134,7 +75,7 @@ const PastEvents = () => {
                           <Text
                           className="text-blue_gray-601 font-dm-sans-regular text-base leading-6"
                           >
-                          {formatEventDateTime(item?.startDate , item?.endDate , item?.startTime? item?.startTime : '', item?.endTime? item?.endTime : '')}
+                          {formatEventDateTime(item?.startDate , item?.endDate , item?.startTime? item?.startTime : '', item?.endTime? item?.endTime : '' , t)}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center text-left">

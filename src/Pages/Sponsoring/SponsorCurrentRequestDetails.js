@@ -28,7 +28,7 @@ import ApproveSponsoringRequestModal from "../../Components/ApproveSponsoringReq
 import RejectSponsoringRequestModal from '../../Components/RejectSponsoringRequestModal';
 import { useGetSponsorByIdQuery , useApproveSponsorMutation , useRejectSponsorMutation } from "../../Services/Sponsor.Service";
 import { useTranslation } from "react-i18next";
-import { formatPrice , formatEventStartEndDate , formatEventTime} from "../../data/helper";
+import { formatPrice , formatEventStartEndDate , formatEventTime , formatEventDate} from "../../data/helper";
 
 const SponsorCurrentRequestDetails = () => {
   const { t } = useTranslation();
@@ -79,63 +79,6 @@ const SponsorCurrentRequestDetails = () => {
       {logo:"/images/spon_logo8.svg"}, 
       {logo:"/images/spon_logo9.svg"}, 
     ];
-    const attendance = [
-      {image:"/images/img_avatar_1.png"}, 
-      {image:"/images/img_avatar_2.png"}, 
-      {image:"/images/img_avatar_3.png"}, 
-      {image:"/images/img_avatar_4.png"}, 
-      {image:"/images/img_avatar_5.png"}, 
-      {image:"/images/img_avatar_12.png"},
-      {image:"/images/img_avatar_7.png"}, 
-      {image:"/images/img_avatar_8.png"}, 
-      {image:"/images/img_avatar_9.png"}, 
-      {image:"/images/img_avatar_10.png"}, 
-      {image:"/images/img_avatar_11.png"}, 
-      {image:"/images/img_avatar_12.png"}, 
-    ];
-
-    function capitalizeAndClean(dateString) {
-      return dateString.charAt(0).toUpperCase() + dateString.slice(1);
-    }
-
-    function formatEventDate(startDate, endDate) {
-      const locale = currentLanguage === 'fr' ? fr : enUS;
-  
-      if (!startDate || !endDate) {
-          return t("event.comingSoon");
-      } else {
-          const startDateTime = new Date(startDate);
-          const endDateTime = new Date(endDate);
-  
-          // Check if the start and end dates are the same
-          if (startDateTime.getDate() === endDateTime.getDate() &&
-              startDateTime.getMonth() === endDateTime.getMonth() &&
-              startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              const formattedDate = format(startDateTime, currentLanguage === 'fr' ? 'EEEE d MMMM yyyy' : 'EEEE, MMMM d, yyyy', { locale });
-              return capitalizeAndClean(formattedDate);
-          } else {
-              const formattedStartDate = format(startDateTime, currentLanguage === 'fr' ? 'EEE d MMMM yyyy' : 'EEE, MMM d, yyyy', { locale });
-              return capitalizeAndClean(formattedStartDate)?.replace('.', '');
-          }
-      }
-    }
-  
-  const handleAddAttendee = async () => {
-    try {
-      setBying(true)
-      const response = await axios.post(`${process.env.REACT_APP_baseURL}/events/${id}/attendeesuser`, {
-        userId: userData?._id, 
-        role: userData?.role
-      });
-        setBying(false);
-        setTimeout(() => {
-          navigate("/Participate");
-        }, 2000);
-    } catch (error) {
-        setBying(false);
-        console.log(error.response?.data?.message || 'Error adding attendee');
-    }
-  };
 
 const openModal = () => {
     setIsModalOpen(true);
@@ -266,7 +209,7 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {formatEventDate(event?.eventId?.startDate , event?.eventId?.endDate)}
+                          {formatEventDate(event?.eventId?.startDate , event?.eventId?.endDate , t)}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center  text-left">
@@ -290,7 +233,7 @@ const handleReject = async (data) => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                            {t('From')} {formatPrice(event?.eventId?.price , currentLanguage)}
+                            {formatPrice(event?.eventId?.price , currentLanguage) !== t('Free') ? t('From'): ''} {formatPrice(event?.eventId?.price , currentLanguage)}
                           </Text>
                       </div>                  
                     </div>

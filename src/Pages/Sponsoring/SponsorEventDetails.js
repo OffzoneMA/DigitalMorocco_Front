@@ -22,7 +22,7 @@ import Loader from "../../Components/Loader";
 import userDefaultProfil from '../../Media/User1.png';
 import SendSponsoringModal from "../../Components/SendSponsoringModal";
 import { useTranslation } from "react-i18next";
-import { formatEventStartEndDate , formatEventTime , formatPrice } from "../../data/helper";
+import { formatEventStartEndDate , formatEventTime , formatPrice , formatEventDate } from "../../data/helper";
 
 const SponsorEventDetails = () => {
   const { t } = useTranslation();
@@ -72,49 +72,6 @@ const SponsorEventDetails = () => {
       {logo:"/images/spon_logo8.svg"}, 
       {logo:"/images/spon_logo9.svg"}, 
     ];
-    const attendance = [
-      {image:"/images/img_avatar_1.png"}, 
-      {image:"/images/img_avatar_2.png"}, 
-      {image:"/images/img_avatar_3.png"}, 
-      {image:"/images/img_avatar_4.png"}, 
-      {image:"/images/img_avatar_5.png"}, 
-      {image:"/images/img_avatar_12.png"},
-      {image:"/images/img_avatar_7.png"}, 
-      {image:"/images/img_avatar_8.png"}, 
-      {image:"/images/img_avatar_9.png"}, 
-      {image:"/images/img_avatar_10.png"}, 
-      {image:"/images/img_avatar_11.png"}, 
-      {image:"/images/img_avatar_12.png"}, 
-    ];
-
-    const formattedTime = (time, language) => {
-      const parsedTime = parse(time, 'h:mm a', new Date());
-      // if (language === 'fr-FR') {
-      //   return format(parsedTime, 'H', { locale: fr }) + 'h';
-      // }
-      return format(parsedTime, 'h a', { locale: enUS }).toLowerCase();
-    };
-
-    function formatEventDate(startDate, endDate) {
-    
-      if (!startDate || !endDate ) {
-          return 'Coming Soon';
-      }
-      else {
-
-          const startDateTime = new Date(startDate);
-          const endDateTime = new Date(endDate);
-
-          if (startDateTime.getDate() === endDateTime.getDate() && startDateTime.getMonth() === endDateTime.getMonth() && startDateTime.getFullYear() === endDateTime.getFullYear()) {
-              const formattedDate = format(startDateTime, 'EEEE, MMMM d, yyyy', { locale: enUS });
-              return `${formattedDate}`;
-          } else {
-              const formattedStartDate = format(startDateTime,'EEE, MMM d, yyyy', { locale: enUS });
-              return `${formattedStartDate}`;
-          }
-
-          }
-  }
 
   const handleAddAttendee = async () => {
     try {
@@ -154,7 +111,7 @@ const openModal = () => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.status == 'past' ? 'Past Event' : 'Upcoming Event'}
+                    {event?.status == 'past' ? t("event.pastEvent") : t("event.upcomingEvent")}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -180,7 +137,7 @@ const openModal = () => {
                               >
                               {bying ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
                               <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-dm-sans-medium leading-[18.23px]">
-                              Sponsorship
+                              {t('Sponsorship')}
                               </span>
                               }
                             </button>
@@ -190,7 +147,7 @@ const openModal = () => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {formatEventDate(event?.startDate , event?.endDate)}
+                          {formatEventDate(event?.startDate , event?.endDate , t)}
                           </Text>
                       </div>
                       <div className="flex flex-row gap-3 items-center  text-left">
@@ -214,7 +171,7 @@ const openModal = () => {
                           <Text
                           className="text-gray-801  text-base font-dm-sans-medium leading-6"
                           >
-                          {t('From')} {formatPrice(event?.price , currentLanguage)}
+                          {formatPrice(event?.price , currentLanguage) !== t('Free') ? t('From'): ''} {formatPrice(event?.price , currentLanguage)}
                           </Text>
                       </div>                  
                     </div>

@@ -121,6 +121,9 @@ export const investorApi = createApi({
                 params: {status }, 
             }),
         }),
+        getContactRequestsCount: builder.query({
+            query: (investorId) => `/contact-requests/count`,
+        }),
     }),
 })
 
@@ -128,4 +131,5 @@ export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConat
     useGetInvestorsQuery , useGetDistinctValuesQuery , useGetInvestorByIdQuery , useGetAllConatctReqQuery ,
 useGetAllInvestorsWithoutPageQuery , useGetDistinctProjectFieldsQuery , useGetDistinctRequestFieldValuesQuery , 
 useGetInvestorsListQuery , useGetAllContactReqByInvestorQuery , useGetRecentApprovedContactRequestsQuery ,
-useGetLastRecentContactRequestsQuery} = investorApi
+useGetLastRecentContactRequestsQuery , useGetContactRequestsCountQuery
+} = investorApi

@@ -24,12 +24,15 @@ import { FaUserCircle } from "react-icons/fa";
 import userdefaultProfile from '../Media/User.png';
 import { useCheckSubscriptionStatusQuery } from "../Services/Subscription.Service";
 import { useTranslation } from "react-i18next";
-
+import { useGetUserDetailsQuery } from "../Services/Auth";
+import CommonModal from "../Components/CommonModal";
 
 const Investors = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
+  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
+  const [showPopup, setShowPopup] = useState(false);
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
@@ -59,6 +62,11 @@ const Investors = () => {
 
   const { data: subscriptionData, error: subscriptionError , isFetching: subscriptionLoading } = useCheckSubscriptionStatusQuery();
 
+  useEffect(() => {
+    if (userDetails && userDetails?.projectCount === 0) {
+        setShowPopup(true);
+    }
+}, [userDetails])
 
   useEffect(() => {
     if (investorData) {
@@ -77,7 +85,7 @@ const Investors = () => {
     }
   }, [subscriptionData]);
 
-  const data = (isSubscribe && !loading)?  investors : InvestorsData;
+  const data = (isSubscribe && !loading && !subscriptionLoading && !userDetailsLoading && userDetails?.projectCount !== 0) ?  investors : InvestorsData;
 
   const filteredData = (isSubscribe && (!loading && !subscriptionLoading))? data.filter(item => {
     const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());
@@ -104,6 +112,7 @@ const Investors = () => {
   }
 
     return (
+    <>
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -201,7 +210,7 @@ const Investors = () => {
                   className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                   onClick={() => setFilter(true)}
                   type="button"
-                  disabled={pageData?.length === 0}
+                  disabled={pageData?.length === 0 || !isSubscribe}
                 >
                   <BiFilterAlt size={18} className="mr-2" />
                   <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
@@ -226,7 +235,7 @@ const Investors = () => {
                   </div>
               </div>
               <div className="relative flex flex-col w-full">
-              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !(loading || subscriptionLoading)) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !(loading || subscriptionLoading || userDetailsLoading)) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
                 style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -242,7 +251,7 @@ const Investors = () => {
                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investor.preferredInvestmentIndustry')}</th>
                   </tr>
                   </thead>
-                  {(!loading && !subscriptionLoading && pageData?.length > 0) ? 
+                  {(!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading) ? 
                   <tbody className="items-center w-full ">
                   {pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}` , { state: {investor: item}})}>
@@ -258,7 +267,7 @@ const Investors = () => {
                           )}
                             <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
                         </div>
-                        {profilVerified && (
+                        {(isSubscribe && userDetails?.projectCount !== 0) && (
                           <div className="overlay-content-invPro w-full flex">
                           </div>
                         )}
@@ -282,7 +291,7 @@ const Investors = () => {
                 :
                 ""}
                 </table>
-                { (loading || subscriptionLoading) ? (
+                { (loading || subscriptionLoading || userDetailsLoading) ? (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
                  </div> ) : (pageData.length === 0 )&& (
@@ -298,41 +307,42 @@ const Investors = () => {
                   </div>
                 )
                 }              
-                {(!isSubscribe && !loading && !subscriptionLoading) &&
-                (
-                  <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
-                  <BsEyeSlash size={35} className="text-gray500 "/>
-                  <Text
-                    className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
-                    size=""
-                  >
-                    {t('investor.viewAllInvestors', { count: (261765).toLocaleString('en-US') })} 
-                  </Text>
-                  <Text
-                    className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
-                    size=""
-                  >
-                  {t('investor.upgradeMessage', {
-                    link: (
-                      <a className="text-blue-500" href="/ChoosePlan">
-                        {t('investor.digitalMoroccoPro')}
-                      </a>
-                    ),
-                  })}
-                  </Text>
-                  <button
-                    className="flex items-center justify-center gap-[12px] bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-[12px] py-[8px] h-[37px] rounded-md cursorpointer"
-                    onClick={() => navigate('/ChoosePlan')}
-                    type="button"
-                  >
-                    <TiFlashOutline size={25} className="" />
-                    <span className="text-sm font-dm-sans-medium leading-[18.23px] text-white-A700">{t("dashboard.upgradeMembership")}</span>
-                  </button>
-
-                </div>
+                {(!loading && !subscriptionLoading && !userDetailsLoading) && (
+                  (isSubscribe && userDetails?.projectCount === 0) || 
+                  (!isSubscribe) ? (
+                    <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
+                      <BsEyeSlash size={35} className="text-gray500 "/>
+                      <Text
+                        className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
+                        size=""
+                      >
+                        {t('investor.viewAllInvestors', { count: (261765).toLocaleString('en-US') })} 
+                      </Text>
+                      <Text
+                        className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
+                        size=""
+                      >
+                        {t('investor.upgradeMessage')} <a className="text-blue-500" href="/ChoosePlan">{t('investor.digitalMoroccoPro')}</a> {t('investor.upgradeMessage2')}
+                      </Text>
+                      <Text
+                        className="text-[#f04437]/60 text-sm font-semibold font-DMSans leading-relaxed pb-8"
+                        size=""
+                      >
+                        {t('investor.notice')}
+                      </Text>
+                      <button
+                        className="flex items-center justify-center gap-[12px] bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-[12px] py-[8px] h-[37px] rounded-md cursorpointer"
+                        onClick={() => navigate('/ChoosePlan')}
+                        type="button"
+                      >
+                        <TiFlashOutline size={25} className="" />
+                        <span className="text-sm font-dm-sans-medium leading-[18.23px] text-white-A700">{t("dashboard.upgradeMembership")}</span>
+                      </button>
+                    </div>
+                  ) : null
                 )}
               </div>
-              {(pageData?.length>0 && !loading && !subscriptionLoading) && (
+              {(pageData?.length>0 && !loading && !subscriptionLoading && !userDetailsLoading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
                   currentPage={cur}
@@ -347,6 +357,46 @@ const Investors = () => {
           </div>
         </div>
     </div>
+    <CommonModal isOpen={showPopup}
+      onRequestClose={!showPopup} title={t('Action Required: Create Project')}
+      content={
+        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+          <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
+          {t("To gain access to the list of investors, please add a project by clicking the button below or by navigating to the 'Projects' tab.")}</div>
+          <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+              <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
+              onClick={() => navigate("/Dashboard")}>
+                <div className="text-[#475466] text-base font-dm-sans-medium">{t('Back to Dashboard')}</div>
+              </button>
+              <button className="h-11 px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
+              onClick={() => navigate("/CreateProject")}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">{t('Create Project')}</div>
+              </button>
+          </div>
+        </div>
+      }/>
+
+      {/* <CommonModal isOpen={showPopup}
+      onRequestClose={''} title={t('Action Required: Contact Request')}
+      content={
+        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+          <div className="self-stretch flex flex-col text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
+          {t("You already have a contact request in progress.")} 
+          <span className="pt-2" >{t('Would you like to validate it?')}</span>
+          </div>
+          <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+              <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
+              onClick={() => setShowPopup(false)}>
+                <div className="text-[#475466] text-base font-dm-sans-medium">{t('Continue Navigation')}</div>
+              </button>
+              <button className="h-11 px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
+              onClick={() => navigate("/CreateProject")}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">{t('Go to Contact Request')}</div>
+              </button>
+          </div>
+        </div>
+      }/> */}
+    </>
     )
 }
 export default Investors;

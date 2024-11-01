@@ -148,8 +148,7 @@ export default function SubscribePlan() {
                   <div className='flex flex-col gap-1 w-full'>
                     <div className="flex flex-row w-full items-center">
                       <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
-                      {t(`subscriptionPlans.${choosedPlan?.name.toLowerCase()}.name`)}
-
+                      {choosedPlan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${choosedPlan?.name.toLowerCase()}.name`) : t(`subscriptionPlans.${choosedPlan?.name.toLowerCase()}.name`)}
                       </Text>
                       <div className="flex flex-row ml-auto">
                         <button
@@ -187,8 +186,7 @@ export default function SubscribePlan() {
                         </svg>
                       </div>
                       <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
-                      {t(`subscriptionPlans.${choosedPlan?.name.toLowerCase()}.features.feature${index}`)}
-
+                      {t(feature)}
                       </Text>
                     </div>
                   ))}
@@ -198,9 +196,9 @@ export default function SubscribePlan() {
                         <Text className="font-dm-sans-medium text-base leading-8 text-left text-gray-500 line-through">
                             {annualPrice}
                         </Text>
-                        <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-801 ml-2">
-                           {formatPrice((annualPriceNotFormat*(100 - (userSubscriptionData?.plan?.annualDiscountRate || 20))/100).toFixed(2))}, {t('subscriptionPlans.endsOn')}  {getEndDate(annualDuration)}
-                        </Text>
+                        {(choosedPlan?.price > 0 && choosedPlan?.planType === "upcoming") && <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-801 ml-2">
+                           {formatPrice((annualPriceNotFormat*(100 - (choosedPlan?.annualDiscountRate || 20))/100).toFixed(2))}, {t('subscriptionPlans.endsOn')}  {getEndDate(annualDuration)}
+                        </Text>}
                         <div className="inline-flex h-[24px] p-[2px_10px] justify-center items-center inline-flex rounded-[6px] bg-[#E1FFED] ml-6">
                             <span className="text-[#00CDAE] text-center font-dm-sans text-[10px] font-bold leading-[24px]">
                             {t('settings.subscription.annualDiscount', { rate: choosedPlan?.annualDiscountRate || 20 })}
@@ -208,7 +206,7 @@ export default function SubscribePlan() {
                         </div>
                     </div>
                   ) : (
-                    <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-gray-801">
+                   ( choosedPlan?.price && choosedPlan?.planType === "upcoming") > 0 && <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-gray-801">
                       {monthlyPrice}/{t('subscriptionPlans.monthlyFee')}, {t('subscriptionPlans.endsOn')}  {getEndDate(monthlyDuration)}
                     </Text>
                   )}
