@@ -4,13 +4,13 @@ import { IoSearch } from "react-icons/io5";
 import { Text } from "./Text";
 import { IoCloseOutline } from "react-icons/io5";
 import ConfirmedModal from "./ConfirmedModal";
-import { useGetAllInvestorsWithoutPageQuery } from "../Services/Investor.Service";
 import Loader from "./Loader";
 import fileSearchImg from '../Media/file-search.svg';
 import { useShareProjectMutation } from "../Services/Member.Service";
 import { FaUserCircle } from "react-icons/fa";
 import userdefaultProfile from '../Media/User.png';
 import { useTranslation } from "react-i18next";
+import { useGetInvestorsForMemberWithoutPageQuery } from "../Services/Member.Service";
 
 const ShareToInvestorModal = (props) => {
   const { t } = useTranslation();
@@ -19,11 +19,10 @@ const ShareToInvestorModal = (props) => {
   const projectId = props?.projectId;
   const [searchValue, setSearchValue] = useState("");
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-  const { data : investorsData, error, isLoading , refetch } = useGetAllInvestorsWithoutPageQuery();
+  const { data : investorsData, error, isLoading , refetch } = useGetInvestorsForMemberWithoutPageQuery();
   const [shareProject, { data: shareData, isLoading: shareLoding, isSuccess: shareSuccess , isError, error: shareError }] = useShareProjectMutation();
   const [sendingOk , setSendingOk] = useState(false);
 
-  console.log(props?.project)
   useEffect(() => {
     if (props?.project?.shareWithInvestors) { 
       setSelectedInvestors(props?.project?.shareWithInvestors )
@@ -68,7 +67,7 @@ const ShareToInvestorModal = (props) => {
 //     { id: 9, logo: "/images/img_inv7.svg", name: "NextLevel Management" },
 // ];
 
-const filteredInvestors = investorsData?.filter(investor =>
+const filteredInvestors = investorsData?.investors?.filter(investor =>
   investor?.name?.toLowerCase().includes(searchValue.toLowerCase())
 );
 

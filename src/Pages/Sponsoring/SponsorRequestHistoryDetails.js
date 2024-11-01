@@ -184,22 +184,22 @@ const openModal = () => {
                                 <div className="h-[34px] px-[13px] whitespace-nowrap py-2 rounded-[50px] border border-[#24a561] justify-center items-center gap-1 inline-flex">
                                   <div className="text-[#028942] text-sm font-manrope font-normal leading-none tracking-tight">{t(event?.sponsorshipType)}</div>
                                 </div>}
-                                <div className="h-[38px] px-3 py-2 bg-[#00cdae] rounded-[200px] justify-center items-center gap-3 flex">
+                                <div className="h-[34px] px-3 py-2 bg-[#00cdae] rounded-[200px] justify-center items-center gap-3 flex">
                                     <div className="text-white-A700 text-sm font-dm-sans-medium ">{t('Approved')}</div>
                                 </div></>}
                                {event?.status?.toLowerCase() === "rejected" && 
                                <><button style={{whiteSpace:'nowrap'}} 
-                               className={`h-[38px] px-3 py-2.5 bg-[#00cdae] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg rounded-md justify-center items-center gap-2 flex cursorpointer`} 
+                               className={`h-[34px] px-3 py-2.5 bg-[#00cdae] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg rounded-md justify-center items-center gap-2 flex cursorpointer`} 
                                onClick={() => openApproveModal(event)}>
                                     <PiCheckBold size={21} className="text-white-A700"/>
                                     <div className="text-white-A700 whitespace-nowrap text-sm font-dm-sans-medium">{t('Approve Now')}</div>
                                 </button>
-                                <div className="h-[38px] px-3 py-2 bg-[#ef4352] rounded-[200px] justify-center items-center gap-3 flex">
+                                <div className="h-[34px] px-3 py-2 bg-[#ef4352] rounded-[200px] justify-center items-center gap-3 flex">
                                     <div className="text-white-A700 text-sm font-dm-sans-medium">{t('Rejected')}</div>
                                 </div>
                                 </>}
                                 {event?.status?.toLowerCase() === "pending" && 
-                                <div className="h-7 px-2.5 py-0.5 whitespace-nowrap bg-[#dbedff] text-[#156fee] rounded-2xl justify-center items-center inline-flex">
+                                <div className="h-[34px] px-2.5 py-0.5 whitespace-nowrap bg-[#dbedff] text-[#156fee] rounded-2xl justify-center items-center inline-flex">
                                   <div className="text-center text-[#156fee] text-[13px] font-dm-sans-regular leading-normal">{t('In Progress')}</div>
                                 </div>}
                             </div>

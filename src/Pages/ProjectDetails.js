@@ -176,7 +176,7 @@ useEffect(() => {
           <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
             <PageHeader
               >
-                {t("common.projects")}
+                {t('sidebar.projects')}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'}/>

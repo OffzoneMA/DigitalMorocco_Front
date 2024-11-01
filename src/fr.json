@@ -200,7 +200,7 @@
     },
     "investor": {
       "main": "Investisseur",
-      "investorList": "Liste des investisseurs",
+      "investorList": "Liste investisseurs",
       "myInvestors": "Mes investisseurs",
       "requestHistory": "Historique des demandes"
     },
@@ -221,7 +221,7 @@
       "main": "Sponsoring",
       "upcomingEvent": "Événements à venir",
       "currentRequests": "Demandes en cours",
-      "pastEventSponsor": "Sponsorisations précédentes",
+      "pastEventSponsor": "Événements Sponsorisés",
       "requestHistory": "Historique des demandes"
     },
     "users": "Utilisateurs",
@@ -502,7 +502,8 @@
     "status": "Statut de l'emploi",
     "noTeamMembers":"Aucun membre de l'équipe",
     "addEmployee": {
-      "addEmployeeButton": "Ajouter un employé",
+      "addEmployeeButton": "Ajouter",
+      "addEmployee": "Ajouter un employé",     
       "editEmployee": "Modifier l'employé",
       "save": "Sauvegarder",
       "fullName": "Nom complet",
@@ -647,7 +648,7 @@
       "viewTicket": "Voir le billet",
       "download": "Télécharger le billet",
       "noParticipationMessage": "Il semble que vous n'ayez pas encore participé à des événements.",
-      "browseUpcomingEvents": "Parcourir les événements à venir"
+      "browseUpcomingEvents": "Découvrir les événements à venir"
     },
     "eventDetails": {
       "comingSoon": "À venir",
@@ -1627,8 +1628,8 @@
   "From": "À partir de",
   "Free": "Gratuit",
 
-  "public" : "public",
-  "private" : "privé",
+  "Public" : "Public",
+  "Private" : "Privé",
 
   "Approved": "Approuvé",
   "In Progress": "En cours",

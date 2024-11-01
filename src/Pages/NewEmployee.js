@@ -328,7 +328,7 @@ const NewEmployee = () => {
                 className="text-lg leading-7 text-gray-900_01 pt-1"
                 size="txtDmSansMedium16"
               >
-                  {employee? t('employee.addEmployee.editEmployee'): t('employee.addEmployee.addEmployeeButton')} 
+                  {employee? t('employee.addEmployee.editEmployee'): t('employee.addEmployee.addEmployee')} 
               </Text>
               {isSaved? 
               <button

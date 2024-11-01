@@ -946,7 +946,7 @@ const handleStatusChangeAndUpdate = async () => {
                       {t('projects.createNewProject.projectPublication.description')}
                     </Text>
                     <SimpleSelect id='publication'
-                    options={["public" , "private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
+                    options={["Public" , "Private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
                     setSelectedOptionVal={setSelectedPublication} searchable={false}
                     placeholder={t('projects.createNewProject.projectPublication.selectType')}
                     required={requiredFields.publication}
@@ -955,7 +955,7 @@ const handleStatusChangeAndUpdate = async () => {
                         return (
                           <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                              className="text-gray-801 text-left text-base capitalize font-dm-sans-regular leading-5 w-auto"
                             >
                               {t(`${option}`)}
                             </Text>

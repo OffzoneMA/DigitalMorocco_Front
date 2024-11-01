@@ -332,7 +332,7 @@ const Dashbord_Investor = () => {
                         <tbody className="items-center w-full">
                         {(!contactReqsLoading && Requestdata?.length > 0) 
                             ? Requestdata.map((item, index) => (
-                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestmentRequestDetails/${item?._id}`)}>
+                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestmentRequestHistoryDetails/${item?._id}`)}>
                                   <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="flex items-center gap-2">
                                       {item?.project?.image ? (

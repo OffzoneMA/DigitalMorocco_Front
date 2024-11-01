@@ -135,11 +135,11 @@ const SidebarNav = () => {
     },
     (userData?.role?.toLowerCase() === "investor") && { 
       title: t('sidebar.investment.main'), src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
-      submenu: true, activeLinks: ["Investment" , "MyInvestment" , "InvestmentRequestHistory" , "InvestmentDetails" , "InvestmentRequestDetails"] ,
+      submenu: true, activeLinks: ["Investment" , "MyInvestment" , "InvestmentRequestHistory" , "InvestmentDetails" , "InvestmentRequestDetails" , "InvestmentRequestHistoryDetails"] ,
       child: [
         { title: t('sidebar.investment.currentRequests'), src: '', link: "Investment" , activeLinks: ["Investment" , "InvestmentRequestDetails" ] },
         { title: t('sidebar.investment.myInvestments'), src: '', link: "MyInvestment" , activeLinks: ["MyInvestment" , "InvestmentDetails"]},
-        { title: t('sidebar.investment.requestHistory'), src: '', link: "InvestmentRequestHistory" , activeLinks:["InvestmentRequestHistory"] },
+        { title: t('sidebar.investment.requestHistory'), src: '', link: "InvestmentRequestHistory" , activeLinks:["InvestmentRequestHistory" , "InvestmentRequestHistoryDetails"] },
       ]
       },
     { title: t('sidebar.event.main'), src: <HiOutlineTicket size={23} className="text-light_blue-100"/>  ,

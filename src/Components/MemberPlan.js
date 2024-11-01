@@ -43,8 +43,8 @@ const MemberPlan = ({ plan , buttonText }) => {
                             <path d="M16.1144 7.63848C16.724 7.54835 17.3529 7.5 18.0006 7.5C25.6581 7.5 30.6829 14.2573 32.371 16.9302C32.5754 17.2538 32.6775 17.4155 32.7347 17.665C32.7776 17.8524 32.7776 18.148 32.7346 18.3354C32.6774 18.5849 32.5745 18.7477 32.3688 19.0734C31.919 19.7852 31.2333 20.7857 30.3247 21.8707M10.0865 10.0726C6.84337 12.2726 4.64168 15.3291 3.63166 16.9279C3.42643 17.2528 3.32381 17.4152 3.26661 17.6647C3.22365 17.8521 3.22363 18.1477 3.26657 18.335C3.32374 18.5845 3.4259 18.7463 3.6302 19.0698C5.31831 21.7427 10.3431 28.5 18.0006 28.5C21.0882 28.5 23.7478 27.4014 25.9332 25.9149M4.50062 4.5L31.5006 31.5M14.8186 14.818C14.0043 15.6324 13.5006 16.7574 13.5006 18C13.5006 20.4853 15.5153 22.5 18.0006 22.5C19.2433 22.5 20.3683 21.9963 21.1826 21.182" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         <div id="maskContent" className='px-[20px] flex flex-col gap-4 items-center'>
-                            <p id="disc" className='px-[40px] text-center text-[22px] text-[#101828]'>Discover all the features for investors</p>
-                            <p id="discUpgrade" className='text-center text-sm text-[#1D2939]'>Upgrade to <a href='' className='text-[#2575F0]'>Digital Morocco Premium</a> to access all features, investment management tools, tracking, and much more.</p>
+                            <p id="disc" className='px-[40px] text-center text-[22px] text-[#101828] font-dm-sans-medium'>Discover all the features for investors</p>
+                            <p id="discUpgrade" className='text-center text-sm text-[#1D2939] font-dm-sans-regular'>Upgrade to <a href='' className='text-[#2575F0]'>Digital Morocco Premium</a> to access all features, investment management tools, tracking, and much more.</p>
                         </div>
                     </div>
                 )}

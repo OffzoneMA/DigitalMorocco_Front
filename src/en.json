@@ -199,7 +199,7 @@
     },
     "investor": {
       "main": "Investor",
-      "investorList": "List of Investors",
+      "investorList": "Investor List",
       "myInvestors": "My Investors",
       "requestHistory": "Request History"
     },
@@ -220,7 +220,7 @@
       "main": "Sponsorship",
       "upcomingEvent": "Upcoming Events",
       "currentRequests": "Current Requests",
-      "pastEventSponsor": "Previous Sponsorships",
+      "pastEventSponsor": "Sponsored Events",
       "requestHistory": "Request History"
     },
     "users": "Users",
@@ -502,9 +502,10 @@
     "status": "Employment Status",
     "noTeamMembers":"No Team Mmembers",
     "addEmployee": {
-      "addEmployeeButton": "Add Employee",
+      "addEmployeeButton": "Add",
+      "addEmployee": "Add Employee",
       "editEmployee": "Edit Employee",
-      "save": "Save Employee",
+      "save": "Save",
       "fullName": "Full Name",
       "enterFullName": "Enter the employee’s full name",
       "workEmail": "Work Email",
@@ -644,7 +645,7 @@
       "viewTicket": "View Ticket",
       "download": "Download Ticket",
       "noParticipationMessage": "It seems like you haven't taken part in any events yet.",
-      "browseUpcomingEvents": "Browse Upcoming Events"
+      "browseUpcomingEvents": "Discover Upcoming Events"
     },
     "eventDetails": {
       "comingSoon": "Coming Soon",

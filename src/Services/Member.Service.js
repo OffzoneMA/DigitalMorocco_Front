@@ -179,6 +179,11 @@ endpoints: (builder) => ({
         params: {page, pageSize, type, location, industries}
       }),
     }),
+    getInvestorsForMemberWithoutPage: builder.query({
+      query: () => ({
+        url: '/myinvestorsWithoutPage'
+      }),
+    }),
     getDistinctInvestorFieldValues: builder.query({
         query: (field) => 
             `/investors/distinct/${field}`, 
@@ -196,4 +201,5 @@ useGetAllMembersQuery , useUpdateEmployeeMutation, useUpdateProjectMutation, use
 useCreateCompanyMutation, useCreateLegalDocumentMutation, useCreateEmployeeMutation,
 useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutation , useCreateConatctReqProjectMutation , 
 useGetDistinctInvestorFieldValuesQuery , useGetDistinctRequestFieldValuesQuery , 
-useGetAllProjectsWithoutPageQuery , useGetInvestorsForMemberQuery , useFetchInvestorRequestsQuery} = memberApi
+useGetAllProjectsWithoutPageQuery , useGetInvestorsForMemberQuery , useFetchInvestorRequestsQuery , 
+useGetInvestorsForMemberWithoutPageQuery} = memberApi
