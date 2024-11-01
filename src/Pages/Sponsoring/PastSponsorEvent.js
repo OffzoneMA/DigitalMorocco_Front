@@ -183,7 +183,7 @@ const PastSponsorEvent = () => {
                 <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {t("event.pastEvent")}
+                    {t('sidebar.sponsoring.pastEventSponsor')}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>

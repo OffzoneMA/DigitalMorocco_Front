@@ -141,7 +141,7 @@ const openModal = () => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.status == 'past' ? t("event.requestHistory") : t("event.requestHistory")}
+                    {event?.status == 'past' ? t("event.pastEvent") : t("event.upcomingEvent")}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>

@@ -92,7 +92,7 @@ const PastSponsorEventDetails = () => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.status == 'past' ? 'Past Event' : 'Past Event'}
+                    {event?.status == 'past' ? t('event.pastEvent') : t('event.pastEvent')}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
