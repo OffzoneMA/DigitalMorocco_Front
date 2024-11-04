@@ -311,30 +311,30 @@ const PastSponsorEventDetails = () => {
                                     <path d="M15.75 15.75H4.65C3.80992 15.75 3.38988 15.75 3.06901 15.5865C2.78677 15.4427 2.5573 15.2132 2.41349 14.931C2.25 14.6101 2.25 14.1901 2.25 13.35V2.25M5.25 7.875V13.125M8.625 4.125V13.125M12 7.875V13.125M15.375 4.125V13.125" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Impact of Sponsorship
+                                {t('Impact of Sponsorship')}
                                 </Text>
                             </div>
                             <div className="flex text-base font-dm-sans-regular leading-6 text-[#344054] pl-8">
                                 <ul className="list-disc leading-6">
                                     <li className="leading-6">
-                                        Brand Visibility:
+                                        {t('Brand Visibility')}
                                         <ul className="list-disc pl-6">
-                                            <li className="leading-6">On-site and digital brand presence.</li>
-                                            <li className="leading-6">Logo featured on event website, social media, and marketing materials.</li>
+                                            <li className="leading-6">{t('On-site and digital brand presence.')}</li>
+                                            <li className="leading-6">{t('Logo featured on event website, social media, and marketing materials.')}</li>
                                         </ul>
                                     </li>
                                     <li>
-                                        Attendee Engagement:
+                                        {t('Attendee Engagement:')}
                                         <ul className="list-disc pl-6">
-                                            <li className="leading-6">Direct engagement with over 500 attendees.</li>
-                                            <li className="leading-6">Platform for a keynote speech or presentation.</li>
+                                            <li className="leading-6">{t('Direct engagement with over 500 attendees.')}</li>
+                                            <li className="leading-6">{t('Platform for a keynote speech or presentation.')}</li>
                                         </ul>
                                     </li>
                                     <li>
-                                        Event Promotion:
+                                        {t('Event Promotion:')}
                                         <ul className="list-disc pl-6">
-                                            <li className="leading-6">Highlighted in brochures, programs, and newsletters.</li>
-                                            <li className="leading-6">Featured in the event app for attendee navigation.</li>
+                                            <li className="leading-6">{t('Highlighted in brochures, programs, and newsletters.')}</li>
+                                            <li className="leading-6">{t('Featured in the event app for attendee navigation.')}</li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -346,32 +346,32 @@ const PastSponsorEventDetails = () => {
                                     <path d="M4.5 4.5L6 3M6 3L4.5 1.5M6 3H4.5C2.84315 3 1.5 4.34315 1.5 6M13.5 13.5L12 15M12 15L13.5 16.5M12 15H13.5C15.1569 15 16.5 13.6569 16.5 12M10.0629 10.0629C10.6496 10.3431 11.3065 10.5 12 10.5C14.4853 10.5 16.5 8.48528 16.5 6C16.5 3.51472 14.4853 1.5 12 1.5C9.51472 1.5 7.5 3.51472 7.5 6C7.5 6.69354 7.65689 7.35043 7.93712 7.93712M10.5 12C10.5 14.4853 8.48528 16.5 6 16.5C3.51472 16.5 1.5 14.4853 1.5 12C1.5 9.51472 3.51472 7.5 6 7.5C8.48528 7.5 10.5 9.51472 10.5 12Z" stroke="#00CDAE" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                                 <Text  className=" text-xs font-dm-sans-bold leading-4 tracking-widest text-left text-blue_gray-301 uppercase">
-                                Cost and Benefits Analysis
+                                {t('Cost and Benefits Analysis')}
                                 </Text>
                             </div>
                             <div className="flex text-base font-dm-sans-regular leading-normal text-[#344054] pl-8">
                                 <ul className="list-disc leading-6">
-                                    <li className="leading-6">Sponsorship Cost: $10,000 (Venue Partnership Package)
+                                    <li className="leading-6">{t('Sponsorship Cost: $10,000 (Venue Partnership Package)')}
                                     <ul className="list-disc pl-6">
-                                        <li className="leading-6">Return on Investment (ROI):
+                                      <li className="leading-6">{t('Return on Investment (ROI):')}
                                         <ul className="list-disc pl-6">
-                                            <li className="leading-6">200+ potential leads generated.</li>
-                                            <li className="leading-6">50,000+ impressions on social media.</li>
-                                            <li className="leading-6">Media coverage in post-event articles.</li>
+                                          <li className="leading-6">{t('200+ potential leads generated.')}</li>
+                                          <li className="leading-6">{t('50,000+ impressions on social media.')}</li>
+                                          <li className="leading-6">{t('Media coverage in post-event articles.')}</li>
                                         </ul>
-                                        </li>
-                                        <li className="leading-6">Benefits:
+                                      </li>
+                                      <li className="leading-6">{t('Benefits:')}
                                         <ul className="list-disc pl-6">
-                                            <li className="leading-6">Increased brand recognition and positive brand perception.</li>
-                                            <li className="leading-6">Networking with industry leaders and decision-makers.</li>
+                                          <li className="leading-6">{t('Increased brand recognition and positive brand perception.')}</li>
+                                          <li className="leading-6">{t('Networking with industry leaders and decision-makers.')}</li>
                                         </ul>
-                                        </li>
+                                      </li>
                                     </ul>
                                     </li>
-                                    <li className="leading-6">Attendee Feedback:
+                                    <li className="leading-6">{t('Attendee Feedback:')}
                                     <ul className="list-disc pl-6">
-                                        <li className="leading-6">95% rated the event as excellent or very good.</li>
-                                        <li className="leading-6">Positive feedback on venue facilities and location.</li>
+                                        <li className="leading-6">{t('95% rated the event as excellent or very good.')}</li>
+                                        <li className="leading-6">{t('Positive feedback on venue facilities and location.')}</li>
                                     </ul>
                                     </li>
                                 </ul>

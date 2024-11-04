@@ -28,13 +28,14 @@ const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const { data: countUsers, error: countUsersError, isLoading: loadingUsers , refetch } = useGetUsersCountByMonthQuery();
-  const { data: progessdata , error: errorTopSectors, isLoading: loadingTopSectors } = useGetTopSectorsQuery();
+  const { data: progessdata , error: errorTopSectors, isLoading: loadingTopSectors , refetch: refetchTopSectors } = useGetTopSectorsQuery();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
 
   useEffect(() => {
     refetchUser();
     refetch();
-  }, [refetchUser , refetch ]);
+    refetchTopSectors();
+  }, [refetchUser , refetch  , refetchTopSectors]);
 
     const chartData = countUsers?.monthlyCounts;
   

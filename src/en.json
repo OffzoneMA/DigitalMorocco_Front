@@ -214,7 +214,7 @@
       "main": "Investments",
       "currentRequests": "Current Requests",
       "myInvestments": "My Investments",
-      "requestHistory": "Investment Request History"
+      "requestHistory": "Request History"
     },
     "sponsoring": {
       "main": "Sponsorship",
@@ -735,10 +735,13 @@
     "event_ticket_download": "Downloaded the ticket",
     "event_ticket_view": "Viewed the ticket",
     "contact_request_accepted": "Accepted contact request from",
-    "contact_request_rejected": "Rejected contact request from",
+    "contact_request_approved": "Contact request approved for project",
+    "contact_request_rejected": "Contact request rejected for project",
     "contact_sent": "Contact request sent to",
     "contact_request_received": "New contact request received",
     "sponsor_request_send": "Sent a sponsor request for the event",
+    "sponsor_request_approved": "Sponsor request approved for event",
+    "sponsor_request_rejected": "Sponsor request rejected for event",
     "default": "An action was performed"
   },
 
@@ -1090,7 +1093,9 @@
 
   "pagination": {
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "Prev": "Prev",
+    "Next": "Next"
   },
 
   "common": {
