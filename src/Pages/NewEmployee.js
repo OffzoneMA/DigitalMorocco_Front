@@ -348,8 +348,8 @@ const NewEmployee = () => {
               </button>
               }
             </div>
-            <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-5 md:px-5 w-full">
-              <div className="flex flex-1 flex-col gap-6 py-5 items-start justify-start w-full">
+            <div className="flex flex-col flex-wrap md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-5 md:px-5 w-full">
+              <div className="flex min-w-[300px] flex-1 flex-col gap-6 py-5 items-start justify-start w-full">
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-[#1D1C21] w-auto"
@@ -532,9 +532,9 @@ const NewEmployee = () => {
                   {/* {errors.personalTaxIdentifierNumber && <span className="text-sm font-DmSans text-red-500">{errors.personalTaxIdentifierNumber?.message}</span>} */}
                 </div>
               </div>
-              <div className="flex py-5 flex-col items-start justify-start w-full md:w-[35%] lg:w-[35%] xl:w-[35%] 2xl:w-[35%] 3xl:w-[35%]">
+              <div className="flex py-5 flex-col items-start justify-start w-full lg:w-[35%] xl:w-[35%] 2xl:w-[35%] 3xl:w-[35%]">
                 <div className="flex flex-col gap-6 items-start justify-start w-full">
-                  <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center relative rounded-md w-full"
+                  <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center relative rounded-md w-full max-w-[400px] "
                       onClick={handleLogoFileInputClick}>
                     {logoFile ? (
                       <>
@@ -582,7 +582,7 @@ const NewEmployee = () => {
                       </svg>
                       <div className="flex flex-col items-start justify-start w-auto">
                         <Text
-                          className="text-[13px] text-base leading-6 tracking-normal w-auto"
+                          className="text-[13px] text-base text-center leading-6 tracking-normal w-auto"
                           size="txtDMSansRegular13"
                         >
                         {t('employee.addEmployee.uploadPhoto')}  

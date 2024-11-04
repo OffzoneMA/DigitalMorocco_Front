@@ -127,8 +127,6 @@ const SimpleSelectWithGroup = ({
     return acc;
   }, {});
 
-  console.log(filteredGroupedData)
-
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div

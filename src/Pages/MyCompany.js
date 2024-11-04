@@ -237,8 +237,8 @@ const MyCompany = () => {
       </div>
       <div className="flex items-start justify-start w-full">
         <div className="flex  w-full">
-          <div className="flex flex-col md:flex-row lg:flex-row gap-8 items-start justify-start px-5 w-full ">
-            <div className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
+          <div className="flex flex-col flex-wrap md:flex-row lg:flex-row gap-8 items-start justify-start px-5 w-full ">
+            <div className="flex flex-1 md:miw-w-[300px] flex-col gap-6 items-start justify-start w-full">
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
                   className="text-base text-[#1D1C21] w-auto"
@@ -457,8 +457,8 @@ const MyCompany = () => {
                   />
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start md:w-[35%] lg:w-[35%] w-full">
-              <div className="flex flex-col gap-2 items-start justify-start w-full">
+            <div className="flex flex-col items-start justify-start lg:w-[35%] w-full">
+              <div className="flex flex-col gap-2 items-start justify-start w-full max-w-[400px] ">
                 <Text
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansRegular16"
@@ -512,7 +512,7 @@ const MyCompany = () => {
                     <IoImageOutline />
                     <div className="flex flex-col items-start justify-start w-auto">
                       <Text
-                        className="text-[13px] text-base leading-6 tracking-normal w-auto"
+                        className="text-[13px] text-base text-center leading-6 tracking-normal w-auto"
                         size="txtDMSansRegular13"
                       >
                       {isDragging? "Drop Your logo here" : t('myCompany.uploadLogo')} 

@@ -131,7 +131,7 @@ const ViewTicketModal = (props) => {
                         </Text>
                     </div>
                     <div className="flex flex-row py-3 items-center justify-center">
-                        <QRCode size={170} value={rowData?.title}></QRCode>
+                        <QRCode size={170} value={rowData?.title | ''}></QRCode>
                     </div>
                     <div className="flex flex-row px-12 items-center justify-center">
                         <Text className="text-blue_gray-601 font-DmSans text-center text-xs font-normal leading-[19.2px]">

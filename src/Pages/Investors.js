@@ -49,7 +49,7 @@ const Investors = () => {
   const itemsPerPage = 8;
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
-  const [investors, setInvestors] = useState([]);
+  const [investors, setInvestors] = useState(null);
   const queryParams = { page: cur, pageSize: itemsPerPage };
 
     if (filterApply) {
@@ -124,6 +124,10 @@ const Investors = () => {
 
   const closeContactPopup = () => {
     setShowContactPopup(false);
+  }
+
+  const closePopup = () => {
+    setShowPopup(false)
   }
 
     return (
@@ -309,7 +313,8 @@ const Investors = () => {
                 { (loading || subscriptionLoading || userDetailsLoading) ? (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : (pageData.length === 0 && !loading && !subscriptionLoading && !userDetailsLoading ) && (
+                 </div> ) : 
+                 (pageData?.length === 0 && !loading && !subscriptionLoading && !userDetailsLoading ) && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -373,7 +378,7 @@ const Investors = () => {
         </div>
     </div>
     <CommonModal isOpen={showPopup}
-      onRequestClose={!showPopup} title={t('Action Required: Create Project')}
+      onRequestClose={closePopup} title={t('Action Required: Create Project')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
           <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">

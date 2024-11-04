@@ -155,13 +155,13 @@ const ManageSubscriptionCredits = () => {
                         </div>
                         ) : (
                         <div className="self-stretch text-center text-[#98a1b2] text-sm font-dm-sans-regular leading-relaxed">
-                            Upgrade your account or buy credits
+                            {t('Upgrade your account or buy credits')}
                         </div>
                         )}
                     </div>
                 </div>
-                <div className="h-full w-full items-start gap-[42px] flex flex-row flex-wrap pb-[80px]">
-                    <div className="h-full max-h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-[18px] flex flex-1">
+                <div className="h-full w-full items-start gap-[42px] flex flex-col md:flex-row flex-wrap pb-[80px]">
+                    <div className="h-full md:min-w-[300px] max-h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-[18px] flex flex-1">
                         <div className="self-stretch justify-start items-start gap-4 pb-[18px] flex border-b border-[#e4e6eb]">
                             <div className="p-2 bg-[#f9edfd] rounded-md justify-center items-center gap-2.5 flex">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -214,7 +214,7 @@ const ManageSubscriptionCredits = () => {
                             </div>
                         </div>
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="w-[339px] h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-6 flex">
+                    <form onSubmit={handleSubmit(onSubmit)} className="min-w-auto max-w-[339px] md:w-[339px] h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-6 flex">
                         <div className="text-center text-[#1d2838] text-base font-dm-sans-bold capitalize">{t('Order Summary')}</div>
                         <div className="self-stretch justify-between items-start flex">
                             <div className="text-[#98a1b2] text-base font-dm-sans-medium">{t('Number of Credits:')}</div>

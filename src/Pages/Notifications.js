@@ -6,14 +6,12 @@ import SearchInput from "../Components/SeachInput";
 import { useGetNotificationSummaryQuery , useMarkNotificationsAsReadMutation} from "../Services/Notification.Service";
 import Loader from "../Components/Loader";
 import { formatDate } from "../data/helper";
+import { useTranslation } from "react-i18next";
 
 const Notifications = () => {
-
+  const {t} = useTranslation();
   const { data: notifications, error, isLoading , refetch } = useGetNotificationSummaryQuery();
   const [markNotificationsAsRead] = useMarkNotificationsAsReadMutation();
-
-
-console.log(notifications)
 
 const NotificationsData = notifications?.notifications;
 
@@ -55,7 +53,7 @@ useEffect(() => {
                         <Text
                             className={`${item?.read  ? 'text-[#667084] font-dm-sans-medium' : 'text-gray-801 font-dm-sans-bold'} text-sm leading-6`}
                         >
-                            {item?.message}{` `} <span className="text-blue-501 capitalize">{item?.referenceName}</span>{` `}{item.message2} <span className="text-blue-501 capitalize">{item?.referenceName2}</span>
+                            {t(item?.message)}{` `} <span className="text-blue-501 capitalize">{item?.referenceName}</span>{` `}{t(item.message2)} <span className="text-blue-501 capitalize">{item?.referenceName2}</span>
                         </Text>
                         <Text
                           className={`text-blue_gray-301 text-left text-sm font-normal leading-6 `}
@@ -80,7 +78,7 @@ useEffect(() => {
                       className="font-dm-sans-regular text-sm leading-6 text-gray700 text-center w-auto"
                       size=""
                     >
-                      It looks like you haven't taken any actions yet. <br/> Your activity history will appear here, showcasing <br/>your interactions and key moments.
+                      {t("It looks like you haven't taken any actions yet.")} <br/> {t("Your activity history will appear here, showcasing")} <br/>{t("your interactions and key moments.")}
                     </Text>
                 </div>)} 
               </div>

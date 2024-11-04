@@ -32,7 +32,7 @@ const InvestorRequestHistory = () => {
   const itemsPerPage = 8;
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
-  const [investorRequests, setInvestorRequests] = useState([]);
+  const [investorRequests, setInvestorRequests] = useState(null);
   const queryParams = { page: cur, pageSize: itemsPerPage };
 
   if (filterApply) {

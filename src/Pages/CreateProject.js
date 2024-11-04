@@ -725,8 +725,8 @@ const handleStatusChangeAndUpdate = async () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-col lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-auto">
-                <div ref={div1Ref} className="flex  flex-1 flex-col gap-6 items-start justify-start w-full h-full">
+              <div className="flex flex-col flex-wrap md:flex-row lg:flex-row xl:flex-row 2xl:flex-row gap-8 items-start justify-start px-6 pt-5 pb-9 bg-white-A700 w-full h-auto">
+                <div ref={div1Ref} className="flex md:min-w-[300px] flex-1 flex-col gap-6 items-start justify-start w-full h-full">
                   <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
@@ -1066,7 +1066,7 @@ const handleStatusChangeAndUpdate = async () => {
                   {` `}
                 </div> */}
                 <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start lg:w-[40%] w-full">
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full max-w-[400px]`}>
                     <Text
                       className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansCardHeader16"
@@ -1118,9 +1118,9 @@ const handleStatusChangeAndUpdate = async () => {
                       ) : (<>
                       <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
                         <IoImageOutline />
-                        <div className="flex flex-col items-start justify-start w-auto">
+                        <div className="flex flex-col items-center justify-center w-auto">
                           <Text
-                            className="text-[13px] text-base leading-6 tracking-normal w-auto"
+                            className="text-[13px] text-base text-center leading-6 tracking-normal w-auto"
                             size="txtDMSansRegular13"
                           >
                           {isDragging? "Drop Your logo here" : t('projects.createNewProject.projectLogo.uploadLogo')}  

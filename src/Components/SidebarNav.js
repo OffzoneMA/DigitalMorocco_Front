@@ -22,7 +22,7 @@ import { PiAtomBold } from "react-icons/pi";
 import userDefaultProfil from '../Media/User1.png';
 import { useGetNotificationSummaryQuery } from "../Services/Notification.Service";
 import { useTranslation } from 'react-i18next';
-
+import MenuPopup from "../Components/MenuPopup";
 
 
 const SidebarNav = () => {
@@ -44,6 +44,25 @@ const SidebarNav = () => {
   const [activeMenu, setActiveMenu] = useState(location.pathname.split('/')[1]);
   const [activeParent, setActiveParent] = useState('');
   const [showLogout , setShowLogout] = useState(false);
+
+  const [popup, setPopup] = useState({
+    open: false,
+    position: { top: 0, left: 0 },
+    title: '',
+  });
+
+  const handleItemMouseEnter = (event, menuTitle , isSubMenu = false) => {
+    const rect = event.target.getBoundingClientRect();
+    setPopup({
+      open: true,
+      position: { top: isSubMenu ? rect.top - 5 : rect.top + 5, left: rect.right + 10 },
+      title: menuTitle,
+    });
+  };
+
+  const handleItemMouseLeave = () => {
+    setPopup({ open: false, position: { top: 0, left: 0 }, title: '' });
+  };
 
   const navigate=useNavigate()
 
@@ -68,7 +87,6 @@ const SidebarNav = () => {
     setActiveMenu(location.pathname.split('/')[1]);
   }, [location]);
 
-  console.log(activeMenu)
 
   const setSubmenu = (submenuName, isOpen) => {
     setSubmenuOpen(prevState => ({
@@ -185,13 +203,15 @@ const SidebarNav = () => {
         <img src={simpleLogoText} className={`origin-left ${!open && "scale-0"}`} alt={""}/>
       </Link>
     </div>
-    {/* <div className={`flex flex-col overflow-y-auto flex-1 h-full ${open ? "w-auto" : "w-20"} w-full pb-5 px-5`}> */}
-      <ul className=" text-base font-dm-sans-regular leading-6 pt-3 px-5 flex-1">
+    <div className={`flex flex-col overflow-y-auto flex-1 h-full ${open ? "w-auto" : "w-20"} w-full pb-5 px-5`}>
+      <ul className=" text-base font-dm-sans-regular leading-6 pt-3  flex-1">
         {Menus.map((Menu, index) => (
           Menu && <div key={index} >
             <li
               onClick={() => handleMenuClick(Menu)}
-              className={`overflow-x-visible ${!open && 'w-fit'} group relative flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
+              className={`overflow-x-visible ${!open && 'w-fit'} group  flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
+              onMouseEnter={(e) => handleItemMouseEnter(e, Menu.title)}
+              onMouseLeave={handleItemMouseLeave}
               // title={!open ? Menu.title : ""}
             >
               <span className={`duration-200 ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" ) || Menu.activeLinks?.includes(activeMenu)) ? "active-icon-color" : "hover-active-color"}`}>
@@ -207,13 +227,7 @@ const SidebarNav = () => {
                   ""
                 )
               )}
-              {!open && (
-              <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
-                <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                  <div style={{whiteSpace: 'nowrap'}} className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{Menu?.title}</div>
-                </div>
-              </div>
-              )}
+              {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title}  isSubMenu={false}/>}
             </li>
             { Menu.submenu  && submenuOpen[Menu.title] && (
               Menu.child.map((el, i) => (
@@ -223,51 +237,41 @@ const SidebarNav = () => {
                     setActiveMenu(el.link)
                     setActiveParent(Menu.title)
                     navigate(el.link);}}
-                  className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === el.link || el.activeLinks?.includes(activeMenu)) ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+                  className={`group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === el.link || el.activeLinks?.includes(activeMenu)) ? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+                  onMouseEnter={(e) => handleItemMouseEnter(e, el.title , true)}
+                  onMouseLeave={handleItemMouseLeave}
                   // title={!open ? el.title : ""}
                 >
                   <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
                       {el.title}
                   </span>
-                  {!open && (
-                  <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
-                    <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                      <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-                      style={{whiteSpace: 'nowrap'}}>{el?.title}</div>
-                    </div>
-                  </div>
-                  )}
+                  {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title} isSubMenu={true} />}
                 </li>
               ))
             )}
           </div>
         ))}
       </ul>
-      <div className=" text-base font-dm-sans-regular leading-6 px-5 mb-[60px]">
+      <div className=" text-base font-dm-sans-regular leading-6  mb-[50px]">
         <div
           onClick={() => {setSettingsOpen(!settingsOpen)
                   setActiveParent("settings")
                   // setActiveMenu("settings")
                   resetSubmenus();
           }}
-          className={` ${!open && 'w-fit'} relative group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu))? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
+          className={` ${!open && 'w-fit'} group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu))? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
+          onMouseEnter={(e) => handleItemMouseEnter(e, t('sidebar.settings.main'))}
+          onMouseLeave={handleItemMouseLeave}
         >
           <IoSettingsOutline size={23} className={`text-light_blue-100 ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu) )? "active-icon-color" : "hover-active-color"}`} />
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
-          {t('sidebar.settings.main')}
+            {t('sidebar.settings.main')}
           </span>
           {(open && settingsOpen)  ? (
               <BiChevronDown size={23} className={``}  />
             ) : (
     ""    )}
-          {!open && (
-          <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
-            <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-              style={{whiteSpace: 'nowrap'}}>{t('sidebar.settings.main')}</div>
-            </div>
-          </div>
-          )}
+          {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title}/>}
         </div>
         {settingsOpen && (
           <>
@@ -276,20 +280,14 @@ const SidebarNav = () => {
             navigate("/UserProfile")
             setActiveParent("settings")
             setActiveMenu("UserProfile");}}
-          className={`relative group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "UserProfile") ? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center gap-x-2  mt-1 `} 
+          className={` group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "UserProfile") ? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center gap-x-2  mt-1 `} 
+          onMouseEnter={(e) => handleItemMouseEnter(e, t('sidebar.settings.myProfile') , true)}
+          onMouseLeave={handleItemMouseLeave}
         >
           <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
           {t('sidebar.settings.myProfile')}
           </span>
-          {!open && 
-            (
-          <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
-            <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-              style={{whiteSpace: 'nowrap'}}>{t('sidebar.settings.myProfile')}</div>
-            </div>
-          </div>      
-          )}
+          {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title} isSubMenu={true} />}
         </div>
         {(userData?.role?.toLowerCase() !== 'partner' || userDetails?.role?.toLowerCase() !== 'partner') && 
         <div
@@ -297,19 +295,14 @@ const SidebarNav = () => {
             navigate("/Subscription")
             setActiveParent("settings")
             setActiveMenu("Subscription");}}
-          className={`relative group mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "subscribePlan" || subscriptionActiveLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+          className={` group mb-6 flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "Subscription" || activeMenu === "ChoosePlan" || activeMenu === "subscribePlan" || subscriptionActiveLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : ""} text-gray-301 items-center gap-x-2  mt-1 `} 
+          onMouseEnter={(e) => handleItemMouseEnter(e, t('sidebar.settings.subscriptionBilling') , true)}
+          onMouseLeave={handleItemMouseLeave}
         >
           <span className={`${!open && "hidden"} flex-1 origin-left duration-200`}>
           {t('sidebar.settings.subscriptionBilling')}
           </span>
-          {!open && (
-          <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
-            <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-              <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-              style={{whiteSpace: 'nowrap'}}>{t('sidebar.settings.subscriptionBilling')}</div>
-            </div>
-          </div>
-          )}
+          {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title} isSubMenu={true} />}
         </div>}
         </>
         )}
@@ -334,23 +327,19 @@ const SidebarNav = () => {
           </div>}
           {showLogout && (
             <div className="absolute top-full z-50 left-0 w-full">
-              <div className={`group relative flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md ${open ? "px-[10px] py-2.5" : "px-[7px] py-2"} cursorpointer-green hover:bg-blue_gray-902 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`} 
+              <div className={`group flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md ${open ? "px-[10px] py-2.5" : "px-[7px] py-2"} cursorpointer-green hover:bg-blue_gray-902 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`} 
                 onClick={() => {
                   dispatch(logout());
                   navigate('/SignIn');
-                }}>
+                }} 
+                onMouseEnter={(e) => handleItemMouseEnter(e, t('SignOut'))}
+                onMouseLeave={handleItemMouseLeave}
+                >
                 <HiOutlineLogout size={23} className="text-light_blue-100 group-hover:text-red-500 transition-colors duration-300" />
                 <span className={`${!open && "hidden"} origin-left duration-200 transition-colors duration-300 flex-1 group-hover:text-red-500`}>
-                  SignOut
+                  {t('SignOut')}
                 </span>
-                {/* {!open && (
-                <div className="absolute ml-6 z-[1000] left-full invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0">
-                  <div className="bg-[#334081] w-auto h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                    <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed" 
-                    style={{whiteSpace: 'nowrap'}}>{'SignOut'}</div>
-                  </div>
-                </div>
-                )} */}
+                {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title} isSubMenu={true} />}
               </div>
               <div className="pb-5"></div>
             </div>
@@ -361,10 +350,13 @@ const SidebarNav = () => {
                 setNotifOpen(true);
                 navigate('/Notification');
                 setActiveMenu("Notification");
-            }}>
+            }}
+            onMouseEnter={(e) => handleItemMouseEnter(e, t('Notification') )}
+            onMouseLeave={handleItemMouseLeave} 
+            >
             {/* Icône de notification */}
             <IoNotificationsOutline size={20} className={`text-white-A700 cursorponter ${activeMenu === "Notification" ? 'text-blue_gray-801' : ""}`} />
-            
+            {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title} isSubMenu={true} />}
             {/* Badge de notifications non lues */}
             {notifications?.unreadCount > 0 && (
                 <div className="absolute top-[-10px] right-[-10px] bg-blue-A400 text-white-A700 rounded-full text-xs w-5 h-5 flex items-center justify-center">
@@ -374,7 +366,10 @@ const SidebarNav = () => {
           </div>
         </div>
         {userData?.role?.toLowerCase() === 'member' &&
-        <div className={`border border-[#475467] ${ open ? "px-[16px] py-[12px] mt-5" : "px-[6px] py-[8px] mt-2"} rounded-[200px] flex flex-row items-center justify-between`}>
+        <div 
+        className={`border border-[#475467] ${ open ? "px-[16px] py-[12px] mt-5" : "px-[6px] py-[8px] mt-2"} rounded-[200px] flex flex-row items-center justify-between`} 
+        onMouseEnter={(e) => handleItemMouseEnter(e, t('sidebar.manage') )}
+        onMouseLeave={handleItemMouseLeave}>
           <div className="flex gap-2 items-center">
             <img src={coinsIcon} className={`min-w-[23px] w-[23px] h-[23px] ${!open ? 'cursorpointer' : ''}`} onClick={() => {
               if (!open) { 
@@ -387,23 +382,23 @@ const SidebarNav = () => {
           </div>
           {/* <img src={questionImg} /> */}
           <div className="flex items-center">
-          <Popup
-          className="text-[#2C3462] creditQuestion"
-            trigger={open => (
-              <button className="button ml-2"><img src={questionImg}  alt={""}/></button>
-            )}
-            position="bottom center"
-            on={['hover', 'focus']}
-            closeOnDocumentClick
-          >
-          <div className="w-[228px] h-[50px] px-[18px] py-2.5 bg-[#2C3462] rounded-lg justify-center items-center flex">
-            <div className="grow shrink basis-0 h-[30px] justify-center items-center flex">
-              <div className="w-48 text-[#D0D5DD] text-[8px] font-dm-sans-regular">
-                Explore a new dimension of flexibility: add credits at your convenience with just a click on the "Manage" button, and stay in control of your experience.
+            <Popup
+            className="text-[#2C3462] creditQuestion"
+              trigger={open => (
+                <button className="button ml-2"><img src={questionImg}  alt={""}/></button>
+              )}
+              position="bottom center"
+              on={['hover', 'focus']}
+              closeOnDocumentClick
+            >
+            <div className="w-[228px] min-h-[50px] px-[18px] py-2.5 bg-[#2C3462] rounded-lg justify-center items-center flex">
+              <div className="grow shrink basis-0 h-[30px] justify-center items-center flex">
+                <div className="w-48 text-[#D0D5DD] text-[8px] font-dm-sans-regular">
+                  {t("Explore a new dimension of flexibility: add credits at your convenience with just a click on the 'Manage' button, and stay in control of your experience.")}
+                </div>
               </div>
-            </div>
-            </div>
-          </Popup>
+              </div>
+            </Popup>
           </div>
           {open && 
             <button
@@ -412,14 +407,12 @@ const SidebarNav = () => {
             <span className="text-white-A700 text-sm font-dm-sans-medium">{t('sidebar.manage')}</span>
           </button>
           }
+          {!open && <MenuPopup open={popup.open} position={popup.position} menuTitle={popup.title} isSubMenu={true} />}
         </div>
         }
       </div>
-    {/* </div> */}
+    </div>
   </div>
-
-
-
   );
 };
 

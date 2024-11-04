@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 const MyInvestors = () => {
   const { t } = useTranslation();
   const [investors, setInvestors] = useState([]);
-  const [filteredInvestors, setFilteredInvestors] = useState([]);
+  const [filteredInvestors, setFilteredInvestors] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
@@ -58,7 +58,7 @@ const MyInvestors = () => {
       setInvestors(data?.investors?.investors);
       setTotalPages(data?.investors?.totalPages);
       setFilteredInvestors(data?.investors?.investors);
-      setNoInvestors(filteredInvestors.length === 0);
+      // setNoInvestors(filteredInvestors?.length === 0);
     }
   }, [data]);
 
