@@ -138,7 +138,7 @@ const calculateDropdownPosition = () => {
                   type="text"
                   className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
                   name={`due-date`}
-                  placeholder={t(`${inputPlaceholder}`) || "Due Date"}
+                  placeholder={t(`${inputPlaceholder}`) || t("Due Date")}
                   value={valueDate}
                   readOnly
               //   onChange={e => handleMilestoneChange(e, milestone.id, 'dueDate')}

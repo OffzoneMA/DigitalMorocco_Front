@@ -859,9 +859,12 @@ export default function UserProfile() {
                   placeholder={t('settings.myProfile.selectLanguage')}
                   valuekey="label"
                   content={(option) => {
-                    return (<div className="flex  py-2 items-center  w-full">
+                    return (
+                    <div className="flex  py-2 items-center  w-full">
                       <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto" >
-                        {option.label} </Text> </div>);
+                        {t(option.label)} 
+                      </Text> 
+                    </div>);
                   }} />
               </div> <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
                 <Text className={`text-base text-gray-901 ${currentLanguage === 'fr' ? 'w-[170px]' : 'w-[130px]'}`} size="txtDMSansLablel" >
@@ -876,7 +879,7 @@ export default function UserProfile() {
                     return (
                       <div className="flex py-2 items-center  w-full">
                         <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto" >
-                          {option.label} </Text> </div>);
+                          {t(option.label)} </Text> </div>);
                   }} />
               </div>
               {!isForm3Saved ? (

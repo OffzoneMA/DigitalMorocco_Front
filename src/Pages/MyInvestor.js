@@ -264,7 +264,7 @@ const MyInvestors = () => {
                 { loading ? (
                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : (pageData?.length === 0) && (
+                 </div> ) : (pageData && pageData?.length === 0 && !loading) && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">

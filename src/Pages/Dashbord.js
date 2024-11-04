@@ -116,7 +116,7 @@ const Dashbord = () => {
                       <Text
                         className="text-[22px] text-center font-dm-sans-medium leading-[26px] tracking-normal text-[#98A2B3]"
                       >
-                        {userDetails?.subscription?.totalCredits}
+                        {userDetails?.subscription?.totalCredits?.toLocaleString()}
                       </Text>
                     ) : (
                       <Text

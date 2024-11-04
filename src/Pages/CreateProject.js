@@ -458,7 +458,7 @@ const handleDeleteFile = (index) => {
         ...data,
         funding: fundingValue,
         totalRaised : totalRaisedValue,
-        visbility: selectedPublication,
+        visbility: selectedPublication?.toLowerCase(),
         sector: selectedSector,
         country: countryNameSelec,
         status: selectedStatus,

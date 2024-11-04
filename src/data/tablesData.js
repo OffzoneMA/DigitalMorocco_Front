@@ -1889,24 +1889,6 @@ export const historyData = [
 export const languages = [
   { id: 'en', label: 'English' },
   { id: 'fr', label: 'French' },
-  { id: 'es', label: 'Spanish' },
-  { id: 'de', label: 'German' },
-  { id: 'it', label: 'Italian' },
-  { id: 'pt', label: 'Portuguese' },
-  { id: 'ru', label: 'Russian' },
-  { id: 'zh', label: 'Chinese' },
-  { id: 'ja', label: 'Japanese' },
-  { id: 'ko', label: 'Korean' },
-  { id: 'ar', label: 'Arabic' },
-  { id: 'hi', label: 'Hindi' },
-  { id: 'tr', label: 'Turkish' },
-  { id: 'nl', label: 'Dutch' },
-  { id: 'pl', label: 'Polish' },
-  { id: 'sv', label: 'Swedish' },
-  { id: 'fi', label: 'Finnish' },
-  { id: 'da', label: 'Danish' },
-  { id: 'no', label: 'Norwegian' },
-  { id: 'el', label: 'Greek' },
 ];
 
 export const regions = [

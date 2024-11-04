@@ -31,6 +31,15 @@ export const investorApi = createApi({
                     }
             },
         }),
+        getInvestorsListForMember: builder.query({
+            query: ({ page, pageSize, type, location, industries }={}) => {
+                return {
+                    url: '/forMember',
+                    params: {
+                        page, pageSize, type, location, industries}
+                    }
+            },
+        }),
 
         getAllInvestorsWithoutPage: builder.query({
             query: (arg) => {
@@ -131,5 +140,5 @@ export const {useGetAllInvestorsQuery,useUpdateConatctReqMutation,useGetAllConat
     useGetInvestorsQuery , useGetDistinctValuesQuery , useGetInvestorByIdQuery , useGetAllConatctReqQuery ,
 useGetAllInvestorsWithoutPageQuery , useGetDistinctProjectFieldsQuery , useGetDistinctRequestFieldValuesQuery , 
 useGetInvestorsListQuery , useGetAllContactReqByInvestorQuery , useGetRecentApprovedContactRequestsQuery ,
-useGetLastRecentContactRequestsQuery , useGetContactRequestsCountQuery
+useGetLastRecentContactRequestsQuery , useGetContactRequestsCountQuery , useGetInvestorsListForMemberQuery
 } = investorApi

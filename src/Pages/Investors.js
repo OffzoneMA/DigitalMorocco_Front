@@ -19,7 +19,7 @@ import Loader from "../Components/Loader";
 import axios from 'axios';
 import Loading from "../Components/Loading";
 import { FaUsers } from "react-icons/fa";
-import { useGetDistinctValuesQuery , useGetInvestorsListQuery} from "../Services/Investor.Service";
+import { useGetDistinctValuesQuery , useGetInvestorsListQuery , useGetInvestorsListForMemberQuery} from "../Services/Investor.Service";
 import { FaUserCircle } from "react-icons/fa";
 import userdefaultProfile from '../Media/User.png';
 import { useCheckSubscriptionStatusQuery } from "../Services/Subscription.Service";
@@ -33,6 +33,8 @@ const Investors = () => {
   const { userInfo } = useSelector((state) => state.auth) 
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const [showPopup, setShowPopup] = useState(false);
+  const [showContactPopup, setShowContactPopup] = useState(false);
+  const [selectedInvestor , setSelectedInvestor] = useState(null);
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
@@ -55,7 +57,7 @@ const Investors = () => {
       queryParams.location = location || undefined;
       queryParams.industries = industries.length > 0 ? industries.join(',') : undefined;
     }
-  const { data: investorData, error: investorsError, isFetching: loading , refetch } = useGetInvestorsListQuery(queryParams);
+  const { data: investorData, error: investorsError, isFetching: loading , refetch } = useGetInvestorsListForMemberQuery(queryParams);
   const { data : locationData, isLoading:locationLoading } = useGetDistinctValuesQuery('location');
   const { data : industryData, isLoading:industryLoading } = useGetDistinctValuesQuery('PreferredInvestmentIndustry');
   const { data : typeData, isLoading:typeLoading } = useGetDistinctValuesQuery('type');
@@ -87,7 +89,7 @@ const Investors = () => {
 
   const data = (isSubscribe && !loading && !subscriptionLoading && !userDetailsLoading && userDetails?.projectCount !== 0) ?  investors : InvestorsData;
 
-  const filteredData = (isSubscribe && (!loading && !subscriptionLoading))? data.filter(item => {
+  const filteredData = (isSubscribe && (!loading && !subscriptionLoading && !userDetailsLoading))? data.filter(item => {
     const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());
   
     return keywordMatch;
@@ -109,6 +111,19 @@ const Investors = () => {
     if (page >= 1 && page <= totalPages) {
       setCur(page);
     }
+  }
+
+  const handleInvestorClick = (investor) => {
+    setSelectedInvestor(investor);
+    if (investor.hasDraftContactRequest) {
+      setShowContactPopup(true);
+    } else {
+      navigate(`/InvestorDetails/${investor?._id}` , { state: {investor: investor}});
+    }
+  };
+
+  const closeContactPopup = () => {
+    setShowContactPopup(false);
   }
 
     return (
@@ -254,7 +269,7 @@ const Investors = () => {
                   {(!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading) ? 
                   <tbody className="items-center w-full ">
                   {pageData.map((item, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}` , { state: {investor: item}})}>
+                    <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> handleInvestorClick(item)}>
                     <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="relative flex">
                         <div className="px-[18px] py-4 flex items-center gap-3" >
@@ -294,7 +309,7 @@ const Investors = () => {
                 { (loading || subscriptionLoading || userDetailsLoading) ? (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : (pageData.length === 0 )&& (
+                 </div> ) : (pageData.length === 0 && !loading && !subscriptionLoading && !userDetailsLoading ) && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -376,8 +391,8 @@ const Investors = () => {
         </div>
       }/>
 
-      {/* <CommonModal isOpen={showPopup}
-      onRequestClose={''} title={t('Action Required: Contact Request')}
+      <CommonModal isOpen={showContactPopup}
+      onRequestClose={closeContactPopup} title={t('Action Required: Contact Request')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
           <div className="self-stretch flex flex-col text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
@@ -386,16 +401,16 @@ const Investors = () => {
           </div>
           <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
               <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
-              onClick={() => setShowPopup(false)}>
+              onClick={() => setShowContactPopup(false)}>
                 <div className="text-[#475466] text-base font-dm-sans-medium">{t('Continue Navigation')}</div>
               </button>
               <button className="h-11 px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
-              onClick={() => navigate("/CreateProject")}>
+              onClick={() => navigate(`/InvestorDetails/${selectedInvestor?._id}` , { state: {investor: selectedInvestor}})}>
                 <div className="text-white-A700 text-base font-dm-sans-medium">{t('Go to Contact Request')}</div>
               </button>
           </div>
         </div>
-      }/> */}
+      }/>
     </>
     )
 }

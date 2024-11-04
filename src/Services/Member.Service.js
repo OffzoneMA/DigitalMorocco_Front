@@ -192,6 +192,22 @@ endpoints: (builder) => ({
         query: (field) => 
             `/request/distinct/${field}`, 
     }),
+    createDraftContactRequest: builder.mutation({
+      query: ({investorId }) => ({
+        url: `/contact-requests/draft`,
+        method: 'POST',
+        body: {investorId }
+      })
+    }),
+    finalizeContactRequest: builder.mutation({
+      query: (formData) => {
+        return {
+          url: `/contact-requests/finalize`,
+          method: 'PUT',
+          body: formData,
+        };
+      },
+    }),
 }),
 })
 
@@ -202,4 +218,5 @@ useCreateCompanyMutation, useCreateLegalDocumentMutation, useCreateEmployeeMutat
 useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutation , useCreateConatctReqProjectMutation , 
 useGetDistinctInvestorFieldValuesQuery , useGetDistinctRequestFieldValuesQuery , 
 useGetAllProjectsWithoutPageQuery , useGetInvestorsForMemberQuery , useFetchInvestorRequestsQuery , 
-useGetInvestorsForMemberWithoutPageQuery} = memberApi
+useGetInvestorsForMemberWithoutPageQuery , useCreateDraftContactRequestMutation , useFinalizeContactRequestMutation ,
+} = memberApi

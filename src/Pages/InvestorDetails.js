@@ -31,15 +31,20 @@ import  userdefaultProfile from '../Media/User1.png';
 import { useGetAllContactReqByInvestorQuery } from "../Services/Investor.Service";
 import { useTranslation } from "react-i18next";
 import CommonModal from "../Components/CommonModal";
+import { useCreateDraftContactRequestMutation } from "../Services/Member.Service";
 
 const InvestorDetails = () => {
   const { t } = useTranslation();
+  const [createDraftContactRequest] = useCreateDraftContactRequestMutation();
+  const [drafting , setDrafting] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const { investorId } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const location = useLocation();
   const [investor, setInvestor] = useState(location.state?.investor || null);
   const [investorRequestStatus , setInvestorRequestStatus] = useState('');
+  const [investorDraftStatus , setInvestorDraftStatus] = useState(false);
+  const [investorDraftRequest , setInvestorDraftRequest] = useState('');
   const [investments , setInvestments] = useState([]);
   const [cur, setCur] = useState(1);
   const [loading , setLoading] = useState(true);
@@ -64,6 +69,8 @@ const InvestorDetails = () => {
         });
         setInvestor(response.data?.details)
         setInvestorRequestStatus(response.data?.status)
+        setInvestorDraftStatus(response.data?.hasDraftContactRequest)
+        setInvestorDraftRequest(response.data?.draftRequestId)
         setLoading(false);
         return response.data;
       } catch (error) {
@@ -102,11 +109,32 @@ const InvestorDetails = () => {
     setShowPopup(false)
   }
 
+  const contactRequestButtonClick = () => {
+    if(investorDraftStatus) {
+      openModal();
+    }
+    else {
+      setShowPopup(true);
+    }
+  }
+
   const formatDate = (date) => {
     const dateValues = new Date(date);
     const options = { year: 'numeric', month: 'long', day: 'numeric' ,timeZone: 'UTC', };
     return dateValues.toLocaleDateString('en-US', options);
-};
+  };
+
+  const handleCreateDraft = async () => {
+    try {
+      setDrafting(true);
+      const response = await createDraftContactRequest({ investorId }).unwrap();
+      openModal();
+      setDrafting(false);
+      console.log('Draft created successfully:', response);
+    } catch (error) {
+      console.error('Failed to create draft contact request:', error);
+    }
+  };
 
     return (
       <>
@@ -148,14 +176,15 @@ const InvestorDetails = () => {
                             {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
                             </div>}
                           </div>
+                          {(investorRequestStatus?.toLowerCase() !== 'accepted') && 
                           <button style={{ whiteSpace: 'nowrap'}}
                               className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center justify-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer"
-                              onClick={() =>setShowPopup(true)}
+                              onClick={() =>contactRequestButtonClick()}
                               type="button"
                           >
                               <TbSend size={14} className="mr-2" />
                               {t('investor.investorDetails.sendContactRequest')}
-                          </button>
+                          </button>}
                         </div>
                         <div className="py-3">
                           <div className="grid grid-cols-4 gap-px">
@@ -481,7 +510,7 @@ const InvestorDetails = () => {
             </div>
             }
             
-            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId} rowData={investor}/>
+            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId} draftContactId={investorDraftRequest} rowData={investor}/>
         </div>
         <CommonModal isOpen={showPopup}
         onRequestClose={closePopup} title={t('Confirmation')}
@@ -497,8 +526,16 @@ const InvestorDetails = () => {
                 <div className="text-[#475466] text-base font-dm-sans-medium">{t('common.cancel')}</div>
               </button>
               <button className="h-11 min-w-[195px] px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
-              onClick={() => openModal()}>
-                <div className="text-white-A700 text-base font-dm-sans-medium">{t('Confirm')}</div>
+              onClick={() => handleCreateDraft()}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">
+                {drafting ? 
+                  <div className="flex items-center justify-center gap-6"> Sending... 
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>  :  
+                  t('Confirm')}
+                </div>
               </button>
           </div>
         </div>

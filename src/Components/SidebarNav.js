@@ -291,6 +291,7 @@ const SidebarNav = () => {
           </div>      
           )}
         </div>
+        {(userData?.role?.toLowerCase() !== 'partner' || userDetails?.role?.toLowerCase() !== 'partner') && 
         <div
           onClick={() => {
             navigate("/Subscription")
@@ -309,7 +310,8 @@ const SidebarNav = () => {
             </div>
           </div>
           )}
-        </div></>
+        </div>}
+        </>
         )}
         <div className={`border-t border-blue_gray-601 flex px-1 pt-5 items-center ${open ? "flex-row" : "flex-col gap-3"}`} >
           <div className="flex relative" 
@@ -380,7 +382,7 @@ const SidebarNav = () => {
               }
             }}  alt={""}/>
             {open &&
-              <span className="text-sm font-dm-sans-medium text-teal-A700">{userDetails?.subscription?.totalCredits || 0}</span>
+              <span className="text-sm font-dm-sans-medium text-teal-A700">{userDetails?.subscription?.totalCredits?.toLocaleString() || 0}</span>
             }
           </div>
           {/* <img src={questionImg} /> */}

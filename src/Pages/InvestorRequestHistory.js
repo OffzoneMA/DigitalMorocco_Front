@@ -50,8 +50,6 @@ const InvestorRequestHistory = () => {
     }
   }, [data, loading]);
 
-  console.log(data)
-
   useEffect(() => {
     refetch();
   }, [cur,itemsPerPage , filterApply]);
@@ -225,7 +223,7 @@ const InvestorRequestHistory = () => {
                             className={`flex flex-row space-x-2 items-center py-0.5 h-[28px] px-[10px] font-dm-sans-regular text-sm leading-6 rounded-full 
                             ${(item.status === 'Approved' || item.status === 'Accepted') ? 'bg-green-100 text-green-700' 
                             : item.status === 'In Progress' ? 'bg-blue-101 text-blue-600' 
-                            : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : ''} inline-flex`}>
+                            : item.status === 'Rejected' ? 'bg-rose-100 text-red-500' : item.status === 'Draft' ? 'text-[#636568] bg-[#ededed]' :''} inline-flex`}>
                             {t(item?.status)}
                           </div>
                         </td>

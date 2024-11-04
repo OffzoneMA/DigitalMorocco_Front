@@ -8,13 +8,14 @@ import SimpleSelect from "./SimpleSelect";
 import ConfirmedModal from "./ConfirmedModal";
 import { useForm } from "react-hook-form";
 import { useGetAllProjectsWithoutPageQuery } from "../Services/Member.Service";
-import { useCreateConatctReqProjectMutation } from "../Services/Member.Service";
+import { useCreateConatctReqProjectMutation  , useFinalizeContactRequestMutation } from "../Services/Member.Service";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 
 const SendContactModal = (props) => {
   const { t } = useTranslation();
     const [createContactReqProject , response] = useCreateConatctReqProjectMutation();
+    const [finalizeContactRequest, { isLoading: loadingRequest, isSuccess, isError }] = useFinalizeContactRequestMutation();
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors }  , reset} = useForm();
     const { data, error, isLoading , refetch } = useGetAllProjectsWithoutPageQuery();
@@ -59,14 +60,16 @@ const SendContactModal = (props) => {
     const onSubmit = async (data) => {
       formData.append('document', files); 
       formData.append('projectId', selectedProject?._id);
-      formData.append('investorId' , props?.investorId)
+      formData.append('investorId' , props?.investorId);
+      formData.append('contactRequestId' , props?.draftContactId);
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });
       if(selectedProject !== null) {
         try {
           setSendingOk(true);
-          const response = await createContactReqProject(formData).unwrap();
+          // const response = await createContactReqProject(formData).unwrap();
+          const result = await finalizeContactRequest(formData).unwrap();
           console.log('Contact request created successfully');
           setSendingOk(false);
           setSending(false);

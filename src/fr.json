@@ -1625,6 +1625,53 @@
   "Negative Past Feedback": "Feedback Négatif Antérieur",
   "Unclear Objectives": "Objectifs Peu Clairs",
 
+
+  "Buy 1,000+ credits and get a 10% discount": "Achetez 1 000+ crédits et obtenez une réduction de 10 %",
+  "1,000 credits: $9.45 (Initial rate: $10.50)": "1 000 crédits : 9,45 $ (Tarif initial : 10,50 $)",
+  "2,000 credits: $18.90 (Initial rate: $21.00)": "2 000 crédits : 18,90 $ (Tarif initial : 21,00 $)",
+  "3,000 credits: $28.35 (Initial rate: $31.50)": "3 000 crédits : 28,35 $ (Tarif initial : 31,50 $)",
+  "4,000 credits: $37.80 (Initial rate: $42.00)": "4 000 crédits : 37,80 $ (Tarif initial : 42,00 $)",
+  "5,000 credits: $47.25 (Initial rate: $52.50)": "5 000 crédits : 47,25 $ (Tarif initial : 52,50 $)",
+  "6,000 credits: $56.70 (Initial rate: $63.00)": "6 000 crédits : 56,70 $ (Tarif initial : 63,00 $)",
+  "Buy 7,000+ credits and get a 15% discount": "Achetez 7 000+ crédits et obtenez une réduction de 15 %",
+  "7,000 credits: $62.48 (Initial rate: $73.50)": "7 000 crédits : 62,48 $ (Tarif initial : 73,50 $)",
+  "8,000 credits: $71.40 (Initial rate: $84.00)": "8 000 crédits : 71,40 $ (Tarif initial : 84,00 $)",
+  "9,000 credits: $80.33 (Initial rate: $94.50)": "9 000 crédits : 80,33 $ (Tarif initial : 94,50 $)",
+  "10,000 credits: $89.25 (Initial rate: $105.00)": "10 000 crédits : 89,25 $ (Tarif initial : 105,00 $)",
+  "11,000 credits: $98.18 (Initial rate: $115.50)": "11 000 crédits : 98,18 $ (Tarif initial : 115,50 $)",
+  "12,000 credits: $107.10 (Initial rate: $126.00)": "12 000 crédits : 107,10 $ (Tarif initial : 126,00 $)",
+  "13,000 credits: $116.03 (Initial rate: $136.50)": "13 000 crédits : 116,03 $ (Tarif initial : 136,50 $)",
+  "14,000 credits: $124.95 (Initial rate: $147.00)": "14 000 crédits : 124,95 $ (Tarif initial : 147,00 $)",
+  "Buy 15,000+ credits and get a 25% discount": "Achetez 15 000+ crédits et obtenez une réduction de 25 %",
+  "15,000 credits: $118.13 (Initial rate: $157.50)": "15 000 crédits : 118,13 $ (Tarif initial : 157,50 $)",
+  "16,000 credits: $126.00 (Initial rate: $168.00)": "16 000 crédits : 126,00 $ (Tarif initial : 168,00 $)",
+  "17,000 credits: $133.88 (Initial rate: $178.50)": "17 000 crédits : 133,88 $ (Tarif initial : 178,50 $)",
+  "18,000 credits: $141.75 (Initial rate: $189.00)": "18 000 crédits : 141,75 $ (Tarif initial : 189,00 $)",
+  "19,000 credits: $149.63 (Initial rate: $199.50)": "19 000 crédits : 149,63 $ (Tarif initial : 199,50 $)",
+  "20,000 credits: $157.50 (Initial rate: $210.00)": "20 000 crédits : 157,50 $ (Tarif initial : 210,00 $)",
+  "21,000 credits: $165.38 (Initial rate: $220.50)": "21 000 crédits : 165,38 $ (Tarif initial : 220,50 $)",
+  "22,000 credits: $173.25 (Initial rate: $231.00)": "22 000 crédits : 173,25 $ (Tarif initial : 231,00 $)",
+  "23,000 credits: $181.13 (Initial rate: $241.50)": "23 000 crédits : 181,13 $ (Tarif initial : 241,50 $)",
+  "24,000 credits: $189.00 (Initial rate: $252.00)": "24 000 crédits : 189,00 $ (Tarif initial : 252,00 $)",
+  "25,000 credits: $196.88 (Initial rate: $262.50)": "25 000 crédits : 196,88 $ (Tarif initial : 262,50 $)",
+  "26,000 credits: $204.75 (Initial rate: $273.00)": "26 000 crédits : 204,75 $ (Tarif initial : 273,00 $)",
+  "27,000 credits: $212.63 (Initial rate: $283.50)": "27 000 crédits : 212,63 $ (Tarif initial : 283,50 $)",
+  "28,000 credits: $220.50 (Initial rate: $294.00)": "28 000 crédits : 220,50 $ (Tarif initial : 294,00 $)",
+  "29,000 credits: $228.38 (Initial rate: $304.50)": "29 000 crédits : 228,38 $ (Tarif initial : 304,50 $)",
+  "30,000 credits: $236.25 (Initial rate: $315.00)": "30 000 crédits : 236,25 $ (Tarif initial : 315,00 $)",
+
+  "How many Credits would you like to buy?": "Combien de crédits souhaitez-vous acheter ?",
+  "Out of Credits for a reward or an upgrade? You can buy the additional Credits you need.": "Plus de crédits pour une récompense ou une mise à niveau ? Vous pouvez acheter les crédits supplémentaires dont vous avez besoin.",
+  "Your Order": "Votre commande",
+  "Please choose the amount of Credits you want from the dropdown menu below.": "Veuillez choisir le nombre de crédits que vous souhaitez dans le menu déroulant ci-dessous.",
+  "Order Summary": "Résumé de la commande",
+  "Number of Credits:": "Nombre de crédits :",
+  "Cost of Credits:": "Coût des crédits :",
+  "Total": "Total",
+  "I accept the": "J'accepte les",
+  "Terms of Service.": "conditions d'utilisation.",
+  "Check Out": "Finaliser la Commande",
+
   "From": "À partir de",
   "Free": "Gratuit",
 
@@ -1638,6 +1685,11 @@
 
   "Sent": "Envoyé",
   "Received": "Reçu",
+
+  "Due Date": "Date d'échéance",
+
+  "English": "Anglais",
+  "French": "Français",
 
 
   "January": "Janvier",
@@ -1671,7 +1723,9 @@
 
   "pagination": {
     "previous": "Précédent",
-    "next": "Suivant"
+    "next": "Suivant",
+    "Prev": "Précédent",
+    "Next": "Suivant"
   }
 
 }
