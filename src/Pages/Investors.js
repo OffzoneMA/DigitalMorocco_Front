@@ -89,7 +89,7 @@ const Investors = () => {
 
   const data = (isSubscribe && !loading && !subscriptionLoading && !userDetailsLoading && userDetails?.projectCount !== 0) ?  investors : InvestorsData;
 
-  const filteredData = (isSubscribe && (!loading && !subscriptionLoading && !userDetailsLoading))? data.filter(item => {
+  const filteredData = (isSubscribe && (!loading && !subscriptionLoading && !userDetailsLoading))? data?.filter(item => {
     const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());
   
     return keywordMatch;
