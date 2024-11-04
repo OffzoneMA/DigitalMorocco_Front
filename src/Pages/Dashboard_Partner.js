@@ -99,7 +99,7 @@ const Dashboard_Partner = () => {
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
                   <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
-                  onClick={() => navigate('/Projects')}>
+                  onClick={() => navigate('/SponsorRequestHistory')}>
                     <div className="rounded-[6px] p-2 bg-teal-50">
                       <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                     </div>
@@ -147,7 +147,7 @@ const Dashboard_Partner = () => {
                     )}
                   </div>
                   <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]"  
-                    onClick={() => navigate('/MyInvestors')}>
+                    onClick={() => navigate('/PastSponsorEvent')}>
                     <div className="rounded-[6px] p-2 bg-blue-51">
                       <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
@@ -203,7 +203,7 @@ const Dashboard_Partner = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
                     <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 ">
                       <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full" 
-                      onClick={() => navigate('/SponsorRequestHistory')}>
+                      onClick={() => navigate('/PastSponsorEvent')}>
                         <div className="flex rounded-md bg-violet-100 p-2">
                           <GoRocket size={28} className="text-blue-601 "/>
                         </div>
@@ -222,7 +222,7 @@ const Dashboard_Partner = () => {
                          ) : (
                         recentProjects?.length > 0 ? 
                         recentProjects.map((item, index) => (
-                          <div key={index} className="flex flex-col gap-[24px] px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/SponsorEventDetails/${item._id}` , {state: { eventSponsor: item }})}>
+                          <div key={index} className="flex flex-col gap-[24px] px-6 hover:bg-blue-50 cursorpointer w-full" onClick={()=> navigate(`/PastSponsorEventDetails/${item._id}` , {state: { eventSponsor: item }})}>
                             <div className="flex flex-row items-center gap-[24px] py-[20px] justify-start w-full">
                                 <Text
                                     className=" text-lg font-dm-sans-medium leading-8 text-[#101828] tracking-normal capitalize text-left"
