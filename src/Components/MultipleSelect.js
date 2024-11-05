@@ -23,8 +23,6 @@ const MultipleSelect = ({ options =[], onSelect, valuekey='',optionkey='',placeh
 }, [selectedOptionsDfault, selectedOptions]);
 
   
-console.log(selectedOptions)
-
   const toggleDropdown = (event) => {
     event.stopPropagation(); // Stop event propagation to prevent handleClickOutside from being triggered
     setIsOpen(prevState => !prevState);

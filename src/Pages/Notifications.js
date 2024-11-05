@@ -25,9 +25,7 @@ useEffect(() => {
         markNotificationsAsRead(notificationIds);
         refetch();
       }, 5000); // 5 secondes
-      
-      console.log(unreadNotifications)
-      
+            
       return () => clearTimeout(timer); // Nettoyer le timer si le composant est démonté
     }
   }

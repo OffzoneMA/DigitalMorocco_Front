@@ -216,7 +216,13 @@ const InvestorRequestHistory = () => {
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
                         <td className="px-[18px] py-4 w-auto text-gray500 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>
                           {formatDateWithoutComma(new Date(item.dateCreated))}</td>
-                        <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6 capitalize" style={{ whiteSpace: 'nowrap' }}>{item?.investor?.name}</td>
+                        <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6 capitalize" style={{ whiteSpace: 'nowrap' }}>
+                          <div className="relative flex">
+                            {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') ? 'Digital Morocco Partner' : item?.investor?.name}
+                            {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') && <div className="overlay-content-invPro w-full flex">
+                            </div>}
+                          </div>
+                        </td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.communicationStatus || "Initial send email"}</td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                           <div style={{ whiteSpace: "nowrap" }} 

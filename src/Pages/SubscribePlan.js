@@ -110,8 +110,6 @@ export default function SubscribePlan() {
             });
         }
 
-        console.log(result)
-
         if (result.isSuccess || result?.data?._id) {
             navigate('/Subscription');
         } else {

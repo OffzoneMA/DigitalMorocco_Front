@@ -326,7 +326,6 @@ const CreateProject = () => {
         setLoadingDel(id);
         try {
             const response = await deleteMilestone({ projectId, milestoneId: milestone._id }).unwrap();
-            console.log(response);
             setLoadingDel(null);
             setProject(response);
             setMilestones((prevMilestones) =>
@@ -490,10 +489,6 @@ const handleDeleteFile = (index) => {
     allFiles.forEach(({ file }) => {
         formData.append(`files`, file);
     });
-
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
-    }
   
     if(isFormValid) {
       if (projectId) {

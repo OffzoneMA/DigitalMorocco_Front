@@ -276,20 +276,20 @@ const Investors = () => {
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> handleInvestorClick(item)}>
                     <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="relative flex">
-                        <div className="px-[18px] py-4 flex items-center gap-3" >
-                          {item?.image ? (
-                            <img src={item.image} className="rounded-full h-8 w-8"  />
-                          ) : (
-                            <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
-                              <img src={userdefaultProfile} alt="" className="" />
+                          <div className="px-[18px] py-4 flex items-center gap-3" >
+                            {item?.image ? (
+                              <img src={item.image} className="rounded-full h-8 w-8"  />
+                            ) : (
+                              <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                <img src={userdefaultProfile} alt="" className="" />
+                              </div>
+                            )}
+                              <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{'Digital Morocco Partner'}</span>
+                          </div>
+                          {(isSubscribe && userDetails?.projectCount !== 0) && (
+                            <div className="overlay-content-invPro w-full flex">
                             </div>
                           )}
-                            <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.name}</span>
-                        </div>
-                        {(isSubscribe && userDetails?.projectCount !== 0) && (
-                          <div className="overlay-content-invPro w-full flex">
-                          </div>
-                        )}
                         </div>
                     </td>
                       <td className="px-[18px] py-4 text-gray500 font-DmSans text-left text-sm font-normal leading-6" 

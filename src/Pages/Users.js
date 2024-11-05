@@ -64,7 +64,6 @@ const Users = () => {
     if (confirmation.isConfirmed) {
       try {
         const token = sessionStorage.getItem("userToken");
-        console.log(userId)
         const response =  await axios.put(
           `${process.env.REACT_APP_baseURL}/users/approveUser/${userId}?role=${role}`,
           {},

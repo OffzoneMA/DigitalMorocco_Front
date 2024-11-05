@@ -156,73 +156,73 @@ const InvestorDetails = () => {
               </div> 
               :
               <div className="flex flex-col w-full gap-10 bg-white-A700 px-5">
-                <div className="flex flex-col md:flex-row justify-center items-start gap-8">
-                      <div className="relative flex justify-center w-full h-[200px] md:w-[25%] max-w-[250px] p-2 border-blue_gray-100 border border-solid rounded-[10px]">
-                        {investor?.image ? (
-                          <img src={investorRequestStatus?.toLowerCase() === 'accepted' ? investor.image : userdefaultProfile} className="rounded-full h-full w-auto" alt="Profile" />
-                        ) : (
-                          <img src={userdefaultProfile} className="rounded-full h-full w-auto" alt="Profile" />
-                        )}
-                        {investorRequestStatus?.toLowerCase() === 'pending' && 
-                        <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
-                        </div>}
-                      </div>
-                      <div className="flex flex-col gap-6 flex-1 w-full">
-                        <div className="flex flex-row justify-between items-start  w-full">
-                          <div className="relative">
-                            <Text className="font-dm-sans-bold text-2xl leading-8 text-left text-blue_gray-903">
-                              {investor?.CompanyName || investor?.name || 'Venture Catalysts'}
-                            </Text>
-                            {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
-                            </div>}
-                          </div>
-                          {(investorRequestStatus?.toLowerCase() !== 'accepted') && 
-                          <button style={{ whiteSpace: 'nowrap'}}
-                              className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center justify-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer"
-                              onClick={() =>contactRequestButtonClick()}
-                              type="button"
-                          >
-                              <TbSend size={14} className="mr-2" />
-                              {t('investor.investorDetails.sendContactRequest')}
-                          </button>}
+                <div className="flex flex-col md:flex-wrap md:flex-row justify-center items-start gap-8">
+                    <div className="relative flex justify-center w-full min-h-[200px] h-auto md:w-[25%] md:min-w-[250px] max-w-[300px] p-2 border-blue_gray-100 border border-solid rounded-[10px]">
+                      {investor?.image ? (
+                        <img src={investorRequestStatus?.toLowerCase() === 'accepted' ? investor.image : userdefaultProfile} className="rounded-full h-full w-auto" alt="Profile" />
+                      ) : (
+                        <img src={userdefaultProfile} className="rounded-full h-full w-auto" alt="Profile" />
+                      )}
+                      {investorRequestStatus?.toLowerCase() === 'pending' && 
+                      <div className="absolute h-full rounded-[10px] overlay-content-invDetails w-full top-0">
+                      </div>}
+                    </div>
+                    <div className="flex flex-col md:min-w-[450px] gap-6 flex-1 w-full">
+                      <div className="flex flex-row justify-between items-start  w-full">
+                        <div className="relative">
+                          <Text className="font-dm-sans-bold text-2xl leading-8 text-left text-blue_gray-903">
+                            {investor?.CompanyName || investor?.name || 'Digital Morocco Partner'}
+                          </Text>
+                          {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                          </div>}
                         </div>
-                        <div className="py-3">
-                          <div className="grid grid-cols-4 gap-px">
-                            <div className="col-span-1 flex flex-col w-full  gap-7">
-                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
-                                {t('investor.investorDetails.investment')}
-                                </div>
-                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                                { investor?.numberOfInvestment || 179}
-                                </div>
-                            </div>
-                            <div className="col-span-1 flex flex-col w-full gap-7">
-                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
-                                {t('investor.investorDetails.exits')}
-                                </div>
-                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                                {investor?.numberOfExits || 44}
-                                </div>
-                            </div>
-                            <div className="col-span-1 flex flex-col w-full gap-7">
-                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
-                                {t('investor.investorDetails.fund')}
-                                </div>
-                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                                {investor?.fund|| 52}
-                                </div>
-                            </div>
-                            <div className="col-span-1 flex flex-col w-full gap-7">
-                                <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
-                                {t('investor.investorDetails.acquisitions')}
-                                </div>
-                                <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                                {investor?.acquisitions || 7}
-                                </div>
-                            </div>
+                        {(investorRequestStatus?.toLowerCase() !== 'accepted') && 
+                        <button style={{ whiteSpace: 'nowrap'}}
+                            className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center justify-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer"
+                            onClick={() =>contactRequestButtonClick()}
+                            type="button"
+                        >
+                            <TbSend size={14} className="mr-2" />
+                            {t('investor.investorDetails.sendContactRequest')}
+                        </button>}
+                      </div>
+                      <div className="py-3">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-px">
+                          <div className="col-span-1 flex flex-col w-full  gap-7">
+                              <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
+                              {t('investor.investorDetails.investment')}
+                              </div>
+                              <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
+                              { investor?.numberOfInvestment || 179}
+                              </div>
+                          </div>
+                          <div className="col-span-1 flex flex-col w-full gap-7">
+                              <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
+                              {t('investor.investorDetails.exits')}
+                              </div>
+                              <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
+                              {investor?.numberOfExits || 44}
+                              </div>
+                          </div>
+                          <div className="col-span-1 flex flex-col w-full gap-7">
+                              <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
+                              {t('investor.investorDetails.fund')}
+                              </div>
+                              <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
+                              {investor?.fund|| 52}
+                              </div>
+                          </div>
+                          <div className="col-span-1 flex flex-col w-full gap-7">
+                              <div className="flex font-dm-sans-bold text-xs leading-4 tracking-wider text-left uppercase text-[#98A2B3]">
+                              {t('investor.investorDetails.acquisitions')}
+                              </div>
+                              <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
+                              {investor?.acquisitions || 7}
+                              </div>
                           </div>
                         </div>
                       </div>
+                    </div>
                 </div>
                 <div className="h-px bg-gray-201" />
                 <div className="flex flex-col gap-6">

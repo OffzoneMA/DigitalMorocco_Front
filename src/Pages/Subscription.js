@@ -57,7 +57,6 @@ export default function Subscription() {
         const response = await axios.get(`${process.env.REACT_APP_baseURL}/payment-methods/last`, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(response.data)
         setUserLastPaymentMethod(response.data);
     } catch (error) {
         console.error('Error fetching last payment method:', error);

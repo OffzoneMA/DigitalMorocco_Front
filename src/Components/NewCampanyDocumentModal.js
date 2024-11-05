@@ -23,8 +23,6 @@ const NewCampanyDocumentModal = (props) => {
   const [sendingOk , setSendingOk] = useState(false);
   const [sending , setSending] = useState(false);
 
-console.log(preview)
-
   useEffect(() => {
     if (props?.documentFile ) {
       setValue('title' , props?.documentFile?.title)

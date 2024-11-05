@@ -114,7 +114,6 @@ const SimpleSelectWithGroup = ({
 
   // Group filtering based on search
   const filteredGroupedData = Object.entries(groupedOptions).reduce((acc, [ group, options ]) => {
-    console.log(group, options)
     const filteredOptions = options?.options?.filter((option) => {
       const valueToCheck = typeof option === 'string' ? option : option[valuekey] || '';
       return valueToCheck.toLowerCase().includes(searchValue.toLowerCase());

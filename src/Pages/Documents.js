@@ -99,7 +99,6 @@ const Documents = () => {
   };
 
   const handleDelete = () => {
-    console.log(deleteRow?.projectName);
     try {
       deleteDocument(deleteRow?._id).unwrap();
       closeDeleteModal();

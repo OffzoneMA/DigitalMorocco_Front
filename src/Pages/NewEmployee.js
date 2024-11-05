@@ -120,7 +120,6 @@ const NewEmployee = () => {
 
   const validatePhoneNumber = (value) => {
     const phoneNumber = parsePhoneNumberFromString(value);
-    console.log('phone' , phoneNumber)
     if (!phoneNumber) {
       return 'Invalid phone number';
     }
