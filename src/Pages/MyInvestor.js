@@ -126,7 +126,7 @@ const MyInvestors = () => {
                         onChange={e => setKeywords(e.target.value)}
                       />
                     </div>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes?.distinctValues || []} onSelect={""} searchLabel={t('common.searchType')} setSelectedOptionVal={setInvestmentType} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes?.distinctValues || []}  searchLabel={t('common.searchType')} setSelectedOptionVal={setInvestmentType} 
                     placeholder={t('common.typeofInvestment')}
                     content={
                       ( option) =>{ return (
@@ -140,7 +140,7 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations?.distinctValues || []} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations?.distinctValues || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
                     placeholder={t("common.location")} 
                     content={
                       ( option) =>{ return (
@@ -154,7 +154,7 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={industriesData?.distinctValues || []} onSelect={""} searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={industriesData?.distinctValues || []}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setIndustries} 
                     placeholder={t('common.selectIndustries')}
                     content={
                       ( option) =>{ return (

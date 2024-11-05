@@ -5,7 +5,7 @@ import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 
 
-const MultipleSelect = ({ options =[], onSelect, valuekey='',optionkey='',placeholder='', searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , itemClassName='' , className=''}) => {
+const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionkey='',placeholder='', searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , itemClassName='' , className=''}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedOptionsDfault);
   const [searchValue, setSearchValue] = useState("");

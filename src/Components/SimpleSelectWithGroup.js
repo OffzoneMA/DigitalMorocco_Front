@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 const SimpleSelectWithGroup = ({
   groupedOptions = {},
-  onSelect,
+  onSelect = () => {},
   valuekey = '',
   placeholder = '',
   searchable = true,

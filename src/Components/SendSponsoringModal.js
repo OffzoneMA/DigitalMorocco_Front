@@ -121,7 +121,7 @@ const SendSponsoringModal = (props) => {
                   >
                     {t('eventListSponsoring.sponsorshipRequest.sponsoringTypeLabel')}
                   </Text>
-                  <SimpleSelect id='type' options={typesOfSponsoring} onSelect={""} searchLabel={t("common.searchSponsorshipType")} setSelectedOptionVal={setSelectedType} 
+                  <SimpleSelect id='type' options={typesOfSponsoring}  searchLabel={t("common.searchSponsorshipType")} setSelectedOptionVal={setSelectedType} 
                       placeholder={t('eventListSponsoring.sponsorshipRequest.sponsoringTypePlaceholder')} required={selectedType === null && sending}
                       content={
                         ( option) =>{ return (

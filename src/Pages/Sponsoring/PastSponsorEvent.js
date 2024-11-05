@@ -218,7 +218,7 @@ const PastSponsorEvent = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfSponsoring' options={sponsoringTypes} onSelect={""} searchLabel={t('common.searchType')} setSelectedOptionVal={setTypes} 
+                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfSponsoring' options={sponsoringTypes}  searchLabel={t('common.searchType')} setSelectedOptionVal={setTypes} 
                       placeholder={t('common.typeofInvestment')} searchable={false} 
                       content={
                         ( option) =>{ return (
@@ -232,7 +232,7 @@ const PastSponsorEvent = () => {
                           );
                         }
                       }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
                           placeholder={t("common.location")} 
                           content={
                             ( option) =>{ return (

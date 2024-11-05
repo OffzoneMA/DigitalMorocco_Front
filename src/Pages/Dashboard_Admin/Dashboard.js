@@ -241,7 +241,7 @@ console.log(chartData)
             <div className="rounded-[6px] p-2 bg-teal-50">
               <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
             </div>
-            <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+            <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
             {t('adminDashboard.startUp')}
             </Text>
             <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
@@ -259,7 +259,7 @@ console.log(chartData)
             <div className="rounded-[6px] p-2 bg-blue-51">
               <TiFlashOutline size={28} className="text-blue-701" />
             </div>
-            <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+            <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
             {t('adminDashboard.investors')}
             </Text>
             <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
@@ -277,7 +277,7 @@ console.log(chartData)
             <div className="rounded-[6px] p-2 bg-violet-100">
               <BiBuildings size={28} className="text-blue-601" />
             </div>
-            <Text className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+            <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
             {t('adminDashboard.partners')}
             </Text>
             <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">

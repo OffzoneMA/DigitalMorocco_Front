@@ -178,7 +178,7 @@ const ManageSubscriptionCredits = () => {
                             <div className="w-full h-auto text-[#98a1b2] text-sm font-dm-sans-regular leading-relaxed">{t('Please choose the amount of Credits you want from the dropdown menu below.')}</div>
                             <div className="self-stretch h-auto flex-col justify-start items-start gap-2 w-full flex">
                                 {/* <SimpleSelect id='credits'
-                                options={creditOptions} onSelect={""} selectedOptionsDfault={selectedCredits}
+                                options={creditOptions}  selectedOptionsDfault={selectedCredits}
                                 setSelectedOptionVal={setSelectedCredits} searchable={true}
                                 placeholder={"Select Credits"} valuekey="formatted"
                                 content={
@@ -195,7 +195,7 @@ const ManageSubscriptionCredits = () => {
                                 }
                                 } />*/}
                                 <SimpleSelectWithGroup id='credits'
-                                groupedOptions={creditOptionsEn} onSelect={""} selectedOptionsDfault={selectedCredits}
+                                groupedOptions={creditOptionsEn}  selectedOptionsDfault={selectedCredits}
                                 setSelectedOptionVal={setSelectedCredits} searchable={true}
                                 placeholder={"Select Credits"} valuekey="formatted"
                                 content={

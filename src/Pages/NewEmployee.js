@@ -466,7 +466,7 @@ const NewEmployee = () => {
                     {t('employee.addEmployee.country')}
                   </Text>
                   <SimpleSelect id='country'
-                    options={dataCountries} onSelect={""}
+                    options={dataCountries} 
                     searchLabel={t("common.searchCountry")}
                     setSelectedOptionVal={setSelectedCountry}
                     selectedOptionsDfault={employee?.country? dataCountries.find(country => country.name === employee.country) : ""}
@@ -493,7 +493,7 @@ const NewEmployee = () => {
                     {t('employee.addEmployee.cityState')}
                   </Text>
                   <SimpleSelect id='city'
-                    options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []} onSelect={""} searchLabel={t("common.searchCity")} setSelectedOptionVal={setSelectedCity}
+                    options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []}  searchLabel={t("common.searchCity")} setSelectedOptionVal={setSelectedCity}
                     placeholder={t('employee.addEmployee.selectCity')} valuekey="name" required={requiredFields.city} 
                     selectedOptionsDfault={employee?.cityState? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === employee?.cityState) : ""}
                     content={
@@ -626,7 +626,7 @@ const NewEmployee = () => {
                     >
                       {t('employee.addEmployee.level')}
                     </Text>
-                    <SimpleSelect id='level' options={employeeLevels} onSelect={""} searchLabel={t('employee.addEmployee.searchLevel')} setSelectedOptionVal={setSelectedLevel}
+                    <SimpleSelect id='level' options={employeeLevels}  searchLabel={t('employee.addEmployee.searchLevel')} setSelectedOptionVal={setSelectedLevel}
                       placeholder={t('employee.addEmployee.selectLevel')}
                       selectedOptionsDfault={employee?.level? employeeLevels.find(lev => lev === employee.level) : ""}
                       content={
@@ -649,7 +649,7 @@ const NewEmployee = () => {
                     >
                       {t('employee.addEmployee.department')}
                     </Text>
-                    <SimpleSelect id='department' options={departments} onSelect={""} searchLabel={t('employee.addEmployee.searchDepartment')} setSelectedOptionVal={setSelectedDepartment}
+                    <SimpleSelect id='department' options={departments}  searchLabel={t('employee.addEmployee.searchDepartment')} setSelectedOptionVal={setSelectedDepartment}
                       placeholder={t('employee.addEmployee.selectDepartment')}
                       selectedOptionsDfault={employee?.department? departments.find(dep => dep === employee.department) : ""}
                       content={

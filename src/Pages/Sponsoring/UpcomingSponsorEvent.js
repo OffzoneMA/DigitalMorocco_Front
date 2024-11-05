@@ -157,7 +157,7 @@ const UpcomingSponsorEvent = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.distinctValues || []} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.distinctValues || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
                           placeholder={t("common.location")} 
                           content={
                             ( option) =>{ return (

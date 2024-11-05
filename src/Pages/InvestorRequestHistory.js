@@ -145,14 +145,14 @@ const InvestorRequestHistory = () => {
                       type="text" name="search" placeholder={t("common.keywords")} value={keywords} 
                       onChange={e => setKeywords(e.target.value)} />
                     </div>
-                    <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata} onSelect={""} searchLabel={t('common.searchInvestor')} setSelectedOptionVal={setUser} placeholder={t('common.investorName')} content={(option) => {
+                    <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata}  searchLabel={t('common.searchInvestor')} setSelectedOptionVal={setUser} placeholder={t('common.investorName')} content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
                           <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{t(`${option}`)}</Text>
                         </div>
                       );
                     }} />
-                    <MultipleSelect className="min-w-[140px] max-w-[200px] " id='status' options={statusData} onSelect={""} searchLabel={t('common.searchStatus')} setSelectedOptionVal={setStatus} placeholder={t('common.status')} content={(option) => {
+                    <MultipleSelect className="min-w-[140px] max-w-[200px] " id='status' options={statusData}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setStatus} placeholder={t('common.status')} content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
                           <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{t(`${option}`)}</Text>

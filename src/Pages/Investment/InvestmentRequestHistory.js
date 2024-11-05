@@ -127,7 +127,7 @@ const InvestmentRequestHistory = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues} onSelect={""} searchLabel={t('common.searchTargetFund')} setSelectedOptionVal={setTargetFund} 
+                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues}  searchLabel={t('common.searchTargetFund')} setSelectedOptionVal={setTargetFund} 
                     placeholder={t('common.targetFund')}
                     content={
                       ( option) =>{ return (
@@ -141,7 +141,7 @@ const InvestmentRequestHistory = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='stage' options={locationValues} onSelect={""} searchLabel='Search Stage' setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='stage' options={locationValues}  searchLabel='Search Stage' setSelectedOptionVal={setLocation} 
                     placeholder={t('common.stage')}
                     content={
                       ( option) =>{ return (
@@ -155,7 +155,7 @@ const InvestmentRequestHistory = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues} onSelect={""} searchLabel={t('common.searchStatus')} setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setIndustries} 
                     placeholder={t('common.selectStatus')}
                     content={
                       ( option) =>{ return (

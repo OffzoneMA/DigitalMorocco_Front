@@ -108,7 +108,7 @@ const Dashbord = () => {
                       <img src={creditsImg} className="w-[28px] h-[28px]"  alt={""}/>
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('dashboard.totalCredits')}
                     </Text>
@@ -132,7 +132,7 @@ const Dashbord = () => {
                       <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('dashboard.createdProject')}
                     </Text>
@@ -156,7 +156,7 @@ const Dashbord = () => {
                       <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('dashboard.investors')}
                     </Text>
@@ -182,7 +182,7 @@ const Dashbord = () => {
                       <HiOutlineSpeakerphone size={28} className="text-amber-601" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('dashboard.events')}
                     </Text>
@@ -206,7 +206,7 @@ const Dashbord = () => {
                       <BiBuildings size={28} className="text-blue-601" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('dashboard.myCompany')}
                     </Text>

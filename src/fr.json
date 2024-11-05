@@ -299,6 +299,7 @@
     "upgradeAccountSub": "Gagnez en visibilité stratégique, connectez-vous avec des acteurs clés et laissez une empreinte durable en sponsorisant nos événements.",
     "upgradeMembership": "Découvrir les événements à venir",
     "sponsorships": "Sponsorisations",
+    "sponsorshipsNote": "Aucune demande de sponsoring n'a encore été approuvée.",
     "totalRequests" : "Total des Demandes",
     "currentRequests" :"Demandes en cours",
     "lastSponsorEvent": "Dernier événement sponsorisé",
@@ -1759,6 +1760,9 @@
 
   "Sent": "Envoyé",
   "Received": "Reçu",
+
+  "Paid": "Payé",
+  "To be paid": "À payer",
 
   "Due Date": "Date d'échéance",
 

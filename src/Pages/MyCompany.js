@@ -355,7 +355,7 @@ const MyCompany = () => {
                 >
                   {t('myCompany.country')}
                 </Text>
-                <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
+                <SimpleSelect id='country' options={dataCountries}  searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
                     placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
                     required={requiredFields.country}
                     content={
@@ -379,7 +379,7 @@ const MyCompany = () => {
                 >
                   {t('myCompany.cityState')}
                 </Text>
-                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry?.['isoCode']): []} onSelect={""} searchLabel={t('common.searchCity')} setSelectedOptionVal={setSelectedCity} 
+                <SimpleSelect id='city' options={selectedCountry? City.getCitiesOfCountry(selectedCountry?.['isoCode']): []}  searchLabel={t('common.searchCity')} setSelectedOptionVal={setSelectedCity} 
                     placeholder={t('myCompany.selectCity')} valuekey="name" selectedOptionsDfault={userDetails?.city? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userDetails?.city) : ""}
                     required={requiredFields.city}
                     content={
@@ -403,7 +403,7 @@ const MyCompany = () => {
                 >
                   {t('myCompany.companySector')}
                 </Text>
-                <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
+                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
                     placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
                     required={requiredFields.sector}
                     content={

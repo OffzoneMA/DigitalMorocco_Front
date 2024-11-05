@@ -275,7 +275,7 @@ const SponsorRequestHistory = () => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='requestStatus' options={["Approved" , "Rejected"]} onSelect={""} searchLabel={t('common.searchStatus')} setSelectedOptionVal={setTypes} 
+                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='requestStatus' options={["Approved" , "Rejected"]}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setTypes} 
                       placeholder={t('common.status')} searchable={false} 
                       content={
                         ( option) =>{ return (
@@ -289,7 +289,7 @@ const SponsorRequestHistory = () => {
                           );
                         }
                       }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
                           placeholder={t("common.location")} 
                           content={
                             ( option) =>{ return (

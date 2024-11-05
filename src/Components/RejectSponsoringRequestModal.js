@@ -86,7 +86,7 @@ const RejectSponsoringRequestModal = (props) => {
                         >
                         {t('eventListSponsoring.reject.rejectionReason')}
                         </Text>
-                        <SimpleSelect id='reason' options={reasonsForRejectionSponsoring} onSelect={""} searchLabel={t("common.searchRaison")} setSelectedOptionVal={setSelectedRaison}
+                        <SimpleSelect id='reason' options={reasonsForRejectionSponsoring}  searchLabel={t("common.searchRaison")} setSelectedOptionVal={setSelectedRaison}
                             placeholder={t('eventListSponsoring.reject.rejectionReasonPlaceholder')} required={sending && selectedRaison === null}
                             content={
                             ( option) =>{ return (

@@ -204,7 +204,8 @@ const MyInvestmentDetails = () => {
                   <div className="flex items-center capitalize">
                     <TableTitle>{project?.name ? project?.name : `Lorem Ipsum Project - Angel Round Investment`}</TableTitle>
                   </div>
-                  {data?.status?.toLowerCase() === "approved" && <div className="flex flex-wrap gap-3 items-center ">
+                  {/* {data?.status?.toLowerCase() === "approved" && 
+                  <div className="flex flex-wrap gap-3 items-center ">
                     <button
                       className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-[#EDF7FF] text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer rounded-md"
                       // onClick={''}
@@ -223,7 +224,7 @@ const MyInvestmentDetails = () => {
                       <TbDownload size={21} className="" />
                       <span className="hidden md:inline-block">{t("common.download")}</span>
                     </button>
-                  </div>}
+                  </div>} */}
                   {data?.status?.toLowerCase() == "in progress" && <div className="flex flex-wrap gap-3 items-center ">
                     <button
                       className="bg-[#00CDAE] hover:bg-greenbtnhoverbg active:bg-greenbtnhoverbg text-white-A700 text-sm font-dm-sans-medium leading-5 flex items-center gap-[12px] px-[12px] px-[10px] h-[41px] cursorpointer rounded-md"

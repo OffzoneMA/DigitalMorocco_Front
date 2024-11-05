@@ -225,7 +225,7 @@ useEffect(() => {
               </div>
             </div>
           ) : ( 
-          <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 w-full lg:flex-1 gap-4">
+          <div className="flex flex-col w-full lg:flex-1 gap-4">
             <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
             {t('settings.subscription.subscriptionManagement')}
             </Text>
@@ -365,7 +365,7 @@ useEffect(() => {
                             <div 
                             style={{whiteSpace:'nowrap'}}
                               className={`px-[10px] h-[28px] py-[2px] flex items-center justify-center w-auto rounded-[16px] text-center text-[13px] font-dm-sans-regular leading-normal ${item?.status?.toLowerCase() === 'upcoming' ? 'bg-[#DBEEFF] text-[#1570EF]' : item?.status?.toLowerCase() === 'paid' ? 'bg-[#ECFDF3] text-[#027A48]' :'bg-[#FEE8E6] text-[#F04438]' }`}>
-                              {capitalizeFirstLetter(item.status)}
+                              {t(capitalizeFirstLetter(item.status))}
                             </div>
                           )}
                           </div>
@@ -433,9 +433,9 @@ useEffect(() => {
             </div>
           </div>
           )}
-          <div className={`flex w-full ${currentLanguage === 'fr' ? 'md:min-w-1/3 md:max-w-[300px] lg:min-w-1/4 lg:max-w-[300px]' : 'md:w-1/3 lg:w-1/4' }`}>
+          {/* <div className={`flex w-full ${currentLanguage === 'fr' ? 'md:min-w-1/3 md:max-w-[300px] lg:min-w-1/4 lg:max-w-[300px]' : 'md:w-1/3 lg:w-1/4' }`}>
             <PaymentMethode />
-          </div>
+          </div> */}
         </div>
         }
       </div>

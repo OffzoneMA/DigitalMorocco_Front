@@ -88,7 +88,7 @@ const ApproveSponsoringRequestModal = (props) => {
                         >
                         {t('eventListSponsoring.sponsorshipRequest.sponsoringTypeLabel')}
                         </Text>
-                        <SimpleSelect id='project' options={typesOfSponsoring} onSelect={""} searchLabel={t("common.searchType")} setSelectedOptionVal={setSelectedInvestmentType} 
+                        <SimpleSelect id='project' options={typesOfSponsoring}  searchLabel={t("common.searchType")} setSelectedOptionVal={setSelectedInvestmentType} 
                             placeholder={t('eventListSponsoring.approve.sponsoringType')} required={sending && typeInvestment === null} 
                             content={
                             ( option) =>{ return (

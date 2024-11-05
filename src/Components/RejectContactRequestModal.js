@@ -94,7 +94,7 @@ const RejectContactRequestModal = (props) => {
                         >
                         {t('investment.rejectContactRequest.reasonForRejection')}
                         </Text>
-                        <SimpleSelect id='reason' options={reasonsForRejectionInvestment} onSelect={""} searchLabel={t("common.searchRaison")} setSelectedOptionVal={setSelectedRaison}
+                        <SimpleSelect id='reason' options={reasonsForRejectionInvestment}  searchLabel={t("common.searchRaison")} setSelectedOptionVal={setSelectedRaison}
                             placeholder={t('investment.rejectContactRequest.reasonForRejectionPlaceholder')} required={sending && selectedRaison === null}
                             content={
                             ( option) =>{ return (

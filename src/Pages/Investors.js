@@ -167,7 +167,7 @@ const Investors = () => {
                         onChange={e => setKeywords(e.target.value)}
                       />
                     </div>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={typeData} onSelect={""} searchLabel={t('common.searchType')} setSelectedOptionVal={setInvestmentType} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={typeData}  searchLabel={t('common.searchType')} setSelectedOptionVal={setInvestmentType} 
                     placeholder={t('common.typeofInvestment')}
                     content={
                       ( option) =>{ return (
@@ -181,7 +181,7 @@ const Investors = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locationData} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locationData}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
                     placeholder={t("common.location")} 
                     content={
                       ( option) =>{ return (
@@ -195,7 +195,7 @@ const Investors = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={industryData} onSelect={""} searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={industryData}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setIndustries} 
                     placeholder={t('common.selectIndustries')}
                     content={
                       ( option) =>{ return (

@@ -133,7 +133,7 @@ export default function SubscribePlan() {
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-start py-6 w-full h-full md:min-h-[540px] gap-8">
-          <div className="flex flex-col md:border-r border-gray-201 pr-8 md:flex-1 lg:flex-1 gap-4">
+          <div className="flex flex-col md:flex-1 lg:flex-1 gap-4">
             <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
             {t('settings.subscription.subscriptionManagement')}
             </Text>
@@ -237,9 +237,9 @@ export default function SubscribePlan() {
               
             </div>
           </div>
-          <div className={`flex w-full ${currentLanguage === 'fr' ? 'md:min-w-1/3 md:max-w-[300px] lg:min-w-1/4 lg:max-w-[300px]' : 'md:w-1/3 lg:w-1/4' }`}>
+          {/* <div className={`flex w-full ${currentLanguage === 'fr' ? 'md:min-w-1/3 md:max-w-[300px] lg:min-w-1/4 lg:max-w-[300px]' : 'md:w-1/3 lg:w-1/4' }`}>
             <PaymentMethode />
-          </div>
+          </div> */}
         </div>
       </div>
       <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal}/>

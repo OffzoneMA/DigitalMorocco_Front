@@ -293,7 +293,7 @@ const NewDocumentModal = (props) => {
                 >
                 {t('document.uploadNewDocumentSection.shareWith')}
               </Text>
-              <MultipleSelect id='sector' options={filteredUsers} onSelect={""} searchLabel='Seach members' searchable={false} setSelectedOptionVal={setSelectedMembers} 
+              <MultipleSelect id='sector' options={filteredUsers}  searchLabel='Seach members' searchable={false} setSelectedOptionVal={setSelectedMembers} 
                     placeholder={t('document.uploadNewDocumentSection.selectName')} valuekey="name" optionkey="_id" selectedOptionsDfault={props.rowData?.shareWithUsers?.map(userId => filteredUsers.find(user => user._id === userId))}
                     content={
                       ( option) =>{ return (

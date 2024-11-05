@@ -802,7 +802,7 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       {t('projects.createNewProject.teamMember')}
                     </Text>
-                    <MultipleSelect id='teams' options={members} onSelect={""} searchLabel={t('projects.createNewProject.searchMember')} setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
+                    <MultipleSelect id='teams' options={members}  searchLabel={t('projects.createNewProject.searchMember')} setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
                     itemClassName='py-2 border-b border-gray-201' placeholder={t('projects.createNewProject.assignTeamMember')} valuekey="fullName" optionkey="workEmail" 
                     content={
                       ( option) =>{ return (
@@ -874,7 +874,7 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       {t('projects.createNewProject.stage')}
                     </Text>
-                    <SimpleSelect id='stage' options={stagesData} onSelect={""} searchLabel='Search stage' setSelectedOptionVal={setSelectedStage} 
+                    <SimpleSelect id='stage' options={stagesData}  searchLabel='Search stage' setSelectedOptionVal={setSelectedStage} 
                     placeholder={t('projects.createNewProject.selectStage')} selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage}
                     content={
                       ( option) =>{ return (
@@ -893,7 +893,7 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       {t('projects.createNewProject.country')}
                     </Text>
-                    <SimpleSelect id='country' options={dataCountries} onSelect={""} searchLabel={t("common.searchCountry")} setSelectedOptionVal={setSelectedCountry} 
+                    <SimpleSelect id='country' options={dataCountries}  searchLabel={t("common.searchCountry")} setSelectedOptionVal={setSelectedCountry} 
                         placeholder={t('projects.createNewProject.selectCountry')} valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""} 
                         required={requiredFields.country}
                         content={
@@ -915,7 +915,7 @@ const handleStatusChangeAndUpdate = async () => {
                     >
                       {t('projects.createNewProject.projectSector')}
                     </Text>
-                    <SimpleSelect id='sector' options={companyType} onSelect={""} searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
+                    <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
                         placeholder={t('projects.createNewProject.selectProjectSector')} selectedOptionsDfault={project?.sector || ''} required={requiredFields.sector}
                         content={
                           ( option) =>{ return (
@@ -941,7 +941,7 @@ const handleStatusChangeAndUpdate = async () => {
                       {t('projects.createNewProject.projectPublication.description')}
                     </Text>
                     <SimpleSelect id='publication'
-                    options={["Public" , "Private"]} onSelect={""} selectedOptionsDfault={project?.visbility}
+                    options={["Public" , "Private"]}  selectedOptionsDfault={project?.visbility}
                     setSelectedOptionVal={setSelectedPublication} searchable={false}
                     placeholder={t('projects.createNewProject.projectPublication.selectType')}
                     required={requiredFields.publication}
@@ -966,7 +966,7 @@ const handleStatusChangeAndUpdate = async () => {
                       Project status
                     </Text>
                     <SimpleSelect id='status'
-                    options={["Active" , "In progress" , "Stand by"]} onSelect={""} selectedOptionsDfault={project?.status}
+                    options={["Active" , "In progress" , "Stand by"]}  selectedOptionsDfault={project?.status}
                     setSelectedOptionVal={setSelectedStatus} searchable={false}
                     placeholder={"Select Type of Status"}
                     required={requiredFields.status}

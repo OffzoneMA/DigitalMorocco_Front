@@ -211,7 +211,7 @@ const handleReject = async (data) => {
                         showIcon={false}
                         onChangeDate={(date) => setSelectedDate(date)}
                       />
-                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received" , "Sent"]} onSelect={""} searchLabel={t('common.searchType')} setSelectedOptionVal={setTypes} 
+                      <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received" , "Sent"]}  searchLabel={t('common.searchType')} setSelectedOptionVal={setTypes} 
                       placeholder={t('common.typeRequest')} searchable={false} 
                       content={
                         ( option) =>{ return (
@@ -225,7 +225,7 @@ const handleReject = async (data) => {
                           );
                         }
                       }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
                           placeholder={t("common.location")} 
                           content={
                             ( option) =>{ return (

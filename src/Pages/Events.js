@@ -273,7 +273,7 @@ const Events = () => {
                             onChange={e => setKeywords(e.target.value)}
                           />
                         </div>
-                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={eventNameData} onSelect={""} searchLabel={t('common.searchEvent')} setSelectedOptionVal={seteventName} 
+                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={eventNameData}  searchLabel={t('common.searchEvent')} setSelectedOptionVal={seteventName} 
                           placeholder={t("common.eventName")}
                           content={
                             ( option) =>{ return (
@@ -287,7 +287,7 @@ const Events = () => {
                               );
                             }
                           }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} onSelect={""} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
                           placeholder={t("common.location")} 
                           content={
                             ( option) =>{ return (

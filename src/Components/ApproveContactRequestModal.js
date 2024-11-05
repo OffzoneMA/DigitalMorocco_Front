@@ -93,7 +93,7 @@ const ApproveContactRequestModal = (props) => {
                         >
                         {t('investment.approveInvestmentRequest.typeOfInvestment')}
                         </Text>
-                        <SimpleSelect id='project' options={investmentTypes} onSelect={""} searchLabel={t("common.searchType")} setSelectedOptionVal={setSelectedInvestmentType} 
+                        <SimpleSelect id='project' options={investmentTypes}  searchLabel={t("common.searchType")} setSelectedOptionVal={setSelectedInvestmentType} 
                             placeholder={t('investment.approveInvestmentRequest.typeOfInvestmentPlaceholder')} required={typeInvestment === null && sending}
                             content={
                             ( option) =>{ return (

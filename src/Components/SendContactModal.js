@@ -127,7 +127,7 @@ const SendContactModal = (props) => {
                 >
                   {t('investor.sendContactRequest.project')}
                 </Text>
-                <SimpleSelect id='project' options={data} onSelect={""} searchLabel={t('investor.sendContactRequest.searchProject')} setSelectedOptionVal={setSelectedProject} 
+                <SimpleSelect id='project' options={data}  searchLabel={t('investor.sendContactRequest.searchProject')} setSelectedOptionVal={setSelectedProject} 
                     placeholder={t('investor.sendContactRequest.selectProject')} valuekey="name" required={sending && selectedProject === null}
                     content={
                       ( option) =>{ return (

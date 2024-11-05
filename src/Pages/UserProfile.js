@@ -590,7 +590,7 @@ export default function UserProfile() {
                   <SimpleSelect
                     id='country'
                     options={allCountries}
-                    onSelect={""}
+                    
                     searchLabel={t("common.searchCountry")}
                     setSelectedOptionVal={setSelectedCountry}
                     selectedOptionsDfault={userData?.country ? allCountries.find(country => country.name === userData.country) : ""}
@@ -614,7 +614,7 @@ export default function UserProfile() {
                   <SimpleSelect
                     id='city'
                     options={selectedCountry  ? City.getCitiesOfCountry(selectedCountry?.['isoCode']) : userData?.cityState ? City.getCitiesOfCountry(selectedCountry?.['isoCode']) : []}
-                    onSelect={""}
+                    
                     searchLabel={t("common.searchCity")}
                     selectedOptionsDfault={userData?.cityState ? City.getCitiesOfCountry(selectedCountry?.['isoCode'])?.find(country => country.name === userData?.cityState) : ""}
                     setSelectedOptionVal={setSelectedCity}
@@ -853,7 +853,10 @@ export default function UserProfile() {
               <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
                 <Text className={`text-base text-gray-901 ${currentLanguage === 'fr' ? 'w-[170px]' : 'w-[130px]'}`} size="txtDMSansLablel" >
                 {t('settings.myProfile.selectLanguage')} </Text>
-                <SimpleSelect className='max-w-[40%]' id='language' options={languages} onSelect={""}
+                <SimpleSelect className='max-w-[40%]' id='language' options={languages} onSelect={(selected) => {
+                  i18n.changeLanguage(selected.id);
+                  localStorage.setItem('language', selected.id); 
+                }}
                   searchLabel={t('settings.myProfile.searchLanguage')} setSelectedOptionVal={setSelectedLanguage}
                   selectedOptionsDfault={userData?.language? languages.find(lang => lang.label === userData.language) : ""}
                   placeholder={t('settings.myProfile.selectLanguage')}
@@ -870,7 +873,7 @@ export default function UserProfile() {
                 <Text className={`text-base text-gray-901 ${currentLanguage === 'fr' ? 'w-[170px]' : 'w-[130px]'}`} size="txtDMSansLablel" >
                 {t('settings.myProfile.selectRegion')}</Text>
                 <SimpleSelect className='max-w-[40%]' id='region'
-                  options={regions} onSelect={""} searchLabel={t('settings.myProfile.searchRegion')}
+                  options={regions}  searchLabel={t('settings.myProfile.searchRegion')}
                   setSelectedOptionVal={setSelectedRegion}
                   selectedOptionsDfault={userData?.region? regions.find(region => region.label === userData.region) : ""}
                   placeholder={t('settings.myProfile.selectRegionPlaceholder')} required={requiredFields3.region} 

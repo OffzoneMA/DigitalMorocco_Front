@@ -124,7 +124,7 @@ const MyInvestment = () => {
                         onChange={e => setKeywords(e.target.value)}
                       />
                     </div>
-                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues} onSelect={""} searchLabel={t('common.searchTargetFund')} setSelectedOptionVal={setTargetFund} 
+                    <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues}  searchLabel={t('common.searchTargetFund')} setSelectedOptionVal={setTargetFund} 
                     placeholder={t('common.targetFund')}
                     content={
                       ( option) =>{ return (
@@ -138,7 +138,7 @@ const MyInvestment = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='stage' options={locationValues} onSelect={""} searchLabel={t('common.searchStage')} setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='stage' options={locationValues}  searchLabel={t('common.searchStage')} setSelectedOptionVal={setLocation} 
                     placeholder={t('common.stage')}
                     content={
                       ( option) =>{ return (
@@ -152,7 +152,7 @@ const MyInvestment = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues} onSelect={""} searchLabel={t('common.searchStatus')} setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setIndustries} 
                     placeholder={t('common.selectStatus')}
                     content={
                       ( option) =>{ return (

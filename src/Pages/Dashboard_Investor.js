@@ -102,7 +102,7 @@ const Dashbord_Investor = () => {
                       <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t("investorDashboard.totalRequests")}
                     </Text>
@@ -126,7 +126,7 @@ const Dashbord_Investor = () => {
                       <BiBuildings size={28} className="text-blue-601" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('investorDashboard.currentRequests')}
                     </Text>
@@ -150,7 +150,7 @@ const Dashbord_Investor = () => {
                       <TiFlashOutline size={28} className="text-blue-701" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('investorDashboard.investments')}
                     </Text>
@@ -176,7 +176,7 @@ const Dashbord_Investor = () => {
                       <HiOutlineSpeakerphone size={28} className="text-amber-601" />
                     </div>
                     <Text
-                      className="text-[18px] mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
+                      className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01"
                     >
                       {t('dashboard.events')}
                     </Text>
