@@ -280,7 +280,7 @@ const SidebarNav = () => {
             navigate("/UserProfile")
             setActiveParent("settings")
             setActiveMenu("UserProfile");}}
-          className={` group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "UserProfile") ? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center gap-x-2  mt-1 `} 
+          className={` group flex text-base font-dm-sans-regular leading-6 ${!open && 'w-full'} rounded-md py-2 pl-10 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400 ${(activeMenu === "UserProfile") ? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center gap-x-2 mt-1 ${(userData?.role?.toLowerCase() !== 'partner' || userDetails?.role?.toLowerCase() !== 'partner') ? '' : 'mb-6'} `} 
           onMouseEnter={(e) => handleItemMouseEnter(e, t('sidebar.settings.myProfile') , true)}
           onMouseLeave={handleItemMouseLeave}
         >

@@ -363,18 +363,22 @@ const Dashbord = () => {
                         {(!contactReqsLoading && Requestdata?.length > 0) 
                             ? Requestdata.map((item, index) => (
                                 <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}`)}>
-                                  <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
-                                    <div className="flex items-center gap-2">
-                                      {item?.image ? (
-                                        <img src={item.image} className="rounded-full h-8 w-8" alt="Profile" />
-                                      ) : (
-                                        <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
-                                          <img src={userdefaultProfile} alt="" className="" />
-                                        </div>
-                                      )}
-                                      <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                        {item?.investor?.name || 'Unknown Investor'}
-                                      </span>
+                                  <td className="w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
+                                    <div className="relative flex">
+                                      <div className="flex px-3 py-4 items-center gap-2">
+                                        {item?.image ? (
+                                          <img src={item.image} className="rounded-full h-8 w-8" alt="Profile" />
+                                        ) : (
+                                          <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                            <img src={userdefaultProfile} alt="" className="" />
+                                          </div>
+                                        )}
+                                        <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') ? 'Digital Morocco Partner' : item?.investor?.name}
+                                        </span>
+                                      </div>
+                                      {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') && 
+                                      <div className="overlay-content-invPro w-full flex"></div> }
                                     </div>
                                   </td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus || "Initial send email"}</td>
@@ -387,7 +391,7 @@ const Dashbord = () => {
                                           ? 'bg-[#dbedff] text-[#156fee]'
                                           : item.status === 'Rejected'
                                           ? 'bg-rose-100 text-red-500'
-                                          : ''
+                                          : item.status === 'Draft' ? 'text-[#636568] bg-[#ededed]' :''
                                       } inline-flex`}
                                     >
                                       {t(item?.status)}

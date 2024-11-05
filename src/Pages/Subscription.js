@@ -264,7 +264,7 @@ useEffect(() => {
                       </div>
                     ))}
                   </div>
-                  {userSubscriptionData?.billing === "year" ? (
+                  {(userSubscriptionData?.billing === "year" && userSubscriptionData?.plan?.price > 0 && userSubscriptionData?.planType !== "upcoming") ? (
                   <div className="flex flex-row items-center w-full pt-1">
                       <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-500 line-through">
                           {annualPrice}

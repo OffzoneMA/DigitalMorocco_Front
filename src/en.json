@@ -282,7 +282,7 @@
     "totalRequests" : "Total Requests",
     "currentRequests" :"Current Requests",
     "investmentsNote": "Start investing in projects.",
-    "lastProject": "Latest Approved Request",
+    "lastProject": "Latest Approved Requests",
     "latestRequest": "Request History",
     "noInvest": "No Investments Yet",
     "requestTable": {
@@ -301,7 +301,7 @@
     "sponsorshipsNote": "No sponsorship requests have been approved yet.",
     "totalRequests" : "Total Requests",
     "currentRequests" :"Current Requests",
-    "lastSponsorEvent": "Latest Sponsored Event",
+    "lastSponsorEvent": "Latest Sponsored Events",
     "latestRequest": "Request History",
     "sponsorEventDetails": {
       "date": "Date",

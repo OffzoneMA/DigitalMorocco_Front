@@ -216,10 +216,15 @@ const InvestorRequestHistory = () => {
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
                         <td className="px-[18px] py-4 w-auto text-gray500 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>
                           {formatDateWithoutComma(new Date(item.dateCreated))}</td>
-                        <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6 capitalize" style={{ whiteSpace: 'nowrap' }}>
+                        <td className="text-gray-900_01 font-dm-sans-regular text-sm leading-6 capitalize" style={{ whiteSpace: 'nowrap' }}>
                           <div className="relative flex">
-                            {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') ? 'Digital Morocco Partner' : item?.investor?.name}
-                            {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') && <div className="overlay-content-invPro w-full flex">
+                            <div className="flex py-6 px-[18px] items-center">
+                              <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') ? 'Digital Morocco Partner' : item?.investor?.name}
+                              </span>
+                            </div>                            
+                            {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') && 
+                            <div className="overlay-content-invPro w-full flex">
                             </div>}
                           </div>
                         </td>

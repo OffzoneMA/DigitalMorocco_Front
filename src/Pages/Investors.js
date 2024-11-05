@@ -33,6 +33,7 @@ const Investors = () => {
   const { userInfo } = useSelector((state) => state.auth) 
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const [showPopup, setShowPopup] = useState(false);
+  const [showDraftPopup, setShowDraftPopup] = useState(false);
   const [showContactPopup, setShowContactPopup] = useState(false);
   const [selectedInvestor , setSelectedInvestor] = useState(null);
   const [filter , setFilter] = useState(false);
@@ -76,6 +77,19 @@ const Investors = () => {
       setTotalPages(investorData.totalPages);
     }
   }, [investorData]);
+  
+  useEffect(() => {
+    // Check if investor data is loaded and subscription status is available
+    if (investorData && subscriptionData && !subscriptionLoading && !loading && !userDetailsLoading) {
+      const { hasDraftRequest } = investorData;
+      const isSubscribed = subscriptionData !== null && subscriptionData !== undefined; 
+
+      // Show popup if there is a draft request and the user is subscribed
+      if (hasDraftRequest && isSubscribed) {
+        setShowDraftPopup(true);
+      }
+    }
+  }, [investorData, subscriptionData , loading , subscriptionLoading , userDetailsLoading]);
 
   useEffect(() => {
     refetch();
@@ -128,6 +142,10 @@ const Investors = () => {
 
   const closePopup = () => {
     setShowPopup(false)
+  }
+
+  const closeDraftPopup = () => {
+    setShowDraftPopup(false)
   }
 
     return (
@@ -284,9 +302,11 @@ const Investors = () => {
                                 <img src={userdefaultProfile} alt="" className="" />
                               </div>
                             )}
-                              <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{'Digital Morocco Partner'}</span>
+                              <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {( !item?.hasAcceptedContactRequest) ? 'Digital Morocco Partner' : item?.name}
+                              </span>
                           </div>
-                          {(isSubscribe && userDetails?.projectCount !== 0) && (
+                          {(!item?.hasAcceptedContactRequest) && (
                             <div className="overlay-content-invPro w-full flex">
                             </div>
                           )}
@@ -395,13 +415,32 @@ const Investors = () => {
           </div>
         </div>
       }/>
-
-      <CommonModal isOpen={showContactPopup}
-      onRequestClose={closeContactPopup} title={t('Action Required: Contact Request')}
+    <CommonModal isOpen={showDraftPopup}
+      onRequestClose={closeDraftPopup} title={t('Action Required: Contact Request')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
           <div className="self-stretch flex flex-col text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
           {t("You already have a contact request in progress.")} 
+          <span className="pt-2" >{t('Would you like to validate it?')}</span>
+          </div>
+          <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+              <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
+              onClick={() => setShowContactPopup(false)}>
+                <div className="text-[#475466] text-base font-dm-sans-medium">{t('Continue Navigation')}</div>
+              </button>
+              <button className="h-11 px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
+              onClick={() => navigate(`/InvestorDetails/${investorData?.mostRecentDraftInvestorId}` , { state: {investor: selectedInvestor}})}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">{t('Go to Contact Request')}</div>
+              </button>
+          </div>
+        </div>
+      }/>
+    <CommonModal isOpen={showContactPopup}
+      onRequestClose={closeContactPopup} title={t('Action Required: Contact Request')}
+      content={
+        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+          <div className="self-stretch flex flex-col text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
+          {t("You already have a contact request in progress with this investor.")} 
           <span className="pt-2" >{t('Would you like to validate it?')}</span>
           </div>
           <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">

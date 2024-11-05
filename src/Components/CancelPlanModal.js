@@ -70,8 +70,8 @@ const CancelPlanModal = (props) => {
                         <Text
                         className="font-dm-sans-medium text-[22px] leading-8 text-left  text-[#2575F0]"
                         >
-                        {t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`)}
-                        </Text>
+                      {userSubscriptionData?.plan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${userSubscriptionData?.plan?.name.toLowerCase()}.name`) : t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`)}
+                      </Text>
                         <div className="flex flex-col w-full gap-[16px]">
                             {userSubscriptionData?.plan?.featureDescriptions?.map((feature, index) => (
                                 <div key={index} className="flex flex-rox w-full items-start gap-[12px]">
@@ -88,7 +88,11 @@ const CancelPlanModal = (props) => {
                         </div>
                     </div>
                     <div className="flex space-x-3 md:space-x-5 items-start w-full justify-start pt-1 pb-2">
-                        <button onClick={props.onRequestClose} type="button" className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 h-[44px] min-w-[179px] py-2 px-[30px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer">{t('settings.cancelSubscription.keepPlan', { planName:  t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`) })}</button>
+                        <button onClick={props.onRequestClose} 
+                        type="button" 
+                        className="flex items-center justify-center bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 h-[44px] min-w-[179px] py-2 px-[30px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer">
+                        {t('settings.cancelSubscription.keepPlan', { planName: userSubscriptionData?.plan?.forUser?.toLowerCase() === 'investor' ?  t(`subscriptionPlans.investor.${userSubscriptionData?.plan?.name.toLowerCase()}.name`) : t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`) })}
+                        </button>
                         <button 
                             onClick={submit}
                             type="button" 

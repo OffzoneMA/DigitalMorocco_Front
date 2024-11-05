@@ -169,11 +169,11 @@ export default function SubscribePlan() {
                         </button>
                       </div>
                     </div>
-                    <div className="inline-flex h-[24px] py-[2px] px-[10px] justify-center items-center rounded-[6px] bg-[#E1FFED] ml-auto">
+                    {choosedPlan?.price > 0 && <div className="inline-flex h-[24px] py-[2px] px-[10px] justify-center items-center rounded-[6px] bg-[#E1FFED] ml-auto">
                       <span className="text-[#00CDAE] text-center font-dm-sans text-[10px] font-bold leading-[24px]">
                       {t('subscriptionPlans.billingCycle.annualSave')} 40%
                       </span>
-                    </div>
+                    </div>}
                   </div>
                   <div className='flex flex-col gap-[16px]'>
                   {choosedPlan?.featureDescriptions?.map((feature, index) => (
@@ -189,12 +189,12 @@ export default function SubscribePlan() {
                     </div>
                   ))}
                   </div>
-                  {selectedPlan === "Annual" ? (
+                  {(selectedPlan === "Annual"  && choosedPlan?.price > 0 && choosedPlan?.planType !== "upcoming")? (
                     <div className="flex flex-row items-center w-full pt-1">
                         <Text className="font-dm-sans-medium text-base leading-8 text-left text-gray-500 line-through">
                             {annualPrice}
                         </Text>
-                        {(choosedPlan?.price > 0 && choosedPlan?.planType === "upcoming") && <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-801 ml-2">
+                        {(choosedPlan?.price > 0 && choosedPlan?.planType !== "upcoming") && <Text className="font-dm-sans-medium text-lg leading-8 text-left text-gray-801 ml-2">
                            {formatPrice((annualPriceNotFormat*(100 - (choosedPlan?.annualDiscountRate || 20))/100).toFixed(2))}, {t('subscriptionPlans.endsOn')}  {getEndDate(annualDuration)}
                         </Text>}
                         <div className="inline-flex h-[24px] p-[2px_10px] justify-center items-center inline-flex rounded-[6px] bg-[#E1FFED] ml-6">
@@ -204,7 +204,7 @@ export default function SubscribePlan() {
                         </div>
                     </div>
                   ) : (
-                   ( choosedPlan?.price && choosedPlan?.planType === "upcoming") > 0 && <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-gray-801">
+                   ( choosedPlan?.price > 0 && choosedPlan?.planType !== "upcoming") && <Text className="font-dm-sans-medium text-lg leading-8 pt-1 text-left w-full text-gray-801">
                       {monthlyPrice}/{t('subscriptionPlans.monthlyFee')}, {t('subscriptionPlans.endsOn')}  {getEndDate(monthlyDuration)}
                     </Text>
                   )}

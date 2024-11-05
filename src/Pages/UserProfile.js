@@ -349,7 +349,7 @@ export default function UserProfile() {
       return; 
     }
 
-    if(isForm3Valid && (selectedRegion !== null)) {
+    if(isForm3Valid && (selectedRegion !== null || selectedLanguage  !== null )) {
       try {
         const response = await axios.put(
           `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
@@ -367,13 +367,18 @@ export default function UserProfile() {
             setIsForm3Saved(false);
           }, 5000);
           console.log("Language and region updated successfully!");
+
+          //change language
+          const newLanguage = selectedLanguage?.id;
+          i18n.changeLanguage(newLanguage);
+          localStorage.setItem('language', newLanguage);
+          
           const updatedUserData = {
             ...userData,
             ...formData,
           };
           setUser(response?.data?.user);
   
-          // Mettre à jour les informations de l'utilisateur dans la session
           sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
         } else {
           console.error("Error updating language and region:", response.data.message);
@@ -853,10 +858,7 @@ export default function UserProfile() {
               <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
                 <Text className={`text-base text-gray-901 ${currentLanguage === 'fr' ? 'w-[170px]' : 'w-[130px]'}`} size="txtDMSansLablel" >
                 {t('settings.myProfile.selectLanguage')} </Text>
-                <SimpleSelect className='max-w-[40%]' id='language' options={languages} onSelect={(selected) => {
-                  i18n.changeLanguage(selected.id);
-                  localStorage.setItem('language', selected.id); 
-                }}
+                <SimpleSelect className='max-w-[40%]' id='language' options={languages} 
                   searchLabel={t('settings.myProfile.searchLanguage')} setSelectedOptionVal={setSelectedLanguage}
                   selectedOptionsDfault={userData?.language? languages.find(lang => lang.label === userData.language) : ""}
                   placeholder={t('settings.myProfile.selectLanguage')}

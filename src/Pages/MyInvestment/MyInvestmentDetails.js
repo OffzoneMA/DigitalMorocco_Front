@@ -290,7 +290,7 @@ const MyInvestmentDetails = () => {
                         {t('investment.project.sector')}
                         </Text>
                       </div>
-                      {project?.sector ? <div className="h-[26px] px-[13px] py-2 rounded-[50px] border border-[#c653dd] justify-center items-center gap-1 inline-flex">
+                      {project?.sector ? <div className="h-[28px] px-[13px] py-3 rounded-[50px] border border-[#c653dd] justify-center items-center gap-1 inline-flex">
                         <div className="text-[#c552dd] text-xs font-dm-sans-regular leading-none tracking-tight">{t(`${project?.sector}`)}</div>
                       </div> : '-'}
                     </div>
@@ -496,6 +496,7 @@ const MyInvestmentDetails = () => {
                             <ProjectDocumentItem
                               key={index}
                               docName={document.name}
+                              docUrl={document.link}
                             />
                           ))}
                         </div>

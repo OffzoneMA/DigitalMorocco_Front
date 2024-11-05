@@ -283,7 +283,7 @@
     "totalRequests" : "Total des Demandes",
     "currentRequests" :"Demandes en cours",
     "investmentsNote": "Commencez à investir dans des projets.",
-    "lastProject": "Dernière demande approuvée",
+    "lastProject": "Dernières demandes approuvées",
     "latestRequest": "Historique des demandes",
     "noInvest": "Aucun investissement pour le moment",
     "requestTable": {
@@ -302,7 +302,7 @@
     "sponsorshipsNote": "Aucune demande de sponsoring n'a encore été approuvée.",
     "totalRequests" : "Total des Demandes",
     "currentRequests" :"Demandes en cours",
-    "lastSponsorEvent": "Dernier événement sponsorisé",
+    "lastSponsorEvent": "Derniers événements sponsorisés",
     "latestRequest": "Historique des demandes",
     "sponsorEventDetails": {
       "date": "Date",
@@ -1232,6 +1232,7 @@
 
   "Action Required: Contact Request": "Action requise : Demande de contact",
   "You already have a contact request in progress.": "Vous avez déjà une demande de contact en cours.",
+  "You already have a contact request in progress with this investor.": "Vous avez déjà une demande de contact en cours avec cet investisseur.",
   "Would you like to validate it?": "Voulez-vous la valider ?",
   "Continue Navigation": "Continuer la navigation",
   "Go to Contact Request": "Aller à la demande de contact",

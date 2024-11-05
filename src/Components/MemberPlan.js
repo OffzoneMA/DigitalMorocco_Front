@@ -44,7 +44,7 @@ const MemberPlan = ({ plan , buttonText }) => {
                         </svg>
                         <div id="maskContent" className='px-[20px] flex flex-col gap-4 items-center'>
                             <p id="disc" className='px-[40px] text-center text-[22px] text-[#101828] font-dm-sans-medium'>Discover all the features for investors</p>
-                            <p id="discUpgrade" className='text-center text-sm text-[#1D2939] font-dm-sans-regular'>Upgrade to <a href='' className='text-[#2575F0]'>Digital Morocco Premium</a> to access all features, investment management tools, tracking, and much more.</p>
+                            <p id="discUpgrade" className='text-center text-sm text-[#1D2939] font-dm-sans-medium'>Upgrade to <a href='' className='text-[#2575F0]'>Digital Morocco Premium</a> to access all features, investment management tools, tracking, and much more.</p>
                         </div>
                     </div>
                 )}
@@ -56,7 +56,7 @@ const MemberPlan = ({ plan , buttonText }) => {
                                     <path fillRule="evenodd" clipRule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
                                 </svg>
                             </div>
-                            <Text className="font-dm-sans-regular text-base leading-6 text-left w-full text-gray700">
+                            <Text className={`font-dm-sans-regular text-base leading-6 text-left w-full text-gray700 ${plan?.planType === "upcoming" ? 'opacity-75' : ''} `}>
                                 {t(feature)}
                             </Text>
                         </div>

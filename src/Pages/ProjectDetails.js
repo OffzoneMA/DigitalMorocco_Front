@@ -264,7 +264,7 @@ useEffect(() => {
                     </Text>
                   </div>
                   <div className="flex flex-row items-start justify-start w-full">
-                    <div className={`flex items-center justify-center text-center w-auto px-[10px] py-[4px] h-[28px] gap-[6px] font-inter text-sm font-medium leading-[20px] rounded-full ${
+                    <div className={`flex items-center justify-center text-center w-auto px-[10px] py-[5px] h-[28px] gap-[6px] font-inter text-sm font-medium leading-[20px] rounded-full ${
                       project?.status === 'Active' ? 'bg-green-100 text-green-700' :
                       project?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
                       project?.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : 'bg-green-100 text-green-700'
@@ -413,6 +413,7 @@ useEffect(() => {
                     <ProjectDocumentItem
                       key={index}
                       docName={document.name}
+                      docUrl={document.link}
                     />
                   ))}
                 </div>
