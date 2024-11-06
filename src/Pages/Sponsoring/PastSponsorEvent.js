@@ -70,7 +70,11 @@ const PastSponsorEvent = () => {
     }
     const {data : events , error , isFetching: isLoading , refetch } = useGetApprovedSponsorsForPartnerQuery(queryParams);
 
-
+    useEffect(() => {
+      const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+      setCur(pageFromUrl);
+    }, [searchParams]);
+    
     useEffect(() => {
       refetch();
     }, [cur , refetch , filterApply]);
@@ -385,7 +389,7 @@ const PastSponsorEvent = () => {
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
-                      onPageChange={handlePageChange}
+                      //onPageChange={handlePageChange}
                       itemsToShow={itemsToShow}
                     />              
                   </div>}

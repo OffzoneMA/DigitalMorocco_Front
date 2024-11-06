@@ -431,7 +431,7 @@
         "activatePop" : "your project will become visible to investors. Make sure all information is up to date before sharing it."
       },
       "standByPop": {
-        "title": "Stand By",
+        "title": "On Hold",
         "description": "By clicking",
         "standByPop":"your project will be hidden from investors. You can reactivate it once the necessary updates are made."
       }

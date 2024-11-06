@@ -134,11 +134,11 @@ const SimpleSelectWithGroup = ({
           isOpen && !required
             ? 'border-focusColor shadow-inputBs'
             : 'border-[#D0D5DD]'
-        } cursor-pointer-green ${required ? 'border-errorColor shadow-inputBsError' : ''}`}
+        } cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError' : ''}`}
         onClick={toggleDropdown}
       >
         <input
-          className={`!placeholder:text-blue_gray-301 pr-1 !text-gray700 font-manrope font-normal cursor-pointer-green leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
+          className={`!placeholder:text-blue_gray-301 pr-1 !text-gray700 font-manrope font-normal cursorpointer-green leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0`}
           name="target"
           type="text"
           placeholder={placeholder}
@@ -180,7 +180,7 @@ const SimpleSelectWithGroup = ({
                   {options.map((option, idx) => (
                     <div
                       key={idx}
-                      className={`flex items-center w-full pl-6 pr-3 text-left cursor-pointer-green ${
+                      className={`flex items-center w-full pl-6 pr-3 text-left cursorpointer-green ${
                         (selectedOption === option || JSON.stringify(selectedOption) === JSON.stringify(option)) ? 'select-color-text text-[#35D8BF]' : ''
                       } hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
                       onClick={() => handleOptionClick(option)}

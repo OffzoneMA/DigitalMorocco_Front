@@ -32,6 +32,7 @@ import { useGetAllContactReqByInvestorQuery } from "../Services/Investor.Service
 import { useTranslation } from "react-i18next";
 import CommonModal from "../Components/CommonModal";
 import { useCreateDraftContactRequestMutation } from "../Services/Member.Service";
+import SubTablePagination from "../Components/SubTablePagination";
 
 const InvestorDetails = () => {
   const { t } = useTranslation();
@@ -48,7 +49,7 @@ const InvestorDetails = () => {
   const [investments , setInvestments] = useState([]);
   const [cur, setCur] = useState(1);
   const [loading , setLoading] = useState(true);
-  const itemsPerPage = 8;
+  const itemsPerPage = 3;
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
   const queryParams = {investorId , page: cur, pageSize: itemsPerPage , status: "Approved" };
@@ -168,12 +169,13 @@ const InvestorDetails = () => {
                       </div>}
                     </div>
                     <div className="flex flex-col md:min-w-[450px] gap-6 flex-1 w-full">
-                      <div className="flex flex-row justify-between items-start  w-full">
-                        <div className="relative">
+                      <div className={`flex flex-row justify-between items-start  ${investorRequestStatus?.toLowerCase() === 'pending' ? '' : '' } w-full`}>
+                        <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-4 py-2' : '' } `}>
                           <Text className="font-dm-sans-bold text-2xl leading-8 text-left text-blue_gray-903">
                             {investor?.CompanyName || investor?.name || 'Digital Morocco Partner'}
                           </Text>
-                          {investorRequestStatus?.toLowerCase() === 'pending' && <div className="absolute h-full overlay-content-invDetails w-full top-0">
+                          {investorRequestStatus?.toLowerCase() === 'pending' && 
+                          <div className="absolute ml-[-8px] h-full overlay-content-invDetails w-full top-0">
                           </div>}
                         </div>
                         {(investorRequestStatus?.toLowerCase() !== 'accepted') && 
@@ -238,7 +240,7 @@ const InvestorDetails = () => {
                                 {t('investor.investorDetails.about')}
                                 </Text>
                               </div>
-                              <div className="relative">
+                              <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-3 py-1' : '' } `}>
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                     {investor?.desc || investor?.description || `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`}
                                 </Text>
@@ -253,7 +255,7 @@ const InvestorDetails = () => {
                                 {t('investor.investorDetails.legalName')}
                                 </Text>
                               </div>
-                              <div className="relative">
+                              <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-3 py-1' : '' } `}>
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                   {investor?.legalName || 'Venture Catalysts, Inc'}
                                 </Text>
@@ -285,7 +287,7 @@ const InvestorDetails = () => {
                                 {t('investor.investorDetails.companyType')}
                                 </Text>
                               </div>
-                              <div className="relative">
+                              <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-3 py-2' : '' } `}>
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.type || 'Venture Capital'}
                                 </Text>
@@ -313,7 +315,7 @@ const InvestorDetails = () => {
                                 {t('investor.investorDetails.website')}
                                 </Text>
                               </div>
-                              <div className="relative flex flex-row gap-3 items-center">
+                              <div className={`relative flex flex-row gap-3 items-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-3 py-1' : '' }`}>
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                   {investor?.website || 'http://venture-catalysts.com'}
                                 </Text>
@@ -394,7 +396,7 @@ const InvestorDetails = () => {
                                 {t('investor.investorDetails.phoneNumber')}
                                 </Text>
                               </div>
-                              <div className="relative">
+                              <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-3 py-2' : '' } `}>
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.phoneNumber || '+33 1 234 567 89'}
                                 </Text>
@@ -409,7 +411,7 @@ const InvestorDetails = () => {
                                 {t('investor.investorDetails.emailAddress')}
                                 </Text>
                               </div>
-                              <div className="relative">
+                              <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-3 py-2' : '' } `}>
                                 <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
                                 {investor?.emailAddress|| 'investment@venture-catalysts.com'}
                                 </Text>
@@ -496,7 +498,7 @@ const InvestorDetails = () => {
                             </div>
                             {(!investmentLoading && pageData?.length>0) && (
                             <div className='w-full flex items-center p-4'>
-                                <TablePagination
+                                <SubTablePagination
                                 currentPage={cur}
                                 totalPages={totalPages}
                                 onPageChange={handlePageChange}

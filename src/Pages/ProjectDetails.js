@@ -166,7 +166,7 @@ useEffect(() => {
   return (
     <>
     {isLoading ? 
-    <div className="bg-white-A700 flex items-center justify-center h-screen">
+    <div className="bg-white-A700 rounded-tl-[40px] flex items-center justify-center h-screen">
       <Loader />
     </div>
     :

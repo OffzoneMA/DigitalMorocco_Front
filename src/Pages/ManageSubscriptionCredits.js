@@ -46,66 +46,54 @@ const ManageSubscriptionCredits = () => {
         formState: { errors },
       } = useForm();
 
-
-    const creditOptions = [
-        {id: 1, credits: 2000, price: 60, formatted: `${(2000).toLocaleString()} Credits: 60$ USD` },
-        {id: 2, credits: 4000, price: 100, formatted: `${(4000).toLocaleString()} Credits: 100$ USD` },
-        {id: 3, credits: 6000, price: 120, formatted: `${(6000).toLocaleString()} Credits: 120$ USD` },
-        {id: 4, credits: 8000, price: 160, formatted: `${(8000).toLocaleString()} Credits: 160$ USD` },
-        {id: 5, credits: 10000, price: 200, formatted: `${(10000).toLocaleString()} Credits: 200$ USD` },
-        {id: 6, credits: 12000, price: 210, formatted: `${(12000).toLocaleString()} Credits: 210$ USD` },
-        {id: 7, credits: 14000, price: 250, formatted: `${(14000).toLocaleString()} Credits: 250$ USD` }
-      ];
-
-    const creditOptionsEn = [
+      const creditOptionsEn = [
         {
-        group: "Buy 1,000+ credits and get a 10% discount",
-        options: [
-            { credits: 1000, price: 9.45, initialRate: 10.50, formatted: "1,000 credits: $9.45 (Initial rate: $10.50)" },
-            { credits: 2000, price: 18.90, initialRate: 21.00, formatted: "2,000 credits: $18.90 (Initial rate: $21.00)" },
-            { credits: 3000, price: 28.35, initialRate: 31.50, formatted: "3,000 credits: $28.35 (Initial rate: $31.50)" },
-            { credits: 4000, price: 37.80, initialRate: 42.00, formatted: "4,000 credits: $37.80 (Initial rate: $42.00)" },
-            { credits: 5000, price: 47.25, initialRate: 52.50, formatted: "5,000 credits: $47.25 (Initial rate: $52.50)" },
-            { credits: 6000, price: 56.70, initialRate: 63.00, formatted: "6,000 credits: $56.70 (Initial rate: $63.00)" },
-        ],
+            group: "Buy 1 000+ credits and get a 10% discount",
+            options: [
+                { credits: 1000, price: 9.45, initialRate: 10.50, formatted: "1 000 credits: $9.45 (Initial rate: $10.50)" },
+                { credits: 2000, price: 18.90, initialRate: 21.00, formatted: "2 000 credits: $18.90 (Initial rate: $21.00)" },
+                { credits: 3000, price: 28.35, initialRate: 31.50, formatted: "3 000 credits: $28.35 (Initial rate: $31.50)" },
+                { credits: 4000, price: 37.80, initialRate: 42.00, formatted: "4 000 credits: $37.80 (Initial rate: $42.00)" },
+                { credits: 5000, price: 47.25, initialRate: 52.50, formatted: "5 000 credits: $47.25 (Initial rate: $52.50)" },
+                { credits: 6000, price: 56.70, initialRate: 63.00, formatted: "6 000 credits: $56.70 (Initial rate: $63.00)" },
+            ],
         },
         {
-        group: "Buy 7,000+ credits and get a 15% discount",
-        options: [
-            { credits: 7000, price: 62.48, initialRate: 73.50, formatted: "7,000 credits: $62.48 (Initial rate: $73.50)" },
-            { credits: 8000, price: 71.40, initialRate: 84.00, formatted: "8,000 credits: $71.40 (Initial rate: $84.00)" },
-            { credits: 9000, price: 80.33, initialRate: 94.50, formatted: "9,000 credits: $80.33 (Initial rate: $94.50)" },
-            { credits: 10000, price: 89.25, initialRate: 105.00, formatted: "10,000 credits: $89.25 (Initial rate: $105.00)" },
-            { credits: 11000, price: 98.18, initialRate: 115.50, formatted: "11,000 credits: $98.18 (Initial rate: $115.50)" },
-            { credits: 12000, price: 107.10, initialRate: 126.00, formatted: "12,000 credits: $107.10 (Initial rate: $126.00)" },
-            { credits: 13000, price: 116.03, initialRate: 136.50, formatted: "13,000 credits: $116.03 (Initial rate: $136.50)" },
-            { credits: 14000, price: 124.95, initialRate: 147.00, formatted: "14,000 credits: $124.95 (Initial rate: $147.00)" },
-        ],
+            group: "Buy 7 000+ credits and get a 15% discount",
+            options: [
+                { credits: 7000, price: 62.48, initialRate: 73.50, formatted: "7 000 credits: $62.48 (Initial rate: $73.50)" },
+                { credits: 8000, price: 71.40, initialRate: 84.00, formatted: "8 000 credits: $71.40 (Initial rate: $84.00)" },
+                { credits: 9000, price: 80.33, initialRate: 94.50, formatted: "9 000 credits: $80.33 (Initial rate: $94.50)" },
+                { credits: 10000, price: 89.25, initialRate: 105.00, formatted: "10 000 credits: $89.25 (Initial rate: $105.00)" },
+                { credits: 11000, price: 98.18, initialRate: 115.50, formatted: "11 000 credits: $98.18 (Initial rate: $115.50)" },
+                { credits: 12000, price: 107.10, initialRate: 126.00, formatted: "12 000 credits: $107.10 (Initial rate: $126.00)" },
+                { credits: 13000, price: 116.03, initialRate: 136.50, formatted: "13 000 credits: $116.03 (Initial rate: $136.50)" },
+                { credits: 14000, price: 124.95, initialRate: 147.00, formatted: "14 000 credits: $124.95 (Initial rate: $147.00)" },
+            ],
         },
         {
-        group: "Buy 15,000+ credits and get a 25% discount",
-        options: [
-            { credits: 15000, price: 118.13, initialRate: 157.50, formatted: "15,000 credits: $118.13 (Initial rate: $157.50)" },
-            { credits: 16000, price: 126.00, initialRate: 168.00, formatted: "16,000 credits: $126.00 (Initial rate: $168.00)" },
-            { credits: 17000, price: 133.88, initialRate: 178.50, formatted: "17,000 credits: $133.88 (Initial rate: $178.50)" },
-            { credits: 18000, price: 141.75, initialRate: 189.00, formatted: "18,000 credits: $141.75 (Initial rate: $189.00)" },
-            { credits: 19000, price: 149.63, initialRate: 199.50, formatted: "19,000 credits: $149.63 (Initial rate: $199.50)" },
-            { credits: 20000, price: 157.50, initialRate: 210.00, formatted: "20,000 credits: $157.50 (Initial rate: $210.00)" },
-            { credits: 21000, price: 165.38, initialRate: 220.50, formatted: "21,000 credits: $165.38 (Initial rate: $220.50)" },
-            { credits: 22000, price: 173.25, initialRate: 231.00, formatted: "22,000 credits: $173.25 (Initial rate: $231.00)" },
-            { credits: 23000, price: 181.13, initialRate: 241.50, formatted: "23,000 credits: $181.13 (Initial rate: $241.50)" },
-            { credits: 24000, price: 189.00, initialRate: 252.00, formatted: "24,000 credits: $189.00 (Initial rate: $252.00)" },
-            { credits: 25000, price: 196.88, initialRate: 262.50, formatted: "25,000 credits: $196.88 (Initial rate: $262.50)" },
-            { credits: 26000, price: 204.75, initialRate: 273.00, formatted: "26,000 credits: $204.75 (Initial rate: $273.00)" },
-            { credits: 27000, price: 212.63, initialRate: 283.50, formatted: "27,000 credits: $212.63 (Initial rate: $283.50)" },
-            { credits: 28000, price: 220.50, initialRate: 294.00, formatted: "28,000 credits: $220.50 (Initial rate: $294.00)" },
-            { credits: 29000, price: 228.38, initialRate: 304.50, formatted: "29,000 credits: $228.38 (Initial rate: $304.50)" },
-            { credits: 30000, price: 236.25, initialRate: 315.00, formatted: "30,000 credits: $236.25 (Initial rate: $315.00)" },
-        ],
+            group: "Buy 15 000+ credits and get a 25% discount",
+            options: [
+                { credits: 15000, price: 118.13, initialRate: 157.50, formatted: "15 000 credits: $118.13 (Initial rate: $157.50)" },
+                { credits: 16000, price: 126.00, initialRate: 168.00, formatted: "16 000 credits: $126.00 (Initial rate: $168.00)" },
+                { credits: 17000, price: 133.88, initialRate: 178.50, formatted: "17 000 credits: $133.88 (Initial rate: $178.50)" },
+                { credits: 18000, price: 141.75, initialRate: 189.00, formatted: "18 000 credits: $141.75 (Initial rate: $189.00)" },
+                { credits: 19000, price: 149.63, initialRate: 199.50, formatted: "19 000 credits: $149.63 (Initial rate: $199.50)" },
+                { credits: 20000, price: 157.50, initialRate: 210.00, formatted: "20 000 credits: $157.50 (Initial rate: $210.00)" },
+                { credits: 21000, price: 165.38, initialRate: 220.50, formatted: "21 000 credits: $165.38 (Initial rate: $220.50)" },
+                { credits: 22000, price: 173.25, initialRate: 231.00, formatted: "22 000 credits: $173.25 (Initial rate: $231.00)" },
+                { credits: 23000, price: 181.13, initialRate: 241.50, formatted: "23 000 credits: $181.13 (Initial rate: $241.50)" },
+                { credits: 24000, price: 189.00, initialRate: 252.00, formatted: "24 000 credits: $189.00 (Initial rate: $252.00)" },
+                { credits: 25000, price: 196.88, initialRate: 262.50, formatted: "25 000 credits: $196.88 (Initial rate: $262.50)" },
+                { credits: 26000, price: 204.75, initialRate: 273.00, formatted: "26 000 credits: $204.75 (Initial rate: $273.00)" },
+                { credits: 27000, price: 212.63, initialRate: 283.50, formatted: "27 000 credits: $212.63 (Initial rate: $283.50)" },
+                { credits: 28000, price: 220.50, initialRate: 294.00, formatted: "28 000 credits: $220.50 (Initial rate: $294.00)" },
+                { credits: 29000, price: 228.38, initialRate: 304.50, formatted: "29 000 credits: $228.38 (Initial rate: $304.50)" },
+                { credits: 30000, price: 236.25, initialRate: 315.00, formatted: "30 000 credits: $236.25 (Initial rate: $315.00)" },
+            ],
         },
     ];
-      
-      
+    
       const onSubmit = (data) => {
 
       };

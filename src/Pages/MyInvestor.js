@@ -3,7 +3,7 @@ import axios from "axios";
 import { Text } from "../Components/Text";
 import TablePagination from "../Components/TablePagination";
 import Loading from "../Components/Loading";
-import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
+import { useNavigate , useSearchParams } from "react-router-dom";
 import { FiDelete } from "react-icons/fi";
 import { BiFilterAlt } from "react-icons/bi";
 import MultipleSelect from "../Components/MultipleSelect";
@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 
 const MyInvestors = () => {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [investors, setInvestors] = useState([]);
   const [filteredInvestors, setFilteredInvestors] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,6 +53,12 @@ const MyInvestors = () => {
   const { data : locations1 } = useGetDistinctInvestorFieldValuesQuery('country');
   const { data : industriesData, isLoading:industryLoading } = useGetDistinctInvestorFieldValuesQuery('PreferredInvestmentIndustry');
   const { data : investorTypes, isLoading:typeLoading } = useGetDistinctInvestorFieldValuesQuery('type');
+
+  useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
+
 
   useEffect(() => {
     if (data) {
@@ -283,7 +290,7 @@ const MyInvestors = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  onPageChange={handlePageChange}
+                  //onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />              
               </div>

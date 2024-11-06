@@ -27,6 +27,7 @@ import { useTranslation } from "react-i18next";
 
 const MyInvestment = () => {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
@@ -69,6 +70,12 @@ const MyInvestment = () => {
         setLocation('');
         setTargetFund('');
     }
+
+    useEffect(() => {
+      const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+      setCur(pageFromUrl);
+    }, [searchParams]);
+
     useEffect(() => {
       refetch();
     }, [cur , itemsPerPage , refetch , filterApply]);
@@ -282,7 +289,7 @@ const MyInvestment = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  onPageChange={handlePageChange}
+                  // onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />              
               </div>

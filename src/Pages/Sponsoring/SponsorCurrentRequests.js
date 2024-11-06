@@ -74,6 +74,10 @@ const SponsorCurrentRequests = () => {
     }
     const {data : currentRequests , error: currentRequestsError , isFetching: isLoading , refetch } = useGetSponsorsByPartnerQuery(queryParams);
 
+    useEffect(() => {
+      const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+      setCur(pageFromUrl);
+    }, [searchParams]);
 
     useEffect(() => {
       refetch();
@@ -419,7 +423,7 @@ const handleReject = async (data) => {
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
-                      onPageChange={handlePageChange}
+                      // onPageChange={handlePageChange}
                       itemsToShow={itemsToShow}
                     />              
                   </div>}

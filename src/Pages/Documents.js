@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import{Text } from "../Components/Text";
 import { FiEdit3 } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi";
-import { useNavigate} from "react-router-dom";
+import { useNavigate , useSearchParams} from "react-router-dom";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import TablePagination from "../Components/TablePagination";
 import DeleteModal from "../Components/DeleteModal";
@@ -25,6 +25,7 @@ import { useTranslation } from "react-i18next";
 const Documents = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { userInfo } = useSelector((state) => state.auth) 
   const [createDocument, createResponse] = useCreateDocumentMutation(); 
   const [updateDocument, updateResponse] = useUpdateDocumentMutation();
@@ -44,6 +45,11 @@ const Documents = () => {
   const currentLanguage = localStorage.getItem('language') || 'en'; 
 
   const pageData = documents?.documents;
+
+  useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
 
   useEffect(() => {
     refetch();
@@ -262,7 +268,7 @@ const Documents = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  onPageChange={handlePageChange}
+                  // onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />              
               </div>

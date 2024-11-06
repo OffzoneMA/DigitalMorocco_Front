@@ -3,7 +3,7 @@ import axios from "axios";
 import { Text } from "../Components/Text";
 import TablePagination from "../Components/TablePagination";
 import Loading from "../Components/Loading";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useSearchParams} from "react-router-dom";
 import { FaRegPlusSquare} from "react-icons/fa";
 import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 
 const Employees = () => {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [employees, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -32,6 +33,11 @@ const Employees = () => {
   const pagesToShow = 4;
 
   const pageData = filteredEmployees;
+
+  useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
 
   useEffect(() => {
     fetchMembers();
@@ -247,7 +253,7 @@ const Employees = () => {
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
-                      onPageChange={handlePageChange}
+                      // onPageChange={handlePageChange}
                       itemsToShow={pagesToShow}
                     />
                 </div>

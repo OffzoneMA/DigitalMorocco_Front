@@ -57,6 +57,11 @@ const Events = () => {
 
   const currentLanguage = localStorage.getItem('language') || 'en'; 
   const locale = currentLanguage === 'fr' ? fr : enUS;
+  
+  useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
 
   useEffect(() => {
     refetch();
@@ -459,7 +464,7 @@ const Events = () => {
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
-                      onPageChange={handlePageChange}
+                      // onPageChange={handlePageChange}
                       itemsToShow={itemsToShow}
                     />              
                   </div>

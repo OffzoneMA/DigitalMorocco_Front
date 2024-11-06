@@ -38,6 +38,10 @@ const CompanyLegal = () => {
   const [loading, setLoading] = useState(true);
   const [documentId, setDocumentId] = useState(null); 
 
+  useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
 
   useEffect(() => {
     fetchLegalDocuments();
@@ -354,11 +358,11 @@ const fetchLegalDocuments = async () => {
             {documentData?.length>0 && (
               <div className='w-full flex items-center p-4'>
                 <TablePagination
-              currentPage={cur}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              itemsToShow={pagesToShow}
-            />
+                currentPage={cur}
+                totalPages={totalPages}
+                // onPageChange={handlePageChange}
+                itemsToShow={pagesToShow}
+              />
               </div>
             )}
           </div>

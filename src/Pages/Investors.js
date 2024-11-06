@@ -3,11 +3,9 @@ import { useSelector } from "react-redux";
 import{ Text } from "../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
-import { FiDelete } from "react-icons/fi";
 import { BsEyeSlash } from "react-icons/bs";
 import { TiFlashOutline } from "react-icons/ti";
 import TablePagination from "../Components/TablePagination";
-import {companyType} from "../data/companyType";
 import SimpleSelect from "../Components/SimpleSelect";
 import MultipleSelect from "../Components/MultipleSelect";
 import { Country } from "country-state-city";
@@ -16,11 +14,7 @@ import PageHeader from "../Components/PageHeader";
 import TableTitle from "../Components/TableTitle";
 import SearchInput from "../Components/SeachInput";
 import Loader from "../Components/Loader";
-import axios from 'axios';
-import Loading from "../Components/Loading";
-import { FaUsers } from "react-icons/fa";
 import { useGetDistinctValuesQuery , useGetInvestorsListQuery , useGetInvestorsListForMemberQuery} from "../Services/Investor.Service";
-import { FaUserCircle } from "react-icons/fa";
 import userdefaultProfile from '../Media/User.png';
 import { useCheckSubscriptionStatusQuery } from "../Services/Subscription.Service";
 import { useTranslation } from "react-i18next";
@@ -47,6 +41,7 @@ const Investors = () => {
   const [profilVerified , setProfilVerified] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
+  const pageFromUrl = parseInt(searchParams.get('page')) || 1;
   const itemsPerPage = 8;
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
@@ -72,6 +67,11 @@ const Investors = () => {
 }, [userDetails])
 
   useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
+
+  useEffect(() => {
     if (investorData) {
       setInvestors(investorData.investors);
       setTotalPages(investorData.totalPages);
@@ -80,8 +80,8 @@ const Investors = () => {
   
   useEffect(() => {
     // Check if investor data is loaded and subscription status is available
-    if (investorData && subscriptionData && !subscriptionLoading && !loading && !userDetailsLoading) {
-      const { hasDraftRequest } = investorData;
+    if (investorData && investors?.length > 0 && subscriptionData && !subscriptionLoading && !loading && !userDetailsLoading) {
+      const hasDraftRequest = investorData?.hasDraftRequest;
       const isSubscribed = subscriptionData !== null && subscriptionData !== undefined; 
 
       // Show popup if there is a draft request and the user is subscribed
@@ -90,6 +90,7 @@ const Investors = () => {
       }
     }
   }, [investorData, subscriptionData , loading , subscriptionLoading , userDetailsLoading]);
+
 
   useEffect(() => {
     refetch();
@@ -385,9 +386,8 @@ const Investors = () => {
               {(pageData?.length>0 && !loading && !subscriptionLoading && !userDetailsLoading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
-                  currentPage={cur}
                   totalPages={totalPages}
-                  onPageChange={handlePageChange}
+                  // onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />              
               </div>
@@ -425,7 +425,7 @@ const Investors = () => {
           </div>
           <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
               <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
-              onClick={() => setShowContactPopup(false)}>
+              onClick={() => setShowDraftPopup(false)}>
                 <div className="text-[#475466] text-base font-dm-sans-medium">{t('Continue Navigation')}</div>
               </button>
               <button className="h-11 px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 

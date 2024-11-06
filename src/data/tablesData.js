@@ -1892,14 +1892,15 @@ export const languages = [
 ];
 
 export const regions = [
-  { id: 'na', label: 'North America' },
-  { id: 'sa', label: 'South America' },
-  { id: 'eu', label: 'Europe' },
   { id: 'af', label: 'Africa' },
-  { id: 'as', label: 'Asia' },
-  { id: 'oc', label: 'Oceania' },
   { id: 'an', label: 'Antarctica' },
+  { id: 'as', label: 'Asia' },
+  { id: 'eu', label: 'Europe' },
+  { id: 'na', label: 'North America' },
+  { id: 'oc', label: 'Oceania' },
+  { id: 'sa', label: 'South America' },
 ];
+
 
 export const paymentMethodsData = [
   { id: 1, name: 'Mastercard', image: '/images/img_mastercard.svg', icon: "/images/img_mastercard_icon.svg", info: 'Mastercard information' },

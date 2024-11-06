@@ -44,6 +44,11 @@ const InvestorRequestHistory = () => {
   const { data : investorNames, isLoading:typeLoading } = useGetDistinctRequestFieldValuesQuery('investorNames');
 
   useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
+
+  useEffect(() => {
     if (!loading && data) {
       setInvestorRequests(data?.contactRequests);
       setTotalPages(data?.totalPages);
@@ -262,7 +267,9 @@ const InvestorRequestHistory = () => {
             </div>
             {(pageData?.length > 0 && !loading) && (
               <div className='w-full flex items-center p-4'>
-                <TablePagination currentPage={cur} totalPages={totalPages} onPageChange={handlePageChange} itemsToShow={itemsToShow} />
+                <TablePagination currentPage={cur} totalPages={totalPages} 
+                // onPageChange={handlePageChange} 
+                itemsToShow={itemsToShow} />
               </div>
             )}
           </div>

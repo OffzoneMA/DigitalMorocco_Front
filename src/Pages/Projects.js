@@ -33,9 +33,13 @@ const Projects = () => {
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
   const { data, error, isLoading , refetch } = useGetAllProjectsQuery({page :cur , pageSize: itemsPerPage});
-  console.log(data)
   // const data = projectsData;
 
+  useEffect(() => {
+    const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+    setCur(pageFromUrl);
+  }, [searchParams]);
+  
   useEffect(() => {
     refetch();
   }, [cur, refetch]);
@@ -160,7 +164,7 @@ const Projects = () => {
                         <div className="relative group">
                           <FiEdit3 
                             size={17} 
-                            className="text-blue_gray-301 cursor-pointer"
+                            className="text-blue_gray-301 cursorpointer"
                             onClick={(e) => {
                               e.stopPropagation();
                               navigate(`/EditProject/${item._id}`, { state: { project: item } });
@@ -209,7 +213,7 @@ const Projects = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  onPageChange={handlePageChange}
+                  // onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />              
               </div>

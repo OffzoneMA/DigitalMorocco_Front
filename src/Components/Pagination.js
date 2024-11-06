@@ -7,6 +7,7 @@ export default function Pagination({ nbrPages }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const [current, setCurrent] = useState(searchParams.get("page") || 1);
     const {t} = useTranslation();
+    
     const generatePageLinks = () => {
         const maxVisiblePages = 5; 
 

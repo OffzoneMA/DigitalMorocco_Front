@@ -65,6 +65,11 @@ const UpcomingSponsorEvent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
+      const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+      setCur(pageFromUrl);
+    }, [searchParams]);
+
+    useEffect(() => {
       refetch();
     }, [cur , refetch , filterApply]);
   
@@ -298,7 +303,7 @@ const UpcomingSponsorEvent = () => {
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
-                      onPageChange={handlePageChange}
+                      //onPageChange={handlePageChange}
                       itemsToShow={itemsToShow}
                     />              
                   </div>}

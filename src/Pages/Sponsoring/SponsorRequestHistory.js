@@ -80,6 +80,10 @@ const SponsorRequestHistory = () => {
     }
     const {data : currentRequests , error: currentRequestsError , isFetching: isLoading , refetch } = useGetSponsorsHistoryByPartnerQuery(queryParams);
 
+    useEffect(() => {
+      const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+      setCur(pageFromUrl);
+    }, [searchParams]);
 
     useEffect(() => {
       refetch();
@@ -460,7 +464,7 @@ const SponsorRequestHistory = () => {
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}
-                      onPageChange={handlePageChange}
+                      //onPageChange={handlePageChange}
                       itemsToShow={itemsToShow}
                     />              
                   </div>}

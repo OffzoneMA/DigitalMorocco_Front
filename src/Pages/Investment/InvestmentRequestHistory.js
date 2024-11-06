@@ -25,6 +25,7 @@ import { useTranslation } from "react-i18next";
 
 const InvestmentRequestHistory = () => {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
@@ -68,6 +69,11 @@ const InvestmentRequestHistory = () => {
         setSelectedDate('');
         setTargetFund('');
     }
+
+    useEffect(() => {
+      const pageFromUrl = parseInt(searchParams.get('page')) || 1;
+      setCur(pageFromUrl);
+    }, [searchParams]);
 
     useEffect(() => {
       refetch();
@@ -284,7 +290,7 @@ const InvestmentRequestHistory = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  onPageChange={handlePageChange}
+                  // onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />              
               </div>
