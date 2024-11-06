@@ -42,7 +42,9 @@ export default function Subscription() {
   const [showNotification, setShowNotification] = useState(false);
   const [cancelSubscription, { isLoading: cancelLoading, isError: cancelError, isSuccess: cancelSuccess }] = useCancelSubscriptionMutation();
   const [renewSubscription, { isLoading: renewLoading, isFetching: renewFetching , isSuccess: renewSuccess, isError: renewError }] = useRenewSubscriptionMutation();
-  const {data: billingDataForUser , isFetching: billingDataFetching } = useGetBillingsForUserQuery();
+  // const {data: billingDataForUser , isFetching: billingDataFetching } = useGetBillingsForUserQuery();
+  const [billingDataForUser , setBillingDataForUser] = useState([]);
+  const [billingDataFetching , setBillingDataFetching] = useState(false);
   const currentLanguage = localStorage.getItem('language') || 'en'; 
 
   const formatPrice = (price) => {

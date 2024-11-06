@@ -194,7 +194,7 @@
     "company": {
       "main": "Company",
       "myCompany": "Company Profile",
-      "employee": "Employee",
+      "employee": "Collaborators ",
       "legal": "Legal"
     },
     "investor": {
@@ -687,7 +687,7 @@
       "documentTitle": "Document Title",
       "enterDocumentTitle": "Enter Document Title",
       "uploadDocument": "Upload Document",
-      "updateDocument": "Update Document",
+      "updateDocument": "Update Your Document",
       "uploadPrompt": "Drag and drop or click here to upload your document",
       "shareWith": "Share With",
       "selectName": "Select Name",

@@ -195,7 +195,7 @@
     "company": {
       "main": "Entreprise",
       "myCompany": "Profil de l'entreprise",
-      "employee": "Employé",
+      "employee": "Collaborateurs",
       "legal": "Juridique"
     },
     "investor": {
@@ -243,7 +243,7 @@
     "upgradeAccount": "Accédez aux outils exclusifs de Digital Morocco pour enrichir votre parcours digital.",
     "upgradeAccountSub": "Explorez des insights stratégiques, des données pointues et des ressources personnalisées pour accélérer votre croissance et maximiser votre impact digital.",
     "upgradeMembership": "Améliorer l'abonnement",
-    "totalCredits": "Crédits totaux",
+    "totalCredits": "Total des crédits",
     "totalCreditsNote": "Améliorez votre compte ou achetez des crédits supplémentaires.",
     "createdProject": "Projets créés",
     "projectNote": "Assurez-vous d'avoir créé des projets avant de continuer.",
@@ -690,7 +690,7 @@
       "documentTitle": "Titre du document",
       "enterDocumentTitle": "Entrez le titre du document",
       "uploadDocument": "Télécharger un document",
-      "updateDocument": "Mettre à jour le document",
+      "updateDocument": "Mettre à jour votre document",
       "uploadPrompt": "Faites glisser et déposez ou cliquez ici pour télécharger votre document",
       "shareWith": "Partager avec",
       "selectName": "Sélectionner un nom",
@@ -1776,8 +1776,6 @@
 
   "Due Date": "Date d'échéance",
 
-  "English": "Anglais",
-  "French": "Français",
 
   "Africa": "Afrique",
   "Antarctica": "Antarctique",

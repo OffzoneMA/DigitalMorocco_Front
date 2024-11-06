@@ -1888,7 +1888,7 @@ export const historyData = [
 
 export const languages = [
   { id: 'en', label: 'English' },
-  { id: 'fr', label: 'French' },
+  { id: 'fr', label: 'Français' },
 ];
 
 export const regions = [
