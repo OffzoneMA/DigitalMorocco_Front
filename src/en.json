@@ -194,7 +194,7 @@
     "company": {
       "main": "Company",
       "myCompany": "Company Profile",
-      "employee": "Collaborators ",
+      "employee": "Collaborators",
       "legal": "Legal"
     },
     "investor": {
@@ -582,9 +582,10 @@
     "myInvestors": "My Investors",
     "requestHistory": "Request History",
     "viewAllInvestors": "View all {{count}} Investors",
-    "upgradeMessage": "Upgrade to",
-    "upgradeMessage2": "to access all search results, save to custom lists, and connect with investors.",
+    "upgradeMessage": "Upgrade your",
+    "upgradeMessage2": "all search results, save to custom lists, and connect with investors.",
     "digitalMoroccoPro": "Digital Morocco Pro",
+    "digitalMoroccoPro1": "membership to unlock",
     "notice": "Please note that all investors' contact information remains hidden until your contact request has been validated by the investor! However, you will have access to all other information, such as type, location, preferred industry, etc.",
     "investorDetails": {
       "sendContactRequest": "Send Contact Request",

@@ -357,13 +357,13 @@ const Investors = () => {
                         className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
                         size=""
                       >
-                        {t('investor.viewAllInvestors', { count: (261765).toLocaleString('en-US') })} 
+                        {t('investor.viewAllInvestors', { count: (261765).toLocaleString('fr-FR') })} 
                       </Text>
                       <Text
                         className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
                         size=""
                       >
-                        {t('investor.upgradeMessage')} <a className="text-blue-500" href="/ChoosePlan">{t('investor.digitalMoroccoPro')}</a> {t('investor.upgradeMessage2')}
+                        {t('investor.upgradeMessage')} <a className="text-blue-500" href="/ChoosePlan">{t('investor.digitalMoroccoPro1')}</a> {t('investor.upgradeMessage2')}
                       </Text>
                       <Text
                         className="text-[#f04437]/60 text-sm font-semibold font-DMSans leading-relaxed pb-8"

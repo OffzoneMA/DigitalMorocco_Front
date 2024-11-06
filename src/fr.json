@@ -583,10 +583,11 @@
     "myInvestors": "Mes investisseurs",
     "requestHistory": "Historique des demandes",
     "viewAllInvestors": "Voir les {{count}} investisseurs",
-    "upgradeMessage": "Passez à",
-    "upgradeLink": "",
+    "upgradeMessage": "Mettez à niveau votre",
     "upgradeMessage2": "pour accéder à tous les résultats de recherche, enregistrer dans des listes personnalisées et entrer en contact avec des investisseurs.",
     "digitalMoroccoPro": "Digital Morocco Pro",
+    "digitalMoroccoPro1": "adhésion pour débloquer",
+    "upgradeLink": "",
     "notice": "Veuillez noter que les informations de contact de tous les investisseurs restent cachées jusqu'à ce que votre demande de contact soit validée par l'investisseur ! Cependant, vous aurez accès à toutes les autres informations, telles que le type, la localisation, le secteur d'activité préféré, etc.",
     "investorDetails": {
       "sendContactRequest": "Envoyer une demande de contact",
