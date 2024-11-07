@@ -51,7 +51,7 @@ const ProjectDetails = () => {
       const div2Height = div2Ref.current?.clientHeight;
       const maxHeight = Math.max(div1Height + 50, div2Height + 50);
       if(dividerRef.current) {
-        if (window.innerWidth >= 768) { 
+        if (window.innerWidth >= 1024) { 
           dividerRef.current.style.height = `${maxHeight}px`;
           setDivMaxHeight(`${maxHeight}px`);
         } else {
@@ -220,7 +220,7 @@ useEffect(() => {
               </div>
             </div>
             <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-201 justify-start py-5 w-full">
-              <div className="flex flex-wrap py-2 w-full">
+              <div className="flex  gap-y-4 flex-wrap py-2 w-full">
                 <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
@@ -296,7 +296,7 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-[50px] items-start justify-start px-[18px] py-5 w-full">
+            <div className="flex flex-col lg:flex-row xl:flex-row 3xl:flex-row 2xl:flex-row gap-[50px] items-start justify-start px-[18px] py-5 w-full">
                 <div ref={div1Ref} className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
                   <div className="flex flex-col items-start justify-start w-full">
                     <div className="flex flex-col items-center justify-start w-auto">
@@ -398,9 +398,9 @@ useEffect(() => {
                   {/* Fin Divider */}
                 </div>
                 {/* Divider */}
-                <div ref={dividerRef} className="bg-gray-201 md:h-[${maxDivHeight}] h-px w-full md:w-px" />
+                <div ref={dividerRef} className="bg-gray-201 lg:h-[${maxDivHeight}] h-px w-full lg:w-px" />
                 {/*Fin Divider */}
-                <div ref={div2Ref} className="flex flex-col items-start justify-start w-full md:w-1/3">
+                <div ref={div2Ref} className="flex flex-col items-start justify-start w-full lg:w-1/3">
                   <div className="flex flex-col items-center justify-start w-auto">
                     <Text
                       className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
