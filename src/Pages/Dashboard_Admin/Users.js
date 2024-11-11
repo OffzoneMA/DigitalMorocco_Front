@@ -193,7 +193,7 @@ const Users = () => {
           <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
             <PageHeader
               >
-              Users
+              {t('sidebar.users')}
             </PageHeader>
           </div>
           <SearchInput className={'w-[240px]'}/>
