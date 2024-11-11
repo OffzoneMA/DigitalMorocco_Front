@@ -15,7 +15,7 @@ import faceBookLogo from '../../Media/img_logosfacebook.svg';
 import linkLogo from '../../Media/img_link.svg';
 import { authApi } from '../../Services/Auth';
 import { useGetUserByEmailQuery } from '../../Services/Auth';
-import EmailExistModalOrConfirmation from '../../Components/EmailExistModalOrConfirmation';
+import EmailExistModalOrConfirmation from '../../Components/Modals/EmailExistModalOrConfirmation';
 import { languages } from '../../data/tablesData';
 
 

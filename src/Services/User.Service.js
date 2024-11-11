@@ -44,8 +44,23 @@ export const userApi = createApi({
         getUsersCountByMonth: builder.query({
             query: () => '/count-by-month',
         }),
+        getDistinctFieldValues: builder.query({
+            query: (field) => `/distinct?field=${field}`,
+        }),
+        getAllUsersPage: builder.query({
+            query: ({ page = 1, limit = 8, roles = [], statuses = [] }) => ({
+                url: '/all',
+                method: 'GET',
+                params: {
+                page,
+                limit,
+                roles: roles?.join(','),  
+                statuses: statuses?.join(','),
+                },
+            }),
+        }),
     }),
 })
 
 export const { useUpdateUserMutation , useUpdateFullNameMutation , useGetAllUsersQuery , 
-    useGetUsersCountByMonthQuery } = userApi
+    useGetUsersCountByMonthQuery , useGetDistinctFieldValuesQuery , useGetAllUsersPageQuery } = userApi

@@ -8,8 +8,8 @@ import { AreaChart, XAxis, Tooltip, Area, ResponsiveContainer } from 'recharts';
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import PageHeader from "../../Components/PageHeader";
-import SearchInput from "../../Components/SeachInput";
+import PageHeader from "../../Components/common/PageHeader";
+import SearchInput from "../../Components/common/SeachInput";
 import { useGetAllUsersQuery } from "../../Services/User.Service";
 import { useTranslation } from "react-i18next";
 

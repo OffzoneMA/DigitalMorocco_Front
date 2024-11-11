@@ -8,7 +8,7 @@ import {Toaster} from 'react-hot-toast';
 import logo from '../../../Media/img_logo.svg';
 import verifyImage from '../../../Media/img_verify.svg';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
-import EmailExistModalOrConfirmation from '../../../Components/EmailExistModalOrConfirmation';
+import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
 import { logout } from '../../../Redux/auth/authSlice';
 import { useDispatch } from 'react-redux';
 

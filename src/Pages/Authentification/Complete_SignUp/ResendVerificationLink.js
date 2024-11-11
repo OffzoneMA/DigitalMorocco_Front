@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import errorImg from '../../../Media/emailError.svg'
 import verifyImage from '../../../Media/img_verify.svg';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
-import EmailExistModalOrConfirmation from '../../../Components/EmailExistModalOrConfirmation';
+import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
 import { authApi } from '../../../Services/Auth';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";

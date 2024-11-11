@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import EmailExistModal from '../../Components/EmailExistModalOrConfirmation';
+import EmailExistModal from '../../Components/Modals/EmailExistModalOrConfirmation';
 import Loader from '../../Components/Loader';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';

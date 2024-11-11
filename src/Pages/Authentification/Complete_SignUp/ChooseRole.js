@@ -14,7 +14,7 @@ import { useNavigate , useSearchParams } from "react-router-dom";
 import { useUpdateFullNameMutation } from "../../../Services/User.Service";
 import { setCredentials } from "../../../Redux/auth/authSlice";
 import { useDispatch } from "react-redux";
-import ConfirmedModal from "../../../Components/ConfirmedModal";
+import ConfirmedModal from "../../../Components/Modals/ConfirmedModal";
 import { logout } from "../../../Redux/auth/authSlice";
 import { languages } from "../../../data/tablesData";
 

@@ -13,9 +13,9 @@ import { getLocalStorageItemWithExpiration } from './data/helper';
 import { setCredentials , setToken } from './Redux/auth/authSlice';
 import ConnectedUserRoute from './GuardedRoutes/ConnectedUserRoute';
 import Loader from './Components/Loader';
-import Layout from './Components/Layout';
-import DashbordLayout from "./Components/DashbordLayout";
-import SubscribePlan from './Pages/SubscribePlan';
+import Layout from './Components/Layouts/Layout';
+import DashbordLayout from "./Components/Layouts/DashbordLayout";
+import SubscribePlan from './Pages/common/Subscription/SubscribePlan';
 import NotFound from './Pages/NotFound';
 import { useLocation } from 'react-router-dom';
 import ScrollToTop from './Components/ScrollToTop';
@@ -23,68 +23,61 @@ import AutoLogout from './Components/AutoLogout ';
 import ResendVerificationLink from './Pages/Authentification/Complete_SignUp/ResendVerificationLink';
 
 // Utiliser React.lazy pour le code splitting
-const Home = lazy(() => import('./Pages/Home'));
 const SignIn = lazy(() => import('./Pages/Authentification/SignIn'));
 const SignUp = lazy(() => import('./Pages/Authentification/SignUp'));
 const Failure = lazy(() => import('./Pages/Authentification/Failure'));
 const Success = lazy(() => import('./Pages/Authentification/Success'));
 const SuccessSignUp = lazy(() => import('./Pages/Authentification/SuccessSignUp'))
-const Subscription = lazy(() => import('./Pages/Subscription'));
+const Subscription = lazy(() => import('./Pages/common/Subscription/Subscription'));
 const GuardedUserMemberRoutes = lazy(() => import('./GuardedRoutes/GuardedUserMemberRoutes'));
-const UserProfile = lazy(() => import('./Pages/UserProfile'));
-const Pricing = lazy(() => import('./Pages/Pricing'));
-const ContactUs = lazy(() => import('./Pages/ContactUs'));
-const PaySuccess = lazy(() => import('./Pages/Payment/PaySuccess'));
-const PayFailed = lazy(() => import('./Pages/Payment/PayFailed'));
+const UserProfile = lazy(() => import('./Pages/common/UserProfile'));
 const VerificationCode = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationCode'));
-const AboutUs = lazy(() => import('./Pages/AboutUs'));
 const ResetPasswordEmail = lazy(() => import('./Pages/Authentification/ResetPasswordEmail'));
 const ResetPassword = lazy(() => import('./Pages/Authentification/ResetPassword'));
 const PasswordResetSucces = lazy(() => import('./Pages/Authentification/PasswordResetSucces'));
-const Explore = lazy(() => import('./Pages/Explore'));
 const ForgotPassword = lazy(() => import('./Pages/Authentification/ForgotPassword'));
 const ChooseRole = lazy(() => import('./Pages/Authentification/Complete_SignUp/ChooseRole'));
 const SocialSignUp = lazy(() => import('./Pages/Authentification/SocialSignUp'));
-const Projects = lazy(() => import('./Pages/Projects'));
-const CreateProject = lazy(() => import('./Pages/CreateProject'));
-const ProjectDetails = lazy(() => import('./Pages/ProjectDetails'));
-const CompanyLegal = lazy(() => import('./Pages/CompanyLegal'));
-const MyCompany = lazy(() => import('./Pages/MyCompany'));
-const Employees = lazy(() => import('./Pages/Employees'));
-const NewEmployee = lazy(() => import('./Pages/NewEmployee'));
-const Dashbord = lazy(() => import('./Pages/Dashbord'));
-const Dashboard_Investor = lazy(() => import('./Pages/Dashboard_Investor'));
-const Dashboard_Partner = lazy(() => import('./Pages/Dashboard_Partner'));
-const Investors = lazy(() => import('./Pages/Investors'));
-const InvestorDetails = lazy(() => import('./Pages/InvestorDetails'));
-const InvestorRequestHistory = lazy(() => import('./Pages/InvestorRequestHistory'));
-const MyInvestors = lazy(() => import('./Pages/MyInvestor'));
-const Documents = lazy(() => import('./Pages/Documents'));
-const Events = lazy(() => import('./Pages/Events'));
-const History = lazy(() => import('./Pages/History'));
-const Users = lazy(() => import('./Pages/Users'));
-const UpcomingEvents = lazy(() => import('./Pages/UpcomingEvent'));
-const UpcomingEventDetails = lazy(() => import('./Pages/UpcomingEventDetails'));
-const PastEvents = lazy(() => import('./Pages/PastEvents'));
-const ChoosePlan = lazy(() => import('./Pages/ChoosePlan'));
-const Notifications = lazy(() => import('./Pages/Notifications'));
+const Projects = lazy(() => import('./Pages/Member/Project/Projects'));
+const CreateProject = lazy(() => import('./Pages/Member/Project/CreateProject'));
+const ProjectDetails = lazy(() => import('./Pages/Member/Project/ProjectDetails'));
+const CompanyLegal = lazy(() => import('./Pages/common/Company/CompanyLegal'));
+const MyCompany = lazy(() => import('./Pages/common/Company/MyCompany'));
+const Employees = lazy(() => import('./Pages/common/Company/Employees'));
+const NewEmployee = lazy(() => import('./Pages/common/Company/NewEmployee'));
+const Dashbord = lazy(() => import('./Pages/Member/Dashbord'));
+const Dashboard_Investor = lazy(() => import('./Pages/Investor/Dashboard_Investor'));
+const Dashboard_Partner = lazy(() => import('./Pages/Partner/Dashboard_Partner'));
+const Investors = lazy(() => import('./Pages/Member/Investor/Investors'));
+const InvestorDetails = lazy(() => import('./Pages/Member/Investor/InvestorDetails'));
+const InvestorRequestHistory = lazy(() => import('./Pages/Member/Investor/InvestorRequestHistory'));
+const MyInvestors = lazy(() => import('./Pages/Member/Investor/MyInvestor'));
+const Documents = lazy(() => import('./Pages/common/Documents'));
+const Events = lazy(() => import('./Pages/common/Event/Events'));
+const History = lazy(() => import('./Pages/common/History'));
+const Users = lazy(() => import('./Pages/Dashboard_Admin/Users'));
+const UpcomingEvents = lazy(() => import('./Pages/common/Event/UpcomingEvent'));
+const UpcomingEventDetails = lazy(() => import('./Pages/common/Event/UpcomingEventDetails'));
+const PastEvents = lazy(() => import('./Pages/common/Event/PastEvents'));
+const ChoosePlan = lazy(() => import('./Pages/common/Subscription/ChoosePlan'));
+const Notifications = lazy(() => import('./Pages/common/Notifications'));
 const VerificationEmail = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationEmail'));
 const RedirectFromSignIn = lazy(() => import('./Pages/Authentification/RedirectFromSignIn'));
 const ResendVerification = React.lazy(() => import('./Pages/Authentification/Complete_SignUp/ResendVerificationLink'));
 const VerifyFailure = React.lazy(() => import('./Pages/Authentification/VerifyFailure'));
-const ManageSubscriptionCredits = React.lazy(() => import('./Pages/ManageSubscriptionCredits'));
-const Investment = React.lazy(()  => import('./Pages/Investment/Investment'))
-const MyInvestment = React.lazy(() => import('./Pages/MyInvestment/MyInvestment'))
-const MyInvestmentDetails = React.lazy(() => import('./Pages/MyInvestment/MyInvestmentDetails'))
-const InvestmentRequestHistory = React.lazy(() => import('./Pages/Investment/InvestmentRequestHistory'))
-const UpcomingSponsorEvent = React.lazy(() => import('./Pages/Sponsoring/UpcomingSponsorEvent'))
-const SponsorEventDetails = React.lazy(() => import('./Pages/Sponsoring/SponsorEventDetails'))
-const SponsorCurrentRequests = React.lazy(() => import('./Pages/Sponsoring/SponsorCurrentRequests'))
-const PastSponsorEvent = React.lazy(() => import('./Pages/Sponsoring/PastSponsorEvent'))
-const SponsorCurrentRequestDetails = React.lazy(() => import('./Pages/Sponsoring/SponsorCurrentRequestDetails'))
-const PastSponsorEventDetails = React.lazy(() => import('./Pages/Sponsoring/PastSponsorEventDetails'))
-const SponsorRequestHistory = React.lazy(() => import('./Pages/Sponsoring/SponsorRequestHistory'))
-const SponsorRequestHistoryDetails = React.lazy(() => import('./Pages/Sponsoring/SponsorRequestHistoryDetails'))
+const ManageSubscriptionCredits = React.lazy(() => import('./Pages/common/Subscription/ManageSubscriptionCredits'));
+const Investment = React.lazy(()  => import('./Pages/Investor/Investment/Investment'))
+const MyInvestment = React.lazy(() => import('./Pages/Investor/MyInvestment/MyInvestment'))
+const MyInvestmentDetails = React.lazy(() => import('./Pages/Investor/MyInvestment/MyInvestmentDetails'))
+const InvestmentRequestHistory = React.lazy(() => import('./Pages/Investor/Investment/InvestmentRequestHistory'))
+const UpcomingSponsorEvent = React.lazy(() => import('./Pages/Partner/Sponsoring/UpcomingSponsorEvent'))
+const SponsorEventDetails = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorEventDetails'))
+const SponsorCurrentRequests = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorCurrentRequests'))
+const PastSponsorEvent = React.lazy(() => import('./Pages/Partner/Sponsoring/PastSponsorEvent'))
+const SponsorCurrentRequestDetails = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorCurrentRequestDetails'))
+const PastSponsorEventDetails = React.lazy(() => import('./Pages/Partner/Sponsoring/PastSponsorEventDetails'))
+const SponsorRequestHistory = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorRequestHistory'))
+const SponsorRequestHistoryDetails = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorRequestHistoryDetails'))
  
 function App() {
 
@@ -219,22 +212,11 @@ function App() {
                 <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
                 <Route path="/ResendVerificationLink" element={<ResendVerificationLink />} />
 
-                <Route path="/Home" element={<Home />} />
-                <Route   path="/Pricing" element={<Pricing />} />
-                <Route   path="/ContactUs" element={<ContactUs/>}/>
-                <Route   path="/About-Us" element={<AboutUs/>}/>
-                <Route   path="/About-Us/Explore" element={<Explore/>}/>
                 <Route path="/Failure" element={<Failure/>}/>
                 <Route path="/Success" element={<Success/>}/>
                 <Route path="/SuccessSignUp" element={<SuccessSignUp/>}/>
                 <Route path="/ResendVerification" element={<ResendVerification />} />
                 <Route path="/VerifyFailure" element={<VerifyFailure />} />
-              
-                {/* User Member Routes*/}
-                <Route element={<GuardedUserMemberRoutes />}>
-                  <Route path="/Payement_Success" element={<PaySuccess />} />
-                  <Route path="/Payement_Failed" element={<PayFailed />} />
-                </Route>
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

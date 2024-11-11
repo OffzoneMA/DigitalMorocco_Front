@@ -346,8 +346,8 @@
   },
 
   "users": {
-    "unapprovedUsers": "Liste des utilisateurs en attente",
-    "displayName": "Nom d'affichage",
+    "unapprovedUsers": "Liste des utilisateurs",
+    "displayName": "Nom d'utilisateur",
     "googleId": "ID Google",
     "linkedinId": "ID LinkedIn",
     "email": "Email",
@@ -566,7 +566,7 @@
   },
 
 
-  "investor": {
+  "investors": {
     "title": "Liste des investisseurs",
     "investorName": "Nom de l'investisseur",
     "type": "Type d'investisseur",
@@ -1107,6 +1107,8 @@
     "status": "Statut",
     "selectStatus": "Sélectionner un statut",
     "searchStage": "Rechercher une étape",
+    "selectRole": "Sélectionner un role",
+    "searchRole": "Rechercher un role",
     "stage": "Étape",
     "searchTargetFund": "Rechercher un fonds cible",
     "targetFund": "Fonds cible",
@@ -1763,6 +1765,18 @@
 
   "Public" : "Public",
   "Private" : "Privé",
+
+  "Admin": "Administrateur",
+  "admin": "Administrateur",
+  "investor": "Investisseur",
+  "member": "Startup",
+  "partner": "Partenaire",
+
+  "accepted": "Accepté",
+  "notVerified": "Non Vérifié",
+  "pending": "En Attente",
+  "rejected": "Rejeté",
+  "verified": "Vérifié",
 
   "Approved": "Approuvé",
   "In Progress": "En cours",

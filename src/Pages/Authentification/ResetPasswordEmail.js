@@ -7,7 +7,7 @@ import { useSendForgotPasswordMutation } from '../../Services/Auth';
 import logo from '../../Media/img_logo.svg';
 import verifyImage from '../../Media/img_verify.svg';
 import { useNavigate } from 'react-router-dom';
-import EmailExistModalOrConfirmation from '../../Components/EmailExistModalOrConfirmation';
+import EmailExistModalOrConfirmation from '../../Components/Modals/EmailExistModalOrConfirmation';
 import checkVerifyImg from '../../Media/check-verified-02.svg';
 
 
