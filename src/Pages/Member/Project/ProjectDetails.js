@@ -229,7 +229,7 @@ useEffect(() => {
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
-                      {`${project?.currency || 'USD'} ${project?.funding?.toLocaleString('en-US') || 0}`}
+                      {`${project?.currency || 'USD'} ${project?.funding?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}
                     </Text>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ useEffect(() => {
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
-                      {`${project?.currency || 'USD'} ${project?.totalRaised?.toLocaleString('en-US') || 0}`}
+                      {`${project?.currency || 'USD'} ${project?.totalRaised?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}
                     </Text>
                   </div>
                 </div>

@@ -846,6 +846,7 @@
     "accelerateJourney": "Accélérez votre parcours vers le succès",
     "choosePlan": "Choisissez le plan qui correspond à votre projet",
     "getStarted": "Commencez maintenant",
+    "getStartedIn": "Commencez maintenant",
     "selectedPlan": "Votre plan sélectionné",
     "finalizationMessage": "Votre abonnement est presque finalisé.",
     "callToAction": "Commencez maintenant et débloquez des fonctionnalités supplémentaires pour développer votre projet.",
@@ -922,7 +923,7 @@
     "investor":{
       "standard in": {
         "name": "Standard",
-        "description": "Libérez un potentiel illimité avec nos événements premium, rapports exclusifs et connexions prioritaires.",
+        "description": "Libérez un potentiel illimité grâce à nos événements premium, rapports exclusifs et connexions prioritaires.",
         "features": {
           "feature0": "Accès complet à notre plateforme de networking",
           "feature1": "Découvrez une sélection exclusive de startups prometteuses",

@@ -9,7 +9,6 @@ import { useSearchParams , useNavigate} from "react-router-dom";
 import TablePagination from "../../../Components/common/TablePagination";
 import DeleteModal from "../../../Components/common/DeleteModal";
 import { useGetAllProjectsQuery } from "../../../Services/Member.Service";
-import { formatNumber } from "../../../data/helper";
 import { useDeleteProjectMutation } from "../../../Services/Project.Service";
 import Loader from "../../../Components/Loader";
 import PageHeader from "../../../Components/common/PageHeader";
@@ -127,8 +126,8 @@ const Projects = () => {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer`} onClick={()=> navigate(`/Projectdetails/${item._id}` , {state: { project: item }})}>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize" >{item?.name}</td>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${formatNumber(item.funding)}`}</td>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${formatNumber(item.totalRaised || 0)}`}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${(item?.funding)?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${(item?.totalRaised || 0)?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize">{item.stages?.[0] || item?.stage}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize">{item.milestones[0]?.name}</td>
                       <td className="px-[18px] py-4 items-center">

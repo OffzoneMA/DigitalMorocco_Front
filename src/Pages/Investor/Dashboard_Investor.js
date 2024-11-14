@@ -256,7 +256,7 @@ const Dashbord_Investor = () => {
                                       className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                       size="txtDMSansMedium22"
                                   >
-                                     {item?.project?.currency} {item?.project?.funding?.toLocaleString('en-US') || 0 }
+                                     {item?.project?.currency} {item?.project?.funding?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0 }
                                   </Text>
                                   </div>
                               </div>
@@ -292,7 +292,7 @@ const Dashbord_Investor = () => {
                                       className="text-[22px] font-dm-sans-medium text-[#344054] sm:text-lg w-auto"
                                       size="txtDMSansMedium22"
                                   >
-                                      {item?.project?.currency} {item?.project?.totalRaised?.toLocaleString('en-US') || 0}
+                                      {item?.project?.currency} {item?.project?.totalRaised?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}
                                   </Text>
                                   </div>
                               </div>

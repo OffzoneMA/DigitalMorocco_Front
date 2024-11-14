@@ -57,7 +57,7 @@ export default function ChoosePlan() {
             <div className='flex justify-center flex-wrap gap-5 w-full py-5 '>
             {memberPlans?.map(plan =>
                 (
-                <MemberPlan plan={plan} key={plan?._id}  buttonText={plan?.price === 0 ? t("Start") : plan?.planType === "upcoming" ? t("Coming soon"): null}/>
+                <MemberPlan plan={plan} key={plan?._id}  buttonText={plan?.price === 0 ? t('subscriptionPlans.getStartedIn') : plan?.planType === "upcoming" ? t("Coming soon"): null}/>
                 )
             )}
             </div>
