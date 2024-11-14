@@ -261,8 +261,8 @@
     "noActiveProject": "Aucun Projet Actif",
     "projectDetails": {
       "target": "Objectif",
-      "stage": "Étape du projet",
-      "totalRaised": "Total levé"
+      "stage": "Phase",
+      "totalRaised": "Fonds levés"
     },
     "latestRequest": "Dernières demandes",
     "noRequestYet": "Aucune demande",
