@@ -519,7 +519,7 @@ export default function UserProfile() {
                   <input
                     {...register1('firstName', { required: {value:true } })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.firstName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text" name="firstName" placeholder={t('settings.myProfile.firstName')} />
+                    type="text" name="firstName" placeholder={t('settings.myProfile.firstNamePlaceholder')} />
                 </div>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
@@ -528,7 +528,7 @@ export default function UserProfile() {
                   <input
                     {...register1('lastName', { required: {value:true } })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.lastName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text" name="lastName" placeholder={t('settings.myProfile.lastName')} />
+                    type="text" name="lastName" placeholder={t('settings.myProfile.lastNamePlaceholder')} />
                 </div>
               </div>
               <div className='flex flex-row w-full gap-5'>
