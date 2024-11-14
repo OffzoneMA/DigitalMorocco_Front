@@ -357,7 +357,7 @@ const Investors = () => {
                         className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
                         size=""
                       >
-                        {t('investors.viewAllInvestors', { count: (261765).toLocaleString('fr-FR') })} 
+                        {t('investors.viewAllInvestors', { count: (261765).toLocaleString('fr-FR').replace(/\s/g, '\u00A0') })} 
                       </Text>
                       <Text
                         className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"

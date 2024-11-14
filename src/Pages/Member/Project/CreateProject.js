@@ -501,10 +501,11 @@ const handleDeleteFile = (index) => {
       
       mutation(payload)
         .then(() => {
-          setTimeout(() => {
-            setSubmitting('ok');
-          }, 2500);
+          setSubmitting('ok');
           setSendingOk(true);
+          setTimeout(() => {
+            setSubmitting('');
+          }, 2500);
         })
         .catch(() => {
           setSubmitting('');

@@ -96,7 +96,7 @@ const Dashbord_Investor = () => {
                     </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]" 
                   // onClick={() => navigate('/InvestmentRequestHistory')}
                   >
                     <div className="rounded-[6px] p-2 bg-teal-50">
@@ -121,7 +121,7 @@ const Dashbord_Investor = () => {
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]" 
                     // onClick={() => navigate('/Investment')}
                     >
                     <div className="rounded-[6px] p-2 bg-violet-100">
@@ -146,7 +146,7 @@ const Dashbord_Investor = () => {
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]"  
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]"  
                     // onClick={() => navigate('/MyInvestment')}
                     >
                     <div className="rounded-[6px] p-2 bg-blue-51">
@@ -173,7 +173,7 @@ const Dashbord_Investor = () => {
                     </Text>
                   )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]" 
                     // onClick={() => navigate('/Participate')}
                     >
                     <div className="rounded-[6px] p-2 bg-orange-51">
@@ -357,7 +357,7 @@ const Dashbord_Investor = () => {
                                       </span>
                                     </div>
                                   </td>
-                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus || "Initial send email"}</td>
+                                  <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus || t("First contact established")}</td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div
                                       className={`flex flex-row whitespace-nowrap space-x-2 items-center py-1 px-2 text-sm font-dm-sans-regular leading-6 rounded-full ${

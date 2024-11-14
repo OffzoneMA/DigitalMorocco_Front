@@ -98,7 +98,7 @@ const Dashboard_Partner = () => {
                     </button>
                 </div>
                 <div className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]" 
                   // onClick={() => navigate('/SponsorRequestHistory')} 
                   >
                     <div className="rounded-[6px] p-2 bg-teal-50">
@@ -123,7 +123,7 @@ const Dashboard_Partner = () => {
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]" 
                     // onClick={() => navigate('/SponsorCurrentRequest')}
                     >
                     <div className="rounded-[6px] p-2 bg-violet-100">
@@ -148,7 +148,7 @@ const Dashboard_Partner = () => {
                       </Text>
                     )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]"  
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]"  
                     // onClick={() => navigate('/PastSponsorEvent')} 
                     >
                     <div className="rounded-[6px] p-2 bg-blue-51">
@@ -175,7 +175,7 @@ const Dashboard_Partner = () => {
                     </Text>
                   )}
                   </div>
-                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[180px] grow max-w-[400px] xl:max-w-[500px] xl:h-[200px] 2xl:max-w-[700px] 2xl:h-[220px] 3xl:max-w-[700px] 3xl:h-[240px]" 
+                  <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]" 
                     // onClick={() => navigate('/Participate')}
                     >
                     <div className="rounded-[6px] p-2 bg-orange-51">

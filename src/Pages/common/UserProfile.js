@@ -85,7 +85,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (hasSubmitted3 ) {
-      const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined);
+      const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined && selectedRegion !=='');
       const isValid = isRegionValid ;
 
       setRequiredFields3({
@@ -110,7 +110,7 @@ export default function UserProfile() {
         const lastName = nameParts[nameParts.length - 1];
         const userCountry = data.Country;
         const userCity = data.cityState;
-        const language = data.language;
+        const language = languages.find(lang => lang.label === data.language)
         const region = data.region;
         setUser(data);
         setValue('email', data.email);
@@ -343,12 +343,12 @@ export default function UserProfile() {
       formData.region = selectedRegion.label;
     }
   
-    if (Object.keys(formData).length === 0) {
-      console.log("No changes detected.");
-      return; 
-    }
+    // if (Object.keys(formData).length === 0) {
+    //   console.log("No changes detected.");
+    //   return; 
+    // }
 
-    if(isForm3Valid && (selectedRegion !== null || selectedLanguage  !== null )) {
+    if(isForm3Valid && (selectedRegion !== userData?.region && selectedRegion?.label !== userData?.region )) {
       try {
         const response = await axios.put(
           `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
@@ -819,7 +819,7 @@ export default function UserProfile() {
                     style={{ appearance: 'none' }}
                     className={`${!showPasswordConfirm ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full border border-solid ${errors2?.confirmNewPassword ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] ${errors2?.confirmNewPassword ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[14px] ${errors2?.confirmNewPassword ? 'text-errorColor' : 'text-[#1d2939]'}`}                    
                     name="confirmNewPassword" 
-                    placeholder={t('settings.myProfile.newPasswordPlaceholder')} />
+                    placeholder={t('settings.myProfile.confirmNewPasswordPlaceholder')} />
                     {/* {getValues2('confirmNewPassword')?.length > 0 &&  */}
                       <button
                         type="button"

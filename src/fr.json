@@ -238,40 +238,40 @@
   "dashboard": {
     "welcome": "Bon retour !",
     "search": "Rechercher...",
-    "createProject": "Lancer un nouveau projet",
+    "createProject": "Créer un projet",
     "trackManageForecast": "Suivez, gérez et anticipez les activités de vos partenaires et l'évolution de vos projets.",
     "upgradeAccount": "Accédez aux outils exclusifs de Digital Morocco pour enrichir votre parcours digital.",
     "upgradeAccountSub": "Explorez des insights stratégiques, des données pointues et des ressources personnalisées pour accélérer votre croissance et maximiser votre impact digital.",
-    "upgradeMembership": "Améliorer l'abonnement",
+    "upgradeMembership": "Mettre à niveau l'abonnement",
     "totalCredits": "Total des crédits",
-    "totalCreditsNote": "Améliorez votre compte ou achetez des crédits supplémentaires.",
+    "totalCreditsNote": "Mettez à niveau votre compte ou achetez des crédits",
     "createdProject": "Projets créés",
-    "projectNote": "Assurez-vous d'avoir créé des projets avant de continuer.",
+    "projectNote": "Créez votre nouveau projet maintenant",
     "investors": "Investisseurs",
-    "investorsNote": "Commencez à contacter des investisseurs potentiels.",
+    "investorsNote": "Commencez à envoyer des demandes aux investisseurs",
     "events": "Événements",
-    "eventsNote": "Achetez vos billets et participez à des événements exclusifs.",
+    "eventsNote": "Réservez vos billets et rejoignez nos événements exclusifs",
     "myCompany": "Mon entreprise",
-    "createCompanyNote": "Créez le profil de votre entreprise.",
+    "createCompanyNote": "Créez le profil de votre entreprise",
     "topMarkets": "Marchés principaux",
     "topMarketsSub": "Explorez les perspectives sectorielles sur notre plateforme.",
-    "investmentVolume": "Volume d'investissement",
+    "investmentVolume": "Utilisateurs Actifs Mensuels",
     "investmentVolumeSub": "Explorez les indicateurs d'engagement des utilisateurs sur notre plateforme.",
     "activeProjects": "Dernier projet actif",
-    "noActiveProject": "Aucun projet actif",
+    "noActiveProject": "Aucun Projet Actif",
     "projectDetails": {
       "target": "Objectif",
       "stage": "Étape du projet",
       "totalRaised": "Total levé"
     },
     "latestRequest": "Dernières demandes",
-    "noRequestYet": "Aucune demande pour l'instant",
+    "noRequestYet": "Aucune demande",
     "investorTable": {
       "investorName": "Nom de l'investisseur",
       "communicationStatus": "Statut de la communication",
       "status": "Statut"
     },
-    "notAvailable": "Données indisponibles",
+    "notAvailable": "Données Indisponibles",
     "creditsMessage": "Prenez le contrôle de votre expérience : ajoutez facilement des crédits en cliquant sur le bouton \"Gérer\" pour profiter d'une flexibilité optimale."
   },
 
@@ -359,12 +359,12 @@
 
   "projects": {
     "projectList": "Liste des projets",
-    "newProject": "Créer un nouveau projet",
+    "newProject": "Créer un projet ",
     "projectName": "Nom du projet",
-    "target": "Montant visé",
-    "raised": "Montant levé",
-    "stage": "Étape actuelle",
-    "milestone": "Étape importante",
+    "target": "Objectif de financement",
+    "raised": "Fonds levés",
+    "stage": "Phase",
+    "milestone": "Jalon",
     "status": "Statut",
     "noProject": "Aucun projet créé",
     "createNewProject": {
@@ -377,18 +377,18 @@
       "projectDetails": "Détails du projet",
       "enterProjectDetails": "Entrez les détails de votre projet ici",
       "website": "Site Web",
-      "enterWebsite": "Entrez l'URL du site du projet",
+      "enterWebsite": "Entrez l’URL de votre site Web",
       "contactEmail": "Email de contact",
-      "enterEmail": "Entrez l'email du projet",
+      "enterEmail": "Entrez votre e-mail de contact",
       "teamMember": "Membre de l'équipe",
       "searchMember": "Rechercher un membre",
       "assignTeamMember": "Assigner un membre à ce projet",
       "fundingTarget": "Objectif de financement",
       "enterFundingTarget": "Entrez l'objectif de financement",
-      "totalRaised": "Total levé",
-      "enterTotalRaised": "Entrez le montant total levé",
-      "stage": "Étape",
-      "selectStage": "Sélectionnez l'étape actuelle",
+      "totalRaised": "Fonds levés",
+      "enterTotalRaised": "Entrez le montant total des fonds levés",
+      "stage": "Phase",
+      "selectStage": "Sélectionnez la Phase actuelle du projet",
       "country": "Pays",
       "selectCountry": "Sélectionnez un pays",
       "projectSector": "Secteur du projet",
@@ -400,11 +400,11 @@
         "public": "Public",
         "private": "Privé"
       },
-      "projectMilestone": "Étape clé du projet",
-      "enterProjectMilestone": "Entrez l'étape clé de votre projet",
+      "projectMilestone": "Jalons du projet",
+      "enterProjectMilestone": "Entrez le jalon de votre projet",
       "dueDate": "Date d'échéance",
       "more": "Plus",
-      "hide": "Masquer",
+      "hide": "Retirer",
       "projectLogo": {
         "title": "Logo du projet",
         "uploadLogo": "Téléchargez le logo de votre projet"
@@ -416,10 +416,10 @@
         "description1": "choisissez un fichier"
       },
       "uploadBusinessPlan": {
-        "title": "Télécharger le business plan"
+        "title": "Télécharger le Business Plan"
       },
       "uploadFinancialProjection": {
-        "title": "Télécharger la projection financière"
+        "title": "Télécharger la Projection Financière"
       },
       "uploadOtherDocument": {
         "title": "Télécharger d'autres documents"
@@ -443,8 +443,8 @@
       "target": "Objectif",
       "publication": "Publication",
       "projectDescription": "Description du projet",
-      "projectMilestone": "Étape clé du projet",
-      "addNewMilestone": "Ajouter une nouvelle étape clé",
+      "projectMilestone": "Jalons du projet",
+      "addNewMilestone": "Ajouter un nouveau Jalon",
       "documents": "Documents"
     },
     "deleteProjectConfirmation": {
@@ -468,13 +468,13 @@
   },
 
   "myCompany": {
-    "save": "Sauvegarder",
+    "save": "Enregistrer",
     "companyName": "Nom de l'entreprise",
     "enterCompanyName": "Entrez le nom de votre entreprise",
-    "legalName": "Nom juridique",
-    "enterLegalName": "Entrez le nom juridique de votre entreprise",
+    "legalName": "Dénomination sociale",
+    "enterLegalName": "Entrez la dénomination sociale de votre entreprise",
     "description": "Description de l'entreprise",
-    "enterDescription": "Fournissez une brève description de votre entreprise",
+    "enterDescription": "Entrez la description de votre entreprise",
     "website": "Site Web",
     "enterWebsite": "Entrez l'URL du site Web de votre entreprise",
     "contactEmail": "Email de contact",
@@ -486,7 +486,7 @@
     "cityState": "Ville/État",
     "selectCity": "Sélectionnez une ville",
     "companySector": "Secteur d'activité",
-    "selectSector": "Sélectionnez le secteur de votre entreprise",
+    "selectSector": "Sélectionnez le secteur d'activité de votre entreprise",
     "taxIdentifierNumber": "Numéro d'identification fiscale",
     "corporateIdentifierNumber": "Numéro d'identification de l'entreprise",
     "companyLogo": "Logo de l'entreprise",
@@ -500,13 +500,13 @@
     "emailAddress": "Adresse email",
     "title": "Intitulé du poste",
     "type": "Niveau de l'employé",
-    "status": "Statut de l'emploi",
+    "status": "Statut",
     "noTeamMembers":"Aucun membre de l'équipe",
     "addEmployee": {
       "addEmployeeButton": "Ajouter",
       "addEmployee": "Ajouter un employé",     
       "editEmployee": "Modifier l'employé",
-      "save": "Sauvegarder",
+      "save": "Enregistrer",
       "fullName": "Nom complet",
       "enterFullName": "Entrez le nom complet de l'employé",
       "workEmail": "Email professionnel",
@@ -520,7 +520,7 @@
       "selectCountry": "Sélectionnez un pays",
       "cityState": "Ville/État",
       "selectCity": "Sélectionnez une ville",
-      "personalTaxIdentifierNumber": "Numéro d'identification fiscale personnelle",
+      "personalTaxIdentifierNumber": "Numéro d'identification fiscale personnel",
       "uploadPhoto": "Téléchargez la photo ici",
       "job": "Titre du poste",
       "selectJobTitle": "Sélectionnez le poste/titre",
@@ -542,7 +542,7 @@
   "legal": {
     "title": "Documents juridiques",
     "addNewDocument": "Ajouter un nouveau document",
-    "editDocument":"Modifier document",
+    "editDocument":"Modifier le document",
     "documentName": "Nom du document",
     "lastModified": "Dernière modification",
     "owner": "Propriétaire du document",
@@ -598,11 +598,11 @@
       "overview": "Aperçu",
       "about": "À propos",
       "legalName": "Nom juridique",
-      "foundedDate": "Date de fondation",
+      "foundedDate": "Date de création",
       "companyType": "Type d'entreprise",
       "headquarter": "Siège social",
       "website": "Site Web",
-      "investmentStage": "Étape de l'investissement",
+      "investmentStage": "Phase d'investissement",
       "lastFundingType": "Dernier type de financement",
       "preferredInvestmentIndustry": "Secteur d'investissement préféré",
       "investmentCapacity": "Capacité d'investissement",
@@ -654,7 +654,7 @@
     },
     "eventDetails": {
       "comingSoon": "À venir",
-      "participate": "Participer",
+      "participate": "Inscrit",
       "overview": "Aperçu de l'événement",
       "organizedBy": "Organisé par",
       "location": "Lieu",
@@ -662,9 +662,9 @@
       "endDate": "Date de fin",
       "industry": "Secteur",
       "eventType": "Type d'événement",
-      "attendance": "Participation",
+      "attendance": "Participations",
       "description": "Description de l'événement",
-      "sponsor": "Sponsor",
+      "sponsor": "Sponsors",
       "from": "De",
       "free": "Entrée gratuite",
       "buy" :"Acheter un billet"
@@ -755,17 +755,17 @@
       "title": "Mon profil",
       "uploadPhoto": "Télécharger une photo",
       "firstName": "Prénom",
-      "firstNamePlaceholder": "Entrez le prénom",
+      "firstNamePlaceholder": "Entrez votre prénom",
       "lastName": "Nom de famille",
-      "lastNamePlaceholder": "Entrez le nom de famille",
+      "lastNamePlaceholder": "Entrez votre nom",
       "email": "Email",
-      "emailPlaceholder": "Votre email",
+      "emailPlaceholder": "Entrez votre email",
       "phoneNumber": "Numéro de téléphone",
-      "phoneNumberPlaceholder": "Votre numéro de téléphone",
+      "phoneNumberPlaceholder": "Entrez votre numéro de téléphone",
       "website": "Site Web",
-      "websitePlaceholder": "Entrez le site Web",
+      "websitePlaceholder": "Entrez votre site web",
       "address": "Adresse",
-      "addressPlaceholder": "Entrez l'adresse",
+      "addressPlaceholder": "Entrez votre adresse",
       "country": "Pays",
       "countryPlaceholder": "Sélectionner le pays",
       "cityState": "Ville/État",
@@ -773,10 +773,11 @@
       "save": "Sauvegarder",
       "passwordSetting": "Paramètres du mot de passe",
       "currentPassword": "Mot de passe actuel",
-      "currentPasswordPlaceholder": "Entrez le mot de passe actuel",
+      "currentPasswordPlaceholder": "Entrez votre mot de passe actuel",
       "newPassword": "Nouveau mot de passe",
-      "newPasswordPlaceholder": "Entrez le nouveau mot de passe",
+      "newPasswordPlaceholder": "Entrez votre nouveau mot de passe",
       "confirmNewPassword": "Confirmez le nouveau mot de passe",
+      "confirmNewPasswordPlaceholder": "Confirmez votre nouveau mot de passe",
       "languageAndRegionSettings": "Paramètres de langue et de région",
       "selectLanguage": "Sélectionnez la langue",
       "searchLanguage" : "Rechercher une language",
@@ -795,7 +796,7 @@
       "dataDeleted": {
         "data1": "Toutes vos données, y compris les investisseurs et les informations de contact",
         "data2": "Tous les documents téléchargés",
-        "data3": "Tous vos billets d'événement"
+        "data3": "Tous vos billets d'événements"
       },
       "emailPrompt": "Entrez votre email et mot de passe pour confirmer :",
       "email": "Adresse email",
@@ -823,7 +824,7 @@
       "noSubscription": "Vous n'avez pas encore d'abonnement.",
       "subscriptionPromo": "Débloquez tout le potentiel de Digital Morocco avec un essai gratuit de 12 mois.",
       "subscriptionOffer": "Débloquez tout le potentiel de Digital Morocco.",
-      "subscriptionBenefits": "Accédez à des outils et analyses exclusifs pour enrichir votre parcours digital, des perspectives sectorielles aux indicateurs d’engagement des utilisateurs.",
+      "subscriptionBenefits": "Accédez à des outils et des analyses exclusifs pour enrichir votre parcours digital, des perspectives sectorielles aux indicateurs d’engagement des utilisateurs.",
       "subscriptionCta": "Commencez votre essai gratuit dès aujourd'hui et propulsez vos projets comme jamais auparavant !",
       "subscriptionCtaIn": "Commencez votre abonnement gratuit dès aujourd'hui et propulsez vos projets comme jamais auparavant !",
       "startFreeTrial": "Commencez votre essai gratuit",
@@ -842,8 +843,8 @@
 
   "subscriptionPlans": {
     "title": "Abonnement et facturation",
-    "accelerateJourney": "Accélérez votre chemin vers le succès",
-    "choosePlan": "Choisissez le plan qui correspond à votre startup",
+    "accelerateJourney": "Accélérez votre parcours vers le succès",
+    "choosePlan": "Choisissez le plan qui correspond à votre projet",
     "getStarted": "Commencez maintenant",
     "selectedPlan": "Votre plan sélectionné",
     "finalizationMessage": "Votre abonnement est presque finalisé.",
@@ -851,7 +852,7 @@
     "confirm": "Confirmer mon abonnement",
     "monthlyFee": "mois",
     "endsOn": "se termine le",
-    "discoverFeatures": "Discover all the features for investors",
+    "discoverFeatures": "Découvrez toutes les fonctionnalités pour les investisseurs.",
     "upgradeMessage1": "Passez à",
     "upgradeMessage2": "Digital Morocco Premium",
     "upgradeMessage3": "pour accéder à toutes les fonctionnalités, aux outils de gestion des investissements, de suivi, et bien plus encore.",
@@ -921,7 +922,7 @@
     "investor":{
       "standard in": {
         "name": "Standard",
-        "description": "Libérez un potentiel illimité avec nos événements d'élite, des rapports exclusifs et des connexions prioritaires.",
+        "description": "Libérez un potentiel illimité avec nos événements premium, rapports exclusifs et connexions prioritaires.",
         "features": {
           "feature0": "Accès complet à notre plateforme de networking",
           "feature1": "Découvrez une sélection exclusive de startups prometteuses",
@@ -934,7 +935,7 @@
       },
       "premium in": {
         "name": "Premium",
-        "description": "Explorez un réseau VIP d'exception, des événements exclusifs et des outils de gestion avancés.",
+        "description": "Explorez un réseau VIP exclusif, des événements premium et des outils de gestion avancés.",
         "features": {
           "feature0": "Accès complet à notre plateforme de networking",
           "feature1": "Découvrez une sélection exclusive de startups prometteuses",
@@ -977,26 +978,26 @@
     "requestHistory": "Historique des demandes",
     "projectName": "Nom du projet",
     "targetFund": "Objectif de financement",
-    "raised": "Montant levé",
+    "raised": "Fonds levés",
     "location": "Lieu",
-    "stage": "Étape",
-    "milestone": "Étape clé",
+    "stage": "Phase",
+    "milestone": "Jalon",
     "status": "Statut",
     "industrySector": "Secteur d'activité",
     "decision": "Décision",
     "date": "Date",
-    "approveInvestmentRequestHeader": "Approuver la demande d'investissement",
+    "approveInvestmentRequestHeader": "Approuver la demande de contact",
     "rejectContactRequestHeader": "Rejeter la demande de contact",
     "project": {
       "share": "Partager",
       "download": "Télécharger",
       "totalRaised": "Total levé",
       "target": "Objectif",
-      "stage": "Étape",
+      "stage": "Phase",
       "sector": "Secteur",
       "status": "Statut",
       "description": "Description du projet",
-      "milestone": "Étape clé du projet",
+      "milestone": "Jalons du Projet",
       "teamMember": "Membre de l'équipe",
       "projectLogo": "Logo du projet",
       "projectName": "Nom du projet",
@@ -1008,16 +1009,16 @@
     "approveInvestmentRequest": {
       "typeOfInvestment": "Type d'investissement",
       "typeOfInvestmentPlaceholder": "Sélectionnez le type d'investissement",
-      "letterLabel": "Rédigez votre lettre de demande",
-      "letterPlaceholder": "Rédigez votre lettre de demande ici",
-      "additionalContext": "Présentez votre entreprise ou fournissez un contexte supplémentaire sur votre sponsoring."
+      "letterLabel": "Votre réponse",
+      "letterPlaceholder": "Veuillez rédiger votre réponse ici.",
+      "additionalContext": "Présentez votre entreprise ou fournissez des informations supplémentaires sur votre opportunité d'investissement."
     },
     "rejectContactRequest": {
       "reasonForRejection": "Raison du rejet",
       "reasonForRejectionPlaceholder": "Sélectionnez la raison",
-      "letterLabel": "Rédigez votre lettre de demande",
-      "letterPlaceholder": "Rédigez votre lettre de demande ici",
-      "additionalContext": "Fournissez un contexte supplémentaire sur votre sponsoring ou votre entreprise."
+      "letterLabel": "Votre réponse",
+      "letterPlaceholder": "Veuillez rédiger votre réponse ici.",
+      "additionalContext": "Présentez votre entreprise ou fournissez des informations supplémentaires sur votre opportunité d'investissement."
     }
   },
 
@@ -1027,11 +1028,11 @@
     "organizedBy": "Organisé par",
     "date": "Date",
     "location": "Lieu",
-    "requests": "Demandes",
+    "requests": "Demande",
     "decisionStatus": "Décision/Statut",
     "typeOfSponsoring": "Type de sponsoring",
     "dateTime": "Date/Heure",
-    "eventDate": "Date de l'événement",
+    "eventDate": "Date",
     "status": "Statut",
     "view": "Voir le rapport",
     "viewDetails": "Voir les détails",
@@ -1053,17 +1054,17 @@
     "approve": {
       "title": "Approuver la demande de sponsoring",
       "sponsoringType": "Sélectionnez le type de sponsoring",
-      "letterLabel": "Lettre de demande",
-      "requestLetter": "Écrivez votre lettre de demande ici",
-      "companyIntroduction": "Présentez votre entreprise ou fournissez un contexte supplémentaire"
+      "letterLabel": "Votre réponse",
+      "requestLetter": "Veuillez rédiger votre réponse ici.",
+      "companyIntroduction": "Présentez votre entreprise ou fournissez un contexte supplémentaire sur votre sponsoring."
     },
     "reject": {
       "title": "Rejeter la demande de sponsoring",
       "rejectionReason": "Raison du rejet",
       "rejectionReasonPlaceholder": "Sélectionner une raison",
-      "letterLabel": "Lettre de demande",
-      "requestLetter": "Écrivez votre lettre de demande ici",
-      "companyIntroduction": "Présentez votre entreprise ou fournissez un contexte supplémentaire"
+      "letterLabel": "Votre réponse",
+      "requestLetter": "Veuillez rédiger votre réponse ici.",
+      "companyIntroduction": "Présentez votre entreprise ou fournissez un contexte supplémentaire sur votre sponsoring."
     },
     "brandVisibility": "Visibilité de la marque",
     "attendeeEngagement": "Engagement des participants",
@@ -1125,8 +1126,8 @@
     "searchType": "Rechercher un type",
     "searchRaison": "Rechercher une raison",
     "saved": "Enregistré",
-    "save": "Sauvegarder",
-    "noData": "Aucune donnée disponible",
+    "save": "Enregistrer",
+    "noData": "Données Indisponibles",
     "noUpcomingEvent": "Aucun événement à venir",
     "noDocumentAvailable": "Aucun document disponible",
     "noDocumentFound": "Aucun document trouvé",
@@ -1164,6 +1165,8 @@
       "december": "Déc"
     }
   },
+
+  "First contact established": "Premier contact établi",
 
   "Basic": "Basique",
   "Connect, join exclusive events, and access essential resources for your project.": "Connectez-vous, participez à des événements triés sur le volet et accédez à des ressources cruciales pour votre projet.",
@@ -1207,9 +1210,9 @@
   "Free Trial": "Essai Gratuit",
   "Benefit from a VIP network, full access to events, and management tools.":"Profitez d'un réseau VIP, d'un accès complet aux événements et d'outils de gestion.",
   "Coming soon":"Bientôt disponible",
-  "Discover all the features for investors":"Découvrez toutes les fonctionnalités pour les investisseurs",
+  "Discover all the features for investors":"Découvrez toutes les fonctionnalités pour les investisseurs.",
   "Upgrade to":"Passez à",
-  "to access all features, investment management tools, tracking, and much more.":"pour accéder à toutes les fonctionnalités, aux outils de gestion des investissements, de suivi, et bien plus encore.",
+  "to access all features, investment management tools, tracking, and much more.":"pour accéder à toutes les fonctionnalités, aux outils de gestion d'investissement, au suivi et bien plus encore.",
 
   "Unleash unlimited potential with our elite events, exclusive reports, and priority connections.":"Libérez un potentiel illimité avec nos événements d'élite, des rapports exclusifs et des connexions prioritaires.",
   "Full access to our networking platform":"Accès complet à notre plateforme de networking",
@@ -1677,6 +1680,7 @@
   "Number of Credits:": "Nombre de crédits :",
   "Cost of Credits:": "Coût des crédits :",
   "Total": "Total",
+  "Select Credits": "Sélectionnez des crédits",
   "I accept the": "J'accepte les",
   "Terms of Service.": "conditions d'utilisation.",
   "Check Out": "Finaliser la Commande",
@@ -1778,8 +1782,10 @@
   "rejected": "Rejeté",
   "verified": "Vérifié",
 
+  "Active": "Actif",
   "Approved": "Approuvé",
   "In Progress": "En cours",
+  "Draft": "Brouillon",
   "Rejected": "Rejeté",
   "Approve Now": "Approuver maintenant",
 

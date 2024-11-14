@@ -245,13 +245,13 @@
     "totalCredits": "Total Credits",
     "totalCreditsNote": "Upgrade your account or buy credits",
     "createdProject": "Created Project",
-    "projectNote": "Make sure that you have already created projects",
+    "projectNote": "Create your new project now",
     "investors": "Investors",
     "investorsNote": "Start sending requests to investors",
     "events": "Events",
-    "eventsNote": "Buy your tickets and join our special events",
+    "eventsNote": "Book your tickets and join our exclusive events",
     "myCompany": "My Company",
-    "createCompanyNote": "Create a profile for your company",
+    "createCompanyNote": "Create your company profile",
     "topMarkets": "Top Markets",
     "topMarketsSub": "Explore market sector insights across our platform.",
     "investmentVolume": "Monthly Active Users",
@@ -264,13 +264,13 @@
       "totalRaised": "Total Raised"
     },
     "latestRequest": "Latest Requests",
-    "noRequestYet": "No Request Yet",
+    "noRequestYet": "No Requests Yet",
     "investorTable": {
       "investorName": "Investor Name",
       "communicationStatus": "Communication Status",
       "status": "Status"
     },
-    "notAvailable": "Data not available",
+    "notAvailable": "Data Unavailable",
     "creditsMessage": "Explore a new dimension of flexibility: add credits at your convenience with just a click on the \"Manage\" button, and stay in control of your experience."
   },
 
@@ -361,8 +361,8 @@
     "projectList": "Project List",
     "newProject": "New Project",
     "projectName": "Project Name",
-    "target": "Target",
-    "raised": "Raised",
+    "target": "Funding Target",
+    "raised": "Funds Raised",
     "stage": "Stage",
     "milestone": "Milestone",
     "status": "Status",
@@ -377,7 +377,7 @@
       "projectDetails": "Project Details",
       "enterProjectDetails": "Enter your project details here",
       "website": "Website",
-      "enterWebsite": "Enter the Project Website",
+      "enterWebsite": "Enter your website URL",
       "contactEmail": "Contact Email",
       "enterEmail": "Enter the Project Email",
       "teamMember": "Team Member",
@@ -388,7 +388,7 @@
       "totalRaised": "Total Raised",
       "enterTotalRaised": "Enter the Total Raised",
       "stage": "Stage",
-      "selectStage": "Select the Current Stage",
+      "selectStage": "Select the current Stage of the project",
       "country": "Country",
       "selectCountry": "Select a Country",
       "projectSector": "Project Sector",
@@ -404,7 +404,7 @@
       "enterProjectMilestone": "Enter your project's milestone",
       "dueDate": "Due Date",
       "more": "More",
-      "hide": "Hide",
+      "hide": "Remove",
       "projectLogo": {
     "title": "Project Logo",
     "uploadLogo": "Upload Your Project Logo"
@@ -443,7 +443,7 @@
       "target": "Target",
       "publication" :"Publication",
       "projectDescription": "Project Description",
-      "projectMilestone": "Project Milestone",
+      "projectMilestone": "Project Milestones",
       "addNewMilestone": "Add New Milestone",
       "documents": "Documents"
     },
@@ -500,7 +500,7 @@
     "emailAddress": "Email Address",
     "title": "Job Title",
     "type": "Employee Level",
-    "status": "Employment Status",
+    "status": "Status",
     "noTeamMembers":"No Team Mmembers",
     "addEmployee": {
       "addEmployeeButton": "Add",
@@ -651,7 +651,7 @@
     },
     "eventDetails": {
       "comingSoon": "Coming Soon",
-      "participate": "Participate",
+      "participate": "Registered",
       "overview": "Event Overview",
       "organizedBy": "Organized By",
       "location": "Location",
@@ -659,7 +659,7 @@
       "endDate": "End Date",
       "industry": "Industry",
       "eventType": "Event Type",
-      "attendance": "Attendance",
+      "attendance": "Attendances",
       "description": "Event Description",
       "sponsor": "Sponsor",
       "from": "From",
@@ -752,17 +752,17 @@
       "title": "My Profile",
       "uploadPhoto": "Upload Photo",
       "firstName": "First Name",
-      "firstNamePlaceholder": "Enter First Name",
+      "firstNamePlaceholder": "Enter your First Name",
       "lastName": "Last Name",
-      "lastNamePlaceholder": "Enter Last Name",
+      "lastNamePlaceholder": "Enter your Last Name",
       "email": "Email",
-      "emailPlaceholder": "Your Email",
+      "emailPlaceholder": "Enter your email",
       "phoneNumber": "Phone Number",
-      "phoneNumberPlaceholder": "Your Phone Number",
+      "phoneNumberPlaceholder": "Enter your Phone Number",
       "website": "Website",
-      "websitePlaceholder": "Enter Website",
+      "websitePlaceholder": "Enter your Website",
       "address": "Address",
-      "addressPlaceholder": "Enter Address",
+      "addressPlaceholder": "Enter your Address",
       "country": "Country",
       "countryPlaceholder": "Select Country",
       "cityState": "City/State",
@@ -770,10 +770,11 @@
       "save": "Save",
       "passwordSetting": "Password Settings",
       "currentPassword": "Current Password",
-      "currentPasswordPlaceholder": "Enter Current Password",
+      "currentPasswordPlaceholder": "Enter your Current Password",
       "newPassword": "New Password",
-      "newPasswordPlaceholder": "Enter New Password",
+      "newPasswordPlaceholder": "Enter your New Password",
       "confirmNewPassword": "Confirm New Password",
+      "confirmNewPasswordPlaceholder": "Confirm your New Password",
       "languageAndRegionSettings": "Language & Region Settings",
       "selectLanguage": "Select Language",
       "searchLanguage": "Search Language",
@@ -820,8 +821,8 @@
       "noSubscription": "You don’t have a subscription yet.",
       "subscriptionPromo": "Unlock the full potential of Digital Morocco with a free 12-month trial.",
       "subscriptionOffer": "Unlock the full potential of Digital Morocco.",
-      "subscriptionBenefits": "Gain access to exclusive tools and insights designed to enhance your digital journey, from sector insights to user engagement metrics.",
-      "subscriptionCta": "Start your free trial today and empower your projects like never before!",
+      "subscriptionBenefits": "Access exclusive tools and insights to enrich your digital journey, from sector perspectives to user engagement metrics.",
+      "subscriptionCta": "Start your free trial today and elevate your projects like never before!",
       "subscriptionCtaIn": "Start your free subscription today and empower your projects like never before!",
       "startFreeTrial": "Start Your Free Trial",
       "startFree": "Start For Free",
@@ -840,7 +841,7 @@
   "subscriptionPlans": {
     "title": "Subscription & Billing",
     "accelerateJourney": "Accelerate your journey to success",
-    "choosePlan": "Choose the plan that fits your startup",
+    "choosePlan": "Choose the plan that suits your project",
     "getStarted": "Get Started",
     "selectedPlan": "Your Selected Plan",
     "finalizationMessage": "Your subscription is almost complete.",
@@ -859,7 +860,7 @@
     },
     "basic": {
       "name": "Basic",
-      "description": "Connect, join exclusive events, and access essential resources for your project.",
+      "description": "Connect, join exclusive events, and access the essential resources for your project.",
       "credits": "3200 Credits",
       "features": {
         "feature0": "3200 Credits",
@@ -877,7 +878,7 @@
     },
     "standard": {
       "name": "Standard",
-      "description": "Unlock unlimited potential with premium events, reports, and priority connections.",
+      "description": "Unlock unlimited potential with premium events, reports, and priority access to connections.",
       "credits": "6400 Credits",
       "features": {
         "feature0": "6400 Credits",
@@ -918,7 +919,7 @@
     "investor": {
       "standard in": {
         "name": "Standard",
-        "description": "Unleash unlimited potential with our elite events, exclusive reports, and priority connections.",
+        "description": "Unleash unlimited potential with our premium events, exclusive reports, and priority connections.",
         "features": {
           "feature0": "Full access to our networking platform",
           "feature1": "Discover an exclusive selection of promising startups",
@@ -933,7 +934,7 @@
       },
       "premium in": {
         "name": "Premium",
-        "description": "Explore an exceptional VIP network, exclusive events, and advanced management tools.",
+        "description": "Explore an exclusive VIP network, premium events, and advanced management tools.",
         "features": {
           "feature0": "Full access to our networking platform",
           "feature1": "Discover an exclusive selection of promising startups",
@@ -992,8 +993,8 @@
     "myInvestments": "My Investments",
     "requestHistory": "Request History",
     "projectName": "Project Name",
-    "targetFund": "Target Funding",
-    "raised": "Amount Raised",
+    "targetFund": "Funding Target",
+    "raised": "Funds Raised",
     "location": "Location",
     "stage": "Stage",
     "milestone": "Milestone",
@@ -1001,8 +1002,8 @@
     "industrySector": "Industry/Sector",
     "decision": "Decision",
     "date": "Date",
-    "approveInvestmentRequestHeader": "Approve Investment Request",
-    "rejectContactRequestHeader": "Reject Contact Request",
+    "approveInvestmentRequestHeader": "Approve the Contact Request",
+    "rejectContactRequestHeader": "Reject the Contact Request",
     "project": {
       "share": "Share",
       "download": "Download",
@@ -1024,16 +1025,16 @@
     "approveInvestmentRequest": {
       "typeOfInvestment": "Type of Investment",
       "typeOfInvestmentPlaceholder": "Select Type of Investment",
-      "letterLabel": "Write Your Request Letter",
-      "letterPlaceholder": "Write your request letter here",
-      "additionalContext": "Introduce your company or provide additional context about your sponsorship."
+      "letterLabel": "Your Response",
+      "letterPlaceholder": "Please write your response here.",
+      "additionalContext": "Present your company or provide additional information about your investment opportunity."
     },
     "rejectContactRequest": {
       "reasonForRejection": "Reason for Rejection",
       "reasonForRejectionPlaceholder": "Select Reason",
-      "letterLabel": "Write Your Request Letter",
-      "letterPlaceholder": "Write your request letter here",
-      "additionalContext": "Provide additional context about your sponsorship or company."
+      "letterLabel": "Your Response",
+      "letterPlaceholder": "Please write your response here.",
+      "additionalContext": "Present your company or provide additional information about your investment opportunity."
     }
   },
 
@@ -1044,11 +1045,11 @@
     "organizedBy": "Organized By",
     "date": "Date",
     "location": "Location",
-    "requests": "Requests",
+    "requests": "Request",
     "decisionStatus": "Decision/Status",
     "typeOfSponsoring": "Sponsorship Type",
     "dateTime": "Date/Time",
-    "eventDate": "Event Date",
+    "eventDate": "Date",
     "status": "Status",
     "view": "View Report",
     "viewDetails": "View Report",
@@ -1070,17 +1071,17 @@
     "approve": {
       "title": "Approve Sponsorship Request",
       "sponsoringType": "Select Sponsorship Type",
-      "letterLabel": "Request Letter",
-      "requestLetter": "Write your request letter here",
-      "companyIntroduction": "Introduce your company or provide additional context"
+      "letterLabel": "Your Response",
+      "requestLetter": "Please write your response here.",
+      "companyIntroduction": "Present your company or provide additional context about your sponsorship."
     },
     "reject": {
       "title": "Reject Sponsorship Request",
       "rejectionReason": "Reason for Rejection",
       "rejectionReasonPlaceholder": "Select Reason",
-      "letterLabel": "Request Letter",
-      "requestLetter": "Write your request letter here",
-      "companyIntroduction": "Introduce your company or provide additional context"
+      "letterLabel": "Your Response",
+      "requestLetter": "Please write your response here.",
+      "companyIntroduction": "Present your company or provide additional context about your sponsorship."
     },
     "brandVisibility": "Brand Visibility",
     "attendeeEngagement": "Attendee Engagement",

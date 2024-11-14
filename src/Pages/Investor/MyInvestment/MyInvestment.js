@@ -236,7 +236,7 @@ const MyInvestment = () => {
                         </td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('en-US')}`}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('en-US') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.stage}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{t(item?.project?.stage)}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.milestones?.[0]?.name}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
@@ -245,7 +245,7 @@ const MyInvestment = () => {
                                 item?.project?.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
                             } inline-flex`}  style={{whiteSpace:'nowrap'}}>
                             <BsDot  size={28} className=""/>
-                            {item?.project?.status}
+                            {t(item?.project?.status)}
                             </div>
                         </td>
                       </tr>

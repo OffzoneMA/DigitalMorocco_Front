@@ -38,9 +38,11 @@ export default function Subscription() {
   const currentLanguage = localStorage.getItem('language') || 'en'; 
 
   const formatPrice = (price) => {
-    const locale = currentLanguage; // Get current language
-    return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'fr' ? 'EUR' : 'USD' }).format(price);
-  };
+    const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
+    const currency = currentLanguage === 'fr' ? 'EUR' : 'USD';
+    return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
+};
+
 
   const fetchLastPaymentMethod = async () => {
     setLoadingLastPayment(true);

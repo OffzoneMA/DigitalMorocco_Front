@@ -85,7 +85,7 @@ const PastEvents = () => {
                       </div>
                       {item.userParticipated && (
                         <button
-                        className="bg-blue-503 text-white-A700 flex flex-row justify-start w-28 items-center px-4 py-1 rounded-full"
+                        className="bg-blue-503 text-white-A700 flex flex-row justify-center w-auto max-w-28 h-[28px] items-center px-4 py-1 rounded-full"
                         type="button"
                       >
                         <span style={{ whiteSpace: 'nowrap' }} className="text-base text-light_blue-51">{t('event.eventDetails.participate')}</span>

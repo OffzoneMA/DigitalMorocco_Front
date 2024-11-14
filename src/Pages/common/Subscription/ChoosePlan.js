@@ -18,9 +18,12 @@ export default function ChoosePlan() {
 
 
   const formatPrice = (price) => {
-    const locale = currentLanguage 
-    return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'fr' ? 'EUR' : 'USD' }).format(price);
-  };
+    const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
+    const currency = currentLanguage === 'fr' ? 'EUR' : 'USD';
+
+    return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
+};
+
 
   return (
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">

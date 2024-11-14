@@ -233,7 +233,7 @@ const InvestorRequestHistory = () => {
                             </div>}
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.communicationStatus || "Initial send email"}</td>
+                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.communicationStatus || t("First contact established")}</td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                           <div style={{ whiteSpace: "nowrap" }} 
                             className={`flex flex-row space-x-2 items-center py-0.5 h-[28px] px-[10px] font-dm-sans-regular text-sm leading-6 rounded-full 

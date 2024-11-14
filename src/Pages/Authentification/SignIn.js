@@ -19,6 +19,7 @@ import { setCredentials } from '../../Redux/auth/authSlice';
 import axios from 'axios';
 import emailError from '../../Media/emailError.svg';
 import Cookies from "js-cookie";
+import { languages } from '../../data/tablesData';
 
 
 export default function SignIn() {
@@ -90,7 +91,10 @@ export default function SignIn() {
   useEffect(() => {
     if (Mount) { setMount(false) }
     else {
-      if (userInfo) {
+      if (userInfo) {  
+        const newLanguage = languages.find(lang => lang.label === userInfo?.language)
+        i18n.changeLanguage(newLanguage?.id);
+        localStorage.setItem('language', newLanguage?.id);
         setTimeout(() =>{
           if(userInfo?.status === 'notVerified') {
             // toast.error("Account not Verified !")
@@ -149,6 +153,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if(error) {
+      setSendingOk(false);
       if (error === "This email is registered through Google.") {
         setLoginError("Login RS error");
       } else if(error === "This email is registered through Linkedin.") {

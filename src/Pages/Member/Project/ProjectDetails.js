@@ -221,18 +221,6 @@ useEffect(() => {
             </div>
             <div className="bg-white-A700 flex md:flex-col flex-row gap-8 items-start border-b border-gray-201 justify-start py-5 w-full">
               <div className="flex  gap-y-4 flex-wrap py-2 w-full">
-                <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
-                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                    {t('projects.createNewProject.totalRaised')}
-                    </Text>
-                  </div>
-                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
-                      {`${project?.currency || 'USD'} ${project?.totalRaised?.toLocaleString('en-US') || 0}`}
-                    </Text>
-                  </div>
-                </div>
                 <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
@@ -245,10 +233,22 @@ useEffect(() => {
                     </Text>
                   </div>
                 </div>
+                <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
+                    {t('projects.createNewProject.totalRaised')}
+                    </Text>
+                  </div>
+                  <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
+                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
+                      {`${project?.currency || 'USD'} ${project?.totalRaised?.toLocaleString('en-US') || 0}`}
+                    </Text>
+                  </div>
+                </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
-                    {t('projects.createNewProject.stage')}
+                    {t('projects.stage')}
                     </Text>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
