@@ -223,13 +223,13 @@ const Projects = () => {
           </div>
         </div>
         <DeleteModal isOpen={isDeleteModalOpen}
-          onRequestClose={closeDeleteModal} title="Delete Project" 
+          onRequestClose={closeDeleteModal} title={t('projects.deleteProjectConfirmation.title')}
           onDelete={handleDelete}
           content={
             <Text
               className="font-dm-sans-regular text-[#1D1C21] text-center text-base leading-6"
             >
-              Are you sure you want to delete this project?
+              {t('projects.deleteProjectConfirmation.confirmationMessage')}
             </Text>
           }/>
       </div>
