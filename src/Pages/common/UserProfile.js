@@ -348,7 +348,7 @@ export default function UserProfile() {
     //   return; 
     // }
 
-    if(isForm3Valid && (selectedRegion !== userData?.region && selectedRegion?.label !== userData?.region )) {
+    if(isForm3Valid && (selectedRegion !== userData?.region && selectedRegion?.label !== userData?.region || (selectedLanguage !== null && selectedLanguage !== undefined))) {
       try {
         const response = await axios.put(
           `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
