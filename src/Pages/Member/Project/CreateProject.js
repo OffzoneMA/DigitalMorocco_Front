@@ -712,7 +712,7 @@ const handleDeleteFile = (index) => {
                   )}
                   <button 
                   onClick={() => setHasSubmitted(true)}
-                    className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
+                    className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
                     ref={formButtonRef}
                     type="submit"
                 >
