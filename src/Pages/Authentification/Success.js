@@ -30,7 +30,19 @@ export default function Success() {
                     if (payload?.role?.toLowerCase() == "admin") { 
                       navigate('/Dashboard_Admin') 
                     }
-                    else if(payload?.status?.toLowerCase() == "pending") {
+                    if (payload?.role?.toLowerCase() === "admin") { 
+                      navigate('/Dashboard_Admin') 
+                    }
+                    else if((payload?.role?.toLowerCase() === "member") && payload?.status?.toLowerCase() === "accepted") {
+                      navigate('/Dashboard')
+                    }
+                    else if(payload?.role?.toLowerCase() === "investor"  && payload?.status?.toLowerCase() === "accepted"){
+                      navigate('/Dashboard_Investor')
+                    }
+                    else if( payload?.role?.toLowerCase() === "partner" && payload?.status?.toLowerCase() === "accepted"){
+                      navigate('/Dashboard_Partner')
+                    }
+                    else if(payload?.status?.toLowerCase() === "pending") {
                       navigate('/RedirectFromSignIn')
                     }
                     else{

@@ -106,19 +106,19 @@ export default function SignIn() {
               navigate('/ChooseRole') 
             }
             else{
-              if (userInfo?.role?.toLowerCase() == "admin") { 
+              if (userInfo?.role?.toLowerCase() === "admin") { 
                 navigate('/Dashboard_Admin') 
               }
-              else if((userInfo?.role?.toLowerCase() == "member") && userInfo?.status?.toLowerCase() == "accepted") {
+              else if((userInfo?.role?.toLowerCase() === "member") && userInfo?.status?.toLowerCase() === "accepted") {
                 navigate('/Dashboard')
               }
-              else if(userInfo?.role?.toLowerCase() == "investor"  && userInfo?.status?.toLowerCase() == "accepted"){
+              else if(userInfo?.role?.toLowerCase() === "investor"  && userInfo?.status?.toLowerCase() === "accepted"){
                 navigate('/Dashboard_Investor')
               }
-              else if( userInfo?.role?.toLowerCase() == "partner" && userInfo?.status?.toLowerCase() == "accepted"){
+              else if( userInfo?.role?.toLowerCase() === "partner" && userInfo?.status?.toLowerCase() === "accepted"){
                 navigate('/Dashboard_Partner')
               }
-              else if(userInfo?.status?.toLowerCase() == "pending") {
+              else if(userInfo?.status?.toLowerCase() === "pending") {
                 navigate('/RedirectFromSignIn')
               }
               else{
