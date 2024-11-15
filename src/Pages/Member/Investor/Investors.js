@@ -75,6 +75,8 @@ const Investors = () => {
     if (investorData) {
       setInvestors(investorData.investors);
       setTotalPages(investorData.totalPages);
+      setCur(investorData?.currentPage); 
+      setSearchParams({ page: `${investorData?.currentPage}` }); 
     }
   }, [investorData]);
   

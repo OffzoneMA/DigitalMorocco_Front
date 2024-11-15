@@ -71,6 +71,8 @@ const InvestmentRequestHistory = () => {
 
     useEffect(() => {
       setTotalPages(investorRequests?.totalPages);
+      setCur(investorRequests?.currentPage); 
+      setSearchParams({ page: `${investorRequests?.currentPage}` }); 
     }, [investorRequests]);
 
     const sectorValues = sectorData?.distinctValues || [];

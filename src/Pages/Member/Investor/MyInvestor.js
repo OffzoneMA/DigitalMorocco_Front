@@ -65,6 +65,8 @@ const MyInvestors = () => {
       setInvestors(data?.investors?.investors);
       setTotalPages(data?.investors?.totalPages);
       setFilteredInvestors(data?.investors?.investors);
+      setCur(data?.investors?.currentPage); 
+      setSearchParams({ page: `${data?.investors?.currentPage}` }); 
       // setNoInvestors(filteredInvestors?.length === 0);
     }
   }, [data]);

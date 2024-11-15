@@ -28,6 +28,7 @@ const Events = () => {
   const navigate = useNavigate();
   const field = 'physicalLocation';
   const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctValuesByUserQuery({field });
+  const { data: distinctValuesNames , isLoading: distinctsValueNamesLoading } = useGetDistinctValuesByUserQuery({field: 'title' });
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
@@ -67,6 +68,8 @@ const Events = () => {
 
   useEffect(() => {
     setTotalPages(eventsParticipate?.totalPages)
+    setCur(eventsParticipate?.currentPage); 
+    setSearchParams({ page: `${eventsParticipate?.currentPage}` }); 
   }, [eventsParticipate]);
 
   const toggleDropdownClick = (index, event) => {
@@ -276,7 +279,7 @@ const Events = () => {
                             onChange={e => setKeywords(e.target.value)}
                           />
                         </div>
-                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={eventNameData}  searchLabel={t('common.searchEvent')} setSelectedOptionVal={seteventName} 
+                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={distinctValuesNames}  searchLabel={t('common.searchEvent')} setSelectedOptionVal={seteventName} 
                           placeholder={t("common.eventName")}
                           content={
                             ( option) =>{ return (

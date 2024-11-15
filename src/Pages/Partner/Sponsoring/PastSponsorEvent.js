@@ -81,6 +81,8 @@ const PastSponsorEvent = () => {
   
     useEffect(() => {
       setTotalPages(events?.totalPages);
+      setCur(events?.currentPage);
+      setSearchParams({ page: `${events?.currentPage}` });
     }, [events]);
 
     function handlePageChange(page) {

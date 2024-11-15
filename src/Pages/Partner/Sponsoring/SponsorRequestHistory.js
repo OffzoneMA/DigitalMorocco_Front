@@ -91,6 +91,8 @@ const SponsorRequestHistory = () => {
   
     useEffect(() => {
       setTotalPages(currentRequests?.totalPages);
+      setCur(currentRequests?.currentPage);
+      setSearchParams({ page: `${currentRequests?.currentPage}` });
     }, [currentRequests]);
 
     function handlePageChange(page) {

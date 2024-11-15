@@ -82,6 +82,8 @@ const Investment = () => {
 
     useEffect(() => {
       setTotalPages(currentData?.totalPages);
+      setCur(currentData?.currentPage); 
+      setSearchParams({ page: `${currentData?.currentPage}` }); 
     }, [currentData]);
 
     const pageData = currentData?.ContactsHistory;

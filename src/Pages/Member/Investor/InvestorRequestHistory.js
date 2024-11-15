@@ -33,6 +33,7 @@ const InvestorRequestHistory = () => {
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
   const [investorRequests, setInvestorRequests] = useState(null);
+  const [filtersChanged, setFiltersChanged] = useState(false);
   const queryParams = { page: cur, pageSize: itemsPerPage };
 
   if (filterApply) {
@@ -48,10 +49,20 @@ const InvestorRequestHistory = () => {
     setCur(pageFromUrl);
   }, [searchParams]);
 
+  // useEffect(() => {
+  //   if (filtersChanged) {
+  //     setCur(1); 
+  //     setSearchParams({ page: '1' }); 
+  //     setFiltersChanged(false); 
+  //   }
+  // }, [filtersChanged, setSearchParams]);
+
   useEffect(() => {
     if (!loading && data) {
       setInvestorRequests(data?.contactRequests);
       setTotalPages(data?.totalPages);
+      setCur(data?.currentPage); 
+      setSearchParams({ page: `${data?.currentPage}` }); 
     }
   }, [data, loading]);
 
@@ -167,7 +178,9 @@ const InvestorRequestHistory = () => {
                   </>
                 )}
                 {filter ? (
-                  <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " onClick={() => setFilterApply(true)}>
+                  <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " 
+                  onClick={() => { setFilterApply(true);
+                    setFiltersChanged(true);}}>
                     {/* <BiFilterAlt size={18} className="mr-2" /> */}
                     <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>{t("common.applyFilters")}</button>
                   </div>

@@ -348,42 +348,44 @@ export default function UserProfile() {
     //   return; 
     // }
 
-    if(isForm3Valid && (selectedRegion !== userData?.region && selectedRegion?.label !== userData?.region || (selectedLanguage !== null && selectedLanguage !== undefined))) {
-      try {
-        const response = await axios.put(
-          `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        if (response.data.success) {
-          setIsForm3Saved(true);
-          setTimeout(() => {
-            setIsForm3Saved(false);
-          }, 5000);
-          console.log("Language and region updated successfully!");
-
-          //change language
-          const newLanguage = selectedLanguage?.id;
-          i18n.changeLanguage(newLanguage);
-          localStorage.setItem('language', newLanguage);
-          
-          const updatedUserData = {
-            ...userData,
-            ...formData,
-          };
-          setUser(response?.data?.user);
+    if(isForm3Valid) {
+      if((selectedRegion !== userData?.region && selectedRegion?.label !== userData?.region || (selectedLanguage !== null && selectedLanguage !== undefined))) {
+        try {
+          const response = await axios.put(
+            `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          if (response.data.success) {
+            setIsForm3Saved(true);
+            setTimeout(() => {
+              setIsForm3Saved(false);
+            }, 5000);
+            console.log("Language and region updated successfully!");
   
-          sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
-        } else {
-          console.error("Error updating language and region:", response.data.message);
+            //change language
+            const newLanguage = selectedLanguage?.id;
+            i18n.changeLanguage(newLanguage);
+            localStorage.setItem('language', newLanguage);
+            
+            const updatedUserData = {
+              ...userData,
+              ...formData,
+            };
+            setUser(response?.data?.user);
+    
+            sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
+          } else {
+            console.error("Error updating language and region:", response.data.message);
+          }
+        } catch (error) {
+          console.error("Error updating language and region:", error);
         }
-      } catch (error) {
-        console.error("Error updating language and region:", error);
       }
     }
   };

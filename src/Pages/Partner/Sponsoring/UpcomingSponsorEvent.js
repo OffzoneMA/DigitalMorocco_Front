@@ -75,6 +75,8 @@ const UpcomingSponsorEvent = () => {
   
     useEffect(() => {
       setTotalPages(events?.totalPages);
+      setCur(events?.currentPage);
+      setSearchParams({ page: `${events?.currentPage}` });
     }, [events]);
 
     function handlePageChange(page) {

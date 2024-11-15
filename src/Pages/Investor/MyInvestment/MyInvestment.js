@@ -67,6 +67,8 @@ const MyInvestment = () => {
 
     useEffect(() => {
       setTotalPages(myInvestments?.totalPages);
+      setCur(myInvestments?.currentPage); 
+      setSearchParams({ page: `${myInvestments?.currentPage}` }); 
     }, [myInvestments]);
 
     const sectorValues = sectorData?.distinctValues || [];
