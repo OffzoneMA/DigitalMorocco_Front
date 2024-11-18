@@ -58,15 +58,18 @@ const Users = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    if(!loading && data) { 
       setUsers(data?.data);
       setTotalPages(data?.pagination?.totalPages);
-    }
-  }, [data , loading]);
+      setCur(data?.pagination?.currentPage);
+      setSearchParams({page: `${data?.pagination?.currentPage}`});
+  }, [data]);
 
   useEffect(() => {
-    refetch();
-  }, [cur , filterApply , refetch]);
+    if (filterApply && data?.pagination?.currentPage !== cur) {
+      refetch();
+    }
+  }, [cur, filterApply, refetch, data?.pagination?.currentPage]);
+  
 
   const pageData = users?.filter(item => {
     const keywordMatch = item?.displayName?.toLowerCase().includes(keywords.toLowerCase());
@@ -435,7 +438,7 @@ const Users = () => {
             {pageData?.length>0 && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
-                  currentPage={cur}
+                  initialPage={cur}
                   totalPages={totalPages}
                   // onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}

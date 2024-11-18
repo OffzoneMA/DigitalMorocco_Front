@@ -63,8 +63,10 @@ const Events = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    refetch();
-  }, [cur , itemsPerPage , refetch , filterApply]);
+    if(filterApply && eventsParticipate?.currentPage !== cur) {
+      refetch();
+    }
+  }, [cur, eventsParticipate?.currentPage , filterApply , refetch]);
 
   useEffect(() => {
     setTotalPages(eventsParticipate?.totalPages)

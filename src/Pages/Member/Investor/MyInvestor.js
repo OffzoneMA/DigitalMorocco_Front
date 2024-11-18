@@ -74,8 +74,10 @@ const MyInvestors = () => {
   const locations = locations0 || locations1;
 
   useEffect(() => {
-    refetch();
-  }, [cur, itemsPerPage , filterApply]); 
+    if(filterApply && data?.currentPage !== cur) {
+      refetch();
+    }
+  }, [cur, data?.currentPage , filterApply , refetch]);
 
   const filteredData = filteredInvestors?.filter(item => {
     const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());  

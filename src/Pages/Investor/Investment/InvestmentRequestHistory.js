@@ -30,7 +30,7 @@ const InvestmentRequestHistory = () => {
     const itemsPerPage = 8;
     const itemsToShow = 4;
     const [totalPages , setTotalPages] = useState(0);
-    const queryParams = { page: cur, pageSize: itemsPerPage };
+    const queryParams = { page: cur, pageSize: itemsPerPage , status: ["Approved" , "Rejected"] };
     const [selectedDate , setSelectedDate] = useState('');
 
     if (filterApply) {
@@ -66,8 +66,10 @@ const InvestmentRequestHistory = () => {
     }, [searchParams]);
 
     useEffect(() => {
-      refetch();
-    }, [cur , itemsPerPage , refetch , filterApply]);
+      if(filterApply && investorRequests?.currentPage !== cur) {
+        refetch();
+      }
+    }, [cur , investorRequests?.currentPage , refetch , filterApply]);
 
     useEffect(() => {
       setTotalPages(investorRequests?.totalPages);
@@ -153,7 +155,7 @@ const InvestmentRequestHistory = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='status' options={sectorValues?.filter(item => item?.toLowerCase() !== "in progress" )}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setIndustries} 
                     placeholder={t('common.selectStatus')}
                     content={
                       ( option) =>{ return (

@@ -9,12 +9,14 @@ import SearchInput from "../../../Components/common/SeachInput";
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import SimpleSelectWithGroup from "../../../Components/common/SimpleSelectWithGroup";
 import { useTranslation } from 'react-i18next';
+import CommonModal from '../../../Components/common/CommonModal';
 
 
 const ManageSubscriptionCredits = () => {
     const currentLanguage = localStorage.getItem('language') || 'en'; 
     const { t } = useTranslation();
-    const { userInfo } = useSelector((state) => state.auth)
+    const { userInfo } = useSelector((state) => state.auth);
+    const [isModalOpen , setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     const [selectedCredits , setSelectedCredits] = useState(null);
     const [acceptTerms , setAcceptTerms] = useState(false);
@@ -76,11 +78,16 @@ const ManageSubscriptionCredits = () => {
         },
     ];
     
-      const onSubmit = (data) => {
+    const onSubmit = (data) => {
+        setIsModalOpen(true);
+    };
 
-      };
+    const closePopup = () => {
+        setIsModalOpen(false)
+    }
       
     return (
+    <>
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col sm:px-5 px-8 gap-8 w-full h-full">
                 <div className="flex flex-col items-start justify-start w-full">
@@ -152,23 +159,6 @@ const ManageSubscriptionCredits = () => {
                             <div className="w-auto h-[21px] text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t('Your Order')}</div>
                             <div className="w-full h-auto text-[#98a1b2] text-sm font-dm-sans-regular leading-relaxed">{t('Please choose the amount of Credits you want from the dropdown menu below.')}</div>
                             <div className="self-stretch h-auto flex-col justify-start items-start gap-2 w-full flex">
-                                {/* <SimpleSelect id='credits'
-                                options={creditOptions}  selectedOptionsDfault={selectedCredits}
-                                setSelectedOptionVal={setSelectedCredits} searchable={true}
-                                placeholder={"Select Credits"} valuekey="formatted"
-                                content={
-                                (option) => {
-                                    return (
-                                    <div className="flex  py-2 items-center  w-full">
-                                    <span
-                                        className="text-gray-801 w-full text-left text-base font-dm-sans-regular leading-5 w-auto"
-                                        >
-                                        {option?.formatted}
-                                    </span>
-                                    </div>
-                                    );
-                                }
-                                } />*/}
                                 <SimpleSelectWithGroup id='credits'
                                 groupedOptions={creditOptionsEn}  selectedOptionsDfault={selectedCredits}
                                 setSelectedOptionVal={setSelectedCredits} searchable={true}
@@ -236,6 +226,25 @@ const ManageSubscriptionCredits = () => {
                 </div>
             </div>
         </div>
+        <CommonModal isOpen={isModalOpen}
+        onRequestClose={closePopup} title={t('Information: Feature Unavailable')}
+        content={
+          <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+            <div className="text-center">
+              <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("This feature")}</span><span className="text-[#2575f0] text-base font-dm-sans-regular leading-relaxed"> {t('is not yet available.')}</span>
+              <br/>
+              <span className="leading-[3rem]"></span>
+              <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("Please check back later for updates!")}</span>
+            </div>
+            <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+            <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100"
+                onClick={() => setIsModalOpen(false)}>
+                    <div className="text-white-A700 text-base font-dm-sans-medium">{t('Ok')}</div>
+                </button>
+            </div>
+          </div>
+        }/>
+    </>
     );
 }
 

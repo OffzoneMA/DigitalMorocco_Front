@@ -11,12 +11,16 @@ import TableTitle from "../../../Components/common/TableTitle";
 import Loader from "../../../Components/Loader";
 import { FaRProject } from "react-icons/fa6";
 import { PiCheckBold } from "react-icons/pi";
+import { BsEyeSlash } from "react-icons/bs";
+import { TiFlashOutline } from "react-icons/ti";
 import { RiCloseLine } from "react-icons/ri";
 import ApproveContactRequestModal from "../../../Components/Modals/ContactRequest/ApproveContactRequestModal";
 import RejectContactRequestModal from "../../../Components/Modals/ContactRequest/RejectContactRequestModal";
 import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../../Services/Investor.Service";
 import { useApproveRequestMutation , useRejectRequestMutation } from "../../../Services/ContactRequest.Service";
 import { useTranslation } from "react-i18next";
+import { useCheckSubscriptionStatusQuery } from "../../../Services/Subscription.Service";
+import { investmentsData } from "../../../data/tablesData";
 
 const Investment = () => {
   const { t } = useTranslation();
@@ -24,6 +28,7 @@ const Investment = () => {
   const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
+    const [isSubscribe , setIsSubscribe] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
     const [rowData , setRowData] = useState(null);
@@ -50,8 +55,16 @@ const Investment = () => {
     const { data : sectorData, isLoading:locationLoading } = useGetDistinctProjectFieldsQuery({field: "sector" });
     const { data : fundingData, isLoading:industryLoading } = useGetDistinctProjectFieldsQuery({field: "funding" });
     const { data : locationData, isLoading:typeLoading } = useGetDistinctProjectFieldsQuery({field: "country" });
+    const { data: subscriptionData, error: subscriptionError , isFetching: subscriptionLoading } = useCheckSubscriptionStatusQuery();
+
     const [approveRequest] = useApproveRequestMutation();
     const [rejectRequest] = useRejectRequestMutation();
+
+    useEffect(() => {
+      if (subscriptionData !== undefined) {
+        setIsSubscribe(subscriptionData !== null);
+      }
+    }, [subscriptionData]);
 
     function handlePageChange(page) {
       if (page >= 1 && page <= totalPages) {
@@ -77,8 +90,10 @@ const Investment = () => {
     }, [searchParams]);
 
     useEffect(() => {
-      refetch();
-    }, [cur , itemsPerPage , refetch , filterApply]);
+      if (filterApply && currentData?.currentPage !== cur) {
+        refetch();
+      }
+    }, [cur, filterApply, refetch, currentData?.currentPage]);
 
     useEffect(() => {
       setTotalPages(currentData?.totalPages);
@@ -86,19 +101,10 @@ const Investment = () => {
       setSearchParams({ page: `${currentData?.currentPage}` }); 
     }, [currentData]);
 
-    const pageData = currentData?.ContactsHistory;
+    const pageData = (isSubscribe && !isLoading && !subscriptionLoading ) ?  currentData?.ContactsHistory : investmentsData;
 
     const filteredData = pageData?.filter(item => {
       const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
-    
-      // if (filterApply) {
-      //   const matchesTargetFund = targetFund ? item.funding === Number(targetFund) : true; 
-      //   const matchesLocation = location ? item.location === location : true;
-      //   const matchesIndustries = industries.length > 0 ? industries.includes(item.stage) : true;
-    
-      //   return keywordMatch && matchesTargetFund && matchesLocation && matchesIndustries;
-      // }
-    
       return keywordMatch;
     });
         
@@ -242,10 +248,10 @@ const Investment = () => {
                 ):
                 (
                 <button
-                  className={`col-end-3 ${filteredData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                  className={`col-end-3 ${(filteredData?.length === 0 || !isSubscribe ) ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                   onClick={() => setFilter(true)}
                   type="button"
-                  disabled={filteredData?.length === 0 || pageData?.length === 0 }
+                  disabled={filteredData?.length === 0 || !isSubscribe }
                 >
                   <BiFilterAlt size={18} className="mr-2" />
                   <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
@@ -268,115 +274,153 @@ const Investment = () => {
               )}
                 </div>
               </div>
-              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(filteredData?.length > 0 && !isLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
-                style={{
-                  scrollbarWidth: 'none', 
-                  msOverflowStyle: 'none',
-                }}>
-                <table className=" w-full" >
-                  <thead>
-                    <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.projectName')}</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.targetFund')}</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.raised')}</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.location')}</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.industrySector')}</th>
-                        <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.decision')}</th>
-                    </tr>
-                  </thead>
-                  {(!isLoading && filteredData?.length > 0) ? 
-                    <tbody className="items-center w-full ">
-                    {
-                      filteredData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full cursorpointer`} onClick={()=> navigate(`/InvestmentRequestDetails/${item?._id}` , { state: {contactRequest: item}})}>
-                        <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
-                          <div className="relative flex">
-                            <div className="px-[18px] py-4 flex items-center gap-3" >
-                              {item?.logo ? (
-                                <img src={item.logo} className="rounded-full h-8 w-8" alt="Profile" />
-                              ) : (
-                                <FaRProject className="h-8 w-8 text-light_blue-200" /> 
-                              )}                              
-                              <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.country || 'Sydney, Australia'}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.sector}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
-                          <div className="flex flex-row space-x-4 items-center">
-                            <div className="relative group">
-                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'approved'? 'bg-[#00CDAE]': 'bg-[#aeb6c5]'} hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex`} 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openApproveModal(item)}}>
-                                  <PiCheckBold size={21} className="text-white-A700"/>
-                              </div>
-                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
-                                <div className="mb-px mr-[12px]">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
-                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
-                                  </svg>
-                                </div>
-                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.approve")}</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="relative group">
-                              <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'rejected'? 'bg-[#EF4352]': 'bg-[#aeb6c5]'} hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex`} 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openRejectModal(item)}}>
-                                  <RiCloseLine size={21} className="text-white-A700"/>
-                              </div>
-                              <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
-                                <div className="mb-px mr-[12px]">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
-                                    <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
-                                  </svg>
-                                </div>
-                                <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
-                                  <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.reject")}</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
+              <div className="relative flex flex-col w-full">
+                <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(filteredData?.length > 0 && !isLoading && !subscriptionLoading) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+                  style={{
+                    scrollbarWidth: 'none', 
+                    msOverflowStyle: 'none',
+                  }}>
+                  <table className=" w-full" >
+                    <thead>
+                      <tr className="bg-white-A700 text-sm leading-[26px] font-DmSans font-medium h-[44px] ">
+                          <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.projectName')}</th>
+                          <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.targetFund')}</th>
+                          <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.raised')}</th>
+                          <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.location')}</th>
+                          <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.industrySector')}</th>
+                          <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investment.decision')}</th>
                       </tr>
-                    ))}
-                    </tbody> : 
-                    ""}
-                </table>
-                { isLoading ? (
-                 <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                     <Loader />
-                 </div> ) : filteredData?.length === 0 && (
+                    </thead>
+                    {(!isLoading && !subscriptionLoading && filteredData?.length > 0) ? 
+                      <tbody className="items-center w-full ">
+                      {
+                        filteredData.map((item, index) => (
+                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full cursorpointer`} onClick={()=> navigate(`/InvestmentRequestDetails/${item?._id}` , { state: {contactRequest: item}})}>
+                          <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
+                            <div className="relative flex">
+                              <div className="px-[18px] py-4 flex items-center gap-3" >
+                                {item?.logo ? (
+                                  <img src={item.logo} className="rounded-full h-8 w-8" alt="Profile" />
+                                ) : (
+                                  <FaRProject className="h-8 w-8 text-light_blue-200" /> 
+                                )}                              
+                                <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.country || 'Sydney, Australia'}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.sector}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
+                            {item?.status?.toLowerCase() === 'in progress' ? 
+                            <div className="flex flex-row space-x-4 items-center">
+                              <div className="relative group">
+                                <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'approved'? 'bg-[#00CDAE]': 'bg-[#aeb6c5]'} hover:bg-[#00CDAE] rounded-md justify-center items-center gap-2 flex`} 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openApproveModal(item)}}>
+                                    <PiCheckBold size={21} className="text-white-A700"/>
+                                </div>
+                                <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
+                                  <div className="mb-px mr-[12px]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                      <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                                    </svg>
+                                  </div>
+                                  <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                    <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.approve")}</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="relative group">
+                                <div className={`w-[38px] h-8 px-1 py-1 ${item?.status?.toLowerCase() === 'rejected'? 'bg-[#EF4352]': 'bg-[#aeb6c5]'} hover:bg-[#EF4352] rounded-md justify-center items-center gap-2 flex`} 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openRejectModal(item)}}>
+                                    <RiCloseLine size={21} className="text-white-A700"/>
+                                </div>
+                                <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end z-10">
+                                  <div className="mb-px mr-[12px]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
+                                      <path d="M0.8547 5.26895L5.81768 0.63683C6.20189 0.278237 6.79811 0.278237 7.18232 0.636829L12.1453 5.26894C12.8088 5.88823 12.3706 7 11.463 7H1.53702C0.629399 7 0.191179 5.88823 0.8547 5.26895Z" fill="#2C3563"/>
+                                    </svg>
+                                  </div>
+                                  <div className="bg-[#334081] min-w-[92px] h-[30px] rounded-[6px] px-[18px] py-[3px] flex items-center">
+                                    <div className="grow shrink basis-0 text-center text-white-A700 text-sm font-dm-sans-regular leading-relaxed">{t("common.reject")}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            :
+                            <span className="">Oups !!!😅😬🤦‍♂️</span>}
+                          </td>
+                        </tr>
+                      ))}
+                      </tbody> : 
+                      ""}
+                  </table>
+                  { (isLoading || subscriptionLoading)? (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
-                    <div >
-                      <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                      <Loader />
+                  </div> ) : filteredData?.length === 0 && (
+                    <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
+                      <div >
+                        <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9 10L3.14018 17.0318C2.61697 17.6596 2.35536 17.9736 2.35137 18.2387C2.34789 18.4692 2.4506 18.6885 2.62988 18.8333C2.83612 19 3.24476 19 4.06205 19H15L13.5 31L21 22M20.4751 13H25.938C26.7552 13 27.1639 13 27.3701 13.1667C27.5494 13.3115 27.6521 13.5308 27.6486 13.7613C27.6446 14.0264 27.383 14.3404 26.8598 14.9682L24.8254 17.4096M12.8591 5.36897L16.4999 1L15.6004 8.19657M28.5 29.5L1.5 2.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
+                        <span>{t("common.noMatchingData")}</span>
+                      </div>
                     </div>
-                    <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
-                      <span>{t("common.noMatchingData")}</span>
+                  )}
+                  {(!isSubscribe && !isLoading && !subscriptionLoading ) ? 
+                  (
+                    <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
+                      <BsEyeSlash size={35} className="text-gray500 "/>
+                      <Text
+                        className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
+                        size=""
+                      >
+                        {t('investors.viewAllInvestors', { count: (261765).toLocaleString('fr-FR').replace(/\s/g, '\u00A0') })} 
+                      </Text>
+                      <Text
+                        className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
+                        size=""
+                      >
+                        {t('investors.upgradeMessage')} <a className="text-blue-500" href="/src/Pages/common/Subscription/ChoosePlan">{t('investors.digitalMoroccoPro1')}</a> {t('investors.upgradeMessage2')}
+                      </Text>
+                      <Text
+                        className="text-[#f04437]/60 text-sm font-semibold font-DMSans leading-relaxed pb-8"
+                        size=""
+                      >
+                        {t('investors.notice')}
+                      </Text>
+                      <button
+                        className="flex items-center justify-center gap-[12px] bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-[12px] py-[8px] h-[37px] rounded-md cursorpointer"
+                        onClick={() => navigate('/ChoosePlan')}
+                        type="button"
+                      >
+                        <TiFlashOutline size={25} className="" />
+                        <span className="text-sm font-dm-sans-medium leading-[18.23px] text-white-A700">{t("dashboard.upgradeMembership")}</span>
+                      </button>
                     </div>
-                  </div>
+                  ) : null
+                }
+                </div>
+                {(filteredData?.length>0 && !isLoading && !subscriptionLoading) && (
+                  <div className='w-full flex items-center p-4'>
+                  <TablePagination
+                    currentPage={cur}
+                    totalPages={totalPages}
+                    // onPageChange={handlePageChange}
+                    itemsToShow={itemsToShow}
+                  />              
+                </div>
                 )}
+                </div>
               </div>
-              {(filteredData?.length>0 && !isLoading) && (
-                <div className='w-full flex items-center p-4'>
-                <TablePagination
-                  currentPage={cur}
-                  totalPages={totalPages}
-                  // onPageChange={handlePageChange}
-                  itemsToShow={itemsToShow}
-                />              
-              </div>
-              )}
-            </div>
           </div>
         </div>
         <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData} methode={handleApprove}/>

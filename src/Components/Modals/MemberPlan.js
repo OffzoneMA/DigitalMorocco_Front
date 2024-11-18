@@ -28,6 +28,20 @@ const MemberPlan = ({ plan , buttonText }) => {
                 <Text className="text-base font-dm-sans-medium leading-[26px] text-center text-[#667085] w-full">
                     {plan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${plan.name.toLowerCase()}.description`) : t(`subscriptionPlans.${plan.name.toLowerCase()}.description`)}
                 </Text>
+                {plan?.forUser?.toLowerCase() === "member" ? 
+                <>
+                <Text className="text-center text-col1 text-[42px] font-dm-sans-bold leading-10">{t('Free')}</Text>
+                <Text className="text-center text-col1 font-dm-sans-bold pt-1 w-full">
+                    <span className='text-[#1e0e62]/60 text-3xl font-dm-sans-bold line-through leading-8 tracking-wide'>
+                        {plan?.price === 0 ? t('Free') : plan?.planType !== "upcoming" ? `${formatPrice(plan?.price)}/` : `$${t('Upcoming')}`}
+                    </span>
+                    {(plan?.price > 0 && plan?.planType !== "upcoming") && 
+                    <span className='text-[#1e0e62]/60 text-2xl font-dm-sans-bold line-through leading-7'>
+                        {t('subscriptionPlans.monthlyFee')}
+                    </span>}
+                </Text>
+                </>
+                :
                 <Text className="text-center text-col1 font-dm-sans-bold pt-1 w-full">
                     <span className='text-[2.5rem] leading-13 tracking-wide'>
                         {plan?.price === 0 ? t('Free') : plan?.planType !== "upcoming" ? `${formatPrice(plan?.price)}/` : `$${t('Upcoming')}`}
@@ -36,6 +50,7 @@ const MemberPlan = ({ plan , buttonText }) => {
                         {t('subscriptionPlans.monthlyFee')}
                     </span>}
                 </Text>
+                }
             </div>
 
             {/* Features Section with Blur and Overlay Text */}

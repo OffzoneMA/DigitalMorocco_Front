@@ -50,14 +50,14 @@ const Dashbord_Investor = () => {
                     </div>
                     <div className="flex flex-row w-full lg:w-auto gap-4 justify-between ">
                         <SearchInput className={'w-[240px] '}/>
-                        <button 
+                        {/* <button 
                         style={{whiteSpace: 'nowrap'}}
                           className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer rounded-md w-auto" 
                           onClick={() => navigate("/CreateProject")}
                       >
                           <FaRegPlusSquare size={18} className="mr-2" />
                           {t('dashboard.createProject')}
-                      </button>
+                      </button> */}
                     </div>
                 </div>
                 <div className="flex pb-6">
@@ -343,18 +343,22 @@ const Dashbord_Investor = () => {
                                 <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} 
                                 // onClick={()=> navigate(`/InvestmentRequestHistoryDetails/${item?._id}`)}
                                 >
-                                  <td className="py-4 px-3 w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
-                                    <div className="flex items-center gap-2">
-                                      {item?.project?.image ? (
-                                        <img src={item.project?.image} className="rounded-full h-8 w-8" alt="Profile" />
-                                      ) : (
-                                        <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
-                                          <img src={userdefaultProfile} alt="" className="" />
-                                        </div>
-                                      )}
-                                      <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                        {item?.project?.name || 'Unknown Project'}
-                                      </span>
+                                  <td className="w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
+                                    <div className="relative flex">
+                                      <div className="flex px-3 py-4 items-center gap-2">
+                                        {item?.project?.image ? (
+                                          <img src={item.project?.image} className="rounded-full h-8 w-8" alt="Profile" />
+                                        ) : (
+                                          <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                                            <img src={userdefaultProfile} alt="" className="" />
+                                          </div>
+                                        )}
+                                        <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') ? item?.project?.name : item?.project?.name}
+                                        </span>
+                                      </div>
+                                      {/* {(item?.status?.toLowerCase() !== 'approved' && item?.status?.toLowerCase() !== 'accepted') && 
+                                      <div className="overlay-content-invPro w-full flex"></div> } */}
                                     </div>
                                   </td>
                                   <td className="py-4 px-3 text-gray-600 text-sm font-dm-sans-regular leading-6">{item?.communicationStatus || t("First contact established")}</td>

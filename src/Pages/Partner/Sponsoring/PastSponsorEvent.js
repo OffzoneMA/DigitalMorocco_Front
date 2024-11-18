@@ -76,8 +76,10 @@ const PastSponsorEvent = () => {
     }, [searchParams]);
     
     useEffect(() => {
-      refetch();
-    }, [cur , refetch , filterApply]);
+      if(filterApply && events?.currentPage !== cur) {
+        refetch();
+      }
+    }, [cur, events?.currentPage , filterApply , refetch]);
   
     useEffect(() => {
       setTotalPages(events?.totalPages);

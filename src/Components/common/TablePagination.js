@@ -1,26 +1,43 @@
-// TablePagination.js
-import React , {useState , useEffect} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PiArrowLeftBold, PiArrowRightBold } from "react-icons/pi";
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 
-function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow }) {
-  const { t, i18n } = useTranslation();
+function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, initialPage = 1 }) {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialPage = Number(searchParams.get("page")) || 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
+  const isUpdatingRef = useRef(false); // Verrou pour éviter les boucles de mise à jour
 
+  // Initialiser la page à partir des paramètres d'URL ou de initialPage
+  const [currentPage, setCurrentPage] = useState(() => {
+    return Number(searchParams.get("page")) || initialPage;
+  });
+
+  // Synchroniser currentPage avec searchParams (uniquement si nécessaire)
   useEffect(() => {
-    if (Number(searchParams.get("page")) !== currentPage) {
-      setSearchParams({ page: currentPage }, { replace: true });
-    }
-  }, [currentPage, searchParams, setSearchParams]);
+    if (isUpdatingRef.current) return; // Si un verrou est actif, ignorer cette mise à jour
+    const pageFromParams = Number(searchParams.get("page")) || 1;
 
-  // Function to handle page change and call onPageChange prop
+    if (pageFromParams !== currentPage) {
+      setCurrentPage(pageFromParams);
+    }
+  }, [searchParams]);
+
+  // Mettre à jour searchParams lors du changement de currentPage (uniquement si nécessaire)
+  useEffect(() => {
+    const pageInParams = Number(searchParams.get("page")) || 1;
+
+    if (currentPage !== pageInParams) {
+      isUpdatingRef.current = true; // Activer le verrou
+      setSearchParams({ page: currentPage }, { replace: true });
+      setTimeout(() => (isUpdatingRef.current = false), 0); // Désactiver le verrou après le cycle
+    }
+  }, [currentPage, setSearchParams]);
+
   const goToPage = (page) => {
     if (page > 0 && page <= totalPages && page !== currentPage) {
       setCurrentPage(page);
-      onPageChange(page);
+      onPageChange(page); // Appeler le callback externe
     }
   };
 
@@ -45,29 +62,30 @@ function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow }) {
         className={`flex h-[36px] min-w-[114px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage < 2 && 'opacity-50 diseable'}`}
         disabled={currentPage === 1}
       >
-        <PiArrowLeftBold  className='h-4 w-4 ' />
+        <PiArrowLeftBold className='h-4 w-4 ' />
         {t('pagination.previous')}
       </button>
 
-      {/* Page Number Buttons */}
+      {/* Boutons de numéro de page */}
       <div className="flex items-center justify-center px-4">
         {pages.map((page) => (
           <button
             key={page}
             onClick={() => goToPage(page)}
-            className={` w-[40px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] h-[40px] flex items-center justify-center cursorpointer  rounded-[8px] ${currentPage === page ? 'text-[#7F56D9] bg-[#F9F5FF]' : 'text-gray500 bg-white-A700'}`}
+            className={`w-[40px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] h-[40px] flex items-center justify-center cursorpointer rounded-[8px] ${currentPage === page ? 'text-[#7F56D9] bg-[#F9F5FF]' : 'text-gray500 bg-white-A700'}`}
           >
             {page}
           </button>
         ))}
       </div>
+
       <button
         onClick={() => goToPage(currentPage + 1)}
         className={`flex h-[36px] min-w-[88px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage === totalPages && 'opacity-50 diseable'}`}
         disabled={currentPage === totalPages}
       >
         {t('pagination.next')}
-        <PiArrowRightBold  className='h-4 w-4 ' />
+        <PiArrowRightBold className='h-4 w-4 ' />
       </button>
     </div>
   );

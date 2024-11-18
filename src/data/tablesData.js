@@ -402,6 +402,114 @@ export const projectsData = [
       },  
 ];
 
+export const investmentsData = [
+  {
+    status: "HACKING ATTEMPT💻💥",
+    project: {
+      name: "Project Hack The Planet 🌍💣",
+      funding: "000 000 💸",
+      totalRaised: "000 000 000 😱",
+      stage: "Super Mega Ultra Secret 🔒",
+      milestone: "World Domination Phase 🌐💪",
+      status: "Terminated (by AI Overlord 🤖👑)",
+      country: "undisclosed 🚀",
+      sector: "Cyber Intergalactic🛸"
+    }
+  },
+  {
+    status: "SYSTEM ERROR😵📺",
+    project: {
+      name: "Quantum Dark Web Investment 🕶️💻",
+      funding: "000 000 💰",
+      totalRaised: "000 000 💸",
+      stage: "Phantom Mode 👻",
+      milestone: "Creating the Matrix 2.0 💻🔮",
+      status: "Crashed (Literally 💥)",
+      country: "(just... the cloud ☁️)",
+      sector: "Quantum🔮"
+    }
+  },
+  {
+    status: "SECURITY BREACH: ERROR 404 NOT FOUND 🤷‍♂️❌",
+    project: {
+      name: "Hacker's Delight 🍩💻",
+      funding: "0.01 🪙",
+      totalRaised: "0.00 🚫",
+      stage: "Private Server 🔒",
+      milestone: "Reached the Outer Limits of Reality 🌌",
+      status: "Inactive (Server in the Bermuda Triangle 🌴)",
+      country: "Somewhere Between Dimensions 🌫️",
+      sector: "Cryptocurrency Mining 💰🚀"
+    }
+  },
+  {
+    status: "ACCESS GRANTED🙄🔓",
+    project: {
+      name: "Time Travel Hackathon ⏳",
+      funding: "42 🤷‍♀️ (Pi Day Special)",
+      totalRaised: "0 (💖)",
+      stage: "Pre-Singularity 🚀",
+      milestone: "Reverse the Flux Capacitor ⚡",
+      status: "Stuck in the '80s 🕺🎶",
+      country: "The Future (trust us 👽)",
+      sector: "Time-Space (on a budget 💵)"
+    }
+  },
+  {
+    status: "DATA LEAK DETECTED🤦‍♂️💦",
+    project: {
+      name: "The Big Data Conspiracy 🕵️‍♂️🔍",
+      funding: "50 000 000 💸",
+      totalRaised: "1 000 000 😳",
+      stage: "Super Secret Black Ops 🕶️",
+      milestone: "AI is now self-aware 🤖💭",
+      status: "Corrupted (Skynet 😈)",
+      country: "Underground Lair 🕳️",
+      sector: "Artificial Intelligence 🤖"
+    }
+  },
+  {
+    status: "ALERT: Someone forgot to lock the server. 🔓😬",
+    project: {
+      name: "Invisible Money Hack 💸👻",
+      funding: "1 🪙",
+      totalRaised: "0 (🤨)",
+      stage: "Invisible Stage 👻",
+      milestone: "Project Launch (nobody saw it 👀)",
+      status: "Compromised (by the interns 👶)",
+      country: "Not even on Google Maps 🗺️",
+      sector: "Invisible Cryptocurrency 🪙"
+    }
+  },
+  {
+    status: "SUSPICIOUS ACTIVITY: Did someone order a pizza? 🍕🤔",
+    project: {
+      name: "Pizza Delivery Drones 🚁🍕",
+      funding: "5 000 000 💵",
+      totalRaised: "100 000 000 💰",
+      stage: "Drone Invasion 🛸",
+      milestone: "Pizza Delivered to Mars 🍕🚀",
+      status: "On Hold (Due to too much cheese 🧀)",
+      country: "Mars (Delivery in progress 🚀)",
+      sector: "Interplanetary Pizza Logistics 🌍🍕"
+    }
+  },
+  {
+    status: "EXTRA-TERRESTRIAL INTERFERENCE 👽👾",
+    project: {
+      name: "Alien Invasion Fund 👽💸",
+      funding: "999 999 999 999 💰",
+      totalRaised: "3 000 000 000 💸",
+      stage: "Alien Hybrids (don’t ask 👽)",
+      milestone: "First Contact 👽",
+      status: "Abducted by Aliens 🛸",
+      country: "Area 51 (Shhh 🤫)",
+      sector: "Intergalactic Colonization 🌌"
+    }
+  },
+];
+
+
 export const employeesData = [
     { name: 'Annette Black',userImg:'/images/img_avatar.png', email: 'annette@digitalmorocco.com', title: 'Back End Developer', type: 'Internship', status: 'Active' },
     { name: 'Dianne Russell', userImg:'/images/img_avatar_62x62.png',  email: 'dianne@digitalmorocco.com', title: 'Software Developer', type: 'Job Share', status: 'Active' },
@@ -825,15 +933,87 @@ export const CompanyLegalData = [
 ];
 
 export const InvestorsData = [
-  {logo:"/images/img_inv.svg", name: "Vxydur Hsdtlwxr", type: "Ventvre Cltpil", numberOfInvestment: 231, numberOfExits: 89, location: "Mxqufo, Ixeya", PreferredInvestmentIndustry: "Sss, Lrtjfqccisl Yntmglxnce, Xnzchine Lyrning" },
-  {logo:"/images/img_inv1.svg" ,name: "Syxdrtp Hvdungx Zyxpl", type: "Anzrl", numberOfInvestment: 104, numberOfExits: 96, location: "BX Bgfthz, Cplxmzba", PreferredInvestmentIndustry: "Xdptech, Agrqiltvure, Bhotcvqhlogy" },
-  {logo:"/images/img_inv2.svg" , name: "Tlchstzrs Atlsfnx", type: "Ventvre Cltpil", numberOfInvestment: 123, numberOfExits: 72, location: "Lgndfn, Unxgted Kxnzgdm", PreferredInvestmentIndustry: "Xdtech, Agrqiltvure, Bhotcvqhlogy" },
-  {logo:"/images/img_inv3.svg" , name: "Uvbin-X Xccqrxrztxr", type: "Xccqrxrztxr", numberOfInvestment: 254, numberOfExits: 86, location: "Cxro, Xgpt", PreferredInvestmentIndustry: "Ezytech, X-Lxxrnng, Cxrpzrate Trxrng" },
-  {logo:"/images/img_inv4.svg" ,  name: "Mxsk599 Xccqrxrztxr", type: "Xccqrxrztxr", numberOfInvestment: 342, numberOfExits: 111, location: "Sydfey, Xustrxlix", PreferredInvestmentIndustry: "Bxg Dxte, Sss, Crcwfvndlng" },
-  {logo:"/images/img_inv5.svg", name: "Brndxn Wllcty", type: "Anzrl", numberOfInvestment: 213, numberOfExits: 85, location: "Xbv Dhxbl, UXE", PreferredInvestmentIndustry: "Xdtech, Agrqiltvure, Bhotcvqhlogy" },
-  {logo: "/images/img_inv11.svg",name: "BlxeYxrd Xctitl",type: "Ventvre Cltpil",numberOfInvestment: 120,numberOfExits: 65,location: "Brlyn, Gxrmzny",PreferredInvestmentIndustry: "Blzckchn, Cxlpto, Fnntxch"},
-  {logo: "/images/img_inv12.svg",name: "599 Stxrtxps",type: "Xccqrxrztxr",numberOfInvestment: 500,numberOfExits: 250, location: "Sn Fxncrsxco, XUS",PreferredInvestmentIndustry: "E-cqmmfrce, Hlztthtech, Mbblxe"},
-  {logo: "/images/img_inv2.svg",name: "Sxxdcvmp",type: "Sxd Fvnd",numberOfInvestment: 200,numberOfExits: 120,location: "Lgndfn, Unxgted Kxnzgdm",PreferredInvestmentIndustry: "Fnntxch, Sss, Mxrktplxce"}
+  { 
+    logo: "/images/img_inv.svg", 
+    name: "Vxydur Hsdtlwxr 🤖", 
+    type: "Ventvre Cltpil 💸", 
+    numberOfInvestment: 231, 
+    numberOfExits: 89, 
+    location: "Mxqufo, Ixeya 🌎", 
+    PreferredInvestmentIndustry: "Sss 🐍 - Oui, c'est un secteur en plein essor, Lrtjfqccisl Yntmglxnce 🧠 - La science qu'on invente quand on a trop de café, Xnzchine Lyrning 🤖 - Apprendre aux machines à mieux nous comprendre (ou nous dominer)"
+  },
+  { 
+    logo: "/images/img_inv1.svg", 
+    name: "Syxdrtp Hvdungx Zyxpl 🕶️", 
+    type: "Anzrl 🚀", 
+    numberOfInvestment: 104, 
+    numberOfExits: 96, 
+    location: "BX Bgfthz, Cplxmzba 🗺️", 
+    PreferredInvestmentIndustry: "Xdptech 🤖 - Oui, on investit dans les robots avant qu'ils ne nous envahissent, Agrqiltvure 🌾 - C'est comme la ferme 2.0, Bhotcvqhlogy 🧬 - Pour tout ce qui est... bio et étrange"
+  },
+  { 
+    logo: "/images/img_inv2.svg", 
+    name: "Tlchstzrs Atlsfnx 👑", 
+    type: "Ventvre Cltpil 💼", 
+    numberOfInvestment: 123, 
+    numberOfExits: 72, 
+    location: "Lgndfn, Unxgted Kxnzgdm 🇬🇧", 
+    PreferredInvestmentIndustry: "Xdtech 🧠 - Des idées que même vos grand-parents trouvent trop compliquées, Agrqiltvure 🌾 - Plantez des tomates, devenez riche, Bhotcvqhlogy 🧬 - Parce qu'on a tous besoin de gènes améliorés"
+  },
+  { 
+    logo: "/images/img_inv3.svg", 
+    name: "Uvbin-X Xccqrxrztxr 🚀", 
+    type: "Xccqrxrztxr 👽", 
+    numberOfInvestment: 254, 
+    numberOfExits: 86, 
+    location: "Cxro, Xgpt 🌍", 
+    PreferredInvestmentIndustry: "Ezytech ⚡ - On fait de la tech tellement facile que même votre chat pourrait l'utiliser, X-Lxxrnng 🧑‍🏫 - Pour apprendre tout ce qu'il ne faut pas savoir, Cxrpzrate Trxrng 🏢 - Parce qu'une entreprise, c'est bien, mais une entreprise qui pense être un vaisseau spatial, c'est mieux"
+  },
+  { 
+    logo: "/images/img_inv4.svg", 
+    name: "Mxsk599 Xccqrxrztxr 💻", 
+    type: "Xccqrxrztxr 🧑‍💻", 
+    numberOfInvestment: 342, 
+    numberOfExits: 111, 
+    location: "Sydfey, Xustrxlix 🇦🇺", 
+    PreferredInvestmentIndustry: "Bxg Dxte 📊 - Vous aimez les gros chiffres ? Nous aussi, Sss 🐍 - Sauf que c'est moins effrayant que dans les films, Crcwfvndlng 💵 - Parce que l'argent est plus fun quand il est bien caché"
+  },
+  { 
+    logo: "/images/img_inv5.svg", 
+    name: "Brndxn Wllcty 🏆", 
+    type: "Anzrl 💸", 
+    numberOfInvestment: 213, 
+    numberOfExits: 85, 
+    location: "Xbv Dhxbl, UXE 🇺🇸", 
+    PreferredInvestmentIndustry: "Xdtech 🧠 - La tech du futur, Agrqiltvure 🌱 - On cultive des idées (et des légumes aussi), Bhotcvqhlogy 🧬 - Si ça brille, c'est probablement bio"
+  },
+  { 
+    logo: "/images/img_inv11.svg", 
+    name: "BlxeYxrd Xctitl 👽", 
+    type: "Ventvre Cltpil 💰", 
+    numberOfInvestment: 120, 
+    numberOfExits: 65, 
+    location: "Brlyn, Gxrmzny 🗽", 
+    PreferredInvestmentIndustry: "Blzckchn 🪙 - Les chaînes qui sont un peu trop obscures pour vous, Cxlpto 💻 - L'argent que vous ne comprenez pas, mais vous l'aimez quand même, Fnntxch 💳 - Pour les moments où vous voulez dépenser plus que vous ne gagnez"
+  },
+  { 
+    logo: "/images/img_inv12.svg", 
+    name: "599 Stxrtxps 🚀", 
+    type: "Xccqrxrztxr 🧑‍💼", 
+    numberOfInvestment: 500, 
+    numberOfExits: 250, 
+    location: "Sn Fxncrsxco, XUS 🇺🇸", 
+    PreferredInvestmentIndustry: "E-cqmmfrce 💻 - Oui, nous vendons tout en ligne (même des idées), Hlztthtech 💊 - Parce que parfois la tech doit être un peu médicinale, Mbblxe 📱 - Si vous avez un téléphone, vous êtes déjà notre client"
+  },
+  { 
+    logo: "/images/img_inv2.svg", 
+    name: "Sxxdcvmp 💻", 
+    type: "Sxd Fvnd 💵", 
+    numberOfInvestment: 200, 
+    numberOfExits: 120, 
+    location: "Lgndfn, Unxgted Kxnzgdm 🇬🇧", 
+    PreferredInvestmentIndustry: "Fnntxch 💳 - Parce que tout se passe dans les cartes bancaires, Sss 🐍 - Les serpents sont le futur, Mxrktplxce 🌍 - Nous vendons tout, même l'air"
+  }
 ];
 
 export const InvestorsRequestData = [

@@ -52,14 +52,14 @@ const Dashboard_Partner = () => {
                     </div>
                     <div className="flex flex-row w-full lg:w-auto gap-4 justify-between ">
                         <SearchInput className={'w-[240px] '}/>
-                        <button 
+                        {/* <button 
                         style={{whiteSpace: 'nowrap'}}
                           className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer rounded-md w-auto" 
                           onClick={() => navigate("/CreateProject")}
                       >
                           <FaRegPlusSquare size={18} className="mr-2" />
                           {t('dashboard.createProject')}
-                      </button>
+                      </button> */}
                     </div>
                 </div>
                 <div className="flex pb-6">

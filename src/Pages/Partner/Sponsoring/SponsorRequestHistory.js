@@ -86,8 +86,10 @@ const SponsorRequestHistory = () => {
     }, [searchParams]);
 
     useEffect(() => {
-      refetch();
-    }, [cur , refetch , filterApply]);
+      if(filterApply && currentRequests?.currentPage !== cur) {
+        refetch();
+      }
+    }, [cur, currentRequests?.currentPage , filterApply , refetch]);
   
     useEffect(() => {
       setTotalPages(currentRequests?.totalPages);
@@ -373,7 +375,9 @@ const SponsorRequestHistory = () => {
                     <tbody className="items-center w-full ">
                     {
                         (pageData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { historyRequest: item } })}>
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} 
+                      // onClick={()=> navigate(`/SponsorRequestHistoryDetails/${item?._id}` , { state: { historyRequest: item } })}
+                      >
                         <td className="px-[18px] py-4 text-[#667084] font-dm-sans-regular text-sm leading-6">
                           {item?.dateCreated ? `${formatDateValue(item.dateCreated , currentLanguage)}` : t("event.comingSoon")}
                         </td>

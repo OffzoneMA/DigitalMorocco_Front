@@ -14,7 +14,7 @@ import PageHeader from "../../../Components/common/PageHeader";
 import TableTitle from "../../../Components/common/TableTitle";
 import SearchInput from "../../../Components/common/SeachInput";
 import Loader from "../../../Components/Loader";
-import { useGetDistinctValuesQuery , useGetInvestorsListQuery , useGetInvestorsListForMemberQuery} from "../../../Services/Investor.Service";
+import { useGetDistinctValuesQuery , useGetInvestorsListForMemberQuery} from "../../../Services/Investor.Service";
 import userdefaultProfile from '../../../Media/User.png';
 import { useCheckSubscriptionStatusQuery } from "../../../Services/Subscription.Service";
 import { useTranslation } from "react-i18next";
@@ -95,8 +95,10 @@ const Investors = () => {
 
 
   useEffect(() => {
-    refetch();
-  }, [cur , itemsPerPage , refetch , filterApply]);
+    if(filterApply && investorData?.currentPage !== cur) {
+      refetch();
+    }
+  }, [cur, investorData?.currentPage , filterApply , refetch]);
 
   useEffect(() => {
     if (subscriptionData !== undefined) {
@@ -275,7 +277,7 @@ const Investors = () => {
                   </div>
               </div>
               <div className="relative flex flex-col w-full">
-              <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !(loading || subscriptionLoading || userDetailsLoading)) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
+               <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${(pageData?.length > 0 && !(loading || subscriptionLoading || userDetailsLoading)) ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`} 
                 style={{
                   scrollbarWidth: 'none', 
                   msOverflowStyle: 'none',
@@ -384,7 +386,7 @@ const Investors = () => {
                     </div>
                   ) : null
                 )}
-              </div>
+               </div>
               {(pageData?.length>0 && !loading && !subscriptionLoading && !userDetailsLoading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination

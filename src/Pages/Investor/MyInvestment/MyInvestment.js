@@ -62,8 +62,10 @@ const MyInvestment = () => {
     }, [searchParams]);
 
     useEffect(() => {
-      refetch();
-    }, [cur , itemsPerPage , refetch , filterApply]);
+      if(filterApply && myInvestments?.currentPage !== cur) {
+        refetch();
+      }
+    }, [cur , myInvestments?.currentPage , refetch , filterApply]);
 
     useEffect(() => {
       setTotalPages(myInvestments?.totalPages);

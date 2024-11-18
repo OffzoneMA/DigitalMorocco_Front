@@ -199,7 +199,7 @@
       "legal": "Juridique"
     },
     "investor": {
-      "main": "Investisseur",
+      "main": "Investisseurs",
       "investorList": "Liste investisseurs",
       "myInvestors": "Mes investisseurs",
       "requestHistory": "Historique des demandes"
@@ -810,7 +810,7 @@
       "title": "Abonnement et facturation",
       "subscriptionManagement": "Gérer votre abonnement",
       "yourActivePlan": "Votre plan actuel",
-      "upgradePlan": "Améliorer le plan",
+      "upgradePlan": "Mettre à niveau le plan",
       "monthlyFee": "par mois",
       "monthlyFee1": "valide jusqu'à",
       "cancelMyPlan": "Annuler mon plan",
@@ -1236,6 +1236,11 @@
   "Are you ready to proceed?": "Êtes-vous prêt à continuer ?",
   "100 credits" : "100 crédits",
   "Confirm": "Confirmer",
+
+  "This feature": "Cette fonctionnalité",
+  "is not yet available.": "n'est pas encore disponible.",
+  "Please check back later for updates!": "Merci de revenir plus tard pour les prochaines mises à jour !",
+  "Information: Feature Unavailable": "Information : Fonctionnalité Indisponible",
 
   "Action Required: Contact Request": "Action requise : Demande de contact",
   "You already have a contact request in progress.": "Vous avez déjà une demande de contact en cours.",
