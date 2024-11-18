@@ -18,6 +18,7 @@ const ManageSubscriptionCredits = () => {
     const { userInfo } = useSelector((state) => state.auth);
     const [isModalOpen , setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const [sendingOk , setSendingOk] = useState(false);
     const [selectedCredits , setSelectedCredits] = useState(null);
     const [acceptTerms , setAcceptTerms] = useState(false);
     const [sending , setSending] = useState(false);
@@ -79,7 +80,10 @@ const ManageSubscriptionCredits = () => {
     ];
     
     const onSubmit = (data) => {
-        setIsModalOpen(true);
+        setSendingOk(true);
+        if(selectedCredits !== null) {
+            setIsModalOpen(true);
+        }
     };
 
     const closePopup = () => {
@@ -162,7 +166,7 @@ const ManageSubscriptionCredits = () => {
                                 <SimpleSelectWithGroup id='credits'
                                 groupedOptions={creditOptionsEn}  selectedOptionsDfault={selectedCredits}
                                 setSelectedOptionVal={setSelectedCredits} searchable={true}
-                                placeholder={t("Select Credits")} valuekey="formatted"
+                                placeholder={t("Select Credits")} valuekey="formatted" required = {sendingOk && selectedCredits === null}
                                 content={
                                 (option) => {
                                     return (
@@ -237,7 +241,7 @@ const ManageSubscriptionCredits = () => {
               <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("Please check back later for updates!")}</span>
             </div>
             <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
-            <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100"
+            <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#235DBD] active:bg-[#235DBD]}"
                 onClick={() => setIsModalOpen(false)}>
                     <div className="text-white-A700 text-base font-dm-sans-medium">{t('Ok')}</div>
                 </button>
