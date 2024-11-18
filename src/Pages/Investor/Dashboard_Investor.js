@@ -26,7 +26,7 @@ const Dashbord_Investor = () => {
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const { data: projects, error, isLoading , refetch } = useGetRecentApprovedContactRequestsQuery();
-  const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading , refetch: refetchRequest} = useGetLastRecentContactRequestsQuery({});
+  const { data: contactReqs , error: contactReqsError , isLoading: contactReqsLoading , refetch: refetchRequest} = useGetLastRecentContactRequestsQuery({status: ["Approved" , "Rejected"]});
   const Requestdata =  contactReqs?.recentRequests?.slice(0, 3)
   const recentProjects = [...(projects?.data || [])]
   .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) 
