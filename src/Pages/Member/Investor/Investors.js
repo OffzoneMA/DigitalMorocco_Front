@@ -402,7 +402,7 @@ const Investors = () => {
         </div>
     </div>
     <CommonModal isOpen={showPopup}
-      onRequestClose={closePopup} title={t('Action Required: Create Project')}
+      title={t('Action Required: Create Project')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
           <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">

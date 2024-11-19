@@ -358,7 +358,7 @@ const Investment = () => {
                         </tr>
                       ))}
                       </tbody> : 
-                      ""}
+                      null}
                   </table>
                   { (isLoading || subscriptionLoading)? (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
@@ -392,7 +392,7 @@ const Investment = () => {
                         {t('investment.upgradeMessage')} <a className="text-blue-500" href="/src/Pages/common/Subscription/ChoosePlan">{t('investment.digitalMoroccoPro')}</a> {t('investment.upgradeMessage2')}
                       </Text>
                       <Text
-                        className="text-gray-900_01 text-sm font-semibold font-DMSans leading-relaxed pb-8"
+                        className="text-gray-900_01 text-sm font-dm-sans-medium leading-relaxed pb-8"
                         size=""
                       >
                         {t('investment.notice')}

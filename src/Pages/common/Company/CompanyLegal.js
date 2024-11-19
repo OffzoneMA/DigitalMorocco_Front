@@ -331,7 +331,7 @@ const fetchLegalDocuments = async () => {
                   )}
                 </tbody>
                 :
-                ""}
+                null}
               </table>
               {
                 loading ? (

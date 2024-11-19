@@ -237,7 +237,7 @@ const Documents = () => {
                   ))) }
                   </tbody>
                   : 
-                  ""
+                  null
                 }
                 </table>
                 {isLoading && (

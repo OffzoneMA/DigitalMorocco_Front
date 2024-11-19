@@ -180,7 +180,7 @@ const Projects = () => {
                   ))) }
                   </tbody>
                   : 
-                  ""
+                  null
                 }
                 </table>
                 {isLoading ? (

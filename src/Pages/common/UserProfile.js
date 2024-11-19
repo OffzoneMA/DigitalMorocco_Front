@@ -56,13 +56,13 @@ export default function UserProfile() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isForm1Valid, setIsForm1Valid] = useState(true);
+  const [isForm1Valid, setIsForm1Valid] = useState(false);
   const [hasSubmitted1, setHasSubmitted1] = useState(false);
   const [requiredFields1, setRequiredFields1] = useState({
     country: false,
     city: false,
   });
-  const [isForm3Valid, setIsForm3Valid] = useState(true);
+  const [isForm3Valid, setIsForm3Valid] = useState(false);
   const [hasSubmitted3, setHasSubmitted3] = useState(false);
   const [requiredFields3, setRequiredFields3] = useState({
     region: false,
@@ -86,13 +86,12 @@ export default function UserProfile() {
   useEffect(() => {
     if (hasSubmitted3 ) {
       const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined && selectedRegion !=='');
-      const isValid = isRegionValid ;
 
       setRequiredFields3({
         region: !isRegionValid,
       });
 
-      setIsForm3Valid(isValid);
+      setIsForm3Valid(isRegionValid);
     }
   }, [hasSubmitted3 ,selectedRegion]);
 
@@ -332,8 +331,12 @@ export default function UserProfile() {
     }
   };
 
+  console.log(selectedRegion , hasSubmitted3 , isForm3Valid);
+
   const onSubmit3 = async () => {
     const formData = {};
+
+    setHasSubmitted3(true);
 
     if (selectedLanguage && selectedLanguage.label && selectedLanguage.label !== userData?.language) {
       formData.language = selectedLanguage.label;
@@ -348,44 +351,42 @@ export default function UserProfile() {
     //   return; 
     // }
 
-    if(isForm3Valid) {
-      if((selectedRegion !== userData?.region && selectedRegion?.label !== userData?.region)) {
-        try {
-          const response = await axios.put(
-            `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              },
-            }
-          );
-          if (response.data.success) {
-            setIsForm3Saved(true);
-            setTimeout(() => {
-              setIsForm3Saved(false);
-            }, 5000);
-            console.log("Language and region updated successfully!");
-  
-            //change language
-            const newLanguage = selectedLanguage?.id;
-            i18n.changeLanguage(newLanguage);
-            localStorage.setItem('language', newLanguage);
-            
-            const updatedUserData = {
-              ...userData,
-              ...formData,
-            };
-            setUser(response?.data?.user);
-    
-            sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
-          } else {
-            console.error("Error updating language and region:", response.data.message);
+    if(isForm3Valid ) {
+      try {
+        const response = await axios.put(
+          `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
           }
-        } catch (error) {
-          console.error("Error updating language and region:", error);
+        );
+        if (response.data.success) {
+          setIsForm3Saved(true);
+          setTimeout(() => {
+            setIsForm3Saved(false);
+          }, 5000);
+          console.log("Language and region updated successfully!");
+
+          //change language
+          const newLanguage = selectedLanguage?.id;
+          i18n.changeLanguage(newLanguage);
+          localStorage.setItem('language', newLanguage);
+          
+          const updatedUserData = {
+            ...userData,
+            ...formData,
+          };
+          setUser(response?.data?.user);
+  
+          sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
+        } else {
+          console.error("Error updating language and region:", response.data.message);
         }
+      } catch (error) {
+        console.error("Error updating language and region:", error);
       }
     }
   };
@@ -892,7 +893,9 @@ export default function UserProfile() {
                 <button 
                 onClick={() => setHasSubmitted3(true)}
                   className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" 
-                  type="submit" >
+                  type="submit"
+                  // disabled = {!isForm3Valid}
+                   >
                   {t('settings.myProfile.save')} </button>
               ) : (
                 <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
