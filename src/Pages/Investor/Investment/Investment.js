@@ -353,7 +353,7 @@ const Investment = () => {
                               </div>
                             </div>
                             :
-                            <span className="">Oups !!!😅😬🤦‍♂️</span>}
+                            <span className="">Oups !!!</span>}
                           </td>
                         </tr>
                       ))}
@@ -383,19 +383,19 @@ const Investment = () => {
                         className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
                         size=""
                       >
-                        {t('investors.viewAllInvestors', { count: (261765).toLocaleString('fr-FR').replace(/\s/g, '\u00A0') })} 
+                        {t('investment.viewAllInvestments')} 
                       </Text>
                       <Text
                         className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
                         size=""
                       >
-                        {t('investors.upgradeMessage')} <a className="text-blue-500" href="/src/Pages/common/Subscription/ChoosePlan">{t('investors.digitalMoroccoPro1')}</a> {t('investors.upgradeMessage2')}
+                        {t('investment.upgradeMessage')} <a className="text-blue-500" href="/src/Pages/common/Subscription/ChoosePlan">{t('investment.digitalMoroccoPro')}</a> {t('investment.upgradeMessage2')}
                       </Text>
                       <Text
-                        className="text-[#f04437]/60 text-sm font-semibold font-DMSans leading-relaxed pb-8"
+                        className="text-gray-900_01 text-sm font-semibold font-DMSans leading-relaxed pb-8"
                         size=""
                       >
-                        {t('investors.notice')}
+                        {t('investment.notice')}
                       </Text>
                       <button
                         className="flex items-center justify-center gap-[12px] bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center px-[12px] py-[8px] h-[37px] rounded-md cursorpointer"

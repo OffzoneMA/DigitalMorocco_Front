@@ -987,6 +987,11 @@
     "industrySector": "Secteur d'activité",
     "decision": "Décision",
     "date": "Date",
+    "viewAllInvestments": "Boostez vos opportunités d’investissement !",
+    "upgradeMessage": "Passez à une",
+    "upgradeMessage2": "pour accéder à des projets innovants et prometteurs, enregistrer vos favoris, et consulter des informations exclusives : secteurs d’activité, localisation, fonds levés, et bien plus.",
+    "digitalMoroccoPro": "adhésion premium",
+    "notice": "Découvrez dès aujourd’hui les startups qui feront le succès de demain et prenez une longueur d’avance sur le marché.",
     "approveInvestmentRequestHeader": "Approuver la demande de contact",
     "rejectContactRequestHeader": "Rejeter la demande de contact",
     "project": {

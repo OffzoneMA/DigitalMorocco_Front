@@ -389,7 +389,7 @@ const PastSponsorEvent = () => {
                   </div>
                 }
                   </div>
-                  {pageData?.length > 0 && <div className='w-full flex items-center p-4'>
+                  {(pageData?.length > 0 && !isLoading) && <div className='w-full flex items-center p-4'>
                     <TablePagination
                       currentPage={cur}
                       totalPages={totalPages}

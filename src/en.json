@@ -661,7 +661,7 @@
       "eventType": "Event Type",
       "attendance": "Attendances",
       "description": "Event Description",
-      "sponsor": "Sponsor",
+      "sponsor": "Sponsors",
       "from": "From",
       "free": "Free",
       "buy" : "Buy Ticket"
@@ -1003,6 +1003,11 @@
     "industrySector": "Industry/Sector",
     "decision": "Decision",
     "date": "Date",
+    "viewAllInvestments": "Boost your investment potential!",
+    "upgradeMessage": "Upgrade to a",
+    "upgradeMessage2": "and gain exclusive access to high-potential, innovative projects. Save your favorite opportunities and explore detailed insights such as industry sectors, project locations, funds raised, and more.",
+    "digitalMoroccoPro": "premium membership",
+    "notice": "Discover tomorrow's leading startups today and stay ahead in the investment game.",
     "approveInvestmentRequestHeader": "Approve the Contact Request",
     "rejectContactRequestHeader": "Reject the Contact Request",
     "project": {
