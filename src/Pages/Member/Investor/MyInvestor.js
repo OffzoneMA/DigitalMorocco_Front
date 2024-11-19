@@ -74,9 +74,9 @@ const MyInvestors = () => {
   const locations = locations0 || locations1;
 
   useEffect(() => {
-    if(filterApply && data?.currentPage !== cur) {
+    // if(filterApply && data?.currentPage !== cur) {
       refetch();
-    }
+    // }
   }, [cur, data?.currentPage , filterApply , refetch]);
 
   const filteredData = filteredInvestors?.filter(item => {

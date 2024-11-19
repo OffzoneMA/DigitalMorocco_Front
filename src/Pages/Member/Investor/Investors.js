@@ -95,9 +95,9 @@ const Investors = () => {
 
 
   useEffect(() => {
-    if(filterApply && investorData?.currentPage !== cur) {
+    // if(filterApply && investorData?.currentPage !== cur) {
       refetch();
-    }
+    // }
   }, [cur, investorData?.currentPage , filterApply , refetch]);
 
   useEffect(() => {

@@ -80,9 +80,9 @@ const SponsorCurrentRequests = () => {
     }, [searchParams]);
 
     useEffect(() => {
-      if(filterApply && currentRequests?.currentPage !== cur) {
+      // if(filterApply && currentRequests?.currentPage !== cur) {
         refetch();
-      }
+      // }
     }, [cur, currentRequests?.currentPage , filterApply , refetch]);
   
     useEffect(() => {

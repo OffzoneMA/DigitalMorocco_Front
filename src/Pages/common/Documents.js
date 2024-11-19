@@ -37,7 +37,7 @@ const Documents = () => {
   const itemsPerPage = 8;
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
-  const { data: documents, error, isLoading , refetch} = useGetDocumentsForUserQuery({page: cur , pageSize: itemsPerPage});
+  const { data: documents, error, isFetching: isLoading , refetch} = useGetDocumentsForUserQuery({page: cur , pageSize: itemsPerPage});
   const data = documents;
   const currentLanguage = localStorage.getItem('language') || 'en'; 
 
@@ -260,7 +260,7 @@ const Documents = () => {
                 )}
                 
               </div>
-              {pageData?.length>0 && (
+              {(pageData?.length>0 && !isLoading)&& (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
                   currentPage={cur}

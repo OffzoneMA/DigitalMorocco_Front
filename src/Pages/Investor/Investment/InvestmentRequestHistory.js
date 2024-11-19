@@ -66,9 +66,9 @@ const InvestmentRequestHistory = () => {
     }, [searchParams]);
 
     useEffect(() => {
-      if(filterApply && investorRequests?.currentPage !== cur) {
+      // if(filterApply && investorRequests?.currentPage !== cur) {
         refetch();
-      }
+      // }
     }, [cur , investorRequests?.currentPage , refetch , filterApply]);
 
     useEffect(() => {

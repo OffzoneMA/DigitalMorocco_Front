@@ -56,6 +56,7 @@ const Users = () => {
     const pageFromUrl = parseInt(searchParams.get('page')) || 1;
     setCur(pageFromUrl);
   }, [searchParams]);
+  
 
   useEffect(() => {
       setUsers(data?.data);
@@ -65,9 +66,9 @@ const Users = () => {
   }, [data]);
 
   useEffect(() => {
-    if (filterApply && data?.pagination?.currentPage !== cur) {
+    // if (filterApply && data?.pagination?.currentPage !== cur) {
       refetch();
-    }
+    // }
   }, [cur, filterApply, refetch, data?.pagination?.currentPage]);
   
 
@@ -428,14 +429,14 @@ const Users = () => {
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
                       size=""
                     >
-                      No Users Available
+                      {t("No Users Available")}
                     </Text>
                   </div>
                   )
               }
              
             </div>
-            {pageData?.length>0 && (
+            {(pageData?.length>0 && !loading) && (
                 <div className='w-full flex items-center p-4'>
                 <TablePagination
                   initialPage={cur}

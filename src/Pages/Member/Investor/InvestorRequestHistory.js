@@ -67,9 +67,9 @@ const InvestorRequestHistory = () => {
   }, [data, loading]);
 
   useEffect(() => {
-    if(filterApply && data?.currentPage !== cur) {
+    // if(filterApply && data?.currentPage !== cur) {
       refetch();
-    }
+    // }
   }, [cur, data?.currentPage , filterApply , refetch]);
 
   const invNamedata = Array.isArray(investorNames?.distinctValues) ? investorNames?.distinctValues : [];

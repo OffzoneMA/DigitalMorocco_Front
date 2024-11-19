@@ -6,38 +6,60 @@ import { useSearchParams } from 'react-router-dom';
 function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, initialPage = 1 }) {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isUpdatingRef = useRef(false); // Verrou pour éviter les boucles de mise à jour
+  const isUpdatingRef = useRef(false); 
 
-  // Initialiser la page à partir des paramètres d'URL ou de initialPage
   const [currentPage, setCurrentPage] = useState(() => {
     return Number(searchParams.get("page")) || initialPage;
   });
 
-  // Synchroniser currentPage avec searchParams (uniquement si nécessaire)
-  useEffect(() => {
-    if (isUpdatingRef.current) return; // Si un verrou est actif, ignorer cette mise à jour
-    const pageFromParams = Number(searchParams.get("page")) || 1;
+  // useEffect(() => {
+  //   if (isUpdatingRef.current) return; 
+  //   const pageFromParams = Number(searchParams.get("page")) || 1;
 
-    if (pageFromParams !== currentPage) {
-      setCurrentPage(pageFromParams);
+  //   if (pageFromParams !== currentPage) {
+  //     setCurrentPage(pageFromParams);
+  //   }
+  // }, [searchParams]);
+
+  // useEffect(() => {
+  //   const pageInParams = Number(searchParams.get("page")) || 1;
+
+  //   if (currentPage !== pageInParams) {
+  //     isUpdatingRef.current = true; 
+  //     setSearchParams({ page: currentPage }, { replace: true });
+  //     setTimeout(() => (isUpdatingRef.current = false), 0); 
+  //   }
+  // }, [currentPage, setSearchParams]);
+
+
+  useEffect(() => {
+    if (!isUpdatingRef.current) {
+      const pageFromParams = Number(searchParams.get("page")) || 1;
+  
+      // Only update state if it's different
+      if (pageFromParams !== currentPage) {
+        setCurrentPage(pageFromParams);
+      }
     }
   }, [searchParams]);
-
-  // Mettre à jour searchParams lors du changement de currentPage (uniquement si nécessaire)
+  
   useEffect(() => {
     const pageInParams = Number(searchParams.get("page")) || 1;
-
+  
+    // Avoid updating `searchParams` if already in sync
     if (currentPage !== pageInParams) {
-      isUpdatingRef.current = true; // Activer le verrou
-      setSearchParams({ page: currentPage }, { replace: true });
-      setTimeout(() => (isUpdatingRef.current = false), 0); // Désactiver le verrou après le cycle
+      isUpdatingRef.current = true;
+      setSearchParams({ page: currentPage.toString() }, { replace: true });
+      setTimeout(() => {
+        isUpdatingRef.current = false;
+      }, 0);
     }
   }, [currentPage, setSearchParams]);
-
+  
   const goToPage = (page) => {
     if (page > 0 && page <= totalPages && page !== currentPage) {
       setCurrentPage(page);
-      onPageChange(page); // Appeler le callback externe
+      onPageChange(page); 
     }
   };
 

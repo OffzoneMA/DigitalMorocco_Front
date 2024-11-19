@@ -63,9 +63,9 @@ const Events = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    if(filterApply && eventsParticipate?.currentPage !== cur) {
+    // if(filterApply && eventsParticipate?.currentPage !== cur) {
       refetch();
-    }
+    // }
   }, [cur, eventsParticipate?.currentPage , filterApply , refetch]);
 
   useEffect(() => {

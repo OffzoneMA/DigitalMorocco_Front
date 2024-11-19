@@ -63,9 +63,9 @@ const MyInvestment = () => {
     }, [searchParams]);
 
     useEffect(() => {
-      if(filterApply && myInvestments?.currentPage !== cur) {
+      // if(filterApply && myInvestments?.currentPage !== cur) {
         refetch();
-      }
+      // }
     }, [cur , myInvestments?.currentPage , refetch , filterApply]);
 
     useEffect(() => {

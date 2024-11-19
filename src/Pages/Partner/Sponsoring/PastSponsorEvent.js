@@ -76,9 +76,9 @@ const PastSponsorEvent = () => {
     }, [searchParams]);
     
     useEffect(() => {
-      if(filterApply && events?.currentPage !== cur) {
+      // if(filterApply && events?.currentPage !== cur) {
         refetch();
-      }
+      // }
     }, [cur, events?.currentPage , filterApply , refetch]);
   
     useEffect(() => {
