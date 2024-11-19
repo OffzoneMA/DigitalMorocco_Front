@@ -327,7 +327,7 @@ const SidebarNav = () => {
         `}
           >
             <div className="leading-4">
-              <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : "Camille Olivia"}</span>
+              <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : ""}</span>
             </div>
           </div>}
           {showLogout && (

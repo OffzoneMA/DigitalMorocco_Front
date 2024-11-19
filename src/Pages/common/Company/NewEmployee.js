@@ -532,7 +532,7 @@ const NewEmployee = () => {
               </div>
               <div className="flex py-5 flex-col items-start justify-start w-full lg:w-[35%] xl:w-[35%] 2xl:w-[35%] 3xl:w-[35%]">
                 <div className="flex flex-col gap-6 items-start justify-start w-full">
-                  <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center relative rounded-md w-full max-w-[400px] "
+                  <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center relative rounded-md w-full"
                       onClick={handleLogoFileInputClick}>
                     {logoFile ? (
                       <>

@@ -459,7 +459,7 @@ const MyCompany = () => {
               </div>
             </div>
             <div className="flex flex-col items-start justify-start lg:w-[35%] w-full">
-              <div className="flex flex-col gap-2 items-start justify-start w-full max-w-[400px] ">
+              <div className="flex flex-col gap-2 items-start justify-start w-full ">
                 <Text
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansRegular16"
