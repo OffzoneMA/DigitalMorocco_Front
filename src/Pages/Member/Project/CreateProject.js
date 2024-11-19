@@ -1054,7 +1054,7 @@ const handleDeleteFile = (index) => {
                         </button>
                       ) : (
                         <button
-                          className="bg-[#E8555521] hover:bg-red-200 text-sm border border-solid border-errorColor text-errorColor flex flex-row h-[40px] items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          className="bg-[#E8555521] hover:bg-red-200 text-sm border border-solid border-errorColor text-errorColor flex flex-row h-[40px] w-auto items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
                           style={{ whiteSpace: 'nowrap' }}
                           onClick={() => removeMilestone(milestone?.id)}
                           type="button"
@@ -1064,8 +1064,8 @@ const handleDeleteFile = (index) => {
                          <svg width="13" height="2" viewBox="0 0 13 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M1.25 1H11.75" stroke="#EF4352" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        {t('projects.createNewProject.hide')}
-                         </span>}
+                        <span className="hidden lg:inline">{t('projects.createNewProject.hide')}</span>
+                        </span>}
                         </button>
                       )}
                     </div>
@@ -1077,7 +1077,7 @@ const handleDeleteFile = (index) => {
                   {` `}
                 </div> */}
                 <div ref={div2Ref} className="flex flex-col gap-6 items-start justify-start lg:w-[40%] w-full">
-                  <div className={`flex flex-col gap-2 items-start justify-start w-full max-w-[400px]`}>
+                  <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                     <Text
                       className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansCardHeader16"

@@ -218,7 +218,7 @@ useEffect(() => {
             {t('settings.subscription.subscriptionManagement')}
             </Text>
             <div className="flex flex-col w-full rounded-[12px] border p-5 border-gray-301 gap-4">
-              <div className="flex flex-col w-full border-b pb-4 border-gray-301 gap-[18px] ">
+              <div className="flex flex-col w-full border-b pb-5 border-gray-301 gap-[18px] ">
                 <Text className="font-dm-sans-bold text-base leading-6 text-left w-full text-[#101828]">
                 {t('settings.subscription.yourActivePlan')}
                 </Text>
@@ -284,7 +284,7 @@ useEffect(() => {
                   </Text>
                 </>}
               </div>
-              <div className="flex space-x-3 md:space-x-5 items-end w-full  py-2 justify-end">
+              <div className="flex space-x-3 md:space-x-5 items-end w-full py-3 justify-end">
                 <button
                   className="flex flex-row text-base leading-[20.83px] gap-3 w-auto ml-auto items-center justify-center min-w-[210px] rounded-md bg-[#E4E7EC] hover:bg-[#D0D5DD] active:bg-light_blue-100 text-[#98A2B3] py-3 h-[44px] px-5 font-dm-sans-medium tracking-normal cursorpointer"
                   onClick={openCancelModal}
@@ -325,7 +325,7 @@ useEffect(() => {
                 </>}
                 </button>
               </div>
-              <div className='flex flex-col w-full gap-5'>
+              <div className='flex flex-col w-full border-t pt-5 border-gray-301 gap-5'>
                 <div className="w-auto text-[#101828] text-lg font-dm-sans-medium leading-7">{t('settings.subscription.billingInformation')}</div>
                 <table className="w-full h-auto bg-white">
                   <thead>

@@ -231,7 +231,7 @@ const ManageSubscriptionCredits = () => {
             </div>
         </div>
         <CommonModal isOpen={isModalOpen}
-        onRequestClose={closePopup} title={t('Information: Feature Unavailable')}
+        onRequestClose={closePopup} title={t('Information: Feature Unavailable')} showCloseBtn = {true}
         content={
           <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
             <div className="text-center">

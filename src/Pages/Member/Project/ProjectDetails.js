@@ -253,7 +253,7 @@ useEffect(() => {
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
                     <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium w-auto">
-                      {project?.stages?.[0] ? project?.stages?.[0] : project?.stage}
+                      {t(project?.stage) || '-'}
                     </Text>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ useEffect(() => {
                     }`} style={{whiteSpace: 'nowrap'}}>
                       <GoDotFill  size={12} className={`${project?.status === 'Active' ? "text-[#12B76A]" : project?.status === 'In Progress' ? "text-blue-501" : "text-blue_gray-700" }`}/>
                       <label className="font-inter text-sm font-medium leading-[20px] text-center">
-                        {project?.status ? project?.status : 'Active'}
+                        {project?.status ? t(project?.status) : '-'}
                       </label>
                     </div>
                   </div>
@@ -289,7 +289,7 @@ useEffect(() => {
                     }`} style={{whiteSpace: 'nowrap', textDecoration: 'capitalize'}}>
                       <GoDotFill  size={12} className={`${project?.visbility?.toLowerCase() === 'public' ? 'text-[#12B76A]': project?.visbility?.toLowerCase() === 'private' ? 'text-[#FF5733]' : ''}`} />
                       <label className="font-inter text-sm font-medium leading-[20px] text-center capitalize">
-                        {project?.visbility ? project?.visbility : 'Public'}
+                        {project?.visbility ? t(project?.visbility) : t('Public')}
                       </label>
                     </div>
                   </div>

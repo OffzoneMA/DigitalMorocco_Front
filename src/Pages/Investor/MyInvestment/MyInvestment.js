@@ -13,6 +13,7 @@ import { FaRProject } from "react-icons/fa6";
 import { BsDot } from "react-icons/bs";
 import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../../Services/Investor.Service";
 import { useTranslation } from "react-i18next";
+import StatusBadge from "../../../Components/common/StatusBadge";
 
 const MyInvestment = () => {
   const { t } = useTranslation();
@@ -243,14 +244,17 @@ const MyInvestment = () => {
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{t(item?.project?.stage)}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.milestones?.[0]?.name}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
-                            <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
+                            {/* <div className={`items-center justify-center gap-[6px] h-[22px] px-[10px] font-inter text-xs font-medium leading-[18px] rounded-full ${
                             item?.project?.status === 'Active' ? 'bg-green-100 text-green-700' :
                                 item?.project?.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
                                 item?.project?.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
-                            } inline-flex`}  style={{whiteSpace:'nowrap'}}>
-                            <BsDot  size={28} className=""/>
+                            } flex`}  style={{whiteSpace:'nowrap'}}>
+                            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="4" cy="4" r="3" fill="currentColor"/>
+                            </svg>
                             {t(item?.project?.status)}
-                            </div>
+                            </div> */}
+                            <StatusBadge status={item?.project?.status} />
                         </td>
                       </tr>
                     ))}

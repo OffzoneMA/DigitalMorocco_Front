@@ -16,6 +16,7 @@ import TableTitle from "../../../Components/common/TableTitle";
 import SearchInput from "../../../Components/common/SeachInput";
 import fileSearchImg from '../../../Media/file-search.svg';
 import { useTranslation } from "react-i18next";
+import StatusBadge from "../../../Components/common/StatusBadge";
 
 
 const Projects = () => {
@@ -128,17 +129,10 @@ const Projects = () => {
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize" >{item?.name}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${(item?.funding)?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item.currency} ${(item?.totalRaised || 0)?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
-                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize">{item.stages?.[0] || item?.stage}</td>
+                      <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize">{t(item?.stage) || '-'}</td>
                       <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6 capitalize">{item.milestones[0]?.name}</td>
                       <td className="px-[18px] py-4 items-center">
-                        <div className={`items-center text-center h-[22px] pr-2 font-inter text-xs font-medium leading-[18px] rounded-full ${
-                          item.status === 'Active' ? 'bg-green-100 text-green-700' :
-                            item.status === 'In Progress' ? 'bg-light_blue-100 text-blue-501' :
-                              item.status === 'Stand by' ? 'bg-gray-201 text-blue_gray-700' : ''
-                        } inline-flex`}  style={{whiteSpace:'nowrap'}}>
-                          <BsDot  size={28} className=""/>
-                          {t(item?.status)}
-                        </div>
+                      <StatusBadge status={item?.status} />
                       </td>
                       <td className="py-4 px-4 ">
                       <div className="flex flex-row space-x-4 items-center">
