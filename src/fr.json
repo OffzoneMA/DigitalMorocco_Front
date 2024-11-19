@@ -301,7 +301,9 @@
     "sponsorships": "Sponsorisations",
     "sponsorshipsNote": "Aucune demande de sponsoring n'a encore été approuvée.",
     "totalRequests" : "Total des Demandes",
+    "totalRequestsNote": "Aucune demande de sponsoring pour le moment.",
     "currentRequests" :"Demandes en cours",
+    "currentRequestsNote": "Aucune demande de sponsoring en cours pour le moment.",
     "lastSponsorEvent": "Derniers événements sponsorisés",
     "latestRequest": "Historique des demandes",
     "sponsorEventDetails": {
@@ -747,6 +749,7 @@
     "sponsor_request_send": "Demande de sponsor envoyée pour l'événement",
     "sponsor_request_approved": "Demande de sponsoring approuvée pour l'événement",
     "sponsor_request_rejected": "Demande de sponsoring refusée pour l'événement",
+    "password_reset": "Réinitialisation du mot de passe effectuée avec succès.",
     "default": "Action effectuée"
   },
 
@@ -1808,6 +1811,7 @@
 
   "Due Date": "Date d'échéance",
   "No Users Available": "Aucun utilisateur disponible",
+  "No Document Available": "Aucun document disponible",
 
   "Africa": "Afrique",
   "Antarctica": "Antarctique",

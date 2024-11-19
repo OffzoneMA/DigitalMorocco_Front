@@ -119,7 +119,7 @@ const Dashboard_Partner = () => {
                       <Text
                         className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                       >
-                        Make sure that you have already created projects
+                        {t('partnerDashboard.totalRequestsNote')}
                       </Text>
                     )}
                   </div>
@@ -144,7 +144,7 @@ const Dashboard_Partner = () => {
                       <Text
                         className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                       >
-                        {t('dashboard.createCompanyNote')}
+                        {t('partnerDashboard.currentRequestsNote')}
                       </Text>
                     )}
                   </div>
@@ -307,7 +307,7 @@ const Dashboard_Partner = () => {
                                     className="text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                                     size=""
                                 >
-                                    {t('partnerDashboard.noSponsorEvent')}
+                                    {t('common.noData')}
                                 </Text>
                             </div>
                         )
@@ -406,7 +406,7 @@ const Dashboard_Partner = () => {
                             className=" text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
-                            {t('dashboard.notAvailable')}
+                            {t('common.noData')}
                             </Text>
                         </div>
                        ) 

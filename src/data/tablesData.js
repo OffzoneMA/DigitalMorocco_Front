@@ -2126,10 +2126,10 @@ export const historyEventMessages = {
   contact_request_accepted: "Contact request Accepted for project",
   contact_request_approved: "Contact request approved for project",
   contact_request_rejected: "Contact request rejected for project",
-  contact_request_rejected: "Rejected contact request from ",
   sponsor_request_send: "Sent a sponsor request for event ",
   sponsor_request_approved: "Sponsor request approved for event",
   sponsor_request_rejected: "Sponsor request rejected for event",
+  password_reset: "Password reset action completed successfully.",
   default: "An action was performed."
 };
 

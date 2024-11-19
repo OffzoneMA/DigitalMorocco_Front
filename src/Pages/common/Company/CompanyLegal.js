@@ -347,7 +347,7 @@ const fetchLegalDocuments = async () => {
                       className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
                       size=""
                     >
-                      No Document Available
+                      {t('No Document Available')}
                     </Text>
                   </div>
                   )}
