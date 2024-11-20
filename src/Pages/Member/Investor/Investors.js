@@ -333,7 +333,7 @@ const Investors = () => {
                   }
                 </tbody>
                 :
-                ""}
+                null}
                 </table>
                 { (loading || subscriptionLoading || userDetailsLoading) ? (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">

@@ -448,7 +448,7 @@ const SponsorRequestHistory = () => {
                     ))) }
                     </tbody>
                     :
-                    ""}
+                    null}
                   </table>
                   {
                   isLoading ? 

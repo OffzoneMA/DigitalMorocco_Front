@@ -66,6 +66,7 @@ export default function UserProfile() {
   const [hasSubmitted3, setHasSubmitted3] = useState(false);
   const [requiredFields3, setRequiredFields3] = useState({
     region: false,
+    language: false
   });
 
   useEffect(() => {
@@ -86,14 +87,17 @@ export default function UserProfile() {
   useEffect(() => {
     if (hasSubmitted3 ) {
       const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined && selectedRegion !=='');
+      const isLanguageValid = (selectedLanguage !== null && selectedLanguage !== undefined && selectedLanguage !=='');
+      const isValid = isRegionValid && isLanguageValid ;
 
       setRequiredFields3({
         region: !isRegionValid,
+        language: !isLanguageValid
       });
 
-      setIsForm3Valid(isRegionValid);
+      setIsForm3Valid(isValid);
     }
-  }, [hasSubmitted3 ,selectedRegion]);
+  }, [hasSubmitted3 ,selectedRegion , selectedLanguage]);
 
   useEffect(() => {
     const UserInfo = async () => {
@@ -288,7 +292,8 @@ export default function UserProfile() {
       console.error("Error saving data:", error);
     }
   };
-  
+  console.log(selectedRegion , selectedLanguage , isForm3Valid)
+
   const onSubmit2 = async (data) => {
     try {
       const passwordData = {
@@ -331,13 +336,9 @@ export default function UserProfile() {
     }
   };
 
-  console.log(selectedRegion , hasSubmitted3 , isForm3Valid);
-
   const onSubmit3 = async () => {
     const formData = {};
-
     setHasSubmitted3(true);
-
     if (selectedLanguage && selectedLanguage.label && selectedLanguage.label !== userData?.language) {
       formData.language = selectedLanguage.label;
     }
@@ -351,7 +352,7 @@ export default function UserProfile() {
     //   return; 
     // }
 
-    if(isForm3Valid ) {
+    if((selectedRegion !== null && selectedRegion !== undefined && selectedRegion !=='') && (selectedLanguage !== null && selectedLanguage !== undefined && selectedLanguage !=='') ) {
       try {
         const response = await axios.put(
           `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
@@ -862,7 +863,7 @@ export default function UserProfile() {
                 {t('settings.myProfile.selectLanguage')} </Text>
                 <SimpleSelect className='max-w-[40%]' id='language' options={languages} 
                   searchLabel={t('settings.myProfile.searchLanguage')} setSelectedOptionVal={setSelectedLanguage}
-                  selectedOptionsDfault={userData?.language? languages.find(lang => lang.label === userData.language) : ""}
+                  selectedOptionsDfault={userData?.language? languages.find(lang => lang.label === userData.language) : ""} required={requiredFields3.language}
                   placeholder={t('settings.myProfile.selectLanguage')}
                   valuekey="label"
                   content={(option) => {

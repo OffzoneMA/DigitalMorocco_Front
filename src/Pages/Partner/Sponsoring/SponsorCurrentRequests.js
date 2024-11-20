@@ -404,7 +404,7 @@ const handleReject = async (data) => {
                     ))) }
                     </tbody>
                     :
-                    "" 
+                    null 
                      }
                   </table>
                   {

@@ -387,7 +387,7 @@ const Dashboard_Partner = () => {
                                   </td>
                                 </tr>
                               ))
-                            : ""
+                            : null
                          }
                         </tbody>
                        </table>

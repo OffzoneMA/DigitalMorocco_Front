@@ -379,7 +379,7 @@ const Dashbord_Investor = () => {
                                   </td>
                                 </tr>
                               ))
-                            : ""
+                            : null
                          }
                         </tbody>
                        </table>

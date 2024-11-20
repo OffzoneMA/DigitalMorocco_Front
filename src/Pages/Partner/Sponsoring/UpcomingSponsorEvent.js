@@ -282,8 +282,7 @@ const UpcomingSponsorEvent = () => {
                     ))) }
                     </tbody>
                     :
-                    ""}
-                    
+                    null}
                   </table>
                   {
                   isLoading ? 

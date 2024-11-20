@@ -476,7 +476,7 @@ const InvestorDetails = () => {
                                 ))) }
                                 </tbody>
                                 : 
-                                ""
+                                null
                                 }
                               </table>
                               {investmentLoading ? 
