@@ -307,7 +307,7 @@ const Dashboard_Partner = () => {
                                     className="text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                                     size=""
                                 >
-                                    {t('common.noData')}
+                                    {t('dashboard.notAvailable')}
                                 </Text>
                             </div>
                         )
@@ -406,7 +406,7 @@ const Dashboard_Partner = () => {
                             className=" text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                             size=""
                             >
-                            {t('common.noData')}
+                            {t('dashboard.notAvailable')}
                             </Text>
                         </div>
                        ) 

@@ -307,7 +307,7 @@ const Dashbord_Investor = () => {
                                     className="text-sm font-dm-sans-medium leading-6 text-gray-900_01 w-auto"
                                     size=""
                                 >
-                                    {t('investorDashboard.noInvest')}
+                                    {t('dashboard.notAvailable')}
                                 </Text>
                             </div>
                         )
