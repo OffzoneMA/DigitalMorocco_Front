@@ -386,7 +386,7 @@ const Investment = () => {
                         {t('investment.viewAllInvestments')} 
                       </Text>
                       <Text
-                        className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
+                        className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-4"
                         size=""
                       >
                         {t('investment.upgradeMessage')} <a className="text-blue-500" href="/src/Pages/common/Subscription/ChoosePlan">{t('investment.digitalMoroccoPro')}</a> {t('investment.upgradeMessage2')}

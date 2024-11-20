@@ -117,7 +117,7 @@ const Dashbord_Investor = () => {
                       <Text
                         className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                       >
-                        {t('investorDashboard.noInvest')}
+                        {t('investorDashboard.totalRequestsNote')}
                       </Text>
                     )}
                   </div>
@@ -142,7 +142,7 @@ const Dashbord_Investor = () => {
                       <Text
                         className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301"
                       >
-                        {t('investorDashboard.noInvest')}
+                        {t('investorDashboard.currentRequestsNote')}
                       </Text>
                     )}
                   </div>
