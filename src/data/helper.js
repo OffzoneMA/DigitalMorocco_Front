@@ -110,7 +110,8 @@ export const formatPrice = (price, currentLanguage) => {
   } else {
       const formattedPrice = new Intl.NumberFormat(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', {
           style: 'currency',
-          currency: currentLanguage === 'fr' ? 'EUR' : 'USD',
+          currency: 'USD',
+          currencyDisplay: 'narrowSymbol',
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
       }).format(price);

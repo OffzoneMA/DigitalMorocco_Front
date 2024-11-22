@@ -39,8 +39,8 @@ export default function Subscription() {
 
   const formatPrice = (price) => {
     const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
-    const currency = currentLanguage === 'fr' ? 'EUR' : 'USD';
-    return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
+    const currency = 'USD';
+    return new Intl.NumberFormat(locale, { style: 'currency', currency , currencyDisplay: 'narrowSymbol' }).format(price);
 };
 
 

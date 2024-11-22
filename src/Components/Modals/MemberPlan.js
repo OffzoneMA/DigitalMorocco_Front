@@ -13,10 +13,26 @@ const MemberPlan = ({ plan , buttonText }) => {
 
     const formatPrice = (price) => {
         const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
-        const currency = currentLanguage === 'fr' ? 'EUR' : 'USD';
+        const currency = 'USD';
     
-        return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
+        const formatter = new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency,
+            currencyDisplay: 'narrowSymbol', 
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+    
+        let formattedPrice = formatter.format(price);
+    
+        if (currentLanguage === 'fr') {
+            formattedPrice = formattedPrice.replace(/\s*\$/g, ' $'); 
+        }
+    
+        return formattedPrice;
     };
+    
+    
     
 
     return (

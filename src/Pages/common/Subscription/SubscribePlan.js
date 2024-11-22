@@ -27,7 +27,8 @@ export default function SubscribePlan() {
 
     const formatPrice = (price) => {
       const locale = currentLanguage; // Get current language
-      return new Intl.NumberFormat(locale, { style: 'currency', currency: locale === 'fr' ? 'EUR' : 'USD' }).format(price);
+      return new Intl.NumberFormat(locale, 
+        { style: 'currency', currency: 'USD' , currencyDisplay: 'narrowSymbol', }).format(price);
     };
 
     const getUserSusbcription = async () => {
