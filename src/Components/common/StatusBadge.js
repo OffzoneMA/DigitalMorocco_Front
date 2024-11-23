@@ -22,7 +22,10 @@ const StatusBadge = ({ status }) => {
       'Stand by': {
         bgColor: 'bg-gray-201',
         textColor: 'text-blue_gray-700',
-        icon: <svg width="12" height="12" fill="#6B7280"><path d="M6 0v12h1V0z" /></svg>,
+        icon: <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="4" cy="4" r="3" fill="#667085"/>
+        </svg>
+        ,
       },
       // Autre statut par défaut
       Default: {

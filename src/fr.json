@@ -1801,9 +1801,13 @@
   "Active": "Actif",
   "Approved": "Approuvé",
   "In Progress": "En cours",
+  "Stand by": "En attente",
   "Draft": "Brouillon",
   "Rejected": "Rejeté",
   "Approve Now": "Approuver maintenant",
+  "upcoming event": "Événement à venir",
+  "past event": "Événement passé",
+  "ongoing event": "Événements en cours",
 
   "Sent": "Envoyé",
   "Received": "Reçu",

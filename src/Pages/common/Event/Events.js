@@ -399,7 +399,7 @@ const Events = () => {
                             item.status?.toLowerCase() === 'upcoming' ? 'bg-[#6172F3]' :
                               item.status?.toLowerCase() === 'ongoing' ? 'bg-[#12B76A] ' : ''
                         } inline-flex`}>
-                          {t(item?.status)} {`Event`}
+                          {t(`${item?.status} event`)} 
                         </div>
                           </td>
                         <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed" 
