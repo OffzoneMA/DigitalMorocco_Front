@@ -49,7 +49,6 @@ export default function VerificationEmail() {
           userEmail = storedUserData;
         }
       }
-      console.log(userEmail)
       if (userEmail) {
         try {
           const payload = await userTrigger(userEmail);

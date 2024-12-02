@@ -122,6 +122,19 @@ export default function SignUp() {
 
   const passwordValidation = validatePassword(password);
 
+  const passwordValidator = (value) => {
+    const validation = validatePassword(value);
+
+    if (!validation.minLength) return "Password must be at least 8 characters.";
+    if (!validation.hasUpperCase) return "Password must have at least one uppercase letter.";
+    if (!validation.hasLowerCase) return "Password must have at least one lowercase letter.";
+    if (!validation.hasDigit) return "Password must have at least one digit.";
+    if (!validation.hasSpecialChar) return "Password must have at least one special character.";
+
+    return true; // Password is valid
+  };
+
+
   const getPasswordErrorMessage = () => {
     const errorMessage = [];
 
@@ -175,6 +188,7 @@ const onSubmit = (data) => {
       }
     }
     else {
+      console.log(payload?.error)
       if(payload?.error?.status == 404) {
         dispatch(registerUser(data));
       }
@@ -300,24 +314,8 @@ const onSubmit = (data) => {
                         <input
                           {...register("password", {
                             validate: {
-                              hasUpperCase: v => /[A-Z]/.test(v) ,
-                              // message : t('signup.passwordUpperCaseVal')
+                              passwordValidator                            
                             },
-                            validate: {
-                              hasLowerCase: v => /[a-z]/.test(v),
-                              // message : t('signup.passwordLowerCaseVal')
-                            },
-                            validate: {
-                              hasSpecialChar:  v => /[!@#$%^&*()_+\-=[\]{}:;\\|,.<>/?~`]/.test(v),
-                            },
-                            validate: {
-                              hasDigit:  v => /\d/.test(v),
-                            },
-                            minLength: {
-                              value: 8,
-                              message: t('signup.passwordMinLengthVal')
-                            },
-                            
                           })}
                           id="password"
                           name="password"
