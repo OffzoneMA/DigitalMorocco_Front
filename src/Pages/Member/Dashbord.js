@@ -362,7 +362,7 @@ const Dashbord = () => {
                         <tbody className="items-center w-full">
                         {(!contactReqsLoading && Requestdata?.length > 0) 
                             ? Requestdata.map((item, index) => (
-                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?._id}`)}>
+                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={()=> navigate(`/InvestorDetails/${item?.investor?._id}`)}>
                                   <td className="w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="relative flex">
                                       <div className="flex px-3 py-4 items-center gap-2">

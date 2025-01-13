@@ -258,13 +258,18 @@ const MyInvestors = () => {
                         </div>
                     </td>
                       <td className="px-[18px] py-4 text-gray500 font-DmSans text-left text-sm font-normal leading-6" 
-                      style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
+                      style={{ whiteSpace: 'nowrap' }}>{t(`${item.type}`)}</td>
                       <td className="px-[18px] py-4 text-left text-gray500 font-dm-sans-regular text-sm leading-6">{item?.fundingRound || "-"}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6" 
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.location || item?.country || "-"}</td>
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t(`${item?.location}`) || t(`${item?.country}`) || "-"}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {Array.isArray(item?.PreferredInvestmentIndustry) ? item.PreferredInvestmentIndustry.join(', ') : ''}
+                        {Array.isArray(item?.PreferredInvestmentIndustry)
+                          ? item.PreferredInvestmentIndustry
+                              .map(industry => t(industry)) // Traduire chaque élément
+                              .join(', ')
+                          : ''
+                        }
                         </td>
                     </tr>
                   ))

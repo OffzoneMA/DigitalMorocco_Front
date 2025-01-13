@@ -254,9 +254,9 @@ const SendContactModal = (props) => {
         </form>
       </ModalProvider>
       <ConfirmedModal isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
-        m1="Your contact request has been successfully sent to"
+        m1={t('investors.sendContactRequest.sendConfirmation.successMessage')}
         m2={props?.rowData?.name || "Venture Catalys"} 
-        m3="The investor will review your contact request and respond accordingly, keep an eye on your email for any additional communication or updates." />
+        m3={t('investors.sendContactRequest.sendConfirmation.followupInstructions')} />
     </>
     );
   };

@@ -92,7 +92,7 @@ const Employees = () => {
 
   const handleEditEmployee = (employeId) => {
     const selectedEmployee = employees.find(employee => employee._id === employeId);
-    navigate("/CreateOrEditEmployee", { state: { employee: selectedEmployee } });
+    navigate(`/EditEmployee/${employeId}`, { state: { employee: selectedEmployee } });
   };
 
   const openDeleteModal = (rowData) => {
@@ -130,7 +130,7 @@ const Employees = () => {
                 </TableTitle>
               <button
                 className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] focus:bg-[#224a94] text-white-A700 flex flex-row items-center ml-auto px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium cursorpointer rounded-md w-auto"
-                onClick={() => navigate("/CreateOrEditEmployee")}
+                onClick={() => navigate("/CreateEmployee")}
                 type="button"
               >
                 <FaRegPlusSquare size={21} className="mr-2 cursorpointer" />
@@ -172,20 +172,20 @@ const Employees = () => {
                           </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray500">{employee.workEmail}</td>
-                        <td className="px-[18px] py-4 text-gray500">{employee.jobTitle}</td>
-                        <td className="px-[18px] py-4 text-gray500">{employee.level}</td>
+                        <td className="px-[18px] py-4 text-gray500">{t(`${employee.jobTitle}`)}</td>
+                        <td className="px-[18px] py-4 text-gray500">{t(`${employee.level}`)}</td>
                         <td className="px-[18px] py-4 text-gray500">
                           {employee.status?.toLowerCase() === 'member' ? (
                             <div className="h-[22px] pl-1.5 pr-2 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center gap-1.5 inline-flex">
                               <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="4" cy="4" r="3" fill="#12B76A"/>
                               </svg>
-                              <div className="text-center text-[#027947] text-xs font-medium font-inter leading-[18px]">{employee.status}</div>
+                              <div className="text-center text-[#027947] text-xs font-medium font-inter leading-[18px]">{t(`statusMember`)}</div>
                             </div>
                           ) : (
                             <div className="flex items-center justify-center p-1 rounded-full" style={{ width: "4.5rem", backgroundColor: "#eceff3" }}>
                               <span className="rounded-full mr-1" style={{ width:"7px", height:"7px",backgroundColor: "#646e83" }}></span>
-                              <span className="text-xs font-semibold" style={{ color: "#333f53" }}>{employee.status}</span>
+                              <span className="text-xs font-semibold" style={{ color: "#333f53" }}>{t(`${employee.status}`)}</span>
                             </div>
                           )}
                         </td>

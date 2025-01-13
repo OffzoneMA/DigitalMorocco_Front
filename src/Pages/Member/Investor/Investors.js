@@ -108,11 +108,30 @@ const Investors = () => {
 
   const data = (isSubscribe && !loading && !subscriptionLoading && !userDetailsLoading && userDetails?.projectCount !== 0) ?  investors : InvestorsData;
 
-  const filteredData = (isSubscribe && (!loading && !subscriptionLoading && !userDetailsLoading))? data?.filter(item => {
-    const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());
-  
-    return keywordMatch;
-  }) : data;
+  const filteredData = (isSubscribe && (!loading && !subscriptionLoading && !userDetailsLoading)) 
+    ? data?.filter(item => {
+        // Si pas de mot-clé de recherche, retourner tous les résultats
+        if (!keywords?.trim()) return true;
+
+        // Normaliser le mot-clé de recherche
+        const normalizedKeyword = keywords
+          .toLowerCase()
+          .normalize("NFD") 
+          .replace(/\p{Diacritic}/gu, "")
+          .trim();
+
+        // Vérifier si l'item a un nom
+        if (!item?.name) return false;
+
+        // Normaliser le nom de l'item
+        const normalizedName = item.name
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "");
+
+        return normalizedName.includes(normalizedKeyword);
+      })
+    : data;
 
   const clearFilter = () => {
     setFilter(false); 
@@ -318,14 +337,19 @@ const Investors = () => {
                         </div>
                     </td>
                       <td className="px-[18px] py-4 text-gray500 font-DmSans text-left text-sm font-normal leading-6" 
-                      style={{ whiteSpace: 'nowrap' }}>{item.type}</td>
+                      style={{ whiteSpace: 'nowrap' }}>{t(`${item.type}`)}</td>
                       <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfInvestment}</td>
                       <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfExits}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6" 
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.location}</td>
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t(`${item.location}`)}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {Array.isArray(item?.PreferredInvestmentIndustry) ? item.PreferredInvestmentIndustry.join(', ') : ''}
+                        {Array.isArray(item?.PreferredInvestmentIndustry)
+                          ? item.PreferredInvestmentIndustry
+                              .map(industry => t(industry)) // Traduire chaque élément
+                              .join(', ')
+                          : ''
+                        }
                         </td>
 
                     </tr>

@@ -45,7 +45,6 @@ export function formatDate(dateString) {
     month: 'short', // 'Oct'
     day: 'numeric', // '10'
     year: 'numeric', // '2024'
-    timeZone: 'UTC', // Utiliser le temps universel
   });
 
   const formattedTime = date.toLocaleTimeString('en-US', {
@@ -53,7 +52,6 @@ export function formatDate(dateString) {
     minute: '2-digit', // '08'
     second: '2-digit', // '11'
     hour12: true, // AM/PM format
-    timeZone: 'UTC', // Utiliser le temps universel
   });
 
   return `${formattedDate} ${formattedTime}`;
@@ -64,15 +62,14 @@ export const formatDateValue = (date, currentLanguage) => {
   const dateValues = new Date(date);
 
   // Define options for date formatting based on the selected language
-  const dateOptions = { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }; 
+  const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' }; 
 
   // Define options for time formatting
   const timeOptions = {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-    hour12: currentLanguage === 'en', 
-    timeZone: 'UTC',
+    hour12: currentLanguage === 'en'
   };
 
   // Format the date and time

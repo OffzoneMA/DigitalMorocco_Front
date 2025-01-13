@@ -20,7 +20,7 @@ import LogRocket from 'logrocket';
 import { billingApi } from '../Services/Billing.Service';
 import { notificationApi } from '../Services/Notification.Service';
 import { sponsorApi } from '../Services/Sponsor.Service'
-
+import { employeeApi } from '../Services/EmployeeService'
 
 const store = configureStore({
   reducer: {
@@ -43,7 +43,8 @@ const store = configureStore({
     [contactRequestApi.reducerPath]: contactRequestApi.reducer,
     [billingApi.reducerPath]: billingApi.reducer,
     [notificationApi.reducerPath]: notificationApi.reducer,
-    [sponsorApi.reducerPath]: sponsorApi.reducer
+    [sponsorApi.reducerPath]: sponsorApi.reducer ,
+    [employeeApi.reducerPath]: employeeApi.reducer
   },
   devTools: process.env.NODE_ENV === 'development',
 
@@ -54,7 +55,8 @@ const store = configureStore({
         , userApi.middleware, partnerApi.middleware, investorApi.middleware , projectApi.middleware ,
         eventApi.middleware , LogRocket.reduxMiddleware() , documentApi.middleware ,
         subscriptionPlanApi.middleware , paymentMethodApi.middleware , activityHistoryApi.middleware,
-        contactRequestApi.middleware , billingApi.middleware , notificationApi.middleware , sponsorApi.middleware
+        contactRequestApi.middleware , billingApi.middleware , notificationApi.middleware , sponsorApi.middleware ,
+        employeeApi.middleware
         ]) ,
 })
 export default store

@@ -33,10 +33,12 @@ import { useTranslation } from "react-i18next";
 import CommonModal from "../../../Components/common/CommonModal";
 import { useCreateDraftContactRequestMutation } from "../../../Services/Member.Service";
 import SubTablePagination from "../../../Components/common/SubTablePagination";
+import { useGetUserDetailsQuery } from "../../../Services/Auth";
 
 const InvestorDetails = () => {
   const { t } = useTranslation();
   const [createDraftContactRequest] = useCreateDraftContactRequestMutation();
+  const { refetch: refetchUser } = useGetUserDetailsQuery();
   const [drafting , setDrafting] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const { investorId } = useParams();
@@ -56,32 +58,31 @@ const InvestorDetails = () => {
 
   const { data: myInvestments, error, isFetching: investmentLoading , refetch} = useGetAllContactReqByInvestorQuery(queryParams);
 
+  const getInvestorDetailsRequest = async () => {
+    try {
+      setLoading(true);
+      const token = sessionStorage.getItem("userToken");
+      const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/${investorId}/details` , {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setInvestor(response.data?.details)
+      setInvestorRequestStatus(response.data?.status)
+      setInvestorDraftStatus(response.data?.hasDraftContactRequest)
+      setInvestorDraftRequest(response.data?.draftRequestId)
+      setLoading(false);
+      return response.data;
+    } catch (error) {
+      setLoading(false);
+        console.error('Error fetching investor details:', error);
+        throw error;
+    }
+};
 
   useEffect(() => {
     setLoading(true);
-    const getInvestorDetailsRequest = async () => {
-      try {
-        setLoading(true);
-        const token = sessionStorage.getItem("userToken");
-        const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/${investorId}/details` , {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setInvestor(response.data?.details)
-        setInvestorRequestStatus(response.data?.status)
-        setInvestorDraftStatus(response.data?.hasDraftContactRequest)
-        setInvestorDraftRequest(response.data?.draftRequestId)
-        setLoading(false);
-        return response.data;
-      } catch (error) {
-        setLoading(false);
-          console.error('Error fetching investor details:', error);
-          throw error;
-      }
-  };
-
-  getInvestorDetailsRequest();
+    getInvestorDetailsRequest();
   }, [investorId]);
 
   useEffect(() => {
@@ -107,7 +108,8 @@ const InvestorDetails = () => {
   };
 
   const closePopup = () => {
-    setShowPopup(false)
+    setShowPopup(false);
+    setDrafting(false);
   }
 
   const contactRequestButtonClick = () => {
@@ -129,9 +131,11 @@ const InvestorDetails = () => {
     try {
       setDrafting(true);
       const response = await createDraftContactRequest({ investorId }).unwrap();
+      getInvestorDetailsRequest();
+      refetchUser();
       openModal();
       setDrafting(false);
-      console.log('Draft created successfully:', response);
+      console.log('Draft created successfully:');
     } catch (error) {
       console.error('Failed to create draft contact request:', error);
     }
@@ -362,7 +366,7 @@ const InvestorDetails = () => {
                               {investor?.PreferredInvestmentIndustry?.map((industry, index) => (
                                 <div key={index} className="bg-blue-101 w-auto flex justify-center items-center rounded-full px-[14px] h-[30px]">
                                   <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-blue_gray-904">
-                                    {industry}
+                                    {t(`${industry}`)}
                                   </Text>
                                 </div>
                               ))}

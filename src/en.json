@@ -467,7 +467,19 @@
     "shareProject": {
       "title": "Share Project with Investors",
       "searchLabel": "Search Investors",
-      "share": "Share with Selected Investors"
+      "share": "Share with Selected Investors" ,
+      "emptyInvestorsList": {
+        "mainMessage": "You haven't added any investors to your list yet.",
+        "instruction": "To share your project, please first contact your preferred investors, either from the 'Investors List' tab or by clicking the button below.",
+        "buttonText": "Contact investors"
+      },
+      "projectSentConfirmation": {
+        "successMessage": "Your project has been successfully sent to",
+        "recipientLabel": "Investors",
+        "followupInstructions": "The investor (s) will review your request and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates.",
+        "singular": "The investor will review your request and respond to you. Please keep an eye on your email and dashboard for any communications or updates.",
+        "plural": "The investors will review your request and respond to you. Please keep an eye on your email and dashboard for any communications or updates."
+      }
     }
   },
 
@@ -505,7 +517,8 @@
     "title": "Job Title",
     "type": "Employee Level",
     "status": "Status",
-    "noTeamMembers":"No Team Mmembers",
+    "noTeamMembers":"No Team Members",
+    "canAdd": "You can add members to your team from the 'Company - Collaborators' section​",
     "addEmployee": {
       "addEmployeeButton": "Add",
       "addEmployee": "Add Employee",
@@ -630,7 +643,12 @@
       "uploadDocument": "Upload Additional Documents",
       "dropFile": "Drop file here or click to upload",
       "updateDocument": "Update your document",
-      "send": "Send Contact Request"
+      "send": "Send Contact Request" , 
+      "sendConfirmation": {
+        "successMessage": "Your contact request has been successfully sent to",
+        "recipientLabel": "Investor",
+        "followupInstructions": "The investor will review your contact request and respond accordingly, keep an eye on your email for any additional communication or updates."
+      }
     }
   },
 
@@ -1124,6 +1142,7 @@
     "approved": "Approved",
     "rejected": "Rejected",
     "sent": "Sent",
+    "change": "Change",
     "view" : "View",
     "received": "Received",
     "filters": "Filters",
@@ -1205,5 +1224,7 @@
     "inProgress": "In Progress",
     "approved": "Approved",
     "rejected": "Rejected"
-  }
+  },
+
+  "statusMember": "Member"
 }

@@ -437,7 +437,7 @@
       "standByPop": {
         "title": "En attente",
         "description": "En cliquant sur",
-        "activatePop" :"votre projet sera masqué aux investisseurs. Vous pouvez le réactiver une fois les mises à jour nécessaires effectuées."
+        "standByPop" :"votre projet sera masqué aux investisseurs. Vous pouvez le réactiver une fois les mises à jour nécessaires effectuées."
       }
     },
     "projectDetails": {
@@ -467,7 +467,19 @@
     "shareProject": {
       "title": "Partager le projet avec des investisseurs",
       "searchLabel": "Rechercher des investisseurs",
-      "share": "Partager avec les investisseurs sélectionnés"
+      "share": "Partager avec les investisseurs sélectionnés",
+      "emptyInvestorsList": {
+        "mainMessage": "Vous n'avez pas encore ajouté d'investisseurs à votre liste.",
+        "instruction": "Pour partager votre projet, veuillez d'abord contacter vos investisseurs préférés, soit depuis l'onglet 'Liste des investisseurs', soit en cliquant sur le bouton ci-dessous.",
+        "buttonText": "Contacter les investisseurs"
+      },
+      "projectSentConfirmation": {
+        "successMessage": "Votre projet a été envoyé avec succès  à (aux)",
+        "recipientLabel": "Investisseurs",
+        "followupInstructions": "L'investisseur examinera votre demande et répondra en conséquence. Veuillez surveiller votre email et votre tableau de bord pour toute communication ou mise à jour supplémentaire.",
+        "singular": "L'investisseur examinera votre demande et vous répondra. Veuillez surveiller votre email et votre tableau de bord pour toute communication ou mise à jour.",
+        "plural": "Les investisseurs examineront votre demande et vous répondront. Veuillez surveiller votre email et votre tableau de bord pour toute communication ou mise à jour."
+      }
     }
   },
 
@@ -506,6 +518,7 @@
     "type": "Niveau de l'employé",
     "status": "Statut",
     "noTeamMembers":"Aucun membre de l'équipe",
+    "canAdd" : "Vous pouvez ajouter des membres à votre équipe depuis la section 'Entreprise - Collaborateurs'",
     "addEmployee": {
       "addEmployeeButton": "Ajouter",
       "addEmployee": "Ajouter un employé",     
@@ -632,7 +645,13 @@
       "uploadDocument": "Télécharger des documents supplémentaires",
       "dropFile": "Déposez un fichier ici ou cliquez pour télécharger",
       "updateDocument": "Mettre à jour votre document",
-      "send": "Envoyer la demande de contact"
+      "send": "Envoyer la demande de contact",
+      "sendConfirmation": {
+        "successMessage": "Votre demande de contact a été envoyée avec succès à",
+        "recipientLabel": "Investisseur",
+        "followupInstructions": "L'investisseur examinera votre demande de contact et répondra en conséquence. Restez attentif à votre e-mail pour toute communication ou mise à jour supplémentaire."
+      }
+
     }
   },
 
@@ -1100,6 +1119,7 @@
     "approved": "Approuvé",
     "rejected": "Rejeté",
     "sent": "Envoyé",
+    "change": "Changer",
     "view": "Consulter",
     "received": "Reçu",
     "filters": "Filtres",
@@ -1118,7 +1138,7 @@
     "searchInvestor": "Rechercher un investisseur",
     "status": "Statut",
     "selectStatus": "Sélectionner un statut",
-    "searchStage": "Rechercher une étape",
+    "searchStage": "Rechercher une phase",
     "selectRole": "Sélectionner un role",
     "searchRole": "Rechercher un role",
     "stage": "Étape",
@@ -1237,7 +1257,7 @@
   "Explore an exceptional VIP network, exclusive events, and advanced management tools.":"Explorez un réseau VIP d'exception, des événements exclusifs et des outils de gestion avancés.",
 
   "Action Required: Create Project": "Action requise : Créer un projet",
-  "To gain access to the list of investors, please add a project by clicking the button below or by navigating to the 'Projects' tab.": "Pour accéder à la liste des investisseurs, veuillez ajouter un projet en cliquant sur le bouton ci-dessous ou en naviguant vers l'onglet 'Projets'.",
+  "To gain access to the list of investors, please add a project by clicking the button below or by navigating to the 'Projects' tab.": "Pour accéder à la liste des investisseurs, veuillez ajouter un projet en cliquant sur le bouton ci-dessous ou en naviguant vers l'onglet 'Mes projets'.",
 
   "Back to Dashboard": "Retour au tableau de bord",
   "Create Project": "Créer un projet",
@@ -1809,6 +1829,7 @@
   "upcoming event": "Événement à venir",
   "past event": "Événement passé",
   "ongoing event": "Événements en cours",
+  "statusMember": "Membre",
 
   "Sent": "Envoyé",
   "Received": "Reçu",

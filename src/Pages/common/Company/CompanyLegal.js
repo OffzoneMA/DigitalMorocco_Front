@@ -25,7 +25,7 @@ const CompanyLegal = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
-  const [document , setDocument] = useState(null);
+  const [documentRow , setDocumentRow] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
   const [totalPages , setTotalPages] = useState(0);
@@ -82,12 +82,12 @@ const fetchLegalDocuments = async () => {
 
   const openEditModal = (doc) => {
     setIsEditModalOpen(true);
-    setDocument(doc);
+    setDocumentRow(doc);
   };
 
   const closeEditModal = () => {
     setIsEditModalOpen(false);
-    setDocument(null);
+    setDocumentRow(null);
   };
 
     const openDeleteModal = (rowData) => {
@@ -160,51 +160,85 @@ const fetchLegalDocuments = async () => {
     }
   };  
 
-  const handleDownload = (documentData) => {
-    if (typeof window === 'undefined') {
-      console.error('This code must be executed in the browser.');
-      return;
-    }
+  // const handleDownload = (documentData) => {
+  //   if (typeof window === 'undefined') {
+  //     console.error('This code must be executed in the browser.');
+  //     return;
+  //   }
   
-    if (!documentData?.data) {
-      console.error('Invalid document data');
-      return;
-    }
+  //   if (!documentData?.data) {
+  //     console.error('Invalid document data');
+  //     return;
+  //   }
   
-    // Extraire les données base64 après la virgule
-    const base64Data = documentData.data.split(',')[1];
-    if (!base64Data) {
-      console.error('Invalid base64 data');
-      return;
-    }
+  //   // Extraire les données base64 après la virgule
+  //   const base64Data = documentData.data.split(',')[1];
+  //   if (!base64Data) {
+  //     console.error('Invalid base64 data');
+  //     return;
+  //   }
   
-    // Convertir les données base64 en octets
-    const byteCharacters = atob(base64Data);
-    const byteArray = new Uint8Array(byteCharacters.length);
+  //   // Convertir les données base64 en octets
+  //   const byteCharacters = atob(base64Data);
+  //   const byteArray = new Uint8Array(byteCharacters.length);
     
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteArray[i] = byteCharacters.charCodeAt(i);
-    }
+  //   for (let i = 0; i < byteCharacters.length; i++) {
+  //     byteArray[i] = byteCharacters.charCodeAt(i);
+  //   }
   
-    // Créer un Blob à partir du tableau d'octets
-    const blob = new Blob([byteArray], { type: documentData.type });
+  //   // Créer un Blob à partir du tableau d'octets
+  //   const blob = new Blob([byteArray], { type: documentData.type });
   
-    // Créer une URL pour le Blob
-    const url = URL.createObjectURL(blob);
+  //   // Créer une URL pour le Blob
+  //   const url = URL.createObjectURL(blob);
   
-    // Créer un lien pour initier le téléchargement
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = documentData.name || 'downloaded_file';
+  //   // Créer un lien pour initier le téléchargement
+  //   const link = document.createElement('a');
+  //   link.href = url;
+  //   link.download = documentData.name || 'downloaded_file';
     
-    // Assurez-vous que le lien est ajouté au DOM avant de cliquer dessus
-    document.body.appendChild(link);
-    link.click();
+  //   // Assurez-vous que le lien est ajouté au DOM avant de cliquer dessus
+  //   document.body.appendChild(link);
+  //   link.click();
   
-    // Nettoyer le DOM et libérer l'URL
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };  
+  //   // Nettoyer le DOM et libérer l'URL
+  //   document.body.removeChild(link);
+  //   URL.revokeObjectURL(url);
+  // }; 
+  
+  const handleDownload = async (documentFile) => {
+    try {
+      // Vérifiez si le lien du document est valide
+      if (!documentFile?.link) {
+        console.error("Document link or name is missing");
+        return;
+      }
+  
+      // Téléchargez le fichier depuis l'URL
+      const response = await fetch(documentFile.link);
+      if (!response.ok) {
+        throw new Error("Failed to fetch the document");
+      }
+  
+      // Créez un blob à partir des données du fichier
+      const blob = await response.blob();
+  
+      // Créez un lien de téléchargement temporaire
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = documentFile?.name || "document-file"; // Nom du fichier à télécharger
+      document.body.appendChild(a);
+      a.click();
+  
+      // Nettoyez le lien temporaire après le téléchargement
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    } catch (error) {
+      console.error("Error downloading the document:", error);
+    }
+  };
+  
   
   const userData = JSON.parse(sessionStorage.getItem("userData"));
 
@@ -310,9 +344,11 @@ const fetchLegalDocuments = async () => {
                           </div>
                         </div>
                         <div className="relative group">
-                          <a href={document?.link} download={document?.name} target="_blank">
-                            <FiDownload  size={17} className="text-blue_gray-301"  />
-                          </a>
+                          <FiDownload  size={17} className="text-blue_gray-301" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDownload(document);
+                          }} />
                           <div className="absolute top-[100%] right-0 transform hidden group-hover:flex flex-col items-end">
                             <div className="mb-px mr-[3px]">
                               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="7" viewBox="0 0 13 7" fill="none">
@@ -366,7 +402,7 @@ const fetchLegalDocuments = async () => {
         </div>
     </div>
     <NewCampanyDocumentModal isOpen={isModalOpen} onRequestClose={closeModal} onSubmit={handleAddDocument} />
-    <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={document} onSubmit={handleEditDocument} />
+    <NewCampanyDocumentModal isOpen={isEditModalOpen} onRequestClose={closeEditModal} documentFile={documentRow} onSubmit={handleEditDocument} />
     <DeleteModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} title={t('legal.deleteDocumentConfirmation.title')} onDelete={() => handleDelete()} 
       content={
       <div className="flex flex-col gap-5 items-center justify-start sm:py-5 w-full ">

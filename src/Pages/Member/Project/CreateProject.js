@@ -13,7 +13,7 @@ import {Country} from 'country-state-city';
 import MultipleSelect from "../../../Components/common/MultipleSelect";
 import CustomCalendar from "../../../Components/common/CustomCalendar";
 import {useCreateProjectMutation, useUpdateProjectMutation} from "../../../Services/Member.Service";
-import {useGetProjectByIdQuery , useDeleteMilestoneMutation} from "../../../Services/Project.Service";
+import {useGetProjectByIdQuery , useDeleteMilestoneMutation , useDeleteDocumentMutation} from "../../../Services/Project.Service";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
@@ -29,6 +29,7 @@ import Popup from "reactjs-popup";
 import userdefaultProfile from '../../../Media/User1.png'
 import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
+import { PiUsersThin } from "react-icons/pi";
 
 const CreateProject = () => {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ const CreateProject = () => {
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
-
+  const [deleteDocument] = useDeleteDocumentMutation();
   const [deleteMilestone] = useDeleteMilestoneMutation();
   const [loadingDel, setLoadingDel] = useState(null);
   const { loading, userInfo } = useSelector((state) => state.auth)
@@ -44,9 +45,12 @@ const CreateProject = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(location.state?.project || null);
-  const { data: fetchedProject, error, isLoading , refetch } = useGetProjectByIdQuery(projectId, {
-    skip: Boolean(project || !projectId || loadingDel === null),
-  });
+  // const { data: fetchedProject, error, isLoading , refetch } = useGetProjectByIdQuery(projectId, {
+  //   skip: Boolean(project || !projectId || loadingDel === null),
+  // });
+  const { data: fetchedProject, error, isLoading, refetch } = useGetProjectByIdQuery(projectId, {
+    skip: !projectId, 
+  });  
   const [submitting, setSubmitting] = useState(null);
   const [Mount, setMount] = useState(true)
   const [focusedMilestone, setFocusedMilestone] = useState(null);
@@ -249,7 +253,8 @@ const CreateProject = () => {
         setDocumentDivs(otherDocuments.map((_, index) => ({ id: index + 1 })));
         setDroppedFiles(otherDocuments.map((document, index) => ({
           name: document.name,
-          index: index
+          index: index ,
+          documentId: document._id
         })));
         inputRefs.current = otherDocuments.map(() => React.createRef());
       }
@@ -353,8 +358,8 @@ const CreateProject = () => {
     const file = event.dataTransfer.files[0];
 
     if (file) {
-      const fileWithIndex = { name: file.name, index };
-      const fileWithIndex1 = { file: file, index };
+      const fileWithIndex = { name: file.name, index , documentId: null };
+      const fileWithIndex1 = { file: file, index , documentId: null };
           setDroppedFiles((prevFiles) => {
           const updatedFiles = [...prevFiles];
           updatedFiles[index] = fileWithIndex;
@@ -365,6 +370,8 @@ const CreateProject = () => {
           updatedFiles[index] = fileWithIndex1;
           return updatedFiles;
       });
+      // Réinitialisation du champ input
+      event.target.value = null;
   }
 };
 
@@ -372,41 +379,57 @@ const handleFileInputChange = (event, index) => {
   const file = event.target.files[0];
 
   if (file) {
-    const fileWithIndex = { name: file.name, index };
+    const fileWithIndex = { name: file.name, index , documentId: null };
         setDroppedFiles((prevFiles) => {
         const updatedFiles = [...prevFiles];
         updatedFiles[index] = fileWithIndex;
         return updatedFiles;
     });
-    const fileWithIndex1 = { file: file, index };
+    const fileWithIndex1 = { file: file, index , documentId: null };
     setAllFiles((prevFiles) => {
       const updatedFiles = [...prevFiles];
       updatedFiles[index] = fileWithIndex1;
       return updatedFiles;
   });
   setOtherDeletedFiles((prevDeleted) => prevDeleted.filter(deletedFile => deletedFile.index !== index));
+  // Réinitialisation du champ input
+  event.target.value = null;
 }
 };
 
-const handleDeleteFile = (index) => {
+const handleDeleteFile = async (index) => {
   const fileToRemove = droppedFiles[index] || allFiles[index];
   
   if (fileToRemove) {
-    setOtherDeletedFiles((prevDeleted) => [...prevDeleted, fileToRemove.name]);
+    // Suppression du fichier de la base de données
+    try {
+      // Assurez-vous que vous avez accès à `projectId` et à `documentId`
+      const documentId = fileToRemove?.documentId; // Vous devez l'avoir dans vos données de fichier
+      if( projectId && documentId) {
+        await deleteDocument({ projectId, documentId });
+        refetch();
+      }
+      // Si la suppression est réussie, on met à jour l'état
+      setOtherDeletedFiles((prevDeleted) => [...prevDeleted, fileToRemove.name]);
+
+      setDroppedFiles((prevFiles) => {
+        const updatedFiles = [...prevFiles];
+        updatedFiles.splice(index, 1); 
+        return updatedFiles;
+      });
+
+      setAllFiles((prevFiles) => {
+        const updatedFiles = [...prevFiles];
+        updatedFiles.splice(index, 1); 
+        return updatedFiles;
+      });
+
+    } catch (error) {
+      console.error("Error deleting file from database:", error);
+    }
   }
-
-  setDroppedFiles((prevFiles) => {
-    const updatedFiles = [...prevFiles];
-    updatedFiles.splice(index, 1); 
-    return updatedFiles;
-  });
-
-  setAllFiles((prevFiles) => {
-    const updatedFiles = [...prevFiles];
-    updatedFiles.splice(index, 1); 
-    return updatedFiles;
-  });
 };
+
 
   const setFileName = (type, name) => {
     setFileNames(prevFileNames => ({ ...prevFileNames, [type]: name }));
@@ -418,23 +441,49 @@ const handleDeleteFile = (index) => {
     const file = event.dataTransfer.files[0];
     setDocuments(prevDocuments => [...prevDocuments, { file, type }]);
     setFileName(type, file.name);
+    // Réinitialisation du champ input
+    event.target.value = null;
   };
 
-  const handleFileUpload1 = (event, type) => {
-    const file = event.target.files[0];  
-    if (file) {
+
+const handleFileUpload1 = (event, type) => {
+  const file = event.target.files[0];  
+  if (file) {
+      // Ajout du document et mise à jour de l'état
       setDocuments(prevDocuments => [...prevDocuments, { file, type }]);
       setFileName(type, file.name);
-    }
-  };
 
-  const handleFileRemove = (type) => {
-    setDocuments(prevDocuments => 
-        prevDocuments.filter(document => document.type !== type)
-    );
-    setFileName(type, null); 
-    setDeletedFiles(prevDeletedFiles => [...prevDeletedFiles, type]);
+      // Réinitialisation du champ input
+      event.target.value = null;
+  }
 };
+
+const handleFileRemove = async (type) => {
+  // Trouver le document correspondant
+  const documentToRemove = project?.documents.find(doc => doc?.documentType === type);
+
+  if (documentToRemove && documentToRemove._id && projectId) {
+    try {
+      // Appel de la mutation pour supprimer le document dans la base
+      await deleteDocument({ projectId , documentId: documentToRemove._id });
+      refetch();
+      console.log(`Document avec ID ${documentToRemove._id} supprimé de la base de données.`);
+    } catch (error) {
+      console.error("Erreur lors de la suppression du document dans la base de données :", error);
+      return;
+    }
+  }
+
+  // Supprimer le document du tableau
+  setDocuments(prevDocuments => 
+      prevDocuments.filter(document => document.type !== type)
+  );
+  // Réinitialiser le nom du fichier
+  setFileName(type, null); 
+  // Ajouter à la liste des fichiers supprimés
+  setDeletedFiles(prevDeletedFiles => [...prevDeletedFiles, type]);
+};
+
   
   function parseDateString(dateString) {
     const [day, month, year] = dateString.split('/');
@@ -500,12 +549,21 @@ const handleDeleteFile = (index) => {
       const payload = projectId ? { projectId, payload: formData } : formData;
       
       mutation(payload)
-        .then(() => {
+        .then((response) => {
           setSubmitting('ok');
           setSendingOk(true);
           setTimeout(() => {
             setSubmitting('');
           }, 2500);
+          if(projectId) {
+            refetch();
+          }
+          // Si c'est une création (pas de projectId)
+          if (!projectId && response?.data?._id) {
+            // Mettre à jour l'URL avec l'ID du nouveau projet
+            navigate(`/Editproject/${response.data._id}`, { replace: true } , { state: { project: response.data } });
+            // Le replace: true remplace l'entrée actuelle dans l'historique au lieu d'en ajouter une nouvelle
+          }
         })
         .catch(() => {
           setSubmitting('');
@@ -712,8 +770,9 @@ const handleDeleteFile = (index) => {
                   )}
                   <button 
                   onClick={() => setHasSubmitted(true)}
-                    className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : 'bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
+                    className={`${submitting === 'ok' ? 'bg-teal-A700 !cursor-not-allowed' : (!submitting === 'sending') ? 'bg-blue-A400 !cursor-not-allowed' : 'bg-blue-A400  hover:bg-[#235DBD] active:bg-[#224a94]' } text-sm font-dm-sans-medium text-white-A700 flex flex-row h-[37px] min-w-[85px] items-center justify-center px-[12px] cursorpointer rounded-md`} 
                     ref={formButtonRef}
+                    disabled={submitting === 'sending'}
                     type="submit"
                 >
                     {(submitting === 'sending') ? (
@@ -818,8 +877,13 @@ const handleDeleteFile = (index) => {
                     >
                       {t('projects.createNewProject.teamMember')}
                     </Text>
+                    <Text className="text-[12px] font-dm-sans-regular text-[#98A2B3] w-auto"
+                    >
+                      {t('employee.canAdd')}
+                    </Text>
                     <MultipleSelect id='teams' options={members}  searchLabel={t('projects.createNewProject.searchMember')} setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
-                    itemClassName='py-2 border-b border-gray-201' placeholder={t('projects.createNewProject.assignTeamMember')} valuekey="fullName" optionkey="workEmail" 
+                    itemClassName='py-2 border-b border-gray-201' placeholder={t('projects.createNewProject.assignTeamMember')} valuekey="fullName" optionkey="workEmail" emptyMsg={t('employee.noTeamMembers')}
+                    emptyIcon={<PiUsersThin size={30} />}
                     content={
                       ( option) =>{ return (
                         <div className="flex items-center  space-x-3 ">
@@ -890,7 +954,7 @@ const handleDeleteFile = (index) => {
                     >
                       {t('projects.createNewProject.stage')}
                     </Text>
-                    <SimpleSelect id='stage' options={stagesData}  searchLabel='Search stage' setSelectedOptionVal={setSelectedStage} 
+                    <SimpleSelect id='stage' options={stagesData}  searchLabel={t('common.searchStage')} setSelectedOptionVal={setSelectedStage} 
                     placeholder={t('projects.createNewProject.selectStage')} selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage}
                     content={
                       ( option) =>{ return (
@@ -1110,7 +1174,7 @@ const handleDeleteFile = (index) => {
                                     <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
-                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Change</div>
+                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">{t('common.change')}</div>
                               </div>
                               <div className="w-auto group h-9 py-[5px] px-[16px] justify-start items-center gap-3 inline-flex" 
                               onClick={handleRemoveLogo}>
@@ -1119,7 +1183,7 @@ const handleDeleteFile = (index) => {
                                     <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
-                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Delete</div>
+                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">{t('common.delete')}</div>
                               </div>
                             </div>
                           </div>}
@@ -1160,7 +1224,7 @@ const handleDeleteFile = (index) => {
                       {t('projects.createNewProject.uploadPitchDeck.title')}
                     </Text>
                     <div className="flex md:flex-1 w-full md:w-full rounded-md px-2 py-3 border border-dashed cursorpointer bg-blue_gray-50" 
-                    onClick={()=> onButtonClick(inputRef)}>
+                      onClick={()=> onButtonClick(inputRef)}>
                       <MdOutlineFileUpload size={22} className="text-blue-700 mr-2"/>
                       <input
                         ref={inputRef}
@@ -1329,8 +1393,8 @@ const handleDeleteFile = (index) => {
                         }
                       </label>
                     </div>
-                    {droppedFiles.map((file, fileIndex) => {
-                      if (file.index === index) {
+                    {droppedFiles?.map((file, fileIndex) => {
+                      if (file?.index === index) {
                         return (
                           <div key={fileIndex} className="flex flex-row gap-2 items-center justify-between w-[90%] pt-2 ">
                             <div key={fileIndex} className="flex flex-row gap-2 items-center justify-start w-full">
@@ -1339,7 +1403,7 @@ const handleDeleteFile = (index) => {
                                 className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
                                 size=""
                               >
-                                {file.name}
+                                {file?.name}
                               </Text>
                             </div>
                             <div className="flex w-auto" onClick={() => handleDeleteFile(fileIndex)}>

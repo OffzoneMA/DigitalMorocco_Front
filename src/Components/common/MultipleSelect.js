@@ -3,8 +3,11 @@ import { BiChevronDown , BiChevronUp } from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import {Text} from '../Text';
 
-const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionkey='',placeholder='', searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , itemClassName='' , className=''}) => {
+const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionkey='',placeholder='', 
+searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , 
+itemClassName='' , className='' , emptyMsg = "" , emptyIcon}) => {
   const {t} = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedOptionsDfault);
@@ -67,12 +70,36 @@ const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionke
   };
   
   const filteredData = options?.filter(investor => {
+    // Si aucune valeur de recherche, retourner tous les résultats
+    if (!searchValue?.trim()) return true;
+  
+    const normalizedSearch = searchValue
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .trim();
+  
     if (typeof investor === 'string') {
-      return investor?.toLowerCase().includes(searchValue.toLowerCase());
+      // Appliquer la traduction et normaliser
+      const translatedValue = t(`${investor}`);
+      const normalizedValue = translatedValue
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+      return normalizedValue.includes(normalizedSearch);
     }
   
-    const valueToCheck = investor[valuekey] ? investor[valuekey].toLowerCase() : "";
-    return valueToCheck.includes(searchValue.toLowerCase());
+    // Pour les objets, vérifier la valeur traduite de la propriété spécifiée
+    if (investor && investor[valuekey]) {
+      const translatedValue = t(`${investor[valuekey]}`);
+      const normalizedValue = translatedValue
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+      return normalizedValue.includes(normalizedSearch);
+    }
+  
+    return false;
   });
 
   const calculateDropdownPosition = () => {
@@ -157,7 +184,7 @@ const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionke
        ReactDOM.createPortal(
         <div ref={dropdownRef} className={`absolute  w-full py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[340px] z-50 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'}`} role="menu" 
         style={dropdownPosition}>
-         {searchable && (
+         {searchable && options?.length > 0 && (
           <div className='flex w-full px-3'>
             <div className="flex w-full rounded-md py-1.5 px-2 border border-solid">
               <input
@@ -215,6 +242,26 @@ const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionke
                 </div>
               </div>
             ))}
+            {options?.length === 0 && (
+              <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] w-full py-4">
+                {emptyIcon ? (
+                  React.isValidElement(emptyIcon) ? 
+                    React.cloneElement(emptyIcon, { className: "icon" }) : 
+                    <span className="icon" dangerouslySetInnerHTML={{ __html: emptyIcon }} />
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
+                    <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  )
+                }
+                <Text
+                  className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
+                  size=""
+                >
+                  {emptyMsg} 
+                </Text>
+              </div>
+            )}
           </div>
         </div>,
           document.body    

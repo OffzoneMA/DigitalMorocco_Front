@@ -159,7 +159,8 @@ function App() {
                   <Route path="/CompanyLegal" element={<CompanyLegal />} />
                   <Route path="/MyCompany" element={<MyCompany />} />
                   <Route path="/Employees" element={<Employees />} />
-                  <Route path="/CreateOrEditEmployee" element={<NewEmployee />} />
+                  <Route path="/CreateEmployee" element={<NewEmployee />} />
+                  <Route path="/EditEmployee/:employeeId" element={<NewEmployee />} />
                   <Route path="/Document" element={<Documents />} />
                   <Route path="/Participate" element={<Events />} />
                   <Route path="/UpcomingEvent" element={<UpcomingEvents />} />

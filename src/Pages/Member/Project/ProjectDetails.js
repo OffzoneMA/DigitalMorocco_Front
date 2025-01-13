@@ -11,7 +11,7 @@ import NewMilestoneModal from "../../../Components/Modals/FormModals/NewMileston
 import DeleteModal from "../../../Components/common/DeleteModal";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {BsDot} from "react-icons/bs";
-import {useGetProjectByIdQuery , useAddMilestoneToProjectMutation} from "../../../Services/Project.Service";
+import {useGetProjectByIdQuery , useAddMilestoneToProjectMutation , useDeleteProjectMutation} from "../../../Services/Project.Service";
 import {formatNumber} from "../../../data/helper";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
@@ -29,6 +29,7 @@ const ProjectDetails = () => {
   const div2Ref = useRef(null);
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
   const [addMilestoneToProject, {isSuccess, isError }] = useAddMilestoneToProjectMutation();
+  const [deleteProject, response] = useDeleteProjectMutation();
   const location = useLocation();
   const { projectId } = useParams();
   const [project, setProject] = useState(null);
@@ -162,6 +163,15 @@ useEffect(() => {
     closeModalMilestone();
      setProject(response);
   }
+
+  const handleDelete = async () => {
+    try {
+      await deleteProject(projectId);
+      navigate("/projects");
+    } catch (error) {
+      console.error("Erreur lors de la suppression du projet :", error);
+    }
+  };
 
   return (
     <>
@@ -427,7 +437,7 @@ useEffect(() => {
 
     <ShareToInvestorModal isOpen={isModalOpen} projectId={projectId} project={project} onRequestClose={closeModal}/>
 
-    <DeleteModal isOpen={isDeleteModalOpen}
+    <DeleteModal isOpen={isDeleteModalOpen} onDelete={handleDelete}
     onRequestClose={closeDeleteModal} title={t('projects.deleteProjectConfirmation.title')}
     content={
       <div className="flex flex-col gap-5 items-center justify-start py-4 w-full">

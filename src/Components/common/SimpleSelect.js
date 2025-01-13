@@ -47,13 +47,53 @@ const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholde
     setIsOpen(false);
   };
 
+  // const filteredData = options?.filter(investor => {
+  //   if (typeof investor === 'string') {
+  //     return investor.toLowerCase().includes(searchValue.toLowerCase());
+  //   }
+  
+  //   const valueToCheck = investor[valuekey] ? investor?.[valuekey].toLowerCase() : "";
+  //   return valueToCheck.includes(searchValue.toLowerCase());
+  // });
+
   const filteredData = options?.filter(investor => {
+    // Si aucune valeur de recherche, retourner tous les résultats
+    if (!searchValue?.trim()) return true;
+  
+    // Normaliser la valeur de recherche
+    const normalizedSearch = searchValue
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .trim();
+  
+    // Si l'investisseur est une chaîne de caractères
     if (typeof investor === 'string') {
-      return investor.toLowerCase().includes(searchValue.toLowerCase());
+      // Récupérer la valeur traduite
+      const translatedValue = t(`${investor}`);
+      const normalizedTranslation = translatedValue
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+      return normalizedTranslation.includes(normalizedSearch);
     }
   
-    const valueToCheck = investor[valuekey] ? investor?.[valuekey].toLowerCase() : "";
-    return valueToCheck.includes(searchValue.toLowerCase());
+    // Si l'investisseur est un objet
+    if (investor && typeof investor === 'object') {
+      const value = investor[valuekey];
+      
+      if (value) {
+        // Récupérer la valeur traduite pour l'objet
+        const translatedValue = t(`${value}`);
+        const normalizedValue = translatedValue
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "");
+        return normalizedValue.includes(normalizedSearch);
+      }
+    }
+  
+    return false;
   });
   
   const calculateDropdownPosition = () => {

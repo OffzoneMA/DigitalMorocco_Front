@@ -137,11 +137,11 @@ const SidebarNav = () => {
       title: t('sidebar.company.main'),
       src: <BiBuildings size={23} className="text-light_blue-100" />,
       submenu: true,
-      activeLinks: ["CreateOrEditEmployee", "MyCompany", "Employees", "CompanyLegal"],
+      activeLinks: ["CreateEmployee" , "EditEmployee" , "MyCompany", "Employees", "CompanyLegal"],
       child: [
         { title: t('sidebar.company.myCompany'), src: '', link: "MyCompany" },
         ...(userRole === "member" || validEmailCheck ? [
-          { title: t('sidebar.company.employee'), src: '', link: "Employees", activeLinks: ["CreateOrEditEmployee"] },
+          { title: t('sidebar.company.employee'), src: '', link: "Employees", activeLinks: ["CreateEmployee" , "EditEmployee"] },
           { title: t('sidebar.company.legal'), src: '', link: "CompanyLegal" }
         ] : [])
       ]
