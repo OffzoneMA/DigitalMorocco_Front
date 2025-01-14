@@ -470,11 +470,11 @@
       "share": "Partager avec les investisseurs sélectionnés",
       "emptyInvestorsList": {
         "mainMessage": "Vous n'avez pas encore ajouté d'investisseurs à votre liste.",
-        "instruction": "Pour partager votre projet, veuillez d'abord contacter vos investisseurs préférés, soit depuis l'onglet 'Liste des investisseurs', soit en cliquant sur le bouton ci-dessous.",
-        "buttonText": "Contacter les investisseurs"
+        "instruction": "Pour partager votre projet. Veuillez d'abord prendre contact avec vos investisseurs préférés, depuis l'onglet 'Liste Investisseurs' ou en cliquant sur le bouton ci-dessous.",
+        "buttonText": "Contactez des investisseurs"
       },
       "projectSentConfirmation": {
-        "successMessage": "Votre projet a été envoyé avec succès  à (aux)",
+        "successMessage": "Votre projet a été envoyé avec succès à",
         "recipientLabel": "Investisseurs",
         "followupInstructions": "L'investisseur examinera votre demande et répondra en conséquence. Veuillez surveiller votre email et votre tableau de bord pour toute communication ou mise à jour supplémentaire.",
         "singular": "L'investisseur examinera votre demande et vous répondra. Veuillez surveiller votre email et votre tableau de bord pour toute communication ou mise à jour.",
@@ -663,6 +663,7 @@
     "free": "Gratuit",
     "noUpcomingEvent": "Aucun Événements à venir",
     "comingSoon": "Bientôt disponible",
+    "comingSoonEvent": "Prochainement",
     "eventParticipate": {
       "title": "Mes Événements",
       "event": "Événement",
@@ -707,7 +708,7 @@
     "uploadDate": "Date de téléchargement",
     "documentName": "Nom du document",
     "uploadBy": "Téléchargé par",
-    "shareWith": "Partager avec",
+    "shareWith": "Partagé avec",
     "action": "Actions",
     "marketingTeam": "Équipe marketing",
     "uploadNewDocumentSection": {
@@ -727,7 +728,11 @@
     },
     "shareDocument": "Partager le document",
     "search": "Rechercher",
-    "shareToSelectedMembers": "Partager avec les membres sélectionnés"
+    "shareToSelectedMembers": "Partager avec les membres sélectionnés",
+    "shareSuccess": {
+      "successMessage": "Votre document a été partagé avec succès !",
+      "message": "Ils examineront le document partagé et répondront en conséquence. Veuillez surveiller votre boîte mail et votre tableau de bord pour toute communication ou mise à jour supplémentaire."
+    }
   },
 
   "historyEventMessages": {

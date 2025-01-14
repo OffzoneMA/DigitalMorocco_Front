@@ -80,9 +80,74 @@ const MyInvestors = () => {
   }, [cur, data?.currentPage , filterApply , refetch]);
 
   const filteredData = filteredInvestors?.filter(item => {
-    const keywordMatch = item?.name?.toLowerCase().includes(keywords.toLowerCase());  
-    return keywordMatch;
+    // Vérifiez si le mot-clé est défini et non vide
+    if (!keywords?.trim()) return true;
+  
+    // Normaliser le mot-clé pour le rendre insensible à la casse et aux accents
+    const normalizedKeyword = keywords
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .trim();
+  
+    // Vérifiez si l'élément a un nom et effectuez une recherche insensible à la casse et aux accents
+    if (item?.name) {
+      const normalizedName = item.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+  
+      if (normalizedName.includes(normalizedKeyword)) {
+        return true;
+      }
+    }
+  
+    // Filtrer par type (avec traduction)
+    if (item?.type) {
+      const translatedType = t(`${item.type}`); 
+      const normalizedType = translatedType
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+  
+      if (normalizedType.includes(normalizedKeyword)) {
+        return true;
+      }
+    }
+  
+    // Filtrer par localisation (sans traduction)
+    if (item?.location) {
+      const translatedLocation = t(`${item.location}`); 
+      const normalizedLocation = translatedLocation
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+  
+      if (normalizedLocation.includes(normalizedKeyword)) {
+        return true;
+      }
+    }
+  
+    // Filtrer par un tableau comme PreferredInvestmentIndustry (avec traduction)
+    if (Array.isArray(item?.PreferredInvestmentIndustry)) {
+      const industriesMatch = item.PreferredInvestmentIndustry.some(industry => {
+        const translatedIndustry = t(`${industry}`); // Traduction de chaque industrie
+        const normalizedIndustry = translatedIndustry
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "");
+        return normalizedIndustry.includes(normalizedKeyword);
+      });
+  
+      if (industriesMatch) {
+        return true;
+      }
+    }
+  
+    // Retournez false si aucun des filtres ne correspond
+    return false;
   });
+    
 
   const clearFilter = () => {
     setFilter(false); 

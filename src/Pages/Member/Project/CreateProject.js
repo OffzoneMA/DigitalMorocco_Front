@@ -125,29 +125,31 @@ const CreateProject = () => {
     };
   }, [div1Ref, div2Ref , milestones , droppedFiles , documentDivs]);
   
-   /**
-   * Utility function to format numbers with spaces as thousand separators.
-   * 
-   * @param {number|string} number - The number to be formatted.
-   * @returns {string} The formatted number as a string.
-   */
-   function formatNumber(number) {
-    if (number !== null && number !== undefined) {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    }
-    return '';
+// Fonction utilitaire améliorée pour le formatage
+const formatNumber = (number) => {
+  if (number !== null && number !== undefined) {
+    // Enlever les espaces existants avant de formater
+    const cleanNumber = number.toString().replace(/\s/g, '');
+    return cleanNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
+  return '';
+};
 
-  const { register, handleSubmit, setValue, trigger, formState: { errors , isSubmitting , isValid:validForm } } = useForm(project !=null && {
-    defaultValues: {
-      name: project?.name,
-      details: project?.details,
-      website: project?.website,
-      contactEmail: project?.contactEmail,
-      funding : formatNumber(project?.funding),
-      totalRaised : formatNumber(project?.totalRaised) ,
-    }
+  // Fonction pour nettoyer la valeur (enlever les espaces) pour la validation
+  const cleanNumber = (value) => value?.replace(/\s/g, '') || '';
+
+
+  const { register, handleSubmit, setValue, trigger, formState: { errors, isSubmitting, isValid: validForm } } = useForm({
+    defaultValues: project ? {
+      name: project?.name || '',
+      details: project?.details || '',
+      website: project?.website || '',
+      contactEmail: project?.contactEmail || '',
+      totalRaised: project?.totalRaised ? formatNumber(project.totalRaised) : '',
+      funding: project?.funding ? formatNumber(project.funding) : ''
+    } : {}
   });
+  
 
   useEffect(() => {
     const isCountryValid = selectedCountry !== null;
@@ -169,6 +171,8 @@ const CreateProject = () => {
       setIsFormValid(isValid);
     }
   }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication, selectedStatus]);
+
+  console.log(isAllFormValid , isFormValid , validForm , errors);
   
   // useEffect(() => {
   //   if (userInfo && userInfo.member) {
@@ -235,6 +239,16 @@ const CreateProject = () => {
     if (project) {
       setFundingValue(formatNumber(project.funding));
       setRaisedValue(formatNumber(project.totalRaised));
+
+      setValue('totalRaised', formatNumber(project.totalRaised), {
+        shouldValidate: true,
+        shouldDirty: false
+      });
+      
+      setValue('funding', formatNumber(project.funding), {
+        shouldValidate: true,
+        shouldDirty: false
+      });
       setSelectedStatus(project?.status)
       const initialFormattedMilestones = project?.milestones?.length > 0 
         ? project.milestones
@@ -276,25 +290,43 @@ const CreateProject = () => {
         const defaultCountry = dataCountries.find(country => country.name === project.country);
         setSelectedCountry(defaultCountry);
       }
+
+        // Forcer la validation initiale
+        const isInitiallyValid = 
+        project.country && 
+        project.stage && 
+        project.sector && 
+        project.visbility && 
+        project.status;
+
+      if (isInitiallyValid) {
+        setIsAllFormValid(true);
+        setIsFormValid(true);
+        trigger(); // Déclenche la validation de react-hook-form
+      }
     }
     else{
       setMilestones([{ id: uuidv4() , _id: null, name: '', dueDate: '' }]);
     }
-  }, [project]);
+  }, [project, setValue, trigger]);
 
-  const formatFunding = (value ) => {
-    let formattedValue = value.replace(/\D/g, '');
-    formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  const formatFunding = (value) => {
+    const numericValue = value.replace(/\D/g, '');
+    const formattedValue = formatNumber(numericValue);
+    
     setRaisedValue(formattedValue);
-    setValue("totalRaised", formattedValue, { shouldValidate: true }); // Update form value and trigger validation
-    trigger("totalRaised"); // Manually trigger validation
+    
+    setValue('totalRaised', formattedValue, {
+      shouldValidate: true,
+      shouldDirty: true
+    });
   };
 
   const formatFundingValue = (value) => {
     let formattedValue = value.replace(/\D/g, '');
     formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     setFundingValue(formattedValue);
-    setValue("funding", formattedValue, { shouldValidate: true }); // Update form value and trigger validation
+    setValue("funding", formattedValue, { shouldValidate: true , shouldDirty: true }); // Update form value and trigger validation
     trigger("funding"); // Manually trigger validation
   };
 
@@ -917,7 +949,10 @@ const handleFileRemove = async (type) => {
                     <div className="relative flex items-center w-full">
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
-                        {...register("funding", { required: { value: true, message: "Project Funding Target is required" } })}
+                        {...register("funding", { required: { value: true, message: "Project Funding Target is required" } , 
+                        validate: {
+                          hasValue: value => cleanNumber(value)?.length > 0 || "Project Funding Target is required"
+                        } })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="funding"
                         type="text"
@@ -937,7 +972,14 @@ const handleFileRemove = async (type) => {
                     <div className="relative flex items-center w-full">
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
                       <input
-                        {...register("totalRaised", { required: { value: true, message: "Project Funding Target is required" } })}
+                        {...register("totalRaised", { required: { value: false, message: "Project Funding Target is required" } , 
+                        validate: {
+                          required: value => {
+                            // Vérifier si la valeur existe et n'est pas juste des espaces
+                            const cleanValue = value?.replace(/\s/g, '');
+                            return cleanValue?.length > 0 || "Project Funding Target is required";
+                          }
+                        } })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[28px] py-[10px] h-[40px] border ${errors?.totalRaised ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         name="totalRaised"
                         type="text"

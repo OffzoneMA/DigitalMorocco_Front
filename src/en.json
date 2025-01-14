@@ -477,8 +477,8 @@
         "successMessage": "Your project has been successfully sent to",
         "recipientLabel": "Investors",
         "followupInstructions": "The investor (s) will review your request and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates.",
-        "singular": "The investor will review your request and respond to you. Please keep an eye on your email and dashboard for any communications or updates.",
-        "plural": "The investors will review your request and respond to you. Please keep an eye on your email and dashboard for any communications or updates."
+        "singular": "The investor will review your request and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates.",
+        "plural": "The investors will review your request and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates."
       }
     }
   },
@@ -659,6 +659,7 @@
     "free": "Free",
     "noUpcomingEvent": "No Upcoming Event",
     "comingSoon": "Coming Soon",
+    "comingSoonEvent": "Coming Soon",
     "eventParticipate": {
       "title": "My Events",
       "event": "Event",
@@ -703,7 +704,7 @@
     "uploadDate": "Upload Date",
     "documentName": "Document Name",
     "uploadBy": "Uploaded By",
-    "shareWith": "Share With",
+    "shareWith": "Shared with",
     "action": "Actions",
     "marketingTeam": "Marketing Team",
     "uploadNewDocumentSection": {
@@ -723,7 +724,11 @@
     },
     "shareDocument": "Share Document",
     "search": "Search",
-    "shareToSelectedMembers": "Share with Selected Members"
+    "shareToSelectedMembers": "Share with Selected Members" ,
+    "shareSuccess": {
+      "successMessage": "Your document has been successfully shared!",
+      "message": "They will review the shared document and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates."
+    }
   },
 
  "historyEventMessages": {

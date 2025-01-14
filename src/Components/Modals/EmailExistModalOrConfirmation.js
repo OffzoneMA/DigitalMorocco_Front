@@ -46,7 +46,7 @@ const EmailExistModalOrConfirmation = (props) => {
           </div>
           }
           <Text
-            className="leading-[160.00%] text-blue_gray-500 text-center text-xs w-full  pt-4"
+            className="leading-[160.00%] text-blue_gray-500 text-center text-xs w-full  pt-6"
             size="txtDMSansRegular12Bluegray500"
           >
             <span className="text-blue_gray-500 font-dm-sans-regular">

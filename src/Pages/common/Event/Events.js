@@ -157,48 +157,51 @@ const Events = () => {
   const formatEventDate = (startDate, startTime, currentLanguage) => {
     const locale = currentLanguage === 'fr' ? fr : enUS;
 
-    // If there is no start date, return "Coming Soon"
     if (!startDate) {
-        return 'Coming Soon';
+        return t('event.comingSoonEvent');
     }
 
     const dateObj = new Date(startDate);
 
     // Format the date according to the selected language
-    const dateFormatted = currentLanguage === 'fr'
-        ? format(dateObj, 'd MMM yyyy', { locale }) // French format: 3 Sep 2024
-        : format(dateObj, 'MMM d, yyyy', { locale }); // English format: Sep 3, 2024
-
-    // Capitalize the first letter of the month for French
-    const finalDateFormatted = currentLanguage === 'fr' 
-        ? dateFormatted.replace(/\b\w/g, (char) => char.toUpperCase()).slice(1)
-        : dateFormatted;
-
-    // Format the time based on the current language
-    let timeFormatted = '';
-
     if (currentLanguage === 'fr') {
-        // In French, time is presented in 24-hour format
+        const dateFormatted = format(dateObj, 'd MMM yyyy', { locale });
+        
+        // Capitalize the first letter of the month for French
+        const finalDateFormatted = dateFormatted
+            .replace(/\b\w/g, (char) => char.toUpperCase())
+            .slice(1)
+            .replace('.', '');
+
+        // Format time in 24-hour format for French
+        let timeFormatted = '';
         if (startTime) {
-            const [timePart, modifier] = startTime.split(' '); // Split the time into components
+            const [timePart] = startTime.split(' ');
             const [hours, minutes] = timePart.split(':');
-
-            // Format time without AM/PM
-            timeFormatted = `${hours.padStart(2, '0')}H${minutes}`; // Use 'H' instead of ':'
+            timeFormatted = `${hours.padStart(2, '0')}H${minutes}`;
         }
+
+        return `${finalDateFormatted} à ${timeFormatted}`.trim();
     } else {
-        // For English, retain the original format
-        timeFormatted = startTime ? startTime.toLowerCase() : '';
+        // English format: "Sept 23, 2024, at 11:00 AM"
+        const dateFormatted = format(dateObj, 'MMM d, yyyy', { locale });
+        
+        // Format time for English
+        let timeFormatted = '';
+        if (startTime) {
+            // Ensure time is properly formatted in 12-hour format with AM/PM
+            const [timePart, modifier] = startTime.split(' ');
+            timeFormatted = `at ${timePart} ${modifier}`;
+        }
+
+        // Replace three-letter month with four-letter month where applicable
+        const month = dateFormatted.split(' ')[0];
+        const restOfDate = dateFormatted.split(' ').slice(1).join(' ');
+        const formattedMonth = month === 'Sep' ? 'Sept' : month;
+
+        return `${formattedMonth} ${restOfDate}, ${timeFormatted}`.trim();
     }
-
-    // Combine date and time, considering language specifics
-    const output = currentLanguage === 'fr'
-        ? `${finalDateFormatted?.replace('.' , '')} à ${timeFormatted}` // French: "3 Septembre 2024 à 11H00"
-        : `${dateFormatted} ${timeFormatted}`; // English: "Sep 3, 2024 11:00 AM"
-
-    return output.trim();
 };
-
 
   const renderDropdown = (index , item) => {
     const triggerElement = document.getElementById(`dropdown-trigger-${index}`);

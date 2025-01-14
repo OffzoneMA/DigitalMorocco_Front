@@ -54,6 +54,21 @@ const SendContactModal = (props) => {
       setFiles(e.target.files[0]);
       setPreview(URL.createObjectURL(e.target.files[0]))
     }
+
+    const handleDelete = (e) => {
+      e.stopPropagation();
+      // Réinitialiser l'input file
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
+      // Révoquer l'URL de l'objet pour libérer la mémoire
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+      // Réinitialiser les états
+      setFiles(null);
+      setPreview(null);
+    };
   
     const formData = new FormData();
 
@@ -174,13 +189,24 @@ const SendContactModal = (props) => {
                   {t('investors.sendContactRequest.uploadDocument')}
                 </Text>
                 <div className={`"flex flex-col items-center justify-end md:flex-1 w-full md:w-full h-[166px] rounded-md border ${preview?  "border-dashed ": "border-solid"}`} 
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}>
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}>
                   {preview? (
                     <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-12">
-                    <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
-                    <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {files.name}
-                    </Text>
+                      <div className="flex flex-row gap-3 items-center justify-center w-full">
+                        <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
+                          <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {files.name}
+                        </Text>
+                        <button
+                          onClick={handleDelete}
+                          className="text-[#F48888] hover:text-errorColor rounded-full hover:bg-red-50 transition-colors cursorpointer"
+                          aria-label="Supprimer le fichier"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346628 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C15.9959 5.87952 15.1518 3.84705 13.6524 2.34764C12.153 0.848226 10.1205 0.00406613 8 0ZM10.9 10.0231C11.0156 10.1397 11.0804 10.2973 11.0804 10.4615C11.0804 10.6257 11.0156 10.7833 10.9 10.9C10.7824 11.0137 10.6252 11.0773 10.4615 11.0773C10.2979 11.0773 10.1407 11.0137 10.0231 10.9L8 8.86923L5.97692 10.9C5.8593 11.0137 5.70208 11.0773 5.53846 11.0773C5.37484 11.0773 5.21763 11.0137 5.1 10.9C4.98444 10.7833 4.91962 10.6257 4.91962 10.4615C4.91962 10.2973 4.98444 10.1397 5.1 10.0231L7.13077 8L5.1 5.97692C5.00187 5.85735 4.95172 5.70556 4.95931 5.55107C4.9669 5.39657 5.03168 5.25043 5.14106 5.14105C5.25043 5.03168 5.39658 4.96689 5.55107 4.95931C5.70557 4.95172 5.85736 5.00187 5.97692 5.1L8 7.13077L10.0231 5.1C10.1426 5.00187 10.2944 4.95172 10.4489 4.95931C10.6034 4.96689 10.7496 5.03168 10.8589 5.14105C10.9683 5.25043 11.0331 5.39657 11.0407 5.55107C11.0483 5.70556 10.9981 5.85735 10.9 5.97692L8.86923 8L10.9 10.0231Z" fill="currentColor"/>
+                          </svg>
+                        </button>
+                      </div>
                     <div className="bg-white-A700 icon-container text-blue-700 border border-solid border-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] flex flex-row gap-[6px] items-center justify-center cursorpointer p-[7px] rounded-md w-auto">
                       <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5.5 11.5L8.5 8.5M8.5 8.5L11.5 11.5M8.5 8.5V15.25M14.5 12.0571C15.4161 11.3005 16 10.156 16 8.875C16 6.59683 14.1532 4.75 11.875 4.75C11.7111 4.75 11.5578 4.6645 11.4746 4.5233C10.4965 2.86363 8.69082 1.75 6.625 1.75C3.5184 1.75 1 4.2684 1 7.375C1 8.92458 1.62659 10.3278 2.64021 11.3451" stroke="#2575F0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>

@@ -278,7 +278,9 @@ const onSubmit = async () => {
     <ConfirmedModal isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
         m1={t("projects.shareProject.projectSentConfirmation.successMessage")}
         m2={`${selectedInvestorsNames.join(', ')}`} 
-        m3={selectedInvestors?.length ===1 ? t("projects.shareProject.projectSentConfirmation.singular") : t("projects.shareProject.projectSentConfirmation.plural")} />
+        m3={t("projects.shareProject.projectSentConfirmation.singular")}
+        // m3={selectedInvestors?.length ===1 ? t("projects.shareProject.projectSentConfirmation.singular") : t("projects.shareProject.projectSentConfirmation.plural")} 
+        />
     </>
   );
 };

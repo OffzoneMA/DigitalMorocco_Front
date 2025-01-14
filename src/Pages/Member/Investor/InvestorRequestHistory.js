@@ -79,9 +79,100 @@ const InvestorRequestHistory = () => {
   // const statusData = ['In Progress', 'Approved', 'Rejected', 'Stand by'];
 
   const filteredData = investorRequests?.filter(item => {
-    const keywordMatch = item?.investor?.name.toLowerCase().includes(keywords.toLowerCase());
-    return keywordMatch;
+    // Vérifiez si le mot-clé est défini et non vide
+    if (!keywords?.trim()) return true;
+  
+    // Normaliser le mot-clé pour le rendre insensible à la casse et aux accents
+    const normalizedKeyword = keywords
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .trim();
+  
+    // Vérifiez si l'élément a un nom
+    if (item?.investor?.name) {
+      const normalizedName = item?.investor.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+  
+      if (normalizedName.includes(normalizedKeyword)) {
+        return true;
+      }
+    }
+  
+    // Filtrer par type (avec traduction)
+    // if (item?.investor?.type) {
+    //   const translatedType = t(`${item?.investor.type}`); 
+    //   const normalizedType = translatedType
+    //     .toLowerCase()
+    //     .normalize("NFD")
+    //     .replace(/\p{Diacritic}/gu, "");
+  
+    //   if (normalizedType.includes(normalizedKeyword)) {
+    //     return true;
+    //   }
+    // }
+  
+    // // Filtrer par localisation (avec traduction)
+    // if (item?.investor?.location) {
+    //   const translatedLocation = t(`${item?.investor.location}`);
+    //   const normalizedLocation = translatedLocation
+    //     .toLowerCase()
+    //     .normalize("NFD")
+    //     .replace(/\p{Diacritic}/gu, "");
+  
+    //   if (normalizedLocation.includes(normalizedKeyword)) {
+    //     return true;
+    //   }
+    // }
+  
+    // Filtrer par un tableau comme PreferredInvestmentIndustry (avec traduction)
+    // if (Array.isArray(item?.PreferredInvestmentIndustry)) {
+    //   const industriesMatch = item.PreferredInvestmentIndustry.some(industry => {
+    //     const translatedIndustry = t(`${industry}`); // Traduction de chaque industrie
+    //     const normalizedIndustry = translatedIndustry
+    //       .toLowerCase()
+    //       .normalize("NFD")
+    //       .replace(/\p{Diacritic}/gu, "");
+    //     return normalizedIndustry.includes(normalizedKeyword);
+    //   });
+  
+    //   if (industriesMatch) {
+    //     return true;
+    //   }
+    // }
+  
+    // Filtrer par status (avec traduction)
+    if (item?.status) {
+      const translatedStatus = t(`${item.status}`);
+      const normalizedStatus = translatedStatus
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+  
+      if (normalizedStatus.includes(normalizedKeyword)) {
+        return true;
+      }
+    }
+  
+    // Filtrer par communicationStatus (avec traduction)
+    if (item?.communicationStatus) {
+      const translatedCommStatus = t(`${item.communicationStatus}`);
+      const normalizedCommStatus = translatedCommStatus
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+  
+      if (normalizedCommStatus.includes(normalizedKeyword)) {
+        return true;
+      }
+    }
+  
+    // Retournez false si aucun des filtres ne correspond
+    return false;
   });
+  
 
   const clearFilter = () => {
     setFilter(false);
@@ -105,7 +196,6 @@ const InvestorRequestHistory = () => {
         year: 'numeric',
         month: 'short', // Full month name
         day: 'numeric',
-        timeZone: 'UTC',
     };
 
     // Format the date part
@@ -121,7 +211,6 @@ const InvestorRequestHistory = () => {
         hour: '2-digit',
         minute: '2-digit',
         hour12: locale === 'en-US',
-        timeZone: 'UTC',
     });
 
     // Combine and return the final formatted string
@@ -226,7 +315,7 @@ const InvestorRequestHistory = () => {
                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investors.communicationStatus')}</th>
                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investors.status')}</th>
                     <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investors.attachment')}</th>
-                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('investors.notes')}</th>
+                    <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('projects.projectName')}</th>
                   </tr>
                 </thead>
                 {(!loading && pageData?.length > 0) ?
@@ -259,7 +348,7 @@ const InvestorRequestHistory = () => {
                           </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.attachment || item?.document?.name?.split('.')?.slice(0, -1)?.join('.') || "-"}</td>
-                        <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.notes || "-"}</td>
+                        <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">{item?.project?.name || "-"}</td>
                       </tr>
                     ))
                } </tbody>

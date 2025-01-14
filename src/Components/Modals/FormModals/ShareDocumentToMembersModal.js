@@ -8,7 +8,8 @@ import { useGetShareWithDataQuery, useShareDocumentMutation } from "../../../Ser
 import Loader from "../../Loader";
 import userDefaultProfil from "../../../Media/User1.png";
 import { useTranslation } from "react-i18next";
-
+import EmailExistModalOrConfirmation from "../EmailExistModalOrConfirmation";
+import checkVerifyImg from '../../../Media/check-verified-02.svg';
 const ShareDocumentToMembersModal = (props) => {
   const { t } = useTranslation();
   const [selectedMembers, setSelectedMembers] = useState(
@@ -235,10 +236,31 @@ const onSubmit = async () => {
         </div>
       </div>
     </ModalProvider>
-    <ConfirmedModal isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
-        m1="Your document has been successfully share with"
-        m2={shareType} 
-        m3 = "They will review the shared document and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates." />
+    <EmailExistModalOrConfirmation isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
+        content={
+          <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
+            <img
+              className="h-[80px] w-[80px]"
+              src={checkVerifyImg}
+              alt="successtick"
+            />
+            <div className="flex flex-col gap-5 items-center justify-start w-full">
+              <Text
+                className="leading-[26.00px] font-dm-sans-medium text-[18px] text-[#1d2838] text-center "
+              >
+                  {t('document.shareSuccess.successMessage')}
+              </Text>
+              <Text
+                className="leading-[26.00px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+              >
+                <>
+                  {t('document.shareSuccess.message')}
+                </>
+              </Text>
+            </div>
+          </div>
+            }
+      />
     </>
   );
 };

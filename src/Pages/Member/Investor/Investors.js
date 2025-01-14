@@ -108,7 +108,7 @@ const Investors = () => {
 
   const data = (isSubscribe && !loading && !subscriptionLoading && !userDetailsLoading && userDetails?.projectCount !== 0) ?  investors : InvestorsData;
 
-  const filteredData = (isSubscribe && (!loading && !subscriptionLoading && !userDetailsLoading)) 
+  const filteredData = (isSubscribe && (!loading && !subscriptionLoading && !userDetailsLoading))
     ? data?.filter(item => {
         // Si pas de mot-clé de recherche, retourner tous les résultats
         if (!keywords?.trim()) return true;
@@ -116,20 +116,63 @@ const Investors = () => {
         // Normaliser le mot-clé de recherche
         const normalizedKeyword = keywords
           .toLowerCase()
-          .normalize("NFD") 
+          .normalize("NFD")
           .replace(/\p{Diacritic}/gu, "")
           .trim();
 
-        // Vérifier si l'item a un nom
-        if (!item?.name) return false;
+        // Vérifier si l'item correspond au nom
+        if (item?.name) {
+          const normalizedName = item.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "");
+          if (normalizedName.includes(normalizedKeyword)) return true;
+        }
 
-        // Normaliser le nom de l'item
-        const normalizedName = item.name
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/\p{Diacritic}/gu, "");
+        // Vérifier si l'item correspond au type d'investisseur
+        if (item?.type) {
+          const translatedType = t(`${item.type}`); 
+          const normalizedType = translatedType
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "");
+          if (normalizedType.includes(normalizedKeyword)) return true;
+        }
 
-        return normalizedName.includes(normalizedKeyword);
+        // Vérifier si l'item correspond à la localisation
+        if (item?.location) {
+          const translatedLocation = t(`${item.location}`);
+          const normalizedLocation = translatedLocation
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "");
+          if (normalizedLocation.includes(normalizedKeyword)) return true;
+        }
+
+        // Vérifier si l'item correspond à un élément de PreferredInvestmentIndustry
+        if (Array.isArray(item?.PreferredInvestmentIndustry)) { // Vérification si c'est un tableau
+          const industriesMatch = item.PreferredInvestmentIndustry.some(industry => {
+            const translatedIndustry = t(industry);
+            const normalizedIndustry = translatedIndustry
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "");
+            return normalizedIndustry.includes(normalizedKeyword);
+          });
+          if (industriesMatch) return true;
+        }
+
+        // Vérifier si le mot-clé correspond au Nombre d'investissements
+        if (item?.numberOfInvestment && !isNaN(Number(normalizedKeyword))) {
+          if (item.numberOfInvestment === Number(normalizedKeyword)) return true;
+        }
+
+        // Vérifier si le mot-clé correspond au Nombre de sorties
+        if (item?.numberOfExits && !isNaN(Number(normalizedKeyword))) {
+          if (item.numberOfExits === Number(normalizedKeyword)) return true;
+        }
+
+        return false; // Si aucune des conditions n'est remplie, exclure l'item
       })
     : data;
 
