@@ -146,7 +146,7 @@ const onSubmit = async () => {
                   <svg width="36" height="37" viewBox="0 0 36 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 12.5L6.14018 19.5318C5.61697 20.1596 5.35536 20.4736 5.35137 20.7387C5.34789 20.9692 5.4506 21.1885 5.62988 21.3333C5.83612 21.5 6.24476 21.5 7.06205 21.5H18L16.5 33.5L24 24.5M23.4751 15.5H28.938C29.7552 15.5 30.1639 15.5 30.3701 15.6667C30.5494 15.8115 30.6521 16.0308 30.6486 16.2613C30.6446 16.5264 30.383 16.8404 29.8598 17.4682L27.8254 19.9096M15.8591 7.86897L19.4999 3.5L18.6004 10.6966M31.5 32L4.5 5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <div class="self-stretch h-[35px] mt-2 text-center text-[#344053] text-sm font-dm-sans-medium leading-relaxed">{t("projects.shareProject.emptyInvestorsList.mainMessage")}</div>
+                  <div class="self-stretch h-[35px] mt-[32px] text-center text-[#344053] text-sm font-dm-sans-medium leading-relaxed">{t("projects.shareProject.emptyInvestorsList.mainMessage")}</div>
                   <div class="self-stretch text-center text-[#344053] px-3 text-sm font-dm-sans-regular leading-relaxed">{t("projects.shareProject.emptyInvestorsList.instruction")}</div>
                 </div>
               ):

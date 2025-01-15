@@ -779,6 +779,11 @@
     "default": "Action effectuée"
   },
 
+  "history": {
+    "emptyMsg": "Il semble que vous n'ayez encore effectué aucune action. ",
+    "emptyMsg1": "Dès que vous commencerez à interagir, votre historique d'activités apparaîtra ici, mettant en avant vos moments clés et vos interactions.​"
+  },
+
   "settings": {
     "myProfile": {
       "title": "Mon profil",
@@ -978,7 +983,13 @@
           "feature8": "Gestionnaire de compte dédié pour des connexions et un support personnalisés"
         }
       }
-    } 
+    } ,
+    "confirmSuccess":{
+      "title": "Votre abonnement a bien été confirmé !",
+      "message":"Un e-mail de confirmation vous a été envoyé. Si vous ne le trouvez pas, pensez à vérifier votre dossier de courriers indésirables.",
+      "renewTitle": "Votre abonnement a bien été renouvelé !",
+      "cancelTitle": "Votre abonnement a bien été annulé !"
+    }
   },
 
   "payment": {

@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from "../../Redux/auth/authSlice";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
+import { useGetUserDetailsQuery } from '../../Services/Auth';
 
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
@@ -48,7 +49,7 @@ export default function UserProfile() {
   const [error , setError] = useState('');
   const selectedCountryName = selectedCountry ? selectedCountry["name"] : '';
   const selectedCityName = selectedCity ? selectedCity["name"] : '';
-  const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue , getValues: getValues1 } = useForm();
+  const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue , getValues: getValues1 , trigger } = useForm();
   const { register: register2, handleSubmit: handleSubmit2, watch, formState: { errors: errors2 } , getValues: getValues2 } = useForm();
   const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm();
   const fileInputRef = useRef(null);
@@ -68,6 +69,24 @@ export default function UserProfile() {
     region: false,
     language: false
   });
+  const {refetch } = useGetUserDetailsQuery();
+
+  useEffect(() => {
+    if (userData?.country && Array.isArray(allCountries)) {
+      const country = allCountries.find(country => country.name === userData.country) || null;
+      setSelectedCountry(country);
+    }
+    if(userData?.cityState) {
+      setSelectedCity(userData.cityState);
+    }
+    if(userData?.region) {
+      setSelectedRegion(userData.region);
+    }
+    if(userData?.language) {
+      setSelectedLanguage(languages.find(lang => lang.label === userData?.language));
+    }
+  }, [userData, allCountries]);
+  
 
   useEffect(() => {
     if (hasSubmitted1 ) {
@@ -83,6 +102,26 @@ export default function UserProfile() {
       setIsForm1Valid(isValid);
     }
   }, [hasSubmitted1 ,selectedCountry, selectedCity]);
+
+  // useEffect(() => {
+  //   const validateForm = async () => {
+  //     const isCountryValid = (selectedCountry !== null && selectedCountry !== undefined);
+  //     const isCityValid = (selectedCity !== null && selectedCity !== undefined && selectedCity !== '');
+  //     let formIsValid = false;
+      
+  //     if (hasSubmitted1) {
+  //       setRequiredFields1({
+  //         country: !isCountryValid,
+  //         city: !isCityValid,
+  //       });
+  //       formIsValid = await trigger();
+  //     }
+  
+  //     // setIsForm1Valid(formIsValid && isCountryValid && isCityValid);
+  //   };
+  
+  //   validateForm();
+  // }, [selectedCountry, selectedCity, trigger, hasSubmitted1]);
 
   useEffect(() => {
     if (hasSubmitted3 ) {
@@ -262,37 +301,57 @@ export default function UserProfile() {
       if (selectedImage) {
         formData.append('image', selectedImage); 
       }
-      if(isForm1Valid) {
-        // Check if there are any changes to save
-        if (formData.has('displayName') || formData.has('email') || formData.has('phoneNumber') || formData.has('website') ||
-            formData.has('address') || formData.has('country') || formData.has('cityState') || formData.has('image') ||
-            fields.some(field => formData.has(field))) {
 
-          // Send formData with axios
-          const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, formData, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data',
-            },
-          });
+      // // Vérifier si le formulaire est valide
+      // if (!isForm1Valid) {
+      //   console.log("Form is not valid");
+      //   return;
+      // }
 
-          const updatedUserData = response.data.user;
-          sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
-          setIsForm1Saved(true);
-          setTimeout(() => {
-            setIsForm1Saved(false);
-          }, 5000);
-          console.log("Data saved successfully!");
-        } else {
-          console.log("No changes to save.");
-        }
-      }
+      const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const updatedUserData = response.data.user;
+      sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+      setIsForm1Saved(true);
+      refetch();
+      setTimeout(() => {
+        setIsForm1Saved(false);
+      }, 5000);
+      console.log("Data saved successfully!");
 
     } catch (error) {
       console.error("Error saving data:", error);
     }
   };
-  console.log(selectedRegion , selectedLanguage , isForm3Valid)
+
+  const handleForm1Submit = async (e) => {
+    e.preventDefault();
+    setHasSubmitted1(true);
+    
+    // Déclencher la validation de tous les champs
+    const formIsValid = await trigger();
+    // Vérifier la validité des champs country et city
+    const isCountryValid = (selectedCountry !== null && selectedCountry !== undefined);
+    const isCityValid = (selectedCity !== null && selectedCity !== undefined && selectedCity !== '');
+
+    setRequiredFields1({
+      country: !isCountryValid,
+      city: !isCityValid,
+    });
+
+    setIsForm1Valid(formIsValid && isCountryValid && isCityValid);
+
+    
+    // Si tout est valide, soumettre le formulaire
+    if (formIsValid && isCountryValid && isCityValid) {
+      handleSubmit1(onSubmit1)(e);
+    }
+  };
 
   const onSubmit2 = async (data) => {
     try {
@@ -424,10 +483,36 @@ export default function UserProfile() {
     setError('');
   };
 
-  const handleRemoveLogo = () => {
-    setPreview(null);
-    setSelectedImage(null);
-  }
+  const handleRemoveLogo = async () => {
+    try {
+      // Réinitialiser l'aperçu et l'image sélectionnée
+      setPreview(null);
+      setSelectedImage(null);
+  
+      // Vérifier si l'utilisateur a une image existante
+      if (userData?.image) {
+        const response = await axios.put(
+          `${process.env.REACT_APP_baseURL}/users/`,
+          { image: null }, // Envoyer l'image comme null dans le payload JSON
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json', // Type JSON pour la requête
+            },
+          }
+        );
+        console.log(response)
+        //Mettre à jour les données utilisateur dans le stockage de session
+        const updatedUserData = response.data;
+        sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+  
+        // Recharger les données utilisateur via une fonction refetch
+        refetch();
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'image :", error);
+    }
+  };  
   
   const handleMouseEnter = () => {
     setShowLogoDropdown(true);
@@ -450,7 +535,7 @@ export default function UserProfile() {
         <div className="flex flex-col  md:flex-row items-center md:items-start w-full py-6 gap-8">
           <div className='flex flex-col gap-4 w-[200px] 2xl:w-[240px] 3xl:w-[270px] items-center'>
             <div className={`relative flex w-full h-[200px] 2xl:h-[240px] 3xl:h-[270px] rounded-full items-center justify-center ${(preview || userData?.image) ? '' : 'bg-light_blue-100'}`} 
-            onClick={handleUploadClick}>
+              onClick={handleUploadClick}>
               {preview ? (
                 <img src={preview} alt="Uploaded" className='w-full h-full rounded-full ' />
               ) : (
@@ -480,7 +565,7 @@ export default function UserProfile() {
                               <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                           </span>
-                          <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Change</div>
+                          <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">{t('common.change')}</div>
                         </div>
                         <div className="w-auto group h-9 py-[5px] px-[6px] justify-start items-center gap-3 inline-flex" 
                         onClick={(e) => {e.stopPropagation(); 
@@ -490,7 +575,7 @@ export default function UserProfile() {
                               <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                           </span>
-                          <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Delete</div>
+                          <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">{t('common.delete')}</div>
                         </div>
                       </div>
                     </div>
@@ -514,7 +599,7 @@ export default function UserProfile() {
             </button>
           </div>
           <div className='flex flex-1 flex-col gap-5'>
-            <form onSubmit={handleSubmit1(onSubmit1)} className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
+            <form action="" className='flex w-full flex-col gap-5 border-b border-gray-201 border-solid pb-8'>
               <div className='flex flex-row w-full gap-5'>
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
@@ -642,8 +727,9 @@ export default function UserProfile() {
               </div>
               {!isForm1Saved ? (
                 <button 
-                onClick={() => setHasSubmitted1(true)}
-                className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit">
+                type="submit"
+                onClick={handleForm1Submit}
+                className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto">
                   {t('settings.myProfile.save')}
                 </button>
               ) : (

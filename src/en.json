@@ -775,6 +775,11 @@
     "default": "An action was performed"
   },
 
+  "history": {
+    "emptyMsg": "It seems like you haven't taken any actions yet.",
+    "emptyMsg1": "Once you start interacting, your activity history will appear here, highlighting your key moments and interactions.​"
+  },
+
   "settings": {
     "myProfile": {
       "title": "My Profile",
@@ -976,6 +981,12 @@
           "feature8": "Dedicated account manager for personalized connections and support"
         }
       }
+    },
+    "confirmSuccess":{
+      "title": "Your subscription has been successfully confirmed!",
+      "message":"A confirmation email has been sent to you. If you can't find it, please check your spam folder.",
+      "renewTitle": "Your subscription has been successfully renewed!",
+      "cancelTitle": "Your subscription has been successfully canceled!"
     }
   },
 

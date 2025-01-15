@@ -9,6 +9,8 @@ import { useNavigate , useLocation} from 'react-router-dom';
 import { useCreateSubscriptionForUserMutation  , useUpgradeSubscriptionMutation} from '../../../Services/Subscription.Service';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
+import checkVerifyImg from '../../../Media/check-verified-02.svg';
 
 export default function SubscribePlan() {
   const { t } = useTranslation();
@@ -24,7 +26,7 @@ export default function SubscribePlan() {
     const [choosedPlan, setChoosedPlan] = useState(location.state?.choosedPlan || null);
     const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
     const currentLanguage = localStorage.getItem('language') || 'en'; 
-
+    const [isSuccessOpenModal , setIsSuccessOpenModal] = useState(false);
     const formatPrice = (price) => {
       const locale = currentLanguage; // Get current language
       return new Intl.NumberFormat(locale, 
@@ -72,6 +74,15 @@ export default function SubscribePlan() {
         day: 'numeric',
       });
     };
+
+    const openModal = () => {
+      setIsSuccessOpenModal(true);
+    };
+        
+    const closeModal = () => {
+      setIsSuccessOpenModal(false);
+      navigate('/Subscription');
+    };
     
 
     const monthlyDuration = 1; 
@@ -113,7 +124,7 @@ export default function SubscribePlan() {
 
         if (result.isSuccess || result?.data?._id) {
           setSendingOk(false);
-            navigate('/Subscription');
+          openModal();
         } else {
             console.log('Subscription failed:', result.error);
         }
@@ -124,6 +135,7 @@ export default function SubscribePlan() {
 
 
   return (
+    <>
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -257,6 +269,31 @@ export default function SubscribePlan() {
       <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal}/>
       <AddPaymentMethodModal isOpen={isPaymentModalOpen}  onRequestClose={closePaymentModal}/>
     </div>
+      <EmailExistModalOrConfirmation isOpen={isSuccessOpenModal}
+        onRequestClose={closeModal} content={
+          <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
+        <img
+          className="h-[80px] w-[80px]"
+          src={checkVerifyImg}
+          alt="successtick"
+        />
+        <div className="flex flex-col gap-5 items-center justify-start w-full">
+          <Text
+            className="text-[#1d2838] w-[460px] text-lg leading-relaxed font-dm-sans-medium text-center "
+          >
+              {t('subscriptionPlans.confirmSuccess.title')}
+          </Text>
+          <Text
+            className="leading-relaxed w-[460px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+          >
+            <>
+              {t('subscriptionPlans.confirmSuccess.message')}
+            </>
+          </Text>
+        </div>
+          </div>
+      }/>
+    </>
   );
 }
 

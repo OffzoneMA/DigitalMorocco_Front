@@ -428,7 +428,7 @@ useEffect(() => {
         }
       </div>
       <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal} method={handleCancelSubscription}/>
-      <EmailExistModalOrConfirmation isOpen={isConfirmRenewModalOpen}
+          <EmailExistModalOrConfirmation isOpen={isConfirmRenewModalOpen}
             onRequestClose={closeConfirmRenewModal} content={
               <div className="flex flex-col gap-[38px] items-center justify-start w-full">
             <img
@@ -438,20 +438,20 @@ useEffect(() => {
             />
             <div className="flex flex-col gap-5 items-center justify-start w-full">
               <Text
-                className="leading-[26.00px] font-dm-sans-medium text-[18px] text-gray-801 text-center "
+                className="leading-[26.00px] font-dm-sans-medium text-[18px] text-[#1d2838] text-center "
               >
-                  {"Your subscription has been successfully renewed!"}
+                  {t('subscriptionPlans.confirmSuccess.renewTitle')}
               </Text>
               <Text
-                className="leading-[26.00px] font-dm-sans-regular  text-gray-801 text-center text-sm"
+                className="leading-[26.00px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
               >
                 <>
-                  {"Thank you for staying with us. Your account is now active for another billing cycle."}
+                {t('subscriptionPlans.confirmSuccess.message')}
                 </>
               </Text>
             </div>
           </div>
-            } m3={'Need assistance? If you have any questions or suggestions, feel free to contact our support team at'} />
+            } />
     </div>
   )
 }

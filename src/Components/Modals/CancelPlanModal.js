@@ -3,13 +3,15 @@ import { default as ModalProvider } from "react-modal";
 import { Text } from "../Text";
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
-
+import EmailExistModalOrConfirmation from "./EmailExistModalOrConfirmation";
+import checkVerified from '../../Media/check-verified-02.svg';
 const CancelPlanModal = (props) => {
     const { t } = useTranslation();
     const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
     const [isSubscribeLoading , setIsSubscribeLoading] = useState(true);
     const token = sessionStorage.getItem("userToken");
     const [sendingOk , setSendingOk] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const currentLanguage = localStorage.getItem('language') || 'en'; 
 
@@ -38,11 +40,19 @@ const CancelPlanModal = (props) => {
       }, [props.isOpen]);
 
     const submit = () => {
-        setSendingOk(true);
-        props?.method();
+        try {
+          setSendingOk(true);
+          props?.method();
+          setSendingOk(false)
+          props.onRequestClose();
+          setIsModalOpen(true);
+        } catch (error) {
+          console.error('Error canceling subscription:', error);
+        }
     }
 
     return (
+      <>
         <ModalProvider
           appElement={document.getElementById("root")}
           className="m-auto w-[95%] max-w-[640px] outline-none"
@@ -108,6 +118,34 @@ const CancelPlanModal = (props) => {
             </div>
           </div>
         </ModalProvider>
+        <EmailExistModalOrConfirmation
+            isOpen={isModalOpen}
+            onRequestClose={() => setIsModalOpen(false)}
+            content={
+              <div className="flex flex-col gap-[38px] items-center justify-start w-full">
+                <img
+                    className="h-[100px] w-[100px]"
+                    src={checkVerified}
+                    alt="successtick"
+                />
+                <div className="flex flex-col gap-5 items-center justify-start w-full">
+                    <Text
+                    className="leading-[26.00px] font-dm-sans-medium text-[18px] text-[#1d2838] text-center "
+                    >
+                        {t('subscriptionPlans.confirmSuccess.cancelTitle')}
+                    </Text>
+                    <Text
+                    className="leading-[26.00px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+                    >
+                    <>
+                    {t('subscriptionPlans.confirmSuccess.message')}
+                    </>
+                    </Text>
+                </div>
+              </div>
+            }
+        />
+      </>
     )
 }
 export default CancelPlanModal;

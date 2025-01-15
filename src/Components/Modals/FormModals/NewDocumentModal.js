@@ -65,17 +65,14 @@ const NewDocumentModal = (props) => {
     }
   }, [shareWithData]);
 
-  // useEffect(() => {
-  //   if (Array.isArray(props?.rowData?.shareWithUsers)) {
-  //     const selectedFullUsers = props.rowData.shareWithUsers.map(userId =>
-  //       filteredUsers.find(user => user._id === userId)
-  //     );
-  //     console.log(selectedFullUsers)
-  //     setSelectedMembers(selectedFullUsers);
-  //   } else {
-  //     setSelectedMembers([]);
-  //   }
-  // }, [props?.rowData?.shareWithUsers, filteredUsers]);
+  useEffect(() => {
+    if (shareWithData && documentFile?.shareWithUsers) {
+      const initialSelectedUsers = documentFile.shareWithUsers
+        .map(userId => shareWithData.find(user => user._id === userId))
+        .filter(user => user); // Remove any undefined values
+      setSelectedMembers(initialSelectedUsers);
+    }
+  }, [documentFile?.shareWithUsers, shareWithData]);
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -103,6 +100,21 @@ const NewDocumentModal = (props) => {
     setFiles(e.target.files[0]);
     setPreview(URL.createObjectURL(e.target.files[0]))
   }
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    // Réinitialiser l'input file
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+    // Révoquer l'URL de l'objet pour libérer la mémoire
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+    // Réinitialiser les états
+    setFiles(null);
+    setPreview(null);
+  };
 
   const closeModal =() => {
     props.onRequestClose();
@@ -178,13 +190,6 @@ const NewDocumentModal = (props) => {
     }
   }, [props?.response]);
 
-  const membersdata = [
-    "Annette Black",
-    "Youssef DIOURI",
-    "Cameron Williamson",
-    "Business Angel",
-    "Venture Capital"
-  ]
   // .map(
   //   item => ({ label: item, value: item })
   // );
@@ -241,9 +246,20 @@ const NewDocumentModal = (props) => {
                 onDrop={handleDrop}>
                   {(preview || documentFile?.documentName) ? (
                     <div className="flex flex-col items-center text-blue-A400 gap-4 md:flex-1 w-full md:w-full h-auto rounded-md py-14">
-                        <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
-                        <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {files?.name ? files.name : documentFile?._id? documentFile?.documentName: ""}
-                        </Text>
+                        <div className="flex flex-row items-center justify-center gap-3 w-full">
+                          <Text className="flex flex-row font-DmSans text-sm text-gray-900_01 font-normal leading-6 tracking-normal items-center">
+                            <IoDocumentTextOutline size={17} className="mr-2" /> {" "} {files?.name ? files.name : documentFile?._id? documentFile?.documentName: ""}
+                          </Text>
+                          {files?.name && <button
+                            onClick={handleDelete}
+                            className="text-[#F48888] hover:text-errorColor rounded-full hover:bg-red-50 transition-colors cursorpointer"
+                            aria-label="Supprimer le fichier"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346628 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C15.9959 5.87952 15.1518 3.84705 13.6524 2.34764C12.153 0.848226 10.1205 0.00406613 8 0ZM10.9 10.0231C11.0156 10.1397 11.0804 10.2973 11.0804 10.4615C11.0804 10.6257 11.0156 10.7833 10.9 10.9C10.7824 11.0137 10.6252 11.0773 10.4615 11.0773C10.2979 11.0773 10.1407 11.0137 10.0231 10.9L8 8.86923L5.97692 10.9C5.8593 11.0137 5.70208 11.0773 5.53846 11.0773C5.37484 11.0773 5.21763 11.0137 5.1 10.9C4.98444 10.7833 4.91962 10.6257 4.91962 10.4615C4.91962 10.2973 4.98444 10.1397 5.1 10.0231L7.13077 8L5.1 5.97692C5.00187 5.85735 4.95172 5.70556 4.95931 5.55107C4.9669 5.39657 5.03168 5.25043 5.14106 5.14105C5.25043 5.03168 5.39658 4.96689 5.55107 4.95931C5.70557 4.95172 5.85736 5.00187 5.97692 5.1L8 7.13077L10.0231 5.1C10.1426 5.00187 10.2944 4.95172 10.4489 4.95931C10.6034 4.96689 10.7496 5.03168 10.8589 5.14105C10.9683 5.25043 11.0331 5.39657 11.0407 5.55107C11.0483 5.70556 10.9981 5.85735 10.9 5.97692L8.86923 8L10.9 10.0231Z" fill="currentColor"/>
+                            </svg>
+                          </button>}
+                        </div>
                         <div className="font-DmSans flex justify-center items-center icon-container bg-white-A700 gap-[6px] text-blue-A400 border border-solid hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] border-blue-A400 flex-row h-[46px] items-center py-[7px] px-[12px] rounded-md w-auto min-w-[213px] cursorpointer">
                           <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M5.5 11L8.5 8M8.5 8L11.5 11M8.5 8V14.75M14.5 11.5571C15.4161 10.8005 16 9.65595 16 8.375C16 6.09683 14.1532 4.25 11.875 4.25C11.7111 4.25 11.5578 4.1645 11.4746 4.0233C10.4965 2.36363 8.69082 1.25 6.625 1.25C3.5184 1.25 1 3.7684 1 6.875C1 8.42458 1.62659 9.82781 2.64021 10.8451" stroke="#2575F0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -293,7 +309,7 @@ const NewDocumentModal = (props) => {
                 {t('document.uploadNewDocumentSection.shareWith')}
               </Text>
               <MultipleSelect id='sector' options={filteredUsers}  searchLabel='Seach members' searchable={false} setSelectedOptionVal={setSelectedMembers} 
-                    placeholder={t('document.uploadNewDocumentSection.selectName')} valuekey="name" optionkey="_id" selectedOptionsDfault={props.rowData?.shareWithUsers?.map(userId => filteredUsers.find(user => user._id === userId))}
+                    placeholder={t('document.uploadNewDocumentSection.selectName')} valuekey="name" optionkey="_id" selectedOptionsDfault={selectedMembers}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">

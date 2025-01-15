@@ -318,7 +318,7 @@ const SidebarNav = () => {
           <img
             src={`${userData?.image || userDefaultProfil}`}
             alt=""
-            className="w-9 h-auto rounded-full bg-cover"
+            className="w-[40px] h-[40px] rounded-full bg-cover"
           />
           {open && <div
             className={`
@@ -326,7 +326,7 @@ const SidebarNav = () => {
           overflow-hidden transition-all ${open ? "w-52 ml-3" : "w-0"}
         `}
           >
-            <div className="leading-4">
+            <div className="leading-4 flex-1">
               <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : ""}</span>
             </div>
           </div>}

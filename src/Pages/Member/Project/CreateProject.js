@@ -66,8 +66,8 @@ const CreateProject = () => {
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [fileNames, setFileNames] = useState({});
   const [documentDivs, setDocumentDivs] = useState([{ id: 1 }]);
-  const [droppedFiles, setDroppedFiles] = useState([]);
-  const [allFiles, setAllFiles] = useState([]);
+  const [allFiles, setAllFiles] = useState(new Map());
+  const [droppedFiles, setDroppedFiles] = useState(new Map());
   const [selectedPublication, setSelectedPublication] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('In Progress');
   const [selectedTeamsMembers, setSelectedTeamsMember] = useState([]);
@@ -95,6 +95,10 @@ const CreateProject = () => {
     publication: false,
     status: false
   });
+
+  // État initial
+  const [filesList, setFilesList] = useState([]);
+  const [nextIndex, setNextIndex] = useState(0);
 
   useEffect(() => {
     const setMaxHeight = () => {
@@ -263,15 +267,41 @@ const formatNumber = (number) => {
       setMilestones(initialFormattedMilestones);
 
       const otherDocuments = project.documents?.filter(document => document.documentType === "other") || [{ id: 1 }];
-      if(otherDocuments?.length > 0) {
-        setDocumentDivs(otherDocuments.map((_, index) => ({ id: index + 1 })));
-        setDroppedFiles(otherDocuments.map((document, index) => ({
-          name: document.name,
-          index: index ,
-          documentId: document._id
-        })));
+      if (otherDocuments?.length > 0) {
+        // Création des divs pour les documents
+        setDocumentDivs(
+            otherDocuments.map((_, index) => ({ 
+                id: index + 1 
+            }))
+        );
+
+        // Création des Maps pour les fichiers
+        const newDroppedFiles = new Map();
+        const newAllFiles = new Map();
+
+        otherDocuments.forEach((document, index) => {
+            newDroppedFiles.set(index, {
+                name: document.name || document.documentName, // Ajout de fallback pour documentName
+                index: index,
+                documentId: document._id
+            });
+
+            newAllFiles.set(index, {
+                name: document.name || document.documentName,
+                index: index,
+                documentId: document._id,
+                // Si vous avez besoin de garder une référence au fichier lui-même
+                file: null // Ou convertissez document en File si nécessaire
+            });
+        });
+
+        // Mise à jour des états
+        setDroppedFiles(newDroppedFiles);
+        setAllFiles(newAllFiles);
+
+        // Mise à jour des refs pour les inputs
         inputRefs.current = otherDocuments.map(() => React.createRef());
-      }
+    }
 
       const initialFileNames = {};
       project.documents?.forEach(document => {
@@ -384,84 +414,121 @@ const formatNumber = (number) => {
     inputRefs.current = [...inputRefs.current, React.createRef()];
   };
 
-  const handleDrop = (event, index) => {
-    event.preventDefault();
-    setIsDragging(false);
-    const file = event.dataTransfer.files[0];
-
-    if (file) {
-      const fileWithIndex = { name: file.name, index , documentId: null };
-      const fileWithIndex1 = { file: file, index , documentId: null };
-          setDroppedFiles((prevFiles) => {
-          const updatedFiles = [...prevFiles];
-          updatedFiles[index] = fileWithIndex;
-          return updatedFiles;
-      });
-      setAllFiles((prevFiles) => {
-          const updatedFiles = [...prevFiles];
-          updatedFiles[index] = fileWithIndex1;
-          return updatedFiles;
-      });
-      // Réinitialisation du champ input
-      event.target.value = null;
-  }
-};
-
-const handleFileInputChange = (event, index) => {
-  const file = event.target.files[0];
-
-  if (file) {
-    const fileWithIndex = { name: file.name, index , documentId: null };
-        setDroppedFiles((prevFiles) => {
-        const updatedFiles = [...prevFiles];
-        updatedFiles[index] = fileWithIndex;
-        return updatedFiles;
-    });
-    const fileWithIndex1 = { file: file, index , documentId: null };
-    setAllFiles((prevFiles) => {
-      const updatedFiles = [...prevFiles];
-      updatedFiles[index] = fileWithIndex1;
-      return updatedFiles;
-  });
-  setOtherDeletedFiles((prevDeleted) => prevDeleted.filter(deletedFile => deletedFile.index !== index));
-  // Réinitialisation du champ input
-  event.target.value = null;
-}
-};
-
-const handleDeleteFile = async (index) => {
-  const fileToRemove = droppedFiles[index] || allFiles[index];
-  
-  if (fileToRemove) {
-    // Suppression du fichier de la base de données
-    try {
-      // Assurez-vous que vous avez accès à `projectId` et à `documentId`
-      const documentId = fileToRemove?.documentId; // Vous devez l'avoir dans vos données de fichier
-      if( projectId && documentId) {
-        await deleteDocument({ projectId, documentId });
-        refetch();
-      }
-      // Si la suppression est réussie, on met à jour l'état
-      setOtherDeletedFiles((prevDeleted) => [...prevDeleted, fileToRemove.name]);
-
-      setDroppedFiles((prevFiles) => {
-        const updatedFiles = [...prevFiles];
-        updatedFiles.splice(index, 1); 
-        return updatedFiles;
-      });
-
-      setAllFiles((prevFiles) => {
-        const updatedFiles = [...prevFiles];
-        updatedFiles.splice(index, 1); 
-        return updatedFiles;
-      });
-
-    } catch (error) {
-      console.error("Error deleting file from database:", error);
+  // Structure de données pour gérer les fichiers
+const FileManager = {
+    files: new Map(),
+    
+    addFile(index, file) {
+        this.files.set(index, {
+            file,
+            name: file.name,
+            documentId: null,
+            index
+        });
+    },
+    
+    removeFile(index) {
+        this.files.delete(index);
+    },
+    
+    getFiles() {
+        return Array.from(this.files.values());
     }
-  }
 };
 
+  const handleDrop = (event, index) => {
+      event.preventDefault();
+      setIsDragging(false);
+      const file = event.dataTransfer.files[0];
+      
+      if (file) {
+          // Mise à jour utilisant Map
+          setAllFiles(prev => {
+              const newMap = new Map(prev);
+              newMap.set(index, {
+                  file,
+                  name: file.name,
+                  index,
+                  documentId: null
+              });
+              return newMap;
+          });
+
+          // Mise à jour de l'affichage
+          setDroppedFiles(prev => {
+              const newMap = new Map(prev);
+              newMap.set(index, {
+                  name: file.name,
+                  index,
+                  documentId: null
+              });
+              return newMap;
+          });
+      }
+  };
+
+  const handleFileInputChange = (event, index) => {
+      const file = event.target.files[0];
+      
+      if (file) {
+          setAllFiles(prev => {
+              const newMap = new Map(prev);
+              newMap.set(index, {
+                  file,
+                  name: file.name,
+                  index,
+                  documentId: null
+              });
+              return newMap;
+          });
+
+          setDroppedFiles(prev => {
+              const newMap = new Map(prev);
+              newMap.set(index, {
+                  name: file.name,
+                  index,
+                  documentId: null
+              });
+              return newMap;
+          });
+
+          setOtherDeletedFiles(prev => 
+              prev.filter(deletedFile => deletedFile.index !== index)
+          );
+          
+          event.target.value = null;
+      }
+  };
+
+  const handleDeleteFile = async (index) => {
+      const fileToRemove = droppedFiles.get(index) || allFiles.get(index);
+      
+      if (fileToRemove) {
+          try {
+              if (projectId && fileToRemove.documentId) {
+                  await deleteDocument({ 
+                      projectId, 
+                      documentId: fileToRemove.documentId 
+                  });
+                  refetch();
+              }
+
+              setOtherDeletedFiles(prev => [...prev, fileToRemove.name]);
+              setDroppedFiles(prev => {
+                  const newMap = new Map(prev);
+                  newMap.delete(index);
+                  return newMap;
+              });
+              setAllFiles(prev => {
+                  const newMap = new Map(prev);
+                  newMap.delete(index);
+                  return newMap;
+              });
+          } catch (error) {
+              console.error("Error deleting file:", error);
+          }
+      }
+  };
 
   const setFileName = (type, name) => {
     setFileNames(prevFileNames => ({ ...prevFileNames, [type]: name }));
@@ -572,10 +639,19 @@ const handleFileRemove = async (type) => {
         formData.append(`${type}`, file);
     });
     
-    allFiles.forEach(({ file }) => {
-        formData.append(`files`, file);
+    // allFiles.forEach(({ file }) => {
+    //     formData.append(`files`, file);
+    // });
+
+    const validFiles = Array.from(allFiles.values());
+    validFiles.forEach(fileData => {
+        if (fileData?.file) {
+            formData.append('files', fileData.file);
+        }
     });
-  
+
+      console.log(allFiles , validFiles)
+
     if (isFormValid) {
       // Prepare payload for mutation
       const payload = projectId ? { projectId, payload: formData } : formData;
@@ -1435,20 +1511,20 @@ const handleFileRemove = async (type) => {
                         }
                       </label>
                     </div>
-                    {droppedFiles?.map((file, fileIndex) => {
+                    {Array.from(droppedFiles.values()).map((file) => {
                       if (file?.index === index) {
                         return (
-                          <div key={fileIndex} className="flex flex-row gap-2 items-center justify-between w-[90%] pt-2 ">
-                            <div key={fileIndex} className="flex flex-row gap-2 items-center justify-start w-full">
+                          <div key={`file-${file.index}`} className="flex flex-row gap-2 items-center justify-between w-[90%] pt-2">
+                            <div className="flex flex-row gap-2 items-center justify-start w-full">
                               <GrAttachment size={16} className="mr-2" />
                               <Text
-                                className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto "
+                                className="flex-1 text-blue-A400 font-dm-sans-regular text-sm lg:text-base leading-6 tracking-normal w-auto"
                                 size=""
                               >
                                 {file?.name}
                               </Text>
                             </div>
-                            <div className="flex w-auto" onClick={() => handleDeleteFile(fileIndex)}>
+                            <div className="flex w-auto" onClick={() => handleDeleteFile(file.index)}>
                               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346628 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C15.9959 5.87952 15.1518 3.84705 13.6524 2.34764C12.153 0.848226 10.1205 0.00406613 8 0ZM10.9 10.0231C11.0156 10.1397 11.0804 10.2973 11.0804 10.4615C11.0804 10.6257 11.0156 10.7833 10.9 10.9C10.7824 11.0137 10.6252 11.0773 10.4615 11.0773C10.2979 11.0773 10.1407 11.0137 10.0231 10.9L8 8.86923L5.97692 10.9C5.8593 11.0137 5.70208 11.0773 5.53846 11.0773C5.37484 11.0773 5.21763 11.0137 5.1 10.9C4.98444 10.7833 4.91962 10.6257 4.91962 10.4615C4.91962 10.2973 4.98444 10.1397 5.1 10.0231L7.13077 8L5.1 5.97692C5.00187 5.85735 4.95172 5.70556 4.95931 5.55107C4.9669 5.39657 5.03168 5.25043 5.14106 5.14105C5.25043 5.03168 5.39658 4.96689 5.55107 4.95931C5.70557 4.95172 5.85736 5.00187 5.97692 5.1L8 7.13077L10.0231 5.1C10.1426 5.00187 10.2944 4.95172 10.4489 4.95931C10.6034 4.96689 10.7496 5.03168 10.8589 5.14105C10.9683 5.25043 11.0331 5.39657 11.0407 5.55107C11.0483 5.70556 10.9981 5.85735 10.9 5.97692L8.86923 8L10.9 10.0231Z" fill="#F48888"/>
                               </svg>

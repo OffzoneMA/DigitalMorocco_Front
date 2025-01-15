@@ -113,10 +113,10 @@ const History = () => {
                       alt="img"
                     />
                     <Text
-                      className="font-dm-sans-regular text-sm leading-6 text-gray700 text-center w-auto"
+                      className="font-dm-sans-regular  max-w-[380px] text-sm leading-6 text-gray700 text-center w-auto"
                       size=""
                     >
-                      It looks like you haven't taken any actions yet. <br/> Your activity history will appear here, showcasing <br/>your interactions and key moments.
+                      {t("history.emptyMsg")} <br/> {t('history.emptyMsg1')}
                     </Text>
                 </div>)}    
               </div>

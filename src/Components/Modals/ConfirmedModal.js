@@ -63,13 +63,13 @@ const ConfirmedModal = (props) => {
             size="txtDMSansRegular12Bluegray500"
           >
             <span className="text-blue_gray-500 font-dm-sans-regular">
-              {`Need Assistance? If you have any questions or need assistance, feel free to contact our support team at`}
+              {t("chooserole.confirmed.m5")}
             </span>
             <span className="text-blue_gray-500 font-dm-sans-regular">
               {" "}
             </span>
             <span className="text-blue-A400 font-dm-sans-regular">
-            {`support@digitalmorocco.com`}
+              {t('chooserole.confirmed.m6')}
             </span>
           </Text>
         </div>
