@@ -32,11 +32,11 @@ export const investorApi = createApi({
             },
         }),
         getInvestorsListForMember: builder.query({
-            query: ({ page, pageSize, type, location, industries }={}) => {
+            query: ({ page, pageSize, type, location, industries , keywords }={}) => {
                 return {
                     url: '/forMember',
                     params: {
-                        page, pageSize, type, location, industries}
+                        page, pageSize, type, location, industries , keywords}
                     }
             },
         }),

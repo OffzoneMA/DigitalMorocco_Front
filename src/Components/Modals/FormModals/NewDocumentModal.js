@@ -113,7 +113,11 @@ const NewDocumentModal = (props) => {
     }
     // Réinitialiser les états
     setFiles(null);
-    setPreview(null);
+    if(documentFile?._id){
+      setPreview(documentFile?.documentName)
+    }else{
+      setPreview(null);
+    }
   };
 
   const closeModal =() => {

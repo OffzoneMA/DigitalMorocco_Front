@@ -34,11 +34,15 @@ const InvestorRequestHistory = () => {
   const [totalPages , setTotalPages] = useState(0);
   const [investorRequests, setInvestorRequests] = useState(null);
   const [filtersChanged, setFiltersChanged] = useState(false);
+  const [localStatus, setLocalStatus] = useState([]);
+  const [localUser, setLocalUser] = useState('');
+  const [localKeywords, setLocalKeywords] = useState('');
   const queryParams = { page: cur, pageSize: itemsPerPage };
 
   if (filterApply) {
     queryParams.status = status.length > 0 ? status : undefined;
     queryParams.investorNames = user.length > 0 ? user.join(',') : undefined;
+    queryParams.keywords = keywords;
   }
   const { data, error, isFetching:loading , refetch } = useFetchInvestorRequestsQuery(queryParams);
   const { data : statuses, isLoading:locationLoading } = useGetDistinctRequestFieldValuesQuery('status');
@@ -72,6 +76,35 @@ const InvestorRequestHistory = () => {
     // }
   }, [cur, data?.currentPage , filterApply , refetch]);
 
+  const handleResetFilters = () => {
+    // Réinitialiser les filtres locaux
+    setLocalStatus([]);
+    setLocalUser([]);
+    setLocalKeywords('');
+    
+    // Réinitialiser les filtres globaux
+    setStatus([]);
+    setUser([]);
+    setKeywords('');
+    setFilterApply(false);
+    
+    // Optionnel : forcer un refetch des données
+    refetch();
+  };
+
+  useEffect(() => {
+    if (filterApply) {
+      const isAllFiltersEmpty =
+        localStatus.length === 0 &&
+        localUser.length === 0 &&
+        !localKeywords.trim();
+  
+      if (isAllFiltersEmpty) {
+        handleResetFilters();
+      }
+    }
+  }, [localStatus  , localUser , localKeywords , filterApply]);
+
   const invNamedata = Array.isArray(investorNames?.distinctValues) ? investorNames?.distinctValues : [];
   const statusData = Array.isArray(statuses?.distinctValues) ? statuses?.distinctValues : [];  
 
@@ -97,6 +130,17 @@ const InvestorRequestHistory = () => {
         .replace(/\p{Diacritic}/gu, "");
   
       if (normalizedName.includes(normalizedKeyword)) {
+        return true;
+      }
+    }
+
+    if (item?.project?.name) {
+      const normalizedProjectName = item?.project.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "");
+  
+      if (normalizedProjectName.includes(normalizedKeyword)) {
         return true;
       }
     }
@@ -173,6 +217,13 @@ const InvestorRequestHistory = () => {
     return false;
   });
   
+  // Fonction pour appliquer les filtres
+  const handleApplyFilters = () => {
+    setStatus(localStatus);
+    setUser(localUser);
+    setKeywords(localKeywords);
+    setFilterApply(true);
+  };
 
   const clearFilter = () => {
     setFilter(false);
@@ -191,34 +242,33 @@ const InvestorRequestHistory = () => {
   }
   const currentLanguage = localStorage.getItem('language') || 'en'; 
 
-  function formatDateWithoutComma(date, locale = currentLanguage === "en" ? 'en-US' : currentLanguage === 'fr' ? 'fr-FR' : 'en-US') {
+  function formatDateWithoutComma(timestamp) {
+    const date = new Date(timestamp);
     const options = {
         year: 'numeric',
-        month: 'short', // Full month name
+        month: 'short',
         day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: currentLanguage === 'en' // 12-hour format for English, 24-hour for French
     };
 
-    // Format the date part
-    const datePart = new Intl.DateTimeFormat(locale, options).format(date);
+    const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
 
-    // Capitalize the first letter of the month and ensure no period at the end
-    const formattedDatePart = currentLanguage === 'fr'
-        ? datePart.replace(/\b\w/g, (char) => char.toUpperCase())?.slice(1).replace('.', '') 
-        : datePart.replace('.', ''); 
+    // Format and capitalize the month for French
+    let formattedDate = date.toLocaleString(locale, options);
+    if (currentLanguage === 'fr') {
+      // Extracting day, month, and year by splitting
+      const [day, month, year, time] = formattedDate.split(/,?\s+/);
+      const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
 
-    // Format the time part
-    const timePart = date.toLocaleTimeString(locale, {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: locale === 'en-US',
-    });
+      // Reassemble with the capitalized month
+      formattedDate = `${day} ${capitalizedMonth} ${year}, ${time}`;
+    }
 
-    // Combine and return the final formatted string
-    return currentLanguage === 'fr'
-        ? `${formattedDatePart} à ${timePart}` // French format: "15 Octobre 2024 à 14:30"
-        : `${formattedDatePart} ${timePart}`; // English format: "October 15, 2024 14:30"
-}
-
+    return formattedDate?.replace('.' , '');
+  }
 
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
@@ -249,17 +299,17 @@ const InvestorRequestHistory = () => {
                     <div className="flex min-w-[120px] ">
                       <input 
                       className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`} 
-                      type="text" name="search" placeholder={t("common.keywords")} value={keywords} 
-                      onChange={e => setKeywords(e.target.value)} />
+                      type="text" name="search" placeholder={t("common.keywords")} value={localKeywords} 
+                      onChange={e => setLocalKeywords(e.target.value)} />
                     </div>
-                    <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata}  searchLabel={t('common.searchInvestor')} setSelectedOptionVal={setUser} placeholder={t('common.investorName')} content={(option) => {
+                    <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata}  searchLabel={t('common.searchInvestor')} setSelectedOptionVal={setLocalUser} placeholder={t('common.investorName')} content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
                           <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{t(`${option}`)}</Text>
                         </div>
                       );
                     }} />
-                    <MultipleSelect className="min-w-[140px] max-w-[200px] " id='status' options={statusData}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setStatus} placeholder={t('common.status')} content={(option) => {
+                    <MultipleSelect className="min-w-[140px] max-w-[200px] " id='status' options={statusData}  searchLabel={t('common.searchStatus')} setSelectedOptionVal={setLocalStatus} placeholder={t('common.status')} content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
                           <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{t(`${option}`)}</Text>
@@ -270,7 +320,7 @@ const InvestorRequestHistory = () => {
                 )}
                 {filter ? (
                   <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " 
-                  onClick={() => { setFilterApply(true);
+                  onClick={() => {handleApplyFilters();
                     setFiltersChanged(true);}}>
                     {/* <BiFilterAlt size={18} className="mr-2" /> */}
                     <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>{t("common.applyFilters")}</button>
@@ -291,7 +341,10 @@ const InvestorRequestHistory = () => {
                 {filterApply && (
                   <button
                     className="text-[#15143966] hover:text-[#1514397e] flex flex-row gap-[4px] items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer"
-                    onClick={clearFilter}
+                    onClick={() => {
+                      setFilter(false);
+                      handleResetFilters();
+                    }}
                     type="button"
                 >
                     <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">

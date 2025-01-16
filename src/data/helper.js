@@ -38,23 +38,33 @@ export function getLocalStorageItemWithExpiration(key) {
   return localStorage.getItem(key);
 }
 
-export function formatDate(dateString) {
-  const date = new Date(dateString);
 
-  const formattedDate = date.toLocaleDateString('en-US', {
-    month: 'short', // 'Oct'
-    day: 'numeric', // '10'
-    year: 'numeric', // '2024'
-  });
+export function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: currentLanguage === 'en' // 12-hour format for English, 24-hour for French
+  };
 
-  const formattedTime = date.toLocaleTimeString('en-US', {
-    hour: '2-digit', // '10'
-    minute: '2-digit', // '08'
-    second: '2-digit', // '11'
-    hour12: true, // AM/PM format
-  });
+  const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
 
-  return `${formattedDate} ${formattedTime}`;
+  // Format and capitalize the month for French
+  let formattedDate = date.toLocaleString(locale, options);
+  if (currentLanguage === 'fr') {
+    // Extracting day, month, and year by splitting
+    const [day, month, year, time] = formattedDate.split(/,?\s+/);
+    const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
+
+    // Reassemble with the capitalized month
+    formattedDate = `${day} ${capitalizedMonth} ${year}, ${time}`;
+  }
+
+  return formattedDate?.replace('.' , '');
 }
 
 

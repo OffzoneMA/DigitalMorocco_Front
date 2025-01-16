@@ -250,13 +250,13 @@ const onSubmit = async () => {
               >
                   {t('document.shareSuccess.successMessage')}
               </Text>
-              <Text
+              {/* <Text
                 className="leading-[26.00px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
               >
                 <>
                   {t('document.shareSuccess.message')}
                 </>
-              </Text>
+              </Text> */}
             </div>
           </div>
             }

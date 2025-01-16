@@ -117,6 +117,10 @@ a:hover::selection ,a *:hover::selection {
   background-color: #2575F0 !important; 
 } */
 
+.btn_delete_selected {
+  cursor: url('/src/Media/curs2.svg'), auto; 
+}
+
 .animationBtn {
   animation-timing-function: ease-out;
   animation-duration: 60ms;
@@ -360,7 +364,7 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
 }
 
 .overlay-content-invDetails {
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 }
 
 .overlay-content-invDetailsText {

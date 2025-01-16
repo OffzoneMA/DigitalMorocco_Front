@@ -104,7 +104,7 @@ const CustomCalendar = ({ className, onChangeDate, inputPlaceholder, defaultValu
 
   return (
     <div className={`relative ${className}`}>
-      <div ref={parentRef} className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${(show && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursor-pointer ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`} onClick={toggleDropdown}>
+      <div ref={parentRef} className={`flex md:flex-1 w-full items-center rounded-[6px] px-[12px] py-[10px] h-[40px] border ${(show && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`} onClick={toggleDropdown}>
         <input
           type="text"
           className="!placeholder:text-blue_gray-301 !text-gray700 font-manrope font-normal leading-18 tracking-wide p-0 text-left text-sm w-full bg-transparent border-0"
@@ -117,7 +117,7 @@ const CustomCalendar = ({ className, onChangeDate, inputPlaceholder, defaultValu
         {valueDate && (
           <IoCloseCircle
             size={20}
-            className="text-red-500 cursor-pointer ml-2"
+            className="text-red-500 cursorpointer ml-2"
             onClick={(e) => {
               e.stopPropagation();
               handleClearDate();

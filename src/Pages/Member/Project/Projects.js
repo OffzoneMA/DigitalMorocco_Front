@@ -17,14 +17,15 @@ import SearchInput from "../../../Components/common/SeachInput";
 import fileSearchImg from '../../../Media/file-search.svg';
 import { useTranslation } from "react-i18next";
 import StatusBadge from "../../../Components/common/StatusBadge";
-
+import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
+import checkVerified from '../../../Media/check-verified-02.svg';
 
 const Projects = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth) 
   const [deleteProject, response] = useDeleteProjectMutation();
-
+  const [deleteSuccesModal, setDeleteSuccesModal] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow , setDeleteRow] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -67,10 +68,15 @@ const Projects = () => {
     setIsDeleteModalOpen(false);
   };
 
+  const clodeDeleteSuccessModal = () => {
+    setDeleteSuccesModal(false);
+  }
+
   const handleDelete = async () => {
     try {
       await deleteProject(deleteRow?._id);
       closeDeleteModal();
+      setDeleteSuccesModal(true);
       refetch();
     } catch (error) {
       console.error("Erreur lors de la suppression du projet :", error);
@@ -225,6 +231,26 @@ const Projects = () => {
               {t('projects.deleteProjectConfirmation.confirmationMessage')}
             </Text>
           }/>
+          <EmailExistModalOrConfirmation
+            isOpen={deleteSuccesModal}
+            onRequestClose={clodeDeleteSuccessModal}
+            content={
+              <div className="flex flex-col gap-[38px] items-center justify-start w-full">
+                <img
+                    className="h-[100px] w-[100px]"
+                    src={checkVerified}
+                    alt="successtick"
+                />
+                <div className="flex flex-col gap-5 items-center justify-start w-full">
+                    <Text
+                    className="leading-[26.00px] font-dm-sans-medium text-[18px] text-[#1d2838] text-center "
+                    >
+                        {t('projects.deleteProjectConfirmation.successMessage')}
+                    </Text>
+                </div>
+              </div>
+            }
+        />
       </div>
   );
 };

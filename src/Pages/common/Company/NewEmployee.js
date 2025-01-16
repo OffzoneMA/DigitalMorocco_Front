@@ -106,12 +106,12 @@ const NewEmployee = () => {
         photo: employee.photo,
       });
     }
-    if (isSaved) {
-      const redirectTimer = setTimeout(() => {
-        navigate("/Employees");
-      }, 2500);
-      return () => clearTimeout(redirectTimer);
-    }
+    // if (isSaved) {
+    //   const redirectTimer = setTimeout(() => {
+    //     navigate("/Employees");
+    //   }, 2500);
+    //   return () => clearTimeout(redirectTimer);
+    // }
   }, [isSaved, navigate, location.state]);
 
 
@@ -200,20 +200,38 @@ const NewEmployee = () => {
           
           if (employeeId) {
             // PUT request to update employee
-            await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
+            const response = await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             });
+
+            if(response?.data?._id){
+              setEmployee(response.data);
+              refetch();
+              setIsSaved(true);
+              setTimeout(() => {
+                setIsSaved(false);
+              }, 5000);
+              navigate(location.pathname, { state: { employee: response?.data }, replace: true });
+            }
+
           } else {
             // POST request to create a new employee
-            await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
+            const response = await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${token}`,
               },
               body: formData,
             });
+            if(response?.data?._id){
+              setIsSaved(true);
+              setTimeout(() => {
+                setIsSaved(false);
+              }, 5000);
+              navigate(`/EditEmployee/${response?.data?._id}`, { state: { employee: response.data } });
+            }
           }
         } else {
           const formData = new FormData();
@@ -226,23 +244,39 @@ const NewEmployee = () => {
           formData.append('data', JSON.stringify(updatedFields));
   
           if (employeeId) {
-            await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
+            const response = await axios.put(`${process.env.REACT_APP_baseURL}/employee/${employeeId}`, formData, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             });
+
+            if(response?.data?._id){
+              setEmployee(response.data);
+              refetch();
+              setIsSaved(true);
+              setTimeout(() => {
+                setIsSaved(false);
+              }, 5000);
+              navigate(location.pathname, { state: { employee: response?.data }, replace: true });
+            }
           } else {
-            await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
+            const response = await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${token}`,
               },
               body: formData,
             });
+            if(response?.data?._id){
+              setIsSaved(true);
+              setTimeout(() => {
+                setIsSaved(false);
+              }, 5000);
+              navigate(`/EditEmployee/${response?.data?._id}`, { state: { employee: response.data } });
+            }
           }
         }
         setSendingOk(false);
-        setIsSaved(true);
       }
       } catch (error) {
       console.error("Erreur lors de l'envoi du formulaire :", error);
@@ -380,7 +414,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    {t('employee.addEmployee.fullName')}
+                    {t('employee.addEmployee.fullName')}*
                   </Text>
                     <input
                       {...register("fullName", { required: { value: true, message: "Employee First Name is required" } })}
@@ -398,7 +432,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                   {t('employee.addEmployee.workEmail')}
+                   {t('employee.addEmployee.workEmail')}*
                   </Text>
                     <input
                       {...register("workEmail", { required: { value: true, message: "Employee Work Email is required" } ,
@@ -452,7 +486,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    {t('employee.addEmployee.phoneNumber')}
+                    {t('employee.addEmployee.phoneNumber')}*
                   </Text>
                     <input
                       {...register("phoneNumber", { required: { value: true, message: "Employee Phone Number is required" } ,
@@ -489,7 +523,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    {t('employee.addEmployee.country')}
+                    {t('employee.addEmployee.country')}*
                   </Text>
                   <SimpleSelect id='country'
                     options={countries} 
@@ -516,7 +550,7 @@ const NewEmployee = () => {
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
                   >
-                    {t('employee.addEmployee.cityState')}
+                    {t('employee.addEmployee.cityState')}*
                   </Text>
                   <SimpleSelect id='city'
                     options={selectedCountry ? City.getCitiesOfCountry(selectedCountry['isoCode']) : []}  searchLabel={t("common.searchCity")} setSelectedOptionVal={setSelectedCity}

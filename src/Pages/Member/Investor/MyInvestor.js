@@ -40,6 +40,10 @@ const MyInvestors = () => {
   const [investmentType, setInvestmentType] = useState([]);
   const [location, setLocation] = useState('');
   const [industries, setIndustries] = useState([]);
+  const [localInvestmentType, setLocalInvestmentType] = useState([]);
+  const [localLocation, setLocalLocation] = useState('');
+  const [localIndustries, setLocalIndustries] = useState([]);
+  const [localKeywords, setLocalKeywords] = useState('');
   const dataCountries = Country.getAllCountries();
   const queryParams = { page: cur, pageSize: itemsPerPage };
 
@@ -47,6 +51,7 @@ const MyInvestors = () => {
     queryParams.type = investmentType.length > 0 ? investmentType.join(',') : undefined;
     queryParams.location = location || undefined;
     queryParams.industries = industries.length > 0 ? industries.join(',') : undefined;
+    queryParams.keywords = keywords || undefined;
   }
   const { data, error, isFetching: loading , refetch } = useGetInvestorsForMemberQuery(queryParams);
   const { data : locations0, isLoading:locationLoading } = useGetDistinctInvestorFieldValuesQuery('location');
@@ -147,7 +152,47 @@ const MyInvestors = () => {
     // Retournez false si aucun des filtres ne correspond
     return false;
   });
+
+  const handleResetFilters = () => {
+    // Réinitialiser les filtres locaux
+    setLocalInvestmentType([]);
+    setLocalLocation('');
+    setLocalIndustries([]);
+    setLocalKeywords('');
     
+    // Réinitialiser les filtres globaux
+    setInvestmentType([]);
+    setLocation('');
+    setIndustries([]);
+    setKeywords('');
+    setFilterApply(false);
+    
+    // Optionnel : forcer un refetch des données
+    refetch();
+  };
+  
+  useEffect(() => {
+    if (filterApply) {
+      const isAllFiltersEmpty =
+        localInvestmentType.length === 0 &&
+        !localLocation.trim() &&
+        localIndustries.length === 0 &&
+        !localKeywords.trim();
+  
+      if (isAllFiltersEmpty) {
+        handleResetFilters();
+      }
+    }
+  }, [localInvestmentType , localLocation , localIndustries , localKeywords , filterApply]);
+    
+    // Fonction pour appliquer les filtres
+  const handleApplyFilters = () => {
+    setInvestmentType(localInvestmentType);
+    setLocation(localLocation);
+    setIndustries(localIndustries);
+    setKeywords(localKeywords);
+    setFilterApply(true);
+  };
 
   const clearFilter = () => {
     setFilter(false); 
@@ -198,11 +243,11 @@ const MyInvestors = () => {
                         type="text"
                         name="search"
                         placeholder={t("common.keywords")}
-                        value={keywords}
-                        onChange={e => setKeywords(e.target.value)}
+                        value={localKeywords}
+                        onChange={e => setLocalKeywords(e.target.value)}
                       />
                     </div>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes?.distinctValues || []}  searchLabel={t('common.searchType')} setSelectedOptionVal={setInvestmentType} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes?.distinctValues || []}  searchLabel={t('common.searchType')} setSelectedOptionVal={setLocalInvestmentType} 
                     placeholder={t('common.typeofInvestment')}
                     content={
                       ( option) =>{ return (
@@ -216,7 +261,7 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations?.distinctValues || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations?.distinctValues || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocalLocation} 
                     placeholder={t("common.location")} 
                     content={
                       ( option) =>{ return (
@@ -230,7 +275,7 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={industriesData?.distinctValues || []}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setIndustries} 
+                    <MultipleSelect className="min-w-[170px]" id='investor' options={industriesData?.distinctValues || []}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalIndustries} 
                     placeholder={t('common.selectIndustries')}
                     content={
                       ( option) =>{ return (
@@ -250,7 +295,7 @@ const MyInvestors = () => {
                 (
                 <button
                   className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md"
-                  onClick={() => setFilterApply(true)}
+                  onClick={() => handleApplyFilters()}
                   type="button"
               >
                   {/* <BiFilterAlt size={18} className="mr-2" /> */}
@@ -276,7 +321,10 @@ const MyInvestors = () => {
                 {filterApply && (
                   <button
                     className="text-[#15143966] hover:text-[#1514397e] flex flex-row gap-[4px] items-center p-[2px] h-[38px] max-w-[75px] border-b border-solid border-[#15143966] cursorpointer"
-                    onClick={clearFilter}
+                    onClick={() => {
+                      setFilter(false);
+                      handleResetFilters();
+                    }}
                     type="button"
                 >
                     <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -453,7 +453,8 @@
     },
     "deleteProjectConfirmation": {
       "title": "Delete Project",
-      "confirmationMessage": "Are you sure you want to delete this project?"
+      "confirmationMessage": "Are you sure you want to delete this project?" ,
+      "successMessage": "Your project has been successfully deleted!"
     },
     "addNewMilestone": {
       "title": "Add New Milestone",
@@ -522,7 +523,7 @@
     "addEmployee": {
       "addEmployeeButton": "Add",
       "addEmployee": "Add Employee",
-      "editEmployee": "Edit Employee",
+      "editEmployee": "Edit Employee Information",
       "save": "Save",
       "fullName": "Full Name",
       "enterFullName": "Enter the employee’s full name",
@@ -630,7 +631,8 @@
       "companyName": "Company Name",
       "location": "Location",
       "fundingRound": "Funding Round",
-      "moneyRaised": "Funds Raised"
+      "moneyRaised": "Funds Raised",
+      "requestSend": "Request already sent"
     },
     "sendContactRequest": {
       "title": "Send Contact Request",

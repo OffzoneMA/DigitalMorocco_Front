@@ -153,56 +153,76 @@ const Events = () => {
     "Big Investment",
     "North Africa Dreamin"
   ];
+  
+  const convertTo24HourFormat = (time12h) => {
+    // Convert "11:00 AM" or "1:00 PM" to "11:00" or "13:00"
+    const [time, modifier] = time12h.split(' ');
+    let [hours, minutes] = time.split(':');
+    hours = parseInt(hours, 10);
+
+    if (modifier === 'PM' && hours !== 12) {
+        hours += 12;
+    }
+    if (modifier === 'AM' && hours === 12) {
+        hours = 0;
+    }
+
+    return `${hours.toString().padStart(2, '0')}:${minutes}`;
+  };
 
   const formatEventDate = (startDate, startTime, currentLanguage) => {
-    const locale = currentLanguage === 'fr' ? fr : enUS;
+      const locale = currentLanguage === 'fr' ? fr : enUS;
 
-    if (!startDate) {
-        return t('event.comingSoonEvent');
-    }
+      if (!startDate) {
+          return t('event.comingSoonEvent');
+      }
 
-    const dateObj = new Date(startDate);
+      const dateObj = new Date(startDate);
 
-    // Format the date according to the selected language
-    if (currentLanguage === 'fr') {
-        const dateFormatted = format(dateObj, 'd MMM yyyy', { locale });
-        
-        // Capitalize the first letter of the month for French
-        const finalDateFormatted = dateFormatted
-            .replace(/\b\w/g, (char) => char.toUpperCase())
-            .slice(1)
-            .replace('.', '');
+      if (currentLanguage === 'fr') {
+          // Format the date in French
+          let dateFormatted = format(dateObj, 'd MMM yyyy', { locale });
+          
+          // Remove the period after the month (e.g., "Déc." => "Déc")
+          dateFormatted = dateFormatted.replace(/\./g, '');
 
-        // Format time in 24-hour format for French
-        let timeFormatted = '';
-        if (startTime) {
-            const [timePart] = startTime.split(' ');
-            const [hours, minutes] = timePart.split(':');
-            timeFormatted = `${hours.padStart(2, '0')}H${minutes}`;
-        }
+          // Capitalize the first letter of the month in French
+          const dateParts = dateFormatted.split(' ');
+          dateParts[1] = dateParts[1].charAt(0).toUpperCase() + dateParts[1].slice(1);
+          const finalDateFormatted = dateParts.join(' ');
 
-        return `${finalDateFormatted} à ${timeFormatted}`.trim();
-    } else {
-        // English format: "Sept 23, 2024, at 11:00 AM"
-        const dateFormatted = format(dateObj, 'MMM d, yyyy', { locale });
-        
-        // Format time for English
-        let timeFormatted = '';
-        if (startTime) {
-            // Ensure time is properly formatted in 12-hour format with AM/PM
-            const [timePart, modifier] = startTime.split(' ');
-            timeFormatted = `at ${timePart} ${modifier}`;
-        }
+          // Convert startTime to 24-hour format
+          let timeFormatted = '';
+          if (startTime) {
+              const time24h = convertTo24HourFormat(startTime); // Convert from "11:00 AM" to "11:00"
+              const [hours, minutes] = time24h.split(':');
+              timeFormatted = `${hours}H${minutes}`;
+          }
 
-        // Replace three-letter month with four-letter month where applicable
-        const month = dateFormatted.split(' ')[0];
-        const restOfDate = dateFormatted.split(' ').slice(1).join(' ');
-        const formattedMonth = month === 'Sep' ? 'Sept' : month;
+          return `${finalDateFormatted}${timeFormatted ? ` à ${timeFormatted}` : ''}`.trim();
+      } else {
+          // Format the date in English
+          const dateFormatted = format(dateObj, 'MMM d, yyyy', { locale });
 
-        return `${formattedMonth} ${restOfDate}, ${timeFormatted}`.trim();
-    }
-};
+          // Convert startTime to a proper 12-hour format with padded hours
+          let timeFormatted = '';
+          if (startTime) {
+              const [timePart, modifier] = startTime.split(' ');
+              let [hours, minutes] = timePart.split(':');
+              hours = hours.padStart(2, '0'); // Pad the hours to always have 2 digits
+              timeFormatted = `at ${hours}:${minutes.padStart(2, '0')} ${modifier}`;
+          }
 
+          // Replace "Sep" with "Sept" if necessary
+          const dateParts = dateFormatted.split(' ');
+          if (dateParts[0] === 'Sep') {
+              dateParts[0] = 'Sept';
+          }
+          const finalDateFormatted = dateParts.join(' ');
+
+          return `${finalDateFormatted}${timeFormatted ? `, ${timeFormatted}` : ''}`.trim();
+      }
+  };
   const renderDropdown = (index , item) => {
     const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
     const triggerRect = triggerElement.getBoundingClientRect();
@@ -246,7 +266,6 @@ const Events = () => {
     );
   }
 
-  
     return (
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">

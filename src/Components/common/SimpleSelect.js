@@ -1,4 +1,4 @@
-import React, { useState , useRef , useEffect} from 'react';
+import React, { useState , useRef , useEffect , useMemo} from 'react';
 import { BiChevronDown , BiChevronUp} from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
@@ -12,6 +12,27 @@ const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholde
   const [searchValue, setSearchValue] = useState("");
   const dropdownRef = useRef(null);
   const parentRef = useRef(null);
+  
+  // Sort options based on translated values using useMemo to optimize performance
+  const sortedOptions = useMemo(() => {
+    return [...options].sort((a, b) => {
+      const aValue = typeof a === 'string' ? t(a) : t(a[valuekey]);
+      const bValue = typeof b === 'string' ? t(b) : t(b[valuekey]);
+  
+      // Vérifiez si a ou b est "Other" ou "Autre"
+      const isAOther = aValue.toLowerCase() === 'other' || aValue.toLowerCase() === 'autre';
+      const isBOther = bValue.toLowerCase() === 'other' || bValue.toLowerCase() === 'autre';
+  
+      if (isAOther && !isBOther) return 1; // Place "Other/Autre" après les autres
+      if (!isAOther && isBOther) return -1; // Place les autres avant "Other/Autre"
+  
+      // Utilisez localeCompare pour le tri normal
+      return aValue.localeCompare(bValue, currentLanguage, { 
+        sensitivity: 'base',
+        ignorePunctuation: true
+      });
+    });
+  }, [options, t, valuekey, currentLanguage]);  
 
   useEffect(() => {
     if(selectedOption === null) {
@@ -56,20 +77,57 @@ const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholde
   //   return valueToCheck.includes(searchValue.toLowerCase());
   // });
 
-  const filteredData = options?.filter(investor => {
-    // Si aucune valeur de recherche, retourner tous les résultats
+  // const filteredData = options?.filter(investor => {
+  //   // Si aucune valeur de recherche, retourner tous les résultats
+  //   if (!searchValue?.trim()) return true;
+  
+  //   // Normaliser la valeur de recherche
+  //   const normalizedSearch = searchValue
+  //     .toLowerCase()
+  //     .normalize("NFD")
+  //     .replace(/\p{Diacritic}/gu, "")
+  //     .trim();
+  
+  //   // Si l'investisseur est une chaîne de caractères
+  //   if (typeof investor === 'string') {
+  //     // Récupérer la valeur traduite
+  //     const translatedValue = t(`${investor}`);
+  //     const normalizedTranslation = translatedValue
+  //       .toLowerCase()
+  //       .normalize("NFD")
+  //       .replace(/\p{Diacritic}/gu, "");
+  //     return normalizedTranslation.includes(normalizedSearch);
+  //   }
+  
+  //   // Si l'investisseur est un objet
+  //   if (investor && typeof investor === 'object') {
+  //     const value = investor[valuekey];
+      
+  //     if (value) {
+  //       // Récupérer la valeur traduite pour l'objet
+  //       const translatedValue = t(`${value}`);
+  //       const normalizedValue = translatedValue
+  //         .toLowerCase()
+  //         .normalize("NFD")
+  //         .replace(/\p{Diacritic}/gu, "");
+  //       return normalizedValue.includes(normalizedSearch);
+  //     }
+  //   }
+  
+  //   return false;
+  // });
+
+   // Update filteredData to use sortedOptions instead of options
+   const filteredData = sortedOptions?.filter(investor => {
     if (!searchValue?.trim()) return true;
   
-    // Normaliser la valeur de recherche
     const normalizedSearch = searchValue
       .toLowerCase()
       .normalize("NFD")
       .replace(/\p{Diacritic}/gu, "")
       .trim();
   
-    // Si l'investisseur est une chaîne de caractères
     if (typeof investor === 'string') {
-      // Récupérer la valeur traduite
       const translatedValue = t(`${investor}`);
       const normalizedTranslation = translatedValue
         .toLowerCase()
@@ -78,12 +136,10 @@ const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholde
       return normalizedTranslation.includes(normalizedSearch);
     }
   
-    // Si l'investisseur est un objet
     if (investor && typeof investor === 'object') {
       const value = investor[valuekey];
       
       if (value) {
-        // Récupérer la valeur traduite pour l'objet
         const translatedValue = t(`${value}`);
         const normalizedValue = translatedValue
           .toLowerCase()
@@ -127,6 +183,13 @@ const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholde
     }
   };
 
+  const handleClear = (e) => {
+    e.stopPropagation(); // Prevent dropdown from opening when clicking clear
+    setSelectedOption(null);
+    setSelectedOptionVal(null);
+    onSelect(null);
+  };
+
   // useEffect(() => {
   //   // Ajustez la position et la largeur du dropdown lorsqu'il est ouvert
   //   if (isOpen) {
@@ -166,7 +229,19 @@ const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholde
           readOnly
           style={{overflow:'hidden' , textOverflow:'ellipsis'}}
         />
-        {isOpen ? <BiChevronUp size={18} className='text-blue_gray-301' /> : <BiChevronDown size={18} className='text-blue_gray-301' />}
+        <div className='flex items-center justify-center gap-2'>
+          {selectedOption ? 
+          (<button type='button' 
+            onClick={handleClear}
+            className='btn_delete_selected w-[18px] h-[18px] text-[#A9ACB0] hover:text-[#EC7373] flex items-center justify-center cursorpointer'>
+            <svg className='cursorpointer' width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>)
+          :
+          isOpen ? <BiChevronUp size={18} className='text-blue_gray-301' /> : <BiChevronDown size={18} className='text-blue_gray-301' />
+          }
+        </div>
       </div>
       {isOpen && (
          ReactDOM.createPortal(

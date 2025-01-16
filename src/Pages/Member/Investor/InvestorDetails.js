@@ -47,6 +47,7 @@ const InvestorDetails = () => {
   const [investor, setInvestor] = useState(location.state?.investor || null);
   const [investorRequestStatus , setInvestorRequestStatus] = useState('');
   const [investorDraftStatus , setInvestorDraftStatus] = useState(false);
+  const [investorInProgressStatus , setInvestorInProgressStatus] = useState(false);
   const [investorDraftRequest , setInvestorDraftRequest] = useState('');
   const [investments , setInvestments] = useState([]);
   const [cur, setCur] = useState(1);
@@ -69,7 +70,8 @@ const InvestorDetails = () => {
       });
       setInvestor(response.data?.details)
       setInvestorRequestStatus(response.data?.status)
-      setInvestorDraftStatus(response.data?.hasDraftContactRequest)
+      setInvestorDraftStatus(response.data?.hasDraftContactRequest);
+      setInvestorInProgressStatus(response.data?.hasInProgressRequest);
       setInvestorDraftRequest(response.data?.draftRequestId)
       setLoading(false);
       return response.data;
@@ -182,7 +184,7 @@ const InvestorDetails = () => {
                           <div className="absolute ml-[-8px] h-full overlay-content-invDetails w-full top-0">
                           </div>}
                         </div>
-                        {(investorRequestStatus?.toLowerCase() !== 'accepted') && 
+                        {(investorRequestStatus?.toLowerCase() !== 'accepted'&& !investorInProgressStatus) && 
                         <button style={{ whiteSpace: 'nowrap'}}
                             className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 text-sm font-dm-sans-regular leading-snug flex flex-row items-center justify-center px-[12px] py-[7px] h-[34px] text-sm font-dm-sans-medium rounded-md w-auto cursorpointer"
                             onClick={() =>contactRequestButtonClick()}
@@ -191,6 +193,11 @@ const InvestorDetails = () => {
                             <TbSend size={14} className="mr-2" />
                             {t('investors.investorDetails.sendContactRequest')}
                         </button>}
+                        {investorInProgressStatus && (
+                          <div className="flex flex-row items-center justify-center gap-2 py-1 px-2 font-dm-sans-regular rounded-full bg-[#dbedff] text-[#156fee] text-sm">
+                            {t("investors.investorDetails.requestSend")}
+                          </div>
+                        )}
                       </div>
                       <div className="py-3">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-px">

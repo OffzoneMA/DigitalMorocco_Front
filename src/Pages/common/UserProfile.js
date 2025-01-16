@@ -18,6 +18,7 @@ import { logout } from "../../Redux/auth/authSlice";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useGetUserDetailsQuery } from '../../Services/Auth';
+import { set } from 'date-fns';
 
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
@@ -69,23 +70,27 @@ export default function UserProfile() {
     region: false,
     language: false
   });
+  const [form1Sending  , setForm1Sending] = useState(false);
+  const [form2Sending  , setForm2Sending] = useState(false);
+  const [form3Sending  , setForm3Sending] = useState(false);
+
   const {refetch } = useGetUserDetailsQuery();
 
-  useEffect(() => {
-    if (userData?.country && Array.isArray(allCountries)) {
-      const country = allCountries.find(country => country.name === userData.country) || null;
-      setSelectedCountry(country);
-    }
-    if(userData?.cityState) {
-      setSelectedCity(userData.cityState);
-    }
-    if(userData?.region) {
-      setSelectedRegion(userData.region);
-    }
-    if(userData?.language) {
-      setSelectedLanguage(languages.find(lang => lang.label === userData?.language));
-    }
-  }, [userData, allCountries]);
+  // useEffect(() => {
+  //   if (userData?.country && Array.isArray(allCountries)) {
+  //     const country = allCountries.find(country => country.name === userData.country) || null;
+  //     setSelectedCountry(country);
+  //   }
+  //   if(userData?.cityState) {
+  //     setSelectedCity(userData.cityState);
+  //   }
+  //   if(userData?.region) {
+  //     setSelectedRegion(userData.region);
+  //   }
+  //   if(userData?.language) {
+  //     setSelectedLanguage(languages.find(lang => lang.label === userData?.language));
+  //   }
+  // }, [userData, allCountries]);
   
 
   useEffect(() => {
@@ -150,7 +155,6 @@ export default function UserProfile() {
         const nameParts = data.displayName.split(' ');
         const firstName = nameParts.slice(0, -1).join(' ');
         const lastName = nameParts[nameParts.length - 1];
-        const userCountry = data.Country;
         const userCity = data.cityState;
         const language = languages.find(lang => lang.label === data.language)
         const region = data.region;
@@ -159,8 +163,10 @@ export default function UserProfile() {
         setValue('firstName', firstName);
         setValue('lastName', lastName);
         if (data?.country) {
-          const defaultCountry = allCountries.find(country => country.name === data.country);
-          setSelectedCountry(defaultCountry);
+          const foundCountry = allCountries.find(
+            country => country.name.toLowerCase() === "morocco".toLowerCase()
+          );
+          setSelectedCountry(foundCountry);
         }
         if (data?.cityState) {
           setSelectedCity(userCity);
@@ -176,8 +182,6 @@ export default function UserProfile() {
         setValue('linkedin', data.linkedinId);
         setValue('language', data.language);
         setValue('region', data.region);
-  
-        setSelectedCountry(userCountry);
         setSelectedLanguage(language);
         setSelectedRegion(region);
   
@@ -189,6 +193,7 @@ export default function UserProfile() {
   
     UserInfo();
   }, []);
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -253,6 +258,7 @@ export default function UserProfile() {
   };
  
   const onSubmit1 = async (data) => {
+    setForm1Sending(true);
     try {
       const formData = new FormData();
       const currentData = userData || {};
@@ -319,12 +325,14 @@ export default function UserProfile() {
       sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
       setIsForm1Saved(true);
       refetch();
+      setForm1Sending(false);
       setTimeout(() => {
         setIsForm1Saved(false);
       }, 5000);
       console.log("Data saved successfully!");
 
     } catch (error) {
+      setForm1Sending(false);
       console.error("Error saving data:", error);
     }
   };
@@ -344,6 +352,8 @@ export default function UserProfile() {
       city: !isCityValid,
     });
 
+    console.log(selectedCountry, formIsValid);
+
     setIsForm1Valid(formIsValid && isCountryValid && isCityValid);
 
     
@@ -354,6 +364,7 @@ export default function UserProfile() {
   };
 
   const onSubmit2 = async (data) => {
+    setForm2Sending(true);
     try {
       const passwordData = {
         currentPassword: data.currentPassword,
@@ -380,17 +391,20 @@ export default function UserProfile() {
           sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
 
           setIsForm2Saved(true);
+          setForm2Sending(false);
           setTimeout(() => {
             setIsForm2Saved(false);
           }, 5000);
           console.log("Password changed and user data updated successfully!");
         } else {
+          setForm2Sending(false);
           console.error("Error fetching updated user data.");
         }
       } else {
         console.error("Error changing password:", response.data.message);
       }
     } catch (error) {
+      setForm2Sending(false);
       console.error("Error changing password:", error);
     }
   };
@@ -398,6 +412,7 @@ export default function UserProfile() {
   const onSubmit3 = async () => {
     const formData = {};
     setHasSubmitted3(true);
+    setForm3Sending(true);
     if (selectedLanguage && selectedLanguage.label && selectedLanguage.label !== userData?.language) {
       formData.language = selectedLanguage.label;
     }
@@ -424,7 +439,9 @@ export default function UserProfile() {
           }
         );
         if (response.data.success) {
+          console.log(response)
           setIsForm3Saved(true);
+          setForm3Sending(false);
           setTimeout(() => {
             setIsForm3Saved(false);
           }, 5000);
@@ -440,12 +457,14 @@ export default function UserProfile() {
             ...formData,
           };
           setUser(response?.data?.user);
-  
+          refetch();
           sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
         } else {
+          setForm3Sending(false);
           console.error("Error updating language and region:", response.data.message);
         }
       } catch (error) {
+        setForm3Sending(false);
         console.error("Error updating language and region:", error);
       }
     }
@@ -725,17 +744,28 @@ export default function UserProfile() {
                   />
                 </div>
               </div>
-              {!isForm1Saved ? (
-                <button 
-                type="submit"
-                onClick={handleForm1Submit}
-                className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto">
-                  {t('settings.myProfile.save')}
-                </button>
-              ) : (
-                <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
+              {isForm1Saved ? (
+                <button disabled className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">
                   <SlCheck size={20} />
                   <span className="text-base text-gray500">{t("common.saved")}</span>
+                </button>
+              ) :  form1Sending ? (
+                <button 
+                  type="button"
+                  disabled={true}
+                  className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto">
+                  {t("all.sending")}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              )
+              : (
+                <button 
+                  type="submit"
+                  onClick={handleForm1Submit}
+                  className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto">
+                  {t('settings.myProfile.save')}
                 </button>
               )}
             </form>
@@ -930,13 +960,24 @@ export default function UserProfile() {
                     {/* } */}
                 </div>
               </div>
-              {!isForm2Saved ?
+              {isForm2Saved ?
                 (
+                  <button disabled className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                    <SlCheck size={20} /> <span className="text-base text-gray500">{t("common.saved")}</span> 
+                  </button>
+                ) : form2Sending ? (
+                  <button className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="button" 
+                    disabled={true} >
+                    {t("all.sending")}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                ) :
+                 (
                   <button className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" type="submit" >
-                  {t('settings.myProfile.save')} </button>
-                ) : (
-                  <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
-                    <SlCheck size={20} /> <span className="text-base text-gray500">{t("common.saved")}</span> </button>
+                  {t('settings.myProfile.save')} 
+                  </button>
                 )
               }
             </form>
@@ -960,7 +1001,8 @@ export default function UserProfile() {
                       </Text> 
                     </div>);
                   }} />
-              </div> <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
+              </div> 
+              <div className={`flex flex-row gap-14 items-center justify-start  w-full`}>
                 <Text className={`text-base text-gray-901 ${currentLanguage === 'fr' ? 'w-[170px]' : 'w-[130px]'}`} size="txtDMSansLablel" >
                 {t('settings.myProfile.selectRegion')}</Text>
                 <SimpleSelect className='max-w-[40%]' id='region'
@@ -976,18 +1018,32 @@ export default function UserProfile() {
                           {t(option.label)} </Text> </div>);
                   }} />
               </div>
-              {!isForm3Saved ? (
+              {isForm3Saved ? (
+                <button disabled className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
+                  <SlCheck size={20} /> <span className="text-base text-gray500">
+                    {t("common.saved")}</span> 
+                </button>
+              ) : form3Sending ? (
                 <button 
-                onClick={() => setHasSubmitted3(true)}
+                  className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" 
+                  type="button"
+                  disabled = {true}
+                   >
+                  {t("all.sending")}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  </button>
+              ) :
+               (
+                <button 
+                  onClick={() => setHasSubmitted3(true)}
                   className="bg-blue-A400 cursorpointer hover:bg-[#235DBD] active:bg-[#224a94] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center justify-center min-w-[140px] mr-auto py-2 px-10 rounded-md w-auto" 
                   type="submit"
                   // disabled = {!isForm3Valid}
                    >
-                  {t('settings.myProfile.save')} </button>
-              ) : (
-                <button className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit" >
-                  <SlCheck size={20} /> <span className="text-base text-gray500">
-                    {t("common.saved")}</span> </button>
+                  {t('settings.myProfile.save')} 
+                </button>
               )
               } 
             </form>

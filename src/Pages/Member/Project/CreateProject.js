@@ -664,6 +664,10 @@ const handleFileRemove = async (type) => {
             setSubmitting('');
           }, 2500);
           if(projectId) {
+
+            if(response?.data) {
+              navigate(location.pathname, { state: { project: response?.data }, replace: true });
+            }
             refetch();
           }
           // Si c'est une création (pas de projectId)
@@ -909,7 +913,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.projectName')}
+                      {t('projects.createNewProject.projectName')}*
                     </Text>
                       <input
                         {...register("name", { required: {value:true , message: "Project Name is required"} })}
@@ -924,7 +928,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.projectDetails')}
+                      {t('projects.createNewProject.projectDetails')}*
                     </Text>
                       <textarea
                        {...register("details", { required: {value:true , message: "Project Details is required"} })}
@@ -959,7 +963,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.contactEmail')}
+                      {t('projects.createNewProject.contactEmail')}*
                     </Text>
                       <input
                         {...register("contactEmail", { required: {value:true , message:"Project Contact Email is required"} ,
@@ -1020,7 +1024,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.fundingTarget')}
+                      {t('projects.createNewProject.fundingTarget')}*
                     </Text>
                     <div className="relative flex items-center w-full">
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
@@ -1043,7 +1047,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.totalRaised')}
+                      {t('projects.createNewProject.totalRaised')}*
                     </Text>
                     <div className="relative flex items-center w-full">
                       <img src={fundImg} className="absolute left-2 top-1/2 transform -translate-y-1/2" alt={""}/>
@@ -1070,7 +1074,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.stage')}
+                      {t('projects.createNewProject.stage')}*
                     </Text>
                     <SimpleSelect id='stage' options={stagesData}  searchLabel={t('common.searchStage')} setSelectedOptionVal={setSelectedStage} 
                     placeholder={t('projects.createNewProject.selectStage')} selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage}
@@ -1089,7 +1093,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.country')}
+                      {t('projects.createNewProject.country')}*
                     </Text>
                     <SimpleSelect id='country' options={countries}  searchLabel={t("common.searchCountry")} setSelectedOptionVal={setSelectedCountry} 
                         placeholder={t('projects.createNewProject.selectCountry')} valuekey="name" selectedOptionsDfault={project?.country? dataCountries.find(country => country.name === project.country) : ""} 
@@ -1111,7 +1115,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.projectSector')}
+                      {t('projects.createNewProject.projectSector')}*
                     </Text>
                     <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
                         placeholder={t('projects.createNewProject.selectProjectSector')} selectedOptionsDfault={project?.sector || ''} required={requiredFields.sector}
@@ -1132,7 +1136,7 @@ const handleFileRemove = async (type) => {
                     <Text className="text-base text-[#1D1C21] w-auto"
                       size="txtDMSansLablel"
                     >
-                      {t('projects.createNewProject.projectPublication.title')}
+                      {t('projects.createNewProject.projectPublication.title')}*
                     </Text>
                     <Text className="text-[12px] font-dm-sans-regular text-[#98A2B3] w-auto"
                     >

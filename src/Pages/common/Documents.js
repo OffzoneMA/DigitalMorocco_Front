@@ -16,7 +16,7 @@ import SearchInput from "../../Components/common/SeachInput";
 import { useGetDocumentsForUserQuery , useCreateDocumentMutation , useUpdateDocumentMutation , useDeleteDocumentMutation} from "../../Services/Document.Service";
 import Loader from "../../Components/Loader";
 import userdefaultProfile from '../../Media/User.png';
-import { formatDateValue  } from "../../data/helper";
+import { formatDate  } from "../../data/helper";
 import { useTranslation } from "react-i18next";
 
 const Documents = () => {
@@ -163,7 +163,7 @@ const Documents = () => {
                       (pageData.map((item, index) => (
                     <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} onClick={()=> openEditModal(item)}>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
-                      {formatDateValue(item?.uploadDate , currentLanguage)}
+                      {formatDate(item?.uploadDate)}
                       </td>
                       <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="flex items-center gap-2.5" >
@@ -183,7 +183,7 @@ const Documents = () => {
                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.owner?.displayName}</span>
                         </div>
                         </td>
-                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.shareWithUsersNames || '-'}</td>
+                      <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular capitalize text-sm leading-6">{item?.shareWithUsersNames || '-'}</td>
                       <td className="px-[18px] py-4 ">
                         <div className="flex flex-row space-x-[18px] items-center">
                           <div className="relative group">

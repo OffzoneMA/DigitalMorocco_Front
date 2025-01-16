@@ -69,4 +69,4 @@ export const companyType = [
    "Video Games and eSports",
    "Waste Management",
    "Other"
-];
+ ];
