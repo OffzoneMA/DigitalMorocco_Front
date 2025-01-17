@@ -93,7 +93,6 @@ export const jobTitles = [
     "Compliance Officer (CO)",
     "Consultant (C)",
     "Controller (C)",
-    "Coordinator Logistics (CL)",
     "Copywriter (CW)",
     "CRM Manager (RCRM)",
     "Customer Success Manager (CSM)",
