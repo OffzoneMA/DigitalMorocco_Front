@@ -77,7 +77,6 @@ const Documents = () => {
 
   const closeNewModal = () => {
     setIsNewModalOpen(false);
-    refetch();
   };
   const openEditModal = (rowData) => {
     setIsEditModalOpen(true);
@@ -87,7 +86,6 @@ const Documents = () => {
   const closeEditModal = () => {
     setIsEditModalOpen(false);
     setDataRow(null);
-    refetch();
   };
 
   const openShareModal = (rowData) => {
@@ -274,10 +272,10 @@ const Documents = () => {
             </div>
           </div>
           <NewDocumentModal isOpen={isNewModalOpen}
-              onRequestClose={closeNewModal} onSubmit={createDocument} response={createResponse}
+              onRequestClose={closeNewModal} onSubmit={createDocument} response={createResponse} refetch={refetch}
           />
           <NewDocumentModal isOpen={isEditModalOpen} rowData={dataRow}
-              onRequestClose={closeEditModal} onSubmit={updateDocument} response={updateResponse}
+              onRequestClose={closeEditModal} onSubmit={updateDocument} response={updateResponse} refetch={refetch}
           />
           <ShareDocumentToMembersModal isOpen={isShareModalOpen} rowData={dataRow}
               onRequestClose={closeShareModal} 

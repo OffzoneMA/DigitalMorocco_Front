@@ -296,12 +296,12 @@ const InvestorRequestHistory = () => {
                   {filter && 
                 (
                     <>
-                    <div className="flex min-w-[120px] ">
+                    {/* <div className="flex min-w-[120px] ">
                       <input 
                       className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`} 
                       type="text" name="search" placeholder={t("common.keywords")} value={localKeywords} 
                       onChange={e => setLocalKeywords(e.target.value)} />
-                    </div>
+                    </div> */}
                     <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata}  searchLabel={t('common.searchInvestor')} setSelectedOptionVal={setLocalUser} placeholder={t('common.investorName')} content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">

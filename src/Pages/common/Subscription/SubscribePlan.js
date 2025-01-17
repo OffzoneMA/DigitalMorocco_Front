@@ -11,11 +11,13 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
+import { useGetUserDetailsQuery } from '../../../Services/Auth';
 
 export default function SubscribePlan() {
   const { t } = useTranslation();
     const token = sessionStorage.getItem("userToken");
     const [createSubscriptionForUser] = useCreateSubscriptionForUserMutation();
+    const {refetch} = useGetUserDetailsQuery();
     const [upgradeSubscription, { isLoading: upgradeLoading, isSuccess:upgradeSuccess, isError, error }] = useUpgradeSubscriptionMutation();
     const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -81,6 +83,7 @@ export default function SubscribePlan() {
         
     const closeModal = () => {
       setIsSuccessOpenModal(false);
+      refetch();
       navigate('/Subscription');
     };
     

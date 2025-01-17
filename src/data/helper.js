@@ -320,3 +320,26 @@ export function formatEventDateTime(startDate, endDate, startTime, endTime , t) 
       return currentLanguage === 'fr' ? 'Date/heure invalide' : 'Invalid Date/Time';
   }
 }
+
+export const validateImageFile = (file) => {
+  const allowedTypes = [
+    "image/jpeg",  // JPG
+    "image/png",   // PNG
+    "image/gif",   // GIF
+    "image/svg+xml", // SVG
+    "image/webp",  // WebP
+    "image/bmp",   // BMP
+    "image/tiff",  // TIFF
+  ];
+  const maxSizeInBytes = 2 * 1024 * 1024;
+
+  // if (!allowedTypes.includes(file.type)) {
+  //   return false;
+  // }
+
+  if (file.size > maxSizeInBytes) {
+    return false;
+  }
+
+  return true;
+};

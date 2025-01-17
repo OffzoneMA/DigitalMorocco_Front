@@ -183,13 +183,15 @@ const NewDocumentModal = (props) => {
     else {
       if (props?.response?.isSuccess) {
         props.onRequestClose();
+        props?.refetch();
+        setSelectedMembers([]);
         setPreview(null);
         const redirectTimer = setTimeout(() => {
           navigate("/Document");
         }, 1000);
         return () => clearTimeout(redirectTimer);
       }else {
-        response.isError && console.log(response.error)
+        props?.response?.isError && console.log(props?.response?.error)
       }
     }
   }, [props?.response]);

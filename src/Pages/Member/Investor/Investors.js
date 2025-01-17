@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef , useCallback } from "react";
 import { useSelector } from "react-redux";
 import{ Text } from "../../../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
@@ -85,18 +85,80 @@ const Investors = () => {
     }
   }, [investorData]);
   
-  useEffect(() => {
-    // Check if investor data is loaded and subscription status is available
-    if (investorData && investors?.length > 0 && subscriptionData && !subscriptionLoading && !loading && !userDetailsLoading) {
-      const hasDraftRequest = investorData?.hasDraftRequest;
-      const isSubscribed = subscriptionData !== null && subscriptionData !== undefined; 
+  // useEffect(() => {
+  //   // Check if investor data is loaded and subscription status is available
+  //   if (investorData && investors?.length > 0 && subscriptionData && !subscriptionLoading && !loading && !userDetailsLoading) {
+  //     const hasDraftRequest = investorData?.hasDraftRequest;
+  //     const isSubscribed = subscriptionData !== null && subscriptionData !== undefined; 
 
-      // Show popup if there is a draft request and the user is subscribed
-      if (hasDraftRequest && isSubscribed) {
+  //     // Show popup if there is a draft request and the user is subscribed
+  //     if (hasDraftRequest && isSubscribed) {
+  //       setShowDraftPopup(true);
+  //     }
+  //   }
+  // }, [investorData, subscriptionData , loading , subscriptionLoading , userDetailsLoading]);
+
+  const hasClosedPopupRef = useRef(false);
+  const currentPageRef = useRef(location.pathname);
+
+  const checkDisplayConditions = useCallback(() => {
+    return (
+      investorData &&
+      investors?.length > 0 &&
+      subscriptionData &&
+      !subscriptionLoading &&
+      !loading &&
+      !userDetailsLoading &&
+      investorData?.hasDraftRequest &&
+      (subscriptionData !== null && subscriptionData !== undefined)
+    );
+  }, [
+    investorData,
+    investors,
+    subscriptionData,
+    subscriptionLoading,
+    loading,
+    userDetailsLoading
+  ]);
+
+  // Gestion du chargement initial et du rechargement de la page
+  useEffect(() => {
+    const handlePageLoad = () => {
+      hasClosedPopupRef.current = false;
+      if (checkDisplayConditions()) {
+        setShowDraftPopup(true);
+      }
+    };
+
+    // Au montage initial
+    if (!hasClosedPopupRef.current && checkDisplayConditions()) {
+      setShowDraftPopup(true);
+    }
+
+    // Pour le rechargement manuel de la page
+    window.addEventListener('load', handlePageLoad);
+
+    return () => {
+      window.removeEventListener('load', handlePageLoad);
+    };
+  }, [checkDisplayConditions]);
+
+  // Gestion de la navigation
+  useEffect(() => {
+    // On récupère le pathname sans les query parameters
+    const basePathname = location.pathname;
+    
+    // Si on change de page (pas juste de paramètres d'URL)
+    if (basePathname !== currentPageRef.current) {
+      currentPageRef.current = basePathname;
+      hasClosedPopupRef.current = false;
+      
+      if (checkDisplayConditions()) {
         setShowDraftPopup(true);
       }
     }
-  }, [investorData, subscriptionData , loading , subscriptionLoading , userDetailsLoading]);
+  }, [location, checkDisplayConditions]);
+
 
 
   useEffect(() => {
@@ -251,6 +313,7 @@ const Investors = () => {
     setSelectedInvestor(investor);
     if (investor.hasDraftContactRequest) {
       setShowContactPopup(true);
+      navigate(`/InvestorDetails/${investor?._id}` , { state: {investor: investor}});
     } else {
       navigate(`/InvestorDetails/${investor?._id}` , { state: {investor: investor}});
     }
@@ -266,6 +329,7 @@ const Investors = () => {
 
   const closeDraftPopup = () => {
     setShowDraftPopup(false)
+    hasClosedPopupRef.current = true;  
   }
 
     return (
@@ -295,7 +359,7 @@ const Investors = () => {
                   {filter && 
                 (
                     <>
-                    <div className="flex min-w-[70px]">
+                    {/* <div className="flex min-w-[70px]">
                       <input
                         className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                         type="text"
@@ -304,8 +368,8 @@ const Investors = () => {
                         value={localKeywords}
                         onChange={e => setLocalKeywords(e.target.value)}
                       />
-                    </div>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={typeData}  searchLabel={t('common.searchType')} setSelectedOptionVal={setLocalInvestmentType} 
+                    </div> */}
+                    <MultipleSelect className="min-w-[170px] max-w-[250px]" id='investor' options={typeData}  searchLabel={t('common.searchType')} setSelectedOptionVal={setLocalInvestmentType} 
                       placeholder={t('common.typeofInvestment')}
                       content={
                       ( option) =>{ return (
@@ -319,7 +383,7 @@ const Investors = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locationData}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocalLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[220px] " id='country' options={locationData}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocalLocation} 
                     placeholder={t("common.location")} 
                     content={
                       ( option) =>{ return (
@@ -333,7 +397,7 @@ const Investors = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={industryData}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[300px]" id='investor' options={industryData}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalIndustries} 
                     placeholder={t('common.selectIndustries')}
                     content={
                       ( option) =>{ return (
@@ -562,7 +626,7 @@ const Investors = () => {
           </div>
         </div>
       }/>
-    <CommonModal isOpen={showContactPopup}
+    {/* <CommonModal isOpen={showContactPopup}
       onRequestClose={closeContactPopup} title={t('Action Required: Contact Request')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
@@ -581,7 +645,7 @@ const Investors = () => {
               </button>
           </div>
         </div>
-      }/>
+      }/> */}
     </>
     )
 }

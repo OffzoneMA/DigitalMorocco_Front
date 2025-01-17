@@ -30,6 +30,7 @@ import userdefaultProfile from '../../../Media/User1.png'
 import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
 import { PiUsersThin } from "react-icons/pi";
+import { validateImageFile } from "../../../data/helper";
 
 const CreateProject = () => {
   const { t } = useTranslation();
@@ -175,8 +176,6 @@ const formatNumber = (number) => {
       setIsFormValid(isValid);
     }
   }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication, selectedStatus]);
-
-  console.log(isAllFormValid , isFormValid , validForm , errors);
   
   // useEffect(() => {
   //   if (userInfo && userInfo.member) {
@@ -413,28 +412,6 @@ const formatNumber = (number) => {
     setDocumentDivs([...documentDivs, { id: newId }]);
     inputRefs.current = [...inputRefs.current, React.createRef()];
   };
-
-  // Structure de données pour gérer les fichiers
-const FileManager = {
-    files: new Map(),
-    
-    addFile(index, file) {
-        this.files.set(index, {
-            file,
-            name: file.name,
-            documentId: null,
-            index
-        });
-    },
-    
-    removeFile(index) {
-        this.files.delete(index);
-    },
-    
-    getFiles() {
-        return Array.from(this.files.values());
-    }
-};
 
   const handleDrop = (event, index) => {
       event.preventDefault();
@@ -711,6 +688,9 @@ const handleFileRemove = async (type) => {
     const droppedFiles = event.dataTransfer.files;
     if (droppedFiles.length > 0) {
       const imageFile = droppedFiles[0];
+      // Validation du fichier
+      if (!validateImageFile(imageFile)) return;
+
       setImgFile(imageFile);
       setLogoFile(URL.createObjectURL(imageFile));
     }
@@ -718,6 +698,9 @@ const handleFileRemove = async (type) => {
 
   const handleLogoFileUpload = (event) => {
     const file = event.target.files[0];
+    // Validation du fichier
+    if (!validateImageFile(file)) return;
+
     setImgFile(file);
     setLogoFile(URL.createObjectURL(file));
   };
@@ -1310,7 +1293,7 @@ const handleFileRemove = async (type) => {
                             </div>
                           </div>}
                         </div>
-                        <input ref={logoFileInputRefChange} id="fileInput" type="file" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
+                        <input ref={logoFileInputRefChange} id="fileInput" type="file" accept="image/*" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
                         </>
                       ) : (<>
                       <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
@@ -1324,7 +1307,7 @@ const handleFileRemove = async (type) => {
                           </Text>
                         </div>
                       </div>
-                      <input ref={logoFileInputRef} id="fileInput" type="file" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
+                      <input ref={logoFileInputRef} id="fileInput" type="file" accept="image/*" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
                       </>
                         )}
                     </div>

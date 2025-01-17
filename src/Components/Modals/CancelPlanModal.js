@@ -12,7 +12,8 @@ const CancelPlanModal = (props) => {
     const token = sessionStorage.getItem("userToken");
     const [sendingOk , setSendingOk] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [Mount, setMount] = useState(true)
+  
     const currentLanguage = localStorage.getItem('language') || 'en'; 
 
     useEffect(() => {
@@ -37,18 +38,33 @@ const CancelPlanModal = (props) => {
         if (!props.isOpen) {
           setSendingOk(false);
         }
-      }, [props.isOpen]);
-
-    const submit = () => {
-        try {
-          setSendingOk(true);
-          props?.method();
-          setSendingOk(false)
+    }, [props.isOpen]);
+    
+    useEffect(() => {
+      if (Mount) { setMount(false) }
+      else {
+        if (props?.response?.isSuccess) {
           props.onRequestClose();
           setIsModalOpen(true);
+        }else {
+          props?.response?.isError && console.log(props?.response?.error)
+        }
+      }
+    }, [props?.response]);
+
+    const submit = () => {
+      setSendingOk(true);
+        try {
+          props?.method();
         } catch (error) {
           console.error('Error canceling subscription:', error);
         }
+    }
+
+    const closeSuccessModal = () => {
+      setIsModalOpen(false);
+      setSendingOk(false);
+      props?.refetch();
     }
 
     return (
@@ -120,7 +136,7 @@ const CancelPlanModal = (props) => {
         </ModalProvider>
         <EmailExistModalOrConfirmation
             isOpen={isModalOpen}
-            onRequestClose={() => setIsModalOpen(false)}
+            onRequestClose={() => closeSuccessModal()}
             content={
               <div className="flex flex-col gap-[38px] items-center justify-start w-full">
                 <img

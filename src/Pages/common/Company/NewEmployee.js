@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
 import { useGetEmployeeByIdQuery } from "../../../Services/EmployeeService";
 import { useParams } from "react-router-dom";
+import { validateImageFile } from "../../../data/helper";
 
 const NewEmployee = () => {
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ const NewEmployee = () => {
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(dataCountries.find(country => country.name === employee?.country) || null);
   const [selectedCity, setSelectedCity] = useState(employee?.cityState || '');
-  const [selectedJobTitle, setSelectedJobTitle] = useState(null);
+  const [selectedJobTitle, setSelectedJobTitle] = useState(jobTitles.find(job => job === employee?.jobTitle) || null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
@@ -105,6 +106,15 @@ const NewEmployee = () => {
         startDate: employee.startDate,
         photo: employee.photo,
       });
+      if(location.state.employee.jobTitle){
+        setSelectedJobTitle(jobTitles.find(job => job === location.state.employee.jobTitle));
+      }
+      if(location.state.employee.level){
+        setSelectedLevel(employeeLevels.find(level => level === location.state.employee.level));
+      }
+      if(location.state.employee.department){
+        setSelectedDepartment(departments.find(department => department === location.state.employee.department));
+      }
     }
     // if (isSaved) {
     //   const redirectTimer = setTimeout(() => {
@@ -143,6 +153,7 @@ const NewEmployee = () => {
   
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    if (!validateImageFile(file)) return;
     setImgFile(file);
     setLogoFile(URL.createObjectURL(file));
   };
@@ -168,6 +179,7 @@ const NewEmployee = () => {
     setShowLogoDropdown(false);
   };
 
+
   const onSubmit = async (data) => {
     try {
       const token = sessionStorage.getItem("userToken");
@@ -189,9 +201,9 @@ const NewEmployee = () => {
   
           formData.append('image', imgFile); 
           
-          updatedFields.jobTitle = selectedJobTitle || currentData.jobTitle;
-          updatedFields.level = selectedLevel || currentData.level;
-          updatedFields.department = selectedDepartment || currentData.department;
+          updatedFields.jobTitle = selectedJobTitle;
+          updatedFields.level = selectedLevel;
+          updatedFields.department = selectedDepartment;
           updatedFields.country = selectedCountry?.name || currentData.country;
           updatedFields.cityState = selectedCity?.name || currentData.cityState;
           updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
@@ -235,9 +247,9 @@ const NewEmployee = () => {
           }
         } else {
           const formData = new FormData();
-          updatedFields.jobTitle = selectedJobTitle || currentData.jobTitle;
-          updatedFields.level = selectedLevel || currentData.level;
-          updatedFields.department = selectedDepartment || currentData.department;
+          updatedFields.jobTitle = selectedJobTitle ;
+          updatedFields.level = selectedLevel;
+          updatedFields.department = selectedDepartment;
           updatedFields.country = selectedCountry?.name || currentData.country;
           updatedFields.cityState = selectedCity?.name || currentData.cityState;
           updatedFields.startDate = selectedDate ? moment(selectedDate, 'DD/MM/YYYY').toDate() : currentData.startDate;
@@ -632,7 +644,7 @@ const NewEmployee = () => {
                               </div>
                             </div>}
                           </div>
-                          <input ref={logoFileInputRefChange} id="fileInput" type="file" onChange={(e) => handleFileChange(e)} className="hidden" />
+                          <input ref={logoFileInputRefChange} id="fileInput" type="file" accept="image/*" onChange={(e) => handleFileChange(e)} className="hidden" />
                           </>
                     ) : (<>
                     <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
@@ -648,7 +660,7 @@ const NewEmployee = () => {
                         </Text>
                       </div>
                     </div>
-                    <input ref={logoFileInputRef} id="fileInput" type="file" onChange={(e) => handleFileChange(e)} className="hidden" />
+                    <input ref={logoFileInputRef} id="fileInput" type="file" accept="image/*" onChange={(e) => handleFileChange(e)} className="hidden" />
                     </>
                       )}
                   </div>
@@ -664,7 +676,7 @@ const NewEmployee = () => {
                       onSelect={(selectedOption) => setSelectedJobTitle(selectedOption)}
                       searchLabel={t('employee.addEmployee.searchJob')}
                       setSelectedOptionVal={setSelectedJobTitle}
-                      selectedOptionsDfault={employee?.jobTitle ? jobTitles.find(job => job === employee.jobTitle) : ""}
+                      selectedOptionsDfault={selectedJobTitle}
                       placeholder={t('employee.addEmployee.selectJobTitle')}
                       content={(option) => {
                         return (
@@ -688,7 +700,7 @@ const NewEmployee = () => {
                     </Text>
                     <SimpleSelect id='level' options={employeeLevels}  searchLabel={t('employee.addEmployee.searchLevel')} setSelectedOptionVal={setSelectedLevel}
                       placeholder={t('employee.addEmployee.selectLevel')}
-                      selectedOptionsDfault={employee?.level? employeeLevels.find(lev => lev === employee.level) : ""}
+                      selectedOptionsDfault={selectedLevel}
                       content={
                         (option) => {
                           return (
@@ -711,7 +723,7 @@ const NewEmployee = () => {
                     </Text>
                     <SimpleSelect id='department' options={departments}  searchLabel={t('employee.addEmployee.searchDepartment')} setSelectedOptionVal={setSelectedDepartment}
                       placeholder={t('employee.addEmployee.selectDepartment')}
-                      selectedOptionsDfault={employee?.department? departments.find(dep => dep === employee.department) : ""}
+                      selectedOptionsDfault={selectedDepartment}
                       content={
                         (option) => {
                           return (

@@ -315,18 +315,20 @@ const SidebarNav = () => {
           <div className="flex relative" 
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}>
-          <img
-            src={`${userData?.image || userDefaultProfil}`}
-            alt=""
-            className="w-[40px] h-[40px] rounded-full bg-cover"
-          />
+          <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+            <img
+              src={userData?.image || userDefaultProfil}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
           {open && <div
             className={`
           flex justify-between items-center
           overflow-hidden transition-all ${open ? "w-52 ml-3" : "w-0"}
         `}
           >
-            <div className="leading-4 flex-1">
+            <div className="leading-4 flex-1 overflow-hidden">
               <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : ""}</span>
             </div>
           </div>}

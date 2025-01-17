@@ -18,8 +18,7 @@ import { logout } from "../../Redux/auth/authSlice";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useGetUserDetailsQuery } from '../../Services/Auth';
-import { set } from 'date-fns';
-
+import { validateImageFile } from '../../data/helper';
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
@@ -197,7 +196,10 @@ export default function UserProfile() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+  
     if (file) {
+      if(!validateImageFile(file)) return
+      // If validations pass
       setSelectedImage(file);
       const reader = new FileReader();
       reader.onload = (event) => {
@@ -206,6 +208,7 @@ export default function UserProfile() {
       reader.readAsDataURL(file);
     }
   };
+  
 
   const newPassword = watch("newPassword", "");
 
@@ -326,6 +329,8 @@ export default function UserProfile() {
       setIsForm1Saved(true);
       refetch();
       setForm1Sending(false);
+      setPreview(null);
+      setSelectedImage(null);
       setTimeout(() => {
         setIsForm1Saved(false);
       }, 5000);
@@ -509,7 +514,7 @@ export default function UserProfile() {
       setSelectedImage(null);
   
       // Vérifier si l'utilisateur a une image existante
-      if (userData?.image) {
+      if (userData?.image && preview === null) {
         const response = await axios.put(
           `${process.env.REACT_APP_baseURL}/users/`,
           { image: null }, // Envoyer l'image comme null dans le payload JSON
@@ -528,6 +533,7 @@ export default function UserProfile() {
         // Recharger les données utilisateur via une fonction refetch
         refetch();
       }
+      fileInputRef.current.value = null;
     } catch (error) {
       console.error("Erreur lors de la suppression de l'image :", error);
     }

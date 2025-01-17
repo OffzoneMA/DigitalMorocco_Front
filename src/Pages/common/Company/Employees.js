@@ -172,8 +172,8 @@ const Employees = () => {
                           </div>
                         </td>
                         <td className="px-[18px] py-4 text-gray500">{employee.workEmail}</td>
-                        <td className="px-[18px] py-4 text-gray500">{t(`${employee.jobTitle}`)}</td>
-                        <td className="px-[18px] py-4 text-gray500">{t(`${employee.level}`)}</td>
+                        <td className="px-[18px] py-4 text-gray500">{employee?.jobTitle ?  t(`${employee.jobTitle}`) : "-"}</td>
+                        <td className="px-[18px] py-4 text-gray500">{employee?.level ? t(`${employee.level}`) : "-"}</td>
                         <td className="px-[18px] py-4 text-gray500">
                           {employee.status?.toLowerCase() === 'member' ? (
                             <div className="h-[22px] pl-1.5 pr-2 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center gap-1.5 inline-flex">

@@ -176,12 +176,12 @@ const InvestorDetails = () => {
                     </div>
                     <div className="flex flex-col md:min-w-[450px] gap-6 flex-1 w-full">
                       <div className={`flex flex-row justify-between items-start  ${investorRequestStatus?.toLowerCase() === 'pending' ? '' : '' } w-full`}>
-                        <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-4 py-2' : '' } `}>
+                        <div className={`relative flex item-center ${investorRequestStatus?.toLowerCase() === 'pending' ? 'pr-6 py-2' : '' } `}>
                           <Text className="font-dm-sans-bold text-2xl leading-8 text-left text-blue_gray-903">
                             {investor?.CompanyName || investor?.name || 'Digital Morocco Partner'}
                           </Text>
                           {investorRequestStatus?.toLowerCase() === 'pending' && 
-                          <div className="absolute ml-[-8px] h-full overlay-content-invDetails w-full top-0">
+                          <div className="absolute ml-[-12px] mr-[-10px] h-full overlay-content-invDetails-title w-full top-0">
                           </div>}
                         </div>
                         {(investorRequestStatus?.toLowerCase() !== 'accepted'&& !investorInProgressStatus) && 
@@ -194,7 +194,7 @@ const InvestorDetails = () => {
                             {t('investors.investorDetails.sendContactRequest')}
                         </button>}
                         {investorInProgressStatus && (
-                          <div className="flex flex-row items-center justify-center gap-2 py-1 px-2 font-dm-sans-regular rounded-full bg-[#dbedff] text-[#156fee] text-sm">
+                          <div className="flex flex-row items-center justify-center gap-2 py-2 px-4 font-dm-sans-regular rounded-full bg-[#dbedff] text-[#156fee] text-sm">
                             {t("investors.investorDetails.requestSend")}
                           </div>
                         )}

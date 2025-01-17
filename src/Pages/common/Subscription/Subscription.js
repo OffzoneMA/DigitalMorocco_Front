@@ -30,7 +30,7 @@ export default function Subscription() {
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
-  const [cancelSubscription, { isLoading: cancelLoading, isError: cancelError, isSuccess: cancelSuccess }] = useCancelSubscriptionMutation();
+  const [cancelSubscription, response] = useCancelSubscriptionMutation();
   const [renewSubscription, { isLoading: renewLoading, isFetching: renewFetching , isSuccess: renewSuccess, isError: renewError }] = useRenewSubscriptionMutation();
   // const {data: billingDataForUser , isFetching: billingDataFetching } = useGetBillingsForUserQuery();
   const [billingDataForUser , setBillingDataForUser] = useState([]);
@@ -147,7 +147,6 @@ useEffect(() => {
   const handleCancelSubscription = async () => {
     try {
       await cancelSubscription(userSubscriptionData?._id).unwrap(); 
-      getUserSusbcription();
       closeCancelModal();
     } catch (err) {
       console.log(err) 
@@ -427,7 +426,7 @@ useEffect(() => {
         </div>
         }
       </div>
-      <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal} method={handleCancelSubscription}/>
+      <CancelPlanModal isOpen={isCancelModalOpen}  onRequestClose={closeCancelModal} method={handleCancelSubscription} response={response} refetch={getUserSusbcription} />
           <EmailExistModalOrConfirmation isOpen={isConfirmRenewModalOpen}
             onRequestClose={closeConfirmRenewModal} content={
               <div className="flex flex-col gap-[38px] items-center justify-start w-full">

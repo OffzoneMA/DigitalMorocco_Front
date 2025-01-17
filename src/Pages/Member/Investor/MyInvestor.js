@@ -237,7 +237,7 @@ const MyInvestors = () => {
                   {filter && 
                 (
                     <>
-                    <div className="flex min-w-[70px]">
+                    {/* <div className="flex min-w-[70px]">
                       <input
                         className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                         type="text"
@@ -246,8 +246,8 @@ const MyInvestors = () => {
                         value={localKeywords}
                         onChange={e => setLocalKeywords(e.target.value)}
                       />
-                    </div>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={investorTypes?.distinctValues || []}  searchLabel={t('common.searchType')} setSelectedOptionVal={setLocalInvestmentType} 
+                    </div> */}
+                    <MultipleSelect className="min-w-[170px] max-w-[250px]" id='investor' options={investorTypes?.distinctValues || []}  searchLabel={t('common.searchType')} setSelectedOptionVal={setLocalInvestmentType} 
                     placeholder={t('common.typeofInvestment')}
                     content={
                       ( option) =>{ return (
@@ -261,7 +261,7 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <SimpleSelect className="min-w-[100px] max-w-[200px] " id='country' options={locations?.distinctValues || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocalLocation} 
+                    <SimpleSelect className="min-w-[100px] max-w-[250px] " id='country' options={locations?.distinctValues || []}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocalLocation} 
                     placeholder={t("common.location")} 
                     content={
                       ( option) =>{ return (
@@ -275,7 +275,7 @@ const MyInvestors = () => {
                         );
                       }
                     }/>
-                    <MultipleSelect className="min-w-[170px]" id='investor' options={industriesData?.distinctValues || []}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalIndustries} 
+                    <MultipleSelect className="min-w-[170px] max-w-[300px]" id='investor' options={industriesData?.distinctValues || []}  searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalIndustries} 
                     placeholder={t('common.selectIndustries')}
                     content={
                       ( option) =>{ return (
