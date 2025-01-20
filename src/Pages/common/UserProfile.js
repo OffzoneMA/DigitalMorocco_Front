@@ -19,6 +19,8 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useGetUserDetailsQuery } from '../../Services/Auth';
 import { validateImageFile } from '../../data/helper';
+import { countries as allCountries} from '../../data/tablesData';
+
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
@@ -26,7 +28,7 @@ export default function UserProfile() {
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
   const token = sessionStorage.getItem("userToken");
-  const allCountries = Country.getAllCountries();
+  // const allCountries = Country.getAllCountries();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow, setDeleteRow] = useState(null);
   const [name, setName] = useState(userInfo?.displayName);
@@ -163,7 +165,7 @@ export default function UserProfile() {
         setValue('lastName', lastName);
         if (data?.country) {
           const foundCountry = allCountries.find(
-            country => country.name.toLowerCase() === "morocco".toLowerCase()
+            country => country.name.toLowerCase() === data?.country.toLowerCase()
           );
           setSelectedCountry(foundCountry);
         }
@@ -354,16 +356,14 @@ export default function UserProfile() {
 
     setRequiredFields1({
       country: !isCountryValid,
-      city: !isCityValid,
+      // city: !isCityValid,
     });
 
-    console.log(selectedCountry, formIsValid);
-
-    setIsForm1Valid(formIsValid && isCountryValid && isCityValid);
+    setIsForm1Valid(formIsValid && isCountryValid);
 
     
     // Si tout est valide, soumettre le formulaire
-    if (formIsValid && isCountryValid && isCityValid) {
+    if (formIsValid && isCountryValid ) {
       handleSubmit1(onSubmit1)(e);
     }
   };
@@ -711,21 +711,21 @@ export default function UserProfile() {
                     
                     searchLabel={t("common.searchCountry")}
                     setSelectedOptionVal={setSelectedCountry}
-                    selectedOptionsDfault={userData?.country ? allCountries.find(country => country.name === userData.country) : ""}
+                    selectedOptionsDfault={selectedCountry}
                     placeholder={t('settings.myProfile.countryPlaceholder')} required={requiredFields1.country}
                     valuekey="name"
                     content={(option) => {
                       return (
                         <div className="flex py-2 items-center w-full">
                           <Text className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">
-                            {option.name}
+                            {t(option.name)}
                           </Text>
                         </div>
                       );
                     }}
                   />
                 </div>
-                <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                {/* <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text className="text-base text-gray-901 w-auto" size="txtDMSansLablel">
                   {t('settings.myProfile.cityState')}
                   </Text>
@@ -748,7 +748,7 @@ export default function UserProfile() {
                       );
                     }}
                   />
-                </div>
+                </div> */}
               </div>
               {isForm1Saved ? (
                 <button disabled className="bg-gray-201 cursorpointer font-dm-sans-medium text-gray500 flex flex-row h-[44px] items-center justify-center min-w-[140px] gap-3 mr-auto py-2 px-7 rounded-md w-auto" type="submit">

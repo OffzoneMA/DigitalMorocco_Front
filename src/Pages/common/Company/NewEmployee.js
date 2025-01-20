@@ -55,14 +55,16 @@ const NewEmployee = () => {
 
   useEffect(() => {
     if (hasSubmitted ) {
-      const isCountryValid = selectedCountry !== null;
+      const isCountryValid = selectedCountry !== null && selectedCountry !== "" && selectedCountry !== undefined;
       const isCityValid = selectedCity !== "";
   
-      const isValid = isCountryValid && isCityValid  ;
+      // const isValid = isCountryValid && isCityValid  ;
+
+      const isValid = isCountryValid  ;
   
       setRequiredFields({
         country: !isCountryValid,
-        city: !isCityValid,
+        // city: !isCityValid,
       });
   
       setIsFormValid(isValid);
@@ -194,7 +196,7 @@ const NewEmployee = () => {
         }
       });
 
-      if(isFormValid) {
+      if(isFormValid && selectedCountry !== null && selectedCountry !== undefined ) {
         setSendingOk(true);
         if (imgFile) {
           const formData = new FormData();
@@ -541,7 +543,7 @@ const NewEmployee = () => {
                     options={countries} 
                     searchLabel={t("common.searchCountry")}
                     setSelectedOptionVal={setSelectedCountry}
-                    selectedOptionsDfault={employee?.country? dataCountries.find(country => country.name === employee.country) : ""}
+                    selectedOptionsDfault={selectedCountry}
                     placeholder={t('employee.addEmployee.selectCountry')} valuekey="name" required={requiredFields.country} 
                     content={
                       (option) => {
@@ -550,14 +552,14 @@ const NewEmployee = () => {
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                             >
-                              {option.name}
+                              {t(option.name)}
                             </Text>
                           </div>
                         );
                       }
                     } />
                 </div>
-                <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                {/* <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-[#1D1C21] w-auto"
                     size="txtDMSansLablel"
@@ -581,7 +583,7 @@ const NewEmployee = () => {
                         );
                       }
                     } />
-                </div>
+                </div> */}
                 <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                   <Text
                     className="text-base text-[#1D1C21] w-auto"

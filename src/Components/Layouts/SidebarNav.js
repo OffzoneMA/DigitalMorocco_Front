@@ -182,6 +182,19 @@ const SidebarNav = () => {
     ]},
     (userRole === "member" || validEmailCheck) && { title: t('sidebar.document'), src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
     (userRole === "member" || validEmailCheck) && { title: t('sidebar.history'), src: <PiHourglassLowFill size={23} className="text-light_blue-100"/> , link:"History" },
+    (userRole === "admin") && {
+      title: t('sidebar.company.main'),
+      src: <BiBuildings size={23} className="text-light_blue-100" />,
+      submenu: true,
+      activeLinks: ["CreateEmployee" , "EditEmployee" , "MyCompany", "Employees", "CompanyLegal"],
+      child: [
+        { title: t('sidebar.company.myCompany'), src: '', link: "MyCompany" },
+        ...(userRole === "member" || validEmailCheck ? [
+          { title: t('sidebar.company.employee'), src: '', link: "Employees", activeLinks: ["CreateEmployee" , "EditEmployee"] },
+          { title: t('sidebar.company.legal'), src: '', link: "CompanyLegal" }
+        ] : [])
+      ]
+    },
 
   ];
   if (userData?.role === "Admin") {

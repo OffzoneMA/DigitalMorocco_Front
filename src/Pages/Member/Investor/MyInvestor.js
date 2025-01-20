@@ -174,10 +174,10 @@ const MyInvestors = () => {
   useEffect(() => {
     if (filterApply) {
       const isAllFiltersEmpty =
-        localInvestmentType.length === 0 &&
-        !localLocation.trim() &&
-        localIndustries.length === 0 &&
-        !localKeywords.trim();
+        localInvestmentType?.length === 0 &&
+        !localLocation?.trim() &&
+        localIndustries?.length === 0 &&
+        !localKeywords?.trim();
   
       if (isAllFiltersEmpty) {
         handleResetFilters();

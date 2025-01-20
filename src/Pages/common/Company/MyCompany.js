@@ -48,11 +48,14 @@ const MyCompany = () => {
         const isCityValid = selectedCity !== "";
         const isSectorValid = selectedSector !== "";
     
-        const isValid = isCountryValid && isCityValid && isSectorValid ;
+        // const isValid = isCountryValid && isCityValid && isSectorValid ;
+
+        const isValid = isCountryValid && isSectorValid ;
+
     
         setRequiredFields({
           country: !isCountryValid,
-          city: !isCityValid,
+          // city: !isCityValid,
           sector: !isSectorValid,
         });
     
@@ -365,7 +368,7 @@ const MyCompany = () => {
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
-                               {option.name}
+                               {t(`${option.name}`)}
                             </Text>
                            </div>
                         );
@@ -373,7 +376,7 @@ const MyCompany = () => {
                     }/>
               {/* {selectedCountry==null && <span className="text-sm font-DmSans text-red-500">Company country is required</span>} */}
               </div>
-              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+              {/* <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
@@ -395,8 +398,7 @@ const MyCompany = () => {
                         );
                       }
                     }/>
-                {/* {selectedCity==null && <span className="text-sm font-DmSans text-red-500">Company city/state is required</span>} */}
-              </div>
+              </div> */}
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
                   className="text-base text-[#1D1C21] w-auto"

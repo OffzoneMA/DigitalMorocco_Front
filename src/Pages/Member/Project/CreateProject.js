@@ -1087,7 +1087,7 @@ const handleFileRemove = async (type) => {
                                 <Text
                                   className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                   >
-                                  {option.name}
+                                  {t(`${option.name}`)}
                                 </Text>
                               </div>
                             );

@@ -2,7 +2,7 @@ import React, { useState, useEffect , useRef , useCallback } from "react";
 import { useSelector } from "react-redux";
 import{ Text } from "../../../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
-import { useSearchParams , useNavigate} from "react-router-dom";
+import { useSearchParams , useNavigate , useLocation} from "react-router-dom";
 import { BsEyeSlash } from "react-icons/bs";
 import { TiFlashOutline } from "react-icons/ti";
 import TablePagination from "../../../Components/common/TablePagination";
@@ -24,6 +24,7 @@ import CommonModal from "../../../Components/common/CommonModal";
 const Investors = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const locationP = useLocation();
   const { userInfo } = useSelector((state) => state.auth) 
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const [showPopup, setShowPopup] = useState(false);
@@ -99,67 +100,39 @@ const Investors = () => {
   // }, [investorData, subscriptionData , loading , subscriptionLoading , userDetailsLoading]);
 
   const hasClosedPopupRef = useRef(false);
-  const currentPageRef = useRef(location.pathname);
+const hasCheckedNavigationRef = useRef(false);
 
-  const checkDisplayConditions = useCallback(() => {
-    return (
-      investorData &&
-      investors?.length > 0 &&
-      subscriptionData &&
-      !subscriptionLoading &&
-      !loading &&
-      !userDetailsLoading &&
-      investorData?.hasDraftRequest &&
-      (subscriptionData !== null && subscriptionData !== undefined)
-    );
-  }, [
-    investorData,
-    investors,
-    subscriptionData,
-    subscriptionLoading,
-    loading,
-    userDetailsLoading
-  ]);
+const checkDisplayConditions = useCallback(() => {
+  return (
+    investorData &&
+    investors?.length > 0 &&
+    subscriptionData &&
+    !subscriptionLoading &&
+    !loading &&
+    !userDetailsLoading &&
+    investorData?.hasDraftRequest &&
+    (subscriptionData !== null && subscriptionData !== undefined)
+  );
+}, [
+  investorData,
+  investors,
+  subscriptionData,
+  subscriptionLoading,
+  loading,
+  userDetailsLoading
+]);
 
-  // Gestion du chargement initial et du rechargement de la page
-  useEffect(() => {
-    const handlePageLoad = () => {
-      hasClosedPopupRef.current = false;
-      if (checkDisplayConditions()) {
-        setShowDraftPopup(true);
-      }
-    };
+// Et ton useEffect qui gère le popup reste tel quel dans Investors.js
+useEffect(() => {
+  const previousPath = sessionStorage.getItem('previousPageVisited');
+  const cameFromDetails = previousPath?.includes('InvestorDetails');
 
-    // Au montage initial
-    if (!hasClosedPopupRef.current && checkDisplayConditions()) {
-      setShowDraftPopup(true);
-    }
-
-    // Pour le rechargement manuel de la page
-    window.addEventListener('load', handlePageLoad);
-
-    return () => {
-      window.removeEventListener('load', handlePageLoad);
-    };
-  }, [checkDisplayConditions]);
-
-  // Gestion de la navigation
-  useEffect(() => {
-    // On récupère le pathname sans les query parameters
-    const basePathname = location.pathname;
-    
-    // Si on change de page (pas juste de paramètres d'URL)
-    if (basePathname !== currentPageRef.current) {
-      currentPageRef.current = basePathname;
-      hasClosedPopupRef.current = false;
-      
-      if (checkDisplayConditions()) {
-        setShowDraftPopup(true);
-      }
-    }
-  }, [location, checkDisplayConditions]);
-
-
+  console.log(previousPath)
+  
+  if (checkDisplayConditions() && !hasClosedPopupRef.current && !cameFromDetails) {
+    setShowDraftPopup(true);
+  }
+}, [checkDisplayConditions]);
 
   useEffect(() => {
     // if(filterApply && investorData?.currentPage !== cur) {
@@ -311,12 +284,11 @@ const Investors = () => {
 
   const handleInvestorClick = (investor) => {
     setSelectedInvestor(investor);
+    
     if (investor.hasDraftContactRequest) {
       setShowContactPopup(true);
-      navigate(`/InvestorDetails/${investor?._id}` , { state: {investor: investor}});
-    } else {
-      navigate(`/InvestorDetails/${investor?._id}` , { state: {investor: investor}});
     }
+    navigate(`/InvestorDetails/${investor?._id}`, { state: {investor: investor}});
   };
 
   const closeContactPopup = () => {

@@ -120,6 +120,7 @@ const CancelPlanModal = (props) => {
                         <button 
                             onClick={submit}
                             type="button" 
+                            disabled={sendingOk}
                             className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#F02A3C] min-w-[180px]' : 'bg-[#EF4352]'} hover:bg-[#F02A3C] text-white-A700 h-[44px] py-2 px-[20px] min-w-[209px] font-dm-sans-medium text-base leading-5 tracking-normal rounded-md cursorpointer`}>
                             {sendingOk ? 
                             <div className="flex items-center justify-center gap-6"> {t("all.sending")}

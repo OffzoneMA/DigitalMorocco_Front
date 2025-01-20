@@ -31,9 +31,6 @@ const MemberPlan = ({ plan , buttonText }) => {
     
         return formattedPrice;
     };
-    
-    
-    
 
     return (
         <div key={plan?._id} className='flex flex-col border border-col1 basis-[300px] grow max-w-[460px] rounded-[12px] px-6 py-8 bg-bg_plan'>

@@ -21,6 +21,7 @@ import { useLocation } from 'react-router-dom';
 import ScrollToTop from './Components/ScrollToTop';
 import AutoLogout from './Components/AutoLogout ';
 import ResendVerificationLink from './Pages/Authentification/Complete_SignUp/ResendVerificationLink';
+import RouteTracker from './Components/common/RouteTracker';
 
 // Utiliser React.lazy pour le code splitting
 const SignIn = lazy(() => import('./Pages/Authentification/SignIn'));
@@ -136,94 +137,96 @@ function App() {
     <BrowserRouter>   
       <AutoLogout>
         <div className='font-dm-sans-regular overflow-hidden'>
-          <ScrollToTop>
-          <div className='min-h-screen'>
-          <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>
-            <Routes>
-              <Route element={<DashbordLayout />}>
-                <Route element={<GuardedConnectedUserRoute />}>
-                  <Route path="/Dashboard" element={<Dashbord />} />
-                  <Route path="/Dashboard_Investor" element={<Dashboard_Investor />} />
-                  <Route path="/Dashboard_Partner" element={<Dashboard_Partner />} />
-                  <Route path="/ManageCredits" element={<ManageSubscriptionCredits />} />
-                  <Route path="/Users" element={<Users />} />
-                  <Route path="/Investors" element={<Investors />} />
-                  <Route path="/MyInvestors" element={<MyInvestors />} />
-                  <Route path="/InvestorDetails/:investorId" element={<InvestorDetails />} />
-                  <Route path="/MyInvestorDetails/:investorId" element={<InvestorDetails />} />
-                  <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
-                  <Route path="/Projects" element={<Projects />} />
-                  <Route path="/Createproject" element={<CreateProject />} />
-                  <Route path="/Editproject/:projectId" element={<CreateProject />} />
-                  <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
-                  <Route path="/CompanyLegal" element={<CompanyLegal />} />
-                  <Route path="/MyCompany" element={<MyCompany />} />
-                  <Route path="/Employees" element={<Employees />} />
-                  <Route path="/CreateEmployee" element={<NewEmployee />} />
-                  <Route path="/EditEmployee/:employeeId" element={<NewEmployee />} />
-                  <Route path="/Document" element={<Documents />} />
-                  <Route path="/Participate" element={<Events />} />
-                  <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
-                  <Route path="/PastEvent" element={<PastEvents />} />
-                  <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
-                  <Route path="/EventDetails/:id" element={<UpcomingEventDetails />} />
-                  <Route path="/PastEventDetails/:id" element={<UpcomingEventDetails />} />
-                  <Route path="/UserProfile" element={<UserProfile />} />
-                  <Route path="/Subscription" element={<Subscription />} />
-                  <Route path="/ChoosePlan" element={<ChoosePlan />} />
-                  <Route path="/History" element={<History />} />
-                  <Route path="/Notification" element={<Notifications />} />
-                  <Route path="/SubscribePlan" element={<SubscribePlan />} />
-                  <Route path="/Investment" element={<Investment />} />
-                  <Route path="/MyInvestment" element={<MyInvestment />} />
-                  <Route path="/InvestmentDetails/:id" element={<MyInvestmentDetails />} />
-                  <Route path="/InvestmentRequestDetails/:id" element={<MyInvestmentDetails />} />
-                  <Route path="/InvestmentRequestHistoryDetails/:id" element={<MyInvestmentDetails />} />
-                  <Route path="/InvestmentRequestHistory" element={<InvestmentRequestHistory />} />
-                  <Route path="/UpcomingSponsorEvent" element={<UpcomingSponsorEvent />} />
-                  <Route path="/SponsorEventDetails/:id" element={<SponsorEventDetails />} />
-                  <Route path="/SponsorCurrentRequest" element={<SponsorCurrentRequests />} />
-                  <Route path="/PastSponsorEvent" element={<PastSponsorEvent />} />
-                  <Route path="/SponsorCurrentRequestDetails/:id" element={<SponsorCurrentRequestDetails />} />
-                  <Route path="/PastSponsorEventDetails/:id" element={<PastSponsorEventDetails />} />
-                  <Route path="/SponsorRequestHistory" element={<SponsorRequestHistory />} />
-                  <Route path="/SponsorRequestHistoryDetails/:id" element={<SponsorRequestHistoryDetails />} />
+          <RouteTracker>
+            <ScrollToTop>
+            <div className='min-h-screen'>
+            <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>
+              <Routes>
+                <Route element={<DashbordLayout />}>
+                  <Route element={<GuardedConnectedUserRoute />}>
+                    <Route path="/Dashboard" element={<Dashbord />} />
+                    <Route path="/Dashboard_Investor" element={<Dashboard_Investor />} />
+                    <Route path="/Dashboard_Partner" element={<Dashboard_Partner />} />
+                    <Route path="/ManageCredits" element={<ManageSubscriptionCredits />} />
+                    <Route path="/Users" element={<Users />} />
+                    <Route path="/Investors" element={<Investors />} />
+                    <Route path="/MyInvestors" element={<MyInvestors />} />
+                    <Route path="/InvestorDetails/:investorId" element={<InvestorDetails />} />
+                    <Route path="/MyInvestorDetails/:investorId" element={<InvestorDetails />} />
+                    <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
+                    <Route path="/Projects" element={<Projects />} />
+                    <Route path="/Createproject" element={<CreateProject />} />
+                    <Route path="/Editproject/:projectId" element={<CreateProject />} />
+                    <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
+                    <Route path="/CompanyLegal" element={<CompanyLegal />} />
+                    <Route path="/MyCompany" element={<MyCompany />} />
+                    <Route path="/Employees" element={<Employees />} />
+                    <Route path="/CreateEmployee" element={<NewEmployee />} />
+                    <Route path="/EditEmployee/:employeeId" element={<NewEmployee />} />
+                    <Route path="/Document" element={<Documents />} />
+                    <Route path="/Participate" element={<Events />} />
+                    <Route path="/UpcomingEvent" element={<UpcomingEvents />} />
+                    <Route path="/PastEvent" element={<PastEvents />} />
+                    <Route path="/UpcomingEventDetails/:id" element={<UpcomingEventDetails />} />
+                    <Route path="/EventDetails/:id" element={<UpcomingEventDetails />} />
+                    <Route path="/PastEventDetails/:id" element={<UpcomingEventDetails />} />
+                    <Route path="/UserProfile" element={<UserProfile />} />
+                    <Route path="/Subscription" element={<Subscription />} />
+                    <Route path="/ChoosePlan" element={<ChoosePlan />} />
+                    <Route path="/History" element={<History />} />
+                    <Route path="/Notification" element={<Notifications />} />
+                    <Route path="/SubscribePlan" element={<SubscribePlan />} />
+                    <Route path="/Investment" element={<Investment />} />
+                    <Route path="/MyInvestment" element={<MyInvestment />} />
+                    <Route path="/InvestmentDetails/:id" element={<MyInvestmentDetails />} />
+                    <Route path="/InvestmentRequestDetails/:id" element={<MyInvestmentDetails />} />
+                    <Route path="/InvestmentRequestHistoryDetails/:id" element={<MyInvestmentDetails />} />
+                    <Route path="/InvestmentRequestHistory" element={<InvestmentRequestHistory />} />
+                    <Route path="/UpcomingSponsorEvent" element={<UpcomingSponsorEvent />} />
+                    <Route path="/SponsorEventDetails/:id" element={<SponsorEventDetails />} />
+                    <Route path="/SponsorCurrentRequest" element={<SponsorCurrentRequests />} />
+                    <Route path="/PastSponsorEvent" element={<PastSponsorEvent />} />
+                    <Route path="/SponsorCurrentRequestDetails/:id" element={<SponsorCurrentRequestDetails />} />
+                    <Route path="/PastSponsorEventDetails/:id" element={<PastSponsorEventDetails />} />
+                    <Route path="/SponsorRequestHistory" element={<SponsorRequestHistory />} />
+                    <Route path="/SponsorRequestHistoryDetails/:id" element={<SponsorRequestHistoryDetails />} />
 
+                  </Route>
+                  <Route element={<GuardedAdminRoute />}>
+                    <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
+                  </Route>
                 </Route>
-                <Route element={<GuardedAdminRoute />}>
-                  <Route path="/Dashboard_Admin" element={<Dashboard_Admin />} />
-                </Route>
-              </Route>
-              <Route element={<Layout />}>
-                <Route element={<GuardedConnectedUserRoute />}>
-                  <Route path="/ChooseRole" element={<ChooseRole />} />
-                  <Route path="/RedirectFromSignIn" element={<RedirectFromSignIn />} />
-                </Route>
-                <Route element={<ConnectedUserRoute />}>
-                  <Route   path="/SignIn" element={<SignIn />} />
-                  <Route   path="/" element={<SignIn />} />
-                  <Route   path="/SignUp" element={<SignUp />} />
-                  <Route   path="/SocialSignUp" element={<SocialSignUp />} />
-                </Route>
-                <Route path="/VerificationCode" element={<VerificationCode />} />
-                <Route path="/VerificationEmail" element={<VerificationEmail />} />
-                <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
-                <Route path="/ForgotPassword" element={<ForgotPassword />} />
-                <Route path="/ResetPassword" element={<ResetPassword />} />
-                <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
-                <Route path="/ResendVerificationLink" element={<ResendVerificationLink />} />
+                <Route element={<Layout />}>
+                  <Route element={<GuardedConnectedUserRoute />}>
+                    <Route path="/ChooseRole" element={<ChooseRole />} />
+                    <Route path="/RedirectFromSignIn" element={<RedirectFromSignIn />} />
+                  </Route>
+                  <Route element={<ConnectedUserRoute />}>
+                    <Route   path="/SignIn" element={<SignIn />} />
+                    <Route   path="/" element={<SignIn />} />
+                    <Route   path="/SignUp" element={<SignUp />} />
+                    <Route   path="/SocialSignUp" element={<SocialSignUp />} />
+                  </Route>
+                  <Route path="/VerificationCode" element={<VerificationCode />} />
+                  <Route path="/VerificationEmail" element={<VerificationEmail />} />
+                  <Route path="/ResetPasswordEmail" element={<ResetPasswordEmail />} />
+                  <Route path="/ForgotPassword" element={<ForgotPassword />} />
+                  <Route path="/ResetPassword" element={<ResetPassword />} />
+                  <Route path="/PasswordResetSucces" element={<PasswordResetSucces />} />
+                  <Route path="/ResendVerificationLink" element={<ResendVerificationLink />} />
 
-                <Route path="/Failure" element={<Failure/>}/>
-                <Route path="/Success" element={<Success/>}/>
-                <Route path="/SuccessSignUp" element={<SuccessSignUp/>}/>
-                <Route path="/ResendVerification" element={<ResendVerification />} />
-                <Route path="/VerifyFailure" element={<VerifyFailure />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          </div>
-          </ScrollToTop>
+                  <Route path="/Failure" element={<Failure/>}/>
+                  <Route path="/Success" element={<Success/>}/>
+                  <Route path="/SuccessSignUp" element={<SuccessSignUp/>}/>
+                  <Route path="/ResendVerification" element={<ResendVerification />} />
+                  <Route path="/VerifyFailure" element={<VerifyFailure />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+            </div>
+            </ScrollToTop>
+          </RouteTracker>
         </div>
       </AutoLogout>
     </BrowserRouter>    
