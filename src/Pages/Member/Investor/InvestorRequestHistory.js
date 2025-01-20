@@ -95,9 +95,9 @@ const InvestorRequestHistory = () => {
   useEffect(() => {
     if (filterApply) {
       const isAllFiltersEmpty =
-        localStatus.length === 0 &&
-        localUser.length === 0 &&
-        !localKeywords.trim();
+        localStatus?.length === 0 &&
+        localUser?.length === 0 &&
+        !localKeywords?.trim();
   
       if (isAllFiltersEmpty) {
         handleResetFilters();
