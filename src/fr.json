@@ -192,6 +192,7 @@
   "sidebar": {
     "dashboard": "Tableau de bord",
     "projects": "Mes Projets",
+    "myProfile": "Mon Profil",
     "company": {
       "main": "Entreprise",
       "myCompany": "Profil de l'entreprise",
@@ -585,6 +586,27 @@
 
 
   "investors": {
+    "company": {
+      "message": "Les informations saisies ci-dessous seront visibles par les startups. Mettez en avant les points forts de votre entreprise pour attirer des opportunités prometteuses.",
+      "companyName": "Nom de l'entreprise (Nom commercial)",
+      "legalName": "Nom légal",
+      "companyType": "Type d'entreprise",
+      "description": "Description",
+      "website": "Site Web",
+      "location": "Lieu",
+      "investmentStages": "Phases d'investissement",
+      "preferredInvestmentIndustry": "Secteur d'investissement préféré",
+      "contactEmail": "Email de contact",
+      "phoneNumber": "Numéro de téléphone",
+      "lastFundingType": "Dernier type de financement",
+      "foundedDate": "Date de création",
+      "investmentCapacity": "Capacité d'investissement",
+      "numberOfInvestments": "Nombre d'investissements",
+      "numberOfExits": "Nombre de sorties",
+      "numberOfFunds": "Nombre de fonds",
+      "numberOfAcquisitions": "Nombre d'acquisitions",
+      "listOfInvestments": "Liste des investissements"
+    },
     "title": "Liste des investisseurs",
     "investorName": "Nom de l'investisseur",
     "type": "Type d'investisseur",
@@ -1059,7 +1081,9 @@
       "typeOfInvestmentPlaceholder": "Sélectionnez le type d'investissement",
       "letterLabel": "Votre réponse",
       "letterPlaceholder": "Veuillez rédiger votre réponse ici.",
-      "additionalContext": "Présentez votre entreprise ou fournissez des informations supplémentaires sur votre opportunité d'investissement."
+      "additionalContext": "Présentez votre entreprise ou fournissez des informations supplémentaires sur votre opportunité d'investissement.",
+      "successMessage": "Votre réponse à la demande de prise de contact a été envoyée avec succès à",
+      "successMessage1": "Le responsable du projet sera informé de votre décision. Restez attentif à votre e-mail pour toute communication ou mise à jour supplémentaire."
     },
     "rejectContactRequest": {
       "reasonForRejection": "Raison du rejet",

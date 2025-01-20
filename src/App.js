@@ -79,6 +79,7 @@ const SponsorCurrentRequestDetails = React.lazy(() => import('./Pages/Partner/Sp
 const PastSponsorEventDetails = React.lazy(() => import('./Pages/Partner/Sponsoring/PastSponsorEventDetails'))
 const SponsorRequestHistory = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorRequestHistory'))
 const SponsorRequestHistoryDetails = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorRequestHistoryDetails'))
+const CompanyProfile = React.lazy(() => import('./Pages/Investor/Company/CompanyProfile'))
  
 function App() {
 
@@ -160,6 +161,7 @@ function App() {
                     <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
                     <Route path="/CompanyLegal" element={<CompanyLegal />} />
                     <Route path="/MyCompany" element={<MyCompany />} />
+                    <Route path="/InvestorProfile" element={<CompanyProfile />} />
                     <Route path="/Employees" element={<Employees />} />
                     <Route path="/CreateEmployee" element={<NewEmployee />} />
                     <Route path="/EditEmployee/:employeeId" element={<NewEmployee />} />

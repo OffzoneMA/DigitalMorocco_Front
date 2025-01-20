@@ -13,7 +13,7 @@ import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
 
-const MyCompany = () => {
+const CompanyProfile = () => {
   const { t } = useTranslation();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
   const [logoFile, setLogoFile] = useState(userDetails?.logo || userDetails?.image || '');
@@ -210,16 +210,17 @@ const MyCompany = () => {
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-14 pt-8 rounded-tl-[40px] min-h-screen overflow-auto w-full">
-      <div className="flex items-start justify-start sm:px-5 px-8 w-full">
-        <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
-          <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
-            <PageHeader
-              >
-              {t("sidebar.company.main")}
-            </PageHeader>
-          </div>
-          <SearchInput className={'w-[240px]'}/>
-          {isSaved? 
+      <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+        <div className="border-b border-gray-201 border-solid flex flex-col items-start justify-start pb-6 w-full">
+          <div className="w-full flex gap-5">
+            <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
+              <PageHeader
+                >
+                {t("sidebar.company.main")}
+              </PageHeader>
+            </div>
+            <SearchInput className={'w-[240px]'}/>
+            {isSaved? 
               <button
                 className="bg-teal-A700 text-base px-[12px] py-[7px] h-[44px] text-white-A700 flex flex-row  items-center ml-auto cursorpointer rounded-md w-auto"
                 type="submit"
@@ -237,6 +238,11 @@ const MyCompany = () => {
                 {t('myCompany.save')}
               </button>          
             }
+          </div>
+          <div className="flex items-start justify-start w-full">
+            <div class="flex-1 text-[#667085] text-base font-normal font-Inter leading-normal">{t('investors.company.message')}</div>
+            <div className="flex lg:w-[35%] w-full items-center justify-start w-full"></div>
+          </div>
         </div>
       </div>
       <div className="flex items-start justify-start w-full">
@@ -248,7 +254,7 @@ const MyCompany = () => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.companyName')}*
+                  {t('investors.company.companyName')}*
                 </Text>
                   <input
                     {...register("companyName", { required: {value:true , message: "Company name is required"} })}
@@ -264,7 +270,7 @@ const MyCompany = () => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.legalName')}*
+                  {t('investors.company.legalName')}*
                 </Text>
                   <input
                     {...register("legalName", { required: {value:true , message:"Company Legal name is required"} })}
@@ -280,7 +286,31 @@ const MyCompany = () => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.description')}*
+                  {t('investors.company.companyType')}*
+                </Text>
+                <SimpleSelect id='type' options={countries}  searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
+                    placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
+                    required={requiredFields.country}
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                              >
+                               {t(`${option.name}`)}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
+              {/* {selectedCountry==null && <span className="text-sm font-DmSans text-red-500">Company country is required</span>} */}
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.description')}*
                 </Text>
                   <textarea
                     {...register("description", { required: true })}
@@ -300,7 +330,7 @@ const MyCompany = () => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.website')}
+                  {t('investors.company.website')}*
                 </Text>
                   <input
                   {...register("website", { required: {value:false , message:"Company website is required"} })}
@@ -316,48 +346,7 @@ const MyCompany = () => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.contactEmail')}*
-                </Text>
-                  <input
-                    {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"},
-                    minLength: {
-                      value: 2,
-                    },
-                    maxLength: {
-                      value: 120,
-                    },
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    }, })}
-                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text"
-                    name="contactEmail"
-                    placeholder={t('myCompany.enterEmail')}
-                  />
-                {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
-              </div>
-              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                <Text
-                  className="text-base text-[#1D1C21] w-auto"
-                  size="txtDMSansLablel"
-                >
-                  {t('myCompany.address')}
-                </Text>
-                  <input
-                    {...register("address", { required: {value:false , message:"Company address is required"} })}
-                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.address ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text"
-                    name="address"
-                    placeholder={t('myCompany.enterAddress')}
-                  />
-                {/* {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>} */}
-              </div>
-              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
-                <Text
-                  className="text-base text-[#1D1C21] w-auto"
-                  size="txtDMSansLablel"
-                >
-                  {t('myCompany.country')}*
+                  {t('investors.company.location')}*
                 </Text>
                 <SimpleSelect id='country' options={countries}  searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
                     placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
@@ -404,7 +393,7 @@ const MyCompany = () => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.companySector')}*
+                  {t('investors.company.investmentStages')}*
                 </Text>
                 <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
                     placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
@@ -429,38 +418,66 @@ const MyCompany = () => {
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.taxIdentifierNumber')}
+                  {t('investors.company.preferredInvestmentIndustry')}*
                 </Text>
-                  <input
-                    {...register("taxIdentfier", { required: {value:false , message:"Company taxIdentfier is required"} })}
-                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.taxIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                    type="text"
-                    name="taxIdentfier"
-                    value={taxIdentfier}
-                    onChange={e => handleChange(e, settaxIdentfier)}
-                    placeholder="0000 - 0000 - 0000"
-                  />
+                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
+                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
+                    required={requiredFields.sector}
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                              >
+                               {t(`${option}`)}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
                   className="text-base text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
-                  {t('myCompany.corporateIdentifierNumber')}
+                  {t('investors.company.contactEmail')}*
                 </Text>
                   <input
-                    {...register("corporateIdentfier", { required: {value:false , message:"Company corporateIdentfier is required"} })}
-                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.corporateIdentfier ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    {...register("contactEmail", { required: {value:true , message:"Company Contact Email is required"},
+                    minLength: {
+                      value: 2,
+                    },
+                    maxLength: {
+                      value: 120,
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    }, })}
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
-                    name="corporateIdentfier"
-                    value={corporateIdentfier}
-                    onChange={e => handleChange(e, setcorporateIdentfier)}
-                    placeholder="0000 - 0000 - 0000"
-                    
+                    name="contactEmail"
+                    placeholder={t('myCompany.enterEmail')}
                   />
+                {/* {errors.contactEmail && <span className="text-sm font-DmSans text-red-500">{errors.contactEmail?.message}</span>} */}
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.phoneNumber')}*
+                </Text>
+                  <input
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.phoneNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                    type="text"
+                    name="phoneNumber"
+                    placeholder="+212 - "
+                  />
+                {/* {errors.phoneNumber && <span className="text-sm font-DmSans text-red-500">{errors.phoneNumber?.message}</span>} */}
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start lg:w-[35%] w-full">
+            <div className="flex flex-col items-start gap-6 justify-start lg:w-[35%] w-full">
               <div className="flex flex-col gap-2 items-start justify-start w-full ">
                 <Text
                   className="text-base text-[#1D1C21] w-auto"
@@ -527,6 +544,142 @@ const MyCompany = () => {
                     )}
                 </div>
               </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.lastFundingType')}
+                </Text>
+                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
+                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
+                    required={requiredFields.sector}
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                              >
+                               {t(`${option}`)}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
+              </div>
+              <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
+                <Text
+                  className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.foundedDate')}
+                </Text>
+                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
+                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
+                    required={requiredFields.sector}
+                    content={
+                      ( option) =>{ return (
+                        <div className="flex  py-2 items-center  w-full">
+                            <Text
+                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                              >
+                               {t(`${option}`)}
+                            </Text>
+                           </div>
+                        );
+                      }
+                    }/>
+              </div>
+              <div className="flex flex-col gap-2 items-start justify-start w-full">
+                <Text className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.investmentCapacity')}
+                </Text>
+                <input
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  name="funding"
+                  type="text"
+                  // value={fundingValue}
+                  // onChange={(e) => formatFundingValue(e.target.value)}
+                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                />
+              </div>
+              <div className="flex flex-col gap-2 items-start justify-start w-full">
+                <Text className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.numberOfInvestments')}
+                </Text>
+                <input
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  name="funding"
+                  type="text"
+                  // value={fundingValue}
+                  // onChange={(e) => formatFundingValue(e.target.value)}
+                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                />
+              </div>
+              <div className="flex flex-col gap-2 items-start justify-start w-full">
+                <Text className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.numberOfExits')}
+                </Text>
+                <input
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  name="funding"
+                  type="text"
+                  // value={fundingValue}
+                  // onChange={(e) => formatFundingValue(e.target.value)}
+                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                />
+              </div>
+              <div className="flex flex-col gap-2 items-start justify-start w-full">
+                <Text className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.numberOfFunds')}
+                </Text>
+                <input
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  name="funding"
+                  type="text"
+                  // value={fundingValue}
+                  // onChange={(e) => formatFundingValue(e.target.value)}
+                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                />
+              </div>              
+              <div className="flex flex-col gap-2 items-start justify-start w-full">
+                <Text className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.numberOfAcquisitions')}
+                </Text>
+                <input
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  name="funding"
+                  type="text"
+                  // value={fundingValue}
+                  // onChange={(e) => formatFundingValue(e.target.value)}
+                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                />
+              </div>
+              <div className="flex flex-col gap-2 items-start justify-start w-full">
+                <Text className="text-base text-[#1D1C21] w-auto"
+                  size="txtDMSansLablel"
+                >
+                  {t('investors.company.listOfInvestments')}
+                </Text>
+                <input
+                  className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  name="funding"
+                  type="text"
+                  // value={fundingValue}
+                  // onChange={(e) => formatFundingValue(e.target.value)}
+                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -536,4 +689,4 @@ const MyCompany = () => {
   );
 };
 
-export default MyCompany;
+export default CompanyProfile;

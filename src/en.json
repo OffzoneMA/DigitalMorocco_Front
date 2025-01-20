@@ -191,6 +191,7 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "projects": "My Projects",
+    "myProfile": "My Profile",
     "company": {
       "main": "Company",
       "myCompany": "Company Profile",
@@ -584,6 +585,27 @@
   },
 
   "investors": {
+    "company": {
+      "message": "The information provided below will be visible to startups. Highlight your company’s strengths to attract promising opportunities.",
+      "companyName": "Company Name (Business Name)",
+      "legalName": "Legal Name",
+      "companyType": "Company Type",
+      "description": "Description",
+      "website": "Website",
+      "location": "Location",
+      "investmentStages": "Investment Stages",
+      "preferredInvestmentIndustry": "Preferred Investment Industries",
+      "contactEmail": "Contact Email",
+      "phoneNumber": "Phone Number",
+      "lastFundingType": "Last Funding Type",
+      "foundedDate": "Founded Date",
+      "investmentCapacity": "Investment Capacity",
+      "numberOfInvestments": "Number of Investments",
+      "numberOfExits": "Number of Exits",
+      "numberOfFunds": "Number of Funds",
+      "numberOfAcquisitions": "Number of Acquisitions",
+      "listOfInvestments": "List of Investments"
+    },
     "title": "Investor List",
     "investorName": "Investor Name",
     "type": "Investor Type",
@@ -1074,7 +1096,9 @@
       "typeOfInvestmentPlaceholder": "Select Type of Investment",
       "letterLabel": "Your Response",
       "letterPlaceholder": "Please write your response here.",
-      "additionalContext": "Present your company or provide additional information about your investment opportunity."
+      "additionalContext": "Present your company or provide additional information about your investment opportunity.",
+      "successMessage": "Your response to the contact request has been successfully sent to",
+      "successMessage1": "The project manager will be informed of your decision. Keep an eye on your email for any further communication or updates."
     },
     "rejectContactRequest": {
       "reasonForRejection": "Reason for Rejection",

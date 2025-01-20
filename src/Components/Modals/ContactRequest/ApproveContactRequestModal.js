@@ -153,9 +153,9 @@ const ApproveContactRequestModal = (props) => {
             </form>
         </ModalProvider>
         <ConfirmedModal isOpen={isConfirmedModalOpen} onRequestClose={closeModal}
-        m1="Your Sponsorship request has been successfully sent to"
+        m1={t('investment.approveInvestmentRequest.successMessage')}
         m2={rowData?.member?.companyName || "Venture Catalys"} 
-        m3="The investor will review your contact request and respond accordingly, keep an eye on your email for any additional communication or updates." />
+        m3={t('investment.approveInvestmentRequest.successMessage1')} />
     </>
     );
 }

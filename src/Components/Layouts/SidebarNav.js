@@ -133,6 +133,7 @@ const SidebarNav = () => {
     { title: t('sidebar.dashboard'), src: <RiHome6Line size={23} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": userData?.role?.toLowerCase() === "investor"? "Dashboard_Investor" : userData?.role?.toLowerCase() === "partner"? "Dashboard_Partner" : "Dashboard" },
     
     (userData?.role?.toLowerCase() === "member") &&  { title: t('sidebar.projects') , src: <GoRocket size={23} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
+    (userData?.role?.toLowerCase() === "investor") &&  { title: t('sidebar.myProfile') , src: <BiBuildings size={23} className="text-light_blue-100" />, link:"InvestorProfile" , activeLinks: ["InvestorProfile"] },
     (userRole === "member" || userRole === "investor" || userRole === "partner") && {
       title: t('sidebar.company.main'),
       src: <BiBuildings size={23} className="text-light_blue-100" />,
@@ -182,19 +183,19 @@ const SidebarNav = () => {
     ]},
     (userRole === "member" || validEmailCheck) && { title: t('sidebar.document'), src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
     (userRole === "member" || validEmailCheck) && { title: t('sidebar.history'), src: <PiHourglassLowFill size={23} className="text-light_blue-100"/> , link:"History" },
-    (userRole === "admin") && {
-      title: t('sidebar.company.main'),
-      src: <BiBuildings size={23} className="text-light_blue-100" />,
-      submenu: true,
-      activeLinks: ["CreateEmployee" , "EditEmployee" , "MyCompany", "Employees", "CompanyLegal"],
-      child: [
-        { title: t('sidebar.company.myCompany'), src: '', link: "MyCompany" },
-        ...(userRole === "member" || validEmailCheck ? [
-          { title: t('sidebar.company.employee'), src: '', link: "Employees", activeLinks: ["CreateEmployee" , "EditEmployee"] },
-          { title: t('sidebar.company.legal'), src: '', link: "CompanyLegal" }
-        ] : [])
-      ]
-    },
+    // (userRole === "admin") && {
+    //   title: t('sidebar.company.main'),
+    //   src: <BiBuildings size={23} className="text-light_blue-100" />,
+    //   submenu: true,
+    //   activeLinks: ["CreateEmployee" , "EditEmployee" , "MyCompany", "Employees", "CompanyLegal"],
+    //   child: [
+    //     { title: t('sidebar.company.myCompany'), src: '', link: "MyCompany" },
+    //     ...(userRole === "member" || validEmailCheck ? [
+    //       { title: t('sidebar.company.employee'), src: '', link: "Employees", activeLinks: ["CreateEmployee" , "EditEmployee"] },
+    //       { title: t('sidebar.company.legal'), src: '', link: "CompanyLegal" }
+    //     ] : [])
+    //   ]
+    // },
 
   ];
   if (userData?.role === "Admin") {
