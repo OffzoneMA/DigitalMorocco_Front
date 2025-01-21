@@ -417,7 +417,6 @@ export default function UserProfile() {
   const onSubmit3 = async () => {
     const formData = {};
     setHasSubmitted3(true);
-    setForm3Sending(true);
     if (selectedLanguage && selectedLanguage.label && selectedLanguage.label !== userData?.language) {
       formData.language = selectedLanguage.label;
     }
@@ -433,6 +432,7 @@ export default function UserProfile() {
 
     if((selectedRegion !== null && selectedRegion !== undefined && selectedRegion !=='') && (selectedLanguage !== null && selectedLanguage !== undefined && selectedLanguage !=='') ) {
       try {
+        setForm3Sending(true);
         const response = await axios.put(
           `${process.env.REACT_APP_baseURL}/users/${userId}/languageRegion`,
           formData,

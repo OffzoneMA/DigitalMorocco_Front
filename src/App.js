@@ -80,6 +80,9 @@ const PastSponsorEventDetails = React.lazy(() => import('./Pages/Partner/Sponsor
 const SponsorRequestHistory = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorRequestHistory'))
 const SponsorRequestHistoryDetails = React.lazy(() => import('./Pages/Partner/Sponsoring/SponsorRequestHistoryDetails'))
 const CompanyProfile = React.lazy(() => import('./Pages/Investor/Company/CompanyProfile'))
+const MembersHistory = React.lazy(() => import('./Pages/Dashboard_Admin/Histories/MembersHistory'))
+const InvestorsHistory = React.lazy(() => import('./Pages/Dashboard_Admin/Histories/InvestorsHistory'))
+const CompaniesHistory = React.lazy(() => import('./Pages/Dashboard_Admin/Histories/CompaniesHistory'))
  
 function App() {
 
@@ -176,6 +179,9 @@ function App() {
                     <Route path="/Subscription" element={<Subscription />} />
                     <Route path="/ChoosePlan" element={<ChoosePlan />} />
                     <Route path="/History" element={<History />} />
+                    <Route path="/MembersHistory" element={<MembersHistory />} />
+                    <Route path="/InvestorsHistory" element={<InvestorsHistory />} />
+                    <Route path="/CompaniesHistory" element={<CompaniesHistory />} />
                     <Route path="/Notification" element={<Notifications />} />
                     <Route path="/SubscribePlan" element={<SubscribePlan />} />
                     <Route path="/Investment" element={<Investment />} />

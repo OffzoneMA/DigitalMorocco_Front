@@ -182,25 +182,21 @@ const SidebarNav = () => {
       { title: t('sidebar.sponsoring.requestHistory'), src: '', link: "SponsorRequestHistory" , activeLinks:["SponsorRequestHistory" ,"SponsorRequestHistoryDetails"] },
     ]},
     (userRole === "member" || validEmailCheck) && { title: t('sidebar.document'), src: <PiFolderThin size={23}  className="text-light_blue-100"/> , link:"Document"},
+    (userRole === "admin") && { title: t('sidebar.users') , src: <RiUser3Line size={23} className="text-light_blue-100"/> , link:"Users" },
     (userRole === "member" || validEmailCheck) && { title: t('sidebar.history'), src: <PiHourglassLowFill size={23} className="text-light_blue-100"/> , link:"History" },
-    // (userRole === "admin") && {
-    //   title: t('sidebar.company.main'),
-    //   src: <BiBuildings size={23} className="text-light_blue-100" />,
-    //   submenu: true,
-    //   activeLinks: ["CreateEmployee" , "EditEmployee" , "MyCompany", "Employees", "CompanyLegal"],
-    //   child: [
-    //     { title: t('sidebar.company.myCompany'), src: '', link: "MyCompany" },
-    //     ...(userRole === "member" || validEmailCheck ? [
-    //       { title: t('sidebar.company.employee'), src: '', link: "Employees", activeLinks: ["CreateEmployee" , "EditEmployee"] },
-    //       { title: t('sidebar.company.legal'), src: '', link: "CompanyLegal" }
-    //     ] : [])
-    //   ]
-    // },
+    (userRole === "admin") && {
+      title: t('sidebar.adminHistory.main'),
+      src: <PiHourglassLowFill size={23} className="text-light_blue-100" />,
+      submenu: true,
+      activeLinks: ["InvestorsHistory" , "MembersHistory" , "CompaniesHistory"],
+      child: [
+        { title: t('sidebar.adminHistory.members'), src: '', link: "MembersHistory" , activeLinks: ["MembersHistory"] },
+        { title: t('sidebar.adminHistory.investors'), src: '', link: "InvestorsHistory", activeLinks: ["InvestorsHistory"] },
+        { title: t('sidebar.adminHistory.partners'), src: '', link: "CompaniesHistory" , activeLinks: ["CompaniesHistory"] },
+      ]
+    },
 
   ];
-  if (userData?.role === "Admin") {
-    Menus.push({ title: t('sidebar.users') , src: <RiUser3Line size={23} className="text-light_blue-100"/> , link:"Users" });
-  }
 
   const handleMouseEnter = () => {
     setShowLogout(true);
@@ -336,16 +332,17 @@ const SidebarNav = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          {open && <div
-            className={`
-          flex justify-between items-center
-          overflow-hidden transition-all ${open ? "w-52 ml-3" : "w-0"}
-        `}
-          >
-            <div className="leading-4 flex-1 overflow-hidden">
-              <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : ""}</span>
-            </div>
-          </div>}
+            {open && 
+            <div
+              className={`
+              flex justify-between items-center
+              overflow-hidden transition-all ${open ? "w-40 ml-3" : "w-0"}
+            `}
+              >
+              <div className="leading-4 flex-1 overflow-hidden">
+                <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : ""}</span>
+              </div>
+            </div>}
           {showLogout && (
             <div className="absolute top-full z-50 left-0 w-full">
               <div className={`group flex text-base bg-[#2C3563] font-dm-sans-regular leading-6 rounded-md ${open ? "px-[10px] py-2.5" : "px-[7px] py-2"} cursorpointer-green hover:bg-blue_gray-902 text-gray-301 items-center justify-center gap-x-2 ${userData?.role?.toLowerCase() === 'member'? 'mt-1' : 'mt-1' }`} 

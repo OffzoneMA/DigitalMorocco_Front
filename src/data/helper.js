@@ -110,6 +110,11 @@ export function parseDateString(dateString) {
   return new Date(`${year}-${month}-${day}`);
 }
 
+export function parseDateStringValue(dateString) {
+  const [day, month, year] = dateString.split('/');
+  return `${year}-${month}-${day}`;
+}
+
 
 export const formatPrice = (price, currentLanguage) => {
   if (price === 0) {

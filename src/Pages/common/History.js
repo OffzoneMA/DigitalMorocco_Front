@@ -80,7 +80,7 @@ const History = () => {
                               {/* {historyEventMessages[item?.eventType]}{` `} 
                               {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName} {` `}</span>} */}
 
-                              {t(`historyEventMessages.${item?.eventType}`)} <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName}</span>
+                              {t(`historyEventMessages.${item?.eventType}`)} <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName === "Standard In" ? "Standard" : item?.eventData?.targetName}</span>
                             </Text>
                             <div className="flex flex-row w-full items-center gap-4">
                             {item?.user?.image ? (
@@ -91,7 +91,7 @@ const History = () => {
                               </div> 
                             )}
                               <Text
-                                className={`font-dm-sans-regular text-sm leading-6 text-gray500`}
+                                className={`font-dm-sans-regular capitalize-first text-sm leading-6 text-gray500`}
                               >
                                 {item?.user?.displayName}
                               </Text>

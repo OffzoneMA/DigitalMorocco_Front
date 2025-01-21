@@ -3,6 +3,7 @@ import { Text } from "../../../Components/Text";
 import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
+import MultipleSelect from "../../../Components/common/MultipleSelect";
 import { IoImageOutline } from "react-icons/io5";
 import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
@@ -12,6 +13,12 @@ import SearchInput from "../../../Components/common/SeachInput";
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
+import { InvestorCompanyTypes } from "../../../data/data";
+import { fundingTypes } from "../../../data/data";
+import { stage, stages } from "../../../data/stage";
+import CustomCalendar from "../../../Components/common/CustomCalendar";
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { set } from "date-fns";
 
 const CompanyProfile = () => {
   const { t } = useTranslation();
@@ -27,13 +34,42 @@ const CompanyProfile = () => {
   const dataCountries = Country.getAllCountries();
   const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.country) || null);
   const [selectedCity , setSelectedCity] = useState(userDetails?.city || '');
+  const [selectedCompanyType , setSelectedCompanyType] = useState(null);
+  const [selectedInvestmentStages , setSelectedInvestmentStages] = useState([]);
+  const [selectedPreferredInvestmentIndustry , setSelectedPreferredInvestmentIndustry] = useState([]);
+  const [selectedFundingType , setSelectedFundingType] = useState(null);
+  const [selectedDate , setSelectedDate] = useState('');
+  const [investmentCapacity , setInvestmentCapacity] = useState(userDetails?.investmentCapacity || '');
+  const [numberOfExits , setNumberOfExits] = useState(userDetails?.numberOfExits || '');
+  const [numberOfInvestments , setNumberOfInvestments] = useState(userDetails?.numberOfInvestments || '');
+  const [acquisitions , setAcquisitions] = useState(userDetails?.acquisitions || '');
   const [isFormValid, setIsFormValid] = useState(true);
+  const [fund , setFund] = useState(userDetails?.fund || '');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
     country: false,
     city: false,
     sector: false,
+    stages: false,
+    industry: false,
   });
+
+  const validatePhoneNumber = (value) => {
+    const phoneNumber = parsePhoneNumberFromString(value);
+    if (!phoneNumber) {
+      return 'Invalid phone number';
+    }
+    if (!phoneNumber.isValid()) {
+      return 'Invalid phone number for the selected country';
+    }
+    return true;
+  };
+
+  const formatFundingValue = (value , setFieldValue) => {
+    let formattedValue = value.replace(/\D/g, '');
+    formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    setFieldValue(formattedValue);
+  };
 
   const logoFileInputRef = useRef(null);
   const logoFileInputRefChange = useRef(null);
@@ -44,57 +80,53 @@ const CompanyProfile = () => {
     // if (Mount) { setMount(false) }
     // else{
       if (hasSubmitted ) {
-        const isCountryValid = selectedCountry !== null;
+        const isCountryValid = selectedCountry !== null && selectedCountry !== "" && selectedCountry !== undefined;
         const isCityValid = selectedCity !== "";
-        const isSectorValid = selectedSector !== "";
+        const isStagesValid = selectedInvestmentStages.length > 0;
+        const isIndustryValid = selectedPreferredInvestmentIndustry.length > 0;
+        const isCompanyTypeValid = selectedCompanyType !== null && selectedCompanyType !== "" && selectedCompanyType !== undefined;
     
         // const isValid = isCountryValid && isCityValid && isSectorValid ;
 
-        const isValid = isCountryValid && isSectorValid ;
-
+        const isValid = isCountryValid && isStagesValid && isIndustryValid && isCompanyTypeValid;
     
         setRequiredFields({
           country: !isCountryValid,
           // city: !isCityValid,
-          sector: !isSectorValid,
+          stages: !isStagesValid,
+          industry: !isIndustryValid,
+          companyType: !isCompanyTypeValid,
         });
     
         setIsFormValid(isValid);
       }
     // }
-  }, [hasSubmitted ,selectedCountry, selectedCity, selectedSector]);
+  }, [hasSubmitted ,selectedCountry, selectedCity , selectedInvestmentStages, selectedPreferredInvestmentIndustry, selectedCompanyType]);
   
   useEffect(() => {
     if (userDetails) {
       reset({
         companyName: userDetails?.companyName,
-        address: userDetails?.address,
         legalName: userDetails?.legalName,
         description: userDetails?.desc,
         website: userDetails?.website,
         contactEmail: userDetails?.contactEmail,
-        taxIdentfier: userDetails?.taxNbr,
-        corporateIdentfier: userDetails?.corporateNbr,
+        phoneNumber: userDetails?.phoneNumber,
+        fund: userDetails?.fund,
+        investmentCapacity: userDetails?.investmentCapacity,
+        numberOfExits: userDetails?.numberOfExits,
+        numberOfInvestments: userDetails?.numberOfInvestments,
+        acquisitions: userDetails?.acquisitions,
+        // taxIdentfier: userDetails?.taxNbr,
+        // corporateIdentfier: userDetails?.corporateNbr,
       });
     }
   }, [userDetails, reset]);
 
   const formRef = useRef();
-  const formButtonRef = useRef();
 
   const countryNameSelec = selectedCountry? selectedCountry["name"] : "";
 
-  const handleChange = (e, setValue) => {
-    const formattedValue = e.target.value
-      // Supprime tous les caractères non numériques
-      .replace(/\D/g, '')
-      // Insère un tiret entre chaque groupe de quatre chiffres
-      .replace(/(\d{4})/g, '$1 - ')
-      // Supprime le dernier espace et tiret s'il y en a un
-      .replace(/ - $/, '');
-  
-    setValue(formattedValue);
-  };
 
   const onButtonClick = (buttonRef) => {
     buttonRef.current.click();
@@ -133,48 +165,55 @@ const CompanyProfile = () => {
       }
 
       const requestData = {
+        name: data.companyName,
         companyName: data.companyName,
         legalName: data.legalName,
         contactEmail: data.contactEmail,
         desc: data.description,
         website: data.website,
-        address: data.address,
-        taxIdentfier: taxIdentfier,
-        corporateNbr : corporateIdentfier,
-        companyType: selectedSector,
+        companyType: selectedCompanyType,
+        type: selectedCompanyType,
         country: countryNameSelec,
+        location: countryNameSelec,
         city: selectedCity,
+        phoneNumber: data.phoneNumber,
+        investmentStages: selectedInvestmentStages,
+        PreferredInvestmentIndustry: selectedPreferredInvestmentIndustry,
+        fund: parseFloat(fund.replace(/\s/g, '')),
+        acquisitions: parseFloat(acquisitions.replace(/\s/g, '')),
+        investmentCapacity: parseFloat(investmentCapacity.replace(/\s/g, '')),
+        numberOfExits: parseFloat(numberOfExits.replace(/\s/g, '')),
+        numberOfInvestment: parseFloat(numberOfInvestments.replace(/\s/g, '')),
+        lastFundingType: selectedFundingType,
+        foundedDate: selectedDate,
       };
       
       formData.append('companyData', JSON.stringify(requestData));
 
-      // Object.keys(requestData).forEach(key => {
-      //   formData.append(key, requestData[key]);
-      // });
-
       if (isFormValid) {
-        fetch(`${process.env.REACT_APP_baseURL}/members/companies`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            body: formData, 
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur dans la réponse du serveur');
-            }
-            return response.json(); 
-        })
-        .then(responseData => {
-            setIsSaved(true);
-            setTimeout(() => {
-                setIsSaved(false);
-            }, 5000); 
-        })
-        .catch(error => {
-            console.error("Erreur lors de l'envoi du formulaire :", error);
-        });
+        console.log(requestData);
+        // fetch(`${process.env.REACT_APP_baseURL}/members/companies`, {
+        //     method: 'POST',
+        //     headers: {
+        //         Authorization: `Bearer ${token}`,
+        //     },
+        //     body: formData, 
+        // })
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error('Erreur dans la réponse du serveur');
+        //     }
+        //     return response.json(); 
+        // })
+        // .then(responseData => {
+        //     setIsSaved(true);
+        //     setTimeout(() => {
+        //         setIsSaved(false);
+        //     }, 5000); 
+        // })
+        // .catch(error => {
+        //     console.error("Erreur lors de l'envoi du formulaire :", error);
+        // });
       }    
       } catch (error) {
         console.error("Erreur lors de l'envoi du formulaire :", error);
@@ -239,8 +278,8 @@ const CompanyProfile = () => {
               </button>          
             }
           </div>
-          <div className="flex items-start justify-start w-full">
-            <div class="flex-1 text-[#667085] text-base font-normal font-Inter leading-normal">{t('investors.company.message')}</div>
+          <div className="flex flex-wrap items-start justify-start w-full">
+            <div class="w-full flex-1 text-[#667085] text-base font-normal font-Inter leading-normal">{t('investors.company.message')}</div>
             <div className="flex lg:w-[35%] w-full items-center justify-start w-full"></div>
           </div>
         </div>
@@ -251,7 +290,7 @@ const CompanyProfile = () => {
             <div className="flex flex-1 md:miw-w-[300px] flex-col gap-6 items-start justify-start w-full">
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.companyName')}*
@@ -261,13 +300,13 @@ const CompanyProfile = () => {
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.companyName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="companyName"
-                    placeholder={t('myCompany.enterCompanyName')}
+                    placeholder={t('investors.company.companyNamePlaceholder')}
                   />
                 {/* {errors.companyName && <span className="text-sm font-DmSans text-red-500">{errors.companyName?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.legalName')}*
@@ -277,37 +316,36 @@ const CompanyProfile = () => {
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.legalName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="legalName"
-                    placeholder={t('myCompany.enterLegalName')}
+                    placeholder={t('investors.company.legalNamePlaceholder')}
                   />
                 {/* {errors.legalName && <span className="text-sm font-DmSans text-red-500">{errors.legalName?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.companyType')}*
                 </Text>
-                <SimpleSelect id='type' options={countries}  searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
-                    placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
-                    required={requiredFields.country}
+                <SimpleSelect id='type' options={InvestorCompanyTypes}  searchLabel={t('investors.company.searchCompanyType')} setSelectedOptionVal={setSelectedCompanyType} 
+                    placeholder={t('investors.company.companyTypePlaceholder')} selectedOptionsDfault={selectedCompanyType} 
+                    required={requiredFields.companyType}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
-                               {t(`${option.name}`)}
+                               {t(`${option}`)}
                             </Text>
                            </div>
                         );
                       }
                     }/>
-              {/* {selectedCountry==null && <span className="text-sm font-DmSans text-red-500">Company country is required</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.description')}*
@@ -317,7 +355,7 @@ const CompanyProfile = () => {
                     className={`!placeholder:text-blue_gray-301 h-[139px] !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] border border-[#D0D5DD] ${errors?.description ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     name="description"
                     rows={4}
-                    placeholder={t('myCompany.enterDescription')}
+                    placeholder={t('investors.company.descriptionPlaceholder')}
                     style={{
                           scrollbarWidth: 'none', 
                           msOverflowStyle: 'none',
@@ -327,29 +365,29 @@ const CompanyProfile = () => {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.website')}*
                 </Text>
                   <input
-                  {...register("website", { required: {value:false , message:"Company website is required"} })}
+                  {...register("website", { required: {value:true , message:"Company website is required"} })}
                   className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="website"
-                    placeholder={t('myCompany.enterWebsite')}
+                    placeholder={t('investors.company.websitePlaceholder')}
                   />
                 {/* {errors.website && <span className="text-sm font-DmSans text-red-500">{errors.website?.message}</span>} */}
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.location')}*
                 </Text>
-                <SimpleSelect id='country' options={countries}  searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
-                    placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
+                <SimpleSelect id='country' options={countries}  searchLabel={t('investors.company.searchLocation')} setSelectedOptionVal={setSelectedCountry} 
+                    placeholder={t('investors.company.locationPlaceholder')} valuekey="name" selectedOptionsDfault={selectedCountry} 
                     required={requiredFields.country}
                     content={
                       ( option) =>{ return (
@@ -363,11 +401,10 @@ const CompanyProfile = () => {
                         );
                       }
                     }/>
-              {/* {selectedCountry==null && <span className="text-sm font-DmSans text-red-500">Company country is required</span>} */}
               </div>
               {/* <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('myCompany.cityState')}
@@ -390,46 +427,44 @@ const CompanyProfile = () => {
               </div> */}
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.investmentStages')}*
                 </Text>
-                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
-                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
-                    required={requiredFields.sector}
+                <MultipleSelect id='sector' options={stage}  searchLabel={'Seach members'} searchable={false} setSelectedOptionVal={setSelectedInvestmentStages} 
+                    placeholder={t('investors.company.investmentStagesPlaceholder')}  selectedOptionsDfault={selectedInvestmentStages} 
+                    required={requiredFields.stages}
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
-                            <Text
-                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
-                              >
-                               {t(`${option}`)}
-                            </Text>
-                           </div>
-                        );
-                      }
-                    }/>
-                    {/* {selectedSector==null && <span className="text-sm font-DmSans text-red-500">Company Sector is required</span>} */}
-
+                          <Text
+                            className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto capitalize"
+                            >
+                              {t(option)}
+                          </Text>
+                          </div>
+                      );
+                    }
+                  }/>
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.preferredInvestmentIndustry')}*
                 </Text>
-                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
-                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
-                    required={requiredFields.sector}
+                <MultipleSelect id='sector' options={companyType}  searchLabel={t('investors.company.searchPreferredInvestmentIndustry')} searchable={true} setSelectedOptionVal={setSelectedPreferredInvestmentIndustry} 
+                    placeholder={t('investors.company.preferredInvestmentIndustryPlaceholder')} selectedOptionsDfault={selectedPreferredInvestmentIndustry} 
+                    required={requiredFields.industry} 
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
                             <Text
-                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                              className="text-gray-801 text-left text-base font-dm-sans-medium leading-5 w-auto capitalize"
                               >
-                               {t(`${option}`)}
+                               {t(option)}
                             </Text>
                            </div>
                         );
@@ -438,7 +473,7 @@ const CompanyProfile = () => {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.contactEmail')}*
@@ -463,34 +498,35 @@ const CompanyProfile = () => {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.phoneNumber')}*
                 </Text>
                   <input
+                    {...register("phoneNumber", { required: { value: true, message: "" } ,
+                    validate: validatePhoneNumber })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.phoneNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="phoneNumber"
-                    placeholder="+212 - "
+                    placeholder={t('investors.company.phoneNumberPlaceholder')}
                   />
-                {/* {errors.phoneNumber && <span className="text-sm font-DmSans text-red-500">{errors.phoneNumber?.message}</span>} */}
               </div>
             </div>
-            <div className="flex flex-col items-start gap-6 justify-start lg:w-[35%] w-full">
+            <div className="flex flex-col items-start gap-3 justify-start lg:w-[35%] w-full">
               <div className="flex flex-col gap-2 items-start justify-start w-full ">
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansRegular16"
                 >
                   {t('myCompany.companyLogo')}
                 </Text>
-                <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[270px] flex flex-col items-center justify-center relative rounded-md w-full"
+                <div className="bg-white-A700 border border-blue_gray-100_01 border-solid h-[250px] flex flex-col items-center justify-center relative rounded-md w-full"
                     onDragOver={handleDragOver}
                     onDrop={handleDrop} onClick={handleLogoFileInputClick}>
                   {logoFile ? (
                     <>
-                    <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[268px]" />
+                    <img src={logoFile} alt="Uploaded Logo" className="rounded-md w-full h-[248px]" />
                     <div className="absolute top-2 right-0 flex flex-col justify-end" 
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}>
@@ -546,14 +582,13 @@ const CompanyProfile = () => {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.lastFundingType')}
                 </Text>
-                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
-                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
-                    required={requiredFields.sector}
+                <SimpleSelect id='sector' options={fundingTypes}  searchLabel={t("common.searchSector")} searchable={false} setSelectedOptionVal={setSelectedFundingType} 
+                    placeholder={t('investors.company.lastFundingTypePlaceholder')} selectedOptionsDfault={selectedFundingType} 
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
@@ -569,104 +604,95 @@ const CompanyProfile = () => {
               </div>
               <div className={`flex flex-col gap-2 items-start justify-start w-full`}>
                 <Text
-                  className="text-base text-[#1D1C21] w-auto"
+                  className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.foundedDate')}
                 </Text>
-                <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
-                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
-                    required={requiredFields.sector}
-                    content={
-                      ( option) =>{ return (
-                        <div className="flex  py-2 items-center  w-full">
-                            <Text
-                              className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
-                              >
-                               {t(`${option}`)}
-                            </Text>
-                           </div>
-                        );
-                      }
-                    }/>
+                <CustomCalendar
+                  className={' w-full'} 
+                  inputPlaceholder={t('investors.company.foundedDatePlaceholder')}
+                  defaultValue={selectedDate ? new Date(selectedDate) : ''}
+                  onChangeDate={(date) => setSelectedDate(date)}
+                />
               </div>
               <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto"
+                <Text className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.investmentCapacity')}
                 </Text>
                 <input
                   className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                  name="funding"
+                  name="investmentCapacity"
                   type="text"
-                  // value={fundingValue}
-                  // onChange={(e) => formatFundingValue(e.target.value)}
-                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                  value={investmentCapacity}
+                  onChange={(e) => formatFundingValue(e.target.value , setInvestmentCapacity)}
+                  placeholder={t('investors.company.investmentCapacityPlaceholder')}
                 />
               </div>
               <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto"
+                <Text className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.numberOfInvestments')}
                 </Text>
                 <input
                   className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                  name="funding"
+                  name="numberOfInvestments"
                   type="text"
-                  // value={fundingValue}
-                  // onChange={(e) => formatFundingValue(e.target.value)}
-                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                  value={numberOfInvestments}
+                  onChange={(e) => formatFundingValue(e.target.value , setNumberOfInvestments)}
+                  placeholder={t('investors.company.numberOfInvestmentsPlaceholder')}
                 />
               </div>
               <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto"
+                <Text className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.numberOfExits')}
                 </Text>
                 <input
                   className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                  name="funding"
+                  name="numberOfExits"
                   type="text"
-                  // value={fundingValue}
-                  // onChange={(e) => formatFundingValue(e.target.value)}
-                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                  value={numberOfExits}
+                  onChange={(e) => formatFundingValue(e.target.value , setNumberOfExits)}
+                  placeholder={t('investors.company.numberOfExitsPlaceholder')}
                 />
               </div>
               <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto"
+                <Text className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.numberOfFunds')}
                 </Text>
                 <input
                   className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                  name="funding"
+                  name="fund"
                   type="text"
-                  // value={fundingValue}
-                  // onChange={(e) => formatFundingValue(e.target.value)}
-                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                  value={fund}
+                  onChange={(e) => formatFundingValue(e.target.value , setFund)}
+                  placeholder={t('investors.company.numberOfFundsPlaceholder')}
                 />
               </div>              
               <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto"
+                <Text className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.numberOfAcquisitions')}
                 </Text>
                 <input
                   className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
-                  name="funding"
+                  name="acquisitions"
                   type="text"
-                  // value={fundingValue}
-                  // onChange={(e) => formatFundingValue(e.target.value)}
-                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                  value={acquisitions}
+                  onChange={(e) => formatFundingValue(e.target.value , setAcquisitions)}
+                  placeholder={t('investors.company.numberOfAcquisitionsPlaceholder')}
                 />
               </div>
               <div className="flex flex-col gap-2 items-start justify-start w-full">
-                <Text className="text-base text-[#1D1C21] w-auto"
+                <Text className="text-base leading-[26px] text-[#1D1C21] w-auto"
                   size="txtDMSansLablel"
                 >
                   {t('investors.company.listOfInvestments')}
@@ -675,9 +701,11 @@ const CompanyProfile = () => {
                   className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.funding ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                   name="funding"
                   type="text"
+                  readOnly
+                  disabled
                   // value={fundingValue}
                   // onChange={(e) => formatFundingValue(e.target.value)}
-                  placeholder={t('projects.createNewProject.enterFundingTarget')}
+                  placeholder={t('investors.company.listOfInvestmentsPlaceholder')}
                 />
               </div>
             </div>

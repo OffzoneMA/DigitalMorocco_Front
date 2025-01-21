@@ -7,7 +7,7 @@ import {Text} from '../Text';
 
 const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionkey='',placeholder='', 
 searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , 
-itemClassName='' , className='' , emptyMsg = "" , emptyIcon}) => {
+itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false,}) => {
   const {t} = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedOptionsDfault);
@@ -113,7 +113,7 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon}) => {
       const spaceBelow = windowHeight - rect.bottom;
       const spaceAbove = rect.top;
 
-      if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      if (spaceBelow < dropdownHeight + 40 && spaceAbove > dropdownHeight) {
         // If there is not enough space below but enough space above, open upwards
         setDropdownDirection('up');
         setDropdownPosition({
@@ -166,7 +166,7 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon}) => {
   return (
     <div id='drop_root' className={`relative flex flex-col md:flex-1 w-full ${className}`}>
       <div ref={parentRef}
-        className={`flex md:flex-1 w-full items-center rounded-md px-[12px] py-[9px] h-[40px] border ${isOpen ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green`}
+        className={`flex md:flex-1 w-full items-center rounded-md px-[12px] py-[9px] h-[40px] border ${(isOpen && !required) ? 'border-focusColor shadow-inputBs' : 'border-[#D0D5DD]'} cursorpointer-green ${required ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : ''}`}
         onClick={toggleDropdown}
       >
         <input
@@ -174,7 +174,7 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon}) => {
           name="target"
           type="text"
           placeholder={placeholder}
-          value={selectedOptions.map(option => option?.[valuekey] ? option[valuekey] : t(option)).join(', ')}
+          value={selectedOptions?.map(option => option?.[valuekey] ? option[valuekey] : t(option)).join(', ')}
           readOnly
           style={{overflow:'hidden' , textOverflow:'ellipsis'}}
         />

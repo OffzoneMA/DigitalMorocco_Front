@@ -4,7 +4,9 @@ import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
-const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholder='' , searchable = true, searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',className='' ,required = false, }) => {
+const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholder='' , searchable = true, 
+searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',
+className='' ,required = false, }) => {
   const { t } = useTranslation();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
   const [isOpen, setIsOpen] = useState(false);

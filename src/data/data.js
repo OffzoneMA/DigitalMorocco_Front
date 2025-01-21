@@ -381,6 +381,45 @@ export const reasonsForRejectionSponsoring = [
     "Unclear Objectives",
     "Other"
   ];
+
+
+export const InvestorCompanyTypes = [
+    "Business Angels",
+    "Venture Capital",
+    "Private Equity",
+    "Pension Funds",
+    "Institutional Investors",
+    "Strategic Investors",
+    "Crowdfunding Investors",
+    "Family Offices",
+    "Cryptocurrency Investors",
+    "Impact Investors",
+    "Corporate Venture Capital",
+    "Sovereign Wealth Funds", 
+    "Debt Investors",
+    "Public Market Investors",
+    "Angel Syndicates"
+];
+
+export const fundingTypes = [
+  "Love Money",
+  "Business Angels",
+  "Honor Loans",
+  "Crowdfunding",
+  "Venture Capital",
+  "Incubators and Accelerators",
+  "Private Equity",
+  "Equity Financing",
+  "Debt Financing",
+  "Mezzanine Financing",
+  "Leasing (Credit Lease)",
+  "Bond Financing",
+  "Strategic Partnerships",
+  "Grants and Public Subsidies",
+  "Factoring Financing",
+  "Sovereign Wealth Funds",
+  "Bank Loans"
+];
   
   
   

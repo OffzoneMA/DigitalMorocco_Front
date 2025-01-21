@@ -205,6 +205,11 @@ a:hover::selection ,a *:hover::selection {
   border-radius: 10px;
 }
 
+/*capitalize first letter*/
+.capitalize-first::first-letter {
+  text-transform: uppercase;
+}
+
 /* Selection*/
 
 ::selection {

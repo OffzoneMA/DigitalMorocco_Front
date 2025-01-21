@@ -126,8 +126,6 @@ const checkDisplayConditions = useCallback(() => {
 useEffect(() => {
   const previousPath = sessionStorage.getItem('previousPageVisited');
   const cameFromDetails = previousPath?.includes('InvestorDetails');
-
-  console.log(previousPath)
   
   if (checkDisplayConditions() && !hasClosedPopupRef.current && !cameFromDetails) {
     setShowDraftPopup(true);

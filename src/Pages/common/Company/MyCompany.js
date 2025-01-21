@@ -24,7 +24,7 @@ const MyCompany = () => {
   const [taxIdentfier, settaxIdentfier] = useState(userDetails?.taxNbr || '');
   const [corporateIdentfier,setcorporateIdentfier] = useState(userDetails?.corporateNbr || '');
   const [selectedSector, setselectedSector] = useState(userDetails?.companyType || '');
-  const dataCountries = Country.getAllCountries();
+  const dataCountries = countries;
   const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.country) || null);
   const [selectedCity , setSelectedCity] = useState(userDetails?.city || '');
   const [isFormValid, setIsFormValid] = useState(true);
