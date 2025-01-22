@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import StatusBadge from "../../../Components/common/StatusBadge";
 import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
 import checkVerified from '../../../Media/check-verified-02.svg';
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const Projects = () => {
   const { t } = useTranslation();
@@ -84,6 +85,13 @@ const Projects = () => {
   };
 
   return (
+    <>
+      <HelmetWrapper
+        title={t('helmet.projects.title')}
+        description={t('helmet.projects.description')}
+        keywords={t('helmet.projects.keywords')}
+        canonical={`${process.env.REACT_APP_URL}/Projects`}
+      />
       <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex items-start justify-start sm:px-5 px-8 w-full">
             <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -252,6 +260,7 @@ const Projects = () => {
             }
         />
       </div>
+    </>
   );
 };
 

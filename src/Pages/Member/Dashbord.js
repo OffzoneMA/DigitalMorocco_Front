@@ -6,9 +6,6 @@ import { GoRocket } from "react-icons/go";
 import { TiFlashOutline } from "react-icons/ti";
 import { BiBuildings } from "react-icons/bi";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
-import { FaArrowTrendUp } from "react-icons/fa6";
-import ProgressBar from "../../Components/common/ProgressBar";
-import { AreaChart, Area, ResponsiveContainer , Tooltip} from 'recharts';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import PageHeader from "../../Components/common/PageHeader";
@@ -16,13 +13,12 @@ import SearchInput from "../../Components/common/SeachInput";
 import creditsImg from '../../Media/credits_img.svg';
 import { useGetAllProjectsQuery } from "../../Services/Member.Service";
 import Loader from "../../Components/Loader";
-import fileSearchImg from '../../Media/file-search.svg';
 import { useGetUserDetailsQuery } from "../../Services/Auth";
 import { useGetAllConatctReqQuery } from "../../Services/Member.Service";
-import { useGetTopSectorsQuery } from "../../Services/Project.Service";
 import userdefaultProfile from '../../Media/User.png';
 import { useTranslation } from "react-i18next";
 import DashboardCommon from "../common/Dashboard_Common";
+import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Dashbord = () => {
   const { t, i18n } = useTranslation();
@@ -45,6 +41,13 @@ const Dashbord = () => {
   }, [refetchUser , refetch , refetchRequest]);
 
     return (
+      <>
+        <HelmetWrapper
+          title={t('helmet.dashboard.title')}
+          description={t('helmet.dashboard.description')}
+          keywords={t('helmet.dashboard.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/Dashboard`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 pb-8 w-full">
                 <div className="flex flex-col lg:flex-row gap-5 items-start lg:justify-between pb-2 w-full">
@@ -427,6 +430,7 @@ const Dashbord = () => {
                 </div>
             </div>
         </div>
+      </>
     )
 }
 export default Dashbord;

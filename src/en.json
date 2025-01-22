@@ -191,7 +191,7 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "projects": "My Projects",
-    "myProfile": "My Profile",
+    "myProfile": "Investor Profile",
     "company": {
       "main": "Company",
       "myCompany": "Company Profile",
@@ -425,13 +425,16 @@
       "uploadPitchDeck": {
         "title": "Upload Pitch Deck",
         "description": "Drag and drop your file here, or",
-        "description1": "choose a file"
+        "description1": "choose a file",
+        "dropHere": "Drop Pitch Deck file here"
       },
       "uploadBusinessPlan": {
-        "title": "Upload Business Plan"
+        "title": "Upload Business Plan",
+        "dropHere": "Drop Business Plan file here"
       },
       "uploadFinancialProjection": {
-        "title": "Upload Financial Projection"
+        "title": "Upload Financial Projection",
+        "dropHere": "Drop Financial Projection file here"
       },
       "uploadOtherDocument": {
         "title": "Upload Other Documents"
@@ -593,7 +596,7 @@
 
   "investors": {
     "company": {
-      "message": "The information provided below will be visible to startups. Highlight your company’s strengths to attract promising opportunities.",
+      "message": "The information entered below will be visible to startups. Highlight the strengths of your investor profile to attract promising opportunities.",
       "companyName": "Company Name (Business Name)",
       "companyNamePlaceholder":"Enter company name",
       "legalName": "Legal Name",
@@ -616,7 +619,7 @@
       "contactEmail": "Contact Email",
       "contactEmailPlaceholder":"Enter company email",
       "phoneNumber": "Phone Number",
-      "phoneNumberPlaceholder":"+33 1  00 00 00 00",
+      "phoneNumberPlaceholder":"+212 6  00 00 00 00",
       "lastFundingType": "Last Funding Type",
       "lastFundingTypePlaceholder":"Select your Last Funding Type",
       "foundedDate": "Founded Date",
@@ -632,7 +635,8 @@
       "numberOfAcquisitions": "Number of Acquisitions",
       "numberOfAcquisitionsPlaceholder":"Enter your number of acquisitions",
       "listOfInvestments": "List of Investments",
-      "listOfInvestmentsPlaceholder":"This field will be available soon"
+      "listOfInvestmentsPlaceholder":"This field will be available soon",
+      "uploadLogo": "Upload Your Logo"
     },
     "title": "Investor List",
     "investorName": "Investor Name",
@@ -1200,6 +1204,8 @@
   },
 
   "common": {
+    "dropLogo": "Drop Your logo here",
+    "dropFile": "Drop file here",
     "projects":"Projects",
     "cancel": "Cancel",
     "deleteNow": "Delete Now",
@@ -1296,5 +1302,164 @@
     "rejected": "Rejected"
   },
 
-  "statusMember": "Member"
+  "statusMember": "Member",
+  "helmet": {
+    "dashboard": {
+      "title": "Digital Morocco - Member Dashboard",
+      "description": "Access your personalized dashboard to manage your projects and track your activities within Digital Morocco's ecosystem.",
+      "keywords": "user dashboard, project management, activity tracking, Digital Morocco, user portal"
+    },
+    "dashboardInvestor": {
+      "title": "Digital Morocco - Investor Dashboard",
+      "description": "Monitor your investments, track opportunities, and analyze performance metrics in Morocco's digital sector.",
+      "keywords": "investor dashboard, investment tracking, ROI analysis, Digital Morocco, investment opportunities"
+    },
+    "dashboardPartner": {
+      "title": "Digital Morocco - Partner Dashboard",
+      "description": "Manage your partnership initiatives, collaborate on projects, and access exclusive resources in Morocco's digital ecosystem.",
+      "keywords": "partner dashboard, collaboration tools, project management, Digital Morocco, partnership portal"
+    },
+    "dashboardAdmin": {
+      "title": "Digital Morocco - Admin Dashboard",
+      "description": "Comprehensive platform administration tools for managing users, monitoring activities, and overseeing Digital Morocco's ecosystem.",
+      "keywords": "admin dashboard, platform management, user administration, Digital Morocco, system monitoring"
+    },
+    "projects": {
+      "title": "Digital Morocco - Projects",
+      "description": "Discover and manage innovative projects within the Digital Morocco ecosystem.",
+      "keywords": "projects, innovation, Digital Morocco, management",
+      "create": {
+        "title": "Digital Morocco - Create Project",
+        "description": "Create a new project and define its specifications.",
+        "keywords": "create project, new project, project management, Digital Morocco"
+      },
+      "edit": {
+        "title": "Digital Morocco - Edit Project",
+        "description": "Modify and update your existing project details.",
+        "keywords": "edit project, update project, project management, Digital Morocco"
+      },
+      "details": {
+        "title": "Digital Morocco - Project Details",
+        "description": "View detailed information about your project.",
+        "keywords": "project details, project information, Digital Morocco"
+      }
+    },
+    "investorProfile": {
+      "title": "Digital Morocco - Investor Profile",
+      "description": "Manage your investor profile and investment preferences.",
+      "keywords": "investor profile, investments, Digital Morocco"
+    },
+    "company": {
+      "myCompany": {
+        "title": "Digital Morocco - My Company",
+        "description": "Manage your company profile and information within Digital Morocco.",
+        "keywords": "company profile, business management, Digital Morocco"
+      },
+      "employees": {
+        "title": "Digital Morocco - Employees",
+        "description": "Manage your company's workforce and team structure.",
+        "keywords": "employees, team management, workforce, Digital Morocco"
+      },
+      "legal": {
+        "title": "Digital Morocco - Legal Documents",
+        "description": "Access and manage your company's legal documentation.",
+        "keywords": "legal documents, compliance, Digital Morocco"
+      }
+    },
+    "investors": {
+      "list": {
+        "title": "Digital Morocco - Investors List",
+        "description": "Browse through our network of qualified investors.",
+        "keywords": "investors, investment opportunities, Digital Morocco"
+      },
+      "myInvestors": {
+        "title": "Digital Morocco - My Investors",
+        "description": "Manage your relationships with current investors.",
+        "keywords": "investor relations, partnerships, Digital Morocco"
+      },
+      "requestHistory": {
+        "title": "Digital Morocco - Request History",
+        "description": "Track your historical investment requests and their outcomes.",
+        "keywords": "investment history, requests, Digital Morocco"
+      }
+    },
+    "investment": {
+      "currentRequests": {
+        "title": "Digital Morocco - Current Requests",
+        "description": "View and manage active investment opportunities.",
+        "keywords": "investment requests, opportunities, Digital Morocco"
+      },
+      "myInvestments": {
+        "title": "Digital Morocco - My Investments",
+        "description": "Track and manage your current investment portfolio.",
+        "keywords": "investment portfolio, management, Digital Morocco"
+      }
+    },
+    "events": {
+      "participate": {
+        "title": "Digital Morocco - Event Participation",
+        "description": "Join and participate in Digital Morocco events.",
+        "keywords": "events, participation, networking, Digital Morocco"
+      },
+      "upcoming": {
+        "title": "Digital Morocco - Upcoming Events",
+        "description": "Discover upcoming events and opportunities.",
+        "keywords": "upcoming events, calendar, Digital Morocco"
+      },
+      "past": {
+        "title": "Digital Morocco - Past Events",
+        "description": "Review past events and their outcomes.",
+        "keywords": "past events, event history, Digital Morocco"
+      }
+    },
+    "sponsoring": {
+      "upcoming": {
+        "title": "Digital Morocco - Upcoming Sponsorship",
+        "description": "Discover upcoming sponsorship opportunities.",
+        "keywords": "sponsorship, opportunities, Digital Morocco"
+      },
+      "current": {
+        "title": "Digital Morocco - Current Sponsorship Requests",
+        "description": "Manage active sponsorship requests and proposals.",
+        "keywords": "sponsorship requests, proposals, Digital Morocco"
+      },
+      "past": {
+        "title": "Digital Morocco - Past Sponsorships",
+        "description": "Review historical sponsorship activities.",
+        "keywords": "past sponsorships, history, Digital Morocco"
+      }
+    },
+    "document": {
+      "title": "Digital Morocco - Documents",
+      "description": "Access and manage your important documents.",
+      "keywords": "documents, file management, Digital Morocco"
+    },
+    "users": {
+      "title": "Digital Morocco - User Management",
+      "description": "Manage user accounts and permissions.",
+      "keywords": "user management, administration, Digital Morocco"
+    },
+    "history": {
+      "title": "Digital Morocco - Activity History",
+      "description": "Track your historical activities and interactions.",
+      "keywords": "activity history, tracking, Digital Morocco"
+    },
+    "adminHistory": {
+      "members": {
+        "title": "Digital Morocco - Members History",
+        "description": "Review historical member activities and changes.",
+        "keywords": "members history, tracking, Digital Morocco"
+      },
+      "investors": {
+        "title": "Digital Morocco - Investors History",
+        "description": "Track historical investor activities and interactions.",
+        "keywords": "investors history, tracking, Digital Morocco"
+      },
+      "partners": {
+        "title": "Digital Morocco - Partners History",
+        "description": "Monitor historical partner activities and relationships.",
+        "keywords": "partners history, tracking, Digital Morocco"
+      }
+    }
+  }
 }

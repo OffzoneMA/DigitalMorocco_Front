@@ -10,10 +10,12 @@ const CustomCalendar = ({ className, onChangeDate, inputPlaceholder, defaultValu
   const { t } = useTranslation();
   
   const formatDefaultValue = (defaultValue) => {
-    if (defaultValue) {
+    if (defaultValue instanceof Date && !isNaN(defaultValue)) {
       return new Intl.DateTimeFormat('en-GB').format(defaultValue);
     }
+    return ''; // Retourne une chaîne vide si la valeur est invalide
   };
+  
 
   const [show, setShow] = useState(false);
   const [selectedDate, setSelectedDate] = useState(defaultValue);
@@ -23,6 +25,14 @@ const CustomCalendar = ({ className, onChangeDate, inputPlaceholder, defaultValu
   const userLanguage = localStorage.getItem('language') || 'en';
   const [dropdownPosition, setDropdownPosition] = useState({ top: null, left: null, width: '100%' });
   const [dropdownDirection, setDropdownDirection] = useState('down');
+
+  // Met à jour les états si `defaultValue` change après le premier rendu
+  useEffect(() => {
+    if (defaultValue instanceof Date && !isNaN(defaultValue)) {
+      setSelectedDate(defaultValue);
+      setValueDate(formatDefaultValue(defaultValue));
+    }
+  }, [defaultValue]);
 
   const handleChange = (selectedDate) => {
     const formattedDate = new Intl.DateTimeFormat('en-GB').format(selectedDate);

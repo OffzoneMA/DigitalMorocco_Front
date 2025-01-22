@@ -18,6 +18,7 @@ import { countries } from "../../../data/tablesData";
 import { useGetEmployeeByIdQuery } from "../../../Services/EmployeeService";
 import { useParams } from "react-router-dom";
 import { validateImageFile } from "../../../data/helper";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const NewEmployee = () => {
   const { t } = useTranslation();
@@ -365,6 +366,13 @@ const NewEmployee = () => {
 
     
   return (
+    <>
+    <HelmetWrapper
+      title={!employeeId? t('helmet.company.employees.create.title') : t('helmet.company.employees.edit.title') }
+      description={!employeeId ? t('helmet.company.employees.create.description') : t('helmet.company.employees.edit.description') }
+      keywords={!employeeId ? t('helmet.company.employees.create.keywords') : t('helmet.company.employees.edit.keywords') }
+      canonical={!employeeId ? `${process.env.REACT_APP_URL}/CreateEmployee` : `${process.env.REACT_APP_URL}/EditEmployee/${employeeId}`}
+    />
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -778,6 +786,7 @@ const NewEmployee = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

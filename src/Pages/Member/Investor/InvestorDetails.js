@@ -56,6 +56,7 @@ const InvestorDetails = () => {
   const itemsToShow = 4;
   const [totalPages , setTotalPages] = useState(0);
   const queryParams = {investorId , page: cur, pageSize: itemsPerPage , status: "Approved" };
+  const [contactSendSuccess, setContactSendSuccess] = useState(false);
 
   const { data: myInvestments, error, isFetching: investmentLoading , refetch} = useGetAllContactReqByInvestorQuery(queryParams);
 
@@ -85,7 +86,7 @@ const InvestorDetails = () => {
   useEffect(() => {
     setLoading(true);
     getInvestorDetailsRequest();
-  }, [investorId]);
+  }, [investorId , contactSendSuccess]);
 
   useEffect(() => {
     setTotalPages(myInvestments?.totalPages);
@@ -206,7 +207,7 @@ const InvestorDetails = () => {
                               {t('investors.investorDetails.investment')}
                               </div>
                               <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                              { investor?.numberOfInvestment || 179}
+                              { investor?.numberOfInvestment?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 179}
                               </div>
                           </div>
                           <div className="col-span-1 flex flex-col w-full gap-7">
@@ -214,7 +215,7 @@ const InvestorDetails = () => {
                               {t('investors.investorDetails.exits')}
                               </div>
                               <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                              {investor?.numberOfExits || 44}
+                              {investor?.numberOfExits?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 44}
                               </div>
                           </div>
                           <div className="col-span-1 flex flex-col w-full gap-7">
@@ -222,7 +223,7 @@ const InvestorDetails = () => {
                               {t('investors.investorDetails.fund')}
                               </div>
                               <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                              {investor?.fund|| 52}
+                              {investor?.fund?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 52}
                               </div>
                           </div>
                           <div className="col-span-1 flex flex-col w-full gap-7">
@@ -230,7 +231,7 @@ const InvestorDetails = () => {
                               {t('investors.investorDetails.acquisitions')}
                               </div>
                               <div className="flex font-dm-sans-bold text-2xl leading-10 tracking-tight text-left text-[#344054]">
-                              {investor?.acquisitions || 7}
+                              {investor?.acquisitions?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 7}
                               </div>
                           </div>
                         </div>
@@ -316,7 +317,7 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
-                              {investor?.headquarter || 'Casablanca, Morocco'}
+                              {investor?.headquarter || investor?.location || 'Casablanca, Morocco'}
                               </Text>
                             </div>
                             <div className="flex flex-col justify-center items-start flex-1 gap-2.5">
@@ -387,7 +388,7 @@ const InvestorDetails = () => {
                                 </Text>
                               </div>
                               <Text className="font-dm-sans-regular text-base leading-6 tracking-wide text-left text-[#344054] pl-8">
-                              $ {investor?.investmentCapacity || '20,000,000'}
+                              $ {investor?.investmentCapacity?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || '20,000,000'}
                               </Text>
                             </div>
                         </div>
@@ -523,7 +524,7 @@ const InvestorDetails = () => {
             </div>
             }
             
-            <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId} draftContactId={investorDraftRequest} rowData={investor}/>
+          <SendContactModal isOpen={isContactModalOpen} onRequestClose={closeModal} investorId={investorId} draftContactId={investorDraftRequest} rowData={investor} setContactFinalize={setContactSendSuccess}/>
         </div>
         <CommonModal isOpen={showPopup}
         onRequestClose={closePopup} title={t('Confirmation')}

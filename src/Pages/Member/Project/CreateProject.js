@@ -31,6 +31,7 @@ import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
 import { PiUsersThin } from "react-icons/pi";
 import { validateImageFile } from "../../../data/helper";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const CreateProject = () => {
   const { t } = useTranslation();
@@ -756,6 +757,13 @@ const handleFileRemove = async (type) => {
 
 
   return (
+    <>
+    <HelmetWrapper
+      title={!projectId ? t('helmet.projects.create.title') : t('helmet.projects.edit.title')}
+      description={!projectId? t('helmet.projects.create.description') : t('helmet.projects.edit.description')}
+      keywords={!projectId? t('helmet.projects.create.keywords'): t('helmet.projects.edit.keywords')}
+      canonical={!projectId ? `${process.env.REACT_APP_URL}/Createproject` : `${process.env.REACT_APP_URL}/Editproject/${projectId}`}
+    />
       <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-8 pt-8 rounded-tl-[40px] h-full min-h-screen overflow-auto w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -1303,7 +1311,7 @@ const handleFileRemove = async (type) => {
                             className="text-[13px] text-base text-center leading-6 tracking-normal w-auto"
                             size="txtDMSansRegular13"
                           >
-                          {isDragging? "Drop Your logo here" : t('projects.createNewProject.projectLogo.uploadLogo')}  
+                          {isDragging? t("common.dropLogo") : t('projects.createNewProject.projectLogo.uploadLogo')}  
                           </Text>
                         </div>
                       </div>
@@ -1342,7 +1350,7 @@ const handleFileRemove = async (type) => {
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-300">Drop Pitch Deck file here</span> :
+                        {isDragging ? <span className="text-blue_gray-300">{t('projects.createNewProject.uploadPitchDeck.dropHere')}</span> :
                         <>
                           <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
                         <span className="text-blue-500">{t('projects.createNewProject.uploadPitchDeck.description1')}</span>
@@ -1391,7 +1399,7 @@ const handleFileRemove = async (type) => {
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-300">Drop Business Plan file here</span> :
+                        {isDragging ? <span className="text-blue_gray-300">{t('projects.createNewProject.uploadBusinessPlan.dropHere')}</span> :
                         <>
                           <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
                         <span className="text-blue-500" >{t('projects.createNewProject.uploadPitchDeck.description1')}</span>
@@ -1440,7 +1448,7 @@ const handleFileRemove = async (type) => {
                       <label
                         className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto"
                       >
-                        {isDragging ? <span className="text-blue_gray-300">Drop Financial Projection file here</span> :
+                        {isDragging ? <span className="text-blue_gray-300">{t('projects.createNewProject.uploadFinancialProjection.dropHere')}</span> :
                         <>
                           <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
                         <span className="text-blue-500" >{t('projects.createNewProject.uploadPitchDeck.description1')}</span>
@@ -1488,7 +1496,7 @@ const handleFileRemove = async (type) => {
                         onChange={(event) => handleFileInputChange(event, index)}
                       />
                       <label className="font-manrope font-normal text-sm leading-18 tracking-wide text-left w-auto">
-                      {isDragging ? <span className="text-blue_gray-300">Drop file here</span> :
+                      {isDragging ? <span className="text-blue_gray-300">{t('common.dropFile')}</span> :
                         <>
                           <span className="text-blue_gray-300"> {t('projects.createNewProject.uploadPitchDeck.description')} </span>
                         <span className="text-blue-500" >
@@ -1536,6 +1544,7 @@ const handleFileRemove = async (type) => {
             </form>
         </div>
       </div>
+    </>
   );
 };
 

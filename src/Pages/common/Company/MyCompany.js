@@ -12,21 +12,23 @@ import SearchInput from "../../../Components/common/SeachInput";
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const MyCompany = () => {
   const { t } = useTranslation();
-  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch} = useGetUserDetailsQuery();
   const [logoFile, setLogoFile] = useState(userDetails?.logo || userDetails?.image || '');
   const [imgFile , setImgFile] = useState(null);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [isSaved , setIsSaved] = useState(false);
+  const [sending , setSending] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [taxIdentfier, settaxIdentfier] = useState(userDetails?.taxNbr || '');
   const [corporateIdentfier,setcorporateIdentfier] = useState(userDetails?.corporateNbr || '');
-  const [selectedSector, setselectedSector] = useState(userDetails?.companyType || '');
+  const [selectedSector, setselectedSector] = useState(userDetails?.companyType || null);
   const dataCountries = countries;
   const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.country) || null);
-  const [selectedCity , setSelectedCity] = useState(userDetails?.city || '');
+  const [selectedCity , setSelectedCity] = useState(userDetails?.city || null);
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
@@ -44,9 +46,9 @@ const MyCompany = () => {
     // if (Mount) { setMount(false) }
     // else{
       if (hasSubmitted ) {
-        const isCountryValid = selectedCountry !== null;
-        const isCityValid = selectedCity !== "";
-        const isSectorValid = selectedSector !== "";
+        const isCountryValid = selectedCountry !== null && selectedCountry !== undefined;
+        const isCityValid = selectedCity !== "" && selectedCity !== null && selectedCity !== undefined;
+        const isSectorValid = selectedSector !== "" && selectedSector !== null && selectedSector !== undefined;
     
         // const isValid = isCountryValid && isCityValid && isSectorValid ;
 
@@ -76,6 +78,11 @@ const MyCompany = () => {
         taxIdentfier: userDetails?.taxNbr,
         corporateIdentfier: userDetails?.corporateNbr,
       });
+      setSelectedCountry(dataCountries.find(country => country.name === userDetails?.country));
+      setselectedSector(userDetails?.companyType);
+      setLogoFile(userDetails?.logo || userDetails?.image);
+      setcorporateIdentfier(userDetails?.corporateNbr);
+      settaxIdentfier(userDetails?.taxNbr);
     }
   }, [userDetails, reset]);
 
@@ -152,33 +159,36 @@ const MyCompany = () => {
       //   formData.append(key, requestData[key]);
       // });
 
-      if (isFormValid) {
-        fetch(`${process.env.REACT_APP_baseURL}/members/companies`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            body: formData, 
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur dans la réponse du serveur');
-            }
-            return response.json(); 
-        })
-        .then(responseData => {
-            setIsSaved(true);
-            setTimeout(() => {
-                setIsSaved(false);
-            }, 5000); 
-        })
-        .catch(error => {
-            console.error("Erreur lors de l'envoi du formulaire :", error);
+      const isCountryValid = selectedCountry !== null && selectedCountry !== undefined;
+      const isSectorValid = selectedSector !== "" && selectedSector !== null && selectedSector !== undefined;
+      const isValid = isCountryValid && isSectorValid;
+
+      if (isFormValid && isValid) {
+        setSending(true);
+        const response = await fetch(`${process.env.REACT_APP_baseURL}/members/companies`, {
+          method: 'POST',
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         });
+
+        if(response.ok) {
+          setIsSaved(true);
+          setSending(false);
+          refetch();
+          setTimeout(() => {
+              setIsSaved(false);
+          }, 5000);
+        }
+        else {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erreur dans la réponse du serveur');
+        }
       }    
-      } catch (error) {
-        console.error("Erreur lors de l'envoi du formulaire :", error);
-      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du formulaire :", error);
+    }
   };
 
   const handleLogoFileUpload = (event) => {
@@ -209,6 +219,13 @@ const MyCompany = () => {
   };
 
   return (
+    <>
+    <HelmetWrapper
+      title={t('helmet.company.myCompany.title')}
+      description={t('helmet.company.myCompany.description')}
+      keywords={t('helmet.company.myCompany.keywords')}
+      canonical={`${process.env.REACT_APP_URL}/MyCompany`}
+    />
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="bg-white-A700 flex flex-col gap-8 h-full items-start justify-start pb-14 pt-8 rounded-tl-[40px] min-h-screen overflow-auto w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -226,6 +243,19 @@ const MyCompany = () => {
               >
                 <BsCheck2Circle size={18} className="mr-2" />
                 {t("common.saved")}
+              </button>
+              :
+              sending ?
+              <button
+                className="bg-blue-501 hover:bg-[#235DBD] active:bg-[#224a94 text-sm px-[12px] py-[7px] h-[44px] text-white-A700 flex flex-row items-center ml-auto min-w-[85px] cursorpointer rounded-md w-auto"
+                type="button"
+                disabled
+                >
+                <div className="flex items-center justify-center gap-6"> {t("all.sending")}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
               </button>
               :
               <button
@@ -360,7 +390,7 @@ const MyCompany = () => {
                   {t('myCompany.country')}*
                 </Text>
                 <SimpleSelect id='country' options={countries}  searchLabel={t('common.searchCountry')} setSelectedOptionVal={setSelectedCountry} 
-                    placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={userDetails?.country? dataCountries.find(country => country.name === userDetails?.country) : ""} 
+                    placeholder={t('myCompany.selectCountry')} valuekey="name" selectedOptionsDfault={selectedCountry} 
                     required={requiredFields.country}
                     content={
                       ( option) =>{ return (
@@ -407,7 +437,7 @@ const MyCompany = () => {
                   {t('myCompany.companySector')}*
                 </Text>
                 <SimpleSelect id='sector' options={companyType}  searchLabel={t("common.searchSector")} searchable={true} setSelectedOptionVal={setselectedSector} 
-                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={userDetails?.companyType || ''} 
+                    placeholder={t('myCompany.selectSector')} selectedOptionsDfault={selectedSector} 
                     required={requiredFields.sector}
                     content={
                       ( option) =>{ return (
@@ -494,7 +524,7 @@ const MyCompany = () => {
                                     <path d="M12.6347 7.09536C12.4495 8.83529 11.4636 10.4658 9.83228 11.4076C7.12196 12.9724 3.65628 12.0438 2.09147 9.33348L1.9248 9.04481M1.36344 5.90467C1.54864 4.16474 2.5345 2.53426 4.16582 1.59241C6.87615 0.0276043 10.3418 0.95623 11.9066 3.66655L12.0733 3.95523M1.32812 10.544L1.81616 8.72267L3.63753 9.21071M10.3609 3.78934L12.1823 4.27737L12.6703 2.45601" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
-                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Change</div>
+                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">{t('common.change')}</div>
                               </div>
                               <div className="w-auto group h-9 py-[5px] px-[16px] justify-start items-center gap-3 inline-flex" 
                               onClick={handleRemoveLogo}>
@@ -503,7 +533,7 @@ const MyCompany = () => {
                                     <path d="M5 1.5H9M1 3.5H13M11.6667 3.5L11.1991 10.5129C11.129 11.565 11.0939 12.0911 10.8667 12.49C10.6666 12.8412 10.3648 13.1235 10.0011 13.2998C9.58798 13.5 9.06073 13.5 8.00623 13.5H5.99377C4.93927 13.5 4.41202 13.5 3.99889 13.2998C3.63517 13.1235 3.33339 12.8412 3.13332 12.49C2.90607 12.0911 2.871 11.565 2.80086 10.5129L2.33333 3.5M5.66667 6.5V9.83333M8.33333 6.5V9.83333" stroke="#2575F0" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                                   </svg>
                                 </span>
-                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">Delete</div>
+                                <div className="text-[#1d2838] group-hover:text-[#2575F0] transition-colors duration-300">{t('common.delete')}</div>
                               </div>
                             </div>
                           </div>}
@@ -532,7 +562,7 @@ const MyCompany = () => {
         </div>
       </div>
     </form>
-
+    </>
   );
 };
 

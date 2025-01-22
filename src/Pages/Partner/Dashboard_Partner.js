@@ -18,6 +18,7 @@ import { useGetRecentSponsorsByPartnerAndStatusQuery } from "../../Services/Spon
 import { FiSend } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import DashboardCommon from "../common/Dashboard_Common";
+import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Dashboard_Partner = () => {
   const { t, i18n } = useTranslation();
@@ -41,6 +42,13 @@ const Dashboard_Partner = () => {
 
 
     return (
+      <>
+        <HelmetWrapper
+          title={t('helmet.dashboardPartner.title')}
+          description={t('helmet.dashboardPartner.description')}
+          keywords={t('helmet.dashboardPartner.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/Dashboard_Partner`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 pb-8 w-full">
                 <div className="flex flex-col lg:flex-row gap-5 items-start lg:justify-between pb-2 w-full">
@@ -415,6 +423,7 @@ const Dashboard_Partner = () => {
                 </div>
             </div>
         </div>
+      </>
     )
 }
 export default Dashboard_Partner;

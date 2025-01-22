@@ -12,6 +12,7 @@ import PageHeader from "../../Components/common/PageHeader";
 import SearchInput from "../../Components/common/SeachInput";
 import { useGetAllUsersQuery } from "../../Services/User.Service";
 import { useTranslation } from "react-i18next";
+import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Dashboard_Admin = () => {
   const { t, i18n } = useTranslation();
@@ -170,7 +171,6 @@ const Dashboard_Admin = () => {
     }
     return 0;
   };
-console.log(chartData)
   const off = gradientOffset();
 
   const CustomTooltip = ({ active, payload }) => {
@@ -215,168 +215,176 @@ console.log(chartData)
   }
 
   return (
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
-      <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-        <div className="flex flex-col md:flex-row gap-5 items-start justify-start pb-2 w-full">
-          <div className="flex flex-1 h-full items-start justify-start w-auto">
-            <PageHeader
+    <>
+      <HelmetWrapper
+        title={t('helmet.dashboardAdmin.title')}
+        description={t('helmet.dashboardAdmin.description')}
+        keywords={t('helmet.dashboardAdmin.keywords')}
+        canonical={`${process.env.REACT_APP_URL}/Dashboard_Admin`}
+      />
+      <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+        <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+          <div className="flex flex-col md:flex-row gap-5 items-start justify-start pb-2 w-full">
+            <div className="flex flex-1 h-full items-start justify-start w-auto">
+              <PageHeader
+              >
+                {t('dashboard.welcome')}, {userInfo?.displayName ? userInfo?.displayName : 'Olivia'}
+              </PageHeader>
+            </div>
+            <SearchInput className={'w-[240px]'} />
+          </div>
+          <div className="flex pb-6">
+            <Text
+              className="text-lg font-inter text-gray-500 leading-6 tracking-normal w-full"
             >
-              {t('dashboard.welcome')}, {userInfo?.displayName ? userInfo?.displayName : 'Olivia'}
-            </PageHeader>
-          </div>
-          <SearchInput className={'w-[240px]'} />
-        </div>
-        <div className="flex pb-6">
-          <Text
-            className="text-lg font-inter text-gray-500 leading-6 tracking-normal w-full"
-          >
-            {t('adminDashboard.trackManageForecast')}
-          </Text>
-        </div>
-        <div className="flex flex-wrap justify-center gap-10 pt-8 w-full">
-          <div
-            className={`flex flex-col basis-[230px] grow max-w-[600px] gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'member' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
-            onClick={() => handleGridClick(1, 'member')}
-          >
-            <div className="rounded-[6px] p-2 bg-teal-50">
-              <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
-            </div>
-            <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
-            {t('adminDashboard.startUp')}
-            </Text>
-            <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
-            {t('adminDashboard.totalStartups')}
-            </Text>
-            <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
-              {members?.length}
+              {t('adminDashboard.trackManageForecast')}
             </Text>
           </div>
-
-          <div
-            className={`flex flex-col basis-[230px] grow max-w-[600px] gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'investor' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
-            onClick={() => handleGridClick(2, 'investor')}
-          >
-            <div className="rounded-[6px] p-2 bg-blue-51">
-              <TiFlashOutline size={28} className="text-blue-701" />
-            </div>
-            <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
-            {t('adminDashboard.investors')}
-            </Text>
-            <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
-            {t('adminDashboard.totalInvestors')}
-            </Text>
-            <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
-              {investors?.length}
-            </Text>
-          </div>
-
-          <div
-            className={`flex flex-col basis-[230px] grow max-w-[600px] gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'partner' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
-            onClick={() => handleGridClick(3, 'partner')}
-          >
-            <div className="rounded-[6px] p-2 bg-violet-100">
-              <BiBuildings size={28} className="text-blue-601" />
-            </div>
-            <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
-            {t('adminDashboard.partners')}
-            </Text>
-            <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
-            {t('adminDashboard.totalPartners')}
-            </Text>
-            <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
-              {partners?.length}
-            </Text>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-10 pt-8 w-full">
-          <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201 px-6">
-            <div className="flex flex-row items-center w-full justify-between">
-              <div className="flex flex-row items-center w-full">
-                <div className="flex rounded-md bg-violet-100 p-2">
-                  <FaArrowTrendUp size={28} className="text-blue-601 " />
-                </div>
-                <div className="flex flex-col p-3 items-center gap-1 ml-2">
-                  <Text
-                    className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
-                  >
-                    {t('adminDashboard.signUpVolume')}
-                  </Text>
-                  <Text
-                    className="text-sm font-dm-sans-regular leading-[26px] text-blue_gray-301 tracking-normal  w-full"
-                  >
-                    {t('adminDashboard.trackSignUpTrends')}
-                  </Text>
-                </div>
+          <div className="flex flex-wrap justify-center gap-10 pt-8 w-full">
+            <div
+              className={`flex flex-col basis-[230px] grow max-w-[600px] gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'member' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
+              onClick={() => handleGridClick(1, 'member')}
+            >
+              <div className="rounded-[6px] p-2 bg-teal-50">
+                <GoRocket size={28} fontWeight={400} className="text-emerald-600" />
               </div>
-              <div className="flex flex-row items-center justify-center border border-gray_200 px-[9px] py-[7px] rounded-[48px] w-auto gap-2.5">
-                <div className="h-[19px] text-[13px] text-[#303030] font-Montserrat-semiBold " style={{whiteSpace: 'nowrap'}}>{t('adminDashboard.showBy')}</div>
-                <div className="w-auto justify-start items-center gap-2.5 flex">
-                  <div className="px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex" onClick={() => setTimeFrame('week')}>
-                    <div className={`${timeFrame === 'week' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-medium font-dm-sans-regular`}>{t('adminDashboard.week')}</div>
+              <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+              {t('adminDashboard.startUp')}
+              </Text>
+              <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
+              {t('adminDashboard.totalStartups')}
+              </Text>
+              <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
+                {members?.length}
+              </Text>
+            </div>
+
+            <div
+              className={`flex flex-col basis-[230px] grow max-w-[600px] gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'investor' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
+              onClick={() => handleGridClick(2, 'investor')}
+            >
+              <div className="rounded-[6px] p-2 bg-blue-51">
+                <TiFlashOutline size={28} className="text-blue-701" />
+              </div>
+              <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+              {t('adminDashboard.investors')}
+              </Text>
+              <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
+              {t('adminDashboard.totalInvestors')}
+              </Text>
+              <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
+                {investors?.length}
+              </Text>
+            </div>
+
+            <div
+              className={`flex flex-col basis-[230px] grow max-w-[600px] gap-3 items-center rounded-[12px] border animation py-7 px-5 hover:border-blue-503 hover:shadow-roleCardbs ${role === 'partner' ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}
+              onClick={() => handleGridClick(3, 'partner')}
+            >
+              <div className="rounded-[6px] p-2 bg-violet-100">
+                <BiBuildings size={28} className="text-blue-601" />
+              </div>
+              <Text className="text-[18px] text-center mt-2 font-dm-sans-medium leading-7 tracking-normal text-gray-900_01">
+              {t('adminDashboard.partners')}
+              </Text>
+              <Text className="text-sm text-center font-dm-sans-regular leading-[26px] tracking-normal text-blue_gray-301">
+              {t('adminDashboard.totalPartners')}
+              </Text>
+              <Text className="text-[#2575F0] text-[22px] leading-relaxed font-dm-sans-medium">
+                {partners?.length}
+              </Text>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-10 pt-8 w-full">
+            <div className="flex flex-col gap-4 items-center rounded-[12px] border border-gray-201 px-6">
+              <div className="flex flex-row items-center w-full justify-between">
+                <div className="flex flex-row items-center w-full">
+                  <div className="flex rounded-md bg-violet-100 p-2">
+                    <FaArrowTrendUp size={28} className="text-blue-601 " />
                   </div>
-                  <div className={`px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex`} onClick={() => setTimeFrame('month')}>
-                    <div className={`${timeFrame === 'month' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-normal font-dm-sans-regular`}>{t('adminDashboard.month')}</div>
+                  <div className="flex flex-col p-3 items-center gap-1 ml-2">
+                    <Text
+                      className=" ext-base font-dm-sans-medium leading-8 text-gray-900_01 tracking-normal w-full"
+                    >
+                      {t('adminDashboard.signUpVolume')}
+                    </Text>
+                    <Text
+                      className="text-sm font-dm-sans-regular leading-[26px] text-blue_gray-301 tracking-normal  w-full"
+                    >
+                      {t('adminDashboard.trackSignUpTrends')}
+                    </Text>
                   </div>
-                  <div className={`px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex relative`} 
-                  onMouseEnter={() => setIsOpen(true)}
-                  onMouseLeave={() => setIsOpen(false)}
-                  onClick={() => setIsOpen(!isOpen)}
-                  >
-                    <div className="text-[#303030] text-sm font-normal font-dm-sans-regular" style={{whiteSpace: 'nowrap'}}>{selectedMonth || t('adminDashboard.selectMonth')}</div>
-                    {isOpen && (
-                      <div className="absolute top-full right-0 z-10 ">
-                        <div className="flex flex-col justify-start items-start mt-1 max-h-[310px] px-4 py-5 bg-white-A700 rounded-xl border border-gray-201 shadow-lg gap-2.5  overflow-y-auto">
-                          {monthsOrder1.map((month, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center w-full px-3 text-left hover-select-color hover:text-[#35D8BF] cursorpointer text-[#1d2838] text-sm font-dm-sans-regular capitalize"
-                              onClick={() => handleSelectMonth(month)}
-                            >
-                              {t(`common.months.${month?.toLowerCase()}`)}
-                            </div>
-                          ))}
+                </div>
+                <div className="flex flex-row items-center justify-center border border-gray_200 px-[9px] py-[7px] rounded-[48px] w-auto gap-2.5">
+                  <div className="h-[19px] text-[13px] text-[#303030] font-Montserrat-semiBold " style={{whiteSpace: 'nowrap'}}>{t('adminDashboard.showBy')}</div>
+                  <div className="w-auto justify-start items-center gap-2.5 flex">
+                    <div className="px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex" onClick={() => setTimeFrame('week')}>
+                      <div className={`${timeFrame === 'week' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-medium font-dm-sans-regular`}>{t('adminDashboard.week')}</div>
+                    </div>
+                    <div className={`px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex`} onClick={() => setTimeFrame('month')}>
+                      <div className={`${timeFrame === 'month' ? 'text-purple-500' : 'text-[#303030]' } text-sm font-normal font-dm-sans-regular`}>{t('adminDashboard.month')}</div>
+                    </div>
+                    <div className={`px-3 py-[3px] bg-[#AAAAAA1A] rounded-[100px] justify-center items-center gap-2.5 flex relative`} 
+                    onMouseEnter={() => setIsOpen(true)}
+                    onMouseLeave={() => setIsOpen(false)}
+                    onClick={() => setIsOpen(!isOpen)}
+                    >
+                      <div className="text-[#303030] text-sm font-normal font-dm-sans-regular" style={{whiteSpace: 'nowrap'}}>{selectedMonth || t('adminDashboard.selectMonth')}</div>
+                      {isOpen && (
+                        <div className="absolute top-full right-0 z-10 ">
+                          <div className="flex flex-col justify-start items-start mt-1 max-h-[310px] px-4 py-5 bg-white-A700 rounded-xl border border-gray-201 shadow-lg gap-2.5  overflow-y-auto">
+                            {monthsOrder1.map((month, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center w-full px-3 text-left hover-select-color hover:text-[#35D8BF] cursorpointer text-[#1d2838] text-sm font-dm-sans-regular capitalize"
+                                onClick={() => handleSelectMonth(month)}
+                              >
+                                {t(`common.months.${month?.toLowerCase()}`)}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                  )}
+                    )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-col w-full ">
-              {chartData.length > 0 ?
-                <div className="flex-grow">
-                  <ResponsiveContainer width="100%" height={280}>
-                    <AreaChart data={chartData} onClick={handleChartClick}>
-                      <XAxis dataKey="name" padding={{ left: timeFrame === 'week' ? 23 : 8, right: 0 }}
-                       tick={{ fontSize: 12 }}
-                      />
-                      <Tooltip content={<CustomTooltip />} />
-                      <defs>
-                        <linearGradient id="colorvalue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor={"#A9FCE5"} stopOpacity={0.8} />
-                          <stop offset="95%" stopColor={"#A9FCE5"} stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                      <Area type="monotone" dataKey="value" stroke="#45C68A" strokeWidth={2} fill="url(#colorvalue)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-                :
-                <div className="flex flex-col items-center text-gray-600 w-full py-28">
-                  <AiOutlineFileSearch size={30} />
-                  <Text
-                    className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
-                    size=""
-                  >
-                    {t("common.noData")}
-                  </Text>
-                </div>
-              }
+              <div className="flex flex-col w-full ">
+                {chartData.length > 0 ?
+                  <div className="flex-grow">
+                    <ResponsiveContainer width="100%" height={280}>
+                      <AreaChart data={chartData} onClick={handleChartClick}>
+                        <XAxis dataKey="name" padding={{ left: timeFrame === 'week' ? 23 : 8, right: 0 }}
+                        tick={{ fontSize: 12 }}
+                        />
+                        <Tooltip content={<CustomTooltip />} />
+                        <defs>
+                          <linearGradient id="colorvalue" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor={"#A9FCE5"} stopOpacity={0.8} />
+                            <stop offset="95%" stopColor={"#A9FCE5"} stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <Area type="monotone" dataKey="value" stroke="#45C68A" strokeWidth={2} fill="url(#colorvalue)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                  :
+                  <div className="flex flex-col items-center text-gray-600 w-full py-28">
+                    <AiOutlineFileSearch size={30} />
+                    <Text
+                      className=" text-sm font-dm-sans-regular leading-6 text-gray-900_01 w-auto"
+                      size=""
+                    >
+                      {t("common.noData")}
+                    </Text>
+                  </div>
+                }
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 export default Dashboard_Admin;

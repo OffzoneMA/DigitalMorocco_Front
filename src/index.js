@@ -9,12 +9,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import store from './Redux/store'
-
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
+    <HelmetProvider>
       <App />
+    </HelmetProvider>
   </Provider>
 );
 

@@ -20,6 +20,7 @@ import { useCheckSubscriptionStatusQuery } from "../../../Services/Subscription.
 import { useTranslation } from "react-i18next";
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import CommonModal from "../../../Components/common/CommonModal";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const Investors = () => {
   const { t } = useTranslation();
@@ -304,6 +305,12 @@ useEffect(() => {
 
     return (
     <>
+    <HelmetWrapper
+      title={t('helmet.investors.list.title')}
+      description={t('helmet.investors.list.description')}
+      keywords={t('helmet.investors.list.keywords')}
+      canonical={`${process.env.REACT_APP_URL}/Investors`}
+    />
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">

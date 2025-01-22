@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import ConfirmedModal from "../../../Components/Modals/ConfirmedModal";
 import { logout } from "../../../Redux/auth/authSlice";
 import { languages } from "../../../data/tablesData";
-
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const ChooseRole = () => {
     const { t, i18n } = useTranslation();

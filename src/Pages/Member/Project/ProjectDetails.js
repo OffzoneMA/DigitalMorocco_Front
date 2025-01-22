@@ -21,6 +21,7 @@ import { GoDotFill } from "react-icons/go";
 import userdefaultProfile from '../../../Media/User1.png';
 import Loader from "../../../Components/Loader";
 import { useTranslation } from "react-i18next";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const ProjectDetails = () => {
   const { t } = useTranslation();
@@ -175,6 +176,12 @@ useEffect(() => {
 
   return (
     <>
+    <HelmetWrapper
+      title={t('helmet.projects.details.title')}
+      description={t('helmet.projects.details.description')}
+      keywords={t('helmet.projects.details.keywords')}
+      canonical={`${process.env.REACT_APP_URL}/Projectdetails/${projectId}`}
+    />
     {isLoading ? 
     <div className="bg-white-A700 rounded-tl-[40px] flex items-center justify-center h-screen">
       <Loader />

@@ -85,10 +85,13 @@ const SendContactModal = (props) => {
           setSendingOk(true);
           // const response = await createContactReqProject(formData).unwrap();
           const result = await finalizeContactRequest(formData).unwrap();
-          console.log('Contact request created successfully');
-          setSendingOk(false);
-          setSending(false);
-          openModal();
+          console.log('Contact request created successfully' , result);
+          if(result?._id) {
+            setSendingOk(false);
+            setSending(false);
+            openModal();
+            props?.setContactFinalize(true);
+          }
         } catch (error) {
           setSendingOk(false);
           setSending(false);
@@ -99,8 +102,8 @@ const SendContactModal = (props) => {
     };
 
     const openModal  = () =>  {
-        setIsConfirmedModalOpen(true);
         props.onRequestClose();
+        setIsConfirmedModalOpen(true);
       };
     
       const closeModal = () => {

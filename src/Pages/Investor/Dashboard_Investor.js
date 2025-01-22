@@ -16,7 +16,7 @@ import userdefaultProfile from '../../Media/User.png';
 import { useGetRecentApprovedContactRequestsQuery , useGetLastRecentContactRequestsQuery } from "../../Services/Investor.Service";
 import { useTranslation } from "react-i18next";
 import DashboardCommon from "../common/Dashboard_Common";
-
+import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Dashbord_Investor = () => {
   const { t, i18n } = useTranslation();
@@ -39,6 +39,13 @@ const Dashbord_Investor = () => {
   }, [refetchUser , refetch , refetchRequest]);
 
     return (
+      <>
+        <HelmetWrapper
+          title={t('helmet.dashboardInvestor.title')}
+          description={t('helmet.dashboardInvestor.description')}
+          keywords={t('helmet.dashboardInvestor.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/Dashboard_Investor`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 pb-8 w-full">
                 <div className="flex flex-col lg:flex-row gap-5 items-start lg:justify-between pb-2 w-full">
@@ -407,6 +414,7 @@ const Dashbord_Investor = () => {
                 </div>
             </div>
         </div>
+      </>
     )
 }
 export default Dashbord_Investor;
