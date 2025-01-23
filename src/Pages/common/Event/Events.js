@@ -22,6 +22,7 @@ import ReactDOM from 'react-dom';
 import userDefaultProfil from '../../../Media/User1.png';
 import { useTranslation } from "react-i18next";
 import { fr, enUS } from 'date-fns/locale';
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const Events = () => {
   const { t } = useTranslation();
@@ -267,6 +268,13 @@ const Events = () => {
   }
 
     return (
+      <>
+        <HelmetWrapper
+          title={t('helmet.events.participate.title')}
+          description={t('helmet.events.participate.description')}
+          keywords={t('helmet.events.participate.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/Participate`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -528,6 +536,7 @@ const Events = () => {
                       onRequestClose={closeTicketModal}
                       rowData={ticketDataRow}/>
         </div>
+      </>
     )
 }
 

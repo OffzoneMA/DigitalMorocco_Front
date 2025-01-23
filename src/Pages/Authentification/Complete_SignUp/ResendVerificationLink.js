@@ -12,7 +12,7 @@ import { authApi } from '../../../Services/Auth';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { logout } from "../../../Redux/auth/authSlice";
-
+import HelmetWrapper from '../../../Components/common/HelmetWrapper';
 
 const ResendVerificationLink = () => {
     const {t} = useTranslation();
@@ -56,6 +56,12 @@ const ResendVerificationLink = () => {
 
     return (
         <>
+        <HelmetWrapper 
+          title={t('helmet.resendVerificationLink.title')}
+          description={t('helmet.resendVerificationLink.description')}
+          keywords={t('helmet.resendVerificationLink.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/ResendVerificationLink`}
+        />
         <div className={`bg-white-A700 flex flex-col font-DmSans gap-[50px] items-center justify-start mx-auto pb-[50px] w-full min-h-screen overflow-y-auto`}>
             <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between pl-2 pr-12 md:px-[100px] py-5 w-full relative">
               <a href="https://digitalmorocco.net" target='_blank'>

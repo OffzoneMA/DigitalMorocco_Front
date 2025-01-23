@@ -17,6 +17,7 @@ import { authApi } from '../../Services/Auth';
 import { useGetUserByEmailQuery } from '../../Services/Auth';
 import EmailExistModalOrConfirmation from '../../Components/Modals/EmailExistModalOrConfirmation';
 import { languages } from '../../data/tablesData';
+import HelmetWrapper from '../../Components/common/HelmetWrapper';
 
 
 export default function SignUp() {
@@ -227,6 +228,12 @@ const onSubmit = (data) => {
 
   return (
     <>
+    <HelmetWrapper 
+      title={t('helmet.signUp.title')}
+      description={t('helmet.signUp.description')}
+      keywords={t('helmet.signUp.keywords')}
+      canonical={`${process.env.REACT_APP_URL}/SignUp`}
+    />
     <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto min-h-screen overflow-y-auto md:px-10 px-[12px] py-[30px] w-full">
         <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
           <div className="flex flex-col items-center justify-center w-full cursorpointer">

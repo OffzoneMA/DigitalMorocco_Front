@@ -30,6 +30,7 @@ import { LuDownload } from "react-icons/lu";
 import { useGetSponsorByIdQuery } from "../../../Services/Sponsor.Service";
 import { useTranslation } from "react-i18next";
 import { formatEventStartEndDate , formatEventTime , formatPrice , formatEventDate} from "../../../data/helper";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const PastSponsorEventDetails = () => {
   const { t } = useTranslation();
@@ -81,6 +82,12 @@ const PastSponsorEventDetails = () => {
 
     return (
         <>
+        <HelmetWrapper 
+          title={t('helmet.pastSponsorEventDetails.title')}
+          description={t('helmet.pastSponsorEventDetails.description')}
+          keywords={t('helmet.pastSponsorEventDetails.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/PastSponsorEventDetails/${id}`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         {isLoading ?
             <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] h-screen w-full py-28 rounded-b-[8px]">

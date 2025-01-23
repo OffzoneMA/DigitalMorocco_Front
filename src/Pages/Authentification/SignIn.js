@@ -20,6 +20,7 @@ import axios from 'axios';
 import emailError from '../../Media/emailError.svg';
 import Cookies from "js-cookie";
 import { languages } from '../../data/tablesData';
+import HelmetWrapper from '../../Components/common/HelmetWrapper';
 
 
 export default function SignIn() {
@@ -254,7 +255,12 @@ export default function SignIn() {
 console.log(scale)
   return (
     <>
-      
+      <HelmetWrapper 
+        title={t('helmet.signIn.title')}
+        description={t('helmet.signIn.description')}
+        keywords={t('helmet.signIn.keywords')}
+        canonical={`${process.env.REACT_APP_URL}/SignIn`}
+      />
           <div  className=" bg-blue_gray-900_01 bg-[url(/public/images/Bg.png)] bg-no-repeat bg-center md:bg-right-top xl:bg-[size:cover,_auto]  2xl:bg-[size:cover,_contain] 2xl:bg-right-top flex flex-col items-center justify-start mx-auto min-h-screen overflow-y-auto w-full">
             <div style={{ 
               transform: `scale(${scale})`, 

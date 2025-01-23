@@ -19,6 +19,7 @@ import axios from 'axios';
 import Loading from "../../../Components/Loading";
 import Loader from "../../../Components/Loader";
 import { useTranslation } from "react-i18next";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const InvestorRequestHistory = () => {
   const { t } = useTranslation();
@@ -271,6 +272,13 @@ const InvestorRequestHistory = () => {
   }
 
     return (
+      <>
+      <HelmetWrapper
+        title={t('helmet.investors.requestHistory.title')}
+        description={t('helmet.investors.requestHistory.description')}
+        keywords={t('helmet.investors.requestHistory.keywords')}
+        canonical={`${process.env.REACT_APP_URL}/InvestorRequestsHistoty`}
+      />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
                 <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -431,8 +439,9 @@ const InvestorRequestHistory = () => {
             )}
           </div>
         </div>
-      </div>
-    </div>
+            </div>
+        </div>
+        </>
   );
 };
 

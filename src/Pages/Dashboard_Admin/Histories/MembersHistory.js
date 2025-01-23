@@ -11,6 +11,7 @@ import CustomCalendar from "../../../Components/common/CustomCalendar";
 import MultipleSelect from "../../../Components/common/MultipleSelect";
 import { BiFilterAlt } from "react-icons/bi";
 import { parseDateStringValue } from "../../../data/helper";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const MembersHistory = () => {
     const { t } = useTranslation();
@@ -101,6 +102,13 @@ const MembersHistory = () => {
       console.log(filterApply)
 
     return (
+      <>
+        <HelmetWrapper
+          title={t('helmet.adminHistory.members.title')}
+          description={t('helmet.adminHistory.members.description')}
+          keywords={t('helmet.adminHistory.members.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/MembersHistory`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -251,6 +259,7 @@ const MembersHistory = () => {
               </div>
             </div>
         </div>
+      </>
     );
 }
 

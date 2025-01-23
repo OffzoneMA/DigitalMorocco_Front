@@ -1339,9 +1339,9 @@
         "keywords": "edit project, update project, project management, Digital Morocco"
       },
       "details": {
-        "title": "Digital Morocco - Project Details",
-        "description": "View detailed information about your project.",
-        "keywords": "project details, project information, Digital Morocco"
+        "title": "Digital Morocco - {{projectName}} Project",
+        "description": "Detailed information and updates about {{projectName}} project on Digital Morocco.",
+        "keywords": "project details, project information, Digital Morocco projects"
       }
     },
     "investorProfile": {
@@ -1358,7 +1358,17 @@
       "employees": {
         "title": "Digital Morocco - Employees",
         "description": "Manage your company's workforce and team structure.",
-        "keywords": "employees, team management, workforce, Digital Morocco"
+        "keywords": "employees, team management, workforce, Digital Morocco" ,
+        "create": {
+          "title": "Digital Morocco - Add Employee",
+          "description": "Add a new employee to your company roster.",
+          "keywords": "add employee, new hire, employee management, Digital Morocco"
+        },
+        "edit": {
+          "title": "Digital Morocco - Edit Employee information",
+          "description": "Update employee information and details.",
+          "keywords": "edit employee, update employee, employee management, Digital Morocco"
+        }
       },
       "legal": {
         "title": "Digital Morocco - Legal Documents",
@@ -1393,11 +1403,21 @@
         "title": "Digital Morocco - My Investments",
         "description": "Track and manage your current investment portfolio.",
         "keywords": "investment portfolio, management, Digital Morocco"
+      },
+      "investmentRequestHistory": {
+        "title": "Digital Morocco - Investment Request History",
+        "description": "View history of investment requests and their status in Digital Morocco.",
+        "keywords": "investment requests, request history, investment tracking, Digital Morocco"
       }
+    },
+    "investmentDetails": {
+      "title": "Digital Morocco - {{investmentName}} Investment Details",
+      "description": "Detailed information about investment opportunity: {{investmentName}}",
+      "keywords": "investment details, opportunity information, investment specifics, Digital Morocco"
     },
     "events": {
       "participate": {
-        "title": "Digital Morocco - Event Participation",
+        "title": "Digital Morocco - My Events",
         "description": "Join and participate in Digital Morocco events.",
         "keywords": "events, participation, networking, Digital Morocco"
       },
@@ -1411,6 +1431,16 @@
         "description": "Review past events and their outcomes.",
         "keywords": "past events, event history, Digital Morocco"
       }
+    },
+    "upcomingEventDetails": {
+      "title": "Digital Morocco - {{eventName}} Event",
+      "description": "Details and registration information for upcoming event: {{eventName}}",
+      "keywords": "upcoming event, event details, event registration, Digital Morocco events"
+    },
+    "pastEventDetails": {
+      "title": "Digital Morocco - {{eventName}} Past Event",
+      "description": "Review and outcomes of past event: {{eventName}}",
+      "keywords": "past event details, event summary, event outcomes, Digital Morocco events"
     },
     "sponsoring": {
       "upcoming": {
@@ -1428,6 +1458,26 @@
         "description": "Review historical sponsorship activities.",
         "keywords": "past sponsorships, history, Digital Morocco"
       }
+    },
+    "sponsorRequestHistory": {
+      "title": "Digital Morocco - Sponsor Request History",
+      "description": "Overview of historical sponsorship requests and their outcomes.",
+      "keywords": "sponsor request history, sponsorship tracking, Digital Morocco"
+    },
+    "sponsorCurrentRequestDetails": {
+      "title": "Digital Morocco - Sponsor Current Request Details",
+      "description": "Detailed view of the current sponsorship request in Digital Morocco platform.",
+      "keywords": "sponsor request, current sponsorship, request details, Digital Morocco"
+    },
+    "pastSponsorEventDetails": {
+      "title": "Digital Morocco - Past Sponsor Event Details",
+      "description": "Comprehensive information about past sponsored events in Digital Morocco.",
+      "keywords": "past sponsor event, event details, sponsorship history, Digital Morocco"
+    },
+    "sponsorRequestHistoryDetails": {
+      "title": "Digital Morocco - Sponsor Request History Details",
+      "description": "Detailed history of sponsorship requests in Digital Morocco platform.",
+      "keywords": "sponsor request history, sponsorship tracking, request details, Digital Morocco"
     },
     "document": {
       "title": "Digital Morocco - Documents",
@@ -1460,6 +1510,53 @@
         "description": "Monitor historical partner activities and relationships.",
         "keywords": "partners history, tracking, Digital Morocco"
       }
+    },
+    "signIn": {
+      "title": "Digital Morocco - Sign In",
+      "description": "Access your Digital Morocco account securely.",
+      "keywords": "sign in, login, account access, Digital Morocco"
+    },
+    "signUp": {
+      "title": "Digital Morocco - Create Account",
+      "description": "Join Digital Morocco's ecosystem by creating a new account.",
+      "keywords": "sign up, create account, registration, Digital Morocco"
+    },
+    "subscription": {
+      "title": "Digital Morocco - Subscription and Billing",
+      "description": "Manage your Digital Morocco subscription and access levels.",
+      "keywords": "subscription, membership, access levels, Digital Morocco"
+    },
+    "subscribePlan": {
+      "title": "Digital Morocco - Subscribe to a Plan",
+      "description": "Select and subscribe to a Digital Morocco platform plan that fits your needs.",
+      "keywords": "subscription plans, plan selection, membership, Digital Morocco"
+    },
+    "resendVerificationLink": {
+      "title": "Digital Morocco - Verification Link",
+      "description": "Generate a new account verification link for Digital Morocco.",
+      "keywords": "verification link, account verification, activation, Digital Morocco"
+    },
+    "verification": {
+      "Email": {
+        "title": "Digital Morocco - Email Verification",
+        "description": "Verify your email address to complete your Digital Morocco registration.",
+        "keywords": "email verification, account verification, Digital Morocco"
+      },
+      "Code": {
+        "title": "Digital Morocco - Verification Code",
+        "description": "Enter your verification code to confirm your Digital Morocco account.",
+        "keywords": "verification code, account confirmation, Digital Morocco"
+      }
+    },
+    "choosePlan": {
+      "title": "Digital Morocco - Choose Your Subscription Plan",
+      "description": "Select the ideal subscription plan that meets your business needs in the Digital Morocco ecosystem.",
+      "keywords": "subscription plans, pricing, membership options, business packages, Digital Morocco"
+    },
+    "userProfile": {
+      "title": "Digital Morocco - User Profile",
+      "description": "Manage and customize your personal profile settings in the Digital Morocco platform.",
+      "keywords": "user profile, personal settings, account management, profile customization, Digital Morocco"
     }
   }
 }

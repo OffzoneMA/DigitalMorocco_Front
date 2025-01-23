@@ -6,6 +6,7 @@ import { useGetNotificationSummaryQuery , useMarkNotificationsAsReadMutation} fr
 import Loader from "../../Components/Loader";
 import { formatDate } from "../../data/helper";
 import { useTranslation } from "react-i18next";
+import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Notifications = () => {
   const {t} = useTranslation();
@@ -32,6 +33,13 @@ useEffect(() => {
 
 
     return (
+      <>
+       <HelmetWrapper 
+          title={t('helmet.notification.title')}
+          description={t('helmet.notification.description')}
+          keywords={t('helmet.notification.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/Notification`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -81,6 +89,7 @@ useEffect(() => {
               </div>
             </div>
         </div>
+      </>
     )
 }
 

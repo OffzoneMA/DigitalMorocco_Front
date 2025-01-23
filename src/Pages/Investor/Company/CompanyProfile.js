@@ -113,8 +113,8 @@ const CompanyProfile = () => {
   useEffect(() => {
     if (userDetails) {
       reset({
-        companyName: userDetails?.companyName,
-        legalName: userDetails?.legalName,
+        companyName: userDetails?.companyName || userDetails?.name,
+        legalName: userDetails?.legalName || userDetails?.companyName || userDetails?.name,
         description: userDetails?.desc,
         website: userDetails?.website,
         contactEmail: userDetails?.contactEmail,
@@ -129,13 +129,15 @@ const CompanyProfile = () => {
       formatFundingValue(userDetails?.numberOfInvestment, setNumberOfInvestments);
       setSelectedFundingType(userDetails?.lastFundingType);
       setSelectedDate(userDetails?.foundedDate);
-      setSelectedCompanyType(userDetails?.companyType);
+      setSelectedCompanyType(userDetails?.companyType || userDetails?.type || userDetails?.investorType);
       setSelectedCountry(dataCountries.find(country => country.name === userDetails?.country) || null);
       setSelectedInvestmentStages(userDetails?.investmentStages || []);
       setSelectedPreferredInvestmentIndustry(userDetails?.PreferredInvestmentIndustry || []);
       setLogoFile(userDetails?.logo || userDetails?.image );
     }
   }, [userDetails, reset]);
+
+  console.log(userDetails);
 
   const formRef = useRef();
 
@@ -605,7 +607,7 @@ const CompanyProfile = () => {
                             </div>
                           </div>}
                         </div>
-                        <input ref={logoFileInputRefChange} id="fileInput" type="file" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
+                        <input ref={logoFileInputRefChange} id="fileInput" type="file" accept="image/*" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
                         </>
                   ) : (<>
                   <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
@@ -619,7 +621,7 @@ const CompanyProfile = () => {
                       </Text>
                     </div>
                   </div>
-                  <input ref={logoFileInputRef} id="fileInput" type="file" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
+                  <input ref={logoFileInputRef} id="fileInput" type="file" accept="image/*" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
                   </>
                     )}
                 </div>

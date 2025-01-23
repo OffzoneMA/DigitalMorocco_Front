@@ -8,7 +8,6 @@ const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholde
 searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',
 className='' ,required = false, }) => {
   const { t } = useTranslation();
-  const currentLanguage = localStorage.getItem('language') || 'en'; 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [searchValue, setSearchValue] = useState("");
@@ -16,25 +15,32 @@ className='' ,required = false, }) => {
   const parentRef = useRef(null);
   
   // Sort options based on translated values using useMemo to optimize performance
+  const currentLanguage = (localStorage.getItem('language') || 'en').toLowerCase();
+
+  // Liste des langues valides que vous voulez supporter
+  const validLanguages = ['en', 'fr', 'es', 'de', 'it', 'zh', 'ja']; 
+
+  const normalizedLanguage = validLanguages.includes(currentLanguage) ? currentLanguage : 'en';
+
   const sortedOptions = useMemo(() => {
     return [...options].sort((a, b) => {
       const aValue = typeof a === 'string' ? t(a) : t(a[valuekey]);
       const bValue = typeof b === 'string' ? t(b) : t(b[valuekey]);
-  
+
       // Vérifiez si a ou b est "Other" ou "Autre"
-      const isAOther = aValue.toLowerCase() === 'other' || aValue.toLowerCase() === 'autre';
-      const isBOther = bValue.toLowerCase() === 'other' || bValue.toLowerCase() === 'autre';
-  
+      const isAOther = aValue?.toLowerCase() === 'other' || aValue?.toLowerCase() === 'autre';
+      const isBOther = bValue?.toLowerCase() === 'other' || bValue?.toLowerCase() === 'autre';
+
       if (isAOther && !isBOther) return 1; // Place "Other/Autre" après les autres
       if (!isAOther && isBOther) return -1; // Place les autres avant "Other/Autre"
-  
-      // Utilisez localeCompare pour le tri normal
-      return aValue.localeCompare(bValue, currentLanguage, { 
+
+      // Utilisez localeCompare pour le tri normal avec une langue normalisée
+      return aValue?.localeCompare(bValue, normalizedLanguage, {
         sensitivity: 'base',
         ignorePunctuation: true
       });
     });
-  }, [options, t, valuekey, currentLanguage]);  
+  }, [options, t, valuekey, normalizedLanguage]);
 
   useEffect(() => {
     if(selectedOption === null) {

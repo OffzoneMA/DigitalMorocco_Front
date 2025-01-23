@@ -30,6 +30,7 @@ import { LuDownload } from "react-icons/lu";
 import { useGetSponsorByIdQuery , useApproveSponsorMutation } from "../../../Services/Sponsor.Service";
 import { useTranslation } from "react-i18next";
 import { formatEventStartEndDate , formatEventTime , formatPrice , formatEventDate} from "../../../data/helper";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const SponsorRequestHistoryDetails = () => {
   const { t } = useTranslation();
@@ -130,6 +131,12 @@ const openModal = () => {
 
     return (
         <>
+        <HelmetWrapper 
+          title={t('helmet.sponsorRequestHistoryDetails.title')}
+          description={t('helmet.sponsorRequestHistoryDetails.description')}
+          keywords={t('helmet.sponsorRequestHistoryDetails.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/SponsorRequestHistoryDetails/${id}`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         {isLoading ?
             <div className="flex flex-col items-center justify-center text-blue_gray-800_01 gap-[16px] h-screen w-full py-28 rounded-b-[8px]">
@@ -141,7 +148,7 @@ const openModal = () => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.status == 'past' ? t("event.pastEvent") : t("event.upcomingEvent")}
+                    {event?.eventId?.status == 'past' ? t("event.pastEvent") : t("event.upcomingEvent")}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>

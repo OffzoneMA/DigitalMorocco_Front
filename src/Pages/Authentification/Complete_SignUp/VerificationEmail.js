@@ -11,6 +11,7 @@ import checkVerifyImg from '../../../Media/check-verified-02.svg';
 import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
 import { logout } from '../../../Redux/auth/authSlice';
 import { useDispatch } from 'react-redux';
+import HelmetWrapper from '../../../Components/common/HelmetWrapper';
 
 
 export default function VerificationEmail() {
@@ -114,6 +115,12 @@ export default function VerificationEmail() {
   
   return (
       <>
+        <HelmetWrapper 
+          title={t(`helmet.verification.Email.title`)}
+          description={t(`helmet.verification.Email.description`)}
+          keywords={t(`helmet.verification.Email.keywords`)}
+          canonical={`${process.env.REACT_APP_URL}/VerificationEmail`}
+        />
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-start mx-auto md:py-[60px] md:px-10 px-3 py-[30px] overflow-y-auto w-full">
             <div className=" flex flex-col gap-[42px] items-center justify-start mb-[77px] w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">

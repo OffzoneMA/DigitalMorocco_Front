@@ -8,14 +8,13 @@ import CancelPlanModal from '../../../Components/Modals/CancelPlanModal';
 import PageHeader from "../../../Components/common/PageHeader";
 import axios from 'axios';
 import Loader from '../../../Components/Loader';
-import { useAddPaymentMethodMutation , useUpdatePaymentMethodMutation } from '../../../Services/PaymentMethod.Service';
 import { paymentMethodsData } from '../../../data/tablesData';
 import { formatDateValue , capitalizeFirstLetter } from '../../../data/helper';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
 import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
 import { IoFlashOffOutline } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
-import { tr } from 'date-fns/locale';
+import HelmetWrapper from '../../../Components/common/HelmetWrapper';
 
 export default function Subscription() {
   const { t } = useTranslation();
@@ -168,6 +167,13 @@ useEffect(() => {
 
 
   return (
+    <>
+    <HelmetWrapper 
+      title={t('helmet.subscription.title')}
+      description={t('helmet.subscription.description')}
+      keywords={t('helmet.subscription.keywords')}
+      canonical={`${process.env.REACT_APP_URL}/Subscription`}
+    />
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -443,5 +449,6 @@ useEffect(() => {
           </div>
             } />
     </div>
+    </>
   )
 }

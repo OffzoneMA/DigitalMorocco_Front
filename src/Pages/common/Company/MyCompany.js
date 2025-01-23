@@ -538,7 +538,7 @@ const MyCompany = () => {
                             </div>
                           </div>}
                         </div>
-                        <input ref={logoFileInputRefChange} id="fileInput" type="file" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
+                        <input ref={logoFileInputRefChange} id="fileInput" type="file" accept="image/*" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
                         </>
                   ) : (<>
                   <div className="flex flex-col text-blue-500 gap-1.5 items-center justify-center px-3 rounded-md w-full">
@@ -552,7 +552,7 @@ const MyCompany = () => {
                       </Text>
                     </div>
                   </div>
-                  <input ref={logoFileInputRef} id="fileInput" type="file" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
+                  <input ref={logoFileInputRef} id="fileInput" type="file" accept="image/*" onChange={(e) => handleLogoFileUpload(e)} className="hidden" />
                   </>
                     )}
                 </div>

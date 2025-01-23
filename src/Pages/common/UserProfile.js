@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetUserDetailsQuery } from '../../Services/Auth';
 import { validateImageFile } from '../../data/helper';
 import { countries as allCountries} from '../../data/tablesData';
+import HelmetWrapper from '../../Components/common/HelmetWrapper';
 
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
@@ -548,6 +549,13 @@ export default function UserProfile() {
   };
 
   return (
+    <>
+    <HelmetWrapper 
+      title={t('helmet.userProfile.title')}
+      description={t('helmet.userProfile.description')}
+      keywords={t('helmet.userProfile.keywords')}
+      canonical={`${process.env.REACT_APP_URL}/UserProfile`}
+    />
     <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -1070,5 +1078,6 @@ export default function UserProfile() {
       </div>
       <DeleteAccountModal isOpen={isDeleteModalOpen} onRequestClose={closeDeleteModal} handleDeleteAccount={handleDeleteAccount} error={error} />
     </div>
+    </>
   );
 }

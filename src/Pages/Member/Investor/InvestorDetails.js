@@ -34,6 +34,7 @@ import CommonModal from "../../../Components/common/CommonModal";
 import { useCreateDraftContactRequestMutation } from "../../../Services/Member.Service";
 import SubTablePagination from "../../../Components/common/SubTablePagination";
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const InvestorDetails = () => {
   const { t } = useTranslation();
@@ -146,6 +147,12 @@ const InvestorDetails = () => {
 
     return (
       <>
+      <HelmetWrapper 
+        title={t('helmet.investorDetails.title', { investorName: investor?.name })}
+        description={t('helmet.investorDetails.description', { investorName: investor?.name })}
+        keywords={t('helmet.investorDetails.keywords')}
+        canonical={`${process.env.REACT_APP_URL}/InvestorDetails/${investorId}`}
+      />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">

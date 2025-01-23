@@ -177,8 +177,8 @@ useEffect(() => {
   return (
     <>
     <HelmetWrapper
-      title={t('helmet.projects.details.title')}
-      description={t('helmet.projects.details.description')}
+      title={t('helmet.projects.details.title' , {projectName: project?.name})}
+      description={t('helmet.projects.details.description' , {projectName: project?.details})}
       keywords={t('helmet.projects.details.keywords')}
       canonical={`${process.env.REACT_APP_URL}/Projectdetails/${projectId}`}
     />

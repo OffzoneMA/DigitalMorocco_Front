@@ -12,6 +12,7 @@ import {useGetAllUpcomingEventsUserParticipateQuery} from '../../../Services/Eve
 import Loader from "../../../Components/Loader";
 import { useTranslation } from "react-i18next";
 import { formatPrice , formatEventDateTime } from "../../../data/helper";
+import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const UpcomingEvents = () => {
   const { t } = useTranslation();
@@ -42,6 +43,13 @@ const UpcomingEvents = () => {
 
   
     return (
+      <>
+        <HelmetWrapper
+          title={t('helmet.events.upcoming.title')}
+          description={t('helmet.events.upcoming.description')}
+          keywords={t('helmet.events.upcoming.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/UpcomingEvent`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -129,6 +137,7 @@ const UpcomingEvents = () => {
               )}
             </div>
         </div>
+      </>
     )
 }
 

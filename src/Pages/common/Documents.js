@@ -18,6 +18,7 @@ import Loader from "../../Components/Loader";
 import userdefaultProfile from '../../Media/User.png';
 import { formatDate  } from "../../data/helper";
 import { useTranslation } from "react-i18next";
+import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Documents = () => {
   const { t } = useTranslation();
@@ -110,6 +111,13 @@ const Documents = () => {
   };
 
     return (
+      <>
+        <HelmetWrapper
+          title={t('helmet.document.title')}
+          description={t('helmet.document.description')}
+          keywords={t('helmet.document.keywords')}
+          canonical={`${process.env.REACT_APP_URL}/Document`}
+        />
         <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
               <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
@@ -294,6 +302,7 @@ const Documents = () => {
               </div>
             }/>
         </div>
+      </>
     )
 }
 

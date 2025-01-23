@@ -30,6 +30,7 @@ const Investors = () => {
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const [showPopup, setShowPopup] = useState(false);
   const [showDraftPopup, setShowDraftPopup] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showContactPopup, setShowContactPopup] = useState(false);
   const [selectedInvestor , setSelectedInvestor] = useState(null);
   const [filter , setFilter] = useState(false);
@@ -101,43 +102,68 @@ const Investors = () => {
   // }, [investorData, subscriptionData , loading , subscriptionLoading , userDetailsLoading]);
 
   const hasClosedPopupRef = useRef(false);
-const hasCheckedNavigationRef = useRef(false);
+  const hasCheckedNavigationRef = useRef(false);
 
-const checkDisplayConditions = useCallback(() => {
-  return (
-    investorData &&
-    investors?.length > 0 &&
-    subscriptionData &&
-    !subscriptionLoading &&
-    !loading &&
-    !userDetailsLoading &&
-    investorData?.hasDraftRequest &&
-    (subscriptionData !== null && subscriptionData !== undefined)
-  );
-}, [
-  investorData,
-  investors,
-  subscriptionData,
-  subscriptionLoading,
-  loading,
-  userDetailsLoading
-]);
+  const checkDisplayConditions = useCallback(() => {
+    return (
+      investorData &&
+      investors?.length > 0 &&
+      subscriptionData &&
+      !subscriptionLoading &&
+      !loading &&
+      !userDetailsLoading &&
+      investorData?.hasDraftRequest &&
+      (subscriptionData !== null && subscriptionData !== undefined)
+    );
+  }, [
+    investorData,
+    investors,
+    subscriptionData,
+    subscriptionLoading,
+    loading,
+    userDetailsLoading
+  ]);
 
-// Et ton useEffect qui gère le popup reste tel quel dans Investors.js
-useEffect(() => {
-  const previousPath = sessionStorage.getItem('previousPageVisited');
-  const cameFromDetails = previousPath?.includes('InvestorDetails');
-  
-  if (checkDisplayConditions() && !hasClosedPopupRef.current && !cameFromDetails) {
-    setShowDraftPopup(true);
-  }
-}, [checkDisplayConditions]);
+  // Et ton useEffect qui gère le popup reste tel quel dans Investors.js
+  useEffect(() => {
+    const previousPath = sessionStorage.getItem('previousPageVisited');
+    const cameFromDetails = previousPath?.includes('InvestorDetails');
+    
+    if (checkDisplayConditions() && !hasClosedPopupRef.current && !cameFromDetails) {
+      setShowDraftPopup(true);
+    }
+  }, [checkDisplayConditions]);
 
   useEffect(() => {
     // if(filterApply && investorData?.currentPage !== cur) {
       refetch();
     // }
   }, [cur, investorData?.currentPage , filterApply , refetch]);
+
+  const checkDisplaySoonConditions = useCallback(() => {
+    return (
+      investorData &&
+      investors?.length > 0 &&
+      subscriptionData &&
+      !subscriptionLoading &&
+      !loading &&
+      !userDetailsLoading &&
+      (subscriptionData !== null && subscriptionData !== undefined)
+    );
+  }, [
+    investorData,
+    investors,
+    subscriptionData,
+    subscriptionLoading,
+    loading,
+    userDetailsLoading
+  ]);
+
+  useEffect(() => {
+    if (checkDisplaySoonConditions()) {
+      setIsModalOpen(true);
+    }
+  }, [checkDisplaySoonConditions]);
 
   useEffect(() => {
     if (subscriptionData !== undefined) {
@@ -565,7 +591,7 @@ useEffect(() => {
           </div>
         </div>
     </div>
-    <CommonModal isOpen={showPopup}
+    {/* <CommonModal isOpen={showPopup}
       title={t('Action Required: Create Project')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
@@ -582,8 +608,8 @@ useEffect(() => {
               </button>
           </div>
         </div>
-      }/>
-    <CommonModal isOpen={showDraftPopup}
+      }/> */}
+    {/* <CommonModal isOpen={showDraftPopup}
       onRequestClose={closeDraftPopup} title={t('Action Required: Contact Request')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
@@ -602,7 +628,7 @@ useEffect(() => {
               </button>
           </div>
         </div>
-      }/>
+      }/> */}
     {/* <CommonModal isOpen={showContactPopup}
       onRequestClose={closeContactPopup} title={t('Action Required: Contact Request')}
       content={
@@ -623,6 +649,24 @@ useEffect(() => {
           </div>
         </div>
       }/> */}
+      <CommonModal isOpen={isModalOpen}
+        onRequestClose={''} title={t('Information: Feature Unavailable')} showCloseBtn = {true}
+        content={
+          <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+            <div className="text-center">
+              <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("This feature")}</span><span className="text-[#2575f0] text-base font-dm-sans-regular leading-relaxed"> {t('is not yet available.')}</span>
+              <br/>
+              <span className="leading-[3rem]"></span>
+              <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("Please check back later for updates!")}</span>
+            </div>
+            <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+            <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#235DBD] active:bg-[#235DBD]}"
+                onClick={() => navigate('/Dashboard')}>
+                    <div className="text-white-A700 text-base font-dm-sans-medium">{t('Ok')}</div>
+                </button>
+            </div>
+          </div>
+        }/>
     </>
     )
 }

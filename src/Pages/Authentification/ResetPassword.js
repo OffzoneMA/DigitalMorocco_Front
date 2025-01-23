@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useResetPasswordMutation } from '../../Services/Auth';
 import logo from '../../Media/img_logo.svg';
 import mailSendImage from '../../Media/img_mailsent.svg';
-
+import HelmetWrapper from '../../Components/common/HelmetWrapper';
 
 
 export default function ResetPassword() {
@@ -77,6 +77,12 @@ export default function ResetPassword() {
 
     return (
         <>
+        <HelmetWrapper 
+          title={t(`helmet.resetPassword.ResetPassword.title`)}
+          description={t(`helmet.resetPassword.ResetPassword.description`)}
+          keywords={t(`helmet.resetPassword.ResetPassword.keywords`)}
+          canonical={`${process.env.REACT_APP_URL}/ResetPassword`}
+        />
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto md:px-10 px-5 py-[20px] md:py-[42px] overflow-y-auto w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-full">
               <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center">

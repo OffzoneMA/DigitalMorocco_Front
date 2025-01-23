@@ -10,6 +10,7 @@ import { useSendForgotPasswordMutation } from '../../Services/Auth';
 import arrowLeftImage from '../../Media/img_arrowleft.svg';
 import { authApi } from '../../Services/Auth';
 import { Link } from 'react-router-dom';
+import HelmetWrapper from '../../Components/common/HelmetWrapper';
 
 
 export default function ForgotPassword(){
@@ -75,6 +76,12 @@ export default function ForgotPassword(){
 
     return (
         <>
+        <HelmetWrapper 
+          title={t(`helmet.resetPassword.ForgotPassword.title`)}
+          description={t(`helmet.resetPassword.ForgotPassword.description`)}
+          keywords={t(`helmet.resetPassword.ForgotPassword.keywords`)}
+          canonical={`${process.env.REACT_APP_URL}/ForgotPassword`}
+        />
           <div className="bg-gray-100 flex flex-col font-manrope gap-4 mx-auto md:px-10 min-h-screen px-[12px] py-[30px] overflow-y-auto w-full">
             <div className={`self-start flex flex-col h-11 items-center justify-center w-auto`}>
               <Link to="/SignIn" className="px-5 items-center self-start flex flex-col h-full w-full cursorpointer-green">

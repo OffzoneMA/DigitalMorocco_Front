@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate  , useLocation} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import logo from '../../Media/img_logo.svg';
+import HelmetWrapper from '../../Components/common/HelmetWrapper';
 
 
 export default function SocialSignUp() {
@@ -46,6 +47,12 @@ export default function SocialSignUp() {
 
   return (
     <>
+    <HelmetWrapper 
+      title={t('helmet.socialSignUp.title')}
+      description={t('helmet.socialSignUp.description')}
+      keywords={t('helmet.socialSignUp.keywords')}
+      canonical={`${process.env.REACT_APP_URL}/SocialSignUp`}
+    />
     <div className="bg-gray-100 flex flex-col min-h-screen overflow-y-auto font-DmSans items-center justify-start mx-auto pt-[80px] md:px-10 px-[12px] py-[30px] w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
           <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center">
