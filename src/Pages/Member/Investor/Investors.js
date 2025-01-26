@@ -541,11 +541,16 @@ const Investors = () => {
                     </div>
                   </div>
                 )
-                }              
+                }   
+               </div>
+               {((!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading )) && (
+                  <div className="overlay-content-inv w-full flex flex-col top-12 px-8 rounded-b-[8px]">
+                  </div>
+                )}           
                 {(!loading && !subscriptionLoading && !userDetailsLoading) && (
-                  (isSubscribe && userDetails?.projectCount === 0) || 
+                  /* (isSubscribe && userDetails?.projectCount === 0) ||  */
                   (!isSubscribe) ? (
-                    <div className="overlay-content-inv w-full flex flex-col top-12 px-8 ">
+                    <div className="overlay-content-inv w-full flex flex-col top-12 px-8 rounded-b-[8px]">
                       <BsEyeSlash size={35} className="text-gray500 "/>
                       <Text
                         className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
@@ -576,14 +581,26 @@ const Investors = () => {
                     </div>
                   ) : null
                 )}
-               </div>
               {(pageData?.length>0 && !loading && !subscriptionLoading && !userDetailsLoading) && (
-                <div className='w-full flex items-center p-4'>
-                <TablePagination
-                  totalPages={totalPages}
-                  // onPageChange={handlePageChange}
-                  itemsToShow={itemsToShow}
-                />              
+                <div className='relative w-full flex items-center p-4'>
+                  <TablePagination
+                    totalPages={totalPages}
+                    // onPageChange={handlePageChange}
+                    itemsToShow={itemsToShow}
+                    // disabled={loading || subscriptionLoading || userDetailsLoading || !isSubscribe || pageData?.length === 0 || userDetails?.projectCount === 0} 
+                    disabled={true}
+                  />   
+                  {((!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading )) && (
+                  <div className="overlay-content-inv-pg overflow-hidden top-0 rounded-b-[8px]">
+                  </div>
+                  )} 
+                  {(!loading && !subscriptionLoading && !userDetailsLoading) && (
+                  /* (isSubscribe && userDetails?.projectCount === 0) ||  */
+                  (!isSubscribe) ? (
+                    <div className="overlay-content-inv-pg w-full top-0 rounded-b-[8px]">
+                    </div>
+                  ) : null
+                )}           
               </div>
               )}
               </div>
@@ -649,24 +666,24 @@ const Investors = () => {
           </div>
         </div>
       }/> */}
-      <CommonModal isOpen={isModalOpen}
-        onRequestClose={''} title={t('Information: Feature Unavailable')} showCloseBtn = {true}
-        content={
-          <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
-            <div className="text-center">
-              <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("This feature")}</span><span className="text-[#2575f0] text-base font-dm-sans-regular leading-relaxed"> {t('is not yet available.')}</span>
-              <br/>
-              <span className="leading-[3rem]"></span>
-              <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("Please check back later for updates!")}</span>
-            </div>
-            <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
-            <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#235DBD] active:bg-[#235DBD]}"
-                onClick={() => navigate('/Dashboard')}>
-                    <div className="text-white-A700 text-base font-dm-sans-medium">{t('Ok')}</div>
-                </button>
-            </div>
+    <CommonModal isOpen={isModalOpen}
+      onRequestClose={''} title={t('Information: Feature Unavailable')} showCloseBtn = {false}
+      content={
+        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+          <div className="text-center">
+            <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("This feature")}</span><span className="text-[#2575f0] text-base font-dm-sans-regular leading-relaxed"> {t('is not yet available.')}</span>
+            <br/>
+            <span className="leading-[3rem]"></span>
+            <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("Please check back later for updates!")}</span>
           </div>
-        }/>
+          <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+          <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#235DBD] active:bg-[#235DBD]}"
+              onClick={() => navigate('/Dashboard')}>
+                  <div className="text-white-A700 text-base font-dm-sans-medium">{t('Ok')}</div>
+              </button>
+          </div>
+        </div>
+      }/>
     </>
     )
 }

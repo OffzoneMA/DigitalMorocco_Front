@@ -3,7 +3,7 @@ import { PiArrowLeftBold, PiArrowRightBold } from "react-icons/pi";
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 
-function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, initialPage = 1 }) {
+function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, initialPage = 1 , disabled=false }) {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const isUpdatingRef = useRef(false); 
@@ -81,8 +81,8 @@ function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, ini
     <div className='flex items-center justify-between w-full font-inter text-sm font-medium leading-5'>
       <button
         onClick={() => goToPage(currentPage - 1)}
-        className={`flex h-[36px] min-w-[114px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage < 2 && 'opacity-50 diseable'}`}
-        disabled={currentPage === 1}
+        className={`flex h-[36px] min-w-[114px] enabled:hover:text-[#7F56D9] enabled:hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${(currentPage < 2 || disabled) && 'opacity-50 diseable'}`}
+        disabled={currentPage === 1 || disabled}
       >
         <PiArrowLeftBold className='h-4 w-4 ' />
         {t('pagination.previous')}
@@ -94,7 +94,8 @@ function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, ini
           <button
             key={page}
             onClick={() => goToPage(page)}
-            className={`w-[40px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] h-[40px] flex items-center justify-center cursorpointer rounded-[8px] ${currentPage === page ? 'text-[#7F56D9] bg-[#F9F5FF]' : 'text-gray500 bg-white-A700'}`}
+            className={`w-[40px] enabled:hover:text-[#7F56D9] enabled:hover:bg-[#F9F5FF] h-[40px] flex items-center justify-center cursorpointer rounded-[8px] ${currentPage === page ? 'text-[#7F56D9] bg-[#F9F5FF]' : 'text-gray500 bg-white-A700'} ${disabled && 'opacity-50 diseable'}`}
+            disabled={disabled}
           >
             {page}
           </button>
@@ -103,8 +104,8 @@ function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, ini
 
       <button
         onClick={() => goToPage(currentPage + 1)}
-        className={`flex h-[36px] min-w-[88px] hover:text-[#7F56D9] hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${currentPage === totalPages && 'opacity-50 diseable'}`}
-        disabled={currentPage === totalPages}
+        className={`flex h-[36px] min-w-[88px] enabled:hover:text-[#7F56D9] enabled:hover:bg-[#F9F5FF] cursorpointer gap-2 text-gray700 border-gray-201 items-center justify-center border px-[14px] py-2 rounded-[8px] ${(currentPage === totalPages || disabled) && 'opacity-50 diseable'}`}
+        disabled={currentPage === totalPages || disabled}
       >
         {t('pagination.next')}
         <PiArrowRightBold className='h-4 w-4 ' />

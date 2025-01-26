@@ -40,6 +40,7 @@ export default function SignIn() {
   const [loginError , setLoginError] = useState("");
   const [sendingOk , setSendingOk] = useState(false);
   const [scale, setScale] = useState(1);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const {
     register,
@@ -92,28 +93,23 @@ export default function SignIn() {
     const calculateScale = () => {
       const currentHeight = window.innerHeight;
       
-      // Hauteurs de référence pour différentes tailles d'écran
-      const laptopHeight = 800; // Hauteur de référence pour 13 pouces
-      const desktopHeight = 900; // Hauteur de référence pour les grands écrans
+      const laptopHeight = 800;
+      const desktopHeight = 900;
       
       let newScale = 1;
       
       if (currentHeight <= laptopHeight) {
-        // Pour les écrans de 13 pouces et moins
-        // Scale progressif de 0.85 à 0.95 pour les hauteurs entre 600px et 800px
         newScale = 0.9 + ((currentHeight - 600) / (laptopHeight - 600)) * 0.1;
         newScale = Math.max(0.9, Math.min(0.95, newScale));
       } else if (currentHeight <= desktopHeight) {
-        // Pour les écrans entre 13 et 15 pouces
-        // Scale progressif de 0.95 à 1 pour les hauteurs entre 800px et 900px
         newScale = 0.95 + ((currentHeight - laptopHeight) / (desktopHeight - laptopHeight)) * 0.05;
         newScale = Math.min(1, newScale);
       }
-      // Pour les écrans plus grands que 15 pouces, garde scale = 1
       
       setScale(newScale);
+      setIsLoaded(true);
     };
-
+  
     calculateScale();
     window.addEventListener('resize', calculateScale);
     return () => window.removeEventListener('resize', calculateScale);
@@ -252,7 +248,6 @@ export default function SignIn() {
     handleRememberMe(isChecked);
   };
 
-console.log(scale)
   return (
     <>
       <HelmetWrapper 
@@ -267,6 +262,8 @@ console.log(scale)
               transformOrigin: 'center center',
               height: '100vh', // Pour compenser le scale
               width: '100vw',
+              opacity: isLoaded ? 1 : 0,
+              // transition: 'transform 0.1s ease, opacity 0.1s ease', 
             }}  className="flex-1 flex flex-col gap-8 md:gap-9 xl:gap-10 2xl:gap-11 items-center justify-center p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12">
               <div className="flex flex-col items-center justify-center w-full ">
                 <Link to="https://digitalmorocco.net" target='_blank'><img

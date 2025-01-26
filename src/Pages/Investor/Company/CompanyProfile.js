@@ -29,23 +29,23 @@ const CompanyProfile = () => {
   const [sending , setSending] = useState(false);
   const [isSaved , setIsSaved] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [taxIdentfier, settaxIdentfier] = useState(userDetails?.taxNbr || '');
-  const [corporateIdentfier,setcorporateIdentfier] = useState(userDetails?.corporateNbr || '');
-  const [selectedSector, setselectedSector] = useState(userDetails?.companyType || '');
+  const [taxIdentfier, settaxIdentfier] = useState('');
+  const [corporateIdentfier,setcorporateIdentfier] = useState('');
+  const [selectedSector, setselectedSector] = useState('');
   const dataCountries = countries;
-  const [selectedCountry , setSelectedCountry] = useState(dataCountries.find(country => country.name === userDetails?.country) || null);
-  const [selectedCity , setSelectedCity] = useState(userDetails?.city || null);
+  const [selectedCountry , setSelectedCountry] = useState(null);
+  const [selectedCity , setSelectedCity] = useState(null);
   const [selectedCompanyType , setSelectedCompanyType] = useState(null);
   const [selectedInvestmentStages , setSelectedInvestmentStages] = useState([]);
   const [selectedPreferredInvestmentIndustry , setSelectedPreferredInvestmentIndustry] = useState([]);
   const [selectedFundingType , setSelectedFundingType] = useState(null);
   const [selectedDate , setSelectedDate] = useState('');
-  const [investmentCapacity , setInvestmentCapacity] = useState(userDetails?.investmentCapacity || '');
-  const [numberOfExits , setNumberOfExits] = useState(userDetails?.numberOfExits || '');
-  const [numberOfInvestments , setNumberOfInvestments] = useState(userDetails?.numberOfInvestments || '');
-  const [acquisitions , setAcquisitions] = useState(userDetails?.acquisitions || '');
+  const [investmentCapacity , setInvestmentCapacity] = useState('');
+  const [numberOfExits , setNumberOfExits] = useState('');
+  const [numberOfInvestments , setNumberOfInvestments] = useState('');
+  const [acquisitions , setAcquisitions] = useState('');
   const [isFormValid, setIsFormValid] = useState(true);
-  const [fund , setFund] = useState(userDetails?.fund || '');
+  const [fund , setFund] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
     country: false,
@@ -111,7 +111,7 @@ const CompanyProfile = () => {
   }, [hasSubmitted ,selectedCountry, selectedCity , selectedInvestmentStages, selectedPreferredInvestmentIndustry, selectedCompanyType]);
   
   useEffect(() => {
-    if (userDetails) {
+    if (userDetails?.companyName && userDetails?.legalName && userDetails?.desc) {
       reset({
         companyName: userDetails?.companyName || userDetails?.name,
         legalName: userDetails?.legalName || userDetails?.companyName || userDetails?.name,
@@ -136,8 +136,6 @@ const CompanyProfile = () => {
       setLogoFile(userDetails?.logo || userDetails?.image );
     }
   }, [userDetails, reset]);
-
-  console.log(userDetails);
 
   const formRef = useRef();
 

@@ -349,7 +349,20 @@ label .rs-checkbox-wrapper .rs-checkbox-inner {
 }
 
 .overlay-content-inv {
-  height: 90%;
+  height: 93%;
+  z-index: 0;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-content-inv-pg {
+  height: 93%;
+  z-index: 0;
+  width: -webkit-fill-available;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(3px);
