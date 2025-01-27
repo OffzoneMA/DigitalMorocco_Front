@@ -369,11 +369,11 @@ const Dashbord = () => {
                                   <td className="w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                                     <div className="relative flex">
                                       <div className="flex px-3 py-4 items-center gap-2">
-                                        {item?.image ? (
-                                          <img src={item.image} className="rounded-full h-8 w-8" alt="Profile" />
+                                        {item?.logo ? (
+                                          <img src={item.logo} className="rounded-full h-8 w-8" alt="Profile" />
                                         ) : (
                                           <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
-                                            <img src={userdefaultProfile} alt="" className="" />
+                                            <img src={item?.image || userdefaultProfile} alt="" className="" />
                                           </div>
                                         )}
                                         <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>

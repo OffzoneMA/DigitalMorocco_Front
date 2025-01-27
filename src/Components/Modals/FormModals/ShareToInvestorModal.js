@@ -215,11 +215,11 @@ const onSubmit = async () => {
                             />
                           </svg>
                         </label>
-                        {item?.image ? (
-                          <img src={item?.image} alt="investors" className="h-[32px] w-[32px] rounded-full" />
+                        {item?.logo ? (
+                          <img src={item?.logo} alt="investors" className="h-[32px] w-[32px] rounded-full" />
                         ) : (
                           <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
-                            <img src={userdefaultProfile} alt="" className="" />
+                            <img src={item?.image || userdefaultProfile} alt="" className="" />
                           </div>
                         )}
                         <Text className="text-sm capitalize text-gray-900_01 leading-6 tracking-normal font-dm-sans-regular">

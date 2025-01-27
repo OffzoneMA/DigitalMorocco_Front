@@ -91,11 +91,13 @@ const InvestmentRequestHistory = () => {
         return `${dateValues.toLocaleDateString('en-US', options)} ${dateValues.toLocaleTimeString('en-US', timeOptions)}`;
     };
 
-    const filteredData = pageData.filter(item => {
-      const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
+    // const filteredData = pageData.filter(item => {
+    //   const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
 
-      return keywordMatch;
-    });
+    //   return keywordMatch;
+    // });
+
+    const filteredData = pageData;
 
     return (
       <>
@@ -251,12 +253,12 @@ const InvestmentRequestHistory = () => {
                               ) : (
                                 <FaRProject className="h-8 w-8 text-light_blue-200" /> 
                               )}                              
-                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
+                              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name || '-'}</span>
                             </div>
                         </td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}</td>
-                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{t(item?.project?.stage)}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('fr-FR')?.replace(/\s/g, '\u00A0') || 0}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('fr-FR')?.replace(/\s/g, '\u00A0') || 0}`}</td>
+                        <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.stage ? t(item?.project?.stage) : '-'}</td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             <div style={{ whiteSpace: "nowrap" }} 
                                 className={`flex flex-row space-x-2 items-center py-0.5 h-[28px] px-[10px] font-dm-sans-regular text-sm leading-6 rounded-full 

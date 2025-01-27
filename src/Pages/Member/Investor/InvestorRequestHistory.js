@@ -39,11 +39,12 @@ const InvestorRequestHistory = () => {
   const [localUser, setLocalUser] = useState('');
   const [localKeywords, setLocalKeywords] = useState('');
   const queryParams = { page: cur, pageSize: itemsPerPage };
+  const [isAllFiltersEmpty , setIsAllFiltersEmpty] = useState(false);
 
   if (filterApply) {
     queryParams.status = status.length > 0 ? status : undefined;
     queryParams.investorNames = user.length > 0 ? user.join(',') : undefined;
-    queryParams.keywords = keywords;
+    // queryParams.keywords = keywords;
   }
   const { data, error, isFetching:loading , refetch } = useFetchInvestorRequestsQuery(queryParams);
   const { data : statuses, isLoading:locationLoading } = useGetDistinctRequestFieldValuesQuery('status');
@@ -97,10 +98,12 @@ const InvestorRequestHistory = () => {
     if (filterApply) {
       const isAllFiltersEmpty =
         localStatus?.length === 0 &&
-        localUser?.length === 0 &&
-        !localKeywords?.trim();
+        localUser?.length === 0 
+        // &&
+        // !localKeywords?.trim();
   
       if (isAllFiltersEmpty) {
+        setIsAllFiltersEmpty(true);
         handleResetFilters();
       }
     }
@@ -327,12 +330,12 @@ const InvestorRequestHistory = () => {
                   </>
                 )}
                 {filter ? (
-                  <div className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " 
+                  <button type="button" className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md " 
                   onClick={() => {handleApplyFilters();
                     setFiltersChanged(true);}}>
                     {/* <BiFilterAlt size={18} className="mr-2" /> */}
-                    <button type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>{t("common.applyFilters")}</button>
-                  </div>
+                    <div type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>{t("common.applyFilters")}</div>
+                  </button>
                 ) : (
                 <button
                   className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}

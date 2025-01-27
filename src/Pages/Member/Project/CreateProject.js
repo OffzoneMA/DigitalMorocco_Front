@@ -13,7 +13,7 @@ import {Country} from 'country-state-city';
 import MultipleSelect from "../../../Components/common/MultipleSelect";
 import CustomCalendar from "../../../Components/common/CustomCalendar";
 import {useCreateProjectMutation, useUpdateProjectMutation} from "../../../Services/Member.Service";
-import {useGetProjectByIdQuery , useDeleteMilestoneMutation , useDeleteDocumentMutation} from "../../../Services/Project.Service";
+import {useGetProjectByIdQuery , useDeleteMilestoneMutation , useDeleteDocumentMutation , useDeleteProjectLogoMutation} from "../../../Services/Project.Service";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
@@ -41,6 +41,7 @@ const CreateProject = () => {
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
   const [deleteDocument] = useDeleteDocumentMutation();
   const [deleteMilestone] = useDeleteMilestoneMutation();
+  const [deleteProjectLogo] = useDeleteProjectLogoMutation();
   const [loadingDel, setLoadingDel] = useState(null);
   const { loading, userInfo } = useSelector((state) => state.auth)
   const location = useLocation();
@@ -714,7 +715,18 @@ const handleFileRemove = async (type) => {
     logoFileInputRefChange?.current?.click();
   };
 
-  const handleRemoveLogo = () => {
+  const handleRemoveLogo = async () => {
+    if(project?.logo && !imgFile){
+      try {
+        const response = await deleteProjectLogo(projectId);
+        if(response.status === 200){
+          navigate(location.pathname, { state: { project: response?.data }, replace: true });
+          refetch();
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
     setImgFile(null);
     setLogoFile(null);
   }

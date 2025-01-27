@@ -639,6 +639,13 @@
       "listOfInvestmentsPlaceholder": "Ce champ sera disponible prochainement",
       "uploadLogo": "Téléchargez votre logo"
     },
+    "comming":{
+      "title": "Des nouveautés en approche !",
+      "header":"Patience, c'est pour bientôt ! 🚀",
+      "text1":"Cette fonctionnalité sera disponible dans une prochaine mise à jour. En attendant, préparez vos projets, téléchargez vos documents et explorez les autres fonctionnalités disponibles.",
+      "text2":"Restez connectés, de belles surprises arrivent ! ✨",
+      "btn":"Continue"
+    },
     "title": "Liste des investisseurs",
     "investorName": "Nom de l'investisseur",
     "type": "Type d'investisseur",
@@ -813,6 +820,9 @@
     "password_changed": "Mot de passe modifié avec succès",
     "account_deleted": "Compte supprimé",
     "project_updated": "Projet mis à jour",
+    "project_logo_deleted": "Logo supprimé pour le projet : ",
+    "company_logo_deleted": "Le logo de l'entreprise a été supprimé : ",
+    "employee_image_deleted": "L'image de l'employé a été supprimée :",
     "project_deleted": "Projet supprimé",
     "project_shared": "Projet partagé",
     "employee_added": "Nouvel employé ajouté",

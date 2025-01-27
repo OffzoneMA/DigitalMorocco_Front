@@ -177,8 +177,9 @@ const MyInvestors = () => {
       const isAllFiltersEmpty =
         localInvestmentType?.length === 0 &&
         !localLocation?.trim() &&
-        localIndustries?.length === 0 &&
-        !localKeywords?.trim();
+        localIndustries?.length === 0 
+        // &&
+        // !localKeywords?.trim();
   
       if (isAllFiltersEmpty) {
         handleResetFilters();
@@ -366,8 +367,8 @@ const MyInvestors = () => {
                     <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="relative flex">
                           <div className="px-[18px] py-4 flex items-center gap-3" >
-                            {item?.image ? (
-                              <img src={item?.image} className="rounded-full h-8 w-8" alt="Profile" />
+                            {item?.logo ? (
+                              <img src={item?.logo} className="rounded-full h-8 w-8" alt="Profile" />
                             ) : (
                               <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                 <img src={userdefaultProfile} alt="" className="" />

@@ -169,7 +169,22 @@ const NewEmployee = () => {
     logoFileInputRefChange?.current?.click();
   };
   
-  const handleRemoveLogo = () => {
+  const handleRemoveLogo = async () => {
+    const token = sessionStorage.getItem("userToken");
+
+    if(!imgFile && employee?.image) {
+      const response = await axios.delete(`${process.env.REACT_APP_baseURL}/employee/${employeeId}/deleteImage`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if(response?.data?._id){
+        setEmployee(response.data);
+        refetch();
+        navigate(location.pathname, { state: { employee: response?.data }, replace: true });
+      }
+    }
     setImgFile(null);
     setLogoFile(null);
   }

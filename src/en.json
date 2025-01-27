@@ -638,6 +638,13 @@
       "listOfInvestmentsPlaceholder":"This field will be available soon",
       "uploadLogo": "Upload Your Logo"
     },
+    "comming":{
+      "title": "New features coming soon!",
+      "header":"Patience, it's almost here! 🚀",
+      "text1":"This feature will be available in an upcoming update. In the meantime, prepare your projects, upload your documents, and explore the other available features.",
+      "text2":"Stay tuned, exciting surprises are on the way! ✨",
+      "btn":"Continue"
+    },
     "title": "Investor List",
     "investorName": "Investor Name",
     "type": "Investor Type",
@@ -809,6 +816,9 @@
     "password_changed": "Password changed successfully",
     "account_deleted": "Account deleted successfully",
     "project_updated": "Updated the project",
+    "project_logo_deleted": "Deleted logo of the project: ",
+    "company_logo_deleted": "The company's logo has been deleted: ",
+    "employee_image_deleted": "Deleted image of the employee:",
     "project_deleted": "Deleted the project",
     "project_shared": "Shared the project",
     "employee_added": "Added a new employee",

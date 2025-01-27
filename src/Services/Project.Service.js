@@ -10,6 +10,12 @@ export const projectApi = createApi({
         method: 'DELETE',
       }),
     }),
+    deleteProjectLogo: builder.mutation({
+      query: (projectId) => ({
+        url: `/${projectId}/deleteLogo`,
+        method: 'DELETE',
+      }),
+    }),
     getProjectById: builder.query({
       query: (projectId) => `/${projectId}`,
     }),
@@ -39,5 +45,5 @@ export const projectApi = createApi({
 });
 
 export const { useDeleteProjectMutation, useGetProjectByIdQuery , useAddMilestoneToProjectMutation ,
-  useDeleteMilestoneMutation , useGetTopSectorsQuery , useDeleteDocumentMutation
+  useDeleteMilestoneMutation , useGetTopSectorsQuery , useDeleteDocumentMutation , useDeleteProjectLogoMutation
  } = projectApi;

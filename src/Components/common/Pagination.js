@@ -44,7 +44,7 @@ export default function Pagination({ nbrPages }) {
                 onClick={() => {
                     setSearchParams({ page: (current - 1 )})
                     setCurrent(current-1)}}
-                    className={`flex gap-[10px] text-[#15143966] hover:text-white-A700 hover:bg-gray700 border-[#EBEAED] text-base  items-center justify-center border border-r-0 px-[16px] py-[14px] rounded-l-full ${current <2 && 'disabled'}`}
+                    className={`flex gap-[10px] text-[#15143966] enabled:hover:text-white-A700 enabled:hover:bg-gray700 cursorpointer border-[#EBEAED] text-base  items-center justify-center border border-r-0 px-[16px] py-[14px] rounded-l-full ${current <2 && 'disabled'}`}
             >
                 <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M14.1663 6H0.833008M0.833008 6L5.83301 11M0.833008 6L5.83301 1" stroke="#667085" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -63,7 +63,7 @@ export default function Pagination({ nbrPages }) {
                             setSearchParams({ page: el })
                             setCurrent(el)
                         }}
-                        className={` px-4 w-[51px] hover:text-white-A700 hover:bg-gray700 border border-[#EBEAED] ${current === el ? 'text-white-A700 bg-gray700' : 'text-gray700 bg-white'}`}
+                        className={` px-4 w-[51px] enabled:hover:text-white-A700 enabled:hover:bg-gray700 cursorpointer border border-[#EBEAED] ${current === el ? 'text-white-A700 bg-gray700' : 'text-gray700 bg-white'}`}
                 >
                      {el}
                 </button>
@@ -74,7 +74,7 @@ export default function Pagination({ nbrPages }) {
                         setSearchParams({ page: (parseInt(current)  + 1) })
                     setCurrent(current + 1)
                 }}
-                    className={`flex gap-[10px] text-[#15143966] hover:text-white-A700 hover:bg-gray700 border-[#EBEAED] text-sm items-center justify-center border border-l-0 px-[16px] py-[14px] rounded-r-full ${current === nbrPages ? 'disabled' : ''}`}
+                    className={`flex gap-[10px] text-[#15143966] enabled:hover:text-white-A700 enabled:hover:bg-gray700 cursorpointer border-[#EBEAED] text-sm items-center justify-center border border-l-0 px-[16px] py-[14px] rounded-r-full ${current === nbrPages ? 'disabled' : ''}`}
             >
                  {t('pagination.Next')}
                 <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">

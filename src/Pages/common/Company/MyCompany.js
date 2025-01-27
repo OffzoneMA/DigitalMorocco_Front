@@ -17,7 +17,7 @@ import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 const MyCompany = () => {
   const { t } = useTranslation();
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch} = useGetUserDetailsQuery();
-  const [logoFile, setLogoFile] = useState(userDetails?.logo || userDetails?.image || '');
+  const [logoFile, setLogoFile] = useState(userDetails?.logo || '');
   const [imgFile , setImgFile] = useState(null);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [isSaved , setIsSaved] = useState(false);
@@ -80,7 +80,7 @@ const MyCompany = () => {
       });
       setSelectedCountry(dataCountries.find(country => country.name === userDetails?.country));
       setselectedSector(userDetails?.companyType);
-      setLogoFile(userDetails?.logo || userDetails?.image);
+      setLogoFile(userDetails?.logo);
       setcorporateIdentfier(userDetails?.corporateNbr);
       settaxIdentfier(userDetails?.taxNbr);
     }
@@ -205,7 +205,20 @@ const MyCompany = () => {
     logoFileInputRefChange?.current?.click();
   };
   
-  const handleRemoveLogo = () => {
+  const handleRemoveLogo = async () => {
+    const token = sessionStorage.getItem("userToken");
+    if(!imgFile && userDetails?.logo) {
+      const response = await fetch(`${process.env.REACT_APP_baseURL}/members/deleteLogo`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+      });
+
+      if(response.ok) {
+        refetch();
+      }
+    }
     setImgFile(null);
     setLogoFile(null);
   }

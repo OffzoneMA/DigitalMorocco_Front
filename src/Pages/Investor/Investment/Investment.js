@@ -104,10 +104,12 @@ const Investment = () => {
 
     const pageData = (isSubscribe && !isLoading && !subscriptionLoading ) ?  currentData?.ContactsHistory : investmentsData;
 
-    const filteredData = pageData?.filter(item => {
-      const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
-      return keywordMatch;
-    });
+    // const filteredData = pageData?.filter(item => {
+    //   const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
+    //   return keywordMatch;
+    // });
+
+    const filteredData = pageData;
         
     const openApproveModal = (data) => {
       setIsApproveModalOpen(true);
@@ -187,7 +189,7 @@ const Investment = () => {
                   <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                     {filter && 
                   (<>
-                    <div className="flex min-w-[70px]">
+                    {/* <div className="flex min-w-[70px]">
                         <input
                           className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                           type="text"
@@ -196,7 +198,7 @@ const Investment = () => {
                           value={keywords}
                           onChange={e => setKeywords(e.target.value)}
                         />
-                      </div>
+                      </div> */}
                       <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues}  searchLabel={t('common.searchTargetFund')} setSelectedOptionVal={setTargetFund} 
                       placeholder={t('common.targetFund')}
                       content={

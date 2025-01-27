@@ -81,11 +81,14 @@ const MyInvestment = () => {
 
     const pageData = myInvestments?.ContactsHistory ||  [];
 
-    const filteredData = pageData?.filter(item => {
-      const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
+    // const filteredData = pageData?.filter(item => {
+    //   const keywordMatch = item?.project?.name.toLowerCase().includes(keywords.toLowerCase());
 
-      return keywordMatch;
-    });
+    //   return keywordMatch;
+    // });
+
+    const filteredData = pageData;
+
 
     return (
       <>
@@ -119,7 +122,7 @@ const MyInvestment = () => {
                   <div className="md:flex md:flex-1 md:flex-wrap md:flex-row grid grid-cols-2 grid-flow-row auto-cols-min gap-3 w-auto items-center md:justify-end md:ml-auto w-auto">
                     {filter && 
                   (<>
-                    <div className="flex min-w-[70px]">
+                    {/* <div className="flex min-w-[70px]">
                         <input
                           className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                           type="text"
@@ -128,7 +131,7 @@ const MyInvestment = () => {
                           value={keywords}
                           onChange={e => setKeywords(e.target.value)}
                         />
-                      </div>
+                      </div> */}
                       <SimpleSelect className="min-w-[170px]" id='targetFund' options={fundingValues}  searchLabel={t('common.searchTargetFund')} setSelectedOptionVal={setTargetFund} 
                       placeholder={t('common.targetFund')}
                       content={
@@ -243,14 +246,14 @@ const MyInvestment = () => {
                                 ) : (
                                   <FaRProject className="h-8 w-8 text-light_blue-200" /> 
                                 )}                              
-                                <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name}</span>
+                                <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name || '-'}</span>
                               </div>
                             </div>
                           </td>
-                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0')}`}</td>
-                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}</td>
-                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{t(item?.project?.stage)}</td>
-                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.milestones?.[0]?.name}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.funding?.toLocaleString('fr-FR')?.replace(/\s/g, '\u00A0') || 0}`}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{`${item?.project?.currency || 'USD'} ${item?.project?.totalRaised?.toLocaleString('fr-FR')?.replace(/\s/g, '\u00A0') || 0}`}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.stage ? t(item?.project?.stage) : '-'}</td>
+                          <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">{item?.project?.milestones?.[0]?.name || '-'}</td>
                           <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                               {/* <div className={`items-center justify-center gap-[6px] h-[22px] px-[10px] font-inter text-xs font-medium leading-[18px] rounded-full ${
                               item?.project?.status === 'Active' ? 'bg-green-100 text-green-700' :
@@ -262,7 +265,7 @@ const MyInvestment = () => {
                               </svg>
                               {t(item?.project?.status)}
                               </div> */}
-                              <StatusBadge status={item?.project?.status} />
+                              <StatusBadge status={item?.project?.status || '-'} />
                           </td>
                         </tr>
                       ))}

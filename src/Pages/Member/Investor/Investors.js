@@ -485,8 +485,8 @@ const Investors = () => {
                     <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                         <div className="relative flex">
                           <div className="px-[18px] py-4 flex items-center gap-3" >
-                            {item?.image ? (
-                              <img src={item.image} className="rounded-full h-8 w-8"  />
+                            {item?.logo ? (
+                              <img src={item.logo} className="rounded-full h-8 w-8"  />
                             ) : (
                               <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                 <img src={userdefaultProfile} alt="" className="" />
@@ -667,20 +667,18 @@ const Investors = () => {
         </div>
       }/> */}
     <CommonModal isOpen={isModalOpen}
-      onRequestClose={''} title={t('Information: Feature Unavailable')} showCloseBtn = {false}
+      onRequestClose={''} title={t('investors.comming.title')} showCloseBtn = {false}
       content={
-        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
-          <div className="text-center">
-            <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("This feature")}</span><span className="text-[#2575f0] text-base font-dm-sans-regular leading-relaxed"> {t('is not yet available.')}</span>
-            <br/>
-            <span className="leading-[3rem]"></span>
-            <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("Please check back later for updates!")}</span>
-          </div>
+        <div className="flex flex-col gap-5 items-center justify-start pb-5 w-full">
+          <div class="flex-col justify-center items-center gap-[18px] inline-flex">
+            <div class="self-stretch text-center text-[#2575f0] text-base font-medium font-['DM Sans'] leading-relaxed">{t('investors.comming.header')}</div>
+            <div class="self-stretch text-center text-[#1d1c21] text-base font-normal font-['DM Sans'] leading-relaxed">{t('investors.comming.text1')}</div>
+            <div class="self-stretch text-center text-[#1d1c21] text-base font-medium font-['DM Sans'] leading-relaxed">{t('investors.comming.text2')}</div></div>
           <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
-          <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#235DBD] active:bg-[#235DBD]}"
-              onClick={() => navigate('/Dashboard')}>
-                  <div className="text-white-A700 text-base font-dm-sans-medium">{t('Ok')}</div>
-              </button>
+            <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#235DBD] active:bg-[#235DBD]}"
+            onClick={() => navigate('/Dashboard')}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">{t('investors.comming.btn')}</div>
+            </button>
           </div>
         </div>
       }/>
