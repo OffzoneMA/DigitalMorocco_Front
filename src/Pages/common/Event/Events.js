@@ -33,7 +33,10 @@ const Events = () => {
   const [filter , setFilter] = useState(false);
   const [filterApply , setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
+  const [localKeywords, setLocalKeywords] = useState('');
   const [eventName, seteventName] = useState([]);
+  const [localLocation, setLocalLocation] = useState('');
+  const [localEventName, setLocalEventName] = useState([]);
   const [location, setLocation] = useState('');
   const [isSubscribe , setIsSubscribe] = useState(false);
   const [profilVerified , setProfilVerified] = useState(false);
@@ -74,6 +77,36 @@ const Events = () => {
     setCur(eventsParticipate?.currentPage); 
     setSearchParams({ page: `${eventsParticipate?.currentPage}` }); 
   }, [eventsParticipate]);
+
+
+  const handleResetFilters = () => {
+      // Réinitialiser les filtres locaux
+      setLocalLocation('');
+      setLocalEventName([]);
+      setLocalKeywords('');
+      
+      // Réinitialiser les filtres globaux
+      setLocation('');
+      seteventName([]);
+      setKeywords('');
+      setFilterApply(false);
+      
+      // Optionnel : forcer un refetch des données
+      refetch();
+    };
+  
+    useEffect(() => {
+      if (filterApply) {
+        const isAllFiltersEmpty =
+          !localLocation?.trim() &&
+          localEventName?.length === 0 
+    
+        if (isAllFiltersEmpty) {
+          handleResetFilters();
+        }
+      }
+    }, [ localLocation , localEventName  , filterApply]);
+  
 
   const toggleDropdownClick = (index, event) => {
     event.stopPropagation();
@@ -130,6 +163,14 @@ const Events = () => {
     const keywordMatch = item.title.toLowerCase().includes(keywords.toLowerCase());
     return keywordMatch;
   });
+
+  // Fonction pour appliquer les filtres
+  const handleApplyFilters = () => {
+    seteventName(localEventName);
+    setLocation(localLocation);
+    setKeywords(localKeywords);
+    setFilterApply(true);
+  };
   
 
   const clearFilter = () => {
@@ -301,7 +342,7 @@ const Events = () => {
                       {filter && 
                     (
                         <>
-                        <div className="flex min-w-[160px] w-[25%] ">
+                        {/* <div className="flex min-w-[160px] w-[25%] ">
                           <input
                             className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                             type="text"
@@ -310,8 +351,8 @@ const Events = () => {
                             value={keywords}
                             onChange={e => setKeywords(e.target.value)}
                           />
-                        </div>
-                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={distinctValuesNames}  searchLabel={t('common.searchEvent')} setSelectedOptionVal={seteventName} 
+                        </div> */}
+                        <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={distinctValuesNames}  searchLabel={t('common.searchEvent')} setSelectedOptionVal={setLocalEventName} 
                           placeholder={t("common.eventName")}
                           content={
                             ( option) =>{ return (
@@ -325,7 +366,7 @@ const Events = () => {
                               );
                             }
                           }/>
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation} 
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues}  searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocalLocation} 
                           placeholder={t("common.location")} 
                           content={
                             ( option) =>{ return (
@@ -344,7 +385,7 @@ const Events = () => {
                       {filter ?
                       (<button
                         className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center justify-center cursorpointer p-[6px] h-[37px] rounded-md"
-                        onClick={() => setFilterApply(true)}
+                        onClick={() => handleApplyFilters()}
                         type="button"
                     >
                         <BiFilterAlt size={18} className="mr-2" />
@@ -356,7 +397,8 @@ const Events = () => {
                       (
                       <button
                         className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
-                        onClick={() => setFilter(true)}
+                        onClick={() => {setFilter(true);
+                        handleResetFilters()}}
                         type="button"
                         disabled={pageData?.length === 0}
                       >
