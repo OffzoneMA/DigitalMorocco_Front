@@ -142,12 +142,12 @@ const onSubmit = async () => {
             </div>
             {!isLoading && investorsData?.investors?.length === 0 ? 
               (
-                <div class="flex-col justify-center items-center inline-flex">
+                <div className="flex-col justify-center items-center inline-flex">
                   <svg width="36" height="37" viewBox="0 0 36 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 12.5L6.14018 19.5318C5.61697 20.1596 5.35536 20.4736 5.35137 20.7387C5.34789 20.9692 5.4506 21.1885 5.62988 21.3333C5.83612 21.5 6.24476 21.5 7.06205 21.5H18L16.5 33.5L24 24.5M23.4751 15.5H28.938C29.7552 15.5 30.1639 15.5 30.3701 15.6667C30.5494 15.8115 30.6521 16.0308 30.6486 16.2613C30.6446 16.5264 30.383 16.8404 29.8598 17.4682L27.8254 19.9096M15.8591 7.86897L19.4999 3.5L18.6004 10.6966M31.5 32L4.5 5" stroke="#667085" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 12.5L6.14018 19.5318C5.61697 20.1596 5.35536 20.4736 5.35137 20.7387C5.34789 20.9692 5.4506 21.1885 5.62988 21.3333C5.83612 21.5 6.24476 21.5 7.06205 21.5H18L16.5 33.5L24 24.5M23.4751 15.5H28.938C29.7552 15.5 30.1639 15.5 30.3701 15.6667C30.5494 15.8115 30.6521 16.0308 30.6486 16.2613C30.6446 16.5264 30.383 16.8404 29.8598 17.4682L27.8254 19.9096M15.8591 7.86897L19.4999 3.5L18.6004 10.6966M31.5 32L4.5 5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  <div class="self-stretch h-[35px] mt-[32px] text-center text-[#344053] text-sm font-dm-sans-medium leading-relaxed">{t("projects.shareProject.emptyInvestorsList.mainMessage")}</div>
-                  <div class="self-stretch text-center text-[#344053] px-3 text-sm font-dm-sans-regular leading-relaxed">{t("projects.shareProject.emptyInvestorsList.instruction")}</div>
+                  <div className="self-stretch h-[35px] mt-[32px] text-center text-[#344053] text-sm font-dm-sans-medium leading-relaxed">{t("projects.shareProject.emptyInvestorsList.mainMessage")}</div>
+                  <div className="self-stretch text-center text-[#344053] px-3 text-sm font-dm-sans-regular leading-relaxed">{t("projects.shareProject.emptyInvestorsList.instruction")}</div>
                 </div>
               ):
               (
@@ -236,15 +236,15 @@ const onSubmit = async () => {
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
             {!isLoading && investorsData?.investors?.length === 0 ? (
             <>
-            <div class="justify-end items-start gap-[18px] inline-flex">
-              <button type="button" onClick={props.onRequestClose} class="px-5 cursorpointer py-[18px] h-[44px] bg-[#e4e6eb] hover:bg-[#D0D5DD] active:bg-light_blue-100 rounded-md justify-center items-center gap-[18px] flex">
-                  <div class="justify-center items-center gap-3 flex">
-                      <div class="text-[#475466] text-base font-dm-sans-medium">{t("common.cancel")}</div>
+            <div className="justify-end items-start gap-[18px] inline-flex">
+              <button type="button" onClick={props.onRequestClose} className="px-5 cursorpointer py-[18px] h-[44px] bg-[#e4e6eb] hover:bg-[#D0D5DD] active:bg-light_blue-100 rounded-md justify-center items-center gap-[18px] flex">
+                  <div className="justify-center items-center gap-3 flex">
+                      <div className="text-[#475466] text-base font-dm-sans-medium">{t("common.cancel")}</div>
                   </div>
               </button>
-              <button type="button" onClick={() => navigate('/Investors')} class="px-5 cursorpointer py-[18px] h-[44px] bg-[#2575f0] hover:bg-[#235DBD] active:bg-[#224a94] rounded-md justify-center items-center gap-[18px] flex">
-                  <div class="justify-center items-center gap-3 flex">
-                      <div class="text-white-A700 text-base font-dm-sans-medium">{t("projects.shareProject.emptyInvestorsList.buttonText")}</div>
+              <button type="button" onClick={() => navigate('/Investors')} className="px-5 cursorpointer py-[18px] h-[44px] bg-[#2575f0] hover:bg-[#235DBD] active:bg-[#224a94] rounded-md justify-center items-center gap-[18px] flex">
+                  <div className="justify-center items-center gap-3 flex">
+                      <div className="text-white-A700 text-base font-dm-sans-medium">{t("projects.shareProject.emptyInvestorsList.buttonText")}</div>
                   </div>
               </button>
             </div>

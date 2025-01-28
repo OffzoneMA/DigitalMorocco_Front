@@ -1197,7 +1197,7 @@ const handleFileRemove = async (type) => {
                         {t('projects.createNewProject.projectMilestone')}
                       </Text>
                       {milestones?.length > 1 && <button
-                          className="hover:bg-light_blue-100 text-sm hover:border hover:border-solid hover:border-blue-500 text-blue-500 flex flex-row gap-1 h-7 items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          className="hover:bg-light_blue-100 text-sm hover:border hover:border-solid hover:border-blue-500 text-blue-500 flex flex-row gap-1 h-7 items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] md:w-[87px] xl:w-[93px] cursorpointer"
                           style={{ whiteSpace: 'nowrap' }}
                           onClick={addMilestone}
                           type="button"
@@ -1207,7 +1207,7 @@ const handleFileRemove = async (type) => {
                             <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                           </span>
-                          <span className="hidden sm:inline">{t('projects.createNewProject.more')}</span>
+                          <span className="hidden md:inline">{t('projects.createNewProject.more')}</span>
                       </button>}
                     </div>
                     {milestones.map((milestone, index) => (
@@ -1229,7 +1229,7 @@ const handleFileRemove = async (type) => {
                       />
                       {milestones?.length === 1 ? (
                         <button
-                          className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm border border-solid border-blue-500 text-blue-500 flex flex-row gap-1 h-[40px] items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          className="bg-light_blue-100 hover:bg-[#E2E2EE] text-sm border border-solid border-blue-500 text-blue-500 flex flex-row gap-1 h-[40px] items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] md:w-[87px] xl:w-[93px] cursorpointer"
                           style={{ whiteSpace: 'nowrap' }}
                           onClick={addMilestone}
                           type="button"
@@ -1239,11 +1239,11 @@ const handleFileRemove = async (type) => {
                             <path d="M7 1.75V12.25M1.75 7H12.25" stroke="#2575F0" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                           </span>
-                          <span className="hidden sm:inline">{t('projects.createNewProject.more')}</span>
+                          <span className="hidden md:inline">{t('projects.createNewProject.more')}</span>
                         </button>
                       ) : (
                         <button
-                          className="bg-[#E8555521] hover:bg-red-200 text-sm border border-solid border-errorColor text-errorColor flex flex-row h-[40px] w-auto items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] cursorpointer"
+                          className="bg-[#E8555521] hover:bg-red-200 text-sm border border-solid border-errorColor text-errorColor flex flex-row h-[40px] w-auto items-center justify-center ml-auto px-[12px] py-[7px] rounded-md w-[15%] md:w-[87px] xl:w-[93px] cursorpointer"
                           style={{ whiteSpace: 'nowrap' }}
                           onClick={() => removeMilestone(milestone?.id)}
                           type="button"
@@ -1253,7 +1253,7 @@ const handleFileRemove = async (type) => {
                          <svg width="13" height="2" viewBox="0 0 13 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M1.25 1H11.75" stroke="#EF4352" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        <span className="hidden lg:inline">{t('projects.createNewProject.hide')}</span>
+                        <span className="hidden md:inline">{t('projects.createNewProject.hide')}</span>
                         </span>}
                         </button>
                       )}

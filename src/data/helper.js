@@ -336,7 +336,7 @@ export const validateImageFile = (file) => {
     "image/bmp",   // BMP
     "image/tiff",  // TIFF
   ];
-  const maxSizeInBytes = 2 * 1024 * 1024;
+  const maxSizeInBytes = 3 * 1024 * 1024;
 
   // if (!allowedTypes.includes(file.type)) {
   //   return false;

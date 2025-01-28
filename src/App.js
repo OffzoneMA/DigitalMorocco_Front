@@ -144,7 +144,7 @@ function App() {
           <RouteTracker>
             <ScrollToTop>
             <div className='min-h-screen'>
-            <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}>
+            {/* <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}> */}
               <Routes>
                 <Route element={<DashbordLayout />}>
                   <Route element={<GuardedConnectedUserRoute />}>
@@ -231,7 +231,7 @@ function App() {
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </Suspense>
+            {/* </Suspense> */}
             </div>
             </ScrollToTop>
           </RouteTracker>

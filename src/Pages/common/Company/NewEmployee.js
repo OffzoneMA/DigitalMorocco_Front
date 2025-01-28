@@ -31,7 +31,7 @@ const NewEmployee = () => {
   const { data: fetchedEmployee, error, isLoading, refetch } = useGetEmployeeByIdQuery(employeeId, {
       skip: !employeeId, 
     });
-  const [logoFile, setLogoFile] = useState(employee?.image || '');
+  const [logoFile, setLogoFile] = useState(employee?.image || null);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(dataCountries.find(country => country.name === employee?.country) || null);
   const [selectedCity, setSelectedCity] = useState(employee?.cityState || '');
@@ -86,7 +86,7 @@ const NewEmployee = () => {
     level: employee?.level || '',
     department: employee?.department || '',
     startDate: employee?.startDate || '',
-    photo: employee?.photo || '',
+    image: employee?.image || '',
   });
 
   const logoFileInputRef = useRef(null);
@@ -95,27 +95,30 @@ const NewEmployee = () => {
   useEffect(() => {
     if (location.state && location.state.employee) {
       setFormData({
-        fullName: employee.fullName,
-        workEmail: employee.workEmail,
-        personalEmail: employee.personalEmail, 
-        address: employee.address,
-        country: employee.country,
-        cityState: employee.cityState,
-        personalTaxIdentifierNumber: employee.personalTaxIdentifierNumber,
-        phoneNumber: employee.phoneNumber,
-        jobTitle: employee.jobTitle,
-        level: employee.level,
-        department: employee.department,
-        startDate: employee.startDate,
-        photo: employee.photo,
+        fullName: employee?.fullName,
+        workEmail: employee?.workEmail,
+        personalEmail: employee?.personalEmail, 
+        address: employee?.address,
+        country: employee?.country,
+        cityState: employee?.cityState,
+        personalTaxIdentifierNumber: employee?.personalTaxIdentifierNumber,
+        phoneNumber: employee?.phoneNumber,
+        jobTitle: employee?.jobTitle,
+        level: employee?.level,
+        department: employee?.department,
+        startDate: employee?.startDate,
+        image: employee?.image,
       });
-      if(location.state.employee.jobTitle){
+      if(location?.state?.employee?.image) {
+        setLogoFile(location.state.employee.image);
+      }
+      if(location?.state?.employee?.jobTitle){
         setSelectedJobTitle(jobTitles.find(job => job === location.state.employee.jobTitle));
       }
-      if(location.state.employee.level){
+      if(location.state?.employee?.level){
         setSelectedLevel(employeeLevels.find(level => level === location.state.employee.level));
       }
-      if(location.state.employee.department){
+      if(location.state?.employee?.department){
         setSelectedDepartment(departments.find(department => department === location.state.employee.department));
       }
     }
@@ -235,17 +238,22 @@ const NewEmployee = () => {
                 Authorization: `Bearer ${token}`,
               },
             });
+            
+            if (response?.ok) {
+              // Lire le corps de la réponse en tant que JSON
+              response.json().then((data) => {
+                setEmployee(data); 
+                refetch(); 
+                setIsSaved(true); 
 
-            if(response?.data?._id){
-              setEmployee(response.data);
-              refetch();
-              setIsSaved(true);
-              setTimeout(() => {
-                setIsSaved(false);
-              }, 5000);
-              navigate(location.pathname, { state: { employee: response?.data }, replace: true });
+                setTimeout(() => {
+                  setIsSaved(false);
+                  navigate(location.pathname, { state: { employee: data }, replace: true });
+                }, 2000);
+              }).catch((error) => {
+                console.error("Erreur lors de la lecture du corps de la réponse :", error);
+              });
             }
-
           } else {
             // POST request to create a new employee
             const response = await fetch(`${process.env.REACT_APP_baseURL}/employee/add`, {
@@ -255,12 +263,19 @@ const NewEmployee = () => {
               },
               body: formData,
             });
-            if(response?.data?._id){
-              setIsSaved(true);
-              setTimeout(() => {
-                setIsSaved(false);
-              }, 5000);
-              navigate(`/EditEmployee/${response?.data?._id}`, { state: { employee: response.data } });
+
+            if (response?.ok) {
+              response.json().then((data) => {
+                setIsSaved(true);
+
+                setTimeout(() => {
+                  setIsSaved(false);
+                  navigate(`/EditEmployee/${data?._id}`, { state: { employee: data } });
+                }, 2000);
+
+              }).catch((error) => {
+                console.error("Erreur lors de la lecture des données de la réponse :", error);
+              });
             }
           }
         } else {

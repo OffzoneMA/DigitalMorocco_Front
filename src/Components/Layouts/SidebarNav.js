@@ -86,9 +86,24 @@ const SidebarNav = () => {
     return () => clearInterval(interval); // Cleanup the interval on unmount
   }, [refetchNotifications]);
 
+
   useEffect(() => {
-    setActiveMenu(location.pathname.split('/')[1]);
+    // Extraction du menu actif
+    const activeMenuTitle = location.pathname.split('/')[1]; // Récupère la partie du lien correspondant au menu
+    const activeMenuValue = Menus.find((menu) => menu && menu.link?.toLowerCase() === activeMenuTitle.toLowerCase());
+  
+    // Si le menu actif n'a pas de sous-menu, on réinitialise les sous-menus
+    if (activeMenuValue !== undefined && activeMenuValue !== null) {
+      resetSubmenus();
+      setSettingsOpen(false);
+    }
+  }, [location.pathname]);
+  
+  
+  useEffect(() => {
+    setActiveMenu(location.pathname.split('/')[1]); // Définit le menu actif selon l'URL
   }, [location]);
+  
 
 
   const setSubmenu = (submenuName, isOpen) => {
@@ -108,6 +123,7 @@ const SidebarNav = () => {
   };
 
   const handleMenuClick = (Menu) => {
+    setSettingsOpen(false);
     if (!Menu.submenu) {
       resetSubmenus(); 
     } else {
@@ -150,7 +166,7 @@ const SidebarNav = () => {
     ,
     (userRole === "member") && { 
     title: t('sidebar.investor.main'), src: <TiFlashOutline size={23} className="text-light_blue-100"/> , 
-    submenu: true, activeLinks: ["InvestorDetails" , "InvestorRequestsHistoty" , "MyInvestors" , "Investors"] ,
+    submenu: true, activeLinks: ["InvestorDetails" , "InvestorRequestsHistoty" , "MyInvestors" , "Investors" , "MyInvestorDetails"] ,
     child: [
       { title: t('sidebar.investor.investorList'), src: '', link: "Investors" , activeLinks: ["Investors" ,"InvestorDetails"] },
       { title: t('sidebar.investor.myInvestors'), src: '', link: "MyInvestors" , activeLinks: ["MyInvestors" , "MyInvestorDetails"]},
@@ -224,12 +240,12 @@ const SidebarNav = () => {
           Menu && <div key={index} >
             <li
               onClick={() => handleMenuClick(Menu)}
-              className={`overflow-x-visible ${!open && 'w-fit'} group  flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" )|| Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
+              className={`overflow-x-visible ${!open && 'w-fit'} group  flex rounded-md p-2 cursorpointer hover:bg-blue_gray-902 hover:text-teal-400  ${(activeMenu === Menu.link || Menu.activeLinks?.includes(activeMenu) )? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} mt-3 `} 
               onMouseEnter={(e) => handleItemMouseEnter(e, Menu.title)}
               onMouseLeave={handleItemMouseLeave}
               // title={!open ? Menu.title : ""}
             >
-              <span className={`duration-200 ${(activeMenu === Menu.link || (activeParent === Menu.title && activeParent !== "Dashboard" ) || Menu.activeLinks?.includes(activeMenu)) ? "active-icon-color" : "hover-active-color"}`}>
+              <span className={`duration-200 ${(activeMenu === Menu.link || Menu.activeLinks?.includes(activeMenu)) ? "active-icon-color" : "hover-active-color"}`}>
                 {Menu.src}
               </span>
               <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
@@ -274,11 +290,11 @@ const SidebarNav = () => {
                   // setActiveMenu("settings")
                   resetSubmenus();
           }}
-          className={` ${!open && 'w-fit'} group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu))? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
+          className={` ${!open && 'w-fit'} group flex ${!settingsOpen && 'mb-4'} rounded-md p-2 cursorpointer ${(activeMenu === "settings" || settingActiveLinks?.includes(activeMenu))? "bg-blue_gray-902 text-teal-400" : "hover-active-color"} text-gray-301 items-center ${open ? "gap-x-3" :"gap-x-1.5"} hover:bg-blue_gray-902 hover:text-teal-400 text-gray-301 items-center  gap-x-3 mt-3 `} 
           onMouseEnter={(e) => handleItemMouseEnter(e, t('sidebar.settings.main'))}
           onMouseLeave={handleItemMouseLeave}
         >
-          <IoSettingsOutline size={23} className={`text-light_blue-100 ${(activeMenu === "settings" || activeParent === "settings" || settingActiveLinks?.includes(activeMenu) )? "active-icon-color" : "hover-active-color"}`} />
+          <IoSettingsOutline size={23} className={`text-light_blue-100 ${(activeMenu === "settings" || settingActiveLinks?.includes(activeMenu) )? "active-icon-color" : "hover-active-color"}`} />
           <span className={`${!open && "hidden"} origin-left duration-200 flex-1`}>
             {t('sidebar.settings.main')}
           </span>

@@ -662,6 +662,7 @@
     "myInvestors": "Mes investisseurs",
     "requestHistory": "Historique des demandes",
     "viewAllInvestors": "Voir les {{count}} investisseurs",
+    "viewAllInvestors1": "Consultez notre liste d’investisseurs",
     "upgradeMessage": "Mettez à niveau votre",
     "upgradeMessage2": "tous les résultats de recherche, enregistrer dans des listes personnalisées et entrer en contact avec des investisseurs.",
     "digitalMoroccoPro": "Digital Morocco Pro",
@@ -727,6 +728,7 @@
     "noUpcomingEvent": "Aucun Événements à venir",
     "comingSoon": "Bientôt disponible",
     "comingSoonEvent": "Prochainement",
+    "noPastEvent": "Aucun Événements passés",
     "eventParticipate": {
       "title": "Mes Événements",
       "event": "Événement",

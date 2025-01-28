@@ -179,11 +179,11 @@ const Employees = () => {
                             <span className="capitalize" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{employee?.fullName}</span>
                           </div>
                         </td>
-                        <td className="px-[18px] py-4 text-gray500">{employee.workEmail}</td>
+                        <td className="px-[18px] py-4 text-gray500">{employee?.workEmail}</td>
                         <td className="px-[18px] py-4 text-gray500">{employee?.jobTitle ?  t(`${employee.jobTitle}`) : "-"}</td>
                         <td className="px-[18px] py-4 text-gray500">{employee?.level ? t(`${employee.level}`) : "-"}</td>
                         <td className="px-[18px] py-4 text-gray500">
-                          {employee.status?.toLowerCase() === 'member' ? (
+                          {employee?.status?.toLowerCase() === 'member' ? (
                             <div className="h-[22px] pl-1.5 pr-2 py-0.5 bg-[#ebfdf2] rounded-2xl justify-center items-center gap-1.5 inline-flex">
                               <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="4" cy="4" r="3" fill="#12B76A"/>

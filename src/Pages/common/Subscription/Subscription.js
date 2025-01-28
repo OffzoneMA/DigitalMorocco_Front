@@ -192,7 +192,7 @@ useEffect(() => {
         <div className="flex flex-col md:flex-row md:flex-wrap items-start py-6 w-full h-full md:min-h-[540px] gap-8">
           {(!isSubscribe && !isSubscribeLoading) ? 
           (
-            <div className="flex flex-col lg:border-r lg:border-gray-201 pr-8 w-full lg:flex-1 gap-4">
+            <div className="flex flex-col w-full lg:flex-1 gap-4">
               <Text className="font-dm-sans-medium text-lg leading-7 text-[#101828] text-left w-full">
               {t('settings.subscription.subscriptionManagement')}
               </Text>

@@ -321,7 +321,8 @@ const Investors = () => {
   }
 
   const closePopup = () => {
-    setShowPopup(false)
+    // setShowPopup(false)
+    navigate('/Dashboard');
   }
 
   const closeDraftPopup = () => {
@@ -454,7 +455,7 @@ const Investors = () => {
                       type="button"
                   >
                       <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.75 4.75L8.25 9.25M8.25 4.75L12.75 9.25M2.04 7.72L5.28 12.04C5.544 12.392 5.676 12.568 5.84329 12.6949C5.99145 12.8074 6.15924 12.8913 6.33808 12.9423C6.54 13 6.76 13 7.2 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H7.2C6.76 1 6.54 1 6.33808 1.05767C6.15924 1.10874 5.99145 1.19264 5.84329 1.30506C5.676 1.432 5.544 1.608 5.28 1.96L2.04 6.28C1.84635 6.53819 1.74953 6.66729 1.71221 6.80907C1.67926 6.93423 1.67926 7.06577 1.71221 7.19093C1.74953 7.33271 1.84635 7.46181 2.04 7.72Z" stroke="#151439" stroke-opacity="0.4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M12.75 4.75L8.25 9.25M8.25 4.75L12.75 9.25M2.04 7.72L5.28 12.04C5.544 12.392 5.676 12.568 5.84329 12.6949C5.99145 12.8074 6.15924 12.8913 6.33808 12.9423C6.54 13 6.76 13 7.2 13H12.9C14.1601 13 14.7902 13 15.2715 12.7548C15.6948 12.539 16.039 12.1948 16.2548 11.7715C16.5 11.2902 16.5 10.6601 16.5 9.4V4.6C16.5 3.33988 16.5 2.70982 16.2548 2.22852C16.039 1.80516 15.6948 1.46095 15.2715 1.24524C14.7902 1 14.1601 1 12.9 1H7.2C6.76 1 6.54 1 6.33808 1.05767C6.15924 1.10874 5.99145 1.19264 5.84329 1.30506C5.676 1.432 5.544 1.608 5.28 1.96L2.04 6.28C1.84635 6.53819 1.74953 6.66729 1.71221 6.80907C1.67926 6.93423 1.67926 7.06577 1.71221 7.19093C1.74953 7.33271 1.84635 7.46181 2.04 7.72Z" stroke="#151439" strokeOpacity="0.4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       <span className="text-base font-dm-sans-regular leading-[26px]">{t('common.clear')}</span>
                     </button>
@@ -556,7 +557,7 @@ const Investors = () => {
                         className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 w-auto pt-4"
                         size=""
                       >
-                        {t('investors.viewAllInvestors', { count: (261765).toLocaleString('fr-FR').replace(/\s/g, '\u00A0') })} 
+                        {t('investors.viewAllInvestors1')} 
                       </Text>
                       <Text
                         className="font-dm-sans-medium text-sm leading-[26px] text-gray-900_01 w-auto pt-3 pb-8"
@@ -667,13 +668,13 @@ const Investors = () => {
         </div>
       }/> */}
     <CommonModal isOpen={isModalOpen}
-      onRequestClose={''} title={t('investors.comming.title')} showCloseBtn = {false}
+      onRequestClose={closePopup} title={t('investors.comming.title')} showCloseBtn = {true}
       content={
         <div className="flex flex-col gap-5 items-center justify-start pb-5 w-full">
-          <div class="flex-col justify-center items-center gap-[18px] inline-flex">
-            <div class="self-stretch text-center text-[#2575f0] text-base font-medium font-['DM Sans'] leading-relaxed">{t('investors.comming.header')}</div>
-            <div class="self-stretch text-center text-[#1d1c21] text-base font-normal font-['DM Sans'] leading-relaxed">{t('investors.comming.text1')}</div>
-            <div class="self-stretch text-center text-[#1d1c21] text-base font-medium font-['DM Sans'] leading-relaxed">{t('investors.comming.text2')}</div></div>
+          <div className="flex-col justify-center items-center gap-[18px] inline-flex">
+            <div className="self-stretch text-center text-[#2575f0] text-base font-dm-sans-medium leading-relaxed">{t('investors.comming.header')}</div>
+            <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t('investors.comming.text1')}</div>
+            <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-medium leading-relaxed">{t('investors.comming.text2')}</div></div>
           <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
             <button className="w-[195px] h-11 px-5 py-[18px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] inline-flex cursorpointer hover:bg-[#235DBD] active:bg-[#235DBD]}"
             onClick={() => navigate('/Dashboard')}>

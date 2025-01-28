@@ -335,7 +335,7 @@ const CompanyProfile = () => {
             }
           </div>
           <div className="flex flex-wrap items-start justify-start w-full">
-            <div class="w-full flex-1 text-[#667085] text-base font-normal font-Inter leading-normal">{t('investors.company.message')}</div>
+            <div className="w-full flex-1 text-[#667085] text-base font-normal font-Inter leading-normal">{t('investors.company.message')}</div>
             <div className="flex lg:w-[35%] w-full items-center justify-start w-full"></div>
           </div>
         </div>

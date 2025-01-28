@@ -183,7 +183,7 @@ useEffect(() => {
       canonical={`${process.env.REACT_APP_URL}/Projectdetails/${projectId}`}
     />
     {isLoading ? 
-    <div className="bg-white-A700 rounded-tl-[40px] flex items-center justify-center h-screen">
+    <div className="bg-white-A700 w-full rounded-tl-[40px] flex items-center justify-center h-screen">
       <Loader />
     </div>
     :

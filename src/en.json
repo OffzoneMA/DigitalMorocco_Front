@@ -661,6 +661,7 @@
     "myInvestors": "My Investors",
     "requestHistory": "Request History",
     "viewAllInvestors": "View all {{count}} Investors",
+    "viewAllInvestors1": "View our list of investors",
     "upgradeMessage": "Upgrade your",
     "upgradeMessage2": "all search results, save to custom lists, and connect with investors.",
     "digitalMoroccoPro": "Digital Morocco Pro",
@@ -723,6 +724,7 @@
     "noUpcomingEvent": "No Upcoming Event",
     "comingSoon": "Coming Soon",
     "comingSoonEvent": "Coming Soon",
+    "noPastEvent": "No Past Event Founded",
     "eventParticipate": {
       "title": "My Events",
       "event": "Event",
