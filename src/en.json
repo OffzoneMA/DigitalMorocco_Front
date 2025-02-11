@@ -1569,6 +1569,11 @@
       "title": "Digital Morocco - User Profile",
       "description": "Manage and customize your personal profile settings in the Digital Morocco platform.",
       "keywords": "user profile, personal settings, account management, profile customization, Digital Morocco"
+    },
+    "chooseRole": {
+      "title": "Digital Morocco - Choose Role",
+      "description": "Select your role within Digital Morocco's ecosystem to access specific features and functionalities.",
+      "keywords": "role selection, user roles, Digital Morocco"
     }
   }
 }

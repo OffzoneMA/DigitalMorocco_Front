@@ -2452,6 +2452,11 @@
         "title": "Digital Morocco - Profil Utilisateur",
         "description": "Gérez et personnalisez vos paramètres de profil personnel sur la plateforme Digital Morocco.",
         "keywords": "profil utilisateur, paramètres personnels, gestion de compte, personnalisation du profil, Digital Morocco"
+    },
+    "chooseRole": {
+      "title": "Digital Morocco - Choix de rôle",
+      "description": "Sélectionnez le rôle qui correspond le mieux à votre profil et à vos objectifs sur la plateforme Digital Morocco.",
+      "keywords": "choix de rôle, sélection de rôle, profil utilisateur, Digital Morocco"
     }
   }
 
