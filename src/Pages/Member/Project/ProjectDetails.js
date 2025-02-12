@@ -187,7 +187,7 @@ useEffect(() => {
       <Loader />
     </div>
     :
-    <div className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full min-h-screen overflow-auto w-full">
+    <section className="bg-white-A700 flex flex-col gap-8 items-start justify-start pb-12 pt-8 rounded-tl-[40px] h-full min-h-screen overflow-auto w-full">
       <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 flex-col font-dm-sans-regular h-full items-start justify-start w-full">
@@ -438,7 +438,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
-    </div>}
+    </section>}
     
     <NewMilestoneModal isOpen={isModalOpenMilestone} onRequestClose={closeModalMilestone} rowData={project} method={addMilestoneToProjectFonction}/>
 

@@ -46,13 +46,13 @@ const Dashbord_Investor = () => {
           keywords={t('helmet.dashboardInvestor.keywords')}
           canonical={`${process.env.REACT_APP_URL}/Dashboard_Investor`}
         />
-        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+        <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col items-start justify-start sm:px-5 px-8 pb-8 w-full">
                 <div className="flex flex-col lg:flex-row gap-5 items-start lg:justify-between pb-2 w-full">
                     <div className="flex h-full items-start justify-start w-auto">
                         <PageHeader
                         >
-                        {t('dashboard.welcome')}, {userData?.displayName? userData?.displayName : 'Olivia'}
+                        {t('dashboard.welcome')} {userDetails?.displayName ? `, ${userDetails.displayName}` : userData?.displayName? `, ${userData.displayName}` : userDetailsLoading ? "loading..." : ""}
                         </PageHeader>
                     </div>
                     <div className="flex flex-row w-full lg:w-auto gap-4 justify-between ">
@@ -413,7 +413,7 @@ const Dashbord_Investor = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
       </>
     )
 }

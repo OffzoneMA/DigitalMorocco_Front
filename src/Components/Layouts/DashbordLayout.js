@@ -9,7 +9,7 @@ const DashbordLayout = () => {
       <SidebarNav/>
       </div>
       <div className="h-full flex-1 pt-6 overflow-x-auto no-scrollbar-div min-h-screen">
-        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start rounded-tl-[40px] w-full">
+        <main className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start rounded-tl-[40px] w-full">
           <Suspense fallback={
             <div className="flex items-center justify-center w-full h-[calc(100vh-120px)]">
               <Loader />
@@ -17,7 +17,7 @@ const DashbordLayout = () => {
           }>
             <Outlet />
           </Suspense>
-        </div>
+        </main>
       </div>
     </div>
   );

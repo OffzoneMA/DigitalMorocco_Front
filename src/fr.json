@@ -2416,6 +2416,11 @@
         "description": "Rejoignez l'écosystème Digital Morocco en créant un nouveau compte.",
         "keywords": "inscription, créer un compte, enregistrement, Digital Morocco"
     },
+    "socialSignUp": {
+        "title": "Digital Morocco - Inscription Média Sociale",
+        "description": "Inscrivez-vous à Digital Morocco en utilisant vos comptes de médias sociaux.",
+        "keywords": "inscription sociale, connexion via les réseaux sociaux, Digital Morocco"
+    },
     "subscription": {
         "title": "Digital Morocco - Abonnements et Facturation",
         "description": "Gérez votre abonnement et vos niveaux d'accès Digital Morocco.",

@@ -24,6 +24,7 @@ const ManageSubscriptionCredits = () => {
     const [acceptTerms , setAcceptTerms] = useState(false);
     const [sending , setSending] = useState(false);
     const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
     const {
         register,
         handleSubmit,
@@ -99,14 +100,14 @@ const ManageSubscriptionCredits = () => {
             keywords={t('helmet.manageCredits.keywords')}
             canonical={`${process.env.REACT_APP_URL}/ManageCredits`}
         />
-        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+        <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
             <div className="flex flex-col sm:px-5 px-8 gap-8 w-full h-full">
                 <div className="flex flex-col items-start justify-start w-full">
                     <div className="flex flex-col lg:flex-row gap-5 items-start lg:justify-between pb-2 w-full">
                         <div className="flex h-full items-start justify-start w-auto">
                             <PageHeader
                             >
-                            {t('dashboard.welcome')}, {userDetails?.displayName? userDetails?.displayName : 'Olivia'}
+                            {t('dashboard.welcome')} {userDetails?.displayName ? `, ${userDetails.displayName}` : userData?.displayName? `, ${userData.displayName}` : userDetailsLoading ? "loading..." : ""}
                             </PageHeader>
                         </div>
                         <div className="flex flex-row w-full lg:w-auto gap-4 justify-between ">
@@ -236,7 +237,7 @@ const ManageSubscriptionCredits = () => {
                     </form>
                 </div>
             </div>
-        </div>
+        </section>
         <CommonModal isOpen={isModalOpen}
         onRequestClose={closePopup} title={t('Information: Feature Unavailable')} showCloseBtn = {true}
         content={

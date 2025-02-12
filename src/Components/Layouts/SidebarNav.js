@@ -27,6 +27,7 @@ import MenuPopup from "./MenuPopup";
 
 const SidebarNav = () => {
   const { t, i18n } = useTranslation();
+  const userData = sessionStorage.getItem('userData') !== undefined ? JSON.parse(sessionStorage.getItem('userData')) : null;
   const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch} = useGetUserDetailsQuery();
   const { data: notifications, error: notificationsError, isLoading: notificationsLoading , refetch: refetchNotifications } = useGetNotificationSummaryQuery();
   const [open, setOpen] = useState(true);
@@ -67,7 +68,6 @@ const SidebarNav = () => {
 
   const validEmails = ['earnforroukichane@gmail.com', 'ichaneroukeya@gmail.com', 'contact.vfhl@gmail.com']; // Liste des emails valides
 
-  const userData = JSON.parse(sessionStorage.getItem('userData'));
   const userEmail = userData?.email?.toLowerCase();
   const validEmailCheck = validEmails.map(email => email.toLowerCase()).includes(userEmail);
   const userRole = userData?.role?.toLowerCase();
@@ -226,7 +226,7 @@ const SidebarNav = () => {
   }
 
   return (
-  <div className={`bg-blue_gray-901 flex flex-col h-full min-h-screen pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative `}>
+  <aside className={`bg-blue_gray-901 flex flex-col h-full min-h-screen pt-8 ${open ? "w-[280px]" : "w-20"} duration-300 relative `}>
     <BsArrowLeftShort className={`bg-white-A700 text-blue_gray-901 text-2xl rounded-full absolute -right-3 top-9 border border-blue_gray-901 cursorpointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
     <div className="inline-flex px-5" >
       <img src={simpleLogo} className={`text-4xl rounded cursorpointer block float-left mr-2 ${open && "rotate-[360deg]"}`}  alt="logo" onClick={() => openLink()}/>
@@ -356,7 +356,9 @@ const SidebarNav = () => {
             `}
               >
               <div className="leading-4 flex-1 overflow-hidden">
-                <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : ""}</span>
+                <span className="text-white-A700">{userDetails?.displayName? userDetails?.displayName : userData?.displayName ? userData?.displayName : userDetailsLoading ? (
+                  <div className="h-4 w-24 bg-gray-300 rounded animate-pulse"></div>
+                ) : ""}</span>
               </div>
             </div>}
           {showLogout && (
@@ -446,7 +448,7 @@ const SidebarNav = () => {
         }
       </div>
     </div>
-  </div>
+  </aside>
   );
 };
 

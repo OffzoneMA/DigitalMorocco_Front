@@ -137,7 +137,7 @@ const openModal = () => {
           keywords={t('helmet.sponsorRequestHistoryDetails.keywords')}
           canonical={`${process.env.REACT_APP_URL}/SponsorRequestHistoryDetails/${id}`}
         />
-        <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+        <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         {isLoading ?
             <div className="flex flex-col items-center justify-center text-blue_gray-800_01 gap-[16px] h-screen w-full py-28 rounded-b-[8px]">
               <Loader />
@@ -468,7 +468,7 @@ const openModal = () => {
               </div>
             </div>
         }
-        </div>
+        </section>
         <ApproveSponsoringRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={event} methode={handleApprove}/>
         </>
     );

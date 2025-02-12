@@ -165,7 +165,7 @@ const Investment = () => {
         keywords={t('helmet.investment.currentRequests.keywords')}
         canonical={`${process.env.REACT_APP_URL}/Investment`}
       />
-      <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+      <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
               <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
@@ -435,7 +435,7 @@ const Investment = () => {
           </div>
           <ApproveContactRequestModal isOpen={isApproveModalOpen} onRequestClose={closeApproveModal} rowData={rowData} methode={handleApprove}/>
           <RejectContactRequestModal isOpen={isRejectModalOpen} onRequestClose={closeRejectModal} rowData={rowData} methode={handleReject} />
-      </div>
+      </section>
       </>
     );
 }

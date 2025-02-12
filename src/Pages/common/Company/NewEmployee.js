@@ -403,7 +403,7 @@ const NewEmployee = () => {
       keywords={!employeeId ? t('helmet.company.employees.create.keywords') : t('helmet.company.employees.edit.keywords') }
       canonical={!employeeId ? `${process.env.REACT_APP_URL}/CreateEmployee` : `${process.env.REACT_APP_URL}/EditEmployee/${employeeId}`}
     />
-    <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
+    <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen items-start justify-start pb-8 pt-8 rounded-tl-[40px] overflow-y-auto w-full">
       <div className="flex items-start justify-start sm:px-5 px-8 w-full">
         <div className="border-b border-gray-201 border-solid flex flex-row gap-5 items-start justify-start pb-6 w-full">
           <div className="flex flex-1 font-DmSans h-full items-start justify-start w-auto">
@@ -815,7 +815,7 @@ const NewEmployee = () => {
           </form>
         </div>
       </div>
-    </div>
+    </section>
     </>
   );
 };

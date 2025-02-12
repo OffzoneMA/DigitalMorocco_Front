@@ -1533,6 +1533,11 @@
       "description": "Join Digital Morocco's ecosystem by creating a new account.",
       "keywords": "sign up, create account, registration, Digital Morocco"
     },
+    "socialSignUp": {
+      "title": "Digital Morocco - Social Media Sign Up",
+      "description": "Join Digital Morocco's ecosystem by creating a new account using your social media profile.",
+      "keywords": "social sign up, create account, registration, Digital Morocco"
+    },
     "subscription": {
       "title": "Digital Morocco - Subscription and Billing",
       "description": "Manage your Digital Morocco subscription and access levels.",

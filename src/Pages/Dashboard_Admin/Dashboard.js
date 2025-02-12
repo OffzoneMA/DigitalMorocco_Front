@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import PageHeader from "../../Components/common/PageHeader";
 import SearchInput from "../../Components/common/SeachInput";
 import { useGetAllUsersQuery } from "../../Services/User.Service";
+import { useGetUserDetailsQuery } from "../../Services/Auth";
 import { useTranslation } from "react-i18next";
 import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
@@ -18,7 +19,8 @@ const Dashboard_Admin = () => {
   const { t, i18n } = useTranslation();
   const { userInfo } = useSelector((state) => state.auth)
   const navigate = useNavigate();
-
+  const userData = JSON.parse(sessionStorage.getItem('userData'));
+  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
   const { data: users, error, isLoading } = useGetAllUsersQuery();
   const monthsOrder1 = [
     'January', 'February', 'March', 'April', 'May', 'June', 
@@ -222,13 +224,13 @@ const Dashboard_Admin = () => {
         keywords={t('helmet.dashboardAdmin.keywords')}
         canonical={`${process.env.REACT_APP_URL}/Dashboard_Admin`}
       />
-      <div className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+      <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
         <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
           <div className="flex flex-col md:flex-row gap-5 items-start justify-start pb-2 w-full">
             <div className="flex flex-1 h-full items-start justify-start w-auto">
               <PageHeader
               >
-                {t('dashboard.welcome')}, {userInfo?.displayName ? userInfo?.displayName : 'Olivia'}
+                {t('dashboard.welcome')} {userDetails?.displayName ? `, ${userDetails.displayName}` : userData?.displayName? `, ${userData.displayName}` : userDetailsLoading ? "loading..." : ""}
               </PageHeader>
             </div>
             <SearchInput className={'w-[240px]'} />
@@ -383,7 +385,7 @@ const Dashboard_Admin = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   )
 }
