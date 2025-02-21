@@ -48,7 +48,7 @@ export const userApi = createApi({
             query: (field) => `/distinct?field=${field}`,
         }),
         getAllUsersPage: builder.query({
-            query: ({ page = 1, limit = 8, roles = [], statuses = [] }) => ({
+            query: ({ page = 1, limit = 8, roles = [], statuses = [] , date = null , dateField = 'dateCreated' , sortField = 'dateCreated' , sortOrder = 'desc' }) => ({
                 url: '/all',
                 method: 'GET',
                 params: {
@@ -56,6 +56,10 @@ export const userApi = createApi({
                 limit,
                 roles: roles?.join(','),  
                 statuses: statuses?.join(','),
+                date,
+                dateField ,
+                sortField ,
+                sortOrder ,
                 },
             }),
         }),

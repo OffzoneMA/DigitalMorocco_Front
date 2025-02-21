@@ -1282,7 +1282,11 @@
       "october": "Oct",
       "november": "Nov",
       "december": "Déc"
-    }
+    },
+    "dateField": "Champ de date",
+    "selectDateField": "Sélectionnez un champ",
+    "columnName": "Nom de la colonne",
+    "ordre": "Ordre"
   },
 
   "First contact established": "Premier contact établi",
@@ -2198,6 +2202,15 @@
     "Prev": "Précédent",
     "Next": "Suivant"
   },
+
+
+  "Date Created": "Date de Création",
+  "Last Login": "Dernière Connexion",
+  "Display Name": "Nom d'utilisateur" , 
+  "Email": "Email" , 
+  "Role": "Rôle", 
+  "Status": "Status" , 
+
   "helmet": {
     "dashboard": {
         "title": "Digital Morocco - Tableau de bord des membres",

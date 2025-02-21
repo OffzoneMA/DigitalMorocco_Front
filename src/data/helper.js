@@ -348,3 +348,16 @@ export const validateImageFile = (file) => {
 
   return true;
 };
+
+export const getUserColumnName = (selectedOption) => {
+  const columnMapping = {
+    "Display Name": "displayName",
+    "Email": "email",
+    "Role": "role",
+    "Status": "status",
+    "Date Created": "dateCreated",
+    "Last Login": "lastLogin"
+  };
+
+  return columnMapping[selectedOption] || "dateCreated"; // Valeur par défaut
+};

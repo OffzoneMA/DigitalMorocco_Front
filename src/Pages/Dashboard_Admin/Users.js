@@ -17,6 +17,9 @@ import { useTranslation } from "react-i18next";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams } from "react-router-dom";
 import HelmetWrapper from "../../Components/common/HelmetWrapper";
+import CustomCalendar from "../../Components/common/CustomCalendar";
+import SimpleSelect from "../../Components/common/SimpleSelect";
+import { parseDateStringValue , getUserColumnName } from "../../data/helper";
 
 const Users = () => {
   const {t} = useTranslation();
@@ -36,12 +39,20 @@ const Users = () => {
   const [statuses, setStatuses] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [selectedStatuses, setSelectedStatuses] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDateField, setSelectedDateField] = useState('dateCreated');
+  const [selectedSortField, setSelectedSortField] = useState('dateCreated');
+  const [selectedSortOrder, setSelectedSortOrder] = useState('desc');
 
   const queryParams = { page: cur, limit: itemsPerPage };
 
   if (filterApply) {
     queryParams.roles = selectedRoles?.length > 0 ? selectedRoles : null;
     queryParams.statuses = selectedStatuses?.length > 0 ? selectedStatuses : null;
+    queryParams.date = selectedDate?.trim() ? parseDateStringValue(selectedDate) : null;
+    queryParams.dateField = getUserColumnName(selectedDateField);
+    queryParams.sortField = getUserColumnName(selectedSortField);
+    queryParams.sortOrder = selectedSortOrder?.toLowerCase();
   }
 
   const { data, error, isFetching: loading  , refetch } = useGetAllUsersPageQuery(queryParams);
@@ -51,6 +62,8 @@ const Users = () => {
     setFilterApply(false);
     setSelectedRoles([]);
     setSelectedStatuses([]);
+    setSelectedDate('');
+    setSelectedDateField('dateCreated');
   }
 
   useEffect(() => {
@@ -190,6 +203,7 @@ const Users = () => {
     }
   }
   
+  
 
   return (
     <>
@@ -214,7 +228,7 @@ const Users = () => {
       <div className="flex flex-col items-start justify-start w-full">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
             <div className="w-full bg-white-A700 border border-gray-201 rounded-[8px] shadow-tablesbs  ">
-              <div className="flex flex-row flex-wrap  items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
+              <div className="flex flex-row flex-wrap gap-5 items-center border-b border-gray-201 rounded-t-lg bg-white-A700  py-[19.5px] px-5">
                   <TableTitle>
                   {t('users.unapprovedUsers')}
                   </TableTitle>
@@ -222,7 +236,7 @@ const Users = () => {
                     {filter && 
                   (
                       <>
-                      <div className="flex min-w-[70px]">
+                      {/* <div className="flex min-w-[70px]">
                         <input
                           className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-sm tracking-[0.14px] rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs w-full`}
                           type="text"
@@ -231,7 +245,57 @@ const Users = () => {
                           value={keywords}
                           onChange={e => setKeywords(e.target.value)}
                         />
-                      </div>
+                      </div> */}
+                      <SimpleSelect className="min-w-[170px]" id='columnName' options={["Display Name" , "Email" , "Role", "Status" , "Date Created" , "Last Login"]} setSelectedOptionVal={setSelectedSortField} 
+                          placeholder={t('common.columnName')}
+                          content={
+                            ( option) =>{ return (
+                              <div className="flex  py-2 items-center  w-full">
+                                  <Text
+                                    className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                                    >
+                                    {t(`${option}`)}
+                                  </Text>
+                                </div>
+                              );
+                            }
+                        }/>
+                        <SimpleSelect className="min-w-[170px]" id='order' options={["Asc" , "Desc"]} setSelectedOptionVal={setSelectedSortOrder} 
+                          placeholder={t('common.ordre')}
+                          content={
+                            ( option) =>{ return (
+                              <div className="flex  py-2 items-center  w-full">
+                                  <Text
+                                    className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                                    >
+                                    {t(`${option}`)}
+                                  </Text>
+                                </div>
+                              );
+                            }
+                        }/>
+                      <CustomCalendar
+                        className={'min-w-[150px]'} 
+                        inputPlaceholder={'Date'} 
+                        showIcon={false}
+                        onChangeDate={(date) => setSelectedDate(date)}
+                      />
+                      {selectedDate && selectedDate?.trim() !== '' &&
+                        <SimpleSelect className="min-w-[170px]" id='dateField' options={["Date Created" , "Last Login"]} setSelectedOptionVal={setSelectedDateField} 
+                          placeholder={t('common.dateField')}
+                          content={
+                            ( option) =>{ return (
+                              <div className="flex  py-2 items-center  w-full">
+                                  <Text
+                                    className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                                    >
+                                    {t(`${option}`)}
+                                  </Text>
+                                </div>
+                              );
+                            }
+                        }/>
+                      }
                       <MultipleSelect className="min-w-[170px] max-w-[230px]" id='investor' options={userRoles?.values}  searchLabel={t('common.searchRole')} setSelectedOptionVal={setSelectedRoles} 
                       placeholder={t('common.selectRole')}
                       content={
