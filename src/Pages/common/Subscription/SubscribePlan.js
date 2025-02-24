@@ -26,10 +26,21 @@ export default function SubscribePlan() {
     const [sendingOk , setSendingOk] = useState(false);
     const navigate = useNavigate()
     const location = useLocation();
-    const [choosedPlan, setChoosedPlan] = useState(location.state?.choosedPlan || null);
+   
     const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
     const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [isSuccessOpenModal , setIsSuccessOpenModal] = useState(false);
+
+    // Validation du plan choisi
+    const [choosedPlan, setChoosedPlan] = useState(null);
+    useEffect(() => {
+      if (!location.state?.choosedPlan) {
+        navigate('/ChoosePlan', { replace: true });
+        return;
+      }
+      setChoosedPlan(location.state.choosedPlan);
+    }, [location.state, navigate]);
+
     const formatPrice = (price) => {
       const locale = currentLanguage; // Get current language
       return new Intl.NumberFormat(locale, 
@@ -137,6 +148,25 @@ export default function SubscribePlan() {
     }
 };
 
+  // Validation des données nécessaires avant le rendu
+  if (!choosedPlan) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <h2 className="text-xl font-dm-sans-medium mb-4">
+            {t('subscriptionPlans.errors.noPlanSelected')}
+          </h2>
+          <button
+            onClick={() => navigate('/ChoosePlan')}
+            className="bg-blue-A400 text-white-A700 px-4 py-2 rounded"
+            type='button'
+          >
+            {t('subscriptionPlans.selectPlan')}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -170,7 +200,7 @@ export default function SubscribePlan() {
                   <div className='flex flex-col gap-1 w-full'>
                     <div className="flex flex-row w-full items-center">
                       <Text className="font-dm-sans-medium text-[22px] leading-8 text-left text-blue-501">
-                      {choosedPlan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${choosedPlan?.name.toLowerCase()}.name`) : t(`subscriptionPlans.${choosedPlan?.name.toLowerCase()}.name`)}
+                      {choosedPlan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${choosedPlan?.name?.toLowerCase()}.name`) : t(`subscriptionPlans.${choosedPlan?.name?.toLowerCase()}.name`)}
                       </Text>
                       <div className="flex flex-row ml-auto">
                         <button
@@ -268,7 +298,6 @@ export default function SubscribePlan() {
                   }
                 </button>
               </div>
-              
             </div>
           </div>
           {/* <div className={`flex w-full ${currentLanguage === 'fr' ? 'md:min-w-1/3 md:max-w-[300px] lg:min-w-1/4 lg:max-w-[300px]' : 'md:w-1/3 lg:w-1/4' }`}>

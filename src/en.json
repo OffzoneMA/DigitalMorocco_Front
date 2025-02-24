@@ -943,6 +943,7 @@
     "title": "Subscription & Billing",
     "accelerateJourney": "Accelerate your journey to success",
     "choosePlan": "Choose the plan that suits your project",
+    "selectPlan": "Select Plan",
     "getStarted": "Get Started",
     "getStartedIn": "Start",
     "selectedPlan": "Your Selected Plan",
@@ -1055,6 +1056,9 @@
       "message":"A confirmation email has been sent to you. If you can't find it, please check your spam folder.",
       "renewTitle": "Your subscription has been successfully renewed!",
       "cancelTitle": "Your subscription has been successfully canceled!"
+    },
+    "errors": {
+      "noPlanSelected": "Please select a plan to continue."
     }
   },
 

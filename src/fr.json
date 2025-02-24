@@ -947,6 +947,7 @@
     "title": "Abonnement et facturation",
     "accelerateJourney": "Accélérez votre parcours vers le succès",
     "choosePlan": "Choisissez le plan qui correspond à votre projet",
+    "selectPlan": "Choisissez un plan",
     "getStarted": "Commencez maintenant",
     "getStartedIn": "Commencez maintenant",
     "selectedPlan": "Votre plan sélectionné",
@@ -1057,6 +1058,9 @@
       "message":"Un e-mail de confirmation vous a été envoyé. Si vous ne le trouvez pas, pensez à vérifier votre dossier de courriers indésirables.",
       "renewTitle": "Votre abonnement a bien été renouvelé !",
       "cancelTitle": "Votre abonnement a bien été annulé !"
+    },
+    "errors": {
+      "noPlanSelected": "Veuillez sélectionner un plan pour continuer."
     }
   },
 
