@@ -265,7 +265,7 @@ const MyInvestment = () => {
                               </svg>
                               {t(item?.project?.status)}
                               </div> */}
-                              <StatusBadge status={item?.project?.status || '-'} />
+                              <StatusBadge status={item?.project?.status || 'In Progress'} />
                           </td>
                         </tr>
                       ))}

@@ -7,7 +7,7 @@ import {Text} from '../Text';
 
 const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionkey='',placeholder='', 
 searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , 
-itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false,}) => {
+itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, sortable = true,}) => {
   const {t} = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedOptionsDfault);

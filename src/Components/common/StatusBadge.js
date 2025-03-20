@@ -29,10 +29,10 @@ const StatusBadge = ({ status }) => {
       },
       // Autre statut par défaut
       Default: {
-        bgColor: 'bg-gray-100',
-        textColor: 'text-gray-700',
+        bgColor: 'bg-light_blue-100',
+        textColor: 'text-blue-501',
         icon: <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="4" cy="4" r="3" fill="#667085"/>
+        <circle cx="4" cy="4" r="3" fill="#2575F0"/>
         </svg>
         ,
       },

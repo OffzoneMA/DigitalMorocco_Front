@@ -1080,7 +1080,7 @@ const handleFileRemove = async (type) => {
                       {t('projects.createNewProject.stage')}*
                     </Text>
                     <SimpleSelect id='stage' options={stagesData}  searchLabel={t('common.searchStage')} setSelectedOptionVal={setSelectedStage} 
-                    placeholder={t('projects.createNewProject.selectStage')} selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage}
+                    placeholder={t('projects.createNewProject.selectStage')} selectedOptionsDfault={project?.stage || ''} required={requiredFields.stage} sortable={false}
                     content={
                       ( option) =>{ return (
                           <div className="flex text-gray-801 text-left text-base font-dm-sans-regular leading-5 py-2 items-center  w-full">

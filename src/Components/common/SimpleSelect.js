@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholder='' , searchable = true, 
 searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',
-className='' ,required = false, }) => {
+className='' ,required = false, sortable = true }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -23,6 +23,8 @@ className='' ,required = false, }) => {
   const normalizedLanguage = validLanguages.includes(currentLanguage) ? currentLanguage : 'en';
 
   const sortedOptions = useMemo(() => {
+    if (!sortable) return options;
+
     return [...options].sort((a, b) => {
       const aValue = typeof a === 'string' ? t(a) : t(a[valuekey]);
       const bValue = typeof b === 'string' ? t(b) : t(b[valuekey]);
@@ -75,55 +77,6 @@ className='' ,required = false, }) => {
     onSelect(option);
     setIsOpen(false);
   };
-
-  // const filteredData = options?.filter(investor => {
-  //   if (typeof investor === 'string') {
-  //     return investor.toLowerCase().includes(searchValue.toLowerCase());
-  //   }
-  
-  //   const valueToCheck = investor[valuekey] ? investor?.[valuekey].toLowerCase() : "";
-  //   return valueToCheck.includes(searchValue.toLowerCase());
-  // });
-
-  // const filteredData = options?.filter(investor => {
-  //   // Si aucune valeur de recherche, retourner tous les résultats
-  //   if (!searchValue?.trim()) return true;
-  
-  //   // Normaliser la valeur de recherche
-  //   const normalizedSearch = searchValue
-  //     .toLowerCase()
-  //     .normalize("NFD")
-  //     .replace(/\p{Diacritic}/gu, "")
-  //     .trim();
-  
-  //   // Si l'investisseur est une chaîne de caractères
-  //   if (typeof investor === 'string') {
-  //     // Récupérer la valeur traduite
-  //     const translatedValue = t(`${investor}`);
-  //     const normalizedTranslation = translatedValue
-  //       .toLowerCase()
-  //       .normalize("NFD")
-  //       .replace(/\p{Diacritic}/gu, "");
-  //     return normalizedTranslation.includes(normalizedSearch);
-  //   }
-  
-  //   // Si l'investisseur est un objet
-  //   if (investor && typeof investor === 'object') {
-  //     const value = investor[valuekey];
-      
-  //     if (value) {
-  //       // Récupérer la valeur traduite pour l'objet
-  //       const translatedValue = t(`${value}`);
-  //       const normalizedValue = translatedValue
-  //         .toLowerCase()
-  //         .normalize("NFD")
-  //         .replace(/\p{Diacritic}/gu, "");
-  //       return normalizedValue.includes(normalizedSearch);
-  //     }
-  //   }
-  
-  //   return false;
-  // });
 
    // Update filteredData to use sortedOptions instead of options
    const filteredData = sortedOptions?.filter(investor => {
@@ -198,12 +151,6 @@ className='' ,required = false, }) => {
     onSelect(null);
   };
 
-  // useEffect(() => {
-  //   // Ajustez la position et la largeur du dropdown lorsqu'il est ouvert
-  //   if (isOpen) {
-  //     calculateDropdownPosition();
-  //   }
-  // }, [isOpen]);
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
