@@ -277,10 +277,10 @@ const PastSponsorEvent = () => {
                     ):
                       (
                       <button
-                        className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                        className={`col-end-3 ${!pageData?.length > 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                         onClick={() => setFilter(true)}
                         type="button"
-                        disabled={pageData?.length === 0}
+                        disabled={!pageData?.length > 0}
                       >
                         <BiFilterAlt size={18} className="mr-2" />
                         <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
@@ -387,7 +387,7 @@ const PastSponsorEvent = () => {
                     <Loader />
                   </div>
                   :
-                  pageData?.length === 0 && 
+                  !pageData?.length > 0 && 
                   <div className="flex flex-col items-center h-screen w-full py-28 gap-[16px] ">
                     <img src={ticketEmptyImg} />
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">

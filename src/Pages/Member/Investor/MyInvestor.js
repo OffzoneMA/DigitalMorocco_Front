@@ -314,10 +314,10 @@ const MyInvestors = () => {
                   ):
                 (
                 <button
-                  className={`col-end-3 ${pageData?.length === 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
+                  className={`col-end-3 ${!pageData?.length > 0 ? 'bg-[#e5e5e6] text-[#a7a6a8] cursor-not-allowed' : 'hover:bg-[#235DBD] active:bg-[#224a94] bg-blue-A400 text-white-A700'} col-span-1 font-DmSans flex flex-row items-center justify-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md`}
                   onClick={() => setFilter(true)}
                   type="button"
-                  disabled={pageData?.length === 0}
+                  disabled={!pageData?.length > 0}
                 >
                   <BiFilterAlt size={18} className="mr-2" />
                   <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
@@ -401,7 +401,7 @@ const MyInvestors = () => {
                 { loading ? (
                      <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                      <Loader />
-                 </div> ) : (pageData && pageData?.length === 0 && !loading) && (
+                 </div> ) : (pageData && !pageData?.length > 0 && !loading) && (
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
                       <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
