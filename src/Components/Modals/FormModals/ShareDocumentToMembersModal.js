@@ -10,6 +10,7 @@ import userDefaultProfil from "../../../Media/User1.png";
 import { useTranslation } from "react-i18next";
 import EmailExistModalOrConfirmation from "../EmailExistModalOrConfirmation";
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
+
 const ShareDocumentToMembersModal = (props) => {
   const { t } = useTranslation();
   const [selectedMembers, setSelectedMembers] = useState(
@@ -89,6 +90,7 @@ const ShareDocumentToMembersModal = (props) => {
 
   const closeModal = () => {
     setIsConfirmedModalOpen(false);
+    props?.refetch();
   };
 
 
@@ -217,12 +219,13 @@ const onSubmit = async () => {
                 <button 
                 onClick={props.onRequestClose}
                 className="flex items-center justify-center min-w-[93px] bg-[#E4E7EC] text-[#475467] py-2 hover:bg-[#D0D5DD] active:bg-light_blue-100
-                py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green">
+                py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green ">
                     {t("common.cancel")}
                 </button>
                 <button 
                 onClick={onSubmit}
-                className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#235DBD] min-w-[180px]' : 'bg-blue-A400'} hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green`}>
+                disabled={selectedMembers?.length === 0 || sendingOk}
+                className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#235DBD] min-w-[180px]' : 'bg-blue-A400'} hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green disabled:cursor-not-allowed disabled:bg-[#e5e5e6] disabled:text-[#a7a6a8]`}>
                     {sendingOk ? 
                     <div className="flex items-center justify-center gap-6"> {t("all.sending")}
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

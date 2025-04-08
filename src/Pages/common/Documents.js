@@ -97,7 +97,6 @@ const Documents = () => {
   const closeShareModal = () => {
     setIsShareModalOpen(false);
     setDataRow(null);
-    refetch();
   };
 
   const handleDelete = () => {
@@ -286,7 +285,7 @@ const Documents = () => {
               onRequestClose={closeEditModal} onSubmit={updateDocument} response={updateResponse} refetch={refetch}
           />
           <ShareDocumentToMembersModal isOpen={isShareModalOpen} rowData={dataRow}
-              onRequestClose={closeShareModal} 
+              onRequestClose={closeShareModal} refetch={refetch}
           />
           <DeleteModal isOpen={isDeleteModalOpen}
             onRequestClose={closeDeleteModal} title={t('document.deleteDocumentConfirmation.title')}

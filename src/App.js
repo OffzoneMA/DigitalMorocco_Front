@@ -23,6 +23,7 @@ import AutoLogout from './Components/AutoLogout ';
 import ResendVerificationLink from './Pages/Authentification/Complete_SignUp/ResendVerificationLink';
 import RouteTracker from './Components/common/RouteTracker';
 import ErrorBoundary from './Components/errors/ErrorBoundary';
+import { initGA , trackPageView , trackEvent } from './utils/analytics';
 
 // Utiliser React.lazy pour le code splitting
 const SignIn = lazy(() => import('./Pages/Authentification/SignIn'));
@@ -89,6 +90,7 @@ function App() {
 
   const dispatch = useDispatch();
 
+  const location = useLocation();
 
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
@@ -139,13 +141,11 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
  
-    <BrowserRouter>   
       <AutoLogout>
         <div className='font-dm-sans-regular overflow-hidden'>
           <RouteTracker>
             <ScrollToTop>
             <div className='min-h-screen'>
-            {/* <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center w-[100%] '><Loader /></div>}> */}
               <ErrorBoundary>
                 <Routes>
                   <Route element={<DashbordLayout />}>
@@ -234,13 +234,11 @@ function App() {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </ErrorBoundary>
-            {/* </Suspense> */}
             </div>
             </ScrollToTop>
           </RouteTracker>
         </div>
       </AutoLogout>
-    </BrowserRouter>    
   </I18nextProvider>
 
  
