@@ -224,7 +224,7 @@ const onSubmit = async () => {
                 </button>
                 <button 
                 onClick={onSubmit}
-                disabled={selectedMembers?.length === 0 || sendingOk}
+                disabled={selectedMembers?.length === 0}
                 className={`flex items-center justify-center ml-auto ${sendingOk ? 'bg-[#235DBD] min-w-[180px]' : 'bg-blue-A400'} hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green disabled:cursor-not-allowed disabled:bg-[#e5e5e6] disabled:text-[#a7a6a8]`}>
                     {sendingOk ? 
                     <div className="flex items-center justify-center gap-6"> {t("all.sending")}
