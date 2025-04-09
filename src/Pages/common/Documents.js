@@ -99,15 +99,16 @@ const Documents = () => {
     setDataRow(null);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     try {
-      deleteDocument(deleteRow?._id).unwrap();
+      await deleteDocument(deleteRow?._id).unwrap(); // on attend bien la fin de l'opération
       closeDeleteModal();
-      refetch();
+      refetch(); // on refetch après que la mutation est bien appliquée
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
+  
 
     return (
       <>
