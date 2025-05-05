@@ -7,23 +7,24 @@ import i18n from './i18n';
 import GuardedConnectedUserRoute from './GuardedRoutes/GuardedConnectedUserRoute';
 import GuardedAdminRoute from './GuardedRoutes/GuardedAdminRoute';
 import Dashboard_Admin from './Pages/Dashboard_Admin/Dashboard';
-import LogRocket from 'logrocket';
-import setupLogRocketReact from 'logrocket-react';
+// import LogRocket from 'logrocket';
+// import setupLogRocketReact from 'logrocket-react';
 import { getLocalStorageItemWithExpiration } from './data/helper';
 import { setCredentials , setToken } from './Redux/auth/authSlice';
 import ConnectedUserRoute from './GuardedRoutes/ConnectedUserRoute';
-import Loader from './Components/Loader';
+// import Loader from './Components/Loader';
 import Layout from './Components/Layouts/Layout';
 import DashbordLayout from "./Components/Layouts/DashbordLayout";
 import SubscribePlan from './Pages/common/Subscription/SubscribePlan';
 import NotFound from './Pages/NotFound';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import ScrollToTop from './Components/ScrollToTop';
 import AutoLogout from './Components/AutoLogout ';
 import ResendVerificationLink from './Pages/Authentification/Complete_SignUp/ResendVerificationLink';
 import RouteTracker from './Components/common/RouteTracker';
 import ErrorBoundary from './Components/errors/ErrorBoundary';
 import { initGA , trackPageView , trackEvent } from './utils/analytics';
+import { initGTM } from './utils/gtm';
 
 // Utiliser React.lazy pour le code splitting
 const SignIn = lazy(() => import('./Pages/Authentification/SignIn'));
@@ -32,7 +33,7 @@ const Failure = lazy(() => import('./Pages/Authentification/Failure'));
 const Success = lazy(() => import('./Pages/Authentification/Success'));
 const SuccessSignUp = lazy(() => import('./Pages/Authentification/SuccessSignUp'))
 const Subscription = lazy(() => import('./Pages/common/Subscription/Subscription'));
-const GuardedUserMemberRoutes = lazy(() => import('./GuardedRoutes/GuardedUserMemberRoutes'));
+// const GuardedUserMemberRoutes = lazy(() => import('./GuardedRoutes/GuardedUserMemberRoutes'));
 const UserProfile = lazy(() => import('./Pages/common/UserProfile'));
 const VerificationCode = lazy(() => import('./Pages/Authentification/Complete_SignUp/VerificationCode'));
 const ResetPasswordEmail = lazy(() => import('./Pages/Authentification/ResetPasswordEmail'));
@@ -90,16 +91,16 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const location = useLocation();
+  // const location = useLocation();
 
-    useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-        const lang = queryParams.get('lang');
-        if (lang) {
-            i18n.changeLanguage(lang);
-            localStorage.setItem('language', lang); 
-        }
-    }, []);
+  useEffect(() => {
+      const queryParams = new URLSearchParams(window.location.search);
+      const lang = queryParams.get('lang');
+      if (lang) {
+          i18n.changeLanguage(lang);
+          localStorage.setItem('language', lang); 
+      }
+  }, []);
 
   useEffect(() => {
     const rememberMe = getLocalStorageItemWithExpiration('rememberMe');
@@ -137,6 +138,14 @@ function App() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    initGA();
+    initGTM();
+    // Track the initial page view
+    // trackPageView(window.location.pathname + window.location.search);
+  }
+  , []);
 
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
