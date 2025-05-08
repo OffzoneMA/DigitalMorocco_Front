@@ -148,7 +148,7 @@ const SidebarNav = () => {
   const Menus = [
     { title: t('sidebar.dashboard'), src: <RiHome6Line size={23} className="text-light_blue-100" /> , link: userData?.role?.toLowerCase() === "admin"? "Dashboard_Admin": userData?.role?.toLowerCase() === "investor"? "Dashboard_Investor" : userData?.role?.toLowerCase() === "partner"? "Dashboard_Partner" : "Dashboard" },
     
-    (userData?.role?.toLowerCase() === "member") &&  { title: t('sidebar.projects') , src: <GoRocket size={23} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "Editproject" , "Projectdetails"] },
+    (userData?.role?.toLowerCase() === "member") &&  { title: t('sidebar.projects') , src: <GoRocket size={23} className="text-light_blue-100"/>, link:"Projects" , activeLinks: ["Projects" , "CreateProject" , "EditProject" , "Projectdetails"] },
     (userData?.role?.toLowerCase() === "investor") &&  { title: t('sidebar.myProfile') , src: <BiBuildings size={23} className="text-light_blue-100" />, link:"InvestorProfile" , activeLinks: ["InvestorProfile"] },
     (userRole === "member" || userRole === "investor" || userRole === "partner") && {
       title: t('sidebar.company.main'),
