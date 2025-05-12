@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { LoginUser, fetchUserInfo, registerUser } from './authAction'
+import { LoginUser, registerUser } from './authAction'
 
 const userToken = sessionStorage.getItem('userToken')
   ? sessionStorage.getItem('userToken')

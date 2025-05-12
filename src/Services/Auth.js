@@ -1,31 +1,31 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const authApi = createApi({
-  reducerPath: 'authApi',
+  reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_baseURL+'/users',
+    baseUrl: import.meta.env.VITE_baseURL + "/users",
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.userToken
+      const token = getState().auth.userToken;
 
       if (token) {
-        headers.set('authorization', `Bearer ${token}`)  
+        headers.set("authorization", `Bearer ${token}`);
       }
 
-      return headers
+      return headers;
     },
   }),
   endpoints: (builder) => ({
     getUserDetails: builder.query({
       query: () => ({
-        url: '/UserInfo',
-        method: 'GET',
+        url: "/UserInfo",
+        method: "GET",
       }),
-      providesTags: ['user'],
+      providesTags: ["user"],
     }),
     sendEmailVerification: builder.query({
-      query: ({userId , lang}) => ({
+      query: ({ userId, lang }) => ({
         url: `/sendverify/${userId}?lang=${lang}`,
-        method: 'GET',
+        method: "GET",
       }),
     }),
     getUserByEmail: builder.query({
@@ -33,42 +33,50 @@ export const authApi = createApi({
     }),
     addNewRequest: builder.mutation({
       query: (payload) => ({
-        url: '/complete_signup/' +payload.userId,
-        method: 'POST',
+        url: "/complete_signup/" + payload.userId,
+        method: "POST",
         body: payload.formdata,
       }),
-      invalidatesTags: ['user'],
+      invalidatesTags: ["user"],
     }),
     resetPassword: builder.mutation({
       query: (payload) => ({
-        url: '/reset-password',
-        method: 'POST',
+        url: "/reset-password",
+        method: "POST",
         body: payload,
       }),
     }),
     sendForgotPassword: builder.mutation({
       query: (payload) => ({
-        url: '/forgot-password',
-        method: 'POST',
-        body: { email: payload.email , lang: payload?.lang },
+        url: "/forgot-password",
+        method: "POST",
+        body: { email: payload.email, lang: payload?.lang },
       }),
     }),
     verifyOTP: builder.mutation({
       query: (payload) => ({
-        url: '/otp/verify',
-        method: 'POST',
-        body: {enteredOTP: payload.code , email: payload.email },
+        url: "/otp/verify",
+        method: "POST",
+        body: { enteredOTP: payload.code, email: payload.email },
       }),
     }),
     sendOTP: builder.mutation({
       query: (payload) => ({
-        url: '/otp/send',
-        method: 'POST',
+        url: "/otp/send",
+        method: "POST",
         body: { email: payload },
       }),
     }),
   }),
-})
+});
 
-export const { useGetUserDetailsQuery,useSendEmailVerificationQuery,useAddNewRequestMutation  , 
-  useResetPasswordMutation , useSendForgotPasswordMutation ,useVerifyOTPMutation, useSendOTPMutation , useGetUserByEmailQuery} = authApi
+export const {
+  useGetUserDetailsQuery,
+  useSendEmailVerificationQuery,
+  useAddNewRequestMutation,
+  useResetPasswordMutation,
+  useSendForgotPasswordMutation,
+  useVerifyOTPMutation,
+  useSendOTPMutation,
+  useGetUserByEmailQuery,
+} = authApi;

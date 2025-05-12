@@ -1,63 +1,72 @@
-import axios from 'axios'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import axios from "axios";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-
 export const registerUser = createAsyncThunk(
-  'auth/register',
+  "auth/register",
   async (user, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      }
-      const { data } =  await axios.post(
-        `${process.env.REACT_APP_baseURL}/users/`,
+      };
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_baseURL}/users/`,
         user,
         config
-      )
-      data?.accessToken && sessionStorage.setItem('userToken', data.accessToken)
+      );
+      data?.accessToken &&
+        sessionStorage.setItem("userToken", data.accessToken);
 
-      return data
-
+      return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response.data.message);
       } else {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error.message);
       }
     }
   }
-)
-
+);
 
 export const LoginUser = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (user, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      }
-      const { data }=  await axios.post(
-        `${process.env.REACT_APP_baseURL}/users/Login`,
+      };
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_baseURL}/users/Login`,
         user,
         config
-      )
+      );
       if (data?.accessToken) {
-        sessionStorage.setItem('userToken', data.accessToken);
-        sessionStorage.setItem('userData', JSON.stringify(data.user));
+        sessionStorage.setItem("userToken", data.accessToken);
+        sessionStorage.setItem("userData", JSON.stringify(data.user));
         // Utiliser localStorage ou sessionStorage en fonction de rememberMe
         if (user?.rememberme) {
-          Cookies.set("rememberedEmail", user.email, { expires: 7, secure: true });
+          Cookies.set("rememberedEmail", user.email, {
+            expires: 7,
+            secure: true,
+          });
           Cookies.set("rememberMe", true, { expires: 7, secure: true });
-          Cookies.set("authToken", data?.accessToken, { expires: 7, secure: true, sameSite: 'Strict' });
+          Cookies.set("authToken", data?.accessToken, {
+            expires: 7,
+            secure: true,
+            sameSite: "Strict",
+          });
         } else {
           Cookies.remove("rememberedEmail");
           Cookies.remove("rememberMe");
-          Cookies.set("authToken", data?.accessToken, { expires: 7, secure: true, sameSite: 'Strict' });
+          Cookies.set("authToken", data?.accessToken, {
+            expires: 7,
+            secure: true,
+            sameSite: "Strict",
+          });
         }
         // else {
         //   localStorage.removeItem('rememberMe');
@@ -66,17 +75,18 @@ export const LoginUser = createAsyncThunk(
         //   localStorage.removeItem('expirationDate');
         // }
         // Stocker les informations utilisateur dans un cookie sécurisé
-        document.cookie = `user=${JSON.stringify(data.user)}; path=/; secure; SameSite=None`;
+        document.cookie = `user=${JSON.stringify(
+          data.user
+        )}; path=/; secure; SameSite=None`;
       }
-      return data
+      return data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message)
+        return rejectWithValue(error.response.data.message);
       } else {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error.message);
       }
     }
   }
-)
-
+);

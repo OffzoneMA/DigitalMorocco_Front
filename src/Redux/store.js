@@ -1,26 +1,26 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { authApi } from '../Services/Auth'
-import { adminApi } from '../Services/Admin.Service'
-import authReducer from './auth/authSlice'
-import { memberApi } from '../Services/Member.Service'
-import { subsApi } from '../Services/Subscription.Service'
-import { userLogApi } from '../Services/UserLog.Service'
-import { subscriptionLogApi } from '../Services/SubscriptionLog.Service'
-import { userApi } from '../Services/User.Service'
-import { partnerApi } from '../Services/Partner.Service'
-import { investorApi } from '../Services/Investor.Service'
-import { projectApi } from '../Services/Project.Service'
-import { eventApi } from '../Services/Event.Service'
-import { documentApi } from '../Services/Document.Service'
-import { subscriptionPlanApi } from '../Services/SubscriptionPlan.service'
-import { paymentMethodApi } from '../Services/PaymentMethod.Service'
-import { activityHistoryApi } from '../Services/Histoty.Service'
-import { contactRequestApi } from '../Services/ContactRequest.Service'
-import LogRocket from 'logrocket';
-import { billingApi } from '../Services/Billing.Service';
-import { notificationApi } from '../Services/Notification.Service';
-import { sponsorApi } from '../Services/Sponsor.Service'
-import { employeeApi } from '../Services/EmployeeService'
+import { configureStore } from "@reduxjs/toolkit";
+import { authApi } from "../Services/Auth";
+import { adminApi } from "../Services/Admin.Service";
+import authReducer from "./auth/authSlice";
+import { memberApi } from "../Services/Member.Service";
+import { subsApi } from "../Services/Subscription.Service";
+import { userLogApi } from "../Services/UserLog.Service";
+import { subscriptionLogApi } from "../Services/SubscriptionLog.Service";
+import { userApi } from "../Services/User.Service";
+import { partnerApi } from "../Services/Partner.Service";
+import { investorApi } from "../Services/Investor.Service";
+import { projectApi } from "../Services/Project.Service";
+import { eventApi } from "../Services/Event.Service";
+import { documentApi } from "../Services/Document.Service";
+import { subscriptionPlanApi } from "../Services/SubscriptionPlan.service";
+import { paymentMethodApi } from "../Services/PaymentMethod.Service";
+import { activityHistoryApi } from "../Services/Histoty.Service";
+import { contactRequestApi } from "../Services/ContactRequest.Service";
+import LogRocket from "logrocket";
+import { billingApi } from "../Services/Billing.Service";
+import { notificationApi } from "../Services/Notification.Service";
+import { sponsorApi } from "../Services/Sponsor.Service";
+import { employeeApi } from "../Services/EmployeeService";
 
 const store = configureStore({
   reducer: {
@@ -43,20 +43,34 @@ const store = configureStore({
     [contactRequestApi.reducerPath]: contactRequestApi.reducer,
     [billingApi.reducerPath]: billingApi.reducer,
     [notificationApi.reducerPath]: notificationApi.reducer,
-    [sponsorApi.reducerPath]: sponsorApi.reducer ,
-    [employeeApi.reducerPath]: employeeApi.reducer
+    [sponsorApi.reducerPath]: sponsorApi.reducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
   },
-  devTools: process.env.NODE_ENV === 'development',
+  devTools: import.meta.env.MODE === "development",
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat([authApi.middleware, adminApi.middleware, memberApi.middleware,
-         subsApi.middleware, userLogApi.middleware, subscriptionLogApi.middleware
-        , userApi.middleware, partnerApi.middleware, investorApi.middleware , projectApi.middleware ,
-        eventApi.middleware , LogRocket.reduxMiddleware() , documentApi.middleware ,
-        subscriptionPlanApi.middleware , paymentMethodApi.middleware , activityHistoryApi.middleware,
-        contactRequestApi.middleware , billingApi.middleware , notificationApi.middleware , sponsorApi.middleware ,
-        employeeApi.middleware
-        ]) ,
-})
-export default store
+    getDefaultMiddleware().concat([
+      authApi.middleware,
+      adminApi.middleware,
+      memberApi.middleware,
+      subsApi.middleware,
+      userLogApi.middleware,
+      subscriptionLogApi.middleware,
+      userApi.middleware,
+      partnerApi.middleware,
+      investorApi.middleware,
+      projectApi.middleware,
+      eventApi.middleware,
+      LogRocket.reduxMiddleware(),
+      documentApi.middleware,
+      subscriptionPlanApi.middleware,
+      paymentMethodApi.middleware,
+      activityHistoryApi.middleware,
+      contactRequestApi.middleware,
+      billingApi.middleware,
+      notificationApi.middleware,
+      sponsorApi.middleware,
+      employeeApi.middleware,
+    ]),
+});
+export default store;

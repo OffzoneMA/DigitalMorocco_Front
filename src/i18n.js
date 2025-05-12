@@ -1,64 +1,49 @@
 // i18n.js
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import { languages } from './languages';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
+// Import des fichiers JSON de traduction
+import en from "./en.json";
+import fr from "./fr.json";
 
-// Dynamically load translations
-const resources = Object.keys(languages).reduce((acc, lang) => {
-  acc[lang] = {
-    translation: require(`./${lang}.json`),
-  };
-  return acc;
-}, {});
+// Création de l'objet resources
+const resources = {
+  en: { translation: en }, // Traduction pour l'anglais
+  fr: { translation: fr }, // Traduction pour le français
+};
 
+// Liste des langues disponibles
 export const listlanguages = [
-  { id: 'en', label: 'English' },
-  { id: 'fr', label: 'French' },
-  { id: 'es', label: 'Spanish' },
-  { id: 'de', label: 'German' },
-  { id: 'it', label: 'Italian' },
-  { id: 'pt', label: 'Portuguese' },
-  { id: 'ru', label: 'Russian' },
-  { id: 'zh', label: 'Chinese' },
-  { id: 'ja', label: 'Japanese' },
-  { id: 'ko', label: 'Korean' },
-  { id: 'ar', label: 'Arabic' },
-  { id: 'hi', label: 'Hindi' },
-  { id: 'tr', label: 'Turkish' },
-  { id: 'nl', label: 'Dutch' },
-  { id: 'pl', label: 'Polish' },
-  { id: 'sv', label: 'Swedish' },
-  { id: 'fi', label: 'Finnish' },
-  { id: 'da', label: 'Danish' },
-  { id: 'no', label: 'Norwegian' },
-  { id: 'el', label: 'Greek' },
+  { id: "en", label: "English" },
+  { id: "fr", label: "French" },
 ];
 
-const defaultLanguage = 'en';
-const storedLanguage = localStorage.getItem('language');
-const browserLanguage = navigator.language || navigator.userLanguage || defaultLanguage;
-const languageCode = (storedLanguage || browserLanguage).split('-')[0];
+const defaultLanguage = "en"; // Langue par défaut
+const storedLanguage = localStorage.getItem("language"); // Langue stockée dans le localStorage
+const browserLanguage =
+  navigator.language || navigator.userLanguage || defaultLanguage; // Langue du navigateur
+const languageCode = (storedLanguage || browserLanguage).split("-")[0]; // Récupérer le code de langue (par exemple "en" ou "fr")
 
-// Find the language in the available languages, or default to 'en'
-const userLanguage = listlanguages.find(lang => lang.id === languageCode) ? languageCode : defaultLanguage;
+// Vérification si la langue existe dans la liste, sinon on utilise la langue par défaut (anglais)
+const userLanguage = listlanguages.find((lang) => lang.id === languageCode)
+  ? languageCode
+  : defaultLanguage;
 
 if (!storedLanguage) {
-  localStorage.setItem('language', userLanguage);
+  localStorage.setItem("language", userLanguage); // Si aucune langue n'est définie, on la sauvegarde dans le localStorage
 }
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: userLanguage || defaultLanguage,
-    fallbackLng: 'en',
-    detection: {
-      order: ['localStorage', 'navigator'],
-    },
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+// Initialisation d'i18next avec les ressources de traduction
+i18n.use(initReactI18next).init({
+  resources, // Charger les ressources de traduction
+  lng: userLanguage || defaultLanguage, // Langue actuelle
+  fallbackLng: "en", // Langue de repli (si la langue demandée n'est pas trouvée)
+  detection: {
+    order: ["localStorage", "navigator"], // Priorité pour détecter la langue : localStorage puis navigateur
+  },
+  interpolation: {
+    escapeValue: false, // Désactiver l'échappement de la valeur (utile pour React)
+  },
+});
 
 export default i18n;

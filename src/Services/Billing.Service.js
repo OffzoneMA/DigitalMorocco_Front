@@ -1,16 +1,16 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Définir l'API avec createApi
 export const billingApi = createApi({
-  reducerPath: 'billingApi',
+  reducerPath: "billingApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_baseURL+"/billing", 
+    baseUrl: import.meta.env.VITE_baseURL + "/billing",
     prepareHeaders: (headers, { getState }) => {
-        const token = getState().auth.userToken
-        if (token) {
-            headers.set('authorization', `Bearer ${token}`)
-        }
-        return headers
+      const token = getState().auth.userToken;
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
     },
   }),
   endpoints: (builder) => ({
@@ -18,26 +18,28 @@ export const billingApi = createApi({
       query: ({ userId, formData }) => {
         return {
           url: `/${userId}`,
-          method: 'POST',
+          method: "POST",
           body: formData,
         };
       },
     }),
     getBillingsForUser: builder.query({
       query: (userId) => `/`,
-      providesTags: ['Billing'],
+      providesTags: ["Billing"],
     }),
 
     deleteBilling: builder.mutation({
       query: (billingId) => ({
         url: `/${billingId}`,
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ['Billing'],
+      invalidatesTags: ["Billing"],
     }),
   }),
 });
 
-export const {useCreateBillingMutation,
-    useGetBillingsForUserQuery,
-    useDeleteBillingMutation,  } = billingApi;
+export const {
+  useCreateBillingMutation,
+  useGetBillingsForUserQuery,
+  useDeleteBillingMutation,
+} = billingApi;

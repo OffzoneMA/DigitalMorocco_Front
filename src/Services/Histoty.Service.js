@@ -1,28 +1,28 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Fonction utilitaire pour formater la date
 const formatDate = (date) => {
   if (!date) return undefined;
-  if (typeof date === 'string') return date.split('T')[0];
-  return date.toISOString().split('T')[0];
+  if (typeof date === "string") return date.split("T")[0];
+  return date.toISOString().split("T")[0];
 };
 
 // Définir l'API avec createApi
 export const activityHistoryApi = createApi({
-  reducerPath: 'activityHistoryApi',
+  reducerPath: "activityHistoryApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_baseURL+"/activity-history", 
+    baseUrl: import.meta.env.VITE_baseURL + "/activity-history",
     prepareHeaders: (headers, { getState }) => {
-        const token = getState().auth.userToken
-        if (token) {
-            headers.set('authorization', `Bearer ${token}`)
-        }
-        return headers
+      const token = getState().auth.userToken;
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
     },
   }),
   endpoints: (builder) => ({
     getActivityHistories: builder.query({
-      query: () => '/user',
+      query: () => "/user",
     }),
 
     // Récupérer tous les historiques avec filtres
@@ -30,8 +30,8 @@ export const activityHistoryApi = createApi({
       query: ({ date, userIds } = {}) => {
         const params = new URLSearchParams();
         const formattedDate = formatDate(date);
-        if (date) params.append('date', formattedDate);
-        if (userIds?.length) params.append('userIds', JSON.stringify(userIds));
+        if (date) params.append("date", formattedDate);
+        if (userIds?.length) params.append("userIds", JSON.stringify(userIds));
         return `/?${params.toString()}`;
       },
     }),
@@ -41,8 +41,8 @@ export const activityHistoryApi = createApi({
       query: ({ date, userIds } = {}) => {
         const params = new URLSearchParams();
         const formattedDate = formatDate(date);
-        if (date) params.append('date', formattedDate);
-        if (userIds?.length) params.append('userIds', JSON.stringify(userIds));
+        if (date) params.append("date", formattedDate);
+        if (userIds?.length) params.append("userIds", JSON.stringify(userIds));
         return `/members?${params.toString()}`;
       },
     }),
@@ -52,8 +52,8 @@ export const activityHistoryApi = createApi({
       query: ({ date, userIds } = {}) => {
         const params = new URLSearchParams();
         const formattedDate = formatDate(date);
-        if (date) params.append('date', formattedDate);
-        if (userIds?.length) params.append('userIds', JSON.stringify(userIds));
+        if (date) params.append("date", formattedDate);
+        if (userIds?.length) params.append("userIds", JSON.stringify(userIds));
         return `/investors?${params.toString()}`;
       },
     }),
@@ -63,8 +63,8 @@ export const activityHistoryApi = createApi({
       query: ({ date, userIds } = {}) => {
         const params = new URLSearchParams();
         const formattedDate = formatDate(date);
-        if (date) params.append('date', formattedDate);
-        if (userIds?.length) params.append('userIds', JSON.stringify(userIds));
+        if (date) params.append("date", formattedDate);
+        if (userIds?.length) params.append("userIds", JSON.stringify(userIds));
         return `/partners?${params.toString()}`;
       },
     }),
@@ -72,13 +72,18 @@ export const activityHistoryApi = createApi({
     getHistoryUsers: builder.query({
       query: (role) => {
         const params = new URLSearchParams();
-        if (role) params.append('role', role);
+        if (role) params.append("role", role);
         return `/users?${params.toString()}`;
       },
     }),
   }),
 });
 
-export const { useGetActivityHistoriesQuery , useGetInvestorActivityHistoriesQuery , useGetMemberActivityHistoriesQuery
-  , useGetPartnerActivityHistoriesQuery , useGetAllActivityHistoriesQuery , useGetHistoryUsersQuery
- } = activityHistoryApi;
+export const {
+  useGetActivityHistoriesQuery,
+  useGetInvestorActivityHistoriesQuery,
+  useGetMemberActivityHistoriesQuery,
+  useGetPartnerActivityHistoriesQuery,
+  useGetAllActivityHistoriesQuery,
+  useGetHistoryUsersQuery,
+} = activityHistoryApi;
