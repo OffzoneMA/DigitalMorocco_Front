@@ -8,11 +8,6 @@ export const initGTM = () => {
       return;
     }
   
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     console.info('[GTM] Ignoré en développement.');
-  //     return;
-  //   }
-  
     TagManager.initialize({
       gtmId: GTM_ID,
       dataLayer: {
