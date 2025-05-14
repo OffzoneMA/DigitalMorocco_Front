@@ -1055,10 +1055,15 @@
       "title": "Your subscription has been successfully confirmed!",
       "message":"A confirmation email has been sent to you. If you can't find it, please check your spam folder.",
       "renewTitle": "Your subscription has been successfully renewed!",
+      "upgradeTitle": "Your subscription has been successfully upgraded!",
       "cancelTitle": "Your subscription has been successfully canceled!"
     },
     "errors": {
       "noPlanSelected": "Please select a plan to continue."
+    },
+    "paidError": {
+      "title": "Payment Error",
+      "message": "An error occurred while processing your payment. Please check your payment details and try again."
     }
   },
 

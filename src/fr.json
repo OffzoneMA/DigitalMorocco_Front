@@ -1057,10 +1057,15 @@
       "title": "Votre abonnement a bien été confirmé !",
       "message":"Un e-mail de confirmation vous a été envoyé. Si vous ne le trouvez pas, pensez à vérifier votre dossier de courriers indésirables.",
       "renewTitle": "Votre abonnement a bien été renouvelé !",
+      "upgradeTitle": "Votre abonnement a bien été mis à niveau !",
       "cancelTitle": "Votre abonnement a bien été annulé !"
     },
     "errors": {
       "noPlanSelected": "Veuillez sélectionner un plan pour continuer."
+    },
+    "paidError": {
+      "title": "Erreur de paiement",
+      "message": "Une erreur s'est produite lors du traitement de votre paiement. Veuillez vérifier vos informations de paiement et réessayer."
     }
   },
 

@@ -86,8 +86,6 @@ const CompanyProfile = React.lazy(() => import('./Pages/Investor/Company/Company
 const MembersHistory = React.lazy(() => import('./Pages/Dashboard_Admin/Histories/MembersHistory'))
 const InvestorsHistory = React.lazy(() => import('./Pages/Dashboard_Admin/Histories/InvestorsHistory'))
 const CompaniesHistory = React.lazy(() => import('./Pages/Dashboard_Admin/Histories/CompaniesHistory'))
-const PaymentSuccess = React.lazy(() => import('./Pages/common/Subscription/PaymentSuccess'))
-const PaymentFailure = React.lazy(() => import('./Pages/common/Subscription/PaymentFailure'))
  
 function App() {
 
@@ -199,8 +197,6 @@ function App() {
                       <Route path="/Subscription" element={<Subscription />} />
                       <Route path="/ChoosePlan" element={<ChoosePlan />} />
 
-                      <Route path="/Payment/success" element={<PaymentSuccess />} />
-                      <Route path="/Payment/failure" element={<PaymentFailure />} />
                       <Route path="/History" element={<History />} />
                       <Route path="/MembersHistory" element={<MembersHistory />} />
                       <Route path="/InvestorsHistory" element={<InvestorsHistory />} />
