@@ -1064,6 +1064,18 @@
     "paidError": {
       "title": "Payment Error",
       "message": "An error occurred while processing your payment. Please check your payment details and try again."
+    },
+    "samePlan": {
+      "title": "You are already using this plan",
+      "message": "Please choose a different plan. You are already subscribed to this one."
+    },
+    "paidCredits": {
+      "title": "Credit Purchase Confirmed",
+      "message": "Your credit purchase has been successfully processed. You can now use your credits to access our services. Thank you for your trust."
+    },
+    "paidCreditsError": {
+      "title": "Credit Purchase Error",
+      "message": "An error occurred while processing your credit purchase. Please check your payment details and try again."
     }
   },
 

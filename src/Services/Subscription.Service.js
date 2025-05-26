@@ -72,11 +72,18 @@ export const subsApi = createApi({
                 url: '/forUser',
             }),
         }),
-
+        
+        achatCredits: builder.mutation({
+            query: (data) => ({
+                url: '/achat-credits',
+                method: 'POST',
+                body: data,
+            }),
+        }),
     }),
 })
 
 export const { useGetAllSubscriptonsQuery , useCreateSubscriptionForUserMutation, useUpgradeSubscriptionMutation,
      useGetSubscriptionByIdQuery, useCancelSubscriptionMutation, useAutoCancelExpiredSubscriptionsMutation, 
      usePauseSubscriptionMutation, useGetSubscriptionsByUserQuery, useRenewSubscriptionMutation , 
-    useCheckSubscriptionStatusQuery} = subsApi
+    useCheckSubscriptionStatusQuery , useAchatCreditsMutation } = subsApi

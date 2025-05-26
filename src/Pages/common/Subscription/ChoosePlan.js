@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { Text } from '../../../Components/Text';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllSubscriptionPlansQuery } from '../../../Services/SubscriptionPlan.service';
@@ -6,26 +6,41 @@ import Loader from '../../../Components/Loader';
 import { useTranslation } from 'react-i18next';
 import MemberPlan from '../../../Components/Modals/MemberPlan';
 import HelmetWrapper from '../../../Components/common/HelmetWrapper';
+import axios from 'axios';
 
 export default function ChoosePlan() {
   const { t } = useTranslation();
+  const token = sessionStorage.getItem("userToken");
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const userRole = userData?.role?.toLowerCase() === 'investor' ? 'Investor' : 'Member' ;
   const { data: plans, error, isLoading } = useGetAllSubscriptionPlansQuery();
   const memberPlans = plans?.filter(plan => plan.forUser === userRole);
-  const navigate=useNavigate()
+  const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
 
-  const currentLanguage = localStorage.getItem('language') || 'en'; 
+//   const formatPrice = (price) => {
+//     const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
+//     const currency = 'USD';
 
+//     return new Intl.NumberFormat(locale, { style: 'currency', currency , currencyDisplay: 'narrowSymbol' }).format(price);
+// };
 
-  const formatPrice = (price) => {
-    const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
-    const currency = 'USD';
+const getUserSusbcription = async () => {
+      try {
+          const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
+              headers: { Authorization: `Bearer ${token}` },
+          });
+          setUserSusbcriptionData(response.data);
+      } catch (error) {
+          console.error('Error checking subscription status:', error);
+      }
+    };
+    
+    useEffect(() => {
+      getUserSusbcription();
+    }, []);
 
-    return new Intl.NumberFormat(locale, { style: 'currency', currency , currencyDisplay: 'narrowSymbol' }).format(price);
-};
-
-
+    console.log("User Subscription Data:", userSubscriptionData);
+    
   return (
     <>
     <HelmetWrapper 
@@ -65,7 +80,7 @@ export default function ChoosePlan() {
             <div className='flex justify-center flex-wrap gap-5 w-full py-5 '>
             {memberPlans?.map(plan =>
                 (
-                <MemberPlan plan={plan} key={plan?._id}  buttonText={plan?.price === 0 ? t('subscriptionPlans.getStartedIn') : plan?.planType === "upcoming" ? t("Coming soon"): null}/>
+                <MemberPlan plan={plan} key={plan?._id}  buttonText={plan?.price === 0 ? t('subscriptionPlans.getStartedIn') : plan?.planType === "upcoming" ? t("Coming soon"): null} activePlan={userSubscriptionData?.plan}/>
                 )
             )}
             </div>

@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Text } from '../Text';
 
-
-const MemberPlan = ({ plan , buttonText }) => {
+const MemberPlan = ({ plan , buttonText , activePlan }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -31,6 +30,8 @@ const MemberPlan = ({ plan , buttonText }) => {
     
         return formattedPrice;
     };
+
+    console.log(activePlan?._id === plan?._id, "Active Plan ID:", activePlan?._id, "Current Plan ID:", plan?._id);
 
     return (
         <div key={plan?._id} className='flex flex-col border border-col1 basis-[300px] grow max-w-[460px] rounded-[12px] px-6 py-8 bg-bg_plan'>
@@ -98,8 +99,8 @@ const MemberPlan = ({ plan , buttonText }) => {
             <div className='w-full flex-end' onClick={() => navigate('/subscribePlan', { state: { choosedPlan: plan } })}>
                 <button
                     type="button"
-                    className={`${plan?.planType === "upcoming" ? 'text-[#a7a6a8] bg-[#e5e5e6] cursorpointer-green' : 'bg-blue-A400 text-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer' } flex flex-row h-[44px] items-center justify-center rounded-md w-full text-base leading-[24px] font-dm-sans-medium`}
-                    disabled={plan?.planType === "upcoming"}
+                    className={`${(plan?.planType === "upcoming" || activePlan?._id === plan?._id ) ? 'text-[#a7a6a8] bg-[#e5e5e6] cursorpointer-green' : 'bg-blue-A400 text-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] cursorpointer' } flex flex-row h-[44px] items-center justify-center rounded-md w-full text-base leading-[24px] font-dm-sans-medium`}
+                    disabled={plan?.planType === "upcoming" || activePlan?._id === plan?._id }
                 >
                     {buttonText || t('subscriptionPlans.getStarted')}
                 </button>

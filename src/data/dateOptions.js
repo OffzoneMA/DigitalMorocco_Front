@@ -1,4 +1,3 @@
-import { MdOutlineDateRange } from "react-icons/md";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
 

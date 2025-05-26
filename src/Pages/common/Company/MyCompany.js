@@ -4,8 +4,8 @@ import { FiSave } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
 import { IoImageOutline } from "react-icons/io5";
-import { Country ,City } from 'country-state-city';
 import { useForm } from "react-hook-form";
+import isURL from "validator/lib/isURL";
 import {companyType} from "../../../data/companyType";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
@@ -13,6 +13,7 @@ import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import isEmail from "validator/lib/isEmail";
 
 const MyCompany = () => {
   const { t } = useTranslation();
@@ -103,10 +104,6 @@ const MyCompany = () => {
     setValue(formattedValue);
   };
 
-  const onButtonClick = (buttonRef) => {
-    buttonRef.current.click();
-  };
-
   const handleDragOver = (event) => {
     event.preventDefault();
     setIsDragging(true);
@@ -117,7 +114,6 @@ const MyCompany = () => {
     event.preventDefault();
     setIsDragging(false);
     const droppedFiles = event.dataTransfer.files;
-
 
     if (droppedFiles.length > 0) {
       const imageFile = droppedFiles[0];
@@ -346,7 +342,16 @@ const MyCompany = () => {
                   {t('myCompany.website')}
                 </Text>
                   <input
-                  {...register("website", { required: {value:false , message:"Company website is required"} })}
+                  {...register("website", {
+                    required: {
+                      value: true,
+                      message: "Le site web de l'entreprise est requis",
+                    },
+                    validate: (value) =>
+                      isURL(value, {
+                        require_protocol: true, // force http:// ou https://
+                      }) || "URL invalide (ex : https://exemple.com)",
+                  })}
                   className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="website"
@@ -369,9 +374,10 @@ const MyCompany = () => {
                     maxLength: {
                       value: 120,
                     },
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    }, })}
+                    validate: {
+                      isEmail: (value) => isEmail(value) || 'Email invalide',
+                    } 
+                    })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="contactEmail"

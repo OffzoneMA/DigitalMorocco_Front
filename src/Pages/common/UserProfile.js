@@ -21,6 +21,8 @@ import { useGetUserDetailsQuery } from '../../Services/Auth';
 import { validateImageFile } from '../../data/helper';
 import { countries as allCountries} from '../../data/tablesData';
 import HelmetWrapper from '../../Components/common/HelmetWrapper';
+import isURL from 'validator/lib/isURL';
+import isEmail from 'validator/lib/isEmail';
 
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
@@ -662,14 +664,15 @@ export default function UserProfile() {
                     {...register1('email', { 
                       required: {value:true } ,
                       minLength: {
-                          value: 2,
-                        },
-                        maxLength: {
-                          value: 120,
-                        },
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        }, })}
+                        value: 2,
+                      },
+                      maxLength: {
+                        value: 120,
+                      },
+                      validate: {
+                        isEmail: (value) => isEmail(value) || 'Email invalide',
+                      }
+                      })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.email ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="email" name="email" placeholder={t('settings.myProfile.emailPlaceholder')} />
                 </div>
@@ -693,7 +696,13 @@ export default function UserProfile() {
                   {t('settings.myProfile.website')}
                   </Text>
                   <input
-                    {...register1('website', { required: {value:false } })}
+                    {...register1('website', {
+                      required: false, // champ non requis
+                      validate: (value) =>
+                      isURL(value, {
+                        require_protocol: true, // force http:// ou https://
+                      }) || "URL invalide (ex : https://exemple.com)",
+                    })}                    
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text" name="website" placeholder={t('settings.myProfile.websitePlaceholder')} />
                 </div>

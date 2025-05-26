@@ -203,10 +203,6 @@ export default function Subscription() {
     }
   };
 
-  const openConfirmRenewModal = () => {
-    setIsConfirmRenewModalOpen(true);
-  };
-
   const closeOpenSuccessPaidModal = () => {
     setOpenSuccessPaidModal(false);
     // Delete navigation search params

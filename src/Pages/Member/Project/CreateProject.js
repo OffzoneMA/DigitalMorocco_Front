@@ -3,12 +3,11 @@ import {Text} from "../../../Components/Text"
 import {FiSave} from "react-icons/fi";
 import {MdOutlineFileUpload} from "react-icons/md";
 import {ImFileText2} from "react-icons/im";
-import {IoMdAdd} from "react-icons/io";
 import {useForm} from "react-hook-form";
 import {GrAttachment} from "react-icons/gr";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useSelector} from 'react-redux';
-import {stage, stage as stagesData} from "../../../data/stage";
+import {stage as stagesData} from "../../../data/stage";
 import {Country} from 'country-state-city';
 import MultipleSelect from "../../../Components/common/MultipleSelect";
 import CustomCalendar from "../../../Components/common/CustomCalendar";
@@ -21,7 +20,6 @@ import fundImg from '../../../Media/funding.svg';
 import axios from "axios";
 import {companyType} from "../../../data/companyType";
 import { IoImageOutline } from "react-icons/io5";
-import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { AiOutlineLoading } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
 import { v4 as uuidv4 } from 'uuid';
@@ -32,6 +30,8 @@ import { countries } from "../../../data/tablesData";
 import { PiUsersThin } from "react-icons/pi";
 import { validateImageFile } from "../../../data/helper";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import isEmail from "validator/lib/isEmail";
+import isURL from "validator/lib/isURL";
 
 const CreateProject = () => {
   const { t } = useTranslation();
@@ -954,7 +954,13 @@ const handleFileRemove = async (type) => {
                       {t('projects.createNewProject.website')}
                     </Text>
                       <input
-                      {...register("website", { required: {value:false , message:"Project website is required"} })}
+                      {...register('website', {
+                        required: false, // champ non requis
+                        validate: (value) =>
+                        isURL(value, {
+                          require_protocol: true, // force http:// ou https://
+                        }) || "URL invalide (ex : https://exemple.com)",
+                      })}                      
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="website"
@@ -976,9 +982,10 @@ const handleFileRemove = async (type) => {
                         maxLength: {
                           value: 120,
                         },
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        }, })}
+                        validate: {
+                          isEmail: value => isEmail(value) || "Email invalide",
+                        }
+                      })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="contactEmail"

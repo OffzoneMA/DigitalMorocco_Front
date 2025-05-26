@@ -1066,6 +1066,18 @@
     "paidError": {
       "title": "Erreur de paiement",
       "message": "Une erreur s'est produite lors du traitement de votre paiement. Veuillez vérifier vos informations de paiement et réessayer."
+    },
+    "samePlan": {
+      "title": "Vous utilisez déjà ce plan",
+      "message": "Veuillez choisir un autre plan. Vous êtes déjà abonné à celui-ci."
+    },
+    "paidCredits": {
+      "title": "Achat de crédits confirmé",
+      "message": "Votre achat de crédits a bien été pris en compte. Vous pouvez désormais utiliser vos crédits pour accéder à nos services. Merci pour votre confiance."
+    },
+    "paidCreditsError": {
+      "title": "Erreur d'achat de crédits",
+      "message": "Une erreur s'est produite lors du traitement de votre achat de crédits. Veuillez vérifier vos informations de paiement et réessayer."
     }
   },
 
