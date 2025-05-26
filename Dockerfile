@@ -1,19 +1,20 @@
-# Use the official Node.js image as the base
-FROM node:18-alpine
+# Utilise une version stable et compatible de Node.js
+FROM node:20
 
-# Set the working directory in the container
+# Définir le dossier de travail dans le conteneur
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
 
-# Install dependencies
+# Installer les dépendances
 RUN npm install
 
-# Copy the project files
+# Copier tout le reste du projet
 COPY . .
-#Expose port
-EXPOSE 3000
 
-# Start the React app
-CMD ["npm", "start"]
+# Exposer le port utilisé par Vite en mode dev
+EXPOSE 5173
+
+# Démarrer l'application en mode développement
+CMD ["npm", "run", "dev"]
