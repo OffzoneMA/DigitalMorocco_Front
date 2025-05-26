@@ -961,9 +961,7 @@ const handleFileRemove = async (type) => {
                         maxLength: {
                           value: 120,
                         },
-                        validate: {
-                          isEmail: value => isEmail(value) || "Email invalide",
-                        }
+                        validate: (value) => isEmail(value) || 'Email invalide',
                       })}
                         className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"

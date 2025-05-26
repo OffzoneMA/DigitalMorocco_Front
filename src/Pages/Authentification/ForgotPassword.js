@@ -11,6 +11,7 @@ import arrowLeftImage from '../../Media/img_arrowleft.svg';
 import { authApi } from '../../Services/Auth';
 import { Link } from 'react-router-dom';
 import HelmetWrapper from '../../Components/common/HelmetWrapper';
+import isEmail from 'validator/lib/isEmail';
 
 
 export default function ForgotPassword(){
@@ -142,10 +143,7 @@ export default function ForgotPassword(){
                                     value: 120,
                                     // message: t('signup.emailMaxLength'),
                                 },
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: t('signup.emailPattern')
-                                },
+                                validate: (value) => isEmail(value) || t('signup.emailPattern'),
                             })}
                             id="email"
                             name="email"

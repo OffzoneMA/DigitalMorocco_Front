@@ -280,7 +280,7 @@ const ManageSubscriptionCredits = () => {
                             htmlFor='acceptTerms'
                             className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                             >
-                            {t('I accept the')} <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('Terms of Service.')}</span></a>                     
+                            {t('I accept the')} <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' rel='noreferrer' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('Terms of Service.')}</span></a>                     
                             </label>
                         </div>
                         <button 

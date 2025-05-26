@@ -9,7 +9,7 @@ import QRCode from "react-qr-code";
 import { useTranslation } from "react-i18next";
 import { formatPrice } from "../data/helper";
 import { fr , enUS } from 'date-fns/locale';
-import { format, parse  , isValid} from 'date-fns';
+import { format , isValid} from 'date-fns';
 
 
 const ViewTicketModal = (props) => {
@@ -136,7 +136,7 @@ const ViewTicketModal = (props) => {
                     <div className="flex flex-row px-12 items-center justify-center">
                         <Text className="text-blue_gray-601 font-DmSans text-center text-xs font-normal leading-[19.2px]">
                             {t('event.termsConditionsStart')}
-                            <a className="text-blue-A400" href="#">{t('event.termsConditionsLink')}</a> {t('event.termsConditionsEnd')}
+                            <a className="text-blue-A400" href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`}>{t('event.termsConditionsLink')}</a> {t('event.termsConditionsEnd')}
                         </Text>
                     </div>
                     <div className="flex flex-row px-12 pb-5 items-center justify-center">

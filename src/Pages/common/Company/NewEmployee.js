@@ -19,6 +19,7 @@ import { useGetEmployeeByIdQuery } from "../../../Services/EmployeeService";
 import { useParams } from "react-router-dom";
 import { validateImageFile } from "../../../data/helper";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import isEmail from "validator/lib/isEmail";
 
 const NewEmployee = () => {
   const { t } = useTranslation();
@@ -427,9 +428,8 @@ const NewEmployee = () => {
                       maxLength: {
                         value: 120,
                       },
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      }, })}
+                      validate: (value) => isEmail(value) || 'Email invalide',
+                      })}
                       className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border ${errors?.workEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                       type="text"
                       name="workEmail"
