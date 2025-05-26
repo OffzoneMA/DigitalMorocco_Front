@@ -43,7 +43,6 @@ const CreateProject = () => {
   const [deleteMilestone] = useDeleteMilestoneMutation();
   const [deleteProjectLogo] = useDeleteProjectLogoMutation();
   const [loadingDel, setLoadingDel] = useState(null);
-  const { loading, userInfo } = useSelector((state) => state.auth)
   const location = useLocation();
   const { projectId } = useParams();
   const navigate = useNavigate();
@@ -51,12 +50,11 @@ const CreateProject = () => {
   // const { data: fetchedProject, error, isLoading , refetch } = useGetProjectByIdQuery(projectId, {
   //   skip: Boolean(project || !projectId || loadingDel === null),
   // });
-  const { data: fetchedProject, error, isLoading, refetch } = useGetProjectByIdQuery(projectId, {
+  const { data: fetchedProject, refetch } = useGetProjectByIdQuery(projectId, {
     skip: !projectId, 
   });  
   const [submitting, setSubmitting] = useState(null);
   const [Mount, setMount] = useState(true)
-  const [focusedMilestone, setFocusedMilestone] = useState(null);
   const [milestones, setMilestones] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
@@ -98,10 +96,6 @@ const CreateProject = () => {
     publication: false,
     status: false
   });
-
-  // État initial
-  const [filesList, setFilesList] = useState([]);
-  const [nextIndex, setNextIndex] = useState(0);
 
   useEffect(() => {
     const setMaxHeight = () => {
@@ -146,7 +140,7 @@ const formatNumber = (number) => {
   const cleanNumber = (value) => value?.replace(/\s/g, '') || '';
 
 
-  const { register, handleSubmit, setValue, trigger, formState: { errors, isSubmitting, isValid: validForm } } = useForm({
+  const { register, handleSubmit, setValue, trigger, formState: { errors, isValid: validForm } } = useForm({
     defaultValues: project ? {
       name: project?.name || '',
       details: project?.details || '',
@@ -200,7 +194,7 @@ const formatNumber = (number) => {
     if ((fetchedProject && !project) || (loadingDel !== null && fetchedProject) ) {
       setProject(fetchedProject);
     }
-  }, [fetchedProject, project]);
+  }, [fetchedProject, project , loadingDel]);
 
   const fetchMembers = async () => {
     try {
@@ -222,14 +216,14 @@ const formatNumber = (number) => {
   }, []);
 
   useEffect(() => {
-    let listEmployee;
+    // let listEmployee;
 
-    if (members.length > 0) {
-      listEmployee = members.map(employee => {
-        const { _id, ...rest } = employee;
-        return rest;
-      });
-    } 
+    // if (members.length > 0) {
+    //   listEmployee = members.map(employee => {
+    //     const { _id, ...rest } = employee;
+    //     return rest;
+    //   });
+    // } 
     if (project != null) {
       const selectedProjectMembers = members?.filter(emp => {
         return project.listMember?.some(member => member === emp._id);
@@ -339,7 +333,7 @@ const formatNumber = (number) => {
     else{
       setMilestones([{ id: uuidv4() , _id: null, name: '', dueDate: '' }]);
     }
-  }, [project, setValue, trigger]);
+  }, [project, setValue, trigger , dataCountries]);
 
   const formatFunding = (value) => {
     const numericValue = value.replace(/\D/g, '');
@@ -664,21 +658,6 @@ const handleFileRemove = async (type) => {
       setSubmitting('');
     }
   };
-
-  useEffect(() => {
-    if (Mount) { setMount(false) }
-    else {
-      if (response.isSuccess) {
-        // setSubmitting('ok');
-        // const redirectTimer = setTimeout(() => {
-        //   navigate("/Projects");
-        // }, 2500);
-        // return () => clearTimeout(redirectTimer);
-      }else {
-        response.isError && console.log(response.error)
-      }
-    }
-  }, [response]);
 
   const onButtonClick = (inputref) => {
     inputref.current.click();

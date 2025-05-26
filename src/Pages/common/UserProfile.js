@@ -7,7 +7,6 @@ import { Text } from '../../Components/Text';
 import { PiUserBold } from "react-icons/pi";
 import SimpleSelect from '../../Components/common/SimpleSelect';
 import DeleteAccountModal from '../../Components/Modals/DeleteAccountModal';
-import { Country, City } from 'country-state-city';
 import { languages } from '../../data/tablesData';
 import { regions } from '../../data/tablesData';
 import { SlCheck } from "react-icons/sl";
@@ -27,15 +26,12 @@ import isEmail from 'validator/lib/isEmail';
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
-  const { userInfo } = useSelector((state) => state.auth)
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
   const token = sessionStorage.getItem("userToken");
   // const allCountries = Country.getAllCountries();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow, setDeleteRow] = useState(null);
-  const [name, setName] = useState(userInfo?.displayName);
-  const [isEditing, setIsEditing] = useState(false);
   const [update, responseUpdate] = useUpdateUserMutation();
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -43,7 +39,6 @@ export default function UserProfile() {
   const [selectedCity, setSelectedCity] = useState(userData?.cityState ? userData?.cityState : '');
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [isConnect, setIsConnect] = useState(true);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [isForm1Saved, setIsForm1Saved] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false); 
@@ -56,7 +51,7 @@ export default function UserProfile() {
   const selectedCityName = selectedCity ? selectedCity["name"] : '';
   const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue , getValues: getValues1 , trigger } = useForm();
   const { register: register2, handleSubmit: handleSubmit2, watch, formState: { errors: errors2 } , getValues: getValues2 } = useForm();
-  const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm();
+  const { handleSubmit: handleSubmit3 } = useForm();
   const fileInputRef = useRef(null);
   const handleUploadClick = () => { fileInputRef.current.click(); };
   const [user, setUser] = useState(null);

@@ -25,13 +25,13 @@ export default function LanguageHeader() {
             className='hover:scale-105 transition-all ease-in-out duration-200 border border-[#F2F4F7] cursorpointer relative w-[41px] h-[41px] right-0 top-10 shadow-langbs bg-white-A700 rounded-l-md flex justify-center items-center'
             onClick={handleFlagClick} title={tooltipText}
           >
-            <a className='cursorpointer'>
+            <button className='cursorpointer outline-none focus:outline-none border-none bg-transparent flex items-center justify-center w-full h-full'>
               <img
                 src={i18n.language === 'en' ? frImg : ukImg}
                 alt="Flag"
                 className='w-[25px] h-[25px]'
               />
-            </a>
+            </button>
           </div>
         </div>
       </div>

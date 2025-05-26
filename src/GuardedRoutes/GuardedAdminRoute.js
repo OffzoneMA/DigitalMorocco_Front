@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Navigate, Outlet  } from "react-router-dom";
+import { Navigate, Outlet  } from "react-router-dom";
 import { useGetUserDetailsQuery } from '../Services/Auth';
 import Loader from '../Components/Loader';
 
@@ -9,7 +9,7 @@ const GuardedAdminRoute = () => {
         data,
         isFetching
       } = useGetUserDetailsQuery()
-   const { userInfo,loading } = useSelector((state) => state.auth);
+   const { loading } = useSelector((state) => state.auth);
 
    if (isFetching || loading ){
     return (
@@ -20,7 +20,7 @@ const GuardedAdminRoute = () => {
  }
  else {
     return (
-       data?.role == "Admin"  ? <Outlet /> : <Navigate to='/SignIn' />
+       data?.role === "Admin"  ? <Outlet /> : <Navigate to='/SignIn' />
     )
  }
    

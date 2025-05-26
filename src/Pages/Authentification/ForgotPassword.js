@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setUserEmail } from '../../Redux/auth/authSlice';
 import { useNavigate } from 'react-router-dom'
 import { Text  } from '../../Components/Text';
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useTranslation } from 'react-i18next';
 import { useSendForgotPasswordMutation } from '../../Services/Auth';
 import arrowLeftImage from '../../Media/img_arrowleft.svg';
@@ -16,7 +16,7 @@ import HelmetWrapper from '../../Components/common/HelmetWrapper';
 export default function ForgotPassword(){
   const { t } = useTranslation();
   const [sendForgotPassword, { isLoading , isSuccess , error}] = useSendForgotPasswordMutation()
-  let [userTrigger ,{ data: userData, error: userError, isLoading: isLoadingUser , isSuccess: isUserSuccess } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
+  let [userTrigger ,{ data: userData, error: userError, isLoading: isLoadingUser , } ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [userErrorVal , setUserErrorVal] = useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -25,7 +25,6 @@ export default function ForgotPassword(){
     const {
         register,
         handleSubmit,
-        reset,
         getValues,
         formState: { errors },
       } = useForm();
@@ -49,7 +48,7 @@ export default function ForgotPassword(){
     }
     setUserErrorVal(null)
 
-  }, [isSuccess , userError , error])
+  }, [isSuccess , userError , error , navigate]);
 
   async function onSubmit(values) {
     const lang = localStorage.getItem('language');
@@ -100,7 +99,7 @@ export default function ForgotPassword(){
               </Link>
             </div>
             <div className="flex flex-col font-dmsans gap-[42px] items-center justify-start mb-[368px]  w-full ">
-              <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center w-full">
+              <a href='https://digitalmorocco.net' target='_blank' rel='noreferrer' className="flex flex-col items-center justify-center w-full">
                 <img
                   className="h-[50px] w-[183px]"
                   src="/images/img_logo.svg"

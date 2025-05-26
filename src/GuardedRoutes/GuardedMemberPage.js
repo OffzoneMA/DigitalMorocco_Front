@@ -12,7 +12,7 @@ const {
   }
 else
 return ( 
-  (data?.role == "member" && data?.member?.subStatus == "active") || data?.role == "parntner"  ? <Outlet/>: <Navigate to='/SignIn'/>
+  (data?.role === "member" && data?.member?.subStatus === "active") || data?.role === "parntner"  ? <Outlet/>: <Navigate to='/SignIn'/>
  )
 
 }

@@ -14,14 +14,13 @@ import { useNavigate } from "react-router-dom";
 const ShareToInvestorModal = (props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [Mount, setMount] = useState(true)
   const [selectedInvestors, setSelectedInvestors] = useState([]);
   const [selectedInvestorsNames, setSelectedInvestorsNames] = useState([]);
   const projectId = props?.projectId;
   const [searchValue, setSearchValue] = useState("");
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
   const { data : investorsData, error, isLoading , refetch } = useGetInvestorsForMemberWithoutPageQuery();
-  const [shareProject, { data: shareData, isLoading: shareLoding, isSuccess: shareSuccess , isError, error: shareError }] = useShareProjectMutation();
+  const [shareProject] = useShareProjectMutation();
   const [sendingOk , setSendingOk] = useState(false);
 
   useEffect(() => {

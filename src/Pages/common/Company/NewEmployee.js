@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Text } from "../../../Components/Text";
 import { FiSave } from "react-icons/fi";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
-import { Country, City } from 'country-state-city';
+import { Country } from 'country-state-city';
 import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -28,7 +28,7 @@ const NewEmployee = () => {
   const dataCountries = Country.getAllCountries();
   const { employeeId } = useParams();
   const [ employee , setEmployee ] = useState(location.state?.employee || null);
-  const { data: fetchedEmployee, error, isLoading, refetch } = useGetEmployeeByIdQuery(employeeId, {
+  const { data: fetchedEmployee,  refetch } = useGetEmployeeByIdQuery(employeeId, {
       skip: !employeeId, 
     });
   const [logoFile, setLogoFile] = useState(employee?.image || null);
@@ -57,7 +57,7 @@ const NewEmployee = () => {
   useEffect(() => {
     if (hasSubmitted ) {
       const isCountryValid = selectedCountry !== null && selectedCountry !== "" && selectedCountry !== undefined;
-      const isCityValid = selectedCity !== "";
+      // const isCityValid = selectedCity !== "";
   
       // const isValid = isCountryValid && isCityValid  ;
 
@@ -128,7 +128,7 @@ const NewEmployee = () => {
     //   }, 2500);
     //   return () => clearTimeout(redirectTimer);
     // }
-  }, [isSaved, navigate, location.state]);
+  }, [employee ,isSaved, navigate, location.state]);
 
 
   const handleChange = (e, fieldName) => {
@@ -204,8 +204,6 @@ const NewEmployee = () => {
   const onSubmit = async (data) => {
     try {
       const token = sessionStorage.getItem("userToken");
-      const userData = JSON.parse(sessionStorage.getItem("userData"));
-      const userId = userData._id;
       const updatedFields = {};
       const currentData = employee || {};
   
@@ -328,72 +326,7 @@ const NewEmployee = () => {
       // Affichez une erreur à l'utilisateur si nécessaire
     }
   };
-  
-  // const onSubmit = async (data) => {
-  //   try {
-  //     const token = sessionStorage.getItem("userToken");
-  //     const userData = JSON.parse(sessionStorage.getItem("userData"));
-  //     const userId = userData._id;
-  //     const employeeId = employee._id;
-
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(imgFile);
-  //     reader.onloadend = async () => {
-  //       const base64Image = reader.result;
-
-  //       const requestData = {
-  //         fullName: data.fullName,
-  //         address: data.address,
-  //         email: data.email,
-  //         personalTaxIdentifierNumber: data.personalTaxIdentifierNumber,
-  //         phoneNumber: data.phoneNumber,
-  //         jobTitle: selectedJobTitle.title,
-  //         level: selectedLevel.level,
-  //         department: selectedDepartment.name,
-  //         country: selectedCountry?.name,
-  //         cityState: selectedCity?.name,
-  //         startDate: moment(selectedDate, 'DD/MM/YYYY').toDate(),
-  //         photo: base64Image, 
-  //       };
-  //       if (location.state && location.state.employee) {
-            
-  //         await axios.put(`${process.env.REACT_APP_baseURL}/members/${userId}/employees/${employeeId}`, requestData, {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             'Content-Type': 'application/json',
-  //           },
-  //         });
-  //       }
-
-  //       else{
-  //         fetch(`${process.env.REACT_APP_baseURL}/members/employees/${userId}`, {
-  //         method: 'POST',
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(requestData),
-  //       })
-  //         .then(response => response.json())
-  //         .then(responseData => {
-  //           console.log("Réponse du serveur :", responseData);
-  //         }
-
-  //         )
-  //         .catch(error => {
-  //           console.error("Erreur lors de l'envoi du formulaire :", error);
-  //         });
-  //       }
-        
-  //       setIsSaved(true);
-
-  //     };
-  //   } catch (error) {
-  //     console.error("Erreur lors de l'envoi du formulaire :", error);
-  //     // Affichez une erreur à l'utilisateur si nécessaire
-  //   }
-  // };
-
+ 
     
   return (
     <>

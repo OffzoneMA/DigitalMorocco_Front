@@ -5,16 +5,14 @@ import { default as ModalProvider } from "react-modal";
 import { Text } from "../../Text";
 import { useForm } from "react-hook-form";
 import MultipleSelect from "../../common/MultipleSelect";
-import { useCreateDocumentMutation  , useGetShareWithDataQuery } from "../../../Services/Document.Service";
+import { useGetShareWithDataQuery } from "../../../Services/Document.Service";
 import { useNavigate } from "react-router-dom";
-import { useGetAllUsersQuery } from "../../../Services/User.Service";
 import { useTranslation } from "react-i18next";
 
 const NewDocumentModal = (props) => {
   const { t } = useTranslation();
   const [Mount, setMount] = useState(true)
-  const { data: users} = useGetAllUsersQuery();
-  const {data: shareWithData , isLoading, isError , refetch } = useGetShareWithDataQuery();
+  const {data: shareWithData} = useGetShareWithDataQuery();
   const [filteredUsers, setFilteredUsers] = useState([]);
   const documentFile = props?.rowData? props.rowData : null;
   const { register, handleSubmit, formState: { errors } , reset} = useForm({
@@ -22,7 +20,6 @@ const NewDocumentModal = (props) => {
       title: documentFile?.title,
     }});
   const [selectedMembers , setSelectedMembers] = useState([]);
-  const [createDocument , response] = useCreateDocumentMutation(); 
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const [files, setFiles] = useState(null);
@@ -33,7 +30,6 @@ const NewDocumentModal = (props) => {
   const [requiredFields, setRequiredFields] = useState({
     docFile: false,
   });
-  const userData = JSON.parse(sessionStorage.getItem('userData'));
   const [sendingOk , setSendingOk] = useState(false);
 
   useEffect(() => {
@@ -46,7 +42,7 @@ const NewDocumentModal = (props) => {
     
         setIsFormValid(isFileValid);
       }
-  }, [hasSubmitted , files]);
+  }, [hasSubmitted , files , preview]);
 
   useEffect(() => {
     if (!props.isOpen) {
@@ -194,7 +190,7 @@ const NewDocumentModal = (props) => {
         props?.response?.isError && console.log(props?.response?.error)
       }
     }
-  }, [props?.response]);
+  }, [navigate, props, Mount]);
 
   // .map(
   //   item => ({ label: item, value: item })

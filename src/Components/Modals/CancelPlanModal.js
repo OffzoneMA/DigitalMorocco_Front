@@ -14,7 +14,7 @@ const CancelPlanModal = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [Mount, setMount] = useState(true)
   
-    const currentLanguage = localStorage.getItem('language') || 'en'; 
+    // const currentLanguage = localStorage.getItem('language') || 'en'; 
 
     useEffect(() => {
         const getUserSusbcription = async () => {

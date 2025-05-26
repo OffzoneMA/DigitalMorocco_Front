@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Navigate, Outlet  } from "react-router-dom";
+import { Navigate, Outlet  } from "react-router-dom";
 import { useGetUserDetailsQuery } from '../Services/Auth';
 
 const GuardedUserMemberRoutes  = () => {
@@ -14,7 +14,7 @@ const {
   }
 else
 return ( 
-  (userInfo?.role == "member" && userInfo?.status == "accepted") || (data?.role == "member" && data?.status == "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
+  (userInfo?.role === "member" && userInfo?.status === "accepted") || (data?.role === "member" && data?.status === "accepted") ? <Outlet/>: <Navigate to='/SignIn'/>
   )
 
 }

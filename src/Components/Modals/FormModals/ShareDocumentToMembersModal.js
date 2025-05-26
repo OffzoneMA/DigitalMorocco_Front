@@ -2,7 +2,6 @@ import React , {useState , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { IoSearch } from "react-icons/io5";
 import { Text } from "../../Text";
-import ConfirmedModal from "../ConfirmedModal";
 import { useGetAllUsersQuery } from "../../../Services/User.Service";
 import { useGetShareWithDataQuery, useShareDocumentMutation } from "../../../Services/Document.Service";
 import Loader from "../../Loader";
@@ -19,10 +18,8 @@ const ShareDocumentToMembersModal = (props) => {
   const [selectedRoles, setSelectedRoles] = useState([]); 
   const [searchValue, setSearchValue] = useState("");
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-  const { data: users} = useGetAllUsersQuery();
   const {data: shareWithData , isLoading, isError , refetch } = useGetShareWithDataQuery();
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const userData = JSON.parse(sessionStorage.getItem('userData'));
   const [shareDocument, response] = useShareDocumentMutation();
   const [shareType , setShareType] = useState('');
   const [sendingOk , setSendingOk] = useState(false);

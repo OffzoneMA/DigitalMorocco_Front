@@ -17,7 +17,7 @@ import isEmail from "validator/lib/isEmail";
 
 const MyCompany = () => {
   const { t } = useTranslation();
-  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch} = useGetUserDetailsQuery();
+  const {data: userDetails , refetch} = useGetUserDetailsQuery();
   const [logoFile, setLogoFile] = useState(userDetails?.logo || '');
   const [imgFile , setImgFile] = useState(null);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
@@ -48,7 +48,7 @@ const MyCompany = () => {
     // else{
       if (hasSubmitted ) {
         const isCountryValid = selectedCountry !== null && selectedCountry !== undefined;
-        const isCityValid = selectedCity !== "" && selectedCity !== null && selectedCity !== undefined;
+        // const isCityValid = selectedCity !== "" && selectedCity !== null && selectedCity !== undefined;
         const isSectorValid = selectedSector !== "" && selectedSector !== null && selectedSector !== undefined;
     
         // const isValid = isCountryValid && isCityValid && isSectorValid ;
@@ -88,7 +88,6 @@ const MyCompany = () => {
   }, [userDetails, reset]);
 
   const formRef = useRef();
-  const formButtonRef = useRef();
 
   const countryNameSelec = selectedCountry? selectedCountry["name"] : "";
 
@@ -126,7 +125,6 @@ const MyCompany = () => {
     try {
       const token = sessionStorage.getItem("userToken");
       const userData = JSON.parse(sessionStorage.getItem("userData"));
-      const userId = userData._id;
 
       const formData = new FormData();
       formData.append('role', userData?.role?.toLowerCase());

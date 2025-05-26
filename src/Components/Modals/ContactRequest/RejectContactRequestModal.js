@@ -1,4 +1,4 @@
-import React , {useState , useRef , useEffect} from "react";
+import React , {useState , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "../../Text";
 import SimpleSelect from "../../common/SimpleSelect";
@@ -9,7 +9,6 @@ import {reasonsForRejectionInvestment} from "../../../data/data.js";
 
 const RejectContactRequestModal = (props) => {
     const { t } = useTranslation();
-    const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [selectedRaison , setSelectedRaison] = useState(null);
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } , reset} = useForm();
