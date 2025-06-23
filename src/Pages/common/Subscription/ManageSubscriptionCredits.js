@@ -3,7 +3,6 @@ import { Text } from "../../../Components/Text";
 import { useForm } from "react-hook-form";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { useNavigate , useSearchParams } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import { useAchatCreditsMutation } from "../../../Services/Subscription.Service";
 import PageHeader from "../../../Components/common/PageHeader";
 import EmailExistModalOrConfirmation from "../../../Components/Modals/EmailExistModalOrConfirmation";
@@ -13,7 +12,7 @@ import emailErrorImg from '../../../Media/emailError.svg'
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import SimpleSelectWithGroup from "../../../Components/common/SimpleSelectWithGroup";
 import { useTranslation } from 'react-i18next';
-import CommonModal from '../../../Components/common/CommonModal';
+// import CommonModal from '../../../Components/common/CommonModal';
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 
@@ -24,21 +23,16 @@ const ManageSubscriptionCredits = () => {
 
     const statuspaid = searchParams.get('statuspaid');
     const [achatCredits] = useAchatCreditsMutation();
-    const { userInfo } = useSelector((state) => state.auth);
     const [isModalOpen , setIsModalOpen] = useState(false);
     const [isCancelPaidModalOpen , setIsCancelPaidModalOpen] = useState(false);
     const navigate = useNavigate();
     const [sendingOk , setSendingOk] = useState(false);
     const [selectedCredits , setSelectedCredits] = useState(null);
-    const [acceptTerms , setAcceptTerms] = useState(false);
-    const [sending , setSending] = useState(false);
-    const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+    const {data: userDetails , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     const {
         register,
         handleSubmit,
-        reset, getValues,
-        watch,
         formState: { errors },
       } = useForm();
 

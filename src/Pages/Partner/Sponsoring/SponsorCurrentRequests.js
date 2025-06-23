@@ -2,27 +2,17 @@ import React, { useState , useRef , useEffect} from "react";
 import{Text } from "../../../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
-import { BsThreeDots } from "react-icons/bs";
-import { FiDelete } from "react-icons/fi";
-import { HiOutlineQrcode } from "react-icons/hi";
-import { FiDownload } from "react-icons/fi";
 import TablePagination from "../../../Components/common/TablePagination";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
 import MultipleSelect from "../../../Components/common/MultipleSelect";
-import ViewTicketModal from "../../../Components/ViewTicketModal";
 import PageHeader from "../../../Components/common/PageHeader";
 import TableTitle from "../../../Components/common/TableTitle";
 import SearchInput from "../../../Components/common/SeachInput";
 import Loader from "../../../Components/Loader";
-import {  useGetDistinctValuesQuery } from "../../../Services/Event.Service";
 import ticketEmptyImg from '../../../Media/ticket_empty.svg';
 import format from "date-fns/format";
-import DownloadTicket1 from "../../../Components/DownloadTicket1";
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
 import userDefaultProfil from '../../../Media/User1.png'
 import CustomCalendar from "../../../Components/common/CustomCalendar";
-import SendSponsoringModal from "../../../Components/Modals/Sponsoring/SendSponsoringModal";
 import { PiCheckBold } from "react-icons/pi";
 import { RiCloseLine } from "react-icons/ri";
 import ApproveSponsoringRequestModal from "../../../Components/Modals/Sponsoring/ApproveSponsoringRequestModal";
@@ -41,26 +31,18 @@ const SponsorCurrentRequests = () => {
     const [rejectSponsor] = useRejectSponsorMutation();
     const [field, setField] = useState('physicalLocation');
     const [eventStatus, setStatus] = useState([]);
-    const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctEventFieldsByPartnerQuery({field , eventStatus});
+    const { data: distinctValues } = useGetDistinctEventFieldsByPartnerQuery({field , eventStatus});
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
     const [keywords, setKeywords] = useState('');
     const [location, setLocation] = useState('');
-    const [isSubscribe , setIsSubscribe] = useState(false);
-    const [profilVerified , setProfilVerified] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const [types, setTypes] = useState([]);
     const [cur, setCur] = useState(1);
     const [rowData , setRowData] = useState(null);
-    const [downloadFile , setDownloadFile] = useState(false);
     const itemsPerPage = 8;
     const itemsToShow = 4;
     const [totalPages , setTotalPages] = useState(0);
-    const [activeDropdown, setActiveDropdown] = useState(-1);
-    const dropdownRef = useRef(null);
-    const [openDropdownIndexes, setOpenDropdownIndexes] = useState([]);
-    const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
-    const [ticketDataRow , setTicketDataRow] = useState(null);
     const [selectedDate , setSelectedDate] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
@@ -73,7 +55,7 @@ const SponsorCurrentRequests = () => {
       queryParams.exactDate = selectedDate !== '' ? parseDateString(selectedDate) : '';
       // queryParams.requestType =  types;
     }
-    const {data : currentRequests , error: currentRequestsError , isFetching: isLoading , refetch } = useGetSponsorsByPartnerQuery(queryParams);
+    const {data : currentRequests , isFetching: isLoading , refetch } = useGetSponsorsByPartnerQuery(queryParams);
 
     useEffect(() => {
       const pageFromUrl = parseInt(searchParams.get('page')) || 1;
@@ -92,7 +74,7 @@ const SponsorCurrentRequests = () => {
       setCur(currentRequests?.currentPage);
       setSearchParams({ page: `${currentRequests?.currentPage}` });
     }
-    }, [currentRequests]);
+    }, [currentRequests , setSearchParams]);
 
     function handlePageChange(page) {
       if (page >= 1 && page <= totalPages) {
@@ -322,7 +304,7 @@ const handleReject = async (data) => {
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorCurrentRequestDetails/${item?._id}` , { state: { sponsorevent: item } })}>
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center gap-3" >
-                                <img src={item?.eventId?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300"/>
+                                <img src={item?.eventId?.headerImage} alt="sponsor event" className="rounded-md h-[60px] w-[70px] bg-gray-300"/>
                                 <span className="line-clamp-3" style={{ maxWidth:"400px" , overflow:"hidden"}}>{item?.eventId?.title}</span>
                             </div>
                         </td>

@@ -839,7 +839,8 @@
     "sponsor_request_send": "Sent a sponsor request for the event",
     "sponsor_request_approved": "Sponsor request approved for event",
     "sponsor_request_rejected": "Sponsor request rejected for event",
-    "password_reset": "Password reset action completed successfully.",
+    "password_reset": "Password reset action completed successfully",
+    "purchase_credits": "You have purchased <strong>{{number}}</strong> credits successfully",
     "default": "An action was performed"
   },
 

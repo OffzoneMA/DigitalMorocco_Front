@@ -1,5 +1,4 @@
-import React, { useState , useEffect} from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { MdOutlineDateRange } from "react-icons/md";
 import { BiMap } from "react-icons/bi";
@@ -9,14 +8,11 @@ import { IoMdTime } from "react-icons/io";
 import { TbCopy } from "react-icons/tb";
 import { BiMessageAltError } from "react-icons/bi";
 import { BiPurchaseTagAlt } from "react-icons/bi";
-import { useLocation  , useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
-import { format, parse } from 'date-fns';
-import { fr , enUS } from 'date-fns/locale';
 import { useGetEventByIdQuery } from "../../../Services/Event.Service";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { AiOutlineLoading } from "react-icons/ai";
 import Loader from "../../../Components/Loader";
 import userDefaultProfil from '../../../Media/User1.png';
@@ -27,38 +23,16 @@ import { formatEventStartEndDate , formatEventTime , formatPrice , formatEventDa
 const SponsorEventDetails = () => {
   const { t } = useTranslation();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const past = location.state ? location.state.past : false;
     const [bying , setBying] = useState(false);
     const { id } = useParams();
     const eventFromState = location.state ? location.state.event : null;
-    const navigate = useNavigate();
-    const { data: eventFromApi, error, isLoading } = useGetEventByIdQuery(id, {
+    const { data: eventFromApi, isLoading } = useGetEventByIdQuery(id, {
         skip: !!eventFromState,
     });
 
     const event = eventFromState || eventFromApi;
-
-    function formatText(text) {
-        const paragraphs = text.split('.').map((paragraph, index) => (
-          <p key={index} className="mb-4">{paragraph.trim()}</p>
-        ));
-      
-        return (
-          <Text className=" text-base font-dm-sans-regular leading-relaxed text-left text-gray700 pl-8">
-            {paragraphs}
-          </Text>
-        );
-      }
-
-    const descp = `Dreamin, a Salesforce conference led by the community for the community!Join us in Casablanca to boost your knowledge with international experts and meet the main Salesforce players in Morocco, Africa, and Europe, and North America.
-    Dreamin, a taste of Dreamforce in the heart of Africa.
-    Not able to attend Dreamforce? No problem!Thanks to North Africa Dreamin, we bring a little of the Ohana spirit to Casablanca for a whole day, This will be an opportunity for Salesforce professionals to gather and share their knowledge,You will be able to follow different sessions to train you and to stock up on knowledge: whether you are rather click or rather code, you will certainly find the theme that suits your goal.
-    The North Africa Dreamin team is made up of volunteers from the Moroccan Trailblazers community whose common vision could be summed up in one word: sharing.
-    Our goal is to make available to the community all the resources needed to optimally improve the skills on Salesforce technology, by mobilizing international names, Our mission is also to contribute to the expansion of this community by developing relationships between the different actors in the Salesforce ecosystem.
-    And more broadly, we want to improve the awareness and adoption of Salesforce in Morocco and Africa because we are convinced of its advantages in terms of CRM, marketing tools and other innovative technologies`; 
 
     const sponsors = [
       {logo:"/images/spon_logo0.svg"}, 
@@ -72,23 +46,6 @@ const SponsorEventDetails = () => {
       {logo:"/images/spon_logo8.svg"}, 
       {logo:"/images/spon_logo9.svg"}, 
     ];
-
-  const handleAddAttendee = async () => {
-    try {
-      setBying(true)
-      const response = await axios.post(`${process.env.REACT_APP_baseURL}/events/${id}/attendeesuser`, {
-        userId: userData?._id, 
-        role: userData?.role
-      });
-        setBying(false);
-        setTimeout(() => {
-          navigate("/Participate");
-        }, 2000);
-    } catch (error) {
-        setBying(false);
-        console.log(error.response?.data?.message || 'Error adding attendee');
-    }
-};
 
 const openModal = () => {
     setIsModalOpen(true);
@@ -111,7 +68,7 @@ const openModal = () => {
                 <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                   <PageHeader
                     >
-                    {event?.status == 'past' ? t("event.pastEvent") : t("event.upcomingEvent")}
+                    {event?.status === 'past' ? t("event.pastEvent") : t("event.upcomingEvent")}
                   </PageHeader>
                 </div>
                 <SearchInput className={'w-[240px]'}/>
@@ -276,7 +233,7 @@ const openModal = () => {
                               </div>
                             </div>
                         </div>
-                        {(event?.status == 'past' && event?.attendeesUsers?.length > 0) &&
+                        {(event?.status === 'past' && event?.attendeesUsers?.length > 0) &&
                         <div className="flex flex-col md:flex-row justify-between items-start gap-7 w-full">
                         <div className="flex flex-col justify-center items-start w-full w-full gap-2.5">
                           <div className="flex flex-row gap-3 items-center">

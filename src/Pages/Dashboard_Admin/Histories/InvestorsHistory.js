@@ -12,6 +12,7 @@ import MultipleSelect from "../../../Components/common/MultipleSelect";
 import { BiFilterAlt } from "react-icons/bi";
 import { parseDateStringValue } from "../../../data/helper";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import { Trans } from "react-i18next";
 
 const InvestorsHistory = () => {
     const { t } = useTranslation();
@@ -214,7 +215,22 @@ const InvestorsHistory = () => {
                                     {/* {historyEventMessages[item?.eventType]}{` `} 
                                     {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName} {` `}</span>} */}
 
-                                    {t(`historyEventMessages.${item?.eventType}`)} <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName}</span>
+                                    {item?.eventType !== "purchase_credits" && (
+                                      <>
+                                      {t(`historyEventMessages.${item?.eventType}`)} <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName === "Standard In" ? "Standard" : item?.eventData?.targetName}</span>
+                                      </>
+                                    )}
+                                    {item?.eventType === "purchase_credits" && (
+                                      <>
+                                      <Trans
+                                        i18nKey={`historyEventMessages.${item?.eventType}`}
+                                        values={{ number: item?.eventData?.targetName }}
+                                        components={{
+                                          strong: <span style={{ color: '#2575F0', fontWeight: 'normal' }} />, // ou className="text-blue-500 font-bold"
+                                        }}
+                                      />
+                                      </>
+                                    )}
                                     </Text>
                                     <div className="flex flex-row w-full items-center gap-4">
                                     {item?.user?.image ? (
