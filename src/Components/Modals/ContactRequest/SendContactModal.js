@@ -1,24 +1,20 @@
 import React , {useState , useRef  , useEffect} from "react";
 import { default as ModalProvider } from "react-modal";
 import { Text } from "../../Text";
-import { IoCloseOutline } from "react-icons/io5";
-import { LuUploadCloud } from "react-icons/lu";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import SimpleSelect from "../../common/SimpleSelect";
 import ConfirmedModal from "../ConfirmedModal";
 import { useForm } from "react-hook-form";
 import { useGetAllProjectsWithoutPageQuery } from "../../../Services/Member.Service";
-import { useCreateConatctReqProjectMutation  , useFinalizeContactRequestMutation } from "../../../Services/Member.Service";
-import { AiOutlineLoading } from "react-icons/ai";
+import { useFinalizeContactRequestMutation } from "../../../Services/Member.Service";
 import { useTranslation } from "react-i18next";
 
 const SendContactModal = (props) => {
   const { t } = useTranslation();
-    const [createContactReqProject , response] = useCreateConatctReqProjectMutation();
-    const [finalizeContactRequest, { isLoading: loadingRequest, isSuccess, isError }] = useFinalizeContactRequestMutation();
+    const [finalizeContactRequest] = useFinalizeContactRequestMutation();
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
     const { register, handleSubmit, formState: { errors }  , reset} = useForm();
-    const { data, error, isLoading , refetch } = useGetAllProjectsWithoutPageQuery();
+    const { data } = useGetAllProjectsWithoutPageQuery();
     const inputRef = useRef(null);
     const [files, setFiles] = useState(null);
     const [preview , setPreview] = useState(null);

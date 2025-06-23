@@ -18,14 +18,14 @@ const NewCampanyDocumentModal = (props) => {
     docFile: false,
   });
   const [sendingOk , setSendingOk] = useState(false);
-  const [sending , setSending] = useState(false);
+  // const [sending , setSending] = useState(false);
 
   useEffect(() => {
     if (props?.documentFile ) {
       setValue('title' , props?.documentFile?.title)
       setPreview(props?.documentFile?.name)
     }
-}, [props?.documentFile]);
+}, [props?.documentFile , setValue]);
 
 useEffect(() => {
     if (!props.isOpen) {
@@ -48,7 +48,7 @@ useEffect(() => {
     
         setIsFormValid(isFileValid);
       }
-  }, [hasSubmitted , files]);
+  }, [hasSubmitted , files , preview]);
   
  
   const handleDragOver = (event) => {

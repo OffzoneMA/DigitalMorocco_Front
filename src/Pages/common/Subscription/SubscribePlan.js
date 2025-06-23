@@ -11,25 +11,32 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import EmailExistModalOrConfirmation from '../../../Components/Modals/EmailExistModalOrConfirmation';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
+import email_error from '../../../Media/emailError.svg'
 import { useGetUserDetailsQuery } from '../../../Services/Auth';
 import HelmetWrapper from '../../../Components/common/HelmetWrapper';
+import { useCreatePaymentSessionMutation } from '../../../Services/Payement.Service';
 
 export default function SubscribePlan() {
   const { t } = useTranslation();
     const token = sessionStorage.getItem("userToken");
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
     const [createSubscriptionForUser] = useCreateSubscriptionForUserMutation();
     const {refetch} = useGetUserDetailsQuery();
     const [upgradeSubscription, { isLoading: upgradeLoading, isSuccess:upgradeSuccess, isError, error }] = useUpgradeSubscriptionMutation();
     const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState('Monthly');
+    const [openChooseAnotherPlan, setOpenChooseAnotherPlan] = useState(false);
     const [sendingOk , setSendingOk] = useState(false);
     const navigate = useNavigate()
     const location = useLocation();
    
     const [userSubscriptionData , setUserSusbcriptionData] = useState(null);
+    const [createPaymentSession] = useCreatePaymentSessionMutation();
     const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [isSuccessOpenModal , setIsSuccessOpenModal] = useState(false);
+
+    console.log("userSubscriptionData", userSubscriptionData);
 
     // Validation du plan choisi
     const [choosedPlan, setChoosedPlan] = useState(null);
@@ -61,17 +68,9 @@ export default function SubscribePlan() {
     useEffect(() => {
       getUserSusbcription();
     }, []);
-
-    const openCancelModal = (rowData) => {
-        setIsCancelModalOpen(true);
-    };
     
     const closeCancelModal = () => {
       setIsCancelModalOpen(false);
-    };
-  
-    const openPaymentModal = () => {
-      setIsPaymentModalOpen(true);
     };
   
     const closePaymentModal = () => {
@@ -119,29 +118,91 @@ export default function SubscribePlan() {
         let result;
 
         if (hasActiveSubscription) {
-          if (userSubscriptionData?.plan?._id === choosedPlan?._id) {
-            console.log('You are already subscribed to this plan');
-            return; 
-          }
           setSendingOk(true);
+          // Store subscription type in session storage
+          localStorage.setItem('subscriptionType', 'upgrade');
+          
           result = await upgradeSubscription({
               subscriptionId: userSubscriptionData?._id, 
               newPlanId: choosedPlan?._id,
               newBilling: data.billing,
           });
+          // result = await createPaymentSession({
+          //   name: choosedPlan?.name, 
+          //   price: choosedPlan?.price,
+          //   currency : "MAD" ,
+          //   customerId: userData?._id,
+          //   forUser: choosedPlan?.forUser,
+          //   language : currentLanguage,
+          //   metadata : {
+          //     name: `${userData?.firstName} ${userData?.lastName}`,
+          //     // email: userData?.email,
+          //     email: "earnforroukichane@gmail.com",
+          //   }
+          // });
+
         } else {
           setSendingOk(true);
+          // Store subscription type in session storage
+          localStorage.setItem('subscriptionType', 'new');
+
           result = await createSubscriptionForUser({
               planId: choosedPlan?._id, 
               data 
           });
-        }
 
-        if (result.isSuccess || result?.data?._id) {
-          setSendingOk(false);
-          openModal();
+          // result = await createPaymentSession({
+          //   name: choosedPlan?.name, 
+          //   price: choosedPlan?.price,
+          //   currency : "MAD" ,
+          //   customerId: userData?._id,
+          //   forUser: choosedPlan?.forUser,
+          //   language : currentLanguage,
+          //   metadata : {
+          //     name: `${userData?.firstName} ${userData?.lastName}`,
+          //     // email: userData?.email,
+          //     email: "earnforroukichane@gmail.com"
+          //   }
+          // });
+        }
+        console.log('Subscription result:', result);
+        // if (result.isSuccess || result?.data?._id)
+        if (result?.isSuccess || result?.data?.success) {
+          if(result?.isPaymentSessionCreated === false) {
+            setSendingOk(false);
+            openModal();
+            return;
+          }
+          console.log('Subscription created successfully:', result?.data);
+          // setSendingOk(false);
+          //Create a hidden form and submit it to redirect to payment page
+          const { paywallUrl, payload, signature } = result.data.data;
+
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = paywallUrl;
+          form.style.display = 'none';
+        
+          const payloadInput = document.createElement('input');
+          payloadInput.type = 'hidden';
+          payloadInput.name = 'payload';
+          payloadInput.value = payload;
+          form.appendChild(payloadInput);
+          
+          const signatureInput = document.createElement('input');
+          signatureInput.type = 'hidden';
+          signatureInput.name = 'signature';
+          signatureInput.value = signature;
+          form.appendChild(signatureInput);
+          
+          document.body.appendChild(form);
+          form.submit();
         } else {
             console.log('Subscription failed:', result.error);
+            if(result.error?.data?.error === "Error upgrading subscription: You are already subscribed to this plan.") {
+              setOpenChooseAnotherPlan(true);
+              setSendingOk(false);
+            }
         }
     } catch (error) {
         console.error('Error confirming subscription:', error);
@@ -327,6 +388,30 @@ export default function SubscribePlan() {
           >
             <>
               {t('subscriptionPlans.confirmSuccess.message')}
+            </>
+          </Text>
+        </div>
+          </div>
+      }/>
+      <EmailExistModalOrConfirmation isOpen={openChooseAnotherPlan}
+        onRequestClose={() => setOpenChooseAnotherPlan(false)} content={
+          <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
+        <img
+          className="h-[80px] w-[80px]"
+          src={email_error}
+          alt="successtick"
+        />
+        <div className="flex flex-col gap-5 items-center justify-start w-full">
+          <Text
+            className="text-[#1d2838] w-[460px] text-lg leading-relaxed font-dm-sans-medium text-center "
+          >
+              {t('subscriptionPlans.samePlan.title')}
+          </Text>
+          <Text
+            className="leading-relaxed w-[460px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+          >
+            <>
+              {t('subscriptionPlans.samePlan.message')}
             </>
           </Text>
         </div>

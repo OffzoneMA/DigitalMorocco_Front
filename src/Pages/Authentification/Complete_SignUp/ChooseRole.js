@@ -217,7 +217,7 @@ const ChooseRole = () => {
       />
       <div className={`bg-white-A700 flex flex-col font-DmSans ${selectedGrid ? 'gap-[20px]': 'gap-[84px]'} items-center justify-start mx-auto pb-[246px] w-full min-h-screen overflow-y-auto`}>
         <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between px-20 pl-2 pr-12 md:px-[100px] py-5 w-full relative">
-          <a href="https://digitalmorocco.net" target='_blank'>
+          <a href="https://digitalmorocco.net" target='_blank' rel='noreferrer'>
             <img
               className="h-[47px] w-[180px]"
               src={logo}

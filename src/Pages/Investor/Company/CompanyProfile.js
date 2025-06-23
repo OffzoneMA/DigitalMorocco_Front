@@ -5,7 +5,7 @@ import { BsCheck2Circle } from "react-icons/bs";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
 import MultipleSelect from "../../../Components/common/MultipleSelect";
 import { IoImageOutline } from "react-icons/io5";
-import { Country ,City } from 'country-state-city';
+import isURL from "validator/lib/isURL";
 import { useForm } from "react-hook-form";
 import {companyType} from "../../../data/companyType";
 import PageHeader from "../../../Components/common/PageHeader";
@@ -15,10 +15,11 @@ import { useTranslation } from "react-i18next";
 import { countries } from "../../../data/tablesData";
 import { InvestorCompanyTypes } from "../../../data/data";
 import { fundingTypes } from "../../../data/data";
-import { stage, stages } from "../../../data/stage";
+import { stage } from "../../../data/stage";
 import CustomCalendar from "../../../Components/common/CustomCalendar";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import isEmail from "validator/lib/isEmail";
 
 const CompanyProfile = () => {
   const { t } = useTranslation();
@@ -29,9 +30,9 @@ const CompanyProfile = () => {
   const [sending , setSending] = useState(false);
   const [isSaved , setIsSaved] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [taxIdentfier, settaxIdentfier] = useState('');
-  const [corporateIdentfier,setcorporateIdentfier] = useState('');
-  const [selectedSector, setselectedSector] = useState('');
+  // const [taxIdentfier, settaxIdentfier] = useState('');
+  // const [corporateIdentfier,setcorporateIdentfier] = useState('');
+  // const [selectedSector, setselectedSector] = useState('');
   const dataCountries = countries;
   const [selectedCountry , setSelectedCountry] = useState(null);
   const [selectedCity , setSelectedCity] = useState(null);
@@ -140,11 +141,6 @@ const CompanyProfile = () => {
   const formRef = useRef();
 
   const countryNameSelec = selectedCountry? selectedCountry["name"] : "";
-
-
-  const onButtonClick = (buttonRef) => {
-    buttonRef.current.click();
-  };
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -427,7 +423,16 @@ const CompanyProfile = () => {
                   {t('investors.company.website')}*
                 </Text>
                   <input
-                  {...register("website", { required: {value:true , message:"Company website is required"} })}
+                  {...register("website", {
+                    required: {
+                      value: true,
+                      message: "Le site web de l'entreprise est requis",
+                    },
+                    validate: (value) =>
+                      isURL(value, {
+                        require_protocol: true, // force http:// ou https://
+                      }) || "URL invalide (ex : https://exemple.com)",
+                  })}                  
                   className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="website"
@@ -542,9 +547,10 @@ const CompanyProfile = () => {
                     maxLength: {
                       value: 120,
                     },
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    }, })}
+                    validate: (value) => isEmail(value, {
+                      require_protocol: true, // force http:// ou https://
+                    }) || "URL invalide (ex : https://exemple.com)",
+                    })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.contactEmail ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text"
                     name="contactEmail"

@@ -1,13 +1,10 @@
-import '../styles/Loading.css'
+import "../styles/Loading.css";
 
 const Loading = () => {
-
-
-    return (
-        <div className='container'><div className="loader">
-</div>
-            </div>
-
-    );
+  return (
+    <div className="container">
+      <div className="loader"></div>
+    </div>
+  );
 };
 export default Loading;

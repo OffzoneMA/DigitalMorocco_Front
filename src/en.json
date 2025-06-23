@@ -839,7 +839,8 @@
     "sponsor_request_send": "Sent a sponsor request for the event",
     "sponsor_request_approved": "Sponsor request approved for event",
     "sponsor_request_rejected": "Sponsor request rejected for event",
-    "password_reset": "Password reset action completed successfully.",
+    "password_reset": "Password reset action completed successfully",
+    "purchase_credits": "You have purchased <strong>{{number}}</strong> credits successfully",
     "default": "An action was performed"
   },
 
@@ -1055,10 +1056,27 @@
       "title": "Your subscription has been successfully confirmed!",
       "message":"A confirmation email has been sent to you. If you can't find it, please check your spam folder.",
       "renewTitle": "Your subscription has been successfully renewed!",
+      "upgradeTitle": "Your subscription has been successfully upgraded!",
       "cancelTitle": "Your subscription has been successfully canceled!"
     },
     "errors": {
       "noPlanSelected": "Please select a plan to continue."
+    },
+    "paidError": {
+      "title": "Payment Error",
+      "message": "An error occurred while processing your payment. Please check your payment details and try again."
+    },
+    "samePlan": {
+      "title": "You are already using this plan",
+      "message": "Please choose a different plan. You are already subscribed to this one."
+    },
+    "paidCredits": {
+      "title": "Credit Purchase Confirmed",
+      "message": "Your credit purchase has been successfully processed. You can now use your credits to access our services. Thank you for your trust."
+    },
+    "paidCreditsError": {
+      "title": "Credit Purchase Error",
+      "message": "An error occurred while processing your credit purchase. Please check your payment details and try again."
     }
   },
 

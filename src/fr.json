@@ -843,7 +843,8 @@
     "sponsor_request_send": "Demande de sponsor envoyée pour l'événement",
     "sponsor_request_approved": "Demande de sponsoring approuvée pour l'événement",
     "sponsor_request_rejected": "Demande de sponsoring refusée pour l'événement",
-    "password_reset": "Réinitialisation du mot de passe effectuée avec succès.",
+    "password_reset": "Réinitialisation du mot de passe effectuée avec succès",
+    "purchase_credits": "Vous avez acheté {{number}} crédits avec succès",
     "default": "Action effectuée"
   },
 
@@ -1057,10 +1058,27 @@
       "title": "Votre abonnement a bien été confirmé !",
       "message":"Un e-mail de confirmation vous a été envoyé. Si vous ne le trouvez pas, pensez à vérifier votre dossier de courriers indésirables.",
       "renewTitle": "Votre abonnement a bien été renouvelé !",
+      "upgradeTitle": "Votre abonnement a bien été mis à niveau !",
       "cancelTitle": "Votre abonnement a bien été annulé !"
     },
     "errors": {
       "noPlanSelected": "Veuillez sélectionner un plan pour continuer."
+    },
+    "paidError": {
+      "title": "Erreur de paiement",
+      "message": "Une erreur s'est produite lors du traitement de votre paiement. Veuillez vérifier vos informations de paiement et réessayer."
+    },
+    "samePlan": {
+      "title": "Vous utilisez déjà ce plan",
+      "message": "Veuillez choisir un autre plan. Vous êtes déjà abonné à celui-ci."
+    },
+    "paidCredits": {
+      "title": "Achat de crédits confirmé",
+      "message": "Votre achat de crédits a bien été pris en compte. Vous pouvez désormais utiliser vos crédits pour accéder à nos services. Merci pour votre confiance."
+    },
+    "paidCreditsError": {
+      "title": "Erreur d'achat de crédits",
+      "message": "Une erreur s'est produite lors du traitement de votre achat de crédits. Veuillez vérifier vos informations de paiement et réessayer."
     }
   },
 

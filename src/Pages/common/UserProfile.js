@@ -7,7 +7,6 @@ import { Text } from '../../Components/Text';
 import { PiUserBold } from "react-icons/pi";
 import SimpleSelect from '../../Components/common/SimpleSelect';
 import DeleteAccountModal from '../../Components/Modals/DeleteAccountModal';
-import { Country, City } from 'country-state-city';
 import { languages } from '../../data/tablesData';
 import { regions } from '../../data/tablesData';
 import { SlCheck } from "react-icons/sl";
@@ -21,19 +20,18 @@ import { useGetUserDetailsQuery } from '../../Services/Auth';
 import { validateImageFile } from '../../data/helper';
 import { countries as allCountries} from '../../data/tablesData';
 import HelmetWrapper from '../../Components/common/HelmetWrapper';
+import isURL from 'validator/lib/isURL';
+import isEmail from 'validator/lib/isEmail';
 
 export default function UserProfile() {
   const { t, i18n } = useTranslation();
   const currentLanguage = localStorage.getItem('language') || 'en'; 
-  const { userInfo } = useSelector((state) => state.auth)
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData?._id;
   const token = sessionStorage.getItem("userToken");
   // const allCountries = Country.getAllCountries();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow, setDeleteRow] = useState(null);
-  const [name, setName] = useState(userInfo?.displayName);
-  const [isEditing, setIsEditing] = useState(false);
   const [update, responseUpdate] = useUpdateUserMutation();
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -41,7 +39,6 @@ export default function UserProfile() {
   const [selectedCity, setSelectedCity] = useState(userData?.cityState ? userData?.cityState : '');
   const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [isConnect, setIsConnect] = useState(true);
   const [showLogoDropdown , setShowLogoDropdown] = useState(false);
   const [isForm1Saved, setIsForm1Saved] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false); 
@@ -54,7 +51,7 @@ export default function UserProfile() {
   const selectedCityName = selectedCity ? selectedCity["name"] : '';
   const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue , getValues: getValues1 , trigger } = useForm();
   const { register: register2, handleSubmit: handleSubmit2, watch, formState: { errors: errors2 } , getValues: getValues2 } = useForm();
-  const { register: register3, handleSubmit: handleSubmit3, formState: { errors: errors3 } } = useForm();
+  const { handleSubmit: handleSubmit3 } = useForm();
   const fileInputRef = useRef(null);
   const handleUploadClick = () => { fileInputRef.current.click(); };
   const [user, setUser] = useState(null);
@@ -662,14 +659,13 @@ export default function UserProfile() {
                     {...register1('email', { 
                       required: {value:true } ,
                       minLength: {
-                          value: 2,
-                        },
-                        maxLength: {
-                          value: 120,
-                        },
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        }, })}
+                        value: 2,
+                      },
+                      maxLength: {
+                        value: 120,
+                      },
+                      validate: (value) => isEmail(value) || 'Email invalide',
+                      })}
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.email ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="email" name="email" placeholder={t('settings.myProfile.emailPlaceholder')} />
                 </div>
@@ -693,7 +689,13 @@ export default function UserProfile() {
                   {t('settings.myProfile.website')}
                   </Text>
                   <input
-                    {...register1('website', { required: {value:false } })}
+                    {...register1('website', {
+                      required: false, // champ non requis
+                      validate: (value) =>
+                      isURL(value, {
+                        require_protocol: true, // force http:// ou https://
+                      }) || "URL invalide (ex : https://exemple.com)",
+                    })}                    
                     className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors1?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                     type="text" name="website" placeholder={t('settings.myProfile.websitePlaceholder')} />
                 </div>

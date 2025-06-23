@@ -18,6 +18,7 @@ import { useGetUserByEmailQuery } from '../../Services/Auth';
 import EmailExistModalOrConfirmation from '../../Components/Modals/EmailExistModalOrConfirmation';
 import { languages } from '../../data/tablesData';
 import HelmetWrapper from '../../Components/common/HelmetWrapper';
+import isEmail from 'validator/lib/isEmail';
 
 
 export default function SignUp() {
@@ -296,10 +297,7 @@ const onSubmit = (data) => {
                           value: 120,
                           // message: t('signup.emailMaxLength'),
                         },
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: t('signup.emailPattern'),
-                        },
+                        validate: (value) => isEmail(value) || t('signup.emailPattern'),
                       })}
                         id="email"
                         name="email"
@@ -463,7 +461,7 @@ const onSubmit = (data) => {
                           htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                         >
-                          {t('signup.terms1')} <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href={`https://digitalmorocco.net/privacy?lang=${currentLanguage}`} target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                     
+                          {t('signup.terms1')} <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' rel='noreferrer' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href={`https://digitalmorocco.net/privacy?lang=${currentLanguage}`} target='_blank' rel='noreferrer' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                     
                         </label>
                     </div>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-2">

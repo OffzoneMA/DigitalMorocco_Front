@@ -85,7 +85,7 @@ export default function ResetPassword() {
         />
           <div className="bg-gray-100 flex flex-col min-h-screen font-DmSans items-center justify-end mx-auto md:px-10 px-5 py-[20px] md:py-[42px] overflow-y-auto w-full">
             <div className="flex flex-col gap-[42px] items-center justify-start mt-[27px] md:px-5 w-full">
-              <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center">
+              <a href='https://digitalmorocco.net' target='_blank' rel='noreferrer' className="flex flex-col items-center justify-center">
                 <img
                   className="h-[50px] w-[183px]"
                   src={logo}

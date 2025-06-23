@@ -1016,7 +1016,6 @@ export const InvestorsData = [
   }
 ];
 
-
 export const InvestorsRequestData = [
     {
         date: "May 22, 2024 10:30 AM",
@@ -2130,6 +2129,8 @@ export const historyEventMessages = {
   sponsor_request_approved: "Sponsor request approved for event",
   sponsor_request_rejected: "Sponsor request rejected for event",
   password_reset: "Password reset action completed successfully.",
+  purchase_credits: "Purchased {{value}} credits successfully.",
+  purchase_credits_failed: "Failed to purchase credits.",
   default: "An action was performed."
 };
 

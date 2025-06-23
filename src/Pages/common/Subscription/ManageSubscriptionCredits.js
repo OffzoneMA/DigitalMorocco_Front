@@ -1,35 +1,38 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { Text } from "../../../Components/Text";
 import { useForm } from "react-hook-form";
 import { FaRegPlusSquare } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useNavigate , useSearchParams } from "react-router-dom";
+import { useAchatCreditsMutation } from "../../../Services/Subscription.Service";
 import PageHeader from "../../../Components/common/PageHeader";
+import EmailExistModalOrConfirmation from "../../../Components/Modals/EmailExistModalOrConfirmation";
 import SearchInput from "../../../Components/common/SeachInput";
+import checkVerifyImg from '../../../Media/check-verified-02.svg'
+import emailErrorImg from '../../../Media/emailError.svg'
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import SimpleSelectWithGroup from "../../../Components/common/SimpleSelectWithGroup";
 import { useTranslation } from 'react-i18next';
-import CommonModal from '../../../Components/common/CommonModal';
+// import CommonModal from '../../../Components/common/CommonModal';
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 
 const ManageSubscriptionCredits = () => {
     const currentLanguage = localStorage.getItem('language') || 'en'; 
     const { t } = useTranslation();
-    const { userInfo } = useSelector((state) => state.auth);
+      const [searchParams] = useSearchParams();
+
+    const statuspaid = searchParams.get('statuspaid');
+    const [achatCredits] = useAchatCreditsMutation();
     const [isModalOpen , setIsModalOpen] = useState(false);
+    const [isCancelPaidModalOpen , setIsCancelPaidModalOpen] = useState(false);
     const navigate = useNavigate();
     const [sendingOk , setSendingOk] = useState(false);
     const [selectedCredits , setSelectedCredits] = useState(null);
-    const [acceptTerms , setAcceptTerms] = useState(false);
-    const [sending , setSending] = useState(false);
-    const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
+    const {data: userDetails , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     const {
         register,
         handleSubmit,
-        reset, getValues,
-        watch,
         formState: { errors },
       } = useForm();
 
@@ -80,16 +83,61 @@ const ManageSubscriptionCredits = () => {
             ],
         },
     ];
+
+    useEffect(() => {
+        if (statuspaid === "success") {
+            setIsModalOpen(true);
+        } else if (statuspaid === "failed") {
+            setIsCancelPaidModalOpen(true);
+        } 
+      }, [statuspaid]);
     
-    const onSubmit = (data) => {
+    const onSubmit = async () => {
         setSendingOk(true);
         if(selectedCredits !== null) {
-            setIsModalOpen(true);
+            const result = await achatCredits({
+                credits: selectedCredits?.credits,
+                price: selectedCredits?.price,
+            });
+
+            if (result?.data?.success) {
+                //Create a hidden form and submit it to redirect to payment page
+                const { paywallUrl, payload, signature } = result.data.data;
+                console.log("result : ", result);
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = paywallUrl;
+                form.style.display = 'none';
+        
+                const payloadInput = document.createElement('input');
+                payloadInput.type = 'hidden';
+                payloadInput.name = 'payload';
+                payloadInput.value = payload;
+                form.appendChild(payloadInput);
+                
+                const signatureInput = document.createElement('input');
+                signatureInput.type = 'hidden';
+                signatureInput.name = 'signature';
+                signatureInput.value = signature;
+                form.appendChild(signatureInput);
+                
+                document.body.appendChild(form);
+                form.submit();
+            } else {
+               console.log("Error in payment process : ", result.error);
+            }
         }
     };
 
     const closePopup = () => {
         setIsModalOpen(false)
+        const url = new URL(window.location.href);
+        url.searchParams.delete('statuspaid');
+        window.history.replaceState({}, document.title, url);
+    }
+
+    const closeCancelPaidModal = () => {
+        setIsCancelPaidModalOpen(false)
     }
       
     return (
@@ -226,7 +274,7 @@ const ManageSubscriptionCredits = () => {
                             htmlFor='acceptTerms'
                             className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                             >
-                            {t('I accept the')} <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('Terms of Service.')}</span></a>                     
+                            {t('I accept the')} <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' rel='noreferrer' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('Terms of Service.')}</span></a>                     
                             </label>
                         </div>
                         <button 
@@ -238,9 +286,9 @@ const ManageSubscriptionCredits = () => {
                 </div>
             </div>
         </section>
-        <CommonModal isOpen={isModalOpen}
-        onRequestClose={closePopup} title={t('Information: Feature Unavailable')} showCloseBtn = {true}
-        content={
+        {/* <CommonModal isOpen={isModalOpen}
+          onRequestClose={closePopup} title={t('Information: Feature Unavailable')} showCloseBtn = {true}
+          content={
           <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
             <div className="text-center">
               <span className="text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">{t("This feature")}</span><span className="text-[#2575f0] text-base font-dm-sans-regular leading-relaxed"> {t('is not yet available.')}</span>
@@ -255,7 +303,55 @@ const ManageSubscriptionCredits = () => {
                 </button>
             </div>
           </div>
+        }/> */}
+        <EmailExistModalOrConfirmation isOpen={isModalOpen}
+        onRequestClose={closePopup} content={
+            <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
+        <img
+            className="h-[80px] w-[80px]"
+            src={checkVerifyImg}
+            alt="successtick"
+        />
+        <div className="flex flex-col gap-5 items-center justify-start w-full">
+            <Text
+            className="text-[#1d2838] w-[460px] text-lg leading-relaxed font-dm-sans-medium text-center "
+            >
+                {t('subscriptionPlans.paidCredits.title')}
+            </Text>
+            <Text
+            className="leading-relaxed w-[460px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+            >
+            <>
+                {t('subscriptionPlans.paidCredits.message')}
+            </>
+            </Text>
+        </div>
+            </div>
         }/>
+        <EmailExistModalOrConfirmation isOpen={isCancelPaidModalOpen}
+                  onRequestClose={closeCancelPaidModal} content={
+                    <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
+                      <img
+                        className="h-[80px] w-[80px]"
+                        src={emailErrorImg}
+                        alt="successtick"
+                      />
+                      <div className="flex flex-col gap-5 items-center justify-start w-full">
+                        <Text
+                          className="text-[#1d2838] w-[460px] text-lg leading-relaxed font-dm-sans-medium text-center "
+                        >
+                          {t('subscriptionPlans.paidCreditsError.title')}
+                        </Text>
+                        <Text
+                          className="leading-relaxed w-[460px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+                        >
+                          <>
+                            {t('subscriptionPlans.paidCreditsError.message')}
+                          </>
+                        </Text>
+                      </div>
+                    </div>
+                  } />
     </>
     );
 }

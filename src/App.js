@@ -1,5 +1,5 @@
-import React, { Suspense, lazy  , useEffect} from 'react';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import React, { lazy  , useEffect} from 'react';
+import { Route, Routes , useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import './App.css';
 import { I18nextProvider } from 'react-i18next'; 
@@ -23,7 +23,7 @@ import AutoLogout from './Components/AutoLogout ';
 import ResendVerificationLink from './Pages/Authentification/Complete_SignUp/ResendVerificationLink';
 import RouteTracker from './Components/common/RouteTracker';
 import ErrorBoundary from './Components/errors/ErrorBoundary';
-import { initGA , trackPageView , trackEvent } from './utils/analytics';
+import { initGA  , trackPageView } from './utils/analytics';
 import { initGTM } from './utils/gtm';
 
 // Utiliser React.lazy pour le code splitting
@@ -91,7 +91,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  // const location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
       const queryParams = new URLSearchParams(window.location.search);
@@ -140,12 +140,19 @@ function App() {
   }, []);
 
   useEffect(() => {
-    initGA();
-    initGTM();
-    // Track the initial page view
-    // trackPageView(window.location.pathname + window.location.search);
-  }
+      initGA();
+      initGTM();
+    }
   , []);
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'pageview',
+      page: location.pathname + location.search,
+    });
+  }, [location]);
 
   return (
     <I18nextProvider i18n={i18n}> {/* Add I18nextProvider */}
@@ -189,6 +196,7 @@ function App() {
                       <Route path="/UserProfile" element={<UserProfile />} />
                       <Route path="/Subscription" element={<Subscription />} />
                       <Route path="/ChoosePlan" element={<ChoosePlan />} />
+
                       <Route path="/History" element={<History />} />
                       <Route path="/MembersHistory" element={<MembersHistory />} />
                       <Route path="/InvestorsHistory" element={<InvestorsHistory />} />

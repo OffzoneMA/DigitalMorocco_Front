@@ -21,6 +21,7 @@ import emailError from '../../Media/emailError.svg';
 import Cookies from "js-cookie";
 import { languages } from '../../data/tablesData';
 import HelmetWrapper from '../../Components/common/HelmetWrapper';
+import isEmail from 'validator/lib/isEmail';
 
 
 export default function SignIn() {
@@ -266,7 +267,7 @@ export default function SignIn() {
               // transition: 'transform 0.1s ease, opacity 0.1s ease', 
             }}  className="flex-1 flex flex-col gap-8 md:gap-9 xl:gap-10 2xl:gap-11 items-center justify-center p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12">
               <div className="flex flex-col items-center justify-center w-full ">
-                <Link to="https://digitalmorocco.net" target='_blank'><img
+                <Link to="https://digitalmorocco.net" target='_blank' ><img
                     className="h-10 md:h-12 xl:h-[50px] 2xl:[54px] w-auto object-contain"
                     src={logo}
                     alt="logo"
@@ -355,9 +356,7 @@ export default function SignIn() {
                                 maxLength: {
                                   value: 120,
                                 },
-                                pattern: {
-                                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                },
+                                validate: (value) => isEmail(value) || t('signup.emailPattern'),
                               })}
                               className={`bg-white-A700 transition-all duration-200 w-full border border-solid ${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error") )) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error" )))? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor  placeholder:text-[14px] text-[15px] text-${(errors?.email || (getValues('email')?.length > 0 && (error == 'Wrong email .' || loginError == "Login RS error"))) ? 'errorColor' : 'gray-801'}`}
                               id="email"
@@ -419,14 +418,14 @@ export default function SignIn() {
                                   {t('signin.rememberMe')}                       
                               </label>
                             </div>
-                            <a className="cursorpointer text-[13px] hover:text-[#00CDAE] leading-[16.93px] font-dm-sans-regular text-deep_purple-A400 tracking-[0.01em] ">
+                            <span className="cursorpointer text-[13px] hover:text-[#00CDAE] leading-[16.93px] font-dm-sans-regular text-deep_purple-A400 tracking-[0.01em] ">
                               <Text
                                 className=" text-right"
                                 onClick={() => navigate("/ForgotPassword")}
                               >
                                 {t('signin.forgotPassword')}
                               </Text>
-                            </a>
+                            </span>
                           </div>
                           <div className="flex flex-col items-center justify-start w-full mt-[5px] ">
                             <button 

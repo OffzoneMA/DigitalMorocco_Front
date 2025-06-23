@@ -13,9 +13,8 @@ export default function SocialSignUp() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const { loading, userInfo, error } = useSelector((state) => state.auth)
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [sending , setSending]  = useState(false);
-
+  const currentLanguage = localStorage.getItem('language') || i18n.language || 'en';
   const formButtonRef = useRef();
   const socialType = location.state?.socialType;
 
@@ -30,8 +29,6 @@ export default function SocialSignUp() {
     reset, getValues,
     formState: { errors },
   } = useForm();
-
-  const navigate = useNavigate()
 
   const onSubmit = (data) => {
     // const userSocialInfos = {
@@ -55,7 +52,7 @@ export default function SocialSignUp() {
     />
     <div className="bg-gray-100 flex flex-col min-h-screen overflow-y-auto font-DmSans items-center justify-start mx-auto pt-[80px] md:px-10 px-[12px] py-[30px] w-full">
       <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
-          <a href='https://digitalmorocco.net' target='_blank' className="flex flex-col items-center justify-center">
+          <a href='https://digitalmorocco.net' target='_blank' rel='noreferrer' className="flex flex-col items-center justify-center">
             <img
               className="h-[50px] w-[183px]"
               src={logo}
@@ -121,7 +118,7 @@ export default function SocialSignUp() {
                           htmlFor='acceptTerms'
                           className="text-[13px] leading-[16.93px] text-[#555458] w-auto font-dm-sans-regular"
                         >
-                          {t('signup.terms1')} <a href='https://digitalmorocco.net/terms' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href='https://digitalmorocco.net/privacy' target='_blank' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                      
+                          {t('signup.terms1')} <a href={`https://digitalmorocco.net/terms?lang=${currentLanguage}`} target='_blank' rel='noreferrer' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms2')}</span></a> {t('signup.terms3')} <a href={`https://digitalmorocco.net/privacy?lang=${currentLanguage}`} target='_blank' rel='noreferrer' className='text-[#2575F0] hover:text-[#00CDAE] cursorpointer'><span>{t('signup.terms4')}</span></a> {t('signup.terms5')}                      
                         </label>
                     </div>
                   </div>
@@ -145,11 +142,11 @@ export default function SocialSignUp() {
               </div>
           </div>
           <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
-            <a
+            <span
               className="text-[#37363B] text-sm font-dm-sans-medium leading-[26px]  w-auto"
             >
               <Text className=''>{t('signup.haveAccount')}</Text>
-            </a>
+            </span>
             <a
               href="/SignIn"
               className="text-[#482BE7] hover:text-[#00CDAE]  text-sm font-dm-sans-bold leading-[26px] w-auto"
