@@ -2,7 +2,7 @@ import React from 'react';
 
 const FallbackComponent = ({errorMessage}) => {
     return (
-        <div className='flex justify-center items-center h-screen w-full'>
+        <div className='flex justify-center items-center h-screen w-full flex-col gap-4 text-center'>
             <svg
               width="137"
               height="128"
