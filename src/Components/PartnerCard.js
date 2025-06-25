@@ -18,7 +18,7 @@ export default function PartnerCard({ partner }) {
         <div
             onClick={(e) => e.stopPropagation()}
          className='flex items-center my-1'>
-            <a href={partner?.website.startsWith("http") ? partner?.website : "//" + partner?.website} target='_blank' className='text-blue-500 hover:underline font-medium tracking-wider'>
+            <a rel='noopener noreferrer' href={partner?.website.startsWith("http") ? partner?.website : "//" + partner?.website} target='_blank' className='text-blue-500 hover:underline font-medium tracking-wider'>
             Visit Website
           </a>
           <ArrowTopRightOnSquareIcon className='text-blue-500 h-5 w-8 ml-1 icon-bold' />
