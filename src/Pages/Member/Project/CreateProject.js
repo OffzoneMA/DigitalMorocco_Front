@@ -934,12 +934,14 @@ const handleFileRemove = async (type) => {
                     </Text>
                       <input
                       {...register('website', {
-                        required: false, // champ non requis
-                        validate: (value) =>
-                        isURL(value, {
-                          require_protocol: true, // force http:// ou https://
-                        }) || "URL invalide (ex : https://exemple.com)",
-                      })}                      
+                        required: false,
+                        validate: (value) => {
+                          if (!value) return true; // champ vide accepté
+                          return isURL(value, {
+                            require_protocol: true,
+                          }) || "URL invalide (ex : https://exemple.com)";
+                        }
+                      })}                                          
                       className={`!placeholder:text-blue_gray-300 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.website ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                         type="text"
                         name="website"

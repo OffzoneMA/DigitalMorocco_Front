@@ -343,7 +343,6 @@ const MyCompany = () => {
                   {...register("website", {
                     required: {
                       value: true,
-                      message: "Le site web de l'entreprise est requis",
                     },
                     validate: (value) =>
                       isURL(value, {
