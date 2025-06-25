@@ -34,7 +34,7 @@ export default function Contacts() {
                     <div>
                       <span>Website : </span>
                       <a
-                        className='italic underline '
+                        className='italic underline text-blue-500 cursor-pointer'
                         target='_blank'
                         href={el?.website}>Visit</a>
                     </div>

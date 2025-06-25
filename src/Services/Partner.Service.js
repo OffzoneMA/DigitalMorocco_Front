@@ -23,6 +23,14 @@ export const partnerApi = createApi({
                 }
             },
         }),
+        getAllProjects: builder.query({
+            query: () => {
+                return {
+                    url: '/Projects',
+                    method: 'GET',
+                }
+            },
+        }),
         createEntreprise: builder.mutation({
             query: (payload) => {
                 return {
@@ -35,4 +43,4 @@ export const partnerApi = createApi({
     }),
 })
 
-export const {useCreateEntrepriseMutation ,useGetAllPartnersQuery} = partnerApi
+export const {useCreateEntrepriseMutation ,useGetAllPartnersQuery,useGetAllProjectsQuery} = partnerApi
