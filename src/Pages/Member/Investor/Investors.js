@@ -16,20 +16,30 @@ import SearchInput from "../../../Components/common/SeachInput";
 import Loader from "../../../Components/Loader";
 import { useGetDistinctValuesQuery , useGetInvestorsListForMemberQuery} from "../../../Services/Investor.Service";
 import userdefaultProfile from '../../../Media/User.png';
-import { useCheckSubscriptionStatusQuery } from "../../../Services/Subscription.Service";
+import { useCheckSubscriptionStatusQuery , useDeductionCreditsMutation } from "../../../Services/Subscription.Service";
 import { useTranslation } from "react-i18next";
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import CommonModal from "../../../Components/common/CommonModal";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import { PRICING_COST_CONFIG } from "../../../data/data";
+import { useGetLastAccessLogByConnectedUserQuery } from "../../../Services/InvestorAccessLog.Service";
+import EmailExistModalOrConfirmation from "../../../Components/Modals/EmailExistModalOrConfirmation";
+import email_error from '../../../Media/emailError.svg'
 
 const Investors = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locationP = useLocation();
-  const { userInfo } = useSelector((state) => state.auth) 
-  const {data: userDetails , error: userDetailsError , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
+  // const { userInfo } = useSelector((state) => state.auth) 
+  const {data: userDetails , isLoading: userDetailsLoading , refetch : refetchUser} = useGetUserDetailsQuery();
+  const { data: lastAccessLog , refetch: refetchLastAcessLog } = useGetLastAccessLogByConnectedUserQuery();
   const [showPopup, setShowPopup] = useState(false);
   const [showDraftPopup, setShowDraftPopup] = useState(false);
+  const [deductCredits] = useDeductionCreditsMutation();
+  const [openCreditsModal, setOpenCreditsModal] = useState(false);
+  const [openCreditsErrorModal, setOpenCreditsErrorModal] = useState(false);
+  const [confirmCreditsSending , setConfirmCreditsSending] = useState(false);
+  const [deductionCreditsError, setDeductionCreditsError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showContactPopup, setShowContactPopup] = useState(false);
   const [selectedInvestor , setSelectedInvestor] = useState(null);
@@ -61,18 +71,41 @@ const Investors = () => {
       queryParams.industries = industries.length > 0 ? industries.join(',') : undefined;
       queryParams.keywords = keywords || undefined;
     }
-  const { data: investorData, error: investorsError, isFetching: loading , refetch } = useGetInvestorsListForMemberQuery(queryParams);
-  const { data : locationData, isLoading:locationLoading } = useGetDistinctValuesQuery('location');
-  const { data : industryData, isLoading:industryLoading } = useGetDistinctValuesQuery('PreferredInvestmentIndustry');
-  const { data : typeData, isLoading:typeLoading } = useGetDistinctValuesQuery('type');
+  const { data: investorData, isFetching: loading , refetch } = useGetInvestorsListForMemberQuery(queryParams);
+  const { data : locationData } = useGetDistinctValuesQuery('location');
+  const { data : industryData } = useGetDistinctValuesQuery('PreferredInvestmentIndustry');
+  const { data : typeData } = useGetDistinctValuesQuery('type');
 
-  const { data: subscriptionData, error: subscriptionError , isFetching: subscriptionLoading } = useCheckSubscriptionStatusQuery();
+  const { data: subscriptionData, isFetching: subscriptionLoading } = useCheckSubscriptionStatusQuery();
 
   useEffect(() => {
     if (userDetails && userDetails?.projectCount === 0) {
         setShowPopup(true);
     }
 }, [userDetails])
+
+useEffect(() => {
+  if (subscriptionData) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // on ignore l'heure pour comparer les dates
+
+    const accessDate = lastAccessLog ? new Date(lastAccessLog.accessDate) : null;
+    accessDate?.setHours(0, 0, 0, 0);
+
+    const isSameDay = accessDate?.getTime() === today.getTime();
+
+    if (!isSameDay) {
+      setOpenCreditsModal(true); // soit pas de log, soit log pas du jour
+    }
+  }
+}, [lastAccessLog, subscriptionData]);
+
+  useEffect(() => {
+    if(deductionCreditsError && deductionCreditsError?.trim() !== '') {
+      setOpenCreditsErrorModal(true);
+    }
+  } , [deductionCreditsError]);
+
 
   useEffect(() => {
     const pageFromUrl = parseInt(searchParams.get('page')) || 1;
@@ -86,7 +119,7 @@ const Investors = () => {
       setCur(investorData?.currentPage); 
       setSearchParams({ page: `${investorData?.currentPage}` }); 
     }
-  }, [investorData]);
+  }, [investorData, setSearchParams]);
   
   // useEffect(() => {
   //   // Check if investor data is loaded and subscription status is available
@@ -330,6 +363,27 @@ const Investors = () => {
     hasClosedPopupRef.current = true;  
   }
 
+  const handreReduceCreditsForAccess = async () => {
+    setConfirmCreditsSending(true);
+    try{
+          const response = await deductCredits({ credits: Number(PRICING_COST_CONFIG.ACCESS_INVESTORS_LIST_COST) , serviceType: "ACCESS_INVESTORS" }).unwrap();
+          if (response.success) {
+            setConfirmCreditsSending(false);
+            setOpenCreditsModal(false);
+            refetchUser();
+            refetchLastAcessLog();
+          } else {
+            console.error("Failed to deduct credits:", response.message);
+            setDeductionCreditsError(response?.message || "An error occurred while deducting credits.");
+          }
+        } catch (error) {
+          console.error("Error reducing credits:", error);
+          setConfirmCreditsSending(false);
+          setOpenCreditsModal(false);
+          setDeductionCreditsError(error?.data?.error || error?.data?.message || error?.message || "An error occurred while deducting credits.");
+        }
+  }
+
     return (
     <>
     <HelmetWrapper
@@ -441,8 +495,7 @@ const Investors = () => {
                   <span className="font-dm-sans-medium text-sm leading-[18.23px]" style={{ whiteSpace: 'nowrap' }}>
                       {t('common.filters')}
                   </span>
-              </button>
-              
+              </button>     
                 )
                 }
                 {filterApply && (
@@ -504,11 +557,11 @@ const Investors = () => {
                         </div>
                     </td>
                       <td className="px-[18px] py-4 text-gray500 font-DmSans text-left text-sm font-normal leading-6" 
-                      style={{ whiteSpace: 'nowrap' }}>{t(`${item.type}`)}</td>
-                      <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfInvestment}</td>
+                      style={{ whiteSpace: 'nowrap' }}>{t(`${item?.type ? item.type : '-' }`)}</td>
+                      <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item?.numberOfInvestment || 0}</td>
                       <td className="px-[18px] py-4 text-center text-gray500 font-dm-sans-regular text-sm leading-6">{item.numberOfExits}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6" 
-                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t(`${item.location}`)}</td>
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t(`${item?.location ? item.location : '-'}`)}</td>
                       <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6 max-w-[230px] lg:max-w-[250px]"
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {Array.isArray(item?.PreferredInvestmentIndustry)
@@ -544,10 +597,11 @@ const Investors = () => {
                 )
                 }   
                </div>
-               {((!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading )) && (
+               {/* Cacher pour tester la deduction des credits */}
+               {/* {((!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading )) && (
                   <div className="overlay-content-inv w-full flex flex-col top-12 px-8 rounded-b-[8px]">
                   </div>
-                )}           
+                )}            */}
                 {(!loading && !subscriptionLoading && !userDetailsLoading) && (
                   /* (isSubscribe && userDetails?.projectCount === 0) ||  */
                   (!isSubscribe) ? (
@@ -589,14 +643,15 @@ const Investors = () => {
                     // onPageChange={handlePageChange}
                     itemsToShow={itemsToShow}
                     // disabled={loading || subscriptionLoading || userDetailsLoading || !isSubscribe || !pageData?.length > 0 || userDetails?.projectCount === 0} 
-                    disabled={true}
-                  />   
-                  {((!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading )) && (
+                    // disabled={true}
+                  />  
+                  {/* Cacher pour l'instant pour tester la deduction des crédits  */}
+                  {/* {((!loading && !subscriptionLoading && pageData?.length > 0 && !userDetailsLoading )) && (
                   <div className="overlay-content-inv-pg overflow-hidden top-0 rounded-b-[8px]">
                   </div>
-                  )} 
+                  )}  */}
                   {(!loading && !subscriptionLoading && !userDetailsLoading) && (
-                  /* (isSubscribe && userDetails?.projectCount === 0) ||  */
+                  // (isSubscribe && userDetails?.projectCount === 0) || 
                   (!isSubscribe) ? (
                     <div className="overlay-content-inv-pg w-full top-0 rounded-b-[8px]">
                     </div>
@@ -609,7 +664,7 @@ const Investors = () => {
           </div>
         </div>
     </section>
-    {/* <CommonModal isOpen={showPopup}
+    <CommonModal isOpen={showPopup && !openCreditsModal}
       title={t('Action Required: Create Project')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
@@ -626,8 +681,8 @@ const Investors = () => {
               </button>
           </div>
         </div>
-      }/> */}
-    {/* <CommonModal isOpen={showDraftPopup}
+      }/>
+    <CommonModal isOpen={showDraftPopup && !openCreditsModal}
       onRequestClose={closeDraftPopup} title={t('Action Required: Contact Request')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
@@ -646,8 +701,8 @@ const Investors = () => {
               </button>
           </div>
         </div>
-      }/> */}
-    {/* <CommonModal isOpen={showContactPopup}
+      }/>
+    <CommonModal isOpen={showContactPopup && !openCreditsModal}
       onRequestClose={closeContactPopup} title={t('Action Required: Contact Request')}
       content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
@@ -666,8 +721,8 @@ const Investors = () => {
               </button>
           </div>
         </div>
-      }/> */}
-    <CommonModal isOpen={isModalOpen}
+      }/>
+    {/* <CommonModal isOpen={isModalOpen}
       onRequestClose={closePopup} title={t('investors.comming.title')} showCloseBtn = {true}
       content={
         <div className="flex flex-col gap-5 items-center justify-start pb-5 w-full">
@@ -682,7 +737,62 @@ const Investors = () => {
             </button>
           </div>
         </div>
+      }/> */}
+      <CommonModal isOpen={openCreditsModal}
+        // onRequestClose={closePopup}
+         title={t('Confirmation')}
+        content={
+        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+          <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
+          {t("This action will result in a charge of")} <span className="text-[#2575f0]">{t('creditsCost' , {credits: PRICING_COST_CONFIG.ACCESS_INVESTORS_LIST_COST})}</span> <br/>
+          <span className="pt-2">{t('Are you ready to proceed?')}</span>
+          </div>
+          <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+              <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
+              onClick={() => closePopup()}>
+                <div className="text-[#475466] text-base font-dm-sans-medium">{t('common.cancel')}</div>
+              </button>
+              <button className="h-11 min-w-[195px] px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
+              onClick={() => handreReduceCreditsForAccess()}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">
+                {confirmCreditsSending ? 
+                  <div className="flex items-center justify-center gap-6"> {t("all.sending")}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>  :  
+                  t('Confirm')}
+                </div>
+              </button>
+          </div>
+        </div>
       }/>
+      <EmailExistModalOrConfirmation isOpen={openCreditsErrorModal}
+        onRequestClose={() => {setOpenCreditsErrorModal(false);
+          setDeductionCreditsError('');
+        }} content={
+          <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
+          <img
+              className="h-[80px] w-[80px]"
+              src={email_error}
+              alt="successtick"
+          />
+          <div className="flex flex-col gap-5 items-center justify-start w-full">
+              <Text
+              className="text-[#1d2838] w-[460px] text-lg leading-relaxed font-dm-sans-medium text-center "
+              >
+                  {t('Processing Error')}
+              </Text>
+              <Text
+              className="leading-relaxed w-[460px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+              >
+              <>
+                  {t('An error occurred while deducting credits. Please check your subscription and available credits, then try again.')}
+              </>
+              </Text>
+          </div>
+          </div>
+        }/>
     </>
     )
 }

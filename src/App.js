@@ -12,6 +12,7 @@ import Dashboard_Admin from './Pages/Dashboard_Admin/Dashboard';
 import { getLocalStorageItemWithExpiration } from './data/helper';
 import { setCredentials , setToken } from './Redux/auth/authSlice';
 import ConnectedUserRoute from './GuardedRoutes/ConnectedUserRoute';
+import ProtectCreateProjectRoute from './GuardedRoutes/ProtectCreateProjectRoute';
 // import Loader from './Components/Loader';
 import Layout from './Components/Layouts/Layout';
 import DashbordLayout from "./Components/Layouts/DashbordLayout";
@@ -177,7 +178,9 @@ function App() {
                       <Route path="/MyInvestorDetails/:investorId" element={<InvestorDetails />} />
                       <Route path="/InvestorRequestsHistoty" element={<InvestorRequestHistory />} />
                       <Route path="/Projects" element={<Projects />} />
-                      <Route path="/Createproject" element={<CreateProject />} />
+                      <Route element={<ProtectCreateProjectRoute />}>
+                        <Route path="/Createproject" element={<CreateProject />} />
+                      </Route>
                       <Route path="/Editproject/:projectId" element={<CreateProject />} />
                       <Route path="/Projectdetails/:projectId" element={<ProjectDetails />} />
                       <Route path="/CompanyLegal" element={<CompanyLegal />} />

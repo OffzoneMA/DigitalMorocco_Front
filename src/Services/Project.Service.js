@@ -2,11 +2,25 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const projectApi = createApi({
   reducerPath: 'projectApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_baseURL+"/projects",}), 
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_baseURL+"/projects",
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.userToken
+      if (token) {
+          headers.set('authorization', `Bearer ${token}`)
+      }
+      return headers
+  },
+  }), 
   endpoints: (builder) => ({
     deleteProject: builder.mutation({
       query: (projectId) => ({
         url: `/${projectId}`,
+        method: 'DELETE',
+      }),
+    }),
+    deleteProjectCompletly: builder.mutation({
+      query: (projectId) => ({
+        url: `/delete-completly/${projectId}`,
         method: 'DELETE',
       }),
     }),
@@ -32,18 +46,25 @@ export const projectApi = createApi({
           method: 'DELETE',
       }),
     }),
+
     getTopSectors: builder.query({
       query: () => '/top-sectors',
     }),
+
     deleteDocument: builder.mutation({
       query: ({ projectId, documentId }) => ({
         url: `/${projectId}/documents/${documentId}`,
         method: 'DELETE',
       }),
     }),
+
+    getTheDraftProject: builder.query({
+      query: () => '/draft',
+    }),
   }),
 });
 
 export const { useDeleteProjectMutation, useGetProjectByIdQuery , useAddMilestoneToProjectMutation ,
-  useDeleteMilestoneMutation , useGetTopSectorsQuery , useDeleteDocumentMutation , useDeleteProjectLogoMutation
+  useDeleteMilestoneMutation , useGetTopSectorsQuery , useDeleteDocumentMutation , useDeleteProjectLogoMutation ,
+  useGetTheDraftProjectQuery , useDeleteProjectCompletlyMutation
  } = projectApi;

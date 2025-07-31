@@ -2233,6 +2233,13 @@
   "Role": "Rôle", 
   "Status": "Status" , 
 
+  "creditsCost": "{{credits}} Crédits",
+  "Approval Error": "Erreur lors de l’approbation",
+  "Processing Error": "Erreur de traitement",
+  "An error occurred while deducting credits. Please check your subscription and available credits, then try again.": "Une erreur est survenue lors de la déduction des crédits. Veuillez vérifier votre abonnement et vos crédits disponibles, puis réessayer.",
+  "An error occurred while approving the contact request. Please check your subscription and available credits, then try again.": "Une erreur est survenue lors de l’approbation de la demande de contact. Veuillez vérifier votre abonnement et vos crédits, puis réessayer.",
+  "Discount": "Remise",
+
   "helmet": {
     "dashboard": {
         "title": "Digital Morocco - Tableau de bord des membres",
@@ -2497,6 +2504,11 @@
       "title": "Digital Morocco - Choix de rôle",
       "description": "Sélectionnez le rôle qui correspond le mieux à votre profil et à vos objectifs sur la plateforme Digital Morocco.",
       "keywords": "choix de rôle, sélection de rôle, profil utilisateur, Digital Morocco"
+    },
+    "manageCredits": {
+        "title": "Digital Morocco - Gérer les Crédits",
+        "description": "Ajoutez des crédits à votre compte pour accéder à des fonctionnalités premium et maximiser votre expérience sur Digital Morocco.",
+        "keywords": "gestion des crédits, achat de crédits, fonctionnalités premium, Digital Morocco"
     }
   }
 

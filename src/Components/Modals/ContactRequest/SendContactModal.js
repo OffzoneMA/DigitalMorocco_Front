@@ -8,11 +8,14 @@ import { useForm } from "react-hook-form";
 import { useGetAllProjectsWithoutPageQuery } from "../../../Services/Member.Service";
 import { useFinalizeContactRequestMutation } from "../../../Services/Member.Service";
 import { useTranslation } from "react-i18next";
+import { useCheckSubscriptionStatusQuery } from "../../../Services/Subscription.Service";
+import { SUBSCRIPTION_LIMITS } from "../../../data/data";
 
 const SendContactModal = (props) => {
   const { t } = useTranslation();
     const [finalizeContactRequest] = useFinalizeContactRequestMutation();
     const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
+    const {data: subscriptionData} = useCheckSubscriptionStatusQuery();
     const { register, handleSubmit, formState: { errors }  , reset} = useForm();
     const { data } = useGetAllProjectsWithoutPageQuery();
     const inputRef = useRef(null);
@@ -21,6 +24,12 @@ const SendContactModal = (props) => {
     const [selectedProject , setSelectedProject] = useState(null);
     const [sendingOk , setSendingOk] = useState(false);
     const [sending , setSending] = useState(false);
+
+    const allowedProjectCount = SUBSCRIPTION_LIMITS[subscriptionData?.plan ? subscriptionData?.plan?.name?.toLowerCase() : 'basic'];
+    
+    const sortedProjects = [...(data || [])].sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+    
+    const permittedProjects = sortedProjects?.slice(0, allowedProjectCount);
 
     useEffect(() => {
       if (!props.isOpen) {
@@ -139,7 +148,7 @@ const SendContactModal = (props) => {
                 >
                   {t('investors.sendContactRequest.project')}
                 </Text>
-                <SimpleSelect id='project' options={data}  searchLabel={t('investors.sendContactRequest.searchProject')} setSelectedOptionVal={setSelectedProject} 
+                <SimpleSelect id='project' options={permittedProjects}  searchLabel={t('investors.sendContactRequest.searchProject')} setSelectedOptionVal={setSelectedProject} 
                     placeholder={t('investors.sendContactRequest.selectProject')} valuekey="name" required={sending && selectedProject === null}
                     content={
                       ( option) =>{ return (

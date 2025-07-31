@@ -80,10 +80,18 @@ export const subsApi = createApi({
                 body: data,
             }),
         }),
+
+        deductionCredits: builder.mutation({
+            query: (data) => ({
+                url: `/deduct-credits`,
+                method: 'PATCH',
+                body: data,
+            }),
+        }),
     }),
 })
 
 export const { useGetAllSubscriptonsQuery , useCreateSubscriptionForUserMutation, useUpgradeSubscriptionMutation,
      useGetSubscriptionByIdQuery, useCancelSubscriptionMutation, useAutoCancelExpiredSubscriptionsMutation, 
      usePauseSubscriptionMutation, useGetSubscriptionsByUserQuery, useRenewSubscriptionMutation , 
-    useCheckSubscriptionStatusQuery , useAchatCreditsMutation } = subsApi
+    useCheckSubscriptionStatusQuery , useAchatCreditsMutation , useDeductionCreditsMutation } = subsApi

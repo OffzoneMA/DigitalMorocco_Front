@@ -356,3 +356,20 @@ export const fundingTypes = [
   "Sovereign Wealth Funds",
   "Bank Loans"
 ];
+
+export const PRICING_COST_CONFIG = {
+  REACT_SHARE_PROJECT_COST: 100,
+  ADD_PROJECT_COST: 2110,
+  ACCESS_INVESTORS_LIST_COST: 100,
+  CONTACT_INVESTORS_COST: 320,
+  ACCEPT_CONTACT_COST: 100,
+  PUBLIC_DISPLAY_BY_MONTH_COST: 320,
+  NEWSLETTER_VIP_BY_MONTH_COST: 210,
+  CLUB_VIP_BY_MONTH_COST: 215
+};
+
+export const SUBSCRIPTION_LIMITS = {
+  basic: 1,
+  standard: 2,
+  premium: 5,
+};

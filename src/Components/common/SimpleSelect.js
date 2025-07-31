@@ -5,11 +5,11 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
 const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholder='' , searchable = true, 
-searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='',
+searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='', selectedOptionProp = null,
 className='' ,required = false, sortable = true }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState((selectedOptionProp && selectedOptionProp !== '') ? selectedOptionProp : null);
   const [searchValue, setSearchValue] = useState("");
   const dropdownRef = useRef(null);
   const parentRef = useRef(null);
@@ -49,6 +49,13 @@ className='' ,required = false, sortable = true }) => {
         setSelectedOption(selectedOptionsDfault);
     }
   }, [selectedOption , selectedOptionsDfault]);
+
+  useEffect(() => {
+    if(selectedOptionProp && selectedOptionProp !== selectedOption) {
+      setSelectedOption(selectedOptionProp);
+    }
+  }, [selectedOption, selectedOptionProp]);
+  
 
   const [dropdownPosition, setDropdownPosition] = useState({ top: null, left: null, width: '100%' });
   const [dropdownDirection, setDropdownDirection] = useState('down');

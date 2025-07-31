@@ -3,7 +3,7 @@ import { Text } from "../../../Components/Text";
 import { useForm } from "react-hook-form";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { useNavigate , useSearchParams } from "react-router-dom";
-import { useAchatCreditsMutation } from "../../../Services/Subscription.Service";
+import { useAchatCreditsMutation , useCheckSubscriptionStatusQuery } from "../../../Services/Subscription.Service";
 import PageHeader from "../../../Components/common/PageHeader";
 import EmailExistModalOrConfirmation from "../../../Components/Modals/EmailExistModalOrConfirmation";
 import SearchInput from "../../../Components/common/SeachInput";
@@ -19,7 +19,8 @@ import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 const ManageSubscriptionCredits = () => {
     const currentLanguage = localStorage.getItem('language') || 'en'; 
     const { t } = useTranslation();
-      const [searchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
+    const { data: subscriptionData, error: subscriptionError , isFetching: subscriptionLoading } = useCheckSubscriptionStatusQuery();
 
     const statuspaid = searchParams.get('statuspaid');
     const [achatCredits] = useAchatCreditsMutation();
@@ -30,6 +31,7 @@ const ManageSubscriptionCredits = () => {
     const [selectedCredits , setSelectedCredits] = useState(null);
     const {data: userDetails , isLoading: userDetailsLoading} = useGetUserDetailsQuery();
     const userData = JSON.parse(sessionStorage.getItem('userData'));
+    
     const {
         register,
         handleSubmit,
@@ -84,6 +86,51 @@ const ManageSubscriptionCredits = () => {
         },
     ];
 
+    // Calculate total price based on selected credits and subscription plan 
+    const calculateTotalPrice = (price) => {
+        // Validation des paramètres d'entrée
+        if (!price || price <= 0) {
+            return '0.00';
+        }
+    
+        if (!subscriptionData?.plan) {
+            return price.toFixed(2);
+        }
+    
+        const { plan } = subscriptionData;
+        const planName = plan.name?.toLowerCase();
+        const planDiscountRate = plan.discountRate || 0;
+    
+        /**
+         * Détermine le taux de réduction selon les règles:
+         * - Standard : 10% par défaut, ou le taux personnalisé si > 0
+         * - Premium : 20% par défaut, ou le taux personnalisé si > 0
+         * - Autres plans : seulement le taux personnalisé si > 0
+         */
+        const getDiscountRate = () => {
+            switch (planName) {
+                case 'basic':
+                case 'basic in':
+                    return 0; 
+                case 'standard':
+                case 'standard in':
+                    return planDiscountRate > 0 ? planDiscountRate : 10;
+                case 'premium':
+                    return planDiscountRate > 0 ? planDiscountRate : 20;
+                default:
+                    return planDiscountRate > 0 ? planDiscountRate : 0;
+            }
+        };
+    
+        const discountRate = getDiscountRate();
+        
+        // Calcul du prix avec réduction
+        const discountAmount = price * (discountRate / 100);
+        const discountedPrice = price - discountAmount;
+        
+        return discountedPrice.toFixed(2);
+    };
+
     useEffect(() => {
         if (statuspaid === "success") {
             setIsModalOpen(true);
@@ -97,7 +144,7 @@ const ManageSubscriptionCredits = () => {
         if(selectedCredits !== null) {
             const result = await achatCredits({
                 credits: selectedCredits?.credits,
-                price: selectedCredits?.price,
+                price: calculateTotalPrice(selectedCredits?.price),
             });
 
             if (result?.data?.success) {
@@ -139,7 +186,9 @@ const ManageSubscriptionCredits = () => {
     const closeCancelPaidModal = () => {
         setIsCancelPaidModalOpen(false)
     }
-      
+
+    console.log('subscriptionData : ', subscriptionData);
+
     return (
     <>
         <HelmetWrapper 
@@ -203,7 +252,7 @@ const ManageSubscriptionCredits = () => {
                     </div>
                 </div>
                 <div className="h-full w-full items-start gap-[42px] flex flex-col md:flex-row flex-wrap pb-[80px]">
-                    <div className="h-full md:min-w-[300px] max-h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-[18px] flex flex-1">
+                    <div className="h-full md:min-w-[300px] h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-[18px] flex flex-1">
                         <div className="self-stretch justify-start items-start gap-4 pb-[18px] flex border-b border-[#e4e6eb]">
                             <div className="p-2 bg-[#f9edfd] rounded-md justify-center items-center gap-2.5 flex">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +288,7 @@ const ManageSubscriptionCredits = () => {
                             </div>
                         </div>
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="min-w-auto max-w-[339px] md:w-[339px] h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-6 flex">
+                    <form onSubmit={handleSubmit(onSubmit)} className="min-w-auto max-w-[339px] md:w-[339px] min-h-[481px] p-6 bg-white-A700 rounded-xl border border-[#e4e6eb] flex-col justify-start items-start gap-6 flex">
                         <div className="text-center text-[#1d2838] text-base font-dm-sans-bold">{t('Order Summary')}</div>
                         <div className="self-stretch justify-between items-start flex">
                             <div className="text-[#98a1b2] text-base font-dm-sans-medium">{t('Number of Credits:')}</div>
@@ -249,10 +298,23 @@ const ManageSubscriptionCredits = () => {
                             <div className="text-[#98a1b2] text-base font-dm-sans-medium">{t('Cost of Credits:')}</div>
                             <div className="text-[#1e0d62] text-lg font-dm-sans-medium leading-7">$ {selectedCredits?.price?.toFixed(2) || '00.00'}</div>
                         </div>
+                        {(subscriptionData?.plan && ["Standard" , "Standard In" , "Premium"].includes(subscriptionData?.plan?.name)) &&
+                        <>
+                            <div className="self-stretch h-[0px] border-2 border-[#eaeaed]"></div>
+                            <div className="self-stretch justify-between items-start flex">
+                                <div className="text-[#98a1b2] text-base font-dm-sans-medium">{t('Sub Total')}</div>
+                                <div className="text-[#1e0d62] text-lg font-dm-sans-medium leading-7">$ {selectedCredits?.price?.toFixed(2) || '00.00'}</div>
+                            </div>
+                        </>}
+                        {(subscriptionData?.plan && ["Standard" , "Standard In" , "Premium"].includes(subscriptionData?.plan?.name)) && 
+                        <div className="self-stretch justify-between items-start flex">
+                            <div className="text-[#98a1b2] text-base font-dm-sans-medium">{t('Discount')} {` `} {`(`} {subscriptionData?.plan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${subscriptionData?.plan?.name.toLowerCase()}.name`) : t(`subscriptionPlans.${subscriptionData?.plan?.name.toLowerCase()}.name`)} {`)`} </div>
+                            <div className="text-[#1e0d62] text-lg font-dm-sans-medium leading-7">{subscriptionData?.plan?.discountRate}%</div>
+                        </div>}
                         <div className="self-stretch h-[0px] border-2 border-[#eaeaed]"></div>
                         <div className="self-stretch justify-between items-end flex">
                             <div className="text-[#1e0d62] text-lg font-dm-sans-medium leading-7">{t('Total')}</div>
-                            <div className="text-[#1e0d62] text-[22px] font-dm-sans-bold leading-7">$ {selectedCredits?.price?.toFixed(2) || '00.00'}</div>
+                            <div className="text-[#1e0d62] text-[22px] font-dm-sans-bold leading-7">$ {calculateTotalPrice(selectedCredits?.price?.toFixed(2))}</div>
                         </div>
                         <div className="self-stretch justify-start items-start gap-[9px] flex">
                             <label htmlFor={`acceptTerms`} className="cursorpointer relative inline-flex items-center peer-checked:border-0 rounded-[3px] mr-2">
@@ -278,9 +340,16 @@ const ManageSubscriptionCredits = () => {
                             </label>
                         </div>
                         <button 
-                        type="submit"
-                            className="w-full cursorpointer h-[50px] text-center text-white-A700 text-lg font-dm-sans-medium leading-relaxed bg-[#482be7] hover:bg-[#3016C0] active:bg-[#251192] rounded-[100px]">
-                            {t('Check Out')}
+                            type="submit"
+                            disabled={sendingOk && (!selectedCredits)}
+                            className="w-full cursorpointer h-[50px] text-center text-white-A700 text-lg font-dm-sans-medium leading-relaxed bg-[#482be7] disabled:pointer-events-none hover:bg-[#3016C0] active:bg-[#251192] rounded-[100px]">
+                            {sendingOk ? 
+                            <div className="flex items-center justify-center gap-6"> {t("all.sending")}
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </div>
+                             : t('Check Out')}
                         </button>
                     </form>
                 </div>

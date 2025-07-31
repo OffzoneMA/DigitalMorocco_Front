@@ -168,35 +168,37 @@ export default function SubscribePlan() {
         console.log('Subscription result:', result);
         // if (result.isSuccess || result?.data?._id)
         if (result?.isSuccess || result?.data?.success) {
-          if(result?.isPaymentSessionCreated === false) {
+          if(!result?.data?.isPaymentSessionCreated ) {
             setSendingOk(false);
             openModal();
             return;
-          }
-          console.log('Subscription created successfully:', result?.data);
-          // setSendingOk(false);
-          //Create a hidden form and submit it to redirect to payment page
-          const { paywallUrl, payload, signature } = result.data.data;
+          } else {
+            console.log('Subscription created successfully:', result?.data);
+            // setSendingOk(false);
+            //Create a hidden form and submit it to redirect to payment page
+            const { paywallUrl, payload, signature } = result.data.data;
 
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = paywallUrl;
-          form.style.display = 'none';
-        
-          const payloadInput = document.createElement('input');
-          payloadInput.type = 'hidden';
-          payloadInput.name = 'payload';
-          payloadInput.value = payload;
-          form.appendChild(payloadInput);
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = paywallUrl;
+            form.style.display = 'none';
           
-          const signatureInput = document.createElement('input');
-          signatureInput.type = 'hidden';
-          signatureInput.name = 'signature';
-          signatureInput.value = signature;
-          form.appendChild(signatureInput);
+            const payloadInput = document.createElement('input');
+            payloadInput.type = 'hidden';
+            payloadInput.name = 'payload';
+            payloadInput.value = payload;
+            form.appendChild(payloadInput);
+            
+            const signatureInput = document.createElement('input');
+            signatureInput.type = 'hidden';
+            signatureInput.name = 'signature';
+            signatureInput.value = signature;
+            form.appendChild(signatureInput);
+            
+            document.body.appendChild(form);
+            form.submit();
+          }
           
-          document.body.appendChild(form);
-          form.submit();
         } else {
             console.log('Subscription failed:', result.error);
             if(result.error?.data?.error === "Error upgrading subscription: You are already subscribed to this plan.") {

@@ -32,6 +32,11 @@ import { validateImageFile } from "../../../data/helper";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 import isEmail from "validator/lib/isEmail";
 import isURL from "validator/lib/isURL";
+import { useGetTheDraftProjectQuery , useDeleteProjectCompletlyMutation } from "../../../Services/Project.Service";
+import CommonModal from "../../../Components/common/CommonModal";
+import { useDeductionCreditsMutation } from "../../../Services/Subscription.Service";
+import { PRICING_COST_CONFIG } from "../../../data/data";
+import { useGetUserDetailsQuery } from "../../../Services/Auth";
 
 const CreateProject = () => {
   const { t } = useTranslation();
@@ -39,7 +44,12 @@ const CreateProject = () => {
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
+  const { refetch: refetchUser } = useGetUserDetailsQuery();
+
   const [deleteDocument] = useDeleteDocumentMutation();
+  const [deductionCredits] = useDeductionCreditsMutation();
+  const [deleteProjectCompletly] = useDeleteProjectCompletlyMutation();
+  const {data: draftProject , refetch: refetchDraftProject} = useGetTheDraftProjectQuery();
   const [deleteMilestone] = useDeleteMilestoneMutation();
   const [deleteProjectLogo] = useDeleteProjectLogoMutation();
   const [loadingDel, setLoadingDel] = useState(null);
@@ -54,7 +64,6 @@ const CreateProject = () => {
     skip: !projectId, 
   });  
   const [submitting, setSubmitting] = useState(null);
-  const [Mount, setMount] = useState(true)
   const [milestones, setMilestones] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [documents, setDocuments] = useState([]);
@@ -89,6 +98,15 @@ const CreateProject = () => {
   const [isAllFormValid , setIsAllFormValid] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [sendingOk , setSendingOk] = useState(false);
+  const [openPublicCreditsModal, setOpenCreditsModal] = useState(false);
+  const [confirmCreditsSending , setConfirmCreditsSending] = useState(false);
+  const [publicVisibilityPayment , setPublicVisibilityPayment] = useState({
+    paid: false,
+    paidAt: null,
+    expiresAt: null,
+    creditsUsed: 0
+  });
+
   const [requiredFields, setRequiredFields] = useState({
     country: false,
     stage: false,
@@ -150,7 +168,6 @@ const formatNumber = (number) => {
       funding: project?.funding ? formatNumber(project.funding) : ''
     } : {}
   });
-  
 
   useEffect(() => {
     const isCountryValid = selectedCountry !== null;
@@ -170,6 +187,9 @@ const formatNumber = (number) => {
       });
   
       setIsFormValid(isValid);
+    }
+    if(selectedPublication === "Public" && !publicVisibilityPayment?.paid ) {
+      setOpenCreditsModal(true);
     }
   }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication, selectedStatus]);
   
@@ -296,7 +316,7 @@ const formatNumber = (number) => {
 
         // Mise à jour des refs pour les inputs
         inputRefs.current = otherDocuments.map(() => React.createRef());
-    }
+      }
 
       const initialFileNames = {};
       project.documents?.forEach(document => {
@@ -311,6 +331,15 @@ const formatNumber = (number) => {
       setselectedSector(project?.sector || '');
       setSelectedPublication(project?.visbility || '');
       setSelectedStatus(project?.status || '')
+      if(project?.publicVisibilityPayment) {
+        setPublicVisibilityPayment({
+          paid: project.publicVisibilityPayment.paid || false,
+          paidAt: project.publicVisibilityPayment.paidAt || null,
+          expiresAt: project.publicVisibilityPayment.expiresAt || null,
+          creditsUsed: project.publicVisibilityPayment.creditsUsed || 0
+        });
+      }
+
       if (project?.country) {
         const defaultCountry = dataCountries.find(country => country.name === project.country);
         setSelectedCountry(defaultCountry);
@@ -328,6 +357,10 @@ const formatNumber = (number) => {
         setIsAllFormValid(true);
         setIsFormValid(true);
         trigger(); // Déclenche la validation de react-hook-form
+      }
+
+      if(project?.visbility === 'public' && !project?.publicVisibilityPayment?.paid) {
+        setOpenCreditsModal(true);
       }
     }
     else{
@@ -518,49 +551,48 @@ const formatNumber = (number) => {
   };
 
 
-const handleFileUpload1 = (event, type) => {
-  const file = event.target.files[0];  
-  if (file) {
-      // Ajout du document et mise à jour de l'état
-      setDocuments(prevDocuments => [...prevDocuments, { file, type }]);
-      setFileName(type, file.name);
+  const handleFileUpload1 = (event, type) => {
+    const file = event.target.files[0];  
+    if (file) {
+        // Ajout du document et mise à jour de l'état
+        setDocuments(prevDocuments => [...prevDocuments, { file, type }]);
+        setFileName(type, file.name);
 
-      // Réinitialisation du champ input
-      event.target.value = null;
-  }
-};
-
-const handleFileRemove = async (type) => {
-  // Trouver le document correspondant
-  const documentToRemove = project?.documents.find(doc => doc?.documentType === type);
-
-  if (documentToRemove && documentToRemove._id && projectId) {
-    try {
-      // Appel de la mutation pour supprimer le document dans la base
-      await deleteDocument({ projectId , documentId: documentToRemove._id });
-      refetch();
-      console.log(`Document avec ID ${documentToRemove._id} supprimé de la base de données.`);
-    } catch (error) {
-      console.error("Erreur lors de la suppression du document dans la base de données :", error);
-      return;
+        // Réinitialisation du champ input
+        event.target.value = null;
     }
-  }
+  };
 
-  // Supprimer le document du tableau
-  setDocuments(prevDocuments => 
-      prevDocuments.filter(document => document.type !== type)
-  );
-  // Réinitialiser le nom du fichier
-  setFileName(type, null); 
-  // Ajouter à la liste des fichiers supprimés
-  setDeletedFiles(prevDeletedFiles => [...prevDeletedFiles, type]);
-};
+  const handleFileRemove = async (type) => {
+    // Trouver le document correspondant
+    const documentToRemove = project?.documents.find(doc => doc?.documentType === type);
 
-  
+    if (documentToRemove && documentToRemove._id && projectId) {
+      try {
+        // Appel de la mutation pour supprimer le document dans la base
+        await deleteDocument({ projectId , documentId: documentToRemove._id });
+        refetch();
+        console.log(`Document avec ID ${documentToRemove._id} supprimé de la base de données.`);
+      } catch (error) {
+        console.error("Erreur lors de la suppression du document dans la base de données :", error);
+        return;
+      }
+    }
+
+    // Supprimer le document du tableau
+    setDocuments(prevDocuments => 
+        prevDocuments.filter(document => document.type !== type)
+    );
+    // Réinitialiser le nom du fichier
+    setFileName(type, null); 
+    // Ajouter à la liste des fichiers supprimés
+    setDeletedFiles(prevDeletedFiles => [...prevDeletedFiles, type]);
+  };
+
   function parseDateString(dateString) {
     const [day, month, year] = dateString.split('/');
     return new Date(`${year}-${month}-${day}`);
-}
+  }
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -601,7 +633,8 @@ const handleFileRemove = async (type) => {
       ...(projectId ? {
           deletedFiles, 
           otherDeletedFiles
-      } : {})
+      } : {}),
+      publicVisibilityPayment: publicVisibilityPayment,
     };  
 
     formData.append('infos', JSON.stringify(formDataContent));
@@ -617,17 +650,29 @@ const handleFileRemove = async (type) => {
     // });
 
     const validFiles = Array.from(allFiles.values());
+
     validFiles.forEach(fileData => {
         if (fileData?.file) {
             formData.append('files', fileData.file);
         }
     });
 
-      console.log(allFiles , validFiles)
+    console.log(allFiles , validFiles)
 
     if (isFormValid) {
       // Prepare payload for mutation
       const payload = projectId ? { projectId, payload: formData } : formData;
+
+      // Delete the draft projet before creating the new project
+      if (draftProject && draftProject._id) {
+        deleteProjectCompletly(draftProject._id)
+          .then(() => {
+            console.log("Draft project deleted successfully.");
+          })
+          .catch((error) => {
+            console.error("Error deleting draft project:", error);
+          });
+      }
       
       mutation(payload)
         .then((response) => {
@@ -646,6 +691,7 @@ const handleFileRemove = async (type) => {
           // Si c'est une création (pas de projectId)
           if (!projectId && response?.data?._id) {
             // Mettre à jour l'URL avec l'ID du nouveau projet
+            refetchDraftProject();
             navigate(`/Editproject/${response.data._id}`, { replace: true } , { state: { project: response.data } });
             // Le replace: true remplace l'entrée actuelle dans l'historique au lieu d'en ajouter une nouvelle
           }
@@ -746,6 +792,33 @@ const handleFileRemove = async (type) => {
     }
   };
 
+  const handleReduceCreditsForPublication = async () => {
+    if(!publicVisibilityPayment?.paid) {
+      const creditsToDeduct = PRICING_COST_CONFIG.PUBLIC_DISPLAY_BY_MONTH_COST;
+      try {
+        const response = await deductionCredits({ credits: creditsToDeduct });
+        if (response?.data?.success) {
+          setPublicVisibilityPayment({
+            paid: true,
+            paidAt: new Date().toISOString(),
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            creditsUsed: creditsToDeduct
+          });
+          setConfirmCreditsSending(false);
+          setOpenCreditsModal(false);
+          refetch(); // Refetch to update the project data
+          refetchUser(); // Refetch user data to update credits
+        } else {
+          console.error("Failed to deduct credits for public visibility.");
+        }
+      } catch (error) {
+        console.error("Error deducting credits:", error);
+      }
+    }
+  }
+
+  console.log("selectedPublication", selectedPublication);
+  console.log("project " , project);
 
   return (
     <>
@@ -1132,11 +1205,11 @@ const handleFileRemove = async (type) => {
                       {t('projects.createNewProject.projectPublication.description')}
                     </Text>
                     <SimpleSelect id='publication'
-                    options={["Public" , "Private"]}  selectedOptionsDfault={project?.visbility}
-                    setSelectedOptionVal={setSelectedPublication} searchable={false}
-                    placeholder={t('projects.createNewProject.projectPublication.selectType')}
-                    required={requiredFields.publication}
-                    content={
+                      options={["Public" , "Private"]}  selectedOptionsDfault={project?.visbility}
+                      setSelectedOptionVal={setSelectedPublication} searchable={false} selectedOptionProp={selectedPublication}
+                      placeholder={t('projects.createNewProject.projectPublication.selectType')}
+                      required={requiredFields.publication}
+                      content={
                       (option) => {
                         return (
                           <div className="flex  py-2 items-center  w-full">
@@ -1542,6 +1615,36 @@ const handleFileRemove = async (type) => {
             </form>
         </div>
       </section>
+      <CommonModal isOpen={openPublicCreditsModal}
+        onRequestClose={() => setOpenCreditsModal(false)} title={t('Confirmation')}
+        content={
+        <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
+          <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
+          {t("This action will result in a charge of")} <span className="text-[#2575f0]">{t('creditsCost' , {credits: PRICING_COST_CONFIG.PUBLIC_DISPLAY_BY_MONTH_COST})}</span> <br/>
+          <span className="pt-2">{t('Are you ready to proceed?')}</span>
+          </div>
+          <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
+              <button className="px-5 h-11 py-[12px] bg-[#e4e6eb] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#D0D5DD] active:bg-light_blue-100" 
+              onClick={() => {setOpenCreditsModal(false);
+                setSelectedPublication("Private");
+              }}>
+                <div className="text-[#475466] text-base font-dm-sans-medium">{t('common.cancel')}</div>
+              </button>
+              <button className="h-11 min-w-[195px] px-5 py-[12px] bg-[#2575f0] rounded-md justify-center items-center gap-[18px] flex cursorpointer hover:bg-[#235DBD] active:bg-[#224a94]" 
+              onClick={() => handleReduceCreditsForPublication()}>
+                <div className="text-white-A700 text-base font-dm-sans-medium">
+                {confirmCreditsSending ? 
+                  <div className="flex items-center justify-center gap-6"> {t("all.sending")}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>  :  
+                  t('Confirm')}
+                </div>
+              </button>
+          </div>
+        </div>
+      }/>
     </>
   );
 };

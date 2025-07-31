@@ -17,16 +17,12 @@ import { BiPhoneCall } from "react-icons/bi";
 import { HiOutlineMail } from "react-icons/hi";
 import TablePagination from "../../../Components/common/TablePagination";
 import SendContactModal from "../../../Components/Modals/ContactRequest/SendContactModal";
-import ConfirmedModal from "../../../Components/Modals/ConfirmedModal";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
-import { useGetInvestorByIdQuery } from "../../../Services/Investor.Service";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import Loader from "../../../Components/Loader";
-import investorFakeImage from "../../../Media/investorFakeImage.jpg"
 import  userdefaultProfile from '../../../Media/User1.png';
 import { useGetAllContactReqByInvestorQuery } from "../../../Services/Investor.Service";
 import { useTranslation } from "react-i18next";
@@ -35,6 +31,10 @@ import { useCreateDraftContactRequestMutation } from "../../../Services/Member.S
 import SubTablePagination from "../../../Components/common/SubTablePagination";
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import { PRICING_COST_CONFIG } from "../../../data/data";
+import EmailExistModalOrConfirmation from "../../../Components/Modals/EmailExistModalOrConfirmation";
+import email_error from '../../../Media/emailError.svg'
+import { use } from "react";
 
 const InvestorDetails = () => {
   const { t } = useTranslation();
@@ -44,6 +44,8 @@ const InvestorDetails = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const { investorId } = useParams();
   const [showPopup, setShowPopup] = useState(false);
+  const [openCreditsErrorModal, setOpenCreditsErrorModal] = useState(false);
+  const [createDraftErrorMessage, setCreateDraftErrorMessage] = useState('');
   const location = useLocation();
   const [investor, setInvestor] = useState(location.state?.investor || null);
   const [investorRequestStatus , setInvestorRequestStatus] = useState('');
@@ -94,6 +96,12 @@ const InvestorDetails = () => {
     setInvestments(myInvestments?.ContactsHistory);
   }, [myInvestments]);
 
+  useEffect(() => {
+    if(createDraftErrorMessage && createDraftErrorMessage !== '') {
+      setOpenCreditsErrorModal(true);
+    }
+  } , [createDraftErrorMessage]);
+
   const pageData = investments;
 
   function handlePageChange(page) {
@@ -142,6 +150,9 @@ const InvestorDetails = () => {
       console.log('Draft created successfully:');
     } catch (error) {
       console.error('Failed to create draft contact request:', error);
+      setDrafting(false);
+      setShowPopup(false);
+      setCreateDraftErrorMessage(error?.data?.message || error?.data?.error || error?.message || t('investors.investorDetails.createDraftError'));
     }
   };
 
@@ -488,7 +499,7 @@ const InvestorDetails = () => {
                                             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.member?.companyName || "-"}</span>
                                         </div>
                                     </td>
-                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.project?.country}</td>
+                                    <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.project?.country || '-'}</td>
                                     <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.project?.stage || "-"}</td>
                                     <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">{item?.investor?.MoneyRaised || "-"}</td>
                                     </tr>
@@ -538,7 +549,7 @@ const InvestorDetails = () => {
         content={
         <div className="flex flex-col gap-5 items-center justify-start py-5 w-full">
           <div className="self-stretch text-center text-[#1d1c21] text-base font-dm-sans-regular leading-relaxed">
-          {t("This action will result in a charge of")} <span className="text-[#2575f0]">{t('100 credits')}</span> <br/>
+          {t("This action will result in a charge of")} <span className="text-[#2575f0]">{t('creditsCost' , {credits: PRICING_COST_CONFIG.CONTACT_INVESTORS_COST})}</span> <br/>
           <span className="pt-2">{t('Are you ready to proceed?')}</span>
           </div>
           <div className="self-stretch justify-center items-center pt-4 gap-[18px] inline-flex">
@@ -560,7 +571,33 @@ const InvestorDetails = () => {
               </button>
           </div>
         </div>
-      }/>
+        }/>
+        <EmailExistModalOrConfirmation isOpen={openCreditsErrorModal}
+          onRequestClose={() => {setOpenCreditsErrorModal(false);
+            setCreateDraftErrorMessage('');
+          }} content={
+            <div className="flex flex-col gap-[38px] items-center justify-start  w-full">
+            <img
+                className="h-[80px] w-[80px]"
+                src={email_error}
+                alt="successtick"
+            />
+            <div className="flex flex-col gap-5 items-center justify-start w-full">
+                <Text
+                className="text-[#1d2838] w-[460px] text-lg leading-relaxed font-dm-sans-medium text-center "
+                >
+                    {t('Processing Error')}
+                </Text>
+                <Text
+                className="leading-relaxed w-[460px] font-dm-sans-regular text-[#1d2838] text-center text-sm"
+                >
+                <>
+                    {t('An error occurred while deducting credits. Please check your subscription and available credits, then try again.')}
+                </>
+                </Text>
+            </div>
+            </div>
+        }/>
       </>
     )
 }

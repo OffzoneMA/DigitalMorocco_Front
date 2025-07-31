@@ -1340,6 +1340,8 @@
     "rejected": "Rejected"
   },
 
+  "creditsCost": "{{credits}} Credits",
+
   "statusMember": "Member",
   "helmet": {
     "dashboard": {
@@ -1605,6 +1607,11 @@
       "title": "Digital Morocco - Choose Role",
       "description": "Select your role within Digital Morocco's ecosystem to access specific features and functionalities.",
       "keywords": "role selection, user roles, Digital Morocco"
+    },
+    "manageCredits": {
+      "title": "Digital Morocco - Manage Credits",
+      "description": "Track, manage, and forecast your credits for accessing premium features in Digital Morocco.",
+      "keywords": "credit management, buy credits, premium features, Digital Morocco"
     }
   }
 }
