@@ -1433,6 +1433,11 @@
         "keywords": "investment history, requests, Digital Morocco"
       }
     },
+    "investorDetails": {
+      "title": "Digital Morocco - {{investorName}} Investor Details",
+      "description": "Detailed information about investor: {{investorName}}",
+      "keywords": "investor details, investment information, Digital Morocco"
+    },
     "investment": {
       "currentRequests": {
         "title": "Digital Morocco - Current Requests",

@@ -640,7 +640,7 @@ useEffect(() => {
                 <div className='relative w-full flex items-center p-4'>
                   <TablePagination
                     totalPages={totalPages}
-                    // onPageChange={handlePageChange}
+                    onPageChange={handlePageChange}
                     itemsToShow={itemsToShow}
                     // disabled={loading || subscriptionLoading || userDetailsLoading || !isSubscribe || !pageData?.length > 0 || userDetails?.projectCount === 0} 
                     // disabled={true}
