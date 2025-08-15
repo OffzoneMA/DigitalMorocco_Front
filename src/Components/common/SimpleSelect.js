@@ -44,11 +44,11 @@ className='' ,required = false, sortable = true }) => {
     });
   }, [options, t, valuekey, normalizedLanguage]);
 
-  useEffect(() => {
-    if(selectedOption === null) {
-        setSelectedOption(selectedOptionsDfault);
-    }
-  }, [selectedOption , selectedOptionsDfault]);
+ useEffect(() => {
+  if (selectedOption === null || (typeof selectedOption === 'string' && !selectedOption.trim())) {
+    setSelectedOption(selectedOptionsDfault);
+  }
+}, [selectedOption, selectedOptionsDfault]);
 
   useEffect(() => {
     if(selectedOptionProp && selectedOptionProp !== selectedOption) {
@@ -175,6 +175,10 @@ className='' ,required = false, sortable = true }) => {
       window.removeEventListener('resize', calculateDropdownPosition);
     };
   }, [isOpen]);
+
+  console.log("selectedOption", selectedOption , typeof selectedOption);
+  console.log("selectedOptionProp", selectedOptionProp);
+  console.log("selectedOptionDefaultVal", selectedOptionsDfault);
 
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>

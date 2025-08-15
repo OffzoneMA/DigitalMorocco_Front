@@ -370,6 +370,6 @@ export const PRICING_COST_CONFIG = {
 
 export const SUBSCRIPTION_LIMITS = {
   basic: 1,
-  standard: 2,
-  premium: 5,
+  standard: 4,
+  premium: 10,
 };

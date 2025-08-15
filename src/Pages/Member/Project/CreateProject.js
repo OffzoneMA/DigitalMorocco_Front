@@ -191,8 +191,8 @@ const formatNumber = (number) => {
     if(selectedPublication === "Public" && !publicVisibilityPayment?.paid ) {
       setOpenCreditsModal(true);
     }
-  }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication, selectedStatus]);
-  
+  }, [hasSubmitted ,selectedCountry, selectedStage, selectedSector, selectedPublication, selectedStatus , publicVisibilityPayment]);
+
   // useEffect(() => {
   //   if (userInfo && userInfo.member) {
   //     setTeamData(userInfo.member.listEmployee?.map(employee => {
@@ -214,7 +214,7 @@ const formatNumber = (number) => {
     if ((fetchedProject && !project) || (loadingDel !== null && fetchedProject) ) {
       setProject(fetchedProject);
     }
-  }, [fetchedProject, project , loadingDel]);
+  }, [fetchedProject , project , loadingDel]);
 
   const fetchMembers = async () => {
     try {
@@ -258,6 +258,25 @@ const formatNumber = (number) => {
     if (project) {
       setFundingValue(formatNumber(project.funding));
       setRaisedValue(formatNumber(project.totalRaised));
+      setValue('name', project.name || '', {
+        shouldValidate: true,
+        shouldDirty: false
+      });
+
+      setValue('details', project.details || '', {
+        shouldValidate: true,
+        shouldDirty: false
+      });
+
+      setValue('website', project.website || '', {
+        shouldValidate: true,
+        shouldDirty: false
+      });
+
+      setValue('contactEmail', project.contactEmail || '', {
+        shouldValidate: true,
+        shouldDirty: false
+      });
 
       setValue('totalRaised', formatNumber(project.totalRaised), {
         shouldValidate: true,
@@ -681,6 +700,8 @@ const formatNumber = (number) => {
           setTimeout(() => {
             setSubmitting('');
           }, 2500);
+
+          console.log("Response from mutation:", response);
           if(projectId) {
 
             if(response?.data) {
@@ -688,12 +709,10 @@ const formatNumber = (number) => {
             }
             refetch();
           }
-          // Si c'est une création (pas de projectId)
+
           if (!projectId && response?.data?._id) {
-            // Mettre à jour l'URL avec l'ID du nouveau projet
             refetchDraftProject();
             navigate(`/Editproject/${response.data._id}`, { replace: true } , { state: { project: response.data } });
-            // Le replace: true remplace l'entrée actuelle dans l'historique au lieu d'en ajouter une nouvelle
           }
         })
         .catch(() => {
@@ -817,8 +836,9 @@ const formatNumber = (number) => {
     }
   }
 
-  console.log("selectedPublication", selectedPublication);
-  console.log("project " , project);
+  console.log("members", members);
+  console.log("project", project);
+  console.log("fetchedProject", fetchedProject);
 
   return (
     <>
@@ -1056,7 +1076,7 @@ const formatNumber = (number) => {
                       {t('employee.canAdd')}
                     </Text>
                     <MultipleSelect id='teams' options={members}  searchLabel={t('projects.createNewProject.searchMember')} setSelectedOptionVal={setSelectedTeamsMember} selectedOptionsDfault={selectedProjectTeamsMembers}
-                    itemClassName='py-2 border-b border-gray-201' placeholder={t('projects.createNewProject.assignTeamMember')} valuekey="fullName" optionkey="workEmail" emptyMsg={t('employee.noTeamMembers')}
+                    itemClassName='py-2 border-b border-gray-201' placeholder={t('projects.createNewProject.assignTeamMember')} valuekey="fullName" optionkey="_id" emptyMsg={t('employee.noTeamMembers')}
                     emptyIcon={<PiUsersThin size={30} />}
                     content={
                       ( option) =>{ return (

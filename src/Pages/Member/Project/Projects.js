@@ -89,9 +89,9 @@ const Projects = () => {
       case 'Basic':
         return pageData?.length >= 1;
       case 'Standard':
-        return pageData?.length >= 2;
+        return pageData?.length >= 4;
       case 'Premium':
-        return pageData?.length >= 5;
+        return pageData?.length >= 10;
       default:
         return pageData?.length >= 1; // Default case if no plan matches
 
