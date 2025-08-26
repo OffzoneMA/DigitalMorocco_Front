@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PageHeader from '../../../Components/common/PageHeader';
 import SearchInput from '../../../Components/common/SeachInput';
-import{ Text } from "../../../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams , useNavigate} from "react-router-dom";
 import TablePagination from "../../../Components/common/TablePagination";
@@ -10,7 +9,6 @@ import MultipleSelect from "../../../Components/common/MultipleSelect";
 import TableTitle from "../../../Components/common/TableTitle";
 import Loader from "../../../Components/Loader";
 import { FaRProject } from "react-icons/fa6";
-import { BsDot } from "react-icons/bs";
 import { useGetAllConatctReqQuery  , useGetDistinctProjectFieldsQuery} from "../../../Services/Investor.Service";
 import { useTranslation } from "react-i18next";
 import StatusBadge from "../../../Components/common/StatusBadge";
@@ -19,10 +17,10 @@ import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 const MyInvestment = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentLanguage = localStorage.getItem('language') || 'en'; 
+  // const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
-    const [keywords, setKeywords] = useState('');
+    // const [keywords, setKeywords] = useState('');
     const [targetFund, setTargetFund] = useState('');
     const [location, setLocation] = useState('');
     const [industries, setIndustries] = useState([])
@@ -38,17 +36,17 @@ const MyInvestment = () => {
       queryParams.funding = targetFund;
       queryParams.projectStage = location;
     }
-    const { data: myInvestments, error, isFetching: loading , refetch} = useGetAllConatctReqQuery(queryParams);
-    const { data : sectorData, isLoading:locationLoading } = useGetDistinctProjectFieldsQuery({field: "status" , status: "Approved" });
-    const { data : fundingData, isLoading:industryLoading } = useGetDistinctProjectFieldsQuery({field: "funding", status: "Approved" });
-    const { data : locationData, isLoading:typeLoading } = useGetDistinctProjectFieldsQuery({field: "stage", status: "Approved"});
+    const { data: myInvestments, isFetching: loading , refetch} = useGetAllConatctReqQuery(queryParams);
+    const { data : sectorData } = useGetDistinctProjectFieldsQuery({field: "status" , status: "Approved" });
+    const { data : fundingData } = useGetDistinctProjectFieldsQuery({field: "funding", status: "Approved" });
+    const { data : locationData } = useGetDistinctProjectFieldsQuery({field: "stage", status: "Approved"});
 
 
-    function handlePageChange(page) {
-      if (page >= 1 && page <= totalPages) {
-        setCur(page);
-      }
-    }
+    // function handlePageChange(page) {
+    //   if (page >= 1 && page <= totalPages) {
+    //     setCur(page);
+    //   }
+    // }
 
     const clearFilter = () => {
         setFilter(false); 
@@ -73,7 +71,7 @@ const MyInvestment = () => {
       setTotalPages(myInvestments?.totalPages);
       setCur(myInvestments?.currentPage); 
       setSearchParams({ page: `${myInvestments?.currentPage}` }); 
-    }, [myInvestments]);
+    }, [myInvestments , setSearchParams]);
 
     const sectorValues = sectorData?.distinctValues || [];
     const fundingValues = fundingData?.distinctValues || [];
@@ -137,11 +135,11 @@ const MyInvestment = () => {
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
-                              <Text
+                              <span
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                 >
                                 {t(`${option}`)}
-                              </Text>
+                              </span>
                             </div>
                           );
                         }
@@ -151,11 +149,11 @@ const MyInvestment = () => {
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
-                              <Text
+                              <span
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                 >
                                 {t(`${option}`)}
-                              </Text>
+                              </span>
                             </div>
                           );
                         }
@@ -165,11 +163,11 @@ const MyInvestment = () => {
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
-                              <Text
+                              <span
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                 >
                                 {t(`${option}`)}
-                              </Text>
+                              </span>
                             </div>
                           );
                         }

@@ -69,6 +69,16 @@ endpoints: (builder) => ({
         },
     }),
 
+    getAllProjectsWithoutPageAndMaskNotFiltered: builder.query({
+        query: ({visibility, status, date }={}) => {
+            return {
+                url: '/projectswithoutpage-mask-not-filtered',
+                method: 'GET',
+                params: { visibility, status , date },
+            }
+        },
+    }),
+
     getAllConatctReq: builder.query({
         query: (arg) => {
             // const { page } = arg;
@@ -219,4 +229,5 @@ useDeleteEmployeeMutation, useDeleteLegalDocumentMutation , useShareProjectMutat
 useGetDistinctInvestorFieldValuesQuery , useGetDistinctRequestFieldValuesQuery , 
 useGetAllProjectsWithoutPageQuery , useGetInvestorsForMemberQuery , useFetchInvestorRequestsQuery , 
 useGetInvestorsForMemberWithoutPageQuery , useCreateDraftContactRequestMutation , useFinalizeContactRequestMutation ,
+useGetAllProjectsWithoutPageAndMaskNotFilteredQuery
 } = memberApi

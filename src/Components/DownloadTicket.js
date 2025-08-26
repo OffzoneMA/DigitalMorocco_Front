@@ -1,4 +1,3 @@
-import { Text } from "./Text";
 import React from "react";
 import QRCode from 'qrcode.react';
 
@@ -9,136 +8,136 @@ const DownloadTicket = React.forwardRef((props, ref) => {
         <>
         <div ref={ref} id="downloadTicketComponent" className='flex flex-col max-w-[900px] mx-auto border border-bord'>
             <div className='flex flex-col w-full gap-2 bg-gray-101 px-5 py-8'>
-                <Text
+                <p
                     className="font-DmSans text-sm font-bold leading-[19.6px] text-blue-501"
                     >
                     #432-092
-                </Text>
-                <Text
+                </p>
+                <p
                     className="font-dm-sans-medium text-[22px] leading-8 text-gray-900_01 "
                     >
                    {props.rowData?.eventName? props.rowData.eventName : `North Africa Dreamin' 2023`} 
-                </Text>
+                </p>
             </div>
             <div className="flex flex-col w-full gap-2 px-5 py-6 border-b border-gray-201">
                 <div className="flex flex-row w-full ">
                     <div className="flew flex-col w-[200px] ">
-                    <Text
+                    <h2
                         className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                         >
                         Your Name
-                    </Text>
+                    </h2>
                     </div>
                     <div className="flew flex-col flex-1 ">
-                    <Text
+                    <p
                         className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                         >
                         Cameron Williamson
-                    </Text>
+                    </p>
                     </div>
                 </div>
                 <div className="flex flex-row w-full ">
                     <div className="flew flex-col w-[200px] ">
-                    <Text
+                    <h2
                         className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                         >
                         Address
-                    </Text>
+                    </h2>
                     </div>
                     <div className="flew flex-col flex-1 ">
-                    <Text
+                    <p
                         className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                         >
                         2715 Ash Dr. San Jose, South Dakota 83475
-                    </Text>
+                    </p>
                     </div>
                 </div>
                 <div className="flex flex-row w-full ">
                     <div className="flew flex-col w-[200px] ">
-                    <Text
+                    <h2
                         className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                         >
                         Email
-                    </Text>
+                    </h2>
                     </div>
                     <div className="flew flex-col flex-1 ">
-                    <Text
+                    <p
                         className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                         >
                         janelle.champlin@hotmail.com
-                    </Text>
+                    </p>
                     </div>
                 </div>
             </div>
             <div className="flex flex-row w-full gap-2 px-5 py-6 border-b border-gray-201">
                 <div className="flex flex-col flex-1 gap-2">
-                    <Text
+                    <h2
                         className="font-DmSans text-sm font-bold leading-[26px] text-gray700"
                         >
                         Your Ticket
-                    </Text>
+                    </h2>
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
-                        <Text
+                        <p
                             className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             1 x 
-                        </Text>
+                        </p>
                         </div>
                         <div className="flew flex-col flex-1 ">
-                        <Text
+                        <p
                             className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             {props.rowData?.eventName? props.rowData.eventName : `North Africa Dreamin' 2023`}
-                        </Text>
+                        </p>
                         </div>
                     </div>
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
-                        <Text
+                        <h2
                             className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             Date
-                        </Text>
+                        </h2>
                         </div>
                         <div className="flew flex-col flex-1 ">
-                        <Text
+                        <p
                             className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             {props.rowData?.dateTime? props.rowData.dateTime : `Fri, Sep 1, 2023  18:30AM`}
-                        </Text>
+                        </p>
                         </div>
                     </div>
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
-                        <Text
+                        <h2
                             className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             Location
-                        </Text>
+                        </h2>
                         </div>
                         <div className="flew flex-col flex-1 ">
-                        <Text
+                        <p
                             className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             {props.rowData?.location? props.rowData.location : `Farah Hotel, Casablanca`}
-                        </Text>
+                        </p>
                         </div>
                     </div>
                     <div className="flex flex-row w-full ">
                         <div className="flew flex-col w-[200px] ">
-                        <Text
+                        <h2
                             className="font-dm-sans-medium text-sm leading-[26px] text-gray700"
                             >
                             Ticket Code 
-                        </Text>
+                        </h2>
                         </div>
                         <div className="flew flex-col flex-1 ">
-                        <Text
+                        <p
                             className="font-dm-sans-regular text-sm leading-[26px] text-blue_gray-601"
                             >
                             NAD00345
-                        </Text>
+                        </p>
                         </div>
                     </div>
                 </div>
@@ -147,16 +146,16 @@ const DownloadTicket = React.forwardRef((props, ref) => {
                 </div>
             </div>
             <div className="flex flex-col w-full gap-2 px-5 py-5 items-center">
-                <Text
+                <h2
                     className="font-dm-sans-regular text-xs leading-[19.2px] text-gray500"
                     >
                     The <span className="text-blue-501">Ticket Terms and Conditions</span> apply to the booking of all Event tickets to the exclusion of all other terms and conditions.
-                </Text>
-                <Text
+                </h2>
+                <h2
                     className="font-dm-sans-regular text-xs leading-[19.2px] text-gray500"
                     >
                     Need Assistance? If you have any questions or need assistance, feel free to contact our support team at <span className="text-blue-501"> support@digitalmorocco.com</span>.
-                </Text>
+                </h2>
             </div>
         </div>
         {/* <button ref={buttonRef} onClick={printDocument}> Download</button> */}

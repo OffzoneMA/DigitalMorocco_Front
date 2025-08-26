@@ -136,6 +136,11 @@ a:hover::selection ,a *:hover::selection {
   color: #3aada1 !important; /* Teal color on hover */
 }
 
+.hover-active-color:hover>span>svg>path {
+  stroke: #3aada1 !important; 
+}
+
+
 .active-icon-color , .active-icon-color>* {
   color: #3aada1 !important; /* Teal color on active */
 }
@@ -621,4 +626,92 @@ input::-ms-clear {
 
 .custom-link:hover::after {
   transform: scaleX(1); /* Creates the underline animation effect */
+}
+
+/* Animations pour les sous-menus */
+
+.chevron-rotate.open {
+  transform: rotate(180deg);
+}
+
+
+/* Sponsor icons animation */
+/* Défilement horizontal infini */
+@keyframes scroll-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-infinite {
+  animation: scroll-infinite 20s linear infinite;
+}
+
+/* Défilement avec pause au hover */
+@keyframes scrollLeft-pause {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes scrollRight-pause {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-scroll-left {
+  animation: scrollLeft-pause 20s linear infinite;
+}
+.animate-scroll-right {
+  animation: scrollRight-pause 20s linear infinite;
+}
+
+.group-hover\:pause:hover {
+  animation-play-state: paused !important;
+}
+
+.pause {
+  animation-play-state: paused;
+}
+
+/* Défilement vertical */
+@keyframes scroll-vertical {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-scroll-vertical {
+  animation: scroll-vertical 15s linear infinite;
+}
+
+/* Variantes de vitesse */
+.animate-scroll-slow {
+  animation: scroll-infinite 40s linear infinite;
+}
+
+.animate-scroll-fast {
+  animation: scroll-infinite 10s linear infinite;
+}
+
+.sponsor-marquee {
+  display: flex;
+  width: max-content;
+  animation: sponsor-scroll 25s linear infinite;
+}
+.sponsor-marquee.reverse {
+  animation-name: sponsor-scroll-reverse;
+}
+
+@keyframes sponsor-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes sponsor-scroll-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }

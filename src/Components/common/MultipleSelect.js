@@ -3,7 +3,6 @@ import { BiChevronDown , BiChevronUp } from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import {Text} from '../Text';
 
 const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionkey='',placeholder='', 
 searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , 
@@ -254,12 +253,11 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
                   </svg>
                   )
                 }
-                <Text
+                <p
                   className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
-                  size=""
                 >
                   {emptyMsg} 
-                </Text>
+                </p>
               </div>
             )}
           </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Text } from "../../Components/Text";
 import toast from "react-hot-toast";
 import moment from "moment/moment";
 import Loading from "../../Components/Loading";
@@ -27,7 +26,6 @@ const Users = () => {
   const { data: userRoles } = useGetDistinctFieldValuesQuery("role");
   const { data: userStatus } = useGetDistinctFieldValuesQuery("status");
   const [users, setUsers] = useState([]);
-  const date = moment();
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
@@ -55,7 +53,7 @@ const Users = () => {
     queryParams.sortOrder = selectedSortOrder?.toLowerCase();
   }
 
-  const { data, error, isFetching: loading  , refetch } = useGetAllUsersPageQuery(queryParams);
+  const { data, isFetching: loading  , refetch } = useGetAllUsersPageQuery(queryParams);
 
   const clearFilter = () => {
     setFilter(false); 
@@ -77,7 +75,7 @@ const Users = () => {
       setTotalPages(data?.pagination?.totalPages);
       setCur(data?.pagination?.currentPage);
       setSearchParams({page: `${data?.pagination?.currentPage}`});
-  }, [data]);
+  }, [data , setSearchParams]);
 
   useEffect(() => {
     // if (filterApply && data?.pagination?.currentPage !== cur) {
@@ -146,7 +144,6 @@ const Users = () => {
         );
         refetch();
         
-        
       } catch (error) {
 
         console.error("Error validating user:", error);
@@ -196,15 +193,13 @@ const Users = () => {
     admin: 'text-red-600 rounded-full border border-red-600',
   };
 
-
-  function handlePageChange(page) {
-    if (page >= 1 && page <= totalPages) {
-      setCur(page);
-    }
-  }
+  // function handlePageChange(page) {
+  //   if (page >= 1 && page <= totalPages) {
+  //     setCur(page);
+  //   }
+  // }
   
   
-
   return (
     <>
     <HelmetWrapper
@@ -251,11 +246,11 @@ const Users = () => {
                           content={
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
-                                  <Text
+                                  <span
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
                                     {t(`${option}`)}
-                                  </Text>
+                                  </span>
                                 </div>
                               );
                             }
@@ -265,11 +260,11 @@ const Users = () => {
                           content={
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
-                                  <Text
+                                  <span
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
                                     {t(`${option}`)}
-                                  </Text>
+                                  </span>
                                 </div>
                               );
                             }
@@ -286,11 +281,11 @@ const Users = () => {
                           content={
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
-                                  <Text
+                                  <span
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
                                     {t(`${option}`)}
-                                  </Text>
+                                  </span>
                                 </div>
                               );
                             }
@@ -301,11 +296,11 @@ const Users = () => {
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
-                              <Text
+                              <span
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto capitalize"
                                 >
                                 {t(`${option}`)}
-                              </Text>
+                              </span>
                             </div>
                           );
                         }
@@ -315,11 +310,11 @@ const Users = () => {
                       content={
                         ( option) =>{ return (
                           <div className="flex  py-2 items-center  w-full">
-                              <Text
+                              <span
                                 className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto capitalize"
                                 >
                                 {t(`${option}`)}
-                              </Text>
+                              </span>
                             </div>
                           );
                         }
@@ -384,7 +379,9 @@ const Users = () => {
                       <th className="p-3 text-left text-blue_gray-800_01 font-medium ">{t('users.dateCreated')}</th>
                       <th className="p-3 text-left text-blue_gray-800_01 font-medium ">{t('users.lastLogin')}</th>
                       <th className="p-3 text-left text-blue_gray-800_01 font-medium ">{t('users.status')}</th>
-                    <th className="p-3 w-auto"></th>
+                    <th className="p-3 w-auto">
+                      {``}
+                    </th>
                   </tr>
                   </thead>
                   {( pageData?.length > 0 && !loading) ?
@@ -497,12 +494,11 @@ const Users = () => {
                     ) : !pageData?.length >0 && (
                       <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                       <AiOutlineFileSearch size={30} />
-                      <Text
+                      <p
                         className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
-                        size=""
                       >
                         {t("No Users Available")}
-                      </Text>
+                      </p>
                     </div>
                     )
                 }

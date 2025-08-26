@@ -492,6 +492,12 @@
         "singular": "The investor will review your request and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates.",
         "plural": "The investors will review your request and respond accordingly. Please keep an eye on your email and dashboard for any additional communication or updates."
       }
+    },
+    "maskProjects": {
+      "selectProjectsToMask": "Select Projects to Mask",
+      "title": "Mask Projects",
+      "description": "Select projects to mask from the list below.",
+      "maskProjects": "Your selected projects will be masked from the investor view."
     }
   },
 
@@ -1382,6 +1388,11 @@
         "title": "Digital Morocco - {{projectName}} Project",
         "description": "Detailed information and updates about {{projectName}} project on Digital Morocco.",
         "keywords": "project details, project information, Digital Morocco projects"
+      },
+      "maskProjects": {
+        "title": "Digital Morocco - Mask Projects",
+        "description": "Select projects to mask their details.",
+        "keywords": "mask projects, project masking, Digital Morocco"
       }
     },
     "investorProfile": {
@@ -1617,6 +1628,26 @@
       "title": "Digital Morocco - Manage Credits",
       "description": "Track, manage, and forecast your credits for accessing premium features in Digital Morocco.",
       "keywords": "credit management, buy credits, premium features, Digital Morocco"
+    },
+    "notification": {
+      "title": "Digital Morocco - Notifications",
+      "description": "Stay informed about important updates and alerts on the Digital Morocco platform.",
+      "keywords": "notifications, alerts, updates, Digital Morocco"
+    },
+    "resetPassword": {
+      "title": "Digital Morocco - Reset Password",
+      "description": "Reset your password to access your account on the Digital Morocco platform.",
+      "keywords": "reset password, password, account, Digital Morocco",
+      "PasswordResetSucces": {
+        "title": "Digital Morocco - Password Reset Success",
+        "description": "Your password has been successfully reset. You can now log in to your account.",
+        "keywords": "password reset, password, account, Digital Morocco"
+      },
+      "ForgotPassword": {
+        "title": "Digital Morocco - Forgot Password",
+        "description": "Reset your password to access your account on the Digital Morocco platform.",
+        "keywords": "forgot password, password, account, Digital Morocco"
+      }
     }
   }
 }

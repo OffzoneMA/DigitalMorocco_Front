@@ -6,7 +6,7 @@ const sizeClasses = {
   txtDMSansCardHeader: "font-dm-sans-medium text-18 leading-7",
   txtDMSansCardHeader16:"font-dm-sans-medium text-base leading-7",
   txtDMSansLablel:"font-dm-sans-regular leading-6",
-  txtDMDashHeader:"font-dm-sans-bold text-32leading-10",
+  txtDMDashHeader:"font-dm-sans-bold text-32 leading-10",
   txtDmSansRegular13Gray700: "font-dm-sans-regular",
   txtDmSansBold16: "font-dm-sans-bold",
   txtDMSansH5500:"font-dm-sans-medium text-lg leading-8",
@@ -33,18 +33,17 @@ const sizeClasses = {
   txtDmSansRegular16: "font-dm-sans-regular",
   txtDmSansMedium16WhiteA700: "font-dm-sans-medium",
   txtDmSansMedium18: "font-dm-sans-medium",
-  txtDMSansDocuments:"font-dm-sans-regular text-base leading-6"
+  "txtDMSansDocuments": "font-dm-sans-regular text-base leading-6"
 };
 
-const Text = ({ children, className = "", size, as, ...restProps }) => {
-
+const Text = ({ children, className = "", size, as: Component = "label", ...restProps }) => {
   return (
-    <label
+    <Component
       className={`block ${className} ${size && sizeClasses[size]}`}
       {...restProps}
     >
       {children}
-    </label>
+    </Component>
   );
 };
 

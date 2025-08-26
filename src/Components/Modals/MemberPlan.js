@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Text } from '../Text';
 
 const MemberPlan = ({ plan , buttonText , activePlan }) => {
     const { t } = useTranslation();
@@ -31,21 +30,19 @@ const MemberPlan = ({ plan , buttonText , activePlan }) => {
         return formattedPrice;
     };
 
-    console.log(activePlan?._id === plan?._id, "Active Plan ID:", activePlan?._id, "Current Plan ID:", plan?._id);
-
     return (
-        <div key={plan?._id} className='flex flex-col border border-col1 basis-[300px] grow max-w-[460px] rounded-[12px] px-6 py-8 bg-bg_plan'>
+        <article key={plan?._id} className='flex flex-col border border-col1 basis-[300px] grow max-w-[460px] rounded-[12px] px-6 py-8 bg-bg_plan'>
             <div className='w-full flex flex-col items-center gap-1.5 h-auto'>
-                <Text className="text-[22px] font-dm-sans-medium leading-8 text-center text-[#1D2939] w-full">
+                <h1 className="text-[22px] font-dm-sans-medium leading-8 text-center text-[#1D2939] w-full">
                     {plan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${plan.name.toLowerCase()}.name`) : t(`subscriptionPlans.${plan.name.toLowerCase()}.name`)}
-                </Text>
-                <Text className="text-base font-dm-sans-medium leading-[26px] text-center text-[#667085] w-full">
+                </h1>
+                <p className="text-base font-dm-sans-medium leading-[26px] text-center text-[#667085] w-full">
                     {plan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${plan.name.toLowerCase()}.description`) : t(`subscriptionPlans.${plan.name.toLowerCase()}.description`)}
-                </Text>
+                </p>
                 {plan?.forUser?.toLowerCase() === "member" ? 
                 <>
-                <Text className="text-center text-col1 text-[42px] font-dm-sans-bold leading-10">{t('Free')}</Text>
-                <Text className="text-center text-col1 font-dm-sans-bold pt-1 w-full">
+                <h2 className="text-center text-col1 text-[42px] font-dm-sans-bold leading-10">{t('Free')}</h2>
+                <h3 className="text-center text-col1 font-dm-sans-bold pt-1 w-full">
                     <span className='text-[#1e0e62]/60 text-3xl font-dm-sans-bold line-through leading-8 tracking-wide'>
                         {plan?.price === 0 ? t('Free') : plan?.planType !== "upcoming" ? `${formatPrice(plan?.price)}/` : `$${t('Upcoming')}`}
                     </span>
@@ -53,17 +50,17 @@ const MemberPlan = ({ plan , buttonText , activePlan }) => {
                     <span className='text-[#1e0e62]/60 text-2xl font-dm-sans-bold line-through leading-7'>
                         {t('subscriptionPlans.monthlyFee')}
                     </span>}
-                </Text>
+                </h3>
                 </>
                 :
-                <Text className="text-center text-col1 font-dm-sans-bold pt-1 w-full">
+                <h3 className="text-center text-col1 font-dm-sans-bold pt-1 w-full">
                     <span className='text-[2.5rem] leading-13 tracking-wide'>
                         {plan?.price === 0 ? t('Free') : plan?.planType !== "upcoming" ? `${formatPrice(plan?.price)}/` : `$${t('Upcoming')}`}
                     </span>
                     {(plan?.price > 0 && plan?.planType !== "upcoming") && <span className='text-[1.9rem] leading-12'>
                         {t('subscriptionPlans.monthlyFee')}
                     </span>}
-                </Text>
+                </h3>
                 }
             </div>
 
@@ -76,7 +73,7 @@ const MemberPlan = ({ plan , buttonText , activePlan }) => {
                         </svg>
                         <div id="maskContent" className='px-[20px] flex flex-col gap-4 items-center'>
                             <p id="disc" className='px-[40px] text-center text-[22px] text-[#101828] font-dm-sans-medium'>{t('Discover all the features for investors')}</p>
-                            <p id="discUpgrade" className='text-center text-sm text-[#1D2939] font-dm-sans-medium'>{t('Upgrade to')} <a href='' className='text-[#2575F0]'>Digital Morocco Premium</a> {t('to access all features, investment management tools, tracking, and much more.')}</p>
+                            <p id="discUpgrade" className='text-center text-sm text-[#1D2939] font-dm-sans-medium'>{t('Upgrade to')} <a href='/#' className='text-[#2575F0]' >Digital Morocco Premium</a> {t('to access all features, investment management tools, tracking, and much more.')}</p>
                         </div>
                     </div>
                 )}
@@ -88,9 +85,9 @@ const MemberPlan = ({ plan , buttonText , activePlan }) => {
                                     <path fillRule="evenodd" clipRule="evenodd" d="M11.098 0.390159L3.93797 7.30016L2.03797 5.27016C1.68797 4.94016 1.13797 4.92016 0.737968 5.20016C0.347968 5.49016 0.237968 6.00016 0.477968 6.41016L2.72797 10.0702C2.94797 10.4102 3.32797 10.6202 3.75797 10.6202C4.16797 10.6202 4.55797 10.4102 4.77797 10.0702C5.13797 9.60016 12.008 1.41016 12.008 1.41016C12.908 0.490159 11.818 -0.31984 11.098 0.38016V0.390159Z" fill="#00CDAE"/>
                                 </svg>
                             </div>
-                            <Text className={`font-dm-sans-regular text-base leading-6 text-left w-full text-gray700 ${plan?.planType === "upcoming" ? 'opacity-75' : ''} `}>
+                            <p className={`font-dm-sans-regular text-base leading-6 text-left w-full text-gray700 ${plan?.planType === "upcoming" ? 'opacity-75' : ''} `}>
                                 {t(feature)}
-                            </Text>
+                            </p>
                         </div>
                     ))}
                 </div>
@@ -105,7 +102,7 @@ const MemberPlan = ({ plan , buttonText , activePlan }) => {
                     {buttonText || t('subscriptionPlans.getStarted')}
                 </button>
             </div>
-        </div>
+        </article>
     );
 };
 

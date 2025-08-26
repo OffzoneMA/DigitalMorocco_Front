@@ -1,38 +1,37 @@
-import { Text } from "../../Components/Text";
 import PageHeader from "../../Components/common/PageHeader";
 import SearchInput from "../../Components/common/SeachInput";
-import lineImage from '../../Media/img_line.svg';
+import lineImage from "../../Media/img_line.svg";
 import { useGetActivityHistoriesQuery } from "../../Services/Histoty.Service";
 import Loader from "../../Components/Loader";
-import userdefaultProfile from '../../Media/User.png';
+import userdefaultProfile from "../../Media/User.png";
 import { useTranslation } from "react-i18next";
 import HelmetWrapper from "../../Components/common/HelmetWrapper";
 import { Trans } from "react-i18next";
 
 const History = () => {
   const { t } = useTranslation();
-  const { data, error, isLoading } = useGetActivityHistoriesQuery();
+  const { data, isLoading } = useGetActivityHistoriesQuery();
   const HistoryData = data;
 
-  const currentLanguage = localStorage.getItem('language') || 'en'; 
+  const currentLanguage = localStorage.getItem("language") || "en";
 
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
     const options = {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: currentLanguage === 'en' // 12-hour format for English, 24-hour for French
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: currentLanguage === "en", // 12-hour format for English, 24-hour for French
     };
 
-    const locale = currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
+    const locale = currentLanguage === "fr" ? "fr-FR" : "en-US";
 
     // Format and capitalize the month for French
     let formattedDate = date.toLocaleString(locale, options);
-    if (currentLanguage === 'fr') {
+    if (currentLanguage === "fr") {
       // Extracting day, month, and year by splitting
       const [day, month, year, time] = formattedDate.split(/,?\s+/);
       const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1);
@@ -41,112 +40,126 @@ const History = () => {
       formattedDate = `${day} ${capitalizedMonth} ${year}, ${time}`;
     }
 
-    return formattedDate?.replace('.' , '');
+    return formattedDate?.replace(".", "");
   }
 
-
-    return (
-      <>
-        <HelmetWrapper
-          title={t('helmet.history.title')}
-          description={t('helmet.history.description')}
-          keywords={t('helmet.history.keywords')}
-          canonical={`${process.env.REACT_APP_URL}/History`}
-        />
-        <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
-            <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
-              <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
-                <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
-                  <PageHeader
+  return (
+    <>
+      <HelmetWrapper
+        title={t("helmet.history.title")}
+        description={t("helmet.history.description")}
+        keywords={t("helmet.history.keywords")}
+        canonical={`${process.env.REACT_APP_URL}/History`}
+      />
+      <section className="bg-white-A700 flex flex-col gap-8 h-full min-h-screen overflow-auto items-start justify-start pb-14 pt-8 rounded-tl-[40px] w-full">
+        <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full">
+          <div className="border-b border-gray-201 border-solid flex flex-col md:flex-row gap-5 items-start justify-start pb-6 w-full">
+            <div className="flex flex-1 flex-col font-DmSans h-full items-start justify-start w-full">
+              <PageHeader>{t("sidebar.history")}</PageHeader>
+            </div>
+            <SearchInput className={"w-[240px]"} />
+          </div>
+          <div className="flex flex-col items-start justify-start w-full py-6">
+            {HistoryData?.length > 0 ? (
+              HistoryData.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row gap-4 md:h-auto w-full"
+                >
+                  <div className="flex flex-col items-start w-[100px] pt-1 ">
+                    <time
+                      dateTime={item.timestamp}
+                      className={`text-gray500 text-right text-sm font-normal leading-6 `}
                     >
-                    {t("sidebar.history")}
-                  </PageHeader>
-                </div>
-                <SearchInput className={'w-[240px]'}/>
-              </div>
-              <div className="flex flex-col items-start justify-start w-full py-6">
-              {HistoryData?.length > 0 ? 
-                (HistoryData.map((item, index) => (
-                    <div key={index} className="flex flex-row gap-4 md:h-auto w-full">
-                      <div className="flex flex-col items-start w-[100px] pt-1 ">
-                        <Text
-                          className={`text-gray500 text-right text-sm font-normal leading-6 `}
-                        >
-                          {formatTimestamp(item.timestamp)}
-                        </Text>
-                      </div>
-                      <div className="flex flex-1 flex-row gap-4">
-                          <img
-                            className="h-full"
-                            src={lineImage}
-                            alt="line"
-                          />
-                          <div className="flex flex-col w-full items-start gap-4 pt-1">
-                            <Text
-                              className={`font-dm-sans-medium text-sm leading-6 text-gray700`}
-                            >
-                              {/* {historyEventMessages[item?.eventType]}{` `} 
+                      {formatTimestamp(item.timestamp)}
+                    </time>
+                  </div>
+                  <div className="flex flex-1 flex-row gap-4">
+                    <img className="h-full" src={lineImage} alt="line" />
+                    <div className="flex flex-col w-full items-start gap-4 pt-1">
+                      <p
+                        className={`font-dm-sans-medium text-sm leading-6 text-gray700`}
+                      >
+                        {/* {historyEventMessages[item?.eventType]}{` `} 
                               {item?.eventData?.targetName && <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName} {` `}</span>} */}
 
-                              {item?.eventType !== "purchase_credits" && (
-                                <>
-                                {t(`historyEventMessages.${item?.eventType}`)} <span className="text-blue-A400">{item?.eventType === "subscription_renew" ? "" : item?.eventData?.targetName === "Standard In" ? "Standard" : item?.eventData?.targetName}</span>
-                                </>
-                              )}
-                              {item?.eventType === "purchase_credits" && (
-                                <>
-                                <Trans
-                                  i18nKey={`historyEventMessages.${item?.eventType}`}
-                                  values={{ number: item?.eventData?.targetName }}
-                                  components={{
-                                    strong: <span style={{ color: '#2575F0', fontWeight: 'normal' }} />, // ou className="text-blue-500 font-bold"
-                                  }}
-                                />
-                                </>
-                              )}
-                            </Text>
-                            <div className="flex flex-row w-full items-center gap-4">
-                            {item?.user?.image ? (
-                              <img src={item?.user?.image} className="rounded-full h-8 w-8 " alt="" />
-                            ) : (
-                              <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
-                                <img src={userdefaultProfile} alt="" className="" />
-                              </div> 
-                            )}
-                              <Text
-                                className={`font-dm-sans-regular capitalize-first text-sm leading-6 text-gray500`}
-                              >
-                                {item?.user?.displayName}
-                              </Text>
-                            </div>
+                        {item?.eventType !== "purchase_credits" && (
+                          <>
+                            {t(`historyEventMessages.${item?.eventType}`)}{" "}
+                            <span className="text-blue-A400">
+                              {item?.eventType === "subscription_renew"
+                                ? ""
+                                : item?.eventData?.targetName === "Standard In"
+                                ? "Standard"
+                                : item?.eventData?.targetName}
+                            </span>
+                          </>
+                        )}
+                        {item?.eventType === "purchase_credits" && (
+                          <>
+                            <Trans
+                              i18nKey={`historyEventMessages.${item?.eventType}`}
+                              values={{ number: item?.eventData?.targetName }}
+                              components={{
+                                strong: (
+                                  <span
+                                    style={{
+                                      color: "#2575F0",
+                                      fontWeight: "normal",
+                                    }}
+                                  />
+                                ), // ou className="text-blue-500 font-bold"
+                              }}
+                            />
+                          </>
+                        )}
+                      </p>
+                      <div className="flex flex-row w-full items-center gap-4">
+                        {item?.user?.image ? (
+                          <img
+                            src={item?.user?.image}
+                            className="rounded-full h-8 w-8 "
+                            alt="User profile"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
+                            <img src={userdefaultProfile} alt="Default user profile" className="" />
                           </div>
+                        )}
+                        <span
+                          className={`font-dm-sans-regular capitalize-first text-sm leading-6 text-gray500`}
+                        >
+                          {item?.user?.displayName}
+                        </span>
                       </div>
                     </div>
-                ))
-                )
-                :
-                isLoading ? (<div className="flex flex-col items-center text-blue_gray-601 py-40 w-full h-full">
-                  <Loader/>
-                </div>)
-                :
-                (<div className="flex flex-col items-center h-screen w-full py-28 gap-[32px]">
-                    {/* <PiClockClockwise  size={40} className="transform  scale-y-[-1] text-gray500" /> */}
-                    <img
-                      src={`images/img_clock_rewind.svg`} className="w-[30px] h-[27px]" 
-                      alt="img"
-                    />
-                    <Text
-                      className="font-dm-sans-regular  max-w-[380px] text-sm leading-6 text-gray700 text-center w-auto"
-                      size=""
-                    >
-                      {t("history.emptyMsg")} <br/> {t('history.emptyMsg1')}
-                    </Text>
-                </div>)}    
+                  </div>
+                </div>
+              ))
+            ) : isLoading ? (
+              <div className="flex flex-col items-center text-blue_gray-601 py-40 w-full h-full">
+                <Loader />
               </div>
-            </div>
-        </section>
-      </>
-    )
-}
+            ) : (
+              <div className="flex flex-col items-center h-screen w-full py-28 gap-[32px]">
+                {/* <PiClockClockwise  size={40} className="transform  scale-y-[-1] text-gray500" /> */}
+                <img
+                  src={`images/img_clock_rewind.svg`}
+                  className="w-[30px] h-[27px]"
+                  alt="empty history"
+                />
+                <p
+                  className="font-dm-sans-regular  max-w-[380px] text-sm leading-6 text-gray700 text-center w-auto"
+                >
+                  {t("history.emptyMsg")} <br /> {t("history.emptyMsg1")}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
 
 export default History;

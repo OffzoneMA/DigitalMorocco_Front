@@ -370,6 +370,7 @@
   },
 
   "projects": {
+    "projects": "Projets",
     "projectList": "Liste des projets",
     "newProject": "Créer un projet ",
     "projectName": "Nom du projet",
@@ -492,6 +493,12 @@
         "singular": "L'investisseur examinera votre demande et vous répondra. Veuillez surveiller votre email et votre tableau de bord pour toute communication ou mise à jour.",
         "plural": "Les investisseurs examineront votre demande et vous répondront. Veuillez surveiller votre email et votre tableau de bord pour toute communication ou mise à jour."
       }
+    },
+    "maskProjects": {
+      "selectProjectsToMask": "Sélectionner les projets à masquer",
+      "title": "Masquer les projets",
+      "description": "En cliquant sur",
+      "maskProjects":"vos projets seront masqués aux investisseurs."
     }
   },
 
@@ -2279,6 +2286,11 @@
             "title": "Digital Morocco - Projet {{projectName}}",
             "description": "Informations détaillées et mises à jour sur le projet {{projectName}} sur Digital Morocco.",
             "keywords": "détails du projet, informations sur le projet, projets Digital Morocco"
+        },
+        "maskProjects": {
+          "title": "Digital Morocco - Masquer des Projets",
+          "description": "Sélectionnez des projets pour masquer leurs détails.",
+          "keywords": "masquer des projets, masquage de projet, Digital Morocco"
         }
     },
     "investorProfile": {
@@ -2514,6 +2526,26 @@
         "title": "Digital Morocco - Gérer les Crédits",
         "description": "Ajoutez des crédits à votre compte pour accéder à des fonctionnalités premium et maximiser votre expérience sur Digital Morocco.",
         "keywords": "gestion des crédits, achat de crédits, fonctionnalités premium, Digital Morocco"
+    },
+    "notification": {
+      "title": "Digital Morocco - Notifications",
+      "description": "Restez informé des mises à jour et des alertes importantes sur la plateforme Digital Morocco.",
+      "keywords": "notifications, alertes, mises à jour, Digital Morocco"
+    },
+    "resetPassword": {
+      "title": "Digital Morocco - Réinitialisation de mot de passe",
+      "description": "Réinitialisez votre mot de passe pour accéder à votre compte sur la plateforme Digital Morocco.",
+      "keywords": "réinitialisation de mot de passe, mot de passe, compte, Digital Morocco",
+      "PasswordResetSucces": {
+        "title": "Digital Morocco - Réinitialisation de mot de passe",
+        "description": "Réinitialisez votre mot de passe pour accéder à votre compte sur la plateforme Digital Morocco.",
+        "keywords": "réinitialisation de mot de passe, mot de passe, compte, Digital Morocco"
+      },
+      "ForgotPassword": {
+        "title": "Digital Morocco - Mot de passe oublié",
+        "description": "Réinitialisez votre mot de passe pour accéder à votre compte sur la plateforme Digital Morocco.",
+        "keywords": "mot de passe oublié, mot de passe, compte, Digital Morocco"
+      }
     }
   }
 

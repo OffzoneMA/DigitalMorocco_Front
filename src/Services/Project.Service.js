@@ -61,10 +61,35 @@ export const projectApi = createApi({
     getTheDraftProject: builder.query({
       query: () => '/draft',
     }),
+
+    maskProjectsByIds: builder.mutation({
+      query: (projectIds) => ({
+        url: '/mask-projects-by-ids',
+        method: 'PUT',
+        body: { projectsIds: projectIds },
+      }),
+    }),
+
+    unmaskProjectsByIds: builder.mutation({
+      query: (projectIds) => ({
+        url: '/unmask-projects-by-ids',
+        method: 'PUT',
+        body: { projectsIds: projectIds },
+      }),
+    }),
+
+    maskAndUnmaskProjectsByIds: builder.mutation({
+      query: (projectIds) => ({
+        url: '/mask-unmask-projects',
+        method: 'PUT',
+        body: { projectsIds: projectIds },
+      }),
+    }),
   }),
 });
 
 export const { useDeleteProjectMutation, useGetProjectByIdQuery , useAddMilestoneToProjectMutation ,
   useDeleteMilestoneMutation , useGetTopSectorsQuery , useDeleteDocumentMutation , useDeleteProjectLogoMutation ,
-  useGetTheDraftProjectQuery , useDeleteProjectCompletlyMutation
+  useGetTheDraftProjectQuery , useDeleteProjectCompletlyMutation , useMaskProjectsByIdsMutation , useUnmaskProjectsByIdsMutation , 
+  useMaskAndUnmaskProjectsByIdsMutation
  } = projectApi;

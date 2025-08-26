@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from '../Text';
 import {default as ModalProvider} from "react-modal";
 import { useTranslation } from 'react-i18next';
 
@@ -35,7 +34,7 @@ const RoleConfirmedModal = (props) => {
               alt="successtick"
             />
             <div className="flex flex-col gap-5 items-center justify-start w-auto max-w-[460px]">
-              <Text
+              <h1
                 className="leading-[28.00px] font-dm-sans-medium text-gray-801 text-center text-[18px] "
               >
                 <span className=" font-dm-sans-medium">
@@ -44,8 +43,8 @@ const RoleConfirmedModal = (props) => {
                 <span className="text-blue-A400 font-dm-sans-medium">
                   {t('chooserole.confirmed.m2')}
                 </span>
-              </Text>
-              <Text
+              </h1>
+              <p
                 className="flex flex-col gap-4 font-dm-sans-regular leading-[26.00px] text-gray-801 text-center text-sm"
               >
                 <>
@@ -53,10 +52,10 @@ const RoleConfirmedModal = (props) => {
                   <br/>
                   <span className=''>{t('chooserole.confirmed.m4')}</span>
                 </>
-              </Text>
+              </p>
             </div>
           </div>
-          <Text
+          <p
             className="leading-[160.00%] font-dm-sans-regular text-blue_gray-500 text-center text-xs w-full sm:px-16 pt-4"
           >
             <span className="text-blue_gray-500 font-dm-sans-regular">
@@ -68,7 +67,7 @@ const RoleConfirmedModal = (props) => {
             <span className="text-blue-A400 font-dm-sans-regular">
               {t('chooserole.confirmed.m6')}
             </span>
-          </Text>
+          </p>
         </div>
       </div>
     </div>

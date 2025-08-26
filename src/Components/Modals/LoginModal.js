@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from '../Text';
 import {default as ModalProvider} from "react-modal";
 import { useTranslation } from 'react-i18next';
 
@@ -34,7 +33,7 @@ const LoginModal = (props) => {
               alt="successtick"
             />
             <div className="flex flex-col gap-5 items-center justify-start w-auto ">
-              <Text
+              <h1
                 className="leading-[28.00px] font-dm-sans-medium text-gray-801 text-center text-[18px] "
               >
                 <span className=" font-dm-sans-medium">
@@ -43,8 +42,8 @@ const LoginModal = (props) => {
                 <span className="text-blue-A400 font-dm-sans-medium">
                   {t('signin.congrate1')}
                 </span>
-              </Text>
-              <Text
+              </h1>
+              <h2
                 className="flex flex-col gap-4 font-dm-sans-regular leading-[26.00px] text-gray-801 text-center text-sm"
               >
                 <>
@@ -52,10 +51,10 @@ const LoginModal = (props) => {
                   <br/>
                   <span className=''>{t('chooserole.confirmed.m4')}</span>
                 </>
-              </Text>
+              </h2>
             </div>
           </div>
-          <Text
+          <p
             className="leading-[160.00%] font-dm-sans-regular text-blue_gray-500 text-center text-xs w-full sm:px-16 pt-4"
           >
             <span className="text-blue_gray-500 font-dm-sans-regular">
@@ -67,7 +66,7 @@ const LoginModal = (props) => {
             <span className="text-blue-A400 font-dm-sans-regular">
               {t('chooserole.confirmed.m6')}
             </span>
-          </Text>
+          </p>
         </div>
       </div>
     </div>

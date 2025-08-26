@@ -3,7 +3,7 @@ import PageHeader from '../../../Components/common/PageHeader';
 import SearchInput from '../../../Components/common/SeachInput';
 import{ Text } from "../../../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
-import { useSearchParams , useNavigate} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import TablePagination from "../../../Components/common/TablePagination";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
 import MultipleSelect from "../../../Components/common/MultipleSelect";
@@ -20,10 +20,10 @@ import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 const InvestmentRequestHistory = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentLanguage = localStorage.getItem('language') || 'en'; 
+  // const currentLanguage = localStorage.getItem('language') || 'en'; 
     const [filter , setFilter] = useState(false);
     const [filterApply , setFilterApply] = useState(false);
-    const [keywords, setKeywords] = useState('');
+    // const [keywords, setKeywords] = useState('');
     const [targetFund, setTargetFund] = useState('');
     const [location, setLocation] = useState('');
     const [industries, setIndustries] = useState([])
@@ -40,17 +40,16 @@ const InvestmentRequestHistory = () => {
       queryParams.projectStage = location;
       queryParams.dateCreated = parseDateString(selectedDate);
     }
-    const { data: investorRequests, error, isFetching: loading , refetch} = useGetAllConatctReqQuery(queryParams);
-    const { data : sectorData, isLoading:locationLoading } = useGetDistinctRequestFieldValuesQuery("status");
-    const { data : fundingData, isLoading:industryLoading } = useGetDistinctProjectFieldsQuery({field: "funding" });
-    const { data : locationData, isLoading:typeLoading } = useGetDistinctProjectFieldsQuery({field: "stage"});
+    const { data: investorRequests, isFetching: loading , refetch} = useGetAllConatctReqQuery(queryParams);
+    const { data : sectorData } = useGetDistinctRequestFieldValuesQuery("status");
+    const { data : fundingData } = useGetDistinctProjectFieldsQuery({field: "funding" });
+    const { data : locationData } = useGetDistinctProjectFieldsQuery({field: "stage"});
 
-
-    function handlePageChange(page) {
-      if (page >= 1 && page <= totalPages) {
-        setCur(page);
-      }
-    }
+    // function handlePageChange(page) {
+    //   if (page >= 1 && page <= totalPages) {
+    //     setCur(page);
+    //   }
+    // }
 
     const clearFilter = () => {
         setFilter(false); 
@@ -76,7 +75,7 @@ const InvestmentRequestHistory = () => {
       setTotalPages(investorRequests?.totalPages);
       setCur(investorRequests?.currentPage); 
       setSearchParams({ page: `${investorRequests?.currentPage}` }); 
-    }, [investorRequests]);
+    }, [investorRequests , setSearchParams]);
 
     const sectorValues = sectorData?.distinctValues || [];
     const fundingValues = fundingData?.distinctValues || [];
@@ -142,11 +141,11 @@ const InvestmentRequestHistory = () => {
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
-                            <Text
+                            <span
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {t(`${option}`)}
-                            </Text>
+                            </span>
                            </div>
                         );
                       }
@@ -156,11 +155,11 @@ const InvestmentRequestHistory = () => {
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
-                            <Text
+                            <span
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {t(`${option}`)}
-                            </Text>
+                            </span>
                            </div>
                         );
                       }
@@ -170,11 +169,11 @@ const InvestmentRequestHistory = () => {
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
-                            <Text
+                            <span
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {t(`${option}`)}
-                            </Text>
+                            </span>
                            </div>
                         );
                       }
@@ -244,7 +243,9 @@ const InvestmentRequestHistory = () => {
                       filteredData.map((item, index) => (
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
-                        {formatDate(item?.dateCreated)}
+                          <time dateTime={item?.dateCreated} className="text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
+                            {formatDate(item?.dateCreated)}
+                          </time>
                         </td>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             <div className="flex items-center gap-3" >

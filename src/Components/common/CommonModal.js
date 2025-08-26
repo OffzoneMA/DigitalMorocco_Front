@@ -1,12 +1,8 @@
 import React from 'react';
 import {default as ModalProvider} from "react-modal";
-import { useTranslation } from 'react-i18next';
-import { Text } from '../Text';
 
 const CommonModal = (props) => {
-  const { t } = useTranslation();
-  const currentLanguage = localStorage.getItem('language') || 'en'; 
-  
+
   return (
     <ModalProvider
     appElement={document.getElementById("root")}
@@ -17,11 +13,11 @@ const CommonModal = (props) => {
     <div className="max-h-[97vh] sm:w-full md:w-full">
       <div className="bg-white-A700 border border-gray-500_33 border-solid flex flex-col gap-[24px] items-center justify-start max-w-screen-sm p-5 md:px-8 sm:px-8 rounded-[14px] w-full">
         <div className="flex flex-row items-center justify-between w-full ">
-          <Text
+          <h2
               className="leading-7 text-center text-lg text-[#1D2939] font-dm-sans-medium"
           >
             {props.title}
-          </Text>
+          </h2>
           {props?.showCloseBtn &&  
           <div className="hover:bg-gray-201 rounded-full p-1 cursorpointer" onClick={props.onRequestClose}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

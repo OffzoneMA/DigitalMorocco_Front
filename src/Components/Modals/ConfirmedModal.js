@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from '../Text';
 import {default as ModalProvider} from "react-modal";
 import { useTranslation } from 'react-i18next';
 
@@ -28,9 +27,10 @@ const ConfirmedModal = (props) => {
               className="h-[172px] w-[172px]"
               src="/images/img_role_confirmed.svg"
               alt="successtick"
+              role="img"
             />
             <div className="flex flex-col gap-5 items-center justify-start w-auto sm:w-full">
-              <Text
+              <h1
                 className="leading-[28.00px] font-dm-sans-medium max-w-[460px] md:max-w-full text-blue_gray-900_03 text-center text-lg"
               >
                 <span className="text-blue_gray-900_03 font-DmSans text-base font-semibold leading-7">
@@ -40,10 +40,9 @@ const ConfirmedModal = (props) => {
                 <span className="text-blue-A400 font-DmSans text-base font-semibold leading-7">
                   {props.m2}
                 </span>
-              </Text>
-              <Text
+              </h1>
+              <p
                 className="font-dm-sans-regular text-sm leading-6 text-blue_gray-900_03 text-center"
-                size="txtDMSansRegular14Bluegray90003"
               >
                 <>
                   {props.m3}
@@ -55,12 +54,11 @@ const ConfirmedModal = (props) => {
                   }
                   
                 </>
-              </Text>
+              </p>
             </div>
           </div>
-          <Text
-            className="leading-[160.00%] text-blue_gray-500 text-center text-xs w-full px-16 pt-4"
-            size="txtDMSansRegular12Bluegray500"
+          <p
+            className="leading-[160.00%] font-dm-sans-regular text-blue_gray-500 text-center text-xs w-full px-16 pt-4"
           >
             <span className="text-blue_gray-500 font-dm-sans-regular">
               {t("chooserole.confirmed.m5")}
@@ -71,7 +69,7 @@ const ConfirmedModal = (props) => {
             <span className="text-blue-A400 font-dm-sans-regular">
               {t('chooserole.confirmed.m6')}
             </span>
-          </Text>
+          </p>
         </div>
       </div>
     </div>

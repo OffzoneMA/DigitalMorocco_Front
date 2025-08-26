@@ -25,7 +25,6 @@ export const userApi = createApi({
 
         updateFullName: builder.mutation({
             query: ({ userId, payload }) => {
-                console.log(payload)
                 return {
                     url: `/updateFullName/${userId}`,
                     method: 'PUT',
@@ -48,23 +47,23 @@ export const userApi = createApi({
             query: (field) => `/distinct?field=${field}`,
         }),
         getAllUsersPage: builder.query({
-            query: ({ page = 1, limit = 8, roles = [], statuses = [] , date = null , dateField = 'dateCreated' , sortField = 'dateCreated' , sortOrder = 'desc' }) => ({
+            query: ({ page = 1, limit = 8, roles = [], statuses = [], date = null, dateField = 'dateCreated', sortField = 'dateCreated', sortOrder = 'desc' }) => ({
                 url: '/all',
                 method: 'GET',
                 params: {
-                page,
-                limit,
-                roles: roles?.join(','),  
-                statuses: statuses?.join(','),
-                date,
-                dateField ,
-                sortField ,
-                sortOrder ,
+                    page,
+                    limit,
+                    roles: roles?.join(','),
+                    statuses: statuses?.join(','),
+                    date,
+                    dateField,
+                    sortField,
+                    sortOrder,
                 },
             }),
         }),
     }),
 })
 
-export const { useUpdateUserMutation , useUpdateFullNameMutation , useGetAllUsersQuery , 
-    useGetUsersCountByMonthQuery , useGetDistinctFieldValuesQuery , useGetAllUsersPageQuery } = userApi
+export const { useUpdateUserMutation, useUpdateFullNameMutation, useGetAllUsersQuery,
+    useGetUsersCountByMonthQuery, useGetDistinctFieldValuesQuery, useGetAllUsersPageQuery } = userApi

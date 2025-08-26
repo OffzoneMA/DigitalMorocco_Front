@@ -9,7 +9,7 @@ const AddPaymentMethodModal = (props) => {
   const { t } = useTranslation();
   const paymentMethod = props?.data ? props.data : null;
   const { register, handleSubmit, formState: { errors } , setValue ,  reset } = useForm();
-  const [cardNumber, setCardNumber] = useState('');
+  // const [cardNumber, setCardNumber] = useState('');
   const [selectedMethod, setSelectedMethod] = useState({ id: 1, name: 'Mastercard', image: 'images/img_mastercard.svg', icon: "images/img_mastercard_icon.svg", info: 'Mastercard information' });
   const [haveMethod , setHaveMethod] = useState(false);
   const [sendingOk , setSendingOk] = useState(false);
@@ -37,7 +37,7 @@ const AddPaymentMethodModal = (props) => {
       reset();
       setSendingOk(false);
     }
-  }, [props.isOpen]);
+  }, [props.isOpen, reset]);
 
   const paymentMethods = paymentMethodsData ;
 
@@ -49,7 +49,7 @@ const AddPaymentMethodModal = (props) => {
   const formatCardNumber = (value) => {
     let formattedValue = value.replace(/\s/g, '');
     formattedValue = formattedValue.replace(/(\d{4})/g, '$1 ').trim();
-    setCardNumber(formattedValue);
+    // setCardNumber(formattedValue);
     setValue('cardNumber', formattedValue);
   };
 
@@ -65,13 +65,13 @@ const AddPaymentMethodModal = (props) => {
     return '';
   };
 
-  const updateClick = () => {
-    const data  = {
+  // const updateClick = () => {
+  //   const data  = {
 
-    }
-    props?.onRequestClose();
-    // props?.updateMethode();
-  }
+  //   }
+  //   props?.onRequestClose();
+  //   // props?.updateMethode();
+  // }
 
   const validateExpiryDate = (value) => {
     const [month, year] = value.split('/').map(Number);
@@ -107,6 +107,7 @@ const AddPaymentMethodModal = (props) => {
     paymentMethod?._id ?  props?.payMethod({paymentMethodId: paymentMethod?._id , paymentMethodData: updatedData}) : props?.payMethod(updatedData) ;
     reset();
     props.onRequestClose();
+    setSendingOk(false);
   };
 
   return (
@@ -121,8 +122,8 @@ const AddPaymentMethodModal = (props) => {
           <div className="flex flex-col w-full gap-5">
             <div className="flex flex-col w-full">
               <div className="flex flex-col w-full gap-2 border-b border-gray-301">
-                <Text className="font-dm-sans-medium text-[22px] leading-8 text-[#101828] w-full">{t('payment.addPaymentMethod')}</Text>
-                <Text className="font-dm-sans-regular text-base leading-[26px] text-gray500 text-left w-full">{t('payment.selectPaymentMethod')}</Text>
+                <h1 className="font-dm-sans-medium text-[22px] leading-8 text-[#101828] w-full">{t('payment.addPaymentMethod')}</h1>
+                <h2 className="font-dm-sans-regular text-base leading-[26px] text-gray500 text-left w-full">{t('payment.selectPaymentMethod')}</h2>
                 <div className='flex flex-row w-full gap-2 pb-4'>
                   {paymentMethods.map((method, index) => (
                     <div
@@ -140,18 +141,19 @@ const AddPaymentMethodModal = (props) => {
                   {(selectedMethod?.name === 'Mastercard' || selectedMethod?.name === 'Visa') && (
                     <>
                       <div className={`flex flex-col gap-1.5 items-start justify-start w-full`}>
-                        <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.nameOnCard')}</Text>
+                        <Text htmlFor="cardName" className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.nameOnCard')}</Text>
                         <input
                         {...register('cardName', { required: 'Name on card is required' })}
                           className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardName ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                           type="text"
                           name="cardName"
+                          id="cardName"
                           placeholder={t('payment.enterFullName')}
                         />
                       </div>
                       <div className="flex flex-row gap-5 items-start justify-start w-full">
                         <div className={`flex flex-col gap-1.5 flex-1 items-start justify-start `}>
-                          <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.cardNumber')}</Text>
+                          <Text htmlFor="cardNumber" className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.cardNumber')}</Text>
                           <div className="relative w-full rounded-[8px]">
                             <input
                               {...register('cardNumber', 
@@ -164,6 +166,7 @@ const AddPaymentMethodModal = (props) => {
                               className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] pl-[42px] pr-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cardNumber ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                               type="text"
                               name="cardNumber"
+                              id="cardNumber"
                               placeholder="0000 0000 0000 0000"
                             />
                             <img
@@ -175,7 +178,7 @@ const AddPaymentMethodModal = (props) => {
                           </div>
                         </div>
                         <div className={`flex flex-col gap-1.5 ${currentLanguage === 'fr' ? 'w-[25%]' : 'w-[22%]'} items-start justify-start `}>
-                          <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.expiry')}</Text>
+                          <Text htmlFor="expiryDate" className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.expiry')}</Text>
                           <input
                           {...register('expiryDate', 
                             { required: 'Expiry date is required' ,
@@ -188,11 +191,12 @@ const AddPaymentMethodModal = (props) => {
                             className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.expiryDate ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                             type="text"
                             name="expiryDate"
+                            id="expiryDate"
                             placeholder="MM/YY"
                           />
                         </div>
                         <div className={`flex flex-col gap-1.5 w-[22%] items-start justify-start `}>
-                          <Text className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.cvv')}</Text>
+                          <Text htmlFor="cvv" className="text-base font-dm-sans-medium leading-[26px] text-gray700 w-auto">{t('payment.cvv')}</Text>
                           <input
                           {...register('cvv', 
                             { required: 'CVV is required' ,
@@ -204,6 +208,7 @@ const AddPaymentMethodModal = (props) => {
                             className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${errors?.cvv ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                             type="text"
                             name="cvv"
+                            id="cvv"
                             placeholder="000"
                           />
                         </div>

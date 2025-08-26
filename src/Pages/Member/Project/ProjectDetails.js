@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Text} from "../../../Components/Text";
 import {FiEdit3} from "react-icons/fi";
 import {HiOutlineShare} from "react-icons/hi";
 import {RiDeleteBinLine} from "react-icons/ri";
@@ -9,10 +8,8 @@ import ProjectDocumentItem from "../../../Components/common/ProjectDocumentItem"
 import ShareToInvestorModal from "../../../Components/Modals/FormModals/ShareToInvestorModal";
 import NewMilestoneModal from "../../../Components/Modals/FormModals/NewMilestoneModal";
 import DeleteModal from "../../../Components/common/DeleteModal";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {BsDot} from "react-icons/bs";
+import { useNavigate, useParams} from "react-router-dom";
 import {useGetProjectByIdQuery , useAddMilestoneToProjectMutation , useDeleteProjectMutation} from "../../../Services/Project.Service";
-import {formatNumber} from "../../../data/helper";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
 import TableTitle from "../../../Components/common/TableTitle";
@@ -29,13 +26,12 @@ const ProjectDetails = () => {
   const div1Ref = useRef(null);
   const div2Ref = useRef(null);
   const [maxDivHeight, setDivMaxHeight] = useState('720px');
-  const [addMilestoneToProject, {isSuccess, isError }] = useAddMilestoneToProjectMutation();
-  const [deleteProject, response] = useDeleteProjectMutation();
-  const location = useLocation();
+  const [addMilestoneToProject] = useAddMilestoneToProjectMutation();
+  const [deleteProject] = useDeleteProjectMutation();
   const { projectId } = useParams();
   const [project, setProject] = useState(null);
   // const [project, setProject] = useState(location.state?.project || null);
-  const { data, error, isLoading ,refetch } = useGetProjectByIdQuery(projectId , {refetchOnMountOrArgChange: true , skip: Boolean(!projectId)});
+  const { data, isLoading ,refetch } = useGetProjectByIdQuery(projectId , {refetchOnMountOrArgChange: true , skip: Boolean(!projectId)});
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenMilestone, setIsModalOpenMilestone] = useState(false);
@@ -113,14 +109,6 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  let listEmployee;
-
-  if (members.length > 0) {
-    listEmployee = members.map(employee => {
-      const { _id, ...rest } = employee;
-      return rest;
-    });
-  } 
   if (project != null && members?.length > 0) {
     const selectedProjectMembers = members?.filter(emp => {
       return project.listMember?.some(member => member === emp._id);
@@ -240,45 +228,45 @@ useEffect(() => {
               <div className="flex  gap-y-4 flex-wrap py-2 w-full">
                 <div className="flex flex-col items-start justify-start gap-6 px-[18px] py-2 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
+                    <h2 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold">
                     {t('projects.projectDetails.target')}
-                    </Text>
+                    </h2>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
+                    <p className="md:text-[22px] text-gray700 text-base font-dm-sans-medium">
                       {`${project?.currency || 'USD'} ${project?.funding?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}
-                    </Text>
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start gap-6 py-2 px-[18px] max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
+                    <h2 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold">
                     {t('projects.createNewProject.totalRaised')}
-                    </Text>
+                    </h2>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium" size="txtDMSansMedium22">
+                    <p className="md:text-[22px] text-gray700 text-base font-dm-sans-medium">
                       {`${project?.currency || 'USD'} ${project?.totalRaised?.toLocaleString('fr-FR').replace(/\s/g, '\u00A0') || 0}`}
-                    </Text>
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
+                    <h2 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold">
                     {t('projects.stage')}
-                    </Text>
+                    </h2>
                   </div>
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="md:text-[22px] text-gray700 text-base font-dm-sans-medium w-auto">
+                    <p className="md:text-[22px] text-gray700 text-base font-dm-sans-medium w-auto">
                       {t(project?.stage) || '-'}
-                    </Text>
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
+                    <h2 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold">
                     {t('projects.status')}
-                    </Text>
+                    </h2>
                   </div>
                   <div className="flex flex-row items-start justify-start w-full">
                     <div className={`flex items-center justify-center text-center w-auto px-[10px] py-[5px] h-[28px] gap-[6px] font-inter text-sm font-medium leading-[20px] rounded-full ${
@@ -295,9 +283,9 @@ useEffect(() => {
                 </div>
                 <div className="flex flex-col items-start justify-start px-[18px] py-2 gap-6 max-w-full min-w-[150px] basis-[150px]	shrink grow">
                   <div className="bg-white-A700 flex flex-col items-start justify-start w-full">
-                    <Text className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold" size="txtDMSansBold12">
+                    <h2 className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase font-dm-sans-bold">
                     {t('projects.projectDetails.publication')}
-                    </Text>
+                    </h2>
                   </div>
                   <div className="flex flex-row items-start justify-start w-full">
                     <div className={`flex items-center justify-center text-center w-auto px-[10px] py-[4px] h-[28px] gap-[6px] font-inter text-sm font-medium leading-[20px] rounded-full ${
@@ -317,17 +305,15 @@ useEffect(() => {
                 <div ref={div1Ref} className="flex flex-1 flex-col gap-6 items-start justify-start w-full">
                   <div className="flex flex-col items-start justify-start w-full">
                     <div className="flex flex-col items-center justify-start w-auto">
-                      <Text
-                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
-                        size="txtDMSansBold12"
+                      <h2
+                        className="text-[#98A2B3] font-dm-sans-bold text-xs tracking-[1.68px] uppercase w-auto"
                       >
                         {t('projects.projectDetails.projectDescription')}
-                      </Text>
+                      </h2>
                     </div>
                     <div className="flex flex-col justify-start py-4 w-full">
-                      <Text
-                        className="leading-[26.00px] max-w-[599px] md:max-w-full text-gray700 text-sm"
-                        size="txtDMSansRegular14Bluegray80001"
+                      <p
+                        className="leading-[26.00px] max-w-[599px] md:max-w-full text-gray700 text-sm font-dm-sans-regular"
                       >
                         { project?.details? project?.details : `Discover a dynamic and innovative business
                         networking platform designed to connect startups,
@@ -335,7 +321,7 @@ useEffect(() => {
                         Morocco is your gateway to a vibrant community of
                         professionals, where collaboration and growth
                         opportunities abound.`}
-                      </Text>
+                      </p>
                     </div>
                   </div>
                   {/* Divider */}
@@ -343,12 +329,11 @@ useEffect(() => {
                   {/* Fin Divider */}
                   <div className="flex flex-col items-start justify-start pb-4 w-full">
                     <div className="flex flex-row gap-1 items-center justify-between w-full">
-                      <Text
-                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
-                        size="txtDMSansBold12"
+                      <h2
+                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto font-dm-sans-bold"
                       >
                         {t('projects.projectDetails.projectMilestone')}
-                      </Text>
+                      </h2>
                       <button
                         className="bg-white-A700 hover:bg-[#235DBD] active:bg-[#224a94] hover:text-[#EDF7FF] text-blue-A400 border border-blue-A400 flex flex-row h-[30px] items-center cursorpointer ml-auto px-[8px] py-[7px] rounded-md w-auto"
                         onClick={openModalMilestone}
@@ -375,12 +360,11 @@ useEffect(() => {
                   <div className="bg-gray-201 h-px w-full" />
                   <div className="flex flex-col  items-start justify-start w-full">
                     <div className="flex flex-row gap-1 items-center justify-between w-full">
-                      <Text
-                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
-                        size="txtDMSansBold12"
+                      <h2
+                        className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto font-dm-sans-bold"
                       >
                         {t('projects.createNewProject.teamMember')}
-                      </Text>
+                      </h2>
                       <div className="relative w-[50%] min-w-[120px] max-w-[350px]">
                         <input
                           className={`!placeholder:text-[#98A2B3] !text-gray700 font-manrope p-2 h-[36px] pr-[30px] text-left text-sm tracking-[0.14px] w-full bg-transparent border border-solid border-gray-201 focus:border-focusColor focus:shadow-inputBs rounded-md`}
@@ -415,16 +399,15 @@ useEffect(() => {
                   {/* Fin Divider */}
                 </div>
                 {/* Divider */}
-                <div ref={dividerRef} className="bg-gray-201 lg:h-[${maxDivHeight}] h-px w-full lg:w-px" />
+                <div ref={dividerRef} className={`bg-gray-201 lg:h-[${maxDivHeight}] h-px w-full lg:w-px`} />
                 {/*Fin Divider */}
                 <div ref={div2Ref} className="flex flex-col items-start justify-start w-full lg:w-1/3">
                   <div className="flex flex-col items-center justify-start w-auto">
-                    <Text
-                      className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto"
-                      size="txtDMSansBold12"
+                    <h2
+                      className="text-[#98A2B3] text-xs tracking-[1.68px] uppercase w-auto font-dm-sans-bold"
                     >
                       {t('projects.projectDetails.documents')}
-                    </Text>
+                    </h2>
                   </div>
                   {project?.documents?.length> 0 && project?.documents.map((document, index) => (
                     <ProjectDocumentItem
@@ -448,12 +431,11 @@ useEffect(() => {
     onRequestClose={closeDeleteModal} title={t('projects.deleteProjectConfirmation.title')}
     content={
       <div className="flex flex-col gap-5 items-center justify-start py-4 w-full">
-        <Text
+        <p
           className="font-DmSans text-center text-base font-normal leading-6"
-          size=""
         >
           {t('projects.deleteProjectConfirmation.confirmationMessage')}
-        </Text>
+        </p>
       </div>
     }/>
     </>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState , useRef} from 'react'
 import { useForm } from "react-hook-form";
-import {Text } from '../../Components/Text'
 import {Button } from '../../Components/Button'
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../Redux/auth/authAction';
 import { setUserEmail } from '../../Redux/auth/authSlice';
@@ -11,10 +10,10 @@ import { useNavigate , Link , useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import logo from '../../Media/img_logo.svg';
 import googleLogo  from '../../Media/img_flatcoloriconsgoogle.svg';
-import faceBookLogo from '../../Media/img_logosfacebook.svg';
+// import faceBookLogo from '../../Media/img_logosfacebook.svg';
 import linkLogo from '../../Media/img_link.svg';
 import { authApi } from '../../Services/Auth';
-import { useGetUserByEmailQuery } from '../../Services/Auth';
+// import { useGetUserByEmailQuery } from '../../Services/Auth';
 import EmailExistModalOrConfirmation from '../../Components/Modals/EmailExistModalOrConfirmation';
 import { languages } from '../../data/tablesData';
 import HelmetWrapper from '../../Components/common/HelmetWrapper';
@@ -22,7 +21,7 @@ import isEmail from 'validator/lib/isEmail';
 
 
 export default function SignUp() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const { loading, userInfo, error } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
@@ -31,11 +30,10 @@ export default function SignUp() {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [Mount, setMount] = useState(true)
   const [sendOTP] = useSendOTPMutation();
-  const [trigger, { data, isLoading, status , isSuccess , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  // const [trigger, { data, isLoading, status , isSuccess , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
   const [userTrigger ,{ data: userData, error: userError, isLoading: userFetching , isSuccess: userSucces} ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [socialType ,  setSocialType] = useState('');
   const [sending , setSending] = useState(false);
 
   /**
@@ -46,7 +44,7 @@ export default function SignUp() {
   const {
     register,
     handleSubmit,
-    reset, getValues,
+    getValues,
     watch,
     formState: { errors },
   } = useForm();
@@ -103,7 +101,7 @@ export default function SignUp() {
     }
   }
 
-  }, [userInfo])
+  }, [userInfo , Mount , dispatch , navigate])
 
   const getLanguageLabelById = (id) => {
     const language = languages.find(lang => lang.id === id);
@@ -137,38 +135,38 @@ export default function SignUp() {
   };
 
 
-  const getPasswordErrorMessage = () => {
-    const errorMessage = [];
+//   const getPasswordErrorMessage = () => {
+//     const errorMessage = [];
 
-    if (!passwordValidation.minLength) {
-        errorMessage.push(t('signup.passwordMinLength'));
-    }
+//     if (!passwordValidation.minLength) {
+//         errorMessage.push(t('signup.passwordMinLength'));
+//     }
 
-    if (!passwordValidation.hasLowerCase) {
-        errorMessage.push(t('signup.passwordLowerCase'));
-    }
+//     if (!passwordValidation.hasLowerCase) {
+//         errorMessage.push(t('signup.passwordLowerCase'));
+//     }
 
-    if (!passwordValidation.hasUpperCase) {
-        errorMessage.push(t('signup.passwordUpperCase'));
-    }
+//     if (!passwordValidation.hasUpperCase) {
+//         errorMessage.push(t('signup.passwordUpperCase'));
+//     }
 
-    if (!passwordValidation.hasSpecialChar) {
-        errorMessage.push(t('signup.specialChar'));
-    }
+//     if (!passwordValidation.hasSpecialChar) {
+//         errorMessage.push(t('signup.specialChar'));
+//     }
 
-    let message = '';
+//     let message = '';
 
-    if (errorMessage.length === 1) {
-        message = errorMessage[0];
-    } else if (errorMessage.length === 2) {
-        message = `${errorMessage[0]} et ${errorMessage[1]}`;
-    } else if (errorMessage.length > 2) {
-        const lastMessage = errorMessage.pop();
-        message = `${errorMessage.join(', ')} et ${lastMessage}`;
-    }
+//     if (errorMessage.length === 1) {
+//         message = errorMessage[0];
+//     } else if (errorMessage.length === 2) {
+//         message = `${errorMessage[0]} et ${errorMessage[1]}`;
+//     } else if (errorMessage.length > 2) {
+//         const lastMessage = errorMessage.pop();
+//         message = `${errorMessage.join(', ')} et ${lastMessage}`;
+//     }
 
-    return message;
-};
+//     return message;
+// };
 
 
 const onSubmit = (data) => {
@@ -191,7 +189,7 @@ const onSubmit = (data) => {
     }
     else {
       console.log(payload?.error)
-      if(payload?.error?.status == 404) {
+      if(payload?.error?.status === 404) {
         dispatch(registerUser(data));
       }
     }
@@ -199,7 +197,6 @@ const onSubmit = (data) => {
 };
 
   const socialSignUp = (type) => {
-    setSocialType(type)
     navigate('/SocialSignUp', { state: { socialType: type } });
   }
 
@@ -225,7 +222,7 @@ const onSubmit = (data) => {
         // toast.error(errorSocial || 'Oops, something went wrong!')
       }
     }
-  }, [error]);
+  }, [errorSocial]);
 
   return (
     <>
@@ -237,23 +234,24 @@ const onSubmit = (data) => {
     />
     <div className="bg-gray-100 flex flex-col font-DmSans items-center justify-start mx-auto min-h-screen overflow-y-auto md:px-10 px-[12px] py-[30px] w-full">
         <div className="flex flex-col gap-[42px] items-center justify-start mb-[63px] w-auto sm:w-full">
-          <div className="flex flex-col items-center justify-center w-full cursorpointer">
+          <header className="flex flex-col items-center justify-center w-full cursorpointer">
             <Link to="https://digitalmorocco.net" target='_blank'><img
                 className="h-[50px] w-[183px]"
                 src={logo}
                 alt="logo"
               />
             </Link>  
-          </div>
+          </header>
           <div className="bg-white-A700 shadow-formbs gap-5 md:gap-10 flex flex-col items-center justify-start px-6 py-8 rounded-[12px] w-full max-w-[520px]">
             <div className="flex flex-col gap-4 items-center justify-start w-full">
               <Toaster />
-              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 items-center justify-start w-full">
-                <Text
-                className="text-base font-dm-sans-medium leading-[25.6px] text-gray-901 tracking-[0.16px] w-auto"
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 items-center justify-start w-full" aria-labelledby="signup-title">
+                <h1
+                  id="signup-title"
+                  className="text-base font-dm-sans-medium leading-[25.6px] text-gray-901 tracking-[0.16px] w-auto"
                 >
                   {t('signup.creatingAccount')}
-                </Text>
+                </h1>
                 <div className="flex flex-col gap-4 items-center justify-start w-full">
                   <div className="flex flex-col gap-2 items-start justify-start w-full">
                     <label
@@ -269,7 +267,7 @@ const onSubmit = (data) => {
                           // message: t('signup.fullNameRequired'),
                         },
                       })}
-                        id="displayName"
+                      id="displayName"
                       name="displayName"
                       placeholder={t('signup.enterFullName')}
                       className={`bg-white w-full  border border-solid !focus:border !focus:border-solid ${errors?.displayName ? 'border-errorColor shadow-inputBsError' : 'border-borderColor'} rounded-full px-[18px] py-[10px] ${errors?.displayName ? ' focus:border-errorColor' : ' focus:border-focusColor focus:shadow-inputBs'} placeholder:text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${errors?.displayName ? 'errorColor' : 'gray-801'}`}
@@ -334,6 +332,7 @@ const onSubmit = (data) => {
                           type="button"
                           className="absolute top-0 right-0 h-full px-3 flex items-center cursorpointer-green"
                           onClick={togglePasswordVisibility}
+                          aria-label={showPassword ? (t('signup.hidePassword') || 'Masquer le mot de passe') : (t('signup.showPassword') || 'Afficher le mot de passe')}
                         >
                           {showPassword ? (
                             <svg width="18" height="18" viewBox="0 0 32 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -349,14 +348,14 @@ const onSubmit = (data) => {
                         }
                         
                       </div>
-                      {(!errors?.password && getValues('password') =='' ) &&<span className="font-dm-sans-regular mt-1 text-xs leading-[15.62px] tracking-[0.01em] text-left text-[#555458]">{t('signup.passwordValidation')}</span>}
+                      {(!errors?.password && getValues('password') === '' ) &&<span className="font-dm-sans-regular mt-1 text-xs leading-[15.62px] tracking-[0.01em] text-left text-[#555458]">{t('signup.passwordValidation')}</span>}
 
                     {(errors?.password || passwordValidation.minLength || passwordValidation.hasLowerCase || passwordValidation.hasUpperCase || passwordValidation.hasDigit) &&
                       <>
                         <span className=''>
                         <ul style={{ listStyle: "none", paddingLeft: 0 }} className='flex flex-wrap items-center gap-4 mt-1' >
                           <li className={`text-[#555458] items-center justify-start text-xs flex ${errors.password?.type === 'minLength' ? 'error' : 'valid'}`}>
-                              {!passwordValidation.minLength  || getValues('password')==''  ? (
+                              {!passwordValidation.minLength  || getValues('password') === ''  ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
                                 </svg> 
@@ -370,7 +369,7 @@ const onSubmit = (data) => {
                             </span>
                           </li>
                           <li className={`text-[#555458] text-xs justify-start items-center flex ${errors.password?.type === "hasLowerCase" ? "error" : "valid"}`}>
-                              {!passwordValidation.hasLowerCase  || getValues('password')==''? (
+                              {!passwordValidation.hasLowerCase  || getValues('password') === ''? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
                                 </svg> 
@@ -384,7 +383,7 @@ const onSubmit = (data) => {
                             </span>
                           </li>
                           <li className={`text-[#555458] text-xs items-center justify-start flex ${errors.password?.type === "hasUpperCase" ? "error" : "valid"}`}>
-                              {!passwordValidation.hasUpperCase  || getValues('password')=='' ? (
+                              {!passwordValidation.hasUpperCase  || getValues('password') === '' ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
                                 </svg> 
@@ -398,7 +397,7 @@ const onSubmit = (data) => {
                             </span>
                           </li>
                           <li className={`text-[#555458] text-xs items-center justify-start flex ${errors.password?.type === "hasUpperCase" ? "error" : "valid"}`}>
-                              {!passwordValidation.hasSpecialChar  || getValues('password')=='' ? (
+                              {!passwordValidation.hasSpecialChar  || getValues('password') === '' ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
                                 </svg> 
@@ -412,7 +411,7 @@ const onSubmit = (data) => {
                             </span>
                           </li>
                           <li className={`text-[#555458] text-xs items-center justify-start flex ${errors.password?.type === "hasDigit" ? "error" : "valid"}`}>
-                              {!passwordValidation.hasDigit  || getValues('password')=='' ? (
+                              {!passwordValidation.hasDigit  || getValues('password') ==='' ? (
                                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M6 0C2.6865 0 0 2.6865 0 6C0 9.3135 2.6865 12 6 12C9.3135 12 12 9.3135 12 6C12 2.6865 9.3135 0 6 0ZM5.07 8.76863L2.30925 6.0075L3.36975 4.947L5.06962 6.64762L8.676 3.04125L9.7365 4.10175L5.07 8.76863Z" fill="#D0D5DD"/>
                                 </svg> 
@@ -435,12 +434,12 @@ const onSubmit = (data) => {
                     </div>
                   </div>
                   <div className="flex flex-col mt-1 mb-1 gap-2.5 items-start justify-start w-full">
-                    <Text
+                    <p
                       className="font-Avenir-next-LTPro leading-[16.8px] text-[12px] text-[#585E66] w-full"
                     >
                       {t('signup.accordance')} <br/>
                       {t('signup.accordance1')} <span className='font-Montserrat-semiBold'>D-W-266/2024.</span>
-                    </Text>
+                    </p>
                     <div className="flex flex-row items-start justify-start m-auto w-full mt-4">
                         <label htmlFor={`acceptTerms`} className="cursorpointer relative inline-flex items-center  peer-checked:border-0 rounded-[3px] mr-2">
                           <input
@@ -503,19 +502,19 @@ const onSubmit = (data) => {
               </form>
               <div className="flex sm:flex-row flex-row gap-2.5 items-center justify-start py-2.5 w-full">
                 <div className="bg-gray-300 h-px w-[46%]" />
-                <Text
+                <span
                   className="text-[15px] font-dm-sans-medium leading-[19.53px] text-gray700 tracking-[0.15px] w-auto"
                 >
                   {t('signup.or')}
-                </Text>
+                </span>
                 <div className="bg-gray-300 h-px w-[46%]" />
               </div>
               <div className="flex flex-col gap-3 items-center justify-start w-full">
-                <Text
+                <h2
                   className="text-base font-dm-sans-medium leading-[25.6px] tracking-[0.01em] text-gray-901 w-auto"
                 >
                   {t('signup.registerSocial')}
-                </Text>
+                </h2>
                 <div className="flex flex-col gap-3 items-center justify-start w-full">
                   <Button
                     className=" text-[#37363B] border border-gray-201 text-[14px] font-dm-sans-medium leading-[18.23px] tracking-[0.01em] border-solid cursorpointer flex items-center justify-center  min-w-full hover:border-solid hover:border-[#00CDAE33]  hover:bg-[#00CDAE33]"
@@ -570,16 +569,12 @@ const onSubmit = (data) => {
             </div>
           </div>
           <div className="flex flex-row gap-2.5 items-center justify-start w-auto">
-            <a
-              className="text-[#37363B] text-sm font-dm-sans-medium leading-[26px]  w-auto"
-            >
-              <Text className=''>{t('signup.haveAccount')}</Text>
-            </a>
+            <span className='text-[#37363B] text-sm font-dm-sans-medium leading-[26px]  w-auto'>{t('signup.haveAccount')}</span>
             <Link
               to="/SignIn"
               className="text-[#482BE7] cursorpointer hover:text-[#00CDAE]  text-sm font-dm-sans-bold leading-[26px] w-auto"
             >
-              <Text className=''>{t('signup.signIn')}</Text>
+              <span className=''>{t('signup.signIn')}</span>
             </Link>
           </div>
         </div>

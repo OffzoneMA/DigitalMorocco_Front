@@ -4,6 +4,12 @@ import { fr , enUS } from 'date-fns/locale';
 
 const currentLanguage = localStorage.getItem('language') || 'en'; 
 
+// const formatDateWithLocale = (date, language) => {
+  //   const locales = { en: enUS, fr: fr }; 
+  //   const selectedLocale = locales[language] || enUS;
+  
+  //   return format(new Date(date), 'MMM d, yyyy', { locale: selectedLocale });
+  // };
 
 /**
  * Format a number with commas as thousand separators.
@@ -327,15 +333,15 @@ export function formatEventDateTime(startDate, endDate, startTime, endTime , t) 
 }
 
 export const validateImageFile = (file) => {
-  const allowedTypes = [
-    "image/jpeg",  // JPG
-    "image/png",   // PNG
-    "image/gif",   // GIF
-    "image/svg+xml", // SVG
-    "image/webp",  // WebP
-    "image/bmp",   // BMP
-    "image/tiff",  // TIFF
-  ];
+  // const allowedTypes = [
+  //   "image/jpeg",  // JPG
+  //   "image/png",   // PNG
+  //   "image/gif",   // GIF
+  //   "image/svg+xml", // SVG
+  //   "image/webp",  // WebP
+  //   "image/bmp",   // BMP
+  //   "image/tiff",  // TIFF
+  // ];
   const maxSizeInBytes = 3 * 1024 * 1024;
 
   // if (!allowedTypes.includes(file.type)) {

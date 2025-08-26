@@ -1,4 +1,4 @@
-import React , {useState , useRef , useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
@@ -10,7 +10,7 @@ import investorImage from '../../../Media/img_investor.svg';
 import companyImage from '../../../Media/img_company.svg';
 import { useAddNewRequestMutation } from '../../../Services/Auth';
 import { authApi } from "../../../Services/Auth";
-import { useNavigate , useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUpdateFullNameMutation } from "../../../Services/User.Service";
 import { setCredentials } from "../../../Redux/auth/authSlice";
 import { useDispatch } from "react-redux";
@@ -20,30 +20,30 @@ import { languages } from "../../../data/tablesData";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const ChooseRole = () => {
-    const { t, i18n } = useTranslation();
-    const location = useLocation();
-    const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [auth, setAuth] = useState(searchParams.get('auth') ? searchParams.get('auth')  :null)
-    const [selectedOption, setSelectedOption] = useState('');
-    const { userInfo } = useSelector((state) => state.auth)
-    const {userToken} = useSelector((state) =>state.auth)
-    const { userEmail } = useSelector((state) => state.auth)
-    const [UserId, setUserId] = useState(userInfo?._id)
-    const [selectedGrid, setSelectedGrid] = useState(null);
-    const [userTrigger ,{ data: userData, error: userError, isLoading } ]  = authApi.endpoints.getUserByEmail.useLazyQuery();
-    const [updateFullName] = useUpdateFullNameMutation();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [showLogout , setShowLogout] = useState(false);
-    const [addNewRequest, response] = useAddNewRequestMutation()
-    const [getUserDetails , { data, isSuccess, isError, error }] = authApi.endpoints.getUserDetails.useLazyQuery();
-    const {userSocialInfos} = useSelector((state) => state.auth)
-    
+  const { t } = useTranslation();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [auth, setAuth] = useState(searchParams.get('auth') ? searchParams.get('auth') : null)
+  const [selectedOption, setSelectedOption] = useState('');
+  const { userInfo } = useSelector((state) => state.auth)
+  const { userToken } = useSelector((state) => state.auth)
+  const { userEmail } = useSelector((state) => state.auth)
+  const [UserId, setUserId] = useState(userInfo?._id)
+  const [selectedGrid, setSelectedGrid] = useState(null);
+  const [userTrigger, { data: userData, error: userError, isLoading }] = authApi.endpoints.getUserByEmail.useLazyQuery();
+  const [updateFullName] = useUpdateFullNameMutation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
+  const [addNewRequest, response] = useAddNewRequestMutation()
+  const [getUserDetails, { data, isSuccess, isError, error }] = authApi.endpoints.getUserDetails.useLazyQuery();
+  const { userSocialInfos } = useSelector((state) => state.auth)
+
   /**
    * Current Language
   */
-  const currentLanguage = localStorage.getItem('language') || 'en'; 
+  // const currentLanguage = localStorage.getItem('language') || 'en';
 
   const dropdownRef = useRef(null);
 
@@ -53,10 +53,10 @@ const ChooseRole = () => {
     }
   };
 
-  const getLanguageLabelById = (id) => {
-    const language = languages.find(lang => lang.id === id);
-    return language ? language.label : null;
-  };
+  // const getLanguageLabelById = (id) => {
+  //   const language = languages.find(lang => lang.id === id);
+  //   return language ? language.label : null;
+  // };
 
   useEffect(() => {
     if (!UserId) {
@@ -73,10 +73,10 @@ const ChooseRole = () => {
     };
   }, []);
 
-    const handleGridClick = (gridId , option) => {
-      setSelectedGrid(gridId);
-      setSelectedOption(option);
-    };
+  const handleGridClick = (gridId, option) => {
+    setSelectedGrid(gridId);
+    setSelectedOption(option);
+  };
 
   //   useEffect(() => {
   //     if (auth) {
@@ -92,7 +92,6 @@ const ChooseRole = () => {
   //               dispatch(setCredentials(JSON.stringify(payload)));
   //               sessionStorage.setItem('userData', JSON.stringify(payload));
   //               if (userSocialInfos) {
-  //                 console.log('Updating full name with:', userSocialInfos);
   //                 const lang = localStorage.getItem('language')
   //                 const languageLabel = getLanguageLabelById(lang);
   //                 updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos , language: languageLabel} })
@@ -115,107 +114,107 @@ const ChooseRole = () => {
   //           console.error('Error fetching user details:', error);
   //       });
   //   }
-  
+
   // }, [auth , dispatch, navigate, userSocialInfos]); 
 
-  
-    // useEffect(() => {
-    //   if (userInfo) {
-    //     setUserId(userInfo?._id);
-    //   }else {
-    //     if (userEmail) {
-    //       userTrigger(userEmail).then(() => {
-    //         if (userData && userData.status === 'verified') {
-    //           setUserId(userData?._id)
-    //         }
-    //       }).catch(error => {
-    //         console.error("Error fetching user by email:", error);
-    //       });
-    //     }
-    //   }
-    // }, [userInfo, userEmail, userData]);
 
-    useEffect(() => {
-      const storedUserData = JSON.parse(sessionStorage.getItem('userData'));
-      if (userInfo) {
-        setUserId(userInfo?._id);
-      } else if (storedUserData) {
-        setUserId(storedUserData?._id);
-      } else if (userEmail) {
-        userTrigger(userEmail).then(() => {
-          if (userData && userData.status === 'verified') {
-            setUserId(userData?._id)
-          }
-        }).catch(error => {
-          console.error("Error fetching user by email:", error);
-        });
-      }
-    }, [userInfo, userEmail, userTrigger]);
-    
-    const openModal = () => {
-      setIsModalOpen(true);
-    };
-  
-    const closeModal =  () => {
-      setIsModalOpen(false);
-      setSelectedGrid(null);
-      setSelectedOption('');
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     setUserId(userInfo?._id);
+  //   }else {
+  //     if (userEmail) {
+  //       userTrigger(userEmail).then(() => {
+  //         if (userData && userData.status === 'verified') {
+  //           setUserId(userData?._id)
+  //         }
+  //       }).catch(error => {
+  //         console.error("Error fetching user by email:", error);
+  //       });
+  //     }
+  //   }
+  // }, [userInfo, userEmail, userData]);
 
-      // Perform logout and navigate
-      dispatch(logout());
-      // Redirect to external site
-      window.location.href = 'https://digitalmorocco.net';
+  useEffect(() => {
+    const storedUserData = JSON.parse(sessionStorage.getItem('userData'));
+    if (userInfo) {
+      setUserId(userInfo?._id);
+    } else if (storedUserData) {
+      setUserId(storedUserData?._id);
+    } else if (userEmail) {
+      userTrigger(userEmail).then(() => {
+        if (userData && userData.status === 'verified') {
+          setUserId(userData?._id)
+        }
+      }).catch(error => {
+        console.error("Error fetching user by email:", error);
+      });
+    }
+  }, [userInfo, userEmail, userTrigger , userData]);
 
-      // navigate('/SignIn');
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-    };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedGrid(null);
+    setSelectedOption('');
 
-    useEffect(()=>{
-      if(response.isSuccess)  {
-        openModal();
-      }
-     },[response.isSuccess])
+    // Perform logout and navigate
+    dispatch(logout());
+    // Redirect to external site
+    window.location.href = 'https://digitalmorocco.net';
 
-     const confirmRole = () => {
-      if(UserId) {
+    // navigate('/SignIn');
+
+  };
+
+  useEffect(() => {
+    if (response.isSuccess) {
+      openModal();
+    }
+  }, [response.isSuccess])
+
+  const confirmRole = () => {
+    if (UserId) {
+      const formData = new FormData();
+      const lang = localStorage.getItem('language')
+      formData.append('role', selectedOption);
+      formData.append('language', lang);
+      addNewRequest({ formdata: formData, userId: UserId });
+    }
+    else {
+      const storedUserData = sessionStorage.getItem('userData');
+      if (storedUserData) {
+        const parsedUserData = JSON.parse(storedUserData);
         const formData = new FormData();
         const lang = localStorage.getItem('language')
         formData.append('role', selectedOption);
-        formData.append('language' , lang);
-        addNewRequest({ formdata: formData, userId: UserId });
+        formData.append('language', lang);
+        addNewRequest({ formdata: formData, userId: parsedUserData?._id });
       }
-      else{
-        const storedUserData = sessionStorage.getItem('userData');
-        if (storedUserData) {
-          const parsedUserData = JSON.parse(storedUserData);
-          const formData = new FormData();
-          const lang = localStorage.getItem('language')
-          formData.append('role', selectedOption);
-          formData.append('language' , lang);
-          addNewRequest({ formdata: formData, userId: parsedUserData?._id });
-        }  
-      }
-      
-    };
-  
+    }
 
-    const handleMouseEnter = () => {
-      setShowLogout(true);
-    };
-  
-    const handleMouseLeave = () => {
-      setShowLogout(false);
-    };
+  };
+
+
+  const handleMouseEnter = () => {
+    setShowLogout(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowLogout(false);
+  };
 
   return (
     <>
-      <HelmetWrapper 
+      <HelmetWrapper
         title={t('helmet.chooseRole.title')}
         description={t('helmet.chooseRole.description')}
         keywords={t('helmet.chooseRole.keywords')}
         canonical={`${process.env.REACT_APP_URL}/ChooseRole`}
       />
-      <div className={`bg-white-A700 flex flex-col font-DmSans ${selectedGrid ? 'gap-[20px]': 'gap-[84px]'} items-center justify-start mx-auto pb-[246px] w-full min-h-screen overflow-y-auto`}>
+      <section className={`bg-white-A700 flex flex-col font-DmSans ${selectedGrid ? 'gap-[20px]' : 'gap-[84px]'} items-center justify-start mx-auto pb-[246px] w-full min-h-screen overflow-y-auto`}>
         <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between px-20 pl-2 pr-12 md:px-[100px] py-5 w-full relative">
           <a href="https://digitalmorocco.net" target='_blank' rel='noreferrer'>
             <img
@@ -239,10 +238,10 @@ const ChooseRole = () => {
             {showLogout && (
               <div className="absolute top-[100%] right-0 w-[248px]">
                 <button className="cursorpointer-green bg-white-A700 text-blue_gray-904 flex flex-row gap-4 px-[18px] mt-[5px] border border-gray-201 w-[248px] rounded-[6px] h-[46px] items-center transition-colors duration-100 hover:text-[#EA6479] hover:stroke-red"
-                onClick={() => {
-                  dispatch(logout());
-                  navigate('/SignIn');
-                }} >
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate('/SignIn');
+                  }} >
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14 15L19 10M19 10L14 5M19 10H7M10 15C10 15.93 10 16.395 9.89778 16.7765C9.62038 17.8117 8.81173 18.6204 7.77646 18.8978C7.39496 19 6.92997 19 6 19H5.5C4.10218 19 3.40326 19 2.85195 18.7716C2.11687 18.4672 1.53284 17.8831 1.22836 17.1481C1 16.5967 1 15.8978 1 14.5V5.5C1 4.10217 1 3.40326 1.22836 2.85195C1.53284 2.11687 2.11687 1.53284 2.85195 1.22836C3.40326 1 4.10218 1 5.5 1H6C6.92997 1 7.39496 1 7.77646 1.10222C8.81173 1.37962 9.62038 2.18827 9.89778 3.22354C10 3.60504 10 4.07003 10 5" stroke="#203668" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -252,107 +251,106 @@ const ChooseRole = () => {
             )}
           </div>
         </div>
-        {selectedGrid && 
-        <div className="px-20 flex justify-end w-full h-[52px]">
-          <button 
-          className={`cursorpointer leading-[20.83px] ml-auto my-3 max-w-[264px] flex flex-row gap-6 h-[52px] items-center justify-center px-[24px] py-[13px] rounded-[200px] w-auto ${ response?.isLoading ? 'bg-greenbtnhoverbg' : 'bg-teal-A700 hover:bg-greenbtnhoverbg  hover:svg-translate'} hover:bg-greenbtnhoverbg hover:svg-translate`} 
-          onClick={confirmRole}
-          type="button"
-        >
-          <span className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
-            {isModalOpen ? t('chooserole.confirmed.button1') : response?.isLoading ? t("all.sending") : t('chooserole.confirmed.button')}
-          </span>
-          {!isModalOpen && (
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform transform">
-              <path d="M11 15L15 11M15 11L11 7M15 11H7M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          )}
-          </button>
-        </div>
+        {selectedGrid &&
+          <div className="px-20 flex justify-end w-full h-[52px]">
+            <button
+              className={`cursorpointer leading-[20.83px] ml-auto my-3 max-w-[264px] flex flex-row gap-6 h-[52px] items-center justify-center px-[24px] py-[13px] rounded-[200px] w-auto ${response?.isLoading ? 'bg-greenbtnhoverbg' : 'bg-teal-A700 hover:bg-greenbtnhoverbg  hover:svg-translate'} hover:bg-greenbtnhoverbg hover:svg-translate`}
+              onClick={confirmRole}
+              type="button"
+            >
+              <span className="text-base items-center justify-center font-dm-sans-medium text-white-A700 w-auto">
+                {isModalOpen ? t('chooserole.confirmed.button1') : response?.isLoading ? t("all.sending") : t('chooserole.confirmed.button')}
+              </span>
+              {!isModalOpen && (
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform transform">
+                  <path d="M11 15L15 11M15 11L11 7M15 11H7M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </button>
+          </div>
         }
         <div className="flex flex-col gap-[42px] items-center justify-start  px-[12px] m-auto w-full">
-          <Text
+          <h1
             className="text-lg md:text-[22px] text-blue_gray-900 text-center font-dm-sans-medium leading-[32px] w-auto"
           >
             {t('chooserole.welcomeMessage')}
-          </Text>
+          </h1>
           <div className="flex flex-col gap-[42px] items-center justify-start w-full">
             <div className="flex flex-col items-center justify-start w-full">
-              <Text
+              <p
                 className="text-base text-blue_gray-500 font-dm-sans-medium  leading-[26px] text-center w-full"
               >
-                {t('chooserole.choosePathMessage')} <br/>
+                {t('chooserole.choosePathMessage')} <br />
                 {t('chooserole.choosePathMessage2')}
-              </Text>
+              </p>
             </div>
-            <div className="flex flex-col items-center w-full"> 
-            <div className="flex items-center justify-center flex-wrap gap-10 w-full">
-              <div onClick={() => handleGridClick(1 , 'member')} 
-                className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid == 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
-                <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
-                  <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
-                  >
-                    {t('chooserole.startup')}
-                  </Text>
-                  <img
-                    className="h-40 w-40"
-                    src={startupImage}
-                    alt="startup"
-                  />
-                  <Text
-                    className="leading-[26.00px] max-w-[257px]  font-dm-sans-regular text-center text-color2"
-                  >
-                   {t('chooserole.startupDescription')}
-                  </Text>
-                </div>
-              </div>
-              <div onClick={() => handleGridClick(2 , 'investor')} 
-              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
-                <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
-                  <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
+            <div className="flex flex-col items-center w-full">
+              <div className="flex items-center justify-center flex-wrap gap-10 w-full">
+                <article onClick={() => handleGridClick(1, 'member')}
+                  className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 1 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
+                  <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
+                    <h2
+                      className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                     >
-                    {t('chooserole.investor')}
-                  </Text>
-                  <img
-                    className="h-40 w-40"
-                    src={investorImage}
-                    alt="startup"
-                  />
-                  <Text
-                    className="leading-[26.00px] max-w-[257px]  font-dm-sans-regular text-center text-color2"
+                      {t('chooserole.startup')}
+                    </h2>
+                    <img
+                      className="h-40 w-40"
+                      src={startupImage}
+                      alt="startup"
+                    />
+                    <p
+                      className="leading-[26.00px] max-w-[257px]  font-dm-sans-regular text-center text-color2"
                     >
-                    {t('chooserole.investorDescription')}
-                  </Text>
-                </div>
-              </div>
-              <div onClick={() => handleGridClick(3 , 'partner')} 
-              className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>                
-                <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
-                  <Text
-                    className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
+                      {t('chooserole.startupDescription')}
+                    </p>
+                  </div>
+                </article>
+                <article onClick={() => handleGridClick(2, 'investor')}
+                  className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 2 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
+                  <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
+                    <h2
+                      className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
                     >
-                    {t('chooserole.company')}
-                  </Text>
-                  <img
-                    className="h-40 w-40"
-                    src={companyImage}
-                    alt="startup"
-                  />
-                  <Text
-                    className="leading-[26.00px] max-w-[257px]  font-dm-sans-regular text-center text-color2"
+                      {t('chooserole.investor')}
+                    </h2>
+                    <img
+                      className="h-40 w-40"
+                      src={investorImage}
+                      alt="startup"
+                    />
+                    <p
+                      className="leading-[26.00px] max-w-[257px] font-dm-sans-regular text-center text-color2"
                     >
-                    {t('chooserole.companyDescription')}
-                  </Text>
-                </div>
+                      {t('chooserole.investorDescription')}
+                    </p>
+                  </div>
+                </article>
+                <article onClick={() => handleGridClick(3, 'partner')}
+                  className={`border-2 animation border-solid flex flex-col items-center justify-start md:px-10 px-3 py-[42px] rounded-[16px] w-[382.67px] cursorpointer-green hover:border-blue-503 hover:shadow-roleCardbs ${selectedGrid === 3 ? 'border-blue-503 shadow-roleCardbs' : 'border-gray-201'}`}>
+                  <div className="flex flex-col gap-5 md:gap-[22px] items-center justify-start w-auto">
+                    <h2
+                      className="font-dm-sans-bold text-base leading-[26px] tracking-[2px]  text-center text-blue_gray-904 uppercase w-auto"
+                    >
+                      {t('chooserole.company')}
+                    </h2>
+                    <img
+                      className="h-40 w-40"
+                      src={companyImage}
+                      alt="startup"
+                    />
+                    <p
+                      className="leading-[26.00px] max-w-[257px] font-dm-sans-regular text-center text-color2"
+                    >
+                      {t('chooserole.companyDescription')}
+                    </p>
+                  </div>
+                </article>
               </div>
             </div>
-            </div>
-            
           </div>
         </div>
-      </div>
+      </section>
       <div>
       </div>
       <ConfirmedModal isOpen={isModalOpen}
@@ -361,7 +359,7 @@ const ChooseRole = () => {
         m2={t('chooserole.confirmed.m2')}
         m3={t('chooserole.confirmed.m3')}
         m4={t('chooserole.confirmed.m4')}
-        />
+      />
     </>
   );
 };

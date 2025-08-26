@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import EmailExistModal from '../../Components/Modals/EmailExistModalOrConfirmation';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../../Components/Loader';
-import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 export default function VerifyFailure() {
   const location = useLocation();
   const navigate = useNavigate();
-  const query = new URLSearchParams(location.search);
   
   useEffect(() => {
+    const query = new URLSearchParams(location.search);
     const error = query.get('err');
     const userId = query.get('user_id');
     const email = query.get('email');
@@ -37,7 +34,7 @@ export default function VerifyFailure() {
         navigate(`/SignIn?error=${encodeURIComponent(error)}`);
       }
     }
-  }, [query, navigate]);
+  }, [navigate , location?.search]);
   
     return (
       <>

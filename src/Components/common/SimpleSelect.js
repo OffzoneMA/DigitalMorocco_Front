@@ -176,9 +176,6 @@ className='' ,required = false, sortable = true }) => {
     };
   }, [isOpen]);
 
-  console.log("selectedOption", selectedOption , typeof selectedOption);
-  console.log("selectedOptionProp", selectedOptionProp);
-  console.log("selectedOptionDefaultVal", selectedOptionsDfault);
 
   return (
     <div className={`relative flex flex-col md:flex-1 w-full ${className}`}>

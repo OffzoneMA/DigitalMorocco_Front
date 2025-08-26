@@ -1,6 +1,5 @@
 import React, { useState , useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text } from '../../Components/Text';
 import logo from '../../Media/img_logo.svg'
 import confirmImage from '../../Media/img_role_confirmed.svg';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +24,7 @@ const RedirectFromSignIn = () => {
   };
 
     return (
-        <div className={`bg-white-A700 flex flex-col font-DmSans gap-[50px] items-center justify-start mx-auto pb-[50px] w-full min-h-screen overflow-y-auto`}>
+        <section className={`bg-white-A700 flex flex-col font-DmSans gap-[50px] items-center justify-start mx-auto pb-[50px] w-full min-h-screen overflow-y-auto`}>
             <div className="border-b border-gray-201 border-solid flex flex-row md:flex-row gap-10 items-center justify-between pl-2 pr-12 md:px-[100px] py-5 w-full relative">
               <a href="https://digitalmorocco.net" target='_blank' rel='noreferrer'>
                   <img
@@ -71,7 +70,7 @@ const RedirectFromSignIn = () => {
                     alt="successtick"
                   />
                   <div className="flex flex-col gap-5 items-center justify-start w-auto ">
-                    <Text
+                    <h1
                       className="leading-[28.00px] font-dm-sans-medium text-gray-801 text-center text-[18px] "
                     >
                       <span className=" font-dm-sans-medium">
@@ -80,19 +79,17 @@ const RedirectFromSignIn = () => {
                       <span className="text-blue-A400 font-dm-sans-medium">
                         {t('signin.congrate1')}
                       </span>
-                    </Text>
-                    <Text
+                    </h1>
+                    <p
                       className="flex flex-col gap-4 font-dm-sans-regular leading-[26.00px] text-gray-801 text-center text-sm"
                     >
-                      <>
                         {t('signin.congrate2')}
                         <br/>
                         <span className=''>{t('chooserole.confirmed.m4')}</span>
-                      </>
-                    </Text>
+                    </p>
                   </div>
                   </div>
-                  <Text
+                  <p
                     className="leading-[160.00%] font-dm-sans-regular text-blue_gray-500 text-center text-xs w-full sm:px-16 pt-4"
                   >
                     <span className="text-blue_gray-500 font-dm-sans-regular">
@@ -104,10 +101,10 @@ const RedirectFromSignIn = () => {
                     <span className="text-blue-A400 font-dm-sans-regular">
                       {t('chooserole.confirmed.m6')}
                     </span>
-                  </Text>
+                  </p>
               </div>
             </div>
-        </div>
+        </section>
     );
 }
 

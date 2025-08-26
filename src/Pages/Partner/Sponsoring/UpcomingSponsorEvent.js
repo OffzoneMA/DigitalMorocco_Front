@@ -178,11 +178,11 @@ const UpcomingSponsorEvent = () => {
                           content={
                             ( option) =>{ return (
                               <div className="flex  py-2 items-center  w-full">
-                                  <Text
+                                  <span
                                     className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                                     >
                                     {t(`${option}`)}
-                                  </Text>
+                                  </span>
                                 </div>
                               );
                             }
@@ -242,7 +242,9 @@ const UpcomingSponsorEvent = () => {
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.organizedBy')}</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.date')}</th>
                       <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">{t('eventListSponsoring.location')}</th>
-                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium"></th>
+                      <th scope="col" className="px-[18px] py-3 text-left text-[#344054] font-DmSans font-medium">
+                        {``}
+                      </th>
                     </tr>
                     </thead>
                     {pageData?.length > 0 && !isLoading ? 
@@ -252,7 +254,7 @@ const UpcomingSponsorEvent = () => {
                       <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`} onClick={()=> navigate(`/SponsorEventDetails/${item?._id}` , { state: { event: item } })}>
                         <td className="w-auto text-gray-801 font-dm-sans-regular text-sm leading-6">
                             <div className="px-[18px] py-4 flex items-center" >
-                                <img src={item?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3"/>
+                                <img src={item?.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300 mr-3" alt="Event Header"/>
                                 <span className="line-clamp-3" style={{ maxWidth:"400px" , overflow:"hidden"}}>{item.title}</span>
                             </div>
                         </td>
@@ -260,9 +262,9 @@ const UpcomingSponsorEvent = () => {
                         style={{ whiteSpace: 'nowrap' }}>
                           <div className="flex items-center gap-2" >
                           {item?.organizerLogo ?
-                            <img src={item?.organizerLogo} className="rounded-full h-8 w-8 mr-2"/>
+                            <img src={item?.organizerLogo} className="rounded-full h-8 w-8 mr-2" alt="Organizer Logo"/>
                               :
-                            <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2"/>
+                            <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2" alt="Default User Profile"/>
                           }
                               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.organizername || "-"}</span>
                           </div>
@@ -300,7 +302,7 @@ const UpcomingSponsorEvent = () => {
                   (!pageData?.length > 0  && 
                   <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] min-h-[330px] w-full py-28 rounded-b-[8px]">
                     <div >
-                    <img src={ticketEmptyImg} />
+                    <img src={ticketEmptyImg} alt="No Upcoming Event"/>
                     </div>
                     <div className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto">
                       <span>{t("common.noUpcomingEvent")}</span>

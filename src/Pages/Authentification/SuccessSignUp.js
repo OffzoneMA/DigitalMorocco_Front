@@ -63,7 +63,6 @@ useEffect(() => {
               dispatch(setCredentials(JSON.stringify(payload)));
               sessionStorage.setItem('userData', JSON.stringify(payload));
               if (userSocialInfos) {
-                console.log('Updating full name with:', userSocialInfos);
                 const lang = localStorage.getItem('language')
                 const languageLabel = getLanguageLabelById(lang);
                 updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos , language: languageLabel} })

@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Text } from "../../../Components/Text";
 import TablePagination from "../../../Components/common/TablePagination";
-import Loading from "../../../Components/Loading";
 import { useNavigate , useSearchParams } from "react-router-dom";
-import { FiDelete } from "react-icons/fi";
 import { BiFilterAlt } from "react-icons/bi";
 import MultipleSelect from "../../../Components/common/MultipleSelect";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
-import { Country } from "country-state-city";
-import {companyType} from "../../../data/companyType";
 import PageHeader from "../../../Components/common/PageHeader";
 import TableTitle from "../../../Components/common/TableTitle";
 import SearchInput from "../../../Components/common/SeachInput";
-import { FaUsers } from "react-icons/fa";
-import { FaUserCircle } from "react-icons/fa";
 import Loader from "../../../Components/Loader";
 import { useGetDistinctInvestorFieldValuesQuery , useGetInvestorsForMemberQuery } from "../../../Services/Member.Service";
 import userdefaultProfile from '../../../Media/User.png';
@@ -28,7 +20,6 @@ const MyInvestors = () => {
   const [filteredInvestors, setFilteredInvestors] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userData?._id;
   const [noInvestors, setNoInvestors] = useState(false);
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
@@ -45,7 +36,6 @@ const MyInvestors = () => {
   const [localLocation, setLocalLocation] = useState('');
   const [localIndustries, setLocalIndustries] = useState([]);
   const [localKeywords, setLocalKeywords] = useState('');
-  const dataCountries = Country.getAllCountries();
   const queryParams = { page: cur, pageSize: itemsPerPage };
 
   if (filterApply) {
@@ -55,7 +45,7 @@ const MyInvestors = () => {
     queryParams.keywords = keywords || undefined;
   }
   const { data, error, isFetching: loading , refetch } = useGetInvestorsForMemberQuery(queryParams);
-  const { data : locations0, isLoading:locationLoading , error: locationError } = useGetDistinctInvestorFieldValuesQuery('location');
+  const { data : locations0, isLoading:locationLoading } = useGetDistinctInvestorFieldValuesQuery('location');
   const { data : locations1 } = useGetDistinctInvestorFieldValuesQuery('country');
   const { data : industriesData, isLoading:industryLoading } = useGetDistinctInvestorFieldValuesQuery('PreferredInvestmentIndustry');
   const { data : investorTypes, isLoading:typeLoading } = useGetDistinctInvestorFieldValuesQuery('type');
@@ -75,7 +65,7 @@ const MyInvestors = () => {
       setSearchParams({ page: `${data?.investors?.currentPage}` }); 
       // setNoInvestors(filteredInvestors?.length === 0);
     }
-  }, [data]);
+  }, [data , setSearchParams]);
 
   const locations = locations0 || locations1;
 
@@ -196,13 +186,13 @@ const MyInvestors = () => {
     setFilterApply(true);
   };
 
-  const clearFilter = () => {
-    setFilter(false); 
-    setFilterApply(false);
-    setIndustries([]);
-    setInvestmentType([]);
-    setLocation('');
-  }
+  // const clearFilter = () => {
+  //   setFilter(false); 
+  //   setFilterApply(false);
+  //   setIndustries([]);
+  //   setInvestmentType([]);
+  //   setLocation('');
+  // }
 
   const pageData = filteredData;
 
@@ -260,11 +250,11 @@ const MyInvestors = () => {
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
-                            <Text
+                            <span
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {t(`${option}`)}
-                            </Text>
+                            </span>
                            </div>
                         );
                       }
@@ -274,11 +264,11 @@ const MyInvestors = () => {
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
-                            <Text
+                            <span
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {t(`${option}`)}
-                            </Text>
+                            </span>
                            </div>
                         );
                       }
@@ -288,11 +278,11 @@ const MyInvestors = () => {
                     content={
                       ( option) =>{ return (
                         <div className="flex  py-2 items-center  w-full">
-                            <Text
+                            <span
                               className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
                               >
                                {t(`${option}`)}
-                            </Text>
+                            </span>
                            </div>
                         );
                       }

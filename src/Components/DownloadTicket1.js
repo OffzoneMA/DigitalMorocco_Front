@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-
 import regularFont from '../fonts/DMSans-Regular.ttf';
 import mediumFont from '../fonts/DMSans-Medium.ttf'
 import boldFont from '../fonts/DMSans-Bold.ttf';
