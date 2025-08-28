@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import axios from 'axios';
-import { Text } from "../../../Components/Text";
+// import axios from 'axios';
 import { useTranslation } from "react-i18next";
 import logo from '../../../Media/img_logo.svg';
 import startupImage from '../../../Media/img_startup.svg';
@@ -10,35 +9,32 @@ import investorImage from '../../../Media/img_investor.svg';
 import companyImage from '../../../Media/img_company.svg';
 import { useAddNewRequestMutation } from '../../../Services/Auth';
 import { authApi } from "../../../Services/Auth";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useUpdateFullNameMutation } from "../../../Services/User.Service";
-import { setCredentials } from "../../../Redux/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+// import { useUpdateFullNameMutation } from "../../../Services/User.Service";
+// import { setCredentials } from "../../../Redux/auth/authSlice";
 import { useDispatch } from "react-redux";
 import ConfirmedModal from "../../../Components/Modals/ConfirmedModal";
 import { logout } from "../../../Redux/auth/authSlice";
-import { languages } from "../../../data/tablesData";
+// import { languages } from "../../../data/tablesData";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const ChooseRole = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [auth, setAuth] = useState(searchParams.get('auth') ? searchParams.get('auth') : null)
   const [selectedOption, setSelectedOption] = useState('');
   const { userInfo } = useSelector((state) => state.auth)
-  const { userToken } = useSelector((state) => state.auth)
   const { userEmail } = useSelector((state) => state.auth)
   const [UserId, setUserId] = useState(userInfo?._id)
   const [selectedGrid, setSelectedGrid] = useState(null);
-  const [userTrigger, { data: userData, error: userError, isLoading }] = authApi.endpoints.getUserByEmail.useLazyQuery();
-  const [updateFullName] = useUpdateFullNameMutation();
+  const [userTrigger, { data: userData }] = authApi.endpoints.getUserByEmail.useLazyQuery();
+  // const [updateFullName] = useUpdateFullNameMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
   const [addNewRequest, response] = useAddNewRequestMutation()
-  const [getUserDetails, { data, isSuccess, isError, error }] = authApi.endpoints.getUserDetails.useLazyQuery();
-  const { userSocialInfos } = useSelector((state) => state.auth)
+  // const [getUserDetails, { data, isSuccess, isError, error }] = authApi.endpoints.getUserDetails.useLazyQuery();
+  // const { userSocialInfos } = useSelector((state) => state.auth)
 
   /**
    * Current Language

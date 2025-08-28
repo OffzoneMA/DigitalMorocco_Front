@@ -7,7 +7,7 @@ import CancelPlanModal from '../../../Components/Modals/CancelPlanModal';
 import PageHeader from "../../../Components/common/PageHeader";
 import axios from 'axios';
 import Loader from '../../../Components/Loader';
-import { paymentMethodsData } from '../../../data/tablesData';
+// import { paymentMethodsData } from '../../../data/tablesData';
 import { formatDateValue, capitalizeFirstLetter } from '../../../data/helper';
 import checkVerifyImg from '../../../Media/check-verified-02.svg';
 import emailErrorImg from '../../../Media/emailError.svg';
@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import HelmetWrapper from '../../../Components/common/HelmetWrapper';
 import { useSearchParams } from 'react-router-dom';
 import { SUBSCRIPTION_LIMITS } from '../../../data/data';
+import { useGetAllProjectsWithoutPageAndMaskNotFilteredQuery } from '../../../Services/Member.Service';
 import ProjectsToMaskModal from '../../../Components/Modals/ProjectsToMaskModal';
 
 export default function Subscription() {
@@ -25,7 +26,7 @@ export default function Subscription() {
   const statuspaid = searchParams.get('statuspaid');
   // Get Subscription type from storage
   const subscriptionType = localStorage.getItem("subscriptionType");
-
+  const { data: allProjects } = useGetAllProjectsWithoutPageAndMaskNotFilteredQuery();
   const [userLastPaymentMethod, setUserLastPaymentMethod] = useState(null);
   const [userSubscriptionData, setUserSusbcriptionData] = useState(null);
   const [loadingLastPayment, setLoadingLastPayment] = useState(true);
@@ -33,19 +34,18 @@ export default function Subscription() {
   const [isSubscribe, setIsSubscribe] = useState(false);
   const navigate = useNavigate()
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  const [isConfirmRenewModalOpen, setIsConfirmRenewModalOpen] = useState(false);
+  // const [isConfirmRenewModalOpen, setIsConfirmRenewModalOpen] = useState(false);
   const [openSuccessPaidModal, setOpenSuccessPaidModal] = useState(false);
   const [openChooseProjectToMaskModal, setOpenChooseProjectToMaskModal] = useState(false);
   const [openErrorPaidModal, setOpenErrorPaidModal] = useState(false);
-  const token = sessionStorage.getItem("userToken");
   const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const [selectedMethod, setSelectedMethod] = useState(null);
+  // const [selectedMethod, setSelectedMethod] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [cancelSubscription, response] = useCancelSubscriptionMutation();
-  const [renewSubscription, { isLoading: renewLoading, isFetching: renewFetching, isSuccess: renewSuccess, isError: renewError }] = useRenewSubscriptionMutation();
+  const [renewSubscription, { isLoading: renewLoading, isFetching: renewFetching }] = useRenewSubscriptionMutation();
   // const {data: billingDataForUser , isFetching: billingDataFetching } = useGetBillingsForUserQuery();
-  const [billingDataForUser, setBillingDataForUser] = useState([]);
-  const [billingDataFetching, setBillingDataFetching] = useState(false);
+  const [billingDataForUser, /*setBillingDataForUser*/] = useState([]);
+  const [billingDataFetching, /*setBillingDataFetching*/] = useState(false);
   const currentLanguage = localStorage.getItem('language') || 'en';
   const [renewSubscriptionLoading, setRenewSubscriptionLoading] = useState(false);
   const [totalProjectsToMask, setTotalProjectsToMask] = useState(0);
@@ -88,14 +88,15 @@ export default function Subscription() {
 
   useEffect(() => {
     if (userLastPaymentMethod) {
-      const method = paymentMethodsData.find(method => method.name === userLastPaymentMethod.paymentMethod);
-      setSelectedMethod(method);
+      // const method = paymentMethodsData.find(method => method.name === userLastPaymentMethod.paymentMethod);
+      // setSelectedMethod(method);
     }
   }, [userLastPaymentMethod]);
 
   const getUserSusbcription = async () => {
     setIsSubscribeLoading(true);
     try {
+      const token = sessionStorage.getItem("userToken");
       const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -211,65 +212,67 @@ export default function Subscription() {
     const url = new URL(window.location.href);
     url.searchParams.delete('statuspaid');
     window.history.replaceState({}, document.title, url);
-
     handleOpenChooseProjectToMaskModal();
-
   }
 
   const handleOpenChooseProjectToMaskModal = () => {
-    const subscriptionType = localStorage.getItem("subscriptionType");
+    try {
+      const subscriptionType = localStorage.getItem("subscriptionType");
 
-    // Si ce n’est pas un upgrade/downgrade, on nettoie et on sort
-    if (subscriptionType !== "upgrade") {
-      localStorage.removeItem("subscriptionType");
-      return;
-    }
+      // On ne traite que upgrade/downgrade
+      if (subscriptionType !== "upgrade") {
+        return;
+      }
 
-    const previousPlanInfo = userSubscriptionData?.previousPlanInfo;
-    const currentPlan = userSubscriptionData?.plan;
+      const previousPlanInfo = userSubscriptionData?.previousPlanInfo;
+      const currentPlan = userSubscriptionData?.plan;
 
-    if (!previousPlanInfo || !currentPlan) {
-      console.warn("❌ Données de souscription incomplètes");
-      localStorage.removeItem("subscriptionType");
-      return;
-    }
+      if (!previousPlanInfo || !currentPlan) {
+        console.warn("Données de souscription incomplètes");
+        return;
+      }
 
-    const isDowngrade = previousPlanInfo.isDowngrade === true;
-    const isMember = previousPlanInfo.userRole?.toLowerCase() === "member";
-    const planChanged = previousPlanInfo.planName?.toLowerCase() !== currentPlan.name?.toLowerCase();
+      const isMember = previousPlanInfo.userRole?.toLowerCase() === "member";
+      const planChanged = previousPlanInfo.planName?.toLowerCase() !== currentPlan.name?.toLowerCase();
 
-    if (isMember && planChanged) {
+      if (!isMember || !planChanged) {
+        return;
+      }
+
+      // Calcul du max projets autorisés
       const newPlanMaxProjects = SUBSCRIPTION_LIMITS[currentPlan.name?.toLowerCase()] || 0;
-      const totalProjectsOld = previousPlanInfo.totalProjects || 0;
-      const totalMarkedProjects = previousPlanInfo.totalMarkedProjects || 0;
 
-      // 🔹 Nombre de projets visibles actuellement
-      const currentlyVisibleProjects = totalProjectsOld - totalMarkedProjects;
+      // Comptage des projets visibles / masqués
+      const visibleCount = allProjects?.filter((p) => !p.mask).length ?? 0;
+      const maskedCount = allProjects?.filter((p) => p.mask).length ?? 0;
 
-      if (currentlyVisibleProjects > newPlanMaxProjects) {
-        // Cas 1 : trop de projets visibles → il faut masquer
-        const toMask = currentlyVisibleProjects - newPlanMaxProjects;
+      console.log(`Total projets: ${allProjects?.length ?? 0} | Visibles: ${visibleCount} | Masqués: ${maskedCount} | Max autorisé: ${newPlanMaxProjects}`);
+
+      // Cas 1 : trop de projets visibles → masquer
+      if (visibleCount > newPlanMaxProjects) {
+        const toMask = visibleCount - newPlanMaxProjects;
         setTotalProjectsToMask(toMask);
         setOpenChooseProjectToMaskModal(true);
-        console.info(`⚠️ Trop de projets visibles (${currentlyVisibleProjects}), limite = ${newPlanMaxProjects}. L’utilisateur doit masquer ${toMask} projets.`);
+        console.info(`Trop de projets visibles (${visibleCount}), limite = ${newPlanMaxProjects}. L’utilisateur doit masquer ${toMask} projets.`);
+        return;
       }
-      else if (currentlyVisibleProjects < newPlanMaxProjects) {
-        // Cas 2 : trop peu de projets visibles → il peut démasquer
-        const toUnmask = newPlanMaxProjects - currentlyVisibleProjects;
+
+      // Cas 2 : pas assez de projets visibles → démasquer
+      if (visibleCount < newPlanMaxProjects) {
+        const toUnmask = newPlanMaxProjects - visibleCount;
         setTotalProjectsToUnmask(toUnmask);
         setOpenChooseProjectToMaskModal(true);
-        console.info(`ℹ️ Seulement ${currentlyVisibleProjects} projets visibles, limite = ${newPlanMaxProjects}. L’utilisateur peut démasquer ${toUnmask} projets.`);
+        console.info(`Seulement ${visibleCount} projets visibles, limite = ${newPlanMaxProjects}. L’utilisateur peut démasquer ${toUnmask} projets.`);
+        return;
       }
-      else {
-        // Cas 3 : équilibre parfait, rien à faire
-        console.info("✅ Nombre de projets déjà conforme au nouveau plan.");
-      }
+      // Cas 3 : conforme
+      console.info("Nombre de projets déjà conforme au nouveau plan.");
+      setOpenChooseProjectToMaskModal(false);
+    } finally {
+      // Nettoyage garanti même en cas d’erreur
+      localStorage.removeItem("subscriptionType");
     }
-
-    // Nettoyage après traitement
-    localStorage.removeItem("subscriptionType");
   };
-
 
   const closeOpenErrorPaidModal = () => {
     setOpenErrorPaidModal(false);
@@ -358,8 +361,8 @@ export default function Subscription() {
                               {userSubscriptionData?.plan?.forUser?.toLowerCase() === 'investor' ? t(`subscriptionPlans.investor.${userSubscriptionData?.plan?.name.toLowerCase()}.name`) : t(`subscriptionPlans.${userSubscriptionData?.plan?.name.toLowerCase()}.name`)}
                             </h2>
                             <button
-                              // onClick={() => navigate('/ChoosePlan')}
-                              onClick={() => handleOpenChooseProjectToMaskModal()}
+                              onClick={() => navigate('/ChoosePlan')}
+                              // onClick={() => handleOpenChooseProjectToMaskModal()}
                               className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] font-DmSans text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-2 px-8 rounded-md w-auto cursorpointer"
                               type="button"
                             >
@@ -456,7 +459,7 @@ export default function Subscription() {
                           {(!billingDataFetching && billingDataForUser?.length > 0) ?
                             <tbody>
                               {billingDataForUser?.map((item, index) => (
-                                <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                                <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} transition-all duration-300 ease-in-out`}>
                                   <td className="h-16 px-[18px] py-4 text-[#667085] text-sm font-dm-sans-regular leading-relaxed">
                                     <time dateTime={item?.dateCreated} className='text-[#667085] text-sm font-dm-sans-regular leading-relaxed'>
                                       {formatDateValue(item?.dateCreated, currentLanguage)}
@@ -596,7 +599,7 @@ export default function Subscription() {
               </div>
             </div>
           } />
-        <ProjectsToMaskModal isOpen={openChooseProjectToMaskModal} onRequestClose={closeSelectProjectToMaskModal} totalProjectsToMask={totalProjectsToMask} />
+        <ProjectsToMaskModal isOpen={openChooseProjectToMaskModal} onRequestClose={closeSelectProjectToMaskModal} totalProjectsToMask={totalProjectsToMask} totalProjectsToUnmask={totalProjectsToUnmask} />
       </section>
     </>
   )

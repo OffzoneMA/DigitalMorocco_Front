@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { GoRocket } from "react-icons/go";
 import { TiFlashOutline } from "react-icons/ti";
 import { BiBuildings } from "react-icons/bi";
@@ -17,11 +17,11 @@ const Dashboard_Admin = () => {
   const { t } = useTranslation();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const { data: userDetails, isLoading: userDetailsLoading, refetch: refetchUser } = useGetUserDetailsQuery();
-  const { data: users, isLoading } = useGetAllUsersQuery();
-  const monthsOrder1 = [
+  const { data: users } = useGetAllUsersQuery();
+  const monthsOrder1 = useMemo(() => [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+  ], []);
   const [members, setMembers] = useState([]);
   const [investors, setInvestors] = useState([]);
   const [partners, setPartners] = useState([]);
@@ -39,6 +39,10 @@ const Dashboard_Admin = () => {
   };
 
   useEffect(() => {
+    refetchUser();
+  }, [refetchUser]);
+
+  useEffect(() => {
     if (users) {
       // const filteredUsers = users.filter(user => user.status === 'accepted' || user.status === 'pending');
       const filteredUsers = users;
@@ -52,7 +56,7 @@ const Dashboard_Admin = () => {
     }
   }, [users]);
 
-  const groupUsersByMonth = (users, year) => {
+  const groupUsersByMonth = useCallback((users, year) => {
     const months = [t('common.shortMonths.january'), t('common.shortMonths.february'), t('common.shortMonths.march'),
     t('common.shortMonths.april'), t('common.shortMonths.may'), t('common.shortMonths.june'),
     t('common.shortMonths.july'), t('common.shortMonths.august'), t('common.shortMonths.september'),
@@ -71,9 +75,9 @@ const Dashboard_Admin = () => {
     });
 
     return grouped;
-  };
+  }, [t]);
 
-  const groupUsersByWeek = (users, year, month) => {
+  const groupUsersByWeek = useCallback((users, year, month) => {
     const grouped = {};
 
     users.forEach(user => {
@@ -88,9 +92,9 @@ const Dashboard_Admin = () => {
       }
     });
     return grouped;
-  };
+  }, [t , monthsOrder1]);
 
-  const formatChartData = (groupedData, timeFrame) => {
+  const formatChartData = useCallback((groupedData, timeFrame) => {
     const timeFrames = timeFrame === 'month'
       ? [t('common.shortMonths.january'), t('common.shortMonths.february'), t('common.shortMonths.march'),
       t('common.shortMonths.april'), t('common.shortMonths.may'), t('common.shortMonths.june'),
@@ -102,7 +106,7 @@ const Dashboard_Admin = () => {
       name: frame,
       value: groupedData[frame] || 0
     }));
-  };
+  }, [t]);
 
   useEffect(() => {
     if (users) {
@@ -112,8 +116,7 @@ const Dashboard_Admin = () => {
       const formattedData = formatChartData(groupedData, timeFrame);
       setChartData(formattedData);
     }
-  }, [users, role, timeFrame, selectedMonth]);
-
+  }, [users, role, timeFrame, selectedMonth ,formatChartData , groupUsersByMonth , groupUsersByWeek]);
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {

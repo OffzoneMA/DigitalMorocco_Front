@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Text } from '../../../Components/Text';
+import React, { useState, useEffect, useCallback } from 'react';
 import { TiFlashOutline } from "react-icons/ti";
 import { FiTrash2 } from "react-icons/fi";
 import CancelPlanModal from '../../../Components/Modals/CancelPlanModal';
@@ -18,11 +17,10 @@ import HelmetWrapper from '../../../Components/common/HelmetWrapper';
 
 export default function SubscribePlan() {
   const { t } = useTranslation();
-  const token = sessionStorage.getItem("userToken");
   // const userData = JSON.parse(sessionStorage.getItem('userData'));
   const [createSubscriptionForUser] = useCreateSubscriptionForUserMutation();
   const { refetch } = useGetUserDetailsQuery();
-  const [upgradeSubscription, { isLoading: upgradeLoading, isSuccess: upgradeSuccess, isError, error }] = useUpgradeSubscriptionMutation();
+  const [upgradeSubscription] = useUpgradeSubscriptionMutation();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('Monthly');
@@ -53,8 +51,9 @@ export default function SubscribePlan() {
       { style: 'currency', currency: 'USD', currencyDisplay: 'narrowSymbol', }).format(price);
   };
 
-  const getUserSusbcription = async () => {
+  const getUserSusbcription = useCallback(async () => {
     try {
+      const token = sessionStorage.getItem("userToken");
       const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -62,11 +61,11 @@ export default function SubscribePlan() {
     } catch (error) {
       console.error('Error checking subscription status:', error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getUserSusbcription();
-  }, []);
+  }, [getUserSusbcription]);
 
   const closeCancelModal = () => {
     setIsCancelModalOpen(false);

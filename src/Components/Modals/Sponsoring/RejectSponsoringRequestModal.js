@@ -18,7 +18,7 @@ const RejectSponsoringRequestModal = (props) => {
     formState: { errors },
     reset,
   } = useForm();
-  const formData = new FormData();
+
   const rowData = props?.rowData;
   const [sendingOk, setSendingOk] = useState(false);
   const [sending, setSending] = useState(false);

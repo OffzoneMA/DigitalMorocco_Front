@@ -25,7 +25,6 @@ const SponsorRequestHistoryDetails = () => {
   const currentLanguage = localStorage.getItem('language') || 'en';
   const location = useLocation();
   const [approveSponsor] = useApproveSponsorMutation();
-  const [rowData, setRowData] = useState(null);
   const { id } = useParams();
   const eventFromState = location.state ? location.state.event : null;
   const { data: eventFromApi, isLoading, refetch } = useGetSponsorByIdQuery(id);
@@ -51,13 +50,12 @@ const SponsorRequestHistoryDetails = () => {
 
   const closeApproveModal = () => {
     setIsApproveModalOpen(false);
-    // setRowData(null);
   };
 
   const handleApprove = async (data) => {
     try {
       await approveSponsor({
-        sponsorId: rowData?._id,
+        sponsorId: event?._id,
         data,
       }).unwrap();
       refetch();

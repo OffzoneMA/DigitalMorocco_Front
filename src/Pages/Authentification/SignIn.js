@@ -6,7 +6,6 @@ import { useSearchParams } from 'react-router-dom';
 import { LoginUser } from '../../Redux/auth/authAction';
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
-import { Text } from '../../Components/Text';
 import { Button } from '../../Components/Button';
 import logo from '../../Media/img_logo2.svg';
 import googleLogo from '../../Media/img_flatcoloriconsgoogle.svg';

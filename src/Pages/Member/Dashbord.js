@@ -27,9 +27,9 @@ const Dashbord = () => {
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const { data: subscriptionData } = useCheckSubscriptionStatusQuery();
   const { data: projectsData, refetch: refetchProjects } = useGetAllProjectsWithoutPageQuery();
-  const { data: userDetails, error: userDetailsError, isLoading: userDetailsLoading, refetch: refetchUser } = useGetUserDetailsQuery();
+  const { data: userDetails, isLoading: userDetailsLoading, refetch: refetchUser } = useGetUserDetailsQuery();
   const { data: projects, isLoading, refetch } = useGetAllProjectsQuery({ status });
-  const { data: contactReqs, error: contactReqsError, isLoading: contactReqsLoading, refetch: refetchRequest } = useGetAllConatctReqQuery();
+  const { data: contactReqs, isLoading: contactReqsLoading, refetch: refetchRequest } = useGetAllConatctReqQuery();
   const Requestdata = contactReqs?.contactRequests?.slice(0, 3)
   const recentProjects = [...(projects?.projects || [])]
     .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))
@@ -39,7 +39,8 @@ const Dashbord = () => {
     refetchUser();
     refetch();
     refetchRequest();
-  }, [refetchUser, refetch, refetchRequest]);
+    refetchProjects();
+  }, [refetchUser, refetch, refetchRequest, refetchProjects]);
 
   const isCreateProjectDisabled = () => {
     switch (subscriptionData?.plan?.name) {
@@ -248,7 +249,7 @@ const Dashbord = () => {
             <DashboardCommon />
           </section>
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
-            <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 ">
+            <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 transition-all duration-300 ease-in-out">
               <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full"
                 onClick={() => navigate('/Projects')}>
                 <div className="flex rounded-md bg-violet-100 p-2">
@@ -269,7 +270,7 @@ const Dashbord = () => {
               ) : (
                 recentProjects?.length > 0 ?
                   recentProjects.map((item, index) => (
-                    <div key={index} className="flex flex-col gap-[24px] px-6 hover:bg-blue-50 cursorpointer w-full" onClick={() => navigate(`/Projectdetails/${item._id}`, { state: { project: item } })}>
+                    <div key={index} className={`flex flex-col gap-[24px] px-6 hover:bg-blue-50 cursorpointer w-full ${item?.mask ? 'opacity-40 line-through pointer-events-none' : ''}`} onClick={() => navigate(`/Projectdetails/${item._id}`, { state: { project: item } })}>
                       <div className="flex flex-row items-center gap-[24px] py-[20px] justify-start w-full">
                         <p
                           className=" text-lg font-dm-sans-medium leading-8 text-[#101828] tracking-normal capitalize text-left"
@@ -348,7 +349,7 @@ const Dashbord = () => {
                   )
               )}
             </div>
-            <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 ">
+            <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 transition-all duration-300 ease-in-out">
               <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full"
                 onClick={() => navigate('/InvestorRequestsHistoty')}>
                 <div className="flex rounded-md bg-violet-100 p-2">
@@ -374,7 +375,7 @@ const Dashbord = () => {
                   <tbody className="items-center w-full">
                     {(!contactReqsLoading && Requestdata?.length > 0)
                       ? Requestdata.map((item, index) => (
-                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`} onClick={() => navigate(`/InvestorDetails/${item?.investor?._id}`)}>
+                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full transition-all duration-300 ease-in-out`} onClick={() => navigate(`/InvestorDetails/${item?.investor?._id}`)}>
                           <td className="w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">
                             <div className="relative flex">
                               <div className="flex px-3 py-4 items-center gap-2">

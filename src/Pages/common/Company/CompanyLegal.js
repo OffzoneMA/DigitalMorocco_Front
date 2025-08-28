@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Text } from "../../../Components/Text";
+import React, { useState, useEffect, useCallback } from "react";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi";
 import { FiEdit3 } from "react-icons/fi";
@@ -25,7 +24,7 @@ const CompanyLegal = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [documentRow, setDocumentRow] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 8;
@@ -39,11 +38,7 @@ const CompanyLegal = () => {
     setCur(pageFromUrl);
   }, [searchParams]);
 
-  useEffect(() => {
-    fetchLegalDocuments();
-  }, [cur]);
-
-  const fetchLegalDocuments = async () => {
+  const fetchLegalDocuments = useCallback(async () => {
     try {
       const token = sessionStorage.getItem("userToken");
       const response = await axios.get(
@@ -65,7 +60,11 @@ const CompanyLegal = () => {
       console.error("Error fetching legal documents:", error);
       setLoading(false);
     }
-  };
+  }, [cur]);
+
+  useEffect(() => {
+    fetchLegalDocuments();
+  }, [fetchLegalDocuments]);
 
   // function handlePageChange(page) {
   //   if (page >= 1 && page <= totalPages) {
@@ -282,11 +281,10 @@ const CompanyLegal = () => {
                 </button>
               </div>
               <div
-                className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${
-                  documentData?.length > 0
+                className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${documentData?.length > 0
                     ? "border-b border-gray-201"
                     : "rounded-b-[8px]"
-                } w-full pb-4 min-h-[330px] overflow-x-auto`}
+                  } w-full pb-4 min-h-[330px] overflow-x-auto`}
                 style={{
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
@@ -321,9 +319,8 @@ const CompanyLegal = () => {
                       {documentData.map((document, index) => (
                         <tr
                           key={index}
-                          className={`${
-                            index % 2 === 0 ? "bg-gray-50" : ""
-                          } hover:bg-blue-50 cursorpointer`}
+                          className={`${index % 2 === 0 ? "bg-gray-50" : ""
+                            } hover:bg-blue-50 cursorpointer transition-all duration-300 ease-in-out`}
                           onClick={() => openEditModal(document)}
                         >
                           <td className="px-[18px] py-4">
@@ -358,7 +355,7 @@ const CompanyLegal = () => {
                             >
                               {formatDate(
                                 document?.lastModifiedDate ||
-                                  document?.dateCreated
+                                document?.dateCreated
                               )}
                             </time>
                           </td>

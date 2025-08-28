@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Text } from "../../../Components/Text";
 import ProjectTimelineItem from "../../../Components/common/ProjectTimelineItem";
 import TeamMemberItem from "../../../Components/common/TeamMemberItem";
 import ProjectDocumentItem from "../../../Components/common/ProjectDocumentItem";

@@ -3,7 +3,7 @@ import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import TablePagination from "../../../Components/common/TablePagination";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
-import MultipleSelect from "../../../Components/common/MultipleSelect";
+// import MultipleSelect from "../../../Components/common/MultipleSelect";
 import PageHeader from "../../../Components/common/PageHeader";
 import TableTitle from "../../../Components/common/TableTitle";
 import SearchInput from "../../../Components/common/SeachInput";
@@ -27,15 +27,15 @@ const SponsorCurrentRequests = () => {
   const navigate = useNavigate();
   const [approveSponsor] = useApproveSponsorMutation();
   const [rejectSponsor] = useRejectSponsorMutation();
-  const [field, setField] = useState('physicalLocation');
-  const [eventStatus, setStatus] = useState([]);
-  const { data: distinctValues } = useGetDistinctEventFieldsByPartnerQuery({ field, eventStatus });
+  const [field] = useState('physicalLocation');
+  const [eventStatus] = useState([]);
+  const { data: distinctValues , isLoading: distinctsValueLoading } = useGetDistinctEventFieldsByPartnerQuery({ field, eventStatus });
   const [filter, setFilter] = useState(false);
   const [filterApply, setFilterApply] = useState(false);
   const [keywords, setKeywords] = useState('');
   const [location, setLocation] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const [types, setTypes] = useState([]);
+  // const [types, setTypes] = useState([]);
   const [cur, setCur] = useState(1);
   const [rowData, setRowData] = useState(null);
   const itemsPerPage = 8;
@@ -73,12 +73,18 @@ const SponsorCurrentRequests = () => {
     }
   }, [currentRequests, setSearchParams]);
 
+  function handlePageChange(page) {
+    if (page >= 1 && page <= totalPages) {
+      setCur(page);
+    }
+  }
+
   const clearFilter = () => {
     setFilter(false);
     setFilterApply(false);
     setLocation('');
     setSelectedDate('');
-    setTypes([]);
+    // setTypes([]);
   }
 
   const filteredData = currentRequests?.data?.filter(item => {
@@ -184,7 +190,7 @@ const SponsorCurrentRequests = () => {
                           showIcon={false}
                           onChangeDate={(date) => setSelectedDate(date)}
                         />
-                        <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received", "Sent"]} searchLabel={t('common.searchType')} setSelectedOptionVal={setTypes}
+                        {/* <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received", "Sent"]} searchLabel={t('common.searchType')} setSelectedOptionVal={setTypes}
                           placeholder={t('common.typeRequest')} searchable={false}
                           content={
                             (option) => {
@@ -198,9 +204,10 @@ const SponsorCurrentRequests = () => {
                                 </div>
                               );
                             }
-                          } />
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation}
-                          placeholder={t("common.location")}
+                          } /> */}
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} 
+                        searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation}
+                          placeholder={t("common.location")} loading={distinctsValueLoading}
                           content={
                             (option) => {
                               return (
@@ -394,7 +401,7 @@ const SponsorCurrentRequests = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  // onPageChange={handlePageChange}
+                  onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />
               </div>}

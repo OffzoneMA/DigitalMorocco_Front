@@ -20,10 +20,10 @@ const ShareToInvestorModal = (props) => {
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
   const {
     data: investorsData,
-    error,
     isLoading,
     refetch,
   } = useGetInvestorsForMemberWithoutPageQuery();
+
   const [shareProject] = useShareProjectMutation();
   const [sendingOk, setSendingOk] = useState(false);
 
@@ -38,6 +38,10 @@ const ShareToInvestorModal = (props) => {
       setSendingOk(false);
     }
   }, [props.isOpen]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   // Fonction modifiée pour gérer la sélection
   const handleInvestorSelection = (id) => {
@@ -213,11 +217,10 @@ const ShareToInvestorModal = (props) => {
                       >
                         <label
                           htmlFor={`check_inv_${index}`}
-                          className={`cursorpointer-green relative inline-flex items-center ${
-                            selectedInvestors.includes(item._id)
+                          className={`cursorpointer-green relative inline-flex items-center ${selectedInvestors.includes(item._id)
                               ? "animation"
                               : ""
-                          }`}
+                            }`}
                         >
                           <input
                             id={`check_inv_${index}`}
@@ -311,9 +314,8 @@ const ShareToInvestorModal = (props) => {
                   </button>
                   <button
                     onClick={onSubmit}
-                    className={`flex items-center justify-center ml-auto ${
-                      sendingOk ? "bg-[#235DBD] min-w-[180px]" : "bg-blue-A400"
-                    } hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]`}
+                    className={`flex items-center justify-center ml-auto ${sendingOk ? "bg-[#235DBD] min-w-[180px]" : "bg-blue-A400"
+                      } hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 cursorpointer-green py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px]`}
                   >
                     {sendingOk ? (
                       <div className="flex items-center justify-center gap-6">
@@ -351,7 +353,7 @@ const ShareToInvestorModal = (props) => {
         m1={t("projects.shareProject.projectSentConfirmation.successMessage")}
         m2={`${selectedInvestorsNames.join(", ")}`}
         m3={t("projects.shareProject.projectSentConfirmation.singular")}
-        // m3={selectedInvestors?.length ===1 ? t("projects.shareProject.projectSentConfirmation.singular") : t("projects.shareProject.projectSentConfirmation.plural")}
+      // m3={selectedInvestors?.length ===1 ? t("projects.shareProject.projectSentConfirmation.singular") : t("projects.shareProject.projectSentConfirmation.plural")}
       />
     </>
   );

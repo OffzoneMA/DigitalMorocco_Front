@@ -112,7 +112,7 @@ const SponsorCurrentRequestDetails = () => {
               <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                 <PageHeader
                 >
-                  {event?.eventId?.status == 'past' ? t("sidebar.sponsoring.currentRequests") : t("sidebar.sponsoring.currentRequests")}
+                  {event?.eventId?.status === 'past' ? t("sidebar.sponsoring.currentRequests") : t("sidebar.sponsoring.currentRequests")}
                 </PageHeader>
               </div>
               <SearchInput className={'w-[240px]'} />

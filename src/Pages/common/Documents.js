@@ -20,7 +20,7 @@ import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Documents = () => {
   const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [createDocument, createResponse] = useCreateDocumentMutation();
   const [updateDocument, updateResponse] = useUpdateDocumentMutation();
   const [deleteDocument] = useDeleteDocumentMutation();
@@ -34,8 +34,8 @@ const Documents = () => {
   const itemsPerPage = 8;
   const itemsToShow = 4;
   const [totalPages, setTotalPages] = useState(0);
-  const { data: documents, isFetching: isLoading, refetch } = useGetDocumentsForUserQuery({ page: cur, pageSize: itemsPerPage });
-  // const currentLanguage = localStorage.getItem('language') || 'en'; 
+  const { data: documents, isLoading, refetch } = useGetDocumentsForUserQuery({ page: cur, pageSize: itemsPerPage });
+  // const currentLanguage = localStorage.getItem('language') || 'en';
 
   const pageData = documents?.documents;
 
@@ -143,7 +143,7 @@ const Documents = () => {
                 <span className="text-sm font-medium leading-[18.23px]">{t('document.uploadNewDocument')}</span>
               </button>
             </div>
-            <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-4 min-h-[330px] overflow-x-auto`}
+            <div className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0 ? 'border-b border-gray-201' : 'rounded-b-[8px]'} w-full pb-5 min-h-[330px] overflow-x-auto`}
               style={{
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
@@ -162,7 +162,7 @@ const Documents = () => {
                   <tbody className="items-center w-full ">
                     {
                       (pageData.map((item, index) => (
-                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 `} onClick={() => openEditModal(item)}>
+                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 transition-all duration-300 ease-in-out`} onClick={() => openEditModal(item)}>
                           <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                             <time dateTime={item?.uploadDate} className="text-gray500 font-dm-sans-regular text-sm leading-6">
                               {formatDate(item?.uploadDate)}

@@ -56,7 +56,7 @@ export const documentApi = createApi({
             }),
         }),
         getShareWithData: builder.query({
-            query: (userId) => `/shareWithData`, 
+            query: () => `/shareWithData`, 
         }),
     }),
 })

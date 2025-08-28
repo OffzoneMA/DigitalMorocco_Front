@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Text } from "../../../Components/Text";
+import React, { useState, useEffect, useCallback } from "react";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
 import lineImage from '../../../Media/img_line.svg';
@@ -29,7 +28,7 @@ const MembersHistory = () => {
     queryParams.date = selectedDate?.trim() ? parseDateStringValue(selectedDate) : null;
     queryParams.userIds = selectedUsers?.map((user) => user._id);
   }
-  const { data, error, isFetching: isLoading, refetch } = useGetMemberActivityHistoriesQuery(queryParams);
+  const { data, isFetching: isLoading, refetch } = useGetMemberActivityHistoriesQuery(queryParams);
 
   const HistoryData = data;
 
@@ -68,7 +67,7 @@ const MembersHistory = () => {
   }, [filterApply, refetch]);
 
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     // Réinitialiser les filtres locaux
     setLocalSelectedUsers([]);
     setLocalSelectedDate('');
@@ -80,7 +79,7 @@ const MembersHistory = () => {
 
     // Optionnel : forcer un refetch des données
     refetch();
-  };
+  }, [refetch]);
 
   useEffect(() => {
     if (filterApply) {
@@ -92,7 +91,7 @@ const MembersHistory = () => {
         handleResetFilters();
       }
     }
-  }, [localSelectedDate, localSelectedUsers, filterApply]);
+  }, [localSelectedDate, localSelectedUsers, filterApply, handleResetFilters]);
 
   const handleApplyFilters = () => {
     setSelectedUsers(localSelectedUsers);
@@ -131,7 +130,7 @@ const MembersHistory = () => {
                       onChangeDate={(date) => setLocalSelectedDate(date)}
                     />
                     <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={users || []} searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalSelectedUsers}
-                      placeholder={t('common.selectIndustries')} valuekey="name" optionkey="_id"
+                      placeholder={t('common.selectIndustries')} valuekey="name" optionkey="_id" loading={isLoadingUsers}
                       content={
                         (option) => {
                           return (

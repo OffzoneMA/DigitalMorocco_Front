@@ -41,6 +41,7 @@ const SponsorRequestHistory = () => {
   const [location, setLocation] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [types, setTypes] = useState(['Approved', 'Rejected']);
+  const [typesRequest, setTypesRequest] = useState([]);
   const [cur, setCur] = useState(1);
   const [rowData, setRowData] = useState(null);
   const itemsPerPage = 8;
@@ -59,6 +60,9 @@ const SponsorRequestHistory = () => {
     queryParams.exactDate = selectedDate !== '' ? parseDateString(selectedDate) : '';
     if (types && types.length > 0) {
       queryParams.status = types;
+    }
+    if(typesRequest && typesRequest.length > 0) {
+      queryParams.requestType =  typesRequest;
     }
     //  else {
     //   queryParams.status = ['Approved', 'Rejected']; 
@@ -83,11 +87,11 @@ const SponsorRequestHistory = () => {
     setSearchParams({ page: `${currentRequests?.currentPage}` });
   }, [currentRequests, setSearchParams]);
 
-  // function handlePageChange(page) {
-  //   if (page >= 1 && page <= totalPages) {
-  //     setCur(page);
-  //   }
-  // }
+  function handlePageChange(page) {
+    if (page >= 1 && page <= totalPages) {
+      setCur(page);
+    }
+  }
 
   const clearFilter = () => {
     setFilter(false);
@@ -268,7 +272,7 @@ const SponsorRequestHistory = () => {
                           showIcon={false}
                           onChangeDate={(date) => setSelectedDate(date)}
                         />
-                        <MultipleSelect className="min-w-[170px] max-w-[200px]" id='requestStatus' options={["Approved", "Rejected"]} searchLabel={t('common.searchStatus')} setSelectedOptionVal={setTypes}
+                        <MultipleSelect className="min-w-[170px] max-w-[200px]" id='requestStatus' options={["Approved", "Rejected" , "Pending"]} searchLabel={t('common.searchStatus')} setSelectedOptionVal={setTypes}
                           placeholder={t('common.status')} searchable={false}
                           content={
                             (option) => {
@@ -283,7 +287,22 @@ const SponsorRequestHistory = () => {
                               );
                             }
                           } />
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation}
+                        <MultipleSelect className="min-w-[170px] max-w-[200px]" id='typeOfRequest' options={["Received", "Sent"]} searchLabel={t('common.searchType')} setSelectedOptionVal={setTypesRequest}
+                          placeholder={t('common.typeRequest')} searchable={false}
+                          content={
+                            (option) => {
+                              return (
+                                <div className="flex  py-2 items-center  w-full">
+                                  <span
+                                    className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto"
+                                  >
+                                    {t(`${option}`)}
+                                  </span>
+                                </div>
+                              );
+                            }
+                          } />
+                        <SimpleSelect className="min-w-[120px] max-w-[280px] " id='country' options={distinctValues?.data || []} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation}
                           placeholder={t("common.location")}
                           content={
                             (option) => {
@@ -461,7 +480,7 @@ const SponsorRequestHistory = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  //onPageChange={handlePageChange}
+                  onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />
               </div>}

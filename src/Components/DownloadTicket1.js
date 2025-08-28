@@ -133,9 +133,9 @@ const DownloadTicket1 = (props) => {
     const {
         title = "North Africa Dreamin' 2023",
         date = 'Fri, Sep 1, 2023  18:30AM',
-        locationType = 'Farah Hotel, Casablanca',
+        // locationType = 'Farah Hotel, Casablanca',
         location = 'Farah Hotel, Casablanca',
-        price = 0,
+        // price = 0,
         name = 'Cameron Williamson',
         address = '2715 Ash Dr. San Jose, South Dakota 83475',
         email = 'janelle.champlin@hotmail.com',

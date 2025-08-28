@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Text } from "../../../Components/Text";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
@@ -38,35 +37,31 @@ const Events = () => {
   const [localLocation, setLocalLocation] = useState('');
   const [localEventName, setLocalEventName] = useState([]);
   const [location, setLocation] = useState('');
-  const [isSubscribe, setIsSubscribe] = useState(false);
-  const [profilVerified, setProfilVerified] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
-  const [rowData, setRowData] = useState(null);
-  const [downloadFile, setDownloadFile] = useState(false);
   const itemsPerPage = 8;
   const itemsToShow = 4;
   const [totalPages, setTotalPages] = useState(0);
-  const { data: eventsParticipate, error, isLoading, refetch } = useGetEventsForUserQuery({
+  const { data: eventsParticipate, isLoading, refetch } = useGetEventsForUserQuery({
     page: cur, pageSize: itemsPerPage,
     ...(filterApply && {
       physicalLocation: location || undefined,
       eventNames: eventName.length > 0 ? eventName : undefined,
     })
   });
-  const [activeDropdown, setActiveDropdown] = useState(-1);
   const dropdownRef = useRef(null);
   const [openDropdownIndexes, setOpenDropdownIndexes] = useState([]);
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
   const [ticketDataRow, setTicketDataRow] = useState(null);
 
   const currentLanguage = localStorage.getItem('language') || 'en';
-  const locale = currentLanguage === 'fr' ? fr : enUS;
 
   useEffect(() => {
     const pageFromUrl = parseInt(searchParams.get('page')) || 1;
-    setCur(pageFromUrl);
-  }, [searchParams]);
+    if(cur !==pageFromUrl) {
+      setCur(pageFromUrl);
+    }
+  }, [searchParams , cur]);
 
   useEffect(() => {
     // if(filterApply && eventsParticipate?.currentPage !== cur) {
@@ -76,12 +71,12 @@ const Events = () => {
 
   useEffect(() => {
     setTotalPages(eventsParticipate?.totalPages)
-    setCur(eventsParticipate?.currentPage);
-    setSearchParams({ page: `${eventsParticipate?.currentPage}` });
-  }, [eventsParticipate]);
+    setCur(eventsParticipate?.currentPage || 1);
+    setSearchParams({ page: `${eventsParticipate?.currentPage || 1}` });
+  }, [eventsParticipate , setSearchParams]);
 
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     // Réinitialiser les filtres locaux
     setLocalLocation('');
     setLocalEventName([]);
@@ -95,7 +90,7 @@ const Events = () => {
 
     // Optionnel : forcer un refetch des données
     refetch();
-  };
+  },[refetch]);
 
   useEffect(() => {
     if (filterApply) {
@@ -107,7 +102,7 @@ const Events = () => {
         handleResetFilters();
       }
     }
-  }, [localLocation, localEventName, filterApply]);
+  }, [localLocation, localEventName, filterApply , handleResetFilters]);
 
 
   const toggleDropdownClick = (index, event) => {
@@ -135,20 +130,6 @@ const Events = () => {
     return openDropdownIndexes.includes(index);
   };
 
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setActiveDropdown(null);
-      setDownloadFile(false)
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   const openTicketModal = (rowData) => {
     setIsTicketModalOpen(true);
     setTicketDataRow(rowData);
@@ -156,7 +137,6 @@ const Events = () => {
 
   const closeTicketModal = () => {
     setIsTicketModalOpen(false);
-    setDownloadFile(false);
   };
 
   const events = eventsParticipate?.events;
@@ -186,17 +166,10 @@ const Events = () => {
 
   function handlePageChange(page) {
     if (page >= 1 && page <= totalPages) {
+      console.log("Changing to page:", page);
       setCur(page);
     }
   }
-
-  const eventNameData = [
-    "Data & Tech",
-    "Women Who Network",
-    "Workshop",
-    "Big Investment",
-    "North Africa Dreamin"
-  ];
 
   const convertTo24HourFormat = (time12h) => {
     // Convert "11:00 AM" or "1:00 PM" to "11:00" or "13:00"
@@ -356,6 +329,7 @@ const Events = () => {
                         </div> */}
                           <MultipleSelect className="min-w-[180px] max-w-[350px] " id='investor' options={distinctValuesNames} searchLabel={t('common.searchEvent')} setSelectedOptionVal={setLocalEventName}
                             placeholder={t("common.eventName")}
+                            loading={distinctsValueNamesLoading}
                             content={
                               (option) => {
                                 return (
@@ -370,7 +344,7 @@ const Events = () => {
                               }
                             } />
                           <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocalLocation}
-                            placeholder={t("common.location")}
+                            placeholder={t("common.location")} loading={distinctsValueLoading}
                             content={
                               (option) => {
                                 return (
@@ -454,7 +428,7 @@ const Events = () => {
                     <tbody className="items-center w-full ">
                       {
                         (pageData.map((item, index) => (
-                          <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full cursorpointer`} onClick={() => navigate(`/EventDetails/${item?._id}`)} >
+                          <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full cursorpointer transition-all duration-300 ease-in-out`} onClick={() => navigate(`/EventDetails/${item?._id}`)} >
                             <td className="w-auto px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-tight">
                               <div className=" flex items-center gap-4" >
                                 <img src={item.headerImage} className="rounded-md h-[60px] w-[70px] bg-gray-300" alt="Event Header" />
@@ -547,7 +521,7 @@ const Events = () => {
                   <TablePagination
                     currentPage={cur}
                     totalPages={totalPages}
-                    // onPageChange={handlePageChange}
+                    onPageChange={handlePageChange}
                     itemsToShow={itemsToShow}
                   />
                 </div>

@@ -29,7 +29,7 @@ const DeleteAccountModal = (props) => {
     setSendingOk(false);
   };
 
-  const newPassword = watch("new_password", "");
+  watch("new_password", "");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -79,7 +79,7 @@ const DeleteAccountModal = (props) => {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       },
                     })}
-                  className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${(errors?.new_email || getValues('new_email')?.length > 0 && (props?.error == 'User not found')) ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
+                  className={`!placeholder:text-blue_gray-301 !text-gray700 leading-[18.2px] font-manrope text-left text-sm tracking-[0.14px] w-full rounded-[6px] px-[12px] py-[10px] h-[40px] border border-[#D0D5DD] ${((errors?.new_email || getValues('new_email')?.length > 0) && (props?.error === 'User not found')) ? 'border-errorColor shadow-inputBsError focus:border-errorColor' : 'border-[#D0D5DD] focus:border-focusColor focus:shadow-inputBs'}`}
                   type="text" name="new_email" placeholder={t('settings.deleteAccount.emailPlaceholder')} autoComplete='off'
                 />
               </div>
@@ -94,7 +94,7 @@ const DeleteAccountModal = (props) => {
                     type={showPassword ? "text" : "password"}
                     placeholder={t('settings.deleteAccount.passwordPlaceholder')}
                     style={{ appearance: 'none' }}
-                    className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full  border border-solid ${(errors?.new_password || (getValues('new_password')?.length > 0 && (props?.error == 'Incorrect password'))) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] h-[40px] ${(errors?.new_password || (getValues('new_password')?.length > 0 && (props?.error == 'Incorrect password'))) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${(errors?.new_password || (getValues('new_password')?.length > 0 && (props?.error == 'Incorrect password'))) ? 'errorColor' : 'gray-801'}`}
+                    className={`${!showPassword ? 'tracking-[0.32em]' : ''} placeholder:tracking-normal bg-white-A700 w-full  border border-solid ${(errors?.new_password || (getValues('new_password')?.length > 0 && (props?.error === 'Incorrect password'))) ? 'border-errorColor shadow-inputBsError ' : 'border-borderColor'} rounded-[6px] px-[12px] py-[10px] h-[40px] ${(errors?.new_password || (getValues('new_password')?.length > 0 && (props?.error === 'Incorrect password'))) ? 'focus:border-errorColor' : 'focus:border-focusColor focus:shadow-inputBs'} placeholder-text-placehColor font-dm-sans-regular placeholder:text-[14px] text-[15px] text-${(errors?.new_password || (getValues('new_password')?.length > 0 && (props?.error === 'Incorrect password'))) ? 'errorColor' : 'gray-801'}`}
                   />
                   <button
                     type="button"
@@ -118,7 +118,31 @@ const DeleteAccountModal = (props) => {
             <div className="flex items-end w-full pt-3 justify-end">
               <div className="flex space-x-3 md:space-x-5 w-auto">
                 <button onClick={props.onRequestClose} type="reset" className="flex items-center justify-center cursorpointer bg-[#E4E7EC] text-[#475467] hover:bg-[#D0D5DD] active:bg-light_blue-100 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">{t("common.cancel")}</button>
-                <button type="submit" className="flex items-center justify-center cursorpointer ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">{t('settings.deleteAccount.deleteAccount')}</button>
+                <button type="submit" className="flex items-center justify-center cursorpointer ml-auto bg-[#EF4352] hover:bg-[#F02A3C] text-white-A700 py-2 md:py-3 px-2 md:px-5 font-dm-sans-medium text-base leading-5 tracking-normal rounded-md">
+                  {sendingOk ?
+                    <span className="flex items-center justify-center gap-6">
+                      {" "}
+                      {t("all.sending")}
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.4995 13.5002L20.9995 3.00017M10.6271 13.8282L13.2552 20.5862C13.4867 21.1816 13.6025 21.4793 13.7693 21.5662C13.9139 21.6415 14.0862 21.6416 14.2308 21.5664C14.3977 21.4797 14.5139 21.1822 14.7461 20.5871L21.3364 3.69937C21.5461 3.16219 21.6509 2.8936 21.5935 2.72197C21.5437 2.57292 21.4268 2.45596 21.2777 2.40616C21.1061 2.34883 20.8375 2.45364 20.3003 2.66327L3.41258 9.25361C2.8175 9.48584 2.51997 9.60195 2.43326 9.76886C2.35809 9.91354 2.35819 10.0858 2.43353 10.2304C2.52043 10.3972 2.81811 10.513 3.41345 10.7445L10.1715 13.3726C10.2923 13.4196 10.3527 13.4431 10.4036 13.4794C10.4487 13.5115 10.4881 13.551 10.5203 13.5961C10.5566 13.647 10.5801 13.7074 10.6271 13.8282Z"
+                          stroke="white"
+                          strokeWidth="1.4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    :
+                    t('settings.deleteAccount.deleteMyAccount')
+                  }
+                </button>
               </div>
             </div>
           </div>

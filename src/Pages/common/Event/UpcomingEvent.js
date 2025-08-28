@@ -18,7 +18,7 @@ const UpcomingEvents = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const {data: userDetails} = useGetUserDetailsQuery();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const itemsPerPage = 5;
   const [totalPages , setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(searchParams.get("page") || 1);

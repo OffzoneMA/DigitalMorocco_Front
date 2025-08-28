@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
 import lineImage from '../../../Media/img_line.svg';
@@ -67,7 +67,7 @@ const CompaniesHistory = () => {
   }, [filterApply, refetch]);
 
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     // Réinitialiser les filtres locaux
     setLocalSelectedUsers([]);
     setLocalSelectedDate('');
@@ -79,7 +79,7 @@ const CompaniesHistory = () => {
 
     // Optionnel : forcer un refetch des données
     refetch();
-  };
+  }, [refetch]);
 
   useEffect(() => {
     if (filterApply) {
@@ -91,7 +91,7 @@ const CompaniesHistory = () => {
         handleResetFilters();
       }
     }
-  }, [localSelectedDate, localSelectedUsers, filterApply]);
+  }, [localSelectedDate, localSelectedUsers, filterApply , handleResetFilters]);
 
   const handleApplyFilters = () => {
     setSelectedUsers(localSelectedUsers);
@@ -129,8 +129,9 @@ const CompaniesHistory = () => {
                       showIcon={false}
                       onChangeDate={(date) => setLocalSelectedDate(date)}
                     />
-                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={users || []} searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalSelectedUsers}
-                      placeholder={t('common.selectIndustries')} valuekey="name" optionkey="_id"
+                    <MultipleSelect className="min-w-[170px] max-w-[200px]" id='investor' options={users || []} 
+                      searchLabel={t('common.searchIndustry')} setSelectedOptionVal={setLocalSelectedUsers}
+                      placeholder={t('common.selectIndustries')} valuekey="name" optionkey="_id" loading={isLoadingUsers}
                       content={
                         (option) => {
                           return (

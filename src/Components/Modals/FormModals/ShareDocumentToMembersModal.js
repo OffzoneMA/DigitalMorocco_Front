@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { default as ModalProvider } from "react-modal";
 import { IoSearch } from "react-icons/io5";
-import { useGetAllUsersQuery } from "../../../Services/User.Service";
 import { useGetShareWithDataQuery, useShareDocumentMutation } from "../../../Services/Document.Service";
 import Loader from "../../Loader";
 import userDefaultProfil from "../../../Media/User1.png";
@@ -17,10 +16,9 @@ const ShareDocumentToMembersModal = (props) => {
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isConfirmedModalOpen, setIsConfirmedModalOpen] = useState(false);
-  const { data: shareWithData, isLoading, isError, refetch } = useGetShareWithDataQuery();
+  const { data: shareWithData, isLoading, refetch } = useGetShareWithDataQuery();
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [shareDocument, response] = useShareDocumentMutation();
-  const [shareType, setShareType] = useState('');
+  const [shareDocument] = useShareDocumentMutation();
   const [sendingOk, setSendingOk] = useState(false);
 
   useEffect(() => {
@@ -30,6 +28,10 @@ const ShareDocumentToMembersModal = (props) => {
       setSelectedMembers([]);
     }
   }, [props?.rowData?.shareWithUsers]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
 
   useEffect(() => {
@@ -95,7 +97,6 @@ const ShareDocumentToMembersModal = (props) => {
 
   const onSubmit = async () => {
     const type = determineShareWith();
-    setShareType(type)
     try {
       setSendingOk(true);
       await shareDocument({
@@ -108,11 +109,13 @@ const ShareDocumentToMembersModal = (props) => {
       setSelectedMembers([]);
       openModal();
     } catch (error) {
-      // Handle error (e.g., show an error message)
       console.error('Failed to share document:', error);
+      setSendingOk(false);
+    }
+    finally {
+      setSendingOk(false);
     }
   };
-
 
   return (
     <>

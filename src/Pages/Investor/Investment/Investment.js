@@ -38,9 +38,7 @@ const Investment = () => {
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [rowData, setRowData] = useState(null);
-  const [keywords, setKeywords] = useState("");
-  const [investorRequests, setInvestorRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [keywords, setKeywords] = useState("");
   const [targetFund, setTargetFund] = useState("");
   const [location, setLocation] = useState("");
   const [industries, setIndustries] = useState([]);
@@ -66,11 +64,11 @@ const Investment = () => {
     refetch,
     isFetching: isLoading,
   } = useGetAllConatctReqQuery(queryParams);
-  const { data: sectorData, isLoading: locationLoading } =
+  const { data: sectorData, isLoading: sectorLoading } =
     useGetDistinctProjectFieldsQuery({ field: "sector" });
-  const { data: fundingData, isLoading: industryLoading } =
+  const { data: fundingData, isLoading: fundingLoading } =
     useGetDistinctProjectFieldsQuery({ field: "funding" });
-  const { data: locationData, isLoading: typeLoading } =
+  const { data: locationData, isLoading: locationLoading } =
     useGetDistinctProjectFieldsQuery({ field: "country" });
   const {
     data: subscriptionData,
@@ -223,6 +221,7 @@ const Investment = () => {
                         searchLabel={t("common.searchTargetFund")}
                         setSelectedOptionVal={setTargetFund}
                         placeholder={t("common.targetFund")}
+                        loading={fundingLoading}
                         content={(option) => {
                           return (
                             <div className="flex  py-2 items-center  w-full">
@@ -240,6 +239,7 @@ const Investment = () => {
                         searchLabel={t("common.searchLocation")}
                         setSelectedOptionVal={setLocation}
                         placeholder={t("common.location")}
+                        loading={locationLoading}
                         content={(option) => {
                           return (
                             <div className="flex  py-2 items-center  w-full">
@@ -257,6 +257,7 @@ const Investment = () => {
                         searchLabel={t("common.searchIndustry")}
                         setSelectedOptionVal={setIndustries}
                         placeholder={t("common.selectIndustries")}
+                        loading={sectorLoading}
                         content={(option) => {
                           return (
                             <div className="flex  py-2 items-center  w-full">
@@ -396,7 +397,7 @@ const Investment = () => {
                             key={index}
                             className={`${
                               index % 2 === 0 ? "bg-gray-50" : ""
-                            } hover:bg-blue-50 w-full cursorpointer`}
+                            } hover:bg-blue-50 w-full cursorpointer transition-all duration-300 ease-in-out`}
                             onClick={() =>
                               navigate(
                                 `/InvestmentRequestDetails/${item?._id}`,

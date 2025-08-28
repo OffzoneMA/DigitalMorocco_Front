@@ -25,7 +25,6 @@ const NewDocumentModal = (props) => {
   const navigate = useNavigate();
   const [files, setFiles] = useState(null);
   const [preview, setPreview] = useState(documentFile?.documentName || null);
-  const [shareType, setShareType] = useState('');
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({
@@ -153,7 +152,6 @@ const NewDocumentModal = (props) => {
     if (isFormValid && preview !== null) {
       setSendingOk(true)
       const shareWith = determineShareWith();
-      setShareType(shareWith)
       formData.append('docFile', files);
       const documentData = {
         ...data,

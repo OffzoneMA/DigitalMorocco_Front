@@ -1,24 +1,25 @@
-import React, { useState , useRef , useEffect , useMemo} from 'react';
-import { BiChevronDown , BiChevronUp} from 'react-icons/bi';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import Loader from '../Loader';
 
-const SimpleSelect = ({ options =[], onSelect = () => {} ,valuekey='',placeholder='' , searchable = true, 
-searchLabel='Search', setSelectedOptionVal , selectedOptionsDfault='' ,content , itemClassName='', selectedOptionProp = null,
-className='' ,required = false, sortable = true }) => {
+const SimpleSelect = ({ options = [], onSelect = () => { }, valuekey = '', placeholder = '', searchable = true,
+  searchLabel = 'Search', setSelectedOptionVal, selectedOptionsDfault = '', content, itemClassName = '', selectedOptionProp = null,
+  className = '', required = false, sortable = true, loading = false }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState((selectedOptionProp && selectedOptionProp !== '') ? selectedOptionProp : null);
   const [searchValue, setSearchValue] = useState("");
   const dropdownRef = useRef(null);
   const parentRef = useRef(null);
-  
+
   // Sort options based on translated values using useMemo to optimize performance
   const currentLanguage = (localStorage.getItem('language') || 'en').toLowerCase();
 
   // Liste des langues valides que vous voulez supporter
-  const validLanguages = ['en', 'fr', 'es', 'de', 'it', 'zh', 'ja']; 
+  const validLanguages = ['en', 'fr', 'es', 'de', 'it', 'zh', 'ja'];
 
   const normalizedLanguage = validLanguages.includes(currentLanguage) ? currentLanguage : 'en';
 
@@ -42,20 +43,20 @@ className='' ,required = false, sortable = true }) => {
         ignorePunctuation: true
       });
     });
-  }, [options, t, valuekey, normalizedLanguage]);
-
- useEffect(() => {
-  if (selectedOption === null || (typeof selectedOption === 'string' && !selectedOption.trim())) {
-    setSelectedOption(selectedOptionsDfault);
-  }
-}, [selectedOption, selectedOptionsDfault]);
+  }, [options, t, valuekey, normalizedLanguage, sortable]);
 
   useEffect(() => {
-    if(selectedOptionProp && selectedOptionProp !== selectedOption) {
+    if (selectedOption === null || (typeof selectedOption === 'string' && !selectedOption.trim())) {
+      setSelectedOption(selectedOptionsDfault);
+    }
+  }, [selectedOption, selectedOptionsDfault]);
+
+  useEffect(() => {
+    if (selectedOptionProp && selectedOptionProp !== selectedOption) {
       setSelectedOption(selectedOptionProp);
     }
   }, [selectedOption, selectedOptionProp]);
-  
+
 
   const [dropdownPosition, setDropdownPosition] = useState({ top: null, left: null, width: '100%' });
   const [dropdownDirection, setDropdownDirection] = useState('down');
@@ -85,16 +86,16 @@ className='' ,required = false, sortable = true }) => {
     setIsOpen(false);
   };
 
-   // Update filteredData to use sortedOptions instead of options
-   const filteredData = sortedOptions?.filter(investor => {
+  // Update filteredData to use sortedOptions instead of options
+  const filteredData = sortedOptions?.filter(investor => {
     if (!searchValue?.trim()) return true;
-  
+
     const normalizedSearch = searchValue
       .toLowerCase()
       .normalize("NFD")
       .replace(/\p{Diacritic}/gu, "")
       .trim();
-  
+
     if (typeof investor === 'string') {
       const translatedValue = t(`${investor}`);
       const normalizedTranslation = translatedValue
@@ -103,10 +104,10 @@ className='' ,required = false, sortable = true }) => {
         .replace(/\p{Diacritic}/gu, "");
       return normalizedTranslation.includes(normalizedSearch);
     }
-  
+
     if (investor && typeof investor === 'object') {
       const value = investor[valuekey];
-      
+
       if (value) {
         const translatedValue = t(`${value}`);
         const normalizedValue = translatedValue
@@ -116,10 +117,10 @@ className='' ,required = false, sortable = true }) => {
         return normalizedValue.includes(normalizedSearch);
       }
     }
-  
+
     return false;
   });
-  
+
   const calculateDropdownPosition = () => {
     if (dropdownRef.current && parentRef.current) {
       const rect = parentRef.current.getBoundingClientRect();
@@ -190,55 +191,67 @@ className='' ,required = false, sortable = true }) => {
           placeholder={placeholder}
           value={valuekey ? t(selectedOption?.[valuekey]) : selectedOption ? t(selectedOption) : ""}
           readOnly
-          style={{overflow:'hidden' , textOverflow:'ellipsis'}}
+          style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
         />
         <div className='flex items-center justify-center gap-2'>
-          {selectedOption ? 
-          (<button type='button' 
-            onClick={handleClear}
-            className='btn_delete_selected w-[18px] h-[18px] text-[#A9ACB0] hover:text-[#EC7373] flex items-center justify-center cursorpointer'>
-            <svg className='cursorpointer' width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>)
-          :
-          isOpen ? <BiChevronUp size={18} className='text-blue_gray-301' /> : <BiChevronDown size={18} className='text-blue_gray-301' />
+          {selectedOption ?
+            (<button type='button'
+              onClick={handleClear}
+              className='btn_delete_selected w-[18px] h-[18px] text-[#A9ACB0] hover:text-[#EC7373] flex items-center justify-center cursorpointer'>
+              <svg className='cursorpointer' width="10" height="10" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>)
+            :
+            isOpen ? <BiChevronUp size={18} className='text-blue_gray-301' /> : <BiChevronDown size={18} className='text-blue_gray-301' />
           }
         </div>
       </div>
       {isOpen && (
-         ReactDOM.createPortal(
-        <div ref={dropdownRef} className={`absolute w-full py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[310px] z-10 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'}`} role="menu" 
-        style={dropdownPosition}>
+        ReactDOM.createPortal(
+          <div ref={dropdownRef} className={`absolute w-full py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[310px] z-10 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'}`} role="menu"
+            style={dropdownPosition}>
             {searchable && (
-            <div className='flex w-full px-3'>
-              <div className="flex w-full rounded-md py-1.5 px-2 border border-solid">
-                <input
-                  className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-xs tracking-[0.14px] w-full bg-transparent border-0`}
-                  type="text"
-                  name="search"
-                  placeholder={searchLabel}
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                />
-                <IoSearch size={18} className="text-[#98A2B3] z-20 hover:text-gray-500"/>
+              <div className='flex w-full px-3'>
+                <div className="flex w-full rounded-md py-1.5 px-2 border border-solid">
+                  <input
+                    className={`!placeholder:text-blue_gray-301 !text-gray700 font-manrope text-left text-xs tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="search"
+                    placeholder={searchLabel}
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                  />
+                  <IoSearch size={18} className="text-[#98A2B3] z-20 hover:text-gray-500" />
+                </div>
               </div>
+            )}
+            <div className="py-2">
+              {loading &&
+                <div className='w-full flex justify-center items-center min-h-[100px] py-8'>
+                  <Loader />
+                </div>
+              }
+              {filteredData.length === 0 && !loading && (
+                <div className='w-full flex justify-center items-center min-h-[100px] py-8'>
+                  <p className='text-gray-500'>{t('common.noData')}</p>
+                </div>
+              )}
+              {!loading && filteredData?.length > 0 && (
+                filteredData.map((option, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center w-full px-3 text-left cursorpointer-green ${(selectedOption === option || JSON.stringify(selectedOption) === JSON.stringify(option)) ? 'select-color-text text-[#35D8BF]' : ''} hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
+                    onClick={() => handleOptionClick(option)}
+                  >
+                    {content(option)}
+                  </div>
+                ))
+              )}
             </div>
-         )}
-          <div className="py-2">
-            {filteredData.map((option, index) => (
-              <div
-                key={index}
-                className={`flex items-center w-full px-3 text-left cursorpointer-green ${(selectedOption === option || JSON.stringify(selectedOption) === JSON.stringify(option) ) ? 'select-color-text text-[#35D8BF]' : ''} hover-select-color hover:text-[#35D8BF] ${itemClassName}`}
-                onClick={() => handleOptionClick(option)}
-              >
-                {content(option)}
-              </div>
-            ))}
-          </div>
-        </div>,
-          document.body    
-          )
+          </div>,
+          document.body
+        )
       )}
     </div>
   );

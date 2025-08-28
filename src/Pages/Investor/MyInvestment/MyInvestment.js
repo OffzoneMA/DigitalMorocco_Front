@@ -42,11 +42,11 @@ const MyInvestment = () => {
     const { data : locationData } = useGetDistinctProjectFieldsQuery({field: "stage", status: "Approved"});
 
 
-    // function handlePageChange(page) {
-    //   if (page >= 1 && page <= totalPages) {
-    //     setCur(page);
-    //   }
-    // }
+    function handlePageChange(page) {
+      if (page >= 1 && page <= totalPages) {
+        setCur(page);
+      }
+    }
 
     const clearFilter = () => {
         setFilter(false); 
@@ -235,7 +235,7 @@ const MyInvestment = () => {
                       <tbody className="items-center w-full ">
                       {
                         filteredData.map((item, index) => (
-                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full cursorpointer`} onClick={()=> navigate(`/InvestmentDetails/${item?._id}` , { state: {contactRequest: item}})}>
+                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full cursorpointer transition-all duration-300 ease-in-out`} onClick={()=> navigate(`/InvestmentDetails/${item?._id}` , { state: {contactRequest: item}})}>
                           <td className="w-auto text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                             <div className="relative flex">
                               <div className="px-[18px] py-4 flex items-center gap-3" >
@@ -291,7 +291,7 @@ const MyInvestment = () => {
                   <TablePagination
                     currentPage={cur}
                     totalPages={totalPages}
-                    // onPageChange={handlePageChange}
+                    onPageChange={handlePageChange}
                     itemsToShow={itemsToShow}
                   />              
                 </div>

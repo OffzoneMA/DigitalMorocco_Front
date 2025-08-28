@@ -18,7 +18,8 @@ import EmailExistModalOrConfirmation from "../../../Components/Modals/EmailExist
 import checkVerified from "../../../Media/check-verified-02.svg";
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 import CommonModal from "../../../Components/common/CommonModal";
-import { PRICING_COST_CONFIG, SUBSCRIPTION_LIMITS } from "../../../data/data";
+import { PRICING_COST_CONFIG } from "../../../data/data";
+import { SUBSCRIPTION_LIMITS } from "../../../data/data";
 import {
   useDeductionCreditsMutation,
   useCheckSubscriptionStatusQuery,
@@ -26,19 +27,20 @@ import {
 import { useGetUserDetailsQuery } from "../../../Services/Auth";
 import { useGetTheDraftProjectQuery } from "../../../Services/Project.Service";
 import email_error from "../../../Media/emailError.svg";
+import ProjectsToMaskModal from "../../../Components/Modals/ProjectsToMaskModal";
 
 const Projects = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { refetch: refetchUser } = useGetUserDetailsQuery();
   const [deleteProject] = useDeleteProjectMutation();
-  const { data: draftProject } = useGetTheDraftProjectQuery();
-  const { data: subscriptionData } = useCheckSubscriptionStatusQuery();
+  const { data: draftProject, refetch: refetchDraft } = useGetTheDraftProjectQuery();
+  const { data: subscriptionData, refetch: refetchSubscription } = useCheckSubscriptionStatusQuery();
   const [deductCredits] = useDeductionCreditsMutation();
   const [deleteSuccesModal, setDeleteSuccesModal] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteRow, setDeleteRow] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const itemsToShow = 4;
@@ -55,6 +57,9 @@ const Projects = () => {
   const [confirmCreditsSending, setConfirmCreditsSending] = useState(false);
   const [deductionCreditsError, setDeductionCreditsError] = useState("");
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [totalProjectsToMask, setTotalProjectsToMask] = useState(0);
+  const [totalProjectsToUnmask, setTotalProjectsToUnmask] = useState(0);
+  const [openChooseProjectToMaskModal, setOpenChooseProjectToMaskModal] = useState(false);
 
   const pageData = data?.projects;
 
@@ -80,6 +85,11 @@ const Projects = () => {
   useEffect(() => {
     refetch();
   }, [cur, refetch]);
+
+  useEffect(() => {
+    refetchDraft();
+    refetchSubscription();
+  }, [refetchDraft, refetchSubscription]);
 
   useEffect(() => {
     setTotalPages(data?.totalPages);
@@ -177,6 +187,61 @@ const Projects = () => {
     }
   };
 
+
+  useEffect(() => {
+    if (!subscriptionData || !pageData) return;
+
+    const previousPlanInfo = subscriptionData?.previousPlanInfo;
+    const currentPlan = subscriptionData?.plan;
+
+    if (!previousPlanInfo || !currentPlan) return;
+
+    const isMember = previousPlanInfo.userRole?.toLowerCase() === "member";
+    const planChanged =
+      previousPlanInfo.planName?.toLowerCase() !== currentPlan.name?.toLowerCase();
+
+    if (!isMember || !planChanged) return;
+
+    // ✅ Calculs centralisés
+    const newPlanMaxProjects =
+      SUBSCRIPTION_LIMITS[currentPlan.name?.toLowerCase()] || 0;
+    const totalProjectsOld = previousPlanInfo.totalProjects || 0;
+
+    const maskedCount = pageData.filter((p) => p.mask).length;
+    const visibleCount = totalProjectsOld - maskedCount;
+
+    console.log("🔍 Nombre de projets masqués :", maskedCount);
+    console.log("🔍 Nombre de projets visibles :", visibleCount);
+
+    // ✅ Cas 1 : trop de projets visibles → il faut masquer
+    if (visibleCount > newPlanMaxProjects) {
+      const toMask = visibleCount - newPlanMaxProjects;
+      setTotalProjectsToMask(toMask);
+      setOpenChooseProjectToMaskModal(true);
+      console.info(
+        `⚠️ Trop de projets visibles (${visibleCount}), limite = ${newPlanMaxProjects}. L’utilisateur doit masquer ${toMask} projets.`
+      );
+      return;
+    }
+
+    // ✅ Cas 2 : pas assez de projets visibles → il peut démasquer
+    if (visibleCount < newPlanMaxProjects) {
+      const toUnmask = newPlanMaxProjects - visibleCount;
+      setTotalProjectsToUnmask(toUnmask);
+      setOpenChooseProjectToMaskModal(true);
+      console.info(
+        `ℹ️ Seulement ${visibleCount} projets visibles, limite = ${newPlanMaxProjects}. L’utilisateur peut démasquer ${toUnmask} projets.`
+      );
+      return;
+    }
+
+    // ✅ Cas 3 : équilibre parfait
+    console.info("✅ Nombre de projets déjà conforme au nouveau plan.");
+    setOpenChooseProjectToMaskModal(false);
+
+  }, [subscriptionData, pageData]);
+
+
   return (
     <>
       <HelmetWrapper
@@ -212,9 +277,9 @@ const Projects = () => {
               </div>
               <div
                 className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0
-                    ? "border-b border-gray-201"
-                    : "rounded-b-[8px]"
-                  } w-full pb-4 min-h-[330px] overflow-x-auto`}
+                  ? "border-b border-gray-201"
+                  : "rounded-b-[8px]"
+                  } w-full pb-5 min-h-[330px] overflow-x-auto`}
                 style={{
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
@@ -268,13 +333,13 @@ const Projects = () => {
                     <tbody className="items-center w-full ">
                       {pageData.map(
                         (item, index) => {
-                          
+
                           return (
                             <tr
                               key={index}
                               className={`${index % 2 === 0 ? "bg-gray-50" : ""}
-                      ${!item?.mask
-                                  ? "hover:bg-blue-50 cursorpointer"
+                               ${!item?.mask
+                                  ? "hover:bg-blue-50 cursorpointer transition-all duration-300 ease-in-out"
                                   : "opacity-40 line-through pointer-events-none"
                                 }`}
                               onClick={() =>
@@ -559,6 +624,7 @@ const Projects = () => {
           </div>
         }
       />
+      <ProjectsToMaskModal isOpen={openChooseProjectToMaskModal} totalProjectsToMask={totalProjectsToMask} totalProjectsToUnmask={totalProjectsToUnmask} />
     </>
   );
 };

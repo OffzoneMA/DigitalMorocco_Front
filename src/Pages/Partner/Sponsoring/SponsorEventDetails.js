@@ -12,7 +12,6 @@ import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
 import { useGetEventByIdQuery } from "../../../Services/Event.Service";
 import { useParams } from "react-router-dom";
-import { AiOutlineLoading } from "react-icons/ai";
 import Loader from "../../../Components/Loader";
 import userDefaultProfil from '../../../Media/User1.png';
 import SendSponsoringModal from "../../../Components/Modals/Sponsoring/SendSponsoringModal";
@@ -24,7 +23,6 @@ const SponsorEventDetails = () => {
   const currentLanguage = localStorage.getItem('language') || 'en';
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [bying, setBying] = useState(false);
   const { id } = useParams();
   const eventFromState = location.state ? location.state.event : null;
   const { data: eventFromApi, isLoading } = useGetEventByIdQuery(id, {
@@ -91,11 +89,9 @@ const SponsorEventDetails = () => {
                       className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row h-[38px] items-center justify-center px-4 py-2 rounded-md min-w-[101px] cursorpointer"
                       type="button"
                     >
-                      {bying ? <AiOutlineLoading size={22} className="animate-spin disabled !cursor-not-allowed" /> :
-                        <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-dm-sans-medium leading-[18.23px]">
-                          {t('Sponsorship')}
-                        </span>
-                      }
+                      <span style={{ whiteSpace: 'nowrap' }} className="text-sm  font-dm-sans-medium leading-[18.23px]">
+                        {t('Sponsorship')}
+                      </span>
                     </button>
                   </div>
                   <div className="flex flex-row gap-3 items-center text-left">

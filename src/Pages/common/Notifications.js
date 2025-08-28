@@ -1,4 +1,3 @@
-import { Text } from "../../Components/Text";
 import React, { useEffect } from "react";
 import PageHeader from "../../Components/common/PageHeader";
 import SearchInput from "../../Components/common/SeachInput";

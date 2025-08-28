@@ -1,13 +1,14 @@
-import React, { useState , useRef , useEffect } from 'react';
-import { BiChevronDown , BiChevronUp } from 'react-icons/bi';
+import React, { useState, useRef, useEffect } from 'react';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { IoSearch } from "react-icons/io5";
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import Loader from '../Loader';
 
-const MultipleSelect = ({ options =[], onSelect = () => {}, valuekey='',optionkey='',placeholder='', 
-searchable = true, searchLabel='Search' , setSelectedOptionVal , selectedOptionsDfault = [] , content , 
-itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, sortable = true,}) => {
-  const {t} = useTranslation();
+const MultipleSelect = ({ options = [], onSelect = () => { }, valuekey = '', optionkey = '', placeholder = '',
+  searchable = true, searchLabel = 'Search', setSelectedOptionVal, selectedOptionsDfault = [], content,
+  itemClassName = '', className = '', emptyMsg = "", emptyIcon, required = false, sortable = true, loading = false }) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedOptionsDfault);
   const [searchValue, setSearchValue] = useState("");
@@ -20,11 +21,11 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
   useEffect(() => {
     // Only set selectedOptions if it hasn't been initialized yet
     if (selectedOptions.length === 0 && selectedOptionsDfault.length > 0) {
-        setSelectedOptions(selectedOptionsDfault);
+      setSelectedOptions(selectedOptionsDfault);
     }
-}, [selectedOptionsDfault, selectedOptions]);
+  }, [selectedOptionsDfault, selectedOptions]);
 
-  
+
   const toggleDropdown = (event) => {
     event.stopPropagation(); // Stop event propagation to prevent handleClickOutside from being triggered
     setIsOpen(prevState => !prevState);
@@ -35,9 +36,9 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
       setIsOpen(false);
     }
   };
-  
+
   const handleOptionClick = (option) => {
-    if(optionkey) {
+    if (optionkey) {
       const optionValue = option?.[optionkey];
       if (selectedOptions.some(selectedOption => selectedOption?.[optionkey] === optionValue)) {
         setSelectedOptions(selectedOptions.filter((item) => item?.[optionkey] !== optionValue));
@@ -55,29 +56,30 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
         setSelectedOptionVal([...selectedOptions, option]);
       }
     }
-    
+
   };
-  const handleOptionClickById = (optionId) => {
-    if (selectedOptions.some(selectedOption => selectedOption.id === optionId)) {
-      setSelectedOptions(prevOptions => prevOptions.filter(option => option.id !== optionId));
-      setSelectedOptionVal(prevOptions => prevOptions.filter(option => option.id !== optionId));
-    } else {
-      const option = options.find(option => option.id === optionId);
-      setSelectedOptions(prevOptions => [...prevOptions, option]);
-      setSelectedOptionVal(prevOptions => [...prevOptions, option]);
-    }
-  };
-  
+
+  // const handleOptionClickById = (optionId) => {
+  //   if (selectedOptions.some(selectedOption => selectedOption.id === optionId)) {
+  //     setSelectedOptions(prevOptions => prevOptions.filter(option => option.id !== optionId));
+  //     setSelectedOptionVal(prevOptions => prevOptions.filter(option => option.id !== optionId));
+  //   } else {
+  //     const option = options.find(option => option.id === optionId);
+  //     setSelectedOptions(prevOptions => [...prevOptions, option]);
+  //     setSelectedOptionVal(prevOptions => [...prevOptions, option]);
+  //   }
+  // };
+
   const filteredData = options?.filter(investor => {
     // Si aucune valeur de recherche, retourner tous les résultats
     if (!searchValue?.trim()) return true;
-  
+
     const normalizedSearch = searchValue
       .toLowerCase()
       .normalize("NFD")
       .replace(/\p{Diacritic}/gu, "")
       .trim();
-  
+
     if (typeof investor === 'string') {
       // Appliquer la traduction et normaliser
       const translatedValue = t(`${investor}`);
@@ -87,7 +89,7 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
         .replace(/\p{Diacritic}/gu, "");
       return normalizedValue.includes(normalizedSearch);
     }
-  
+
     // Pour les objets, vérifier la valeur traduite de la propriété spécifiée
     if (investor && investor[valuekey]) {
       const translatedValue = t(`${investor[valuekey]}`);
@@ -97,7 +99,7 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
         .replace(/\p{Diacritic}/gu, "");
       return normalizedValue.includes(normalizedSearch);
     }
-  
+
     return false;
   });
 
@@ -160,7 +162,7 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
       return selectedOptions.includes(option);
     }
   };
-  
+
 
   return (
     <div id='drop_root' className={`relative flex flex-col md:flex-1 w-full ${className}`}>
@@ -175,95 +177,102 @@ itemClassName='' , className='' , emptyMsg = "" , emptyIcon , required = false, 
           placeholder={placeholder}
           value={selectedOptions?.map(option => option?.[valuekey] ? option[valuekey] : t(option)).join(', ')}
           readOnly
-          style={{overflow:'hidden' , textOverflow:'ellipsis'}}
+          style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
         />
         {isOpen ? <BiChevronUp size={18} className='text-blue_gray-301' /> : <BiChevronDown size={18} className='text-blue_gray-301' />}
-        </div>
-      {isOpen && 
-       ReactDOM.createPortal(
-        <div ref={dropdownRef} className={`absolute  w-full py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[340px] z-50 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'}`} role="menu" 
-        style={dropdownPosition}>
-         {searchable && options?.length > 0 && (
-          <div className='flex w-full px-3'>
-            <div className="flex w-full rounded-md py-1.5 px-2 border border-solid">
-              <input
-                className={`!placeholder:text-blue_gray-301  !text-gray700 font-manrope text-left text-xs tracking-[0.14px] w-full bg-transparent border-0`}
-                type="text"
-                name="search"
-                placeholder={searchLabel}
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-              <IoSearch size={18} className="text-[#98A2B3] z-20 hover:text-gray-500"/>
-            </div>
-          </div>
-         )}
-          <div className="py-1">
-            {filteredData?.map((option, index) => (
-              <div
-                key={index}
-                className={`flex items-center justify-start px-3 cursorpointer-green hover:bg-gray-100 `}
-                onClick={() => {
-                      handleOptionClick(option);
-                  }}
-              >
-                <div className={`flex items-center space-x-3 w-full text-left ${itemClassName}`} >
-                  <label htmlFor={`check_${index}`} className="cursorpointer-green relative inline-flex items-center">
-                    <input
-                        id={`check_${index}`}
-                        type="checkbox"
-                        checked={isSelected(option)}
-                        onChange={()=> handleOptionClick(option)}
-                        className="peer appearance-none w-[16px] h-[16px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-201 rounded-[4.5px] focus:ring-blue-500"
-                    />
-                    <svg
-                      width="11"
-                      height="8"
-                      viewBox="0 0 11 7"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"
-                    >
-                      <path
-                        d="M1.5 3.5L4.14706 6L9.5 1"
-                        stroke="#1E0E62"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    </label>
-                  <div onClick={() => {
-                      handleOptionClick(option);
-                  }}>
-                    {content(option)}
-                  </div>
+      </div>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <div ref={dropdownRef} className={`absolute  w-full py-2 bg-white-A700 rounded-[6px] border border-gray-201 shadow-lg overflow-y-auto max-h-[340px] z-50 ${dropdownDirection === 'up' ? 'mb-3' : 'mt-1'}`} role="menu"
+            style={dropdownPosition}>
+            {searchable && options?.length > 0 && (
+              <div className='flex w-full px-3'>
+                <div className="flex w-full rounded-md py-1.5 px-2 border border-solid">
+                  <input
+                    className={`!placeholder:text-blue_gray-301  !text-gray700 font-manrope text-left text-xs tracking-[0.14px] w-full bg-transparent border-0`}
+                    type="text"
+                    name="search"
+                    placeholder={searchLabel}
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                  />
+                  <IoSearch size={18} className="text-[#98A2B3] z-20 hover:text-gray-500" />
                 </div>
               </div>
-            ))}
-            {options?.length === 0 && (
-              <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] w-full py-4">
-                {emptyIcon ? (
-                  React.isValidElement(emptyIcon) ? 
-                    React.cloneElement(emptyIcon, { className: "icon" }) : 
-                    <span className="icon" dangerouslySetInnerHTML={{ __html: emptyIcon }} />
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
-                    <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  )
-                }
-                <p
-                  className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
-                >
-                  {emptyMsg} 
-                </p>
-              </div>
             )}
-          </div>
-        </div>,
-          document.body    
-          )}
+            <div className="py-1">
+              {filteredData?.length > 0 && !loading && (
+                filteredData?.map((option, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center justify-start px-3 cursorpointer-green hover:bg-gray-100 `}
+                    onClick={() => {
+                      handleOptionClick(option);
+                    }}
+                  >
+                    <div className={`flex items-center space-x-3 w-full text-left ${itemClassName}`} >
+                      <label htmlFor={`check_${index}`} className="cursorpointer-green relative inline-flex items-center">
+                        <input
+                          id={`check_${index}`}
+                          type="checkbox"
+                          checked={isSelected(option)}
+                          onChange={() => handleOptionClick(option)}
+                          className="peer appearance-none w-[16px] h-[16px] bg-gray-300 text-blue-600 checked:bg-green-A200 border-gray-201 rounded-[4.5px] focus:ring-blue-500"
+                        />
+                        <svg
+                          width="11"
+                          height="8"
+                          viewBox="0 0 11 7"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="absolute left-[50%] top-[50%] transform -translate-x-1/2 -translate-y-1/2 transition opacity-0 peer-checked:opacity-100 text-blue_gray-903"
+                        >
+                          <path
+                            d="M1.5 3.5L4.14706 6L9.5 1"
+                            stroke="#1E0E62"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </label>
+                      <div onClick={() => {
+                        handleOptionClick(option);
+                      }}>
+                        {content(option)}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+              {(options?.length === 0 && !loading) && (
+                <div className="flex flex-col items-center text-blue_gray-800_01 gap-[16px] w-full py-8 min-h-[100px]">
+                  {emptyIcon ? (
+                    React.isValidElement(emptyIcon) ?
+                      React.cloneElement(emptyIcon, { className: "icon" }) :
+                      <span className="icon" dangerouslySetInnerHTML={{ __html: emptyIcon }} />
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="37" height="36" viewBox="0 0 37 36" fill="none">
+                      <path d="M12.5 12L6.64018 19.0318C6.11697 19.6596 5.85536 19.9736 5.85137 20.2387C5.84789 20.4692 5.9506 20.6885 6.12988 20.8333C6.33612 21 6.74476 21 7.56205 21H18.5L17 33L24.5 24M23.9751 15H29.438C30.2552 15 30.6639 15 30.8701 15.1667C31.0494 15.3115 31.1521 15.5308 31.1486 15.7613C31.1446 16.0264 30.883 16.3404 30.3598 16.9682L28.3254 19.4096M16.3591 7.36897L19.9999 3L19.1004 10.1966M32 31.5L5 4.5" stroke="#667085" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )
+                  }
+                  <p
+                    className="font-dm-sans-medium text-sm leading-6 text-gray700 w-auto"
+                  >
+                    {emptyMsg}
+                  </p>
+                </div>
+              )}
+              {loading && (
+                <div className="flex justify-center items-center py-8 min-h-[100px]">
+                  <Loader />
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

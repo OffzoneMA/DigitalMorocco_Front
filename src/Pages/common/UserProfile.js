@@ -30,7 +30,6 @@ export default function UserProfile() {
   const token = sessionStorage.getItem("userToken");
   // const allCountries = Country.getAllCountries();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteRow, setDeleteRow] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(userData?.country ? allCountries.find(country => country.name === userData?.country) : null);
@@ -47,22 +46,26 @@ export default function UserProfile() {
   const [error, setError] = useState('');
   const selectedCountryName = selectedCountry ? selectedCountry["name"] : '';
   const selectedCityName = selectedCity ? selectedCity["name"] : '';
-  const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue, getValues: getValues1, trigger } = useForm();
-  const { register: register2, handleSubmit: handleSubmit2, watch, formState: { errors: errors2 }, getValues: getValues2 } = useForm();
-  const { handleSubmit: handleSubmit3 } = useForm();
   const fileInputRef = useRef(null);
   const handleUploadClick = () => { fileInputRef.current.click(); };
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isForm1Valid, setIsForm1Valid] = useState(false);
   const [hasSubmitted1, setHasSubmitted1] = useState(false);
+  const [hasSubmitted2, setHasSubmitted2] = useState(false);
+  const [hasSubmitted3, setHasSubmitted3] = useState(false);
+  const { register: register1, handleSubmit: handleSubmit1, formState: { errors: errors1 }, setValue, trigger } = useForm({
+    mode: hasSubmitted1 ? "onChange" : "onSubmit",
+  });
+  const { register: register2, handleSubmit: handleSubmit2, watch, formState: { errors: errors2 }, getValues: getValues2 } = useForm({
+    mode: hasSubmitted2 ? "onChange" : "onSubmit",
+  });
+  const { handleSubmit: handleSubmit3 } = useForm({
+    mode: hasSubmitted3 ? "onChange" : "onSubmit",
+  });
   const [requiredFields1, setRequiredFields1] = useState({
     country: false,
     city: false,
   });
-  const [isForm3Valid, setIsForm3Valid] = useState(false);
-  const [hasSubmitted3, setHasSubmitted3] = useState(false);
   const [requiredFields3, setRequiredFields3] = useState({
     region: false,
     language: false
@@ -94,49 +97,25 @@ export default function UserProfile() {
     if (hasSubmitted1) {
       const isCountryValid = selectedCountry !== null;
       const isCityValid = (selectedCity !== '' && selectedCity !== undefined);
-      const isValid = isCountryValid && isCityValid;
 
       setRequiredFields1({
         country: !isCountryValid,
         city: !isCityValid,
       });
 
-      setIsForm1Valid(isValid);
     }
   }, [hasSubmitted1, selectedCountry, selectedCity]);
-
-  // useEffect(() => {
-  //   const validateForm = async () => {
-  //     const isCountryValid = (selectedCountry !== null && selectedCountry !== undefined);
-  //     const isCityValid = (selectedCity !== null && selectedCity !== undefined && selectedCity !== '');
-  //     let formIsValid = false;
-
-  //     if (hasSubmitted1) {
-  //       setRequiredFields1({
-  //         country: !isCountryValid,
-  //         city: !isCityValid,
-  //       });
-  //       formIsValid = await trigger();
-  //     }
-
-  //     // setIsForm1Valid(formIsValid && isCountryValid && isCityValid);
-  //   };
-
-  //   validateForm();
-  // }, [selectedCountry, selectedCity, trigger, hasSubmitted1]);
 
   useEffect(() => {
     if (hasSubmitted3) {
       const isRegionValid = (selectedRegion !== null && selectedRegion !== undefined && selectedRegion !== '');
       const isLanguageValid = (selectedLanguage !== null && selectedLanguage !== undefined && selectedLanguage !== '');
-      const isValid = isRegionValid && isLanguageValid;
 
       setRequiredFields3({
         region: !isRegionValid,
         language: !isLanguageValid
       });
 
-      setIsForm3Valid(isValid);
     }
   }, [hasSubmitted3, selectedRegion, selectedLanguage]);
 
@@ -150,12 +129,11 @@ export default function UserProfile() {
         });
         const data = response.data;
         const nameParts = data.displayName.split(' ');
-        const firstName = nameParts.slice(0, -1).join(' ');
+        const firstName = nameParts?.slice(0, -1).join(' ');
         const lastName = nameParts[nameParts.length - 1];
         const userCity = data.cityState;
         const language = languages.find(lang => lang.label === data.language)
         const region = data.region;
-        setUser(data);
         setValue('email', data.email);
         setValue('firstName', firstName);
         setValue('lastName', lastName);
@@ -188,7 +166,7 @@ export default function UserProfile() {
     };
 
     UserInfo();
-  }, []);
+  }, [token, setValue]);
 
 
   const handleImageChange = (e) => {
@@ -308,12 +286,6 @@ export default function UserProfile() {
         formData.append('image', selectedImage);
       }
 
-      // // Vérifier si le formulaire est valide
-      // if (!isForm1Valid) {
-      //   console.log("Form is not valid");
-      //   return;
-      // }
-
       const response = await axios.put(`${process.env.REACT_APP_baseURL}/users/${userId}/updateProfile`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -335,6 +307,7 @@ export default function UserProfile() {
 
     } catch (error) {
       setForm1Sending(false);
+      setHasSubmitted1(false);
       console.error("Error saving data:", error);
     }
   };
@@ -354,8 +327,6 @@ export default function UserProfile() {
       // city: !isCityValid,
     });
 
-    setIsForm1Valid(formIsValid && isCountryValid);
-
 
     // Si tout est valide, soumettre le formulaire
     if (formIsValid && isCountryValid) {
@@ -365,6 +336,7 @@ export default function UserProfile() {
 
   const onSubmit2 = async (data) => {
     setForm2Sending(true);
+    setHasSubmitted2(true);
     try {
       const passwordData = {
         currentPassword: data.currentPassword,
@@ -405,6 +377,7 @@ export default function UserProfile() {
       }
     } catch (error) {
       setForm2Sending(false);
+      setHasSubmitted2(false);
       console.error("Error changing password:", error);
     }
   };
@@ -455,7 +428,6 @@ export default function UserProfile() {
           //   ...userData,
           //   ...formData,
           // };
-          setUser(response?.data?.user);
           refetch();
           sessionStorage.setItem("userData", JSON.stringify(response?.data?.user));
         } else {
@@ -464,15 +436,14 @@ export default function UserProfile() {
         }
       } catch (error) {
         setForm3Sending(false);
+        setHasSubmitted3(false);
         console.error("Error updating language and region:", error);
       }
     }
   };
 
-  const openDeleteModal = (rowData) => {
+  const openDeleteModal = () => {
     setIsDeleteModalOpen(true);
-    setDeleteRow(rowData);
-
   };
 
   const handleDeleteAccount = async (email, password) => {

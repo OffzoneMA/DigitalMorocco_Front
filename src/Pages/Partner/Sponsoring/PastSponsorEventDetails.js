@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { MdOutlineDateRange } from "react-icons/md";
 import { BiMap } from "react-icons/bi";
@@ -27,6 +27,10 @@ const PastSponsorEventDetails = () => {
   const eventFromState = location.state ? location.state.event : null;
   const { data: eventFromApi, isLoading, refetch } = useGetSponsorByIdQuery(id);
   const event = eventFromState || eventFromApi;
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const sponsors = [
     { logo: "/images/spon_logo0.svg" },
@@ -60,7 +64,7 @@ const PastSponsorEventDetails = () => {
               <div className="flex flex-1 flex-col  h-full items-start justify-start w-full">
                 <PageHeader
                 >
-                  {event?.status == 'past' ? t('event.pastEvent') : t('event.pastEvent')}
+                  {event?.status === 'past' ? t('event.pastEvent') : t('event.pastEvent')}
                 </PageHeader>
               </div>
               <SearchInput className={'w-[240px]'} />

@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
-import { Text } from "../../Components/Text";
 import { LiaUnlockAltSolid } from "react-icons/lia";
 import { GoRocket } from "react-icons/go";
 import { TiFlashOutline } from "react-icons/ti";
 import { BiBuildings } from "react-icons/bi";
 import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import PageHeader from "../../Components/common/PageHeader";
 import SearchInput from "../../Components/common/SeachInput";
 import Loader from "../../Components/Loader";
@@ -19,7 +17,6 @@ import HelmetWrapper from "../../Components/common/HelmetWrapper";
 
 const Dashbord_Investor = () => {
   const { t } = useTranslation();
-  const status = 'Active'
   const navigate = useNavigate();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const { data: userDetails, isLoading: userDetailsLoading, refetch: refetchUser } = useGetUserDetailsQuery();
@@ -101,7 +98,7 @@ const Dashbord_Investor = () => {
             </button>
           </div>
           <section className="flex flex-wrap gap-8 2xl:gap-10 pt-8 w-full">
-            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]"
+            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px] transition-all duration-300 ease-in-out"
             // onClick={() => navigate('/InvestmentRequestHistory')}
             >
               <div className="rounded-[6px] p-2 bg-teal-50">
@@ -126,7 +123,7 @@ const Dashbord_Investor = () => {
                 </p>
               )}
             </div>
-            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]"
+            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px] transition-all duration-300 ease-in-out"
             // onClick={() => navigate('/Investment')}
             >
               <div className="rounded-[6px] p-2 bg-violet-100">
@@ -151,7 +148,7 @@ const Dashbord_Investor = () => {
                 </p>
               )}
             </div>
-            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]"
+            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px] transition-all duration-300 ease-in-out"
             // onClick={() => navigate('/MyInvestment')}
             >
               <div className="rounded-[6px] p-2 bg-blue-51">
@@ -178,7 +175,7 @@ const Dashbord_Investor = () => {
                 </p>
               )}
             </div>
-            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px]"
+            <div className="flex flex-col gap-3 items-center rounded-[12px] hover:shadow-dashCard cursorpointer border border-gray-201 py-7 px-[10px] basis-[186px] grow max-w-[400px] xl:max-w-[500px] lg:min-h-[187px] xl:min-h-[200px] 2xl:max-w-[700px] 2xl:min-h-[220px] 3xl:max-w-[700px] 3xl:min-h-[240px] transition-all duration-300 ease-in-out"
             // onClick={() => navigate('/Participate')}
             >
               <div className="rounded-[6px] p-2 bg-orange-51">
@@ -208,7 +205,7 @@ const Dashbord_Investor = () => {
             <DashboardCommon />
           </section>
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
-            <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 ">
+            <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 transition-all duration-300 ease-in-out">
               <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full"
               // onClick={() => navigate('/MyInvestment')}
               >
@@ -311,7 +308,7 @@ const Dashbord_Investor = () => {
                   )
               )}
             </div>
-            <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 ">
+            <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 transition-all duration-300 ease-in-out">
               <div className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full"
               // onClick={() => navigate('/InvestmentRequestHistory')}
               >
@@ -338,7 +335,7 @@ const Dashbord_Investor = () => {
                   <tbody className="items-center w-full">
                     {(!contactReqsLoading && Requestdata?.length > 0)
                       ? Requestdata.map((item, index) => (
-                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full`}
+                        <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 cursorpointer w-full transition-all duration-300 ease-in-out`}
                         // onClick={()=> navigate(`/InvestmentRequestHistoryDetails/${item?._id}`)}
                         >
                           <td className="w-auto text-gray-600 text-sm font-dm-sans-regular leading-6">

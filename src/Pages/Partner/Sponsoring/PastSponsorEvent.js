@@ -70,11 +70,11 @@ const PastSponsorEvent = () => {
     setSearchParams({ page: `${events?.currentPage}` });
   }, [events , setSearchParams]);
 
-  // function handlePageChange(page) {
-  //   if (page >= 1 && page <= totalPages) {
-  //     setCur(page);
-  //   }
-  // }
+  function handlePageChange(page) {
+    if (page >= 1 && page <= totalPages) {
+      setCur(page);
+    }
+  }
 
   const clearFilter = () => {
     setFilter(false);
@@ -230,8 +230,9 @@ const PastSponsorEvent = () => {
                               );
                             }
                           } />
-                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation}
-                          placeholder={t("common.location")}
+                        <SimpleSelect className="min-w-[120px] max-w-[300px] " id='country' options={distinctValues?.data || []} 
+                        searchLabel={t('common.searchLocation')} setSelectedOptionVal={setLocation}
+                          placeholder={t("common.location")} loading={distinctsValueLoading}
                           content={
                             (option) => {
                               return (
@@ -386,7 +387,7 @@ const PastSponsorEvent = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  //onPageChange={handlePageChange}
+                  onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />
               </div>}

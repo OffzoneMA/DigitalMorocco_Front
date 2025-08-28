@@ -35,7 +35,7 @@ const NewEmployee = () => {
   const [logoFile, setLogoFile] = useState(employee?.image || null);
   const [showLogoDropdown, setShowLogoDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(dataCountries.find(country => country.name === employee?.country) || null);
-  const [selectedCity, setSelectedCity] = useState(employee?.cityState || '');
+  const [selectedCity /*, setSelectedCity*/] = useState(employee?.cityState || '');
   const [selectedJobTitle, setSelectedJobTitle] = useState(jobTitles.find(job => job === employee?.jobTitle) || null);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedLevel, setSelectedLevel] = useState(null);
@@ -73,16 +73,18 @@ const NewEmployee = () => {
     }
   }, [hasSubmitted, selectedCountry, selectedCity]);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } , setValue } = useForm(
+    {
+      mode: "onSubmit",
+      reValidateMode: hasSubmitted ? "onChange" : "onSubmit"
+    }
+  );
+
+  
   const [formData, setFormData] = useState({
-    fullName: employee?.fullName || '',
-    workEmail: employee?.workEmail || '',
-    personalEmail: employee?.personalEmail || '',
-    address: employee?.address || '',
     country: employee?.country || '',
     cityState: employee?.cityState || '',
     personalTaxIdentifierNumber: employee?.personalTaxIdentifierNumber || '',
-    phoneNumber: employee?.phoneNumber || '',
     jobTitle: employee?.jobTitle || '',
     level: employee?.level || '',
     department: employee?.department || '',
@@ -96,20 +98,22 @@ const NewEmployee = () => {
   useEffect(() => {
     if (location.state && location.state.employee) {
       setFormData({
-        fullName: employee?.fullName,
-        workEmail: employee?.workEmail,
-        personalEmail: employee?.personalEmail,
-        address: employee?.address,
         country: employee?.country,
         cityState: employee?.cityState,
-        personalTaxIdentifierNumber: employee?.personalTaxIdentifierNumber,
-        phoneNumber: employee?.phoneNumber,
         jobTitle: employee?.jobTitle,
+        personalTaxIdentifierNumber: employee?.personalTaxIdentifierNumber,
         level: employee?.level,
         department: employee?.department,
         startDate: employee?.startDate,
         image: employee?.image,
       });
+      setValue("fullName", employee?.fullName);
+      setValue("workEmail", employee?.workEmail);
+      setValue("personalEmail", employee?.personalEmail);
+      setValue("address", employee?.address);
+      setValue("personalTaxIdentifierNumber", employee?.personalTaxIdentifierNumber);
+      setValue("phoneNumber", employee?.phoneNumber);
+
       if (location?.state?.employee?.image) {
         setLogoFile(location.state.employee.image);
       }
@@ -129,7 +133,7 @@ const NewEmployee = () => {
     //   }, 2500);
     //   return () => clearTimeout(redirectTimer);
     // }
-  }, [employee, isSaved, navigate, location.state]);
+  }, [employee, isSaved, navigate, location.state , setValue]);
 
 
   const handleChange = (e, fieldName) => {
@@ -145,6 +149,7 @@ const NewEmployee = () => {
       ...prevState,
       [fieldName]: formattedValue
     }));
+    setValue(fieldName, formattedValue);
   };
 
   const validatePhoneNumber = (value) => {
@@ -201,7 +206,6 @@ const NewEmployee = () => {
     setShowLogoDropdown(false);
   };
 
-
   const onSubmit = async (data) => {
     try {
       const token = sessionStorage.getItem("userToken");
@@ -211,6 +215,12 @@ const NewEmployee = () => {
       Object.keys(formData).forEach(field => {
         if (formData[field] !== currentData[field]) {
           updatedFields[field] = formData[field];
+        }
+      });
+
+      Object.keys(data).forEach(field => {
+        if (data[field] !== currentData[field]) {
+          updatedFields[field] = data[field];
         }
       });
 
@@ -328,7 +338,6 @@ const NewEmployee = () => {
     }
   };
 
-
   return (
     <>
       <HelmetWrapper
@@ -409,8 +418,6 @@ const NewEmployee = () => {
                       name="fullName"
                       id="fullName"
                       placeholder={t('employee.addEmployee.enterFullName')}
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     />
                     {/* {errors.fullName && <span className="text-sm font-DmSans text-red-500">{errors.fullName?.message}</span>} */}
                   </div>
@@ -438,8 +445,6 @@ const NewEmployee = () => {
                       name="workEmail"
                       id="workEmail"
                       placeholder={t('employee.addEmployee.enterWorkEmail')}
-                      value={formData.workEmail}
-                      onChange={(e) => setFormData({ ...formData, workEmail: e.target.value })}
                     />
                     {/* {errors.workEmail && <span className="text-sm font-DmSans text-red-500">{errors.workEmail?.message}</span>}             */}
                   </div>
@@ -469,8 +474,6 @@ const NewEmployee = () => {
                       name="personalEmail"
                       id="personalEmail"
                       placeholder={t('employee.addEmployee.enterPersonalEmail')}
-                      value={formData.personalEmail}
-                      onChange={(e) => setFormData({ ...formData, personalEmail: e.target.value })}
                     />
                     {/* {errors.personalEmail && <span className="text-sm font-DmSans text-red-500">{errors.personalEmail?.message}</span>}             */}
                   </div>
@@ -492,8 +495,6 @@ const NewEmployee = () => {
                       name="phoneNumber"
                       id="phoneNumber"
                       placeholder="+212 - "
-                      value={formData.phoneNumber}
-                      onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                     />
                     {/* {errors.phoneNumber && <span className="text-sm font-DmSans text-red-500">{errors.phoneNumber?.message}</span>} */}
                   </div>
@@ -512,8 +513,6 @@ const NewEmployee = () => {
                       name="address"
                       id="address"
                       placeholder={t('employee.addEmployee.enterAddress')}
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     />
                     {/* {errors.address && <span className="text-sm font-DmSans text-red-500">{errors.address?.message}</span>} */}
                   </div>
@@ -583,7 +582,6 @@ const NewEmployee = () => {
                       type="text"
                       name="personalTaxIdentifierNumber"
                       id="personalTaxIdentifierNumber"
-                      value={formData.personalTaxIdentifierNumber}
                       onChange={(e) => handleChange(e, "personalTaxIdentifierNumber")}
                       placeholder="0000 - 0000 - 0000"
                     />
@@ -734,7 +732,10 @@ const NewEmployee = () => {
                       <CustomCalendar
                         className={' w-full'}
                         defaultValue={formData.startDate ? new Date(formData.startDate) : ''}
-                        onChangeDate={(selectedDate) => setSelectedDate(selectedDate)}
+                        onChangeDate={(selectedDate) => {setSelectedDate(selectedDate); setFormData({
+                          ...formData,
+                          startDate: selectedDate
+                        });}}
                         inputPlaceholder={'DD/MM/YYYY'}
                       />
                       {/* <div className="flex md:flex-1 w-full md:w-full rounded-md p-2 border border-solid">

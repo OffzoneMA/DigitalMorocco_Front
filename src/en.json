@@ -1349,6 +1349,7 @@
   "creditsCost": "{{credits}} Credits",
 
   "statusMember": "Member",
+  "Pending": "In Progress",
   "helmet": {
     "dashboard": {
       "title": "Digital Morocco - Member Dashboard",

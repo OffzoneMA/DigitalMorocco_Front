@@ -36,7 +36,7 @@ const MyCompany = () => {
     dataCountries.find((country) => country.name === userDetails?.country) ||
       null
   );
-  const [selectedCity, setSelectedCity] = useState(userDetails?.city || null);
+  const [selectedCity] = useState(userDetails?.city || null);
   const [isFormValid, setIsFormValid] = useState(true);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [requiredFields, setRequiredFields] = useState({

@@ -24,7 +24,6 @@ const Dashboard_Partner = () => {
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const {
     data: userDetails,
-    error: userDetailsError,
     isLoading: userDetailsLoading,
     refetch: refetchUser,
   } = useGetUserDetailsQuery();
@@ -35,7 +34,6 @@ const Dashboard_Partner = () => {
   } = useGetRecentSponsorsByPartnerAndStatusQuery({ status, requestType: "" });
   const {
     data: sponsorReqs,
-    error: contactReqsError,
     isLoading: contactReqsLoading,
     refetch: refetchRequest,
   } = useGetRecentSponsorsByPartnerAndStatusQuery({
@@ -230,7 +228,7 @@ const Dashboard_Partner = () => {
             <DashboardCommon />
           </section>
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 pt-8 w-full">
-            <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 ">
+            <div className="flex flex-col hover:shadow-dashCard cursorpointer gap-4 items-center rounded-[12px] border border-gray-201 transition-all duration-300 ease-in-out">
               <div
                 className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full"
                 // onClick={() => navigate('/PastSponsorEvent')}
@@ -337,7 +335,7 @@ const Dashboard_Partner = () => {
                 </div>
               )}
             </div>
-            <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 ">
+            <div className="flex flex-col gap-3 hover:shadow-dashCard cursorpointer items-center rounded-[12px] border border-gray-201 transition-all duration-300 ease-in-out">
               <div
                 className="flex flex-row items-center border-b px-6 py-2.5 border-gray-201 w-full"
                 // onClick={() => navigate('/SponsorRequestHistory')}

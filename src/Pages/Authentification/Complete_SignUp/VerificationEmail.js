@@ -20,8 +20,8 @@ export default function VerificationEmail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userInfo } = useSelector((state) => state.auth)
   const [sendLoding, setSendLoding] = useState(false);
-  const [userTrigger, { data: userData, error: userError, isLoading }] = authApi.endpoints.getUserByEmail.useLazyQuery()
-  const [trigger, { data, status, isSuccess, error: sendError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
+  const [userTrigger, { isLoading }] = authApi.endpoints.getUserByEmail.useLazyQuery()
+  const [trigger] = authApi.endpoints.sendEmailVerification.useLazyQuery()
 
 
   /**
@@ -78,7 +78,7 @@ export default function VerificationEmail() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [userInfo, navigate , dispatch, currentLanguage]);
+  }, [userInfo, navigate , dispatch, currentLanguage , userTrigger]);
 
   const handleResendEmail = async () => {
     try {

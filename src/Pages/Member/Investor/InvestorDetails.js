@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { Text } from "../../../Components/Text";
+import { useState, useEffect , useCallback } from "react";
 import { TbSend } from "react-icons/tb";
 import { BiMessageAltError } from "react-icons/bi";
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -15,7 +14,6 @@ import { LiaCoinsSolid } from "react-icons/lia";
 import { HiOutlineSparkles } from "react-icons/hi";
 import { BiPhoneCall } from "react-icons/bi";
 import { HiOutlineMail } from "react-icons/hi";
-import TablePagination from "../../../Components/common/TablePagination";
 import SendContactModal from "../../../Components/Modals/ContactRequest/SendContactModal";
 import PageHeader from "../../../Components/common/PageHeader";
 import SearchInput from "../../../Components/common/SeachInput";
@@ -34,7 +32,6 @@ import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 import { PRICING_COST_CONFIG } from "../../../data/data";
 import EmailExistModalOrConfirmation from "../../../Components/Modals/EmailExistModalOrConfirmation";
 import email_error from '../../../Media/emailError.svg'
-import { use } from "react";
 
 const InvestorDetails = () => {
   const { t } = useTranslation();
@@ -55,41 +52,42 @@ const InvestorDetails = () => {
   const [investments, setInvestments] = useState([]);
   const [cur, setCur] = useState(1);
   const [loading, setLoading] = useState(true);
-  const itemsPerPage = 3;
+  const itemsPerPage = 8;
   const itemsToShow = 4;
   const [totalPages, setTotalPages] = useState(0);
   const queryParams = { investorId, page: cur, pageSize: itemsPerPage, status: "Approved" };
   const [contactSendSuccess, setContactSendSuccess] = useState(false);
 
-  const { data: myInvestments, error, isFetching: investmentLoading, refetch } = useGetAllContactReqByInvestorQuery(queryParams);
+  const { data: myInvestments, isFetching: investmentLoading, refetch } = useGetAllContactReqByInvestorQuery(queryParams);
 
-  const getInvestorDetailsRequest = async () => {
+  const getInvestorDetailsRequest = useCallback(async () => {
     try {
       setLoading(true);
       const token = sessionStorage.getItem("userToken");
       const response = await axios.get(`${process.env.REACT_APP_baseURL}/investors/${investorId}/details`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      setInvestor(response.data?.details)
-      setInvestorRequestStatus(response.data?.status)
+      setInvestor(response.data?.details);
+      setInvestorRequestStatus(response.data?.status);
       setInvestorDraftStatus(response.data?.hasDraftContactRequest);
       setInvestorInProgressStatus(response.data?.hasInProgressRequest);
-      setInvestorDraftRequest(response.data?.draftRequestId)
-      setLoading(false);
+      setInvestorDraftRequest(response.data?.draftRequestId);
       return response.data;
     } catch (error) {
-      setLoading(false);
-      console.error('Error fetching investor details:', error);
+      console.error("Error fetching investor details:", error);
       throw error;
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [investorId]);
 
   useEffect(() => {
-    setLoading(true);
     getInvestorDetailsRequest();
-  }, [investorId, contactSendSuccess]);
+  }, [getInvestorDetailsRequest, contactSendSuccess]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   useEffect(() => {
     setTotalPages(myInvestments?.totalPages);
@@ -142,7 +140,7 @@ const InvestorDetails = () => {
   const handleCreateDraft = async () => {
     try {
       setDrafting(true);
-      const response = await createDraftContactRequest({ investorId }).unwrap();
+      await createDraftContactRequest({ investorId }).unwrap();
       getInvestorDetailsRequest();
       refetchUser();
       openModal();
@@ -485,7 +483,7 @@ const InvestorDetails = () => {
                         <tbody className="items-center w-full ">
                           {
                             (pageData.map((item, index) => (
-                              <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full`}>
+                              <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} w-full transition-all duration-300 ease-in-out`}>
                                 <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                                   <time dateTime={item?.dateCreated} className="text-gray500 font-dm-sans-regular text-sm leading-6">
                                     {formatDate(item?.dateCreated)}

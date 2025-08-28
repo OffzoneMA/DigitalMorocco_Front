@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../Redux/auth/authAction';
 import { setUserEmail } from '../../Redux/auth/authSlice';
-import { useSendOTPMutation } from '../../Services/Auth';
+// import { useSendOTPMutation } from '../../Services/Auth';
 import { useNavigate , Link , useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import logo from '../../Media/img_logo.svg';
@@ -23,15 +23,14 @@ import isEmail from 'validator/lib/isEmail';
 export default function SignUp() {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
-  const { loading, userInfo, error } = useSelector((state) => state.auth)
+  const { loading, userInfo } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-  const [user , setUser] = useState(userInfo);
-  const [errorSocial, seterrorSocial] = useState(searchParams.get('error') ? searchParams.get('error')  :null)
+  const [errorSocial] = useState(searchParams.get('error') ? searchParams.get('error')  :null)
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [Mount, setMount] = useState(true)
-  const [sendOTP] = useSendOTPMutation();
+  // const [sendOTP] = useSendOTPMutation();
   // const [trigger, { data, isLoading, status , isSuccess , error: triggerError }] = authApi.endpoints.sendEmailVerification.useLazyQuery()
-  const [userTrigger ,{ data: userData, error: userError, isLoading: userFetching , isSuccess: userSucces} ]  = authApi.endpoints.getUserByEmail.useLazyQuery()
+  const [userTrigger]  = authApi.endpoints.getUserByEmail.useLazyQuery()
   const [showPassword, setShowPassword] = useState(false); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sending , setSending] = useState(false);
@@ -85,7 +84,6 @@ export default function SignUp() {
    else{ if (userInfo) {
       // toast.success("Successfuly !")
       dispatch(setUserEmail(userInfo?.email));
-      setUser(userInfo)
       localStorage.setItem('userEmail', userInfo?.email);
       setTimeout(() => navigate('/VerificationEmail'), 1000);
     //   trigger({ userId: userInfo?._id, lang: localStorage.getItem('language')}).then((payload) => {

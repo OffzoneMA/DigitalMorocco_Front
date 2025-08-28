@@ -18,7 +18,7 @@ const PastEvents = () => {
   const navigate = useNavigate();
   const { data: userDetails } = useGetUserDetailsQuery();
   const itemsPerPage = 5;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(searchParams.get("page") || 1);
   const [totalPages, setTotalPages] = useState(0);
   const { data: eventsDT , isLoading, refetch } = useGetAllPastEventsUserParticipateQuery({ page: currentPage, pageSize: itemsPerPage });
@@ -38,9 +38,6 @@ const PastEvents = () => {
   useEffect(() => {
     setTotalPages(eventsDT?.totalPages);
   }, [eventsDT]);
-
-  const currentLanguage = localStorage.getItem('language') || 'en';
-
 
   return (
     <>

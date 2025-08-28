@@ -6,7 +6,6 @@ import { ImFileText2 } from "react-icons/im";
 import { useForm } from "react-hook-form";
 import { GrAttachment } from "react-icons/gr";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import { stage as stagesData } from "../../../data/stage";
 import { Country } from 'country-state-city';
 import MultipleSelect from "../../../Components/common/MultipleSelect";
@@ -86,18 +85,15 @@ const CreateProject = () => {
   const dataCountries = Country.getAllCountries();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedStage, setSelectedStage] = useState("");
-  const [addProjet, addResponse] = useCreateProjectMutation();
-  const [updateProject, updateResponse] = useUpdateProjectMutation();
+  const [addProjet] = useCreateProjectMutation();
+  const [updateProject] = useUpdateProjectMutation();
   const mutation = projectId ? updateProject : addProjet;
-  const [statusChanging, setStatusChanging] = useState(false);
-  const response = projectId ? updateResponse : addResponse;
   const [members, setMembers] = useState([]);
   const logoFileInputRef = useRef(null);
   const logoFileInputRefChange = useRef(null);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isAllFormValid, setIsAllFormValid] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [sendingOk, setSendingOk] = useState(false);
   const [openPublicCreditsModal, setOpenCreditsModal] = useState(false);
   const [confirmCreditsSending, setConfirmCreditsSending] = useState(false);
   const [publicVisibilityPayment, setPublicVisibilityPayment] = useState({
@@ -621,7 +617,6 @@ const CreateProject = () => {
   const formData = new FormData();
 
   const onSubmit = (data) => {
-    setSendingOk(true);
     setHasSubmitted(true);
     setSubmitting('sending');
     const fundingValue = parseFloat(data.funding.replace(/\s/g, ''));
@@ -694,7 +689,6 @@ const CreateProject = () => {
       mutation(payload)
         .then((response) => {
           setSubmitting('ok');
-          setSendingOk(true);
           setTimeout(() => {
             setSubmitting('');
           }, 2500);
@@ -714,7 +708,6 @@ const CreateProject = () => {
         })
         .catch(() => {
           setSubmitting('');
-          setSendingOk(false);
         });
     } else {
       setSubmitting('');
@@ -789,14 +782,12 @@ const CreateProject = () => {
     }
     if (projectId) {
       try {
-        setStatusChanging(true)
         const response = await axios.patch(`${process.env.REACT_APP_baseURL}/projects/${projectId}/status`, {
           status: newStatus,
         });
 
         if (response.status === 200) {
           setSelectedStatus(newStatus);
-          setStatusChanging(false)
           refetch();
         }
       } catch (error) {
@@ -804,7 +795,6 @@ const CreateProject = () => {
       }
     } else {
       setSelectedStatus(newStatus);
-      setStatusChanging(false)
     }
   };
 

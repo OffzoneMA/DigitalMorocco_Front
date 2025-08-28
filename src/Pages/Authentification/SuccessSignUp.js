@@ -12,13 +12,10 @@ export default function SuccessSignUp() {
   const [searchParams] = useSearchParams();
   const {userSocialInfos} = useSelector((state) => state.auth)
   const dispatch=useDispatch()
-  const { userInfo } = useSelector((state) => state.auth)
   const navigate = useNavigate()
-  const [auth, setAuth] = useState(searchParams.get('auth'))
-  const [user_Id, setUser_Id] = useState(searchParams.get('user_id'))
+  const [auth] = useState(searchParams.get('auth'))
+  const [user_Id,] = useState(searchParams.get('user_id'))
   const [updateFullName] = useUpdateFullNameMutation();
-  const [UserId, setUserId] = useState(userInfo?._id)
-
 
   const getLanguageLabelById = (id) => {
     const language = languages.find(lang => lang.id === id);
@@ -68,7 +65,7 @@ useEffect(() => {
                 updateFullName({ userId: payload._id, payload: { fullName: userSocialInfos , language: languageLabel} })
                     .unwrap()
                     .then((updatedData) => {
-                        setUserId(updatedData?.user?._id)
+                        // setUserId(updatedData?.user?._id)
                         dispatch(setCredentials(JSON.stringify(updatedData?.user)));
                         sessionStorage.setItem('userData', JSON.stringify(updatedData?.user));
                         navigate('/ChooseRole');
@@ -86,7 +83,7 @@ useEffect(() => {
       });
   }
 
-}, [auth , dispatch, navigate, userSocialInfos]);  
+}, [auth , dispatch, navigate, userSocialInfos ,updateFullName]);  
 
     return (
         <div className="flex flex-col items-center justify-center md:h-screen overflow-y-auto w-full">

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { BiFilterAlt } from "react-icons/bi";
-import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { BsEyeSlash } from "react-icons/bs";
 import { TiFlashOutline } from "react-icons/ti";
 import TablePagination from "../../../Components/common/TablePagination";
 import SimpleSelect from "../../../Components/common/SimpleSelect";
 import MultipleSelect from "../../../Components/common/MultipleSelect";
-import { Country } from "country-state-city";
 import { InvestorsData } from "../../../data/tablesData";
 import PageHeader from "../../../Components/common/PageHeader";
 import TableTitle from "../../../Components/common/TableTitle";
@@ -27,7 +26,6 @@ import email_error from '../../../Media/emailError.svg'
 const Investors = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const locationP = useLocation();
   // const { userInfo } = useSelector((state) => state.auth) 
   const { data: userDetails, isLoading: userDetailsLoading, refetch: refetchUser } = useGetUserDetailsQuery();
   const { data: lastAccessLog, isLoading: lastAccessLogLoading, refetch: refetchLastAcessLog } = useGetLastAccessLogByConnectedUserQuery();
@@ -38,7 +36,7 @@ const Investors = () => {
   const [openCreditsErrorModal, setOpenCreditsErrorModal] = useState(false);
   const [confirmCreditsSending, setConfirmCreditsSending] = useState(false);
   const [deductionCreditsError, setDeductionCreditsError] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [showContactPopup, setShowContactPopup] = useState(false);
   const [selectedInvestor, setSelectedInvestor] = useState(null);
   const [filter, setFilter] = useState(false);
@@ -47,7 +45,6 @@ const Investors = () => {
   const [investmentType, setInvestmentType] = useState([]);
   const [location, setLocation] = useState('');
   const [industries, setIndustries] = useState([]);
-  const dataCountries = Country.getAllCountries();
   const [isSubscribe, setIsSubscribe] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [cur, setCur] = useState(1);
@@ -162,30 +159,30 @@ const Investors = () => {
     // }
   }, [cur, investorData?.currentPage, filterApply, refetch]);
 
-  const checkDisplaySoonConditions = useCallback(() => {
-    return (
-      investorData &&
-      investors?.length > 0 &&
-      subscriptionData &&
-      !subscriptionLoading &&
-      !loading &&
-      !userDetailsLoading &&
-      (subscriptionData !== null && subscriptionData !== undefined)
-    );
-  }, [
-    investorData,
-    investors,
-    subscriptionData,
-    subscriptionLoading,
-    loading,
-    userDetailsLoading
-  ]);
+  // const checkDisplaySoonConditions = useCallback(() => {
+  //   return (
+  //     investorData &&
+  //     investors?.length > 0 &&
+  //     subscriptionData &&
+  //     !subscriptionLoading &&
+  //     !loading &&
+  //     !userDetailsLoading &&
+  //     (subscriptionData !== null && subscriptionData !== undefined)
+  //   );
+  // }, [
+  //   investorData,
+  //   investors,
+  //   subscriptionData,
+  //   subscriptionLoading,
+  //   loading,
+  //   userDetailsLoading
+  // ]);
 
-  useEffect(() => {
-    if (checkDisplaySoonConditions()) {
-      setIsModalOpen(true);
-    }
-  }, [checkDisplaySoonConditions]);
+  // useEffect(() => {
+  //   if (checkDisplaySoonConditions()) {
+  //     setIsModalOpen(true);
+  //   }
+  // }, [checkDisplaySoonConditions]);
 
   useEffect(() => {
     if (subscriptionData !== undefined) {
@@ -193,7 +190,7 @@ const Investors = () => {
     }
   }, [subscriptionData]);
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     // Réinitialiser les filtres locaux
     setLocalInvestmentType([]);
     setLocalLocation('');
@@ -209,7 +206,7 @@ const Investors = () => {
 
     // Optionnel : forcer un refetch des données
     refetch();
-  };
+  }, [refetch]);
 
   useEffect(() => {
     if (filterApply) {
@@ -223,7 +220,7 @@ const Investors = () => {
         handleResetFilters();
       }
     }
-  }, [localInvestmentType, localLocation, localIndustries, localKeywords, filterApply]);
+  }, [localInvestmentType, localLocation, localIndustries, localKeywords, filterApply, handleResetFilters]);
 
   const data = (isSubscribe && !loading && !subscriptionLoading && !userDetailsLoading && userDetails?.projectCount !== 0) ? investors : InvestorsData;
 

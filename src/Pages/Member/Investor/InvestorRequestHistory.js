@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams } from "react-router-dom";
 import TablePagination from "../../../Components/common/TablePagination";
@@ -24,12 +24,10 @@ const InvestorRequestHistory = () => {
   const itemsToShow = 4;
   const [totalPages, setTotalPages] = useState(0);
   const [investorRequests, setInvestorRequests] = useState(null);
-  const [filtersChanged, setFiltersChanged] = useState(false);
   const [localStatus, setLocalStatus] = useState([]);
   const [localUser, setLocalUser] = useState('');
   const [localKeywords, setLocalKeywords] = useState('');
   const queryParams = { page: cur, pageSize: itemsPerPage };
-  const [isAllFiltersEmpty, setIsAllFiltersEmpty] = useState(false);
 
   if (filterApply) {
     queryParams.status = status.length > 0 ? status : undefined;
@@ -37,8 +35,8 @@ const InvestorRequestHistory = () => {
     // queryParams.keywords = keywords;
   }
   const { data, isFetching: loading, refetch } = useFetchInvestorRequestsQuery(queryParams);
-  const { data: statuses, isLoading: locationLoading } = useGetDistinctRequestFieldValuesQuery('status');
-  const { data: investorNames, isLoading: typeLoading } = useGetDistinctRequestFieldValuesQuery('investorNames');
+  const { data: statuses, isLoading: statusLoading } = useGetDistinctRequestFieldValuesQuery('status');
+  const { data: investorNames, isLoading: investorNamesLoading } = useGetDistinctRequestFieldValuesQuery('investorNames');
 
   useEffect(() => {
     const pageFromUrl = parseInt(searchParams.get('page')) || 1;
@@ -68,7 +66,7 @@ const InvestorRequestHistory = () => {
     // }
   }, [cur, data?.currentPage, filterApply, refetch]);
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     // Réinitialiser les filtres locaux
     setLocalStatus([]);
     setLocalUser([]);
@@ -82,7 +80,7 @@ const InvestorRequestHistory = () => {
 
     // Optionnel : forcer un refetch des données
     refetch();
-  };
+  } , [refetch]);
 
   useEffect(() => {
     if (filterApply) {
@@ -93,17 +91,13 @@ const InvestorRequestHistory = () => {
       // !localKeywords?.trim();
 
       if (isAllFiltersEmpty) {
-        setIsAllFiltersEmpty(true);
         handleResetFilters();
       }
     }
-  }, [localStatus, localUser, localKeywords, filterApply]);
+  }, [localStatus, localUser, localKeywords, filterApply, handleResetFilters]);
 
   const invNamedata = Array.isArray(investorNames?.distinctValues) ? investorNames?.distinctValues : [];
   const statusData = Array.isArray(statuses?.distinctValues) ? statuses?.distinctValues : [];
-
-  // const invNamedata = ['Venture Catalysts', 'XYZ Combinator', 'Misk500 Accelerator ', 'Brendan Wallace', 'Family Business'];
-  // const statusData = ['In Progress', 'Approved', 'Rejected', 'Stand by'];
 
   const filteredData = investorRequests?.filter(item => {
     // Vérifiez si le mot-clé est défini et non vide
@@ -221,11 +215,11 @@ const InvestorRequestHistory = () => {
 
   const pageData = filteredData;
 
-  // function handlePageChange(page) {
-  //   if (page >= 1 && page <= totalPages) {
-  //     setCur(page);
-  //   }
-  // }
+  function handlePageChange(page) {
+    if (page >= 1 && page <= totalPages) {
+      setCur(page);
+    }
+  }
 
   const currentLanguage = localStorage.getItem('language') || 'en';
 
@@ -296,14 +290,20 @@ const InvestorRequestHistory = () => {
                       type="text" name="search" placeholder={t("common.keywords")} value={localKeywords} 
                       onChange={e => setLocalKeywords(e.target.value)} />
                     </div> */}
-                        <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata} searchLabel={t('common.searchInvestor')} setSelectedOptionVal={setLocalUser} placeholder={t('common.investorName')} content={(option) => {
+                        <MultipleSelect className="min-w-[180px] max-w-[300px] " id='investor' options={invNamedata} 
+                        searchLabel={t('common.searchInvestor')} setSelectedOptionVal={setLocalUser} 
+                        placeholder={t('common.investorName')} loading={investorNamesLoading}
+                        content={(option) => {
                           return (
                             <div className="flex py-2 items-center w-full">
                               <span className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{t(`${option}`)}</span>
                             </div>
                           );
                         }} />
-                        <MultipleSelect className="min-w-[140px] max-w-[200px] " id='status' options={statusData} searchLabel={t('common.searchStatus')} setSelectedOptionVal={setLocalStatus} placeholder={t('common.status')} content={(option) => {
+                        <MultipleSelect className="min-w-[140px] max-w-[200px] " id='status' options={statusData} 
+                        searchLabel={t('common.searchStatus')} setSelectedOptionVal={setLocalStatus} 
+                        placeholder={t('common.status')} loading={statusLoading}
+                        content={(option) => {
                           return (
                             <div className="flex py-2 items-center w-full">
                               <span className="text-gray-801 text-left text-base font-dm-sans-regular leading-5 w-auto">{t(`${option}`)}</span>
@@ -316,7 +316,6 @@ const InvestorRequestHistory = () => {
                     <button type="button" className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-white-A700 flex flex-row items-center cursorpointer px-[12px] py-[7px] h-[37px] text-sm font-dm-sans-medium rounded-md "
                       onClick={() => {
                         handleApplyFilters();
-                        setFiltersChanged(true);
                       }}>
                       {/* <BiFilterAlt size={18} className="mr-2" /> */}
                       <div type="button" className="text-base text-white-A700" style={{ whiteSpace: 'nowrap' }}>{t("common.applyFilters")}</div>
@@ -371,7 +370,7 @@ const InvestorRequestHistory = () => {
                     <tbody className="items-center w-full ">
                       {
                         pageData.map((item, index) => (
-                          <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
+                          <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full transition-all duration-300 ease-in-out`}>
                             <td className="px-[18px] py-4 w-auto text-gray500 font-dm-sans-regular text-sm leading-6" style={{ whiteSpace: 'nowrap' }}>
                               <time dateTime={item.dateCreated} className="text-gray500 font-dm-sans-regular text-sm leading-6">
                                 {formatDateWithoutComma(new Date(item.dateCreated))}
@@ -423,9 +422,11 @@ const InvestorRequestHistory = () => {
               </div>
               {(pageData?.length > 0 && !loading) && (
                 <div className='w-full flex items-center p-4'>
-                  <TablePagination currentPage={cur} totalPages={totalPages}
-                    // onPageChange={handlePageChange} 
-                    itemsToShow={itemsToShow} />
+                  <TablePagination 
+                  currentPage={cur} 
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange} 
+                  itemsToShow={itemsToShow} />
                 </div>
               )}
             </div>

@@ -23,8 +23,6 @@ const ManageSubscriptionCredits = () => {
   const [searchParams] = useSearchParams();
   const {
     data: subscriptionData,
-    error: subscriptionError,
-    isFetching: subscriptionLoading,
   } = useCheckSubscriptionStatusQuery();
 
   const statuspaid = searchParams.get("statuspaid");

@@ -23,7 +23,7 @@ import isEmail from "validator/lib/isEmail";
 
 const CompanyProfile = () => {
   const { t } = useTranslation();
-  const { data: userDetails, error: userDetailsError, isLoading: userDetailsLoading, refetch } = useGetUserDetailsQuery();
+  const { data: userDetails, refetch } = useGetUserDetailsQuery();
   const [logoFile, setLogoFile] = useState(userDetails?.logo || '');
   const [imgFile, setImgFile] = useState(null);
   const [showLogoDropdown, setShowLogoDropdown] = useState(false);
@@ -35,7 +35,7 @@ const CompanyProfile = () => {
   // const [selectedSector, setselectedSector] = useState('');
   const dataCountries = countries;
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedCity] = useState(null);
   const [selectedCompanyType, setSelectedCompanyType] = useState(null);
   const [selectedInvestmentStages, setSelectedInvestmentStages] = useState([]);
   const [selectedPreferredInvestmentIndustry, setSelectedPreferredInvestmentIndustry] = useState([]);
@@ -89,7 +89,7 @@ const CompanyProfile = () => {
     // else{
     if (hasSubmitted) {
       const isCountryValid = selectedCountry !== null && selectedCountry !== "" && selectedCountry !== undefined;
-      const isCityValid = selectedCity !== "" && selectedCity !== undefined && selectedCity !== null;
+      // const isCityValid = selectedCity !== "" && selectedCity !== undefined && selectedCity !== null;
       const isStagesValid = selectedInvestmentStages.length > 0;
       const isIndustryValid = selectedPreferredInvestmentIndustry.length > 0;
       const isCompanyTypeValid = selectedCompanyType !== null && selectedCompanyType !== "" && selectedCompanyType !== undefined;
@@ -136,7 +136,7 @@ const CompanyProfile = () => {
       setSelectedPreferredInvestmentIndustry(userDetails?.PreferredInvestmentIndustry || []);
       setLogoFile(userDetails?.logo);
     }
-  }, [userDetails, reset]);
+  }, [userDetails, reset , dataCountries]);
 
   const formRef = useRef();
 
@@ -165,7 +165,6 @@ const CompanyProfile = () => {
     try {
       const token = sessionStorage.getItem("userToken");
       const userData = JSON.parse(sessionStorage.getItem("userData"));
-      const userId = userData._id;
 
       const formData = new FormData();
       formData.append('role', userData?.role?.toLowerCase());

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PageHeader from '../../../Components/common/PageHeader';
 import SearchInput from '../../../Components/common/SeachInput';
-import{ Text } from "../../../Components/Text";
 import { BiFilterAlt } from "react-icons/bi";
 import { useSearchParams } from "react-router-dom";
 import TablePagination from "../../../Components/common/TablePagination";
@@ -45,11 +44,11 @@ const InvestmentRequestHistory = () => {
     const { data : fundingData } = useGetDistinctProjectFieldsQuery({field: "funding" });
     const { data : locationData } = useGetDistinctProjectFieldsQuery({field: "stage"});
 
-    // function handlePageChange(page) {
-    //   if (page >= 1 && page <= totalPages) {
-    //     setCur(page);
-    //   }
-    // }
+    function handlePageChange(page) {
+      if (page >= 1 && page <= totalPages) {
+        setCur(page);
+      }
+    }
 
     const clearFilter = () => {
         setFilter(false); 
@@ -241,7 +240,7 @@ const InvestmentRequestHistory = () => {
                     <tbody className="items-center w-full ">
                     {
                       filteredData.map((item, index) => (
-                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full`}>
+                      <tr key={index} className={`${index % 2 === 0 ? 'bg-gray-50' : ''} hover:bg-blue-50 w-full transition-all duration-300 ease-in-out`}>
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                           <time dateTime={item?.dateCreated} className="text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             {formatDate(item?.dateCreated)}
@@ -295,7 +294,7 @@ const InvestmentRequestHistory = () => {
                 <TablePagination
                   currentPage={cur}
                   totalPages={totalPages}
-                  // onPageChange={handlePageChange}
+                  onPageChange={handlePageChange}
                   itemsToShow={itemsToShow}
                 />              
               </div>

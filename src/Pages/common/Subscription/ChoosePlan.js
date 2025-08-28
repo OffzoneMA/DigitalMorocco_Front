@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useGetAllSubscriptionPlansQuery } from '../../../Services/SubscriptionPlan.service';
 import Loader from '../../../Components/Loader';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,6 @@ import axios from 'axios';
 
 export default function ChoosePlan() {
   const { t } = useTranslation();
-  const token = sessionStorage.getItem("userToken");
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const userRole = userData?.role?.toLowerCase() === 'investor' ? 'Investor' : 'Member';
   const { data: plans, isLoading } = useGetAllSubscriptionPlansQuery();
@@ -22,8 +21,9 @@ export default function ChoosePlan() {
   //     return new Intl.NumberFormat(locale, { style: 'currency', currency , currencyDisplay: 'narrowSymbol' }).format(price);
   // };
 
-  const getUserSusbcription = async () => {
+  const getUserSusbcription = useCallback(async () => {
     try {
+      const token = sessionStorage.getItem("userToken");
       const response = await axios.get(`${process.env.REACT_APP_baseURL}/subscriptions/forUser`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -31,11 +31,11 @@ export default function ChoosePlan() {
     } catch (error) {
       console.error('Error checking subscription status:', error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getUserSusbcription();
-  }, []);
+  }, [getUserSusbcription]);
 
 
   return (

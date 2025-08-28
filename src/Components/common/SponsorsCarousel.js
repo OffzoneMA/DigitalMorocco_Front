@@ -91,7 +91,9 @@ const SponsorsWithDots = ({ sponsors }) => {
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               currentSet === index ? 'bg-blue-500 w-6' : 'bg-gray-300'
             }`}
-          />
+          >
+            {``}
+          </button>
         ))}
       </div>
     </div>

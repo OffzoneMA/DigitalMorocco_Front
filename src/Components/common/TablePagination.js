@@ -32,16 +32,16 @@ function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, ini
   // }, [currentPage, setSearchParams]);
 
 
-  useEffect(() => {
-    if (!isUpdatingRef.current) {
-      const pageFromParams = Number(searchParams.get("page")) || 1;
+  // useEffect(() => {
+  //   if (!isUpdatingRef.current) {
+  //     const pageFromParams = Number(searchParams.get("page")) || 1;
   
-      // Only update state if it's different
-      if (pageFromParams !== currentPage) {
-        setCurrentPage(pageFromParams);
-      }
-    }
-  }, [searchParams]);
+  //     // Only update state if it's different
+  //     if (pageFromParams !== currentPage) {
+  //       setCurrentPage(pageFromParams);
+  //     }
+  //   }
+  // }, [searchParams]);
   
   useEffect(() => {
     const pageInParams = Number(searchParams.get("page")) || 1;
@@ -54,7 +54,7 @@ function TablePagination({ totalPages, onPageChange = () => {}, itemsToShow, ini
         isUpdatingRef.current = false;
       }, 0);
     }
-  }, [currentPage, setSearchParams]);
+  }, [currentPage, setSearchParams , searchParams]);
   
   const goToPage = (page) => {
     if (page > 0 && page <= totalPages && page !== currentPage) {

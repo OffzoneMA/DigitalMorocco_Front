@@ -66,6 +66,7 @@ const ProjectsToMaskModal = (props) => {
       appElement={document.getElementById("root")}
       className="m-auto w-[95%] md:w-[100%] max-w-[540px] outline-none"
       overlayClassName="bg-blue_gray-900_c1 fixed flex h-full inset-y-[0] w-full"
+      shouldCloseOnOverlayClick={false}
       {...props}
     >
       <div className="max-h-[93vh] sm:w-full md:w-full">
@@ -77,10 +78,6 @@ const ProjectsToMaskModal = (props) => {
                 {props.totalProjectsToMask > 0 ? `(${props.totalProjectsToMask} ${t("projects.projects")})` : ''}
               </h1>
             </div>
-            <div
-              className="hover:bg-gray-201 rounded-full p-1"
-              onClick={props.onRequestClose}
-            ></div>
           </div>
           <div className="relative w-full">
             <input
@@ -189,13 +186,13 @@ const ProjectsToMaskModal = (props) => {
             )}
           </div>
           <div className="flex space-x-3 md:space-x-5 w-auto justify-end ml-auto">
-            <button
+            {/* <button
               onClick={props.onRequestClose}
               className="flex items-center justify-center min-w-[93px] bg-[#E4E7EC] text-[#475467] py-2 hover:bg-[#D0D5DD] active:bg-light_blue-100
                 py-[10px] md:py-[18px] px-[12px] md:px-[20px] font-dm-sans-medium text-base h-[44px] leading-5 tracking-normal rounded-[6px] cursorpointer-green "
             >
               {t("common.cancel")}
-            </button>
+            </button> */}
             <button
               onClick={onSubmit}
               disabled={disablebtn()}

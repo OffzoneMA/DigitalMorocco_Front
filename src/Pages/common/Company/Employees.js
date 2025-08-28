@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { Text } from "../../../Components/Text";
 import TablePagination from "../../../Components/common/TablePagination";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FaRegPlusSquare } from "react-icons/fa";
@@ -18,16 +17,14 @@ import HelmetWrapper from "../../../Components/common/HelmetWrapper";
 
 const Employees = () => {
   const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [employees, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteRow, setDeleteRow] = useState(null);
   const [totalPages, setTotalPages] = useState(1);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [employeId, setEmployeId] = useState(null);
   const navigate = useNavigate();
-  const [num, setNum] = useState(1);
   const [cur, setCur] = useState(1);
   const itemsPerPage = 8;
   const pagesToShow = 4;
@@ -39,14 +36,8 @@ const Employees = () => {
     setCur(pageFromUrl);
   }, [searchParams]);
 
-  useEffect(() => {
-    fetchMembers();
-  }, [cur]);
-
-  const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userData?._id;
-
-  const fetchMembers = async () => {
+  const fetchMembers = useCallback(async () => {
+    setLoading(true);
     try {
       const token = sessionStorage.getItem("userToken");
       const response = await axios.get(
@@ -64,18 +55,16 @@ const Employees = () => {
       setMembers(response.data?.employees);
       setTotalPages(response.data.totalPages);
       setFilteredEmployees(response.data?.employees);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching employees:", error);
+    } finally {
       setLoading(false);
     }
-  };
+  }, [cur , itemsPerPage]);
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCur(page);
-    }
-  };
+  useEffect(() => {
+    fetchMembers();
+  }, [fetchMembers]);
 
   const handleDeleteEmployee = async () => {
     try {
@@ -106,13 +95,12 @@ const Employees = () => {
 
   const openDeleteModal = (rowData) => {
     setIsDeleteModalOpen(true);
-    setDeleteRow(rowData);
     setEmployeId(rowData?._id);
   };
 
   const closeDeleteModal = () => {
     setIsDeleteModalOpen(false);
-    setDeleteRow(null);
+    setEmployeId(null);
     setEmployeId(null);
   };
 
@@ -150,11 +138,10 @@ const Employees = () => {
                 </button>
               </div>
               <div
-                className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${
-                  pageData?.length > 0
+                className={`bg-white-A700 flex flex-col md:gap-5 flex-1 items-start justify-start ${pageData?.length > 0
                     ? "border-b border-gray-201"
                     : "rounded-b-[8px]"
-                } w-full pb-4 min-h-[330px] overflow-x-auto`}
+                  } w-full pb-4 min-h-[330px] overflow-x-auto`}
                 style={{
                   scrollbarWidth: "none",
                   msOverflowStyle: "none",
@@ -198,14 +185,13 @@ const Employees = () => {
                       </th>
                     </tr>
                   </thead>
-                  {filteredEmployees?.length > 0 ? (
+                  {(filteredEmployees?.length > 0 && !loading) ? (
                     <tbody className="font-dm-sans-regular text-sm leading-[26px] ">
                       {filteredEmployees.map((employee, index) => (
                         <tr
                           key={index}
-                          className={`${
-                            index % 2 === 0 ? "bg-gray-50" : ""
-                          } hover:bg-blue-50 cursorpointer`}
+                          className={`${index % 2 === 0 ? "bg-gray-50" : ""
+                            } hover:bg-blue-50 cursorpointer transition-all duration-300 ease-in-out`}
                           onClick={() => handleEditEmployee(employee._id)}
                         >
                           <td className="px-[18px] py-4 text-gray-900_01">
