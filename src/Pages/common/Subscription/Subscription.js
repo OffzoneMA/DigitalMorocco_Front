@@ -22,11 +22,15 @@ import ProjectsToMaskModal from '../../../Components/Modals/ProjectsToMaskModal'
 
 export default function Subscription() {
   const { t } = useTranslation();
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
   const [searchParams] = useSearchParams();
   const statuspaid = searchParams.get('statuspaid');
   // Get Subscription type from storage
   const subscriptionType = localStorage.getItem("subscriptionType");
-  const { data: allProjects } = useGetAllProjectsWithoutPageAndMaskNotFilteredQuery();
+  const { data: allProjects } = useGetAllProjectsWithoutPageAndMaskNotFilteredQuery(
+    undefined,
+    { skip: !(userData?.role?.toLowerCase() === "member") }
+  );
   const [userLastPaymentMethod, setUserLastPaymentMethod] = useState(null);
   const [userSubscriptionData, setUserSusbcriptionData] = useState(null);
   const [loadingLastPayment, setLoadingLastPayment] = useState(true);
@@ -38,7 +42,6 @@ export default function Subscription() {
   const [openSuccessPaidModal, setOpenSuccessPaidModal] = useState(false);
   const [openChooseProjectToMaskModal, setOpenChooseProjectToMaskModal] = useState(false);
   const [openErrorPaidModal, setOpenErrorPaidModal] = useState(false);
-  const userData = JSON.parse(sessionStorage.getItem("userData"));
   // const [selectedMethod, setSelectedMethod] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [cancelSubscription, response] = useCancelSubscriptionMutation();
@@ -288,6 +291,20 @@ export default function Subscription() {
     navigate("/projects");
   };
 
+  const disableRenewBtn = () => {
+    const planType = userSubscriptionData?.plan?.planType?.toLowerCase();
+    const planPrice = userSubscriptionData?.plan?.price;
+
+    // Add your logic here to determine if the button should be disabled
+    if (planType === "free" || planPrice === 0) {
+      return true;
+    }
+
+    return false;
+  };
+
+  console.log(userSubscriptionData)
+
   return (
     <>
       <HelmetWrapper
@@ -337,6 +354,7 @@ export default function Subscription() {
                       <button
                         className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row h-[44px] items-center gap-3 ml-auto py-3 px-6 rounded-md w-auto cursorpointer"
                         type="button"
+                        disabled={''}
                         onClick={() => navigate('/ChoosePlan')}
                       // onClick={() => handleOpenChooseProjectToMaskModal()}
                       >
@@ -428,9 +446,9 @@ export default function Subscription() {
                           {t('settings.subscription.cancelMyPlan')}
                         </button>
                         <button
-                          className="bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center min-w-[271px] justify-center tracking-normal gap-3 ml-auto py-3 h-[44px] px-5 rounded-md w-auto cursorpointer"
+                          className="disabled:pointer-events-none disabled:bg-[#E5E5E6] disabled:text-[#A7A6A8] bg-blue-A400 hover:bg-[#235DBD] active:bg-[#224a94] text-base leading-[20.83px] font-dm-sans-medium text-white-A700 flex flex-row items-center min-w-[271px] justify-center tracking-normal gap-3 ml-auto py-3 h-[44px] px-5 rounded-md w-auto cursorpointer"
                           type="button"
-                          disabled={renewLoading || renewFetching || renewSubscriptionLoading}
+                          disabled={renewLoading || renewFetching || renewSubscriptionLoading || disableRenewBtn()}
                           onClick={() => handleRenewSubscription()}
                         >
                           {renewSubscriptionLoading ?

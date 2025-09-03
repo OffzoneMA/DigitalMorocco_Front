@@ -47,6 +47,7 @@ const NewMilestoneModal = (props) => {
           setSendingOk(false);
           setSelectedDate('');
           setValue('name', '')
+          response?.reset();
         }, 5000);
         }
       } catch (error) {

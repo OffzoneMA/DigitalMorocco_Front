@@ -84,7 +84,6 @@ const CustomCalendar = ({ className, onChangeDate, inputPlaceholder, defaultValu
 
   const formatMonthYear = (date, locale) => {
     const month = date.toLocaleString(locale, { month: 'long' });
-    const year = date.getFullYear();
     return `${month}`;
   };
 

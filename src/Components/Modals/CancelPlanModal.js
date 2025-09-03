@@ -67,7 +67,7 @@ const CancelPlanModal = (props) => {
   const closeSuccessModal = () => {
     setIsModalOpen(false);
     setSendingOk(false);
-    props?.refetch();
+    props?.response?.reset();
   }
 
   return (

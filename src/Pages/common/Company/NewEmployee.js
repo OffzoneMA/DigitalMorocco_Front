@@ -358,7 +358,7 @@ const NewEmployee = () => {
             <SearchInput className={'w-[240px]'} />
           </div>
         </div>
-        <div className="flex items-start justify-start w-full">
+        <div className="flex items-start justify-start w-full pb-8">
           <div className="flex flex-col items-start justify-start sm:px-5 px-8 w-full" style={{ backgroundColor: "white" }}>
             <form className="w-full border border-gray-201 rounded-[8px] shadow-tablesbs "
               onSubmit={handleSubmit(onSubmit)}

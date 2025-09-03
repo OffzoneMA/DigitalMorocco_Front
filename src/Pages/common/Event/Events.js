@@ -240,6 +240,7 @@ const Events = () => {
       return `${finalDateFormatted}${timeFormatted ? `, ${timeFormatted}` : ''}`.trim();
     }
   };
+  
   const renderDropdown = (index, item) => {
     const triggerElement = document.getElementById(`dropdown-trigger-${index}`);
     const triggerRect = triggerElement.getBoundingClientRect();

@@ -24,9 +24,9 @@ const MyCompany = () => {
   const [isSaved, setIsSaved] = useState(false);
   const [sending, setSending] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [taxIdentfier, settaxIdentfier] = useState(userDetails?.taxNbr || "");
+  const [taxIdentfier, settaxIdentfier] = useState(userDetails?.taxNbr ? userDetails?.taxNbr : "");
   const [corporateIdentfier, setcorporateIdentfier] = useState(
-    userDetails?.corporateNbr || ""
+    userDetails?.corporateNbr ? userDetails?.corporateNbr : ""
   );
   const [selectedSector, setselectedSector] = useState(
     userDetails?.companyType || null
@@ -99,8 +99,8 @@ const MyCompany = () => {
       );
       setselectedSector(userDetails?.companyType);
       setLogoFile(userDetails?.logo);
-      setcorporateIdentfier(userDetails?.corporateNbr);
-      settaxIdentfier(userDetails?.taxNbr);
+      setcorporateIdentfier(userDetails?.corporateNbr ? userDetails?.corporateNbr : "");
+      settaxIdentfier(userDetails?.taxNbr ? userDetails?.taxNbr : "");
     }
   }, [userDetails, reset , dataCountries]);
 

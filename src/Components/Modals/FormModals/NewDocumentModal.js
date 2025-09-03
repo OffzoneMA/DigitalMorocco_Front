@@ -179,12 +179,13 @@ const NewDocumentModal = (props) => {
       if (props?.response?.isSuccess) {
         props.onRequestClose();
         props?.refetch();
+        props?.response?.reset();
         setSelectedMembers([]);
         setPreview(null);
-        const redirectTimer = setTimeout(() => {
-          navigate("/Document");
-        }, 1000);
-        return () => clearTimeout(redirectTimer);
+        // const redirectTimer = setTimeout(() => {
+        //   navigate("/Document");
+        // }, 1000);
+        // return () => clearTimeout(redirectTimer);
       } else {
         props?.response?.isError && console.log(props?.response?.error)
       }

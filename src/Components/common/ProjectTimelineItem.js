@@ -7,9 +7,9 @@ const ProjectTimelineItem = ({isFirstItem=false, time, text}) => {
   return (
     <div className="flex flex-row gap-4 md:h-auto items-end justify-center w-full">
       <span
-        className={`${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" } font-dm-sans-regular capitalize text-right text-sm w-1/6 max-w-[100px]`}
+        className={`${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" } font-dm-sans-regular loading-4 capitalize text-right text-sm w-1/6 max-w-[100px]`}
       >
-        <time dateTime={time} className={`${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" } font-dm-sans-regular capitalize text-right`}>
+        <time dateTime={time} className={`${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" } font-dm-sans-regular loading-4 capitalize text-right`}>
           {time}
         </time>
       </span>
@@ -28,7 +28,7 @@ const ProjectTimelineItem = ({isFirstItem=false, time, text}) => {
           />
         )}
         <p
-          className={`font-dm-sans-regular text-sm leading-6 ${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" }`}
+          className={`font-dm-sans-regular text-sm leading-4 ${isFirstItem? "text-blue_gray-100" :"text-blue_gray-800_01" }`}
         >
           {text}
         </p>

@@ -13,7 +13,7 @@ export default function ResetPasswordEmail() {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userEmail } = useSelector((state) => state.auth)
-  const [sendForgotPassword, { isLoading, isSuccess, error }] = useSendForgotPasswordMutation()
+  const [sendForgotPassword, { isLoading, isSuccess, error , reset }] = useSendForgotPasswordMutation()
 
   const handleResendEmail = async () => {
     const lang = localStorage.getItem('language');
@@ -30,6 +30,7 @@ export default function ResetPasswordEmail() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    reset();
   };
 
   useEffect(() => {

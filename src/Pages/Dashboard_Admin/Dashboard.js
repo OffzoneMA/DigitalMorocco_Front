@@ -16,7 +16,7 @@ const Dashboard_Admin = () => {
 
   const { t } = useTranslation();
   const userData = JSON.parse(sessionStorage.getItem('userData'));
-  const { data: userDetails, isLoading: userDetailsLoading, refetch: refetchUser } = useGetUserDetailsQuery();
+  const { data: userDetails, isLoading: userDetailsLoading } = useGetUserDetailsQuery();
   const { data: users } = useGetAllUsersQuery();
   const monthsOrder1 = useMemo(() => [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -37,10 +37,6 @@ const Dashboard_Admin = () => {
   const handleGridClick = (gridId, option) => {
     setRole(option);
   };
-
-  useEffect(() => {
-    refetchUser();
-  }, [refetchUser]);
 
   useEffect(() => {
     if (users) {
