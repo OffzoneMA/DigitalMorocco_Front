@@ -177,7 +177,7 @@ const Documents = () => {
                           <td className="px-[18px] py-4 text-gray500 font-dm-sans-regular text-sm leading-6">
                             <div className="flex items-center gap-3" >
                               {item?.owner?.image ? (
-                                <img src={item?.owner?.image} className="rounded-full h-8 w-8" alt="" />
+                                <img src={item?.owner?.image} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="" />
                               ) : (
                                 <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                   <img src={userdefaultProfile} alt="" className="" />

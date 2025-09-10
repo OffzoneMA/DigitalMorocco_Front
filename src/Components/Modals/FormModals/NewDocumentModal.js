@@ -148,7 +148,15 @@ const NewDocumentModal = (props) => {
 
   const formData = new FormData();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setHasSubmitted(true);
+    const isFileValid = (files !== null || preview !== null);
+    if (!isFileValid) {
+      setRequiredFields({ docFile: true });
+      setIsFormValid(false);
+      return;
+    }
+
     if (isFormValid && preview !== null) {
       setSendingOk(true)
       const shareWith = determineShareWith();
@@ -165,8 +173,11 @@ const NewDocumentModal = (props) => {
       });
       try {
         documentFile?._id ?
-          props?.onSubmit({ id: documentFile._id, formData }).unwrap() :
-          props?.onSubmit(formData).unwrap();
+          await props?.onSubmit({ id: documentFile._id, formData }).unwrap() :
+          await props?.onSubmit(formData).unwrap();
+          setHasSubmitted(false);
+        setSendingOk(false);
+        setIsFormValid(true);
       } catch (err) {
         console.error('Failed to create document:', err);
       }

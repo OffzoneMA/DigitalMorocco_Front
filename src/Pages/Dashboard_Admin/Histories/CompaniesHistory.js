@@ -234,7 +234,7 @@ const CompaniesHistory = () => {
                           </p>
                           <div className="flex flex-row w-full items-center gap-4">
                             {item?.user?.image ? (
-                              <img src={item?.user?.image} className="rounded-full h-8 w-8 " alt="" />
+                              <img src={item?.user?.image} className="rounded-full h-8 w-8 min-w-8 min-h-8 " alt="" />
                             ) : (
                               <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                 <img src={userdefaultProfile} alt="" className="" />

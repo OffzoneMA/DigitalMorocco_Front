@@ -16,6 +16,7 @@ import SimpleSelectWithGroup from "../../../Components/common/SimpleSelectWithGr
 import { useTranslation } from "react-i18next";
 // import CommonModal from '../../../Components/common/CommonModal';
 import HelmetWrapper from "../../../Components/common/HelmetWrapper";
+import { useGetAllProjectsWithoutPageQuery } from "../../../Services/Member.Service";
 
 const ManageSubscriptionCredits = () => {
   const currentLanguage = localStorage.getItem("language") || "en";
@@ -24,6 +25,7 @@ const ManageSubscriptionCredits = () => {
   const {
     data: subscriptionData,
   } = useCheckSubscriptionStatusQuery();
+  const { data: projectsData } = useGetAllProjectsWithoutPageQuery();
 
   const statuspaid = searchParams.get("statuspaid");
   const [achatCredits] = useAchatCreditsMutation();
@@ -340,6 +342,20 @@ const ManageSubscriptionCredits = () => {
     setIsCancelPaidModalOpen(false);
   };
 
+  const isCreateProjectDisabled = () => {
+    switch (subscriptionData?.plan?.name) {
+      case 'Basic':
+        return projectsData?.length >= 1;
+      case 'Standard':
+        return projectsData?.length >= 4;
+      case 'Premium':
+        return projectsData?.length >= 10;
+      default:
+        return projectsData?.length >= 1; // Default case if no plan matches
+    }
+  }
+
+
   return (
     <>
       <HelmetWrapper
@@ -368,8 +384,9 @@ const ManageSubscriptionCredits = () => {
                 <SearchInput className={"w-[240px] "} />
                 <button
                   style={{ whiteSpace: "nowrap" }}
-                  className=" bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer rounded-md w-auto"
+                  className="disabled:pointer-events-none disabled:bg-[#E5E5E6] disabled:text-[#A7A6A8] bg-blue-A400 hover:bg-[#235DBD] text-white-A700 flex flex-row  items-center justify-center min-w-[184px] h-[44px] px-[12px] py-[7px] cursorpointer rounded-md w-auto"
                   onClick={() => navigate("/CreateProject")}
+                  disabled={isCreateProjectDisabled()}
                 >
                   <FaRegPlusSquare size={18} className="mr-2" />
                   {t("dashboard.createProject")}

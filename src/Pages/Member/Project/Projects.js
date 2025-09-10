@@ -156,9 +156,13 @@ const Projects = () => {
       }).unwrap();
 
       if (response.success) {
-        setConfirmCreditsSending(false);
         setOpenCreditsModal(false);
-        refetchUser();
+        await Promise.all([
+          refetchUser(),
+          refetchSubscription(),
+          refetchDraft()
+        ]);
+        setConfirmCreditsSending(false);
         navigate("/CreateProject");
       } else {
         console.error("Failed to deduct credits:", response.message);
@@ -591,7 +595,7 @@ const Projects = () => {
                 onClick={() => navigate(`/CreateProject`)}
               >
                 <div className="text-white-A700 text-base font-dm-sans-medium">
-                  {t("Go to Create Project")}
+                  {t("Go to create project")}
                 </div>
               </button>
             </div>

@@ -21,6 +21,8 @@ const ProtectCreateProjectRoute = () => {
   // 🎯 Condition d'accès
   const isAllowed = isBelowLimit && hasDraft;
 
+  console.log('ProtectCreateProjectRoute:', { planName, nbProjects, maxAllowed, hasDraft, isAllowed });
+
   return isAllowed ? <Outlet /> : <Navigate to="/Projects" />;
 };
 

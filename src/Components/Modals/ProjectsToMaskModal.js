@@ -132,7 +132,7 @@ const ProjectsToMaskModal = (props) => {
                       />
                     </svg>
                   </label>
-                  <div className="flex rounded-full overflow-hidden h-8 w-8 bg-gray-100 mr-2">
+                  <div className="flex rounded-full overflow-hidden h-8 w-8 min-w-8 min-h-8 bg-gray-100 mr-2">
                     {item?.logo ? (
                     <img
                       src={item.logo}
@@ -140,7 +140,7 @@ const ProjectsToMaskModal = (props) => {
                       alt="Profile"
                     />
                   ) : (
-                    <FaRProject className="h-8 w-8 text-light_blue-200" />
+                    <FaRProject className="h-8 w-8 min-w-8 min-h-8 text-light_blue-200" />
                   )}
                   </div>
                   <span

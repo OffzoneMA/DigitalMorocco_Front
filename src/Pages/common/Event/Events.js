@@ -439,9 +439,9 @@ const Events = () => {
                             <td className="px-[18px] py-[14px] text-gray-801 font-dm-sans-regular text-sm leading-relaxed"
                               style={{ whiteSpace: 'nowrap' }}>
                               <div className="flex items-center gap-3" >
-                                {item?.organizerLogo ? <img src={item.organizerLogo} className="rounded-full h-8 w-8" alt="Organizer Logo" />
+                                {item?.organizerLogo ? <img src={item.organizerLogo} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Organizer Logo" />
                                   :
-                                  <img src={userDefaultProfil} className="rounded-full h-8 w-8" alt="Default User Profile" />}
+                                  <img src={userDefaultProfil} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Default User Profile" />}
                                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.organizername || "-"}</span>
                               </div>
                             </td>

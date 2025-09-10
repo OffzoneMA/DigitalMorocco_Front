@@ -240,9 +240,9 @@ const MyInvestment = () => {
                             <div className="relative flex">
                               <div className="px-[18px] py-4 flex items-center gap-3" >
                                 {item?.logo ? (
-                                  <img src={item?.project?.logo} className="rounded-full h-8 w-8" alt="Profile" />
+                                  <img src={item?.project?.logo} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Profile" />
                                 ) : (
-                                  <FaRProject className="h-8 w-8 text-light_blue-200" /> 
+                                  <FaRProject className="h-8 w-8 min-w-8 min-h-8 text-light_blue-200" /> 
                                 )}                              
                                 <span className="capitalize" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name || '-'}</span>
                               </div>

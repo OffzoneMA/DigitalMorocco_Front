@@ -322,9 +322,9 @@ const PastSponsorEvent = () => {
                               style={{ whiteSpace: 'nowrap' }}>
                               <div className="flex items-center gap-2" >
                                 {item?.eventId?.organizerLogo ?
-                                  <img src={item?.eventId?.organizerLogo} className="rounded-full h-8 w-8 mr-2" alt="organizer logo" />
+                                  <img src={item?.eventId?.organizerLogo} className="rounded-full h-8 w-8 min-w-8 min-h-8 mr-2" alt="organizer logo" />
                                   :
-                                  <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2" alt="default user profile" />
+                                  <img src={userDefaultProfil} className="rounded-full h-8 w-8 min-w-8 min-h-8 mr-2" alt="default user profile" />
                                 }
                                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.eventId?.organizername || "-"}</span>
                               </div>

@@ -388,7 +388,7 @@ const Dashboard_Partner = () => {
                                 {item?.eventId?.headerImage ? (
                                   <img
                                     src={item.eventId?.headerImage}
-                                    className="rounded-full h-8 w-8"
+                                    className="rounded-full h-8 w-8 min-w-8 min-h-8"
                                     alt="Profile"
                                   />
                                 ) : (

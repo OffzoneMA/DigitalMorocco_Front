@@ -183,9 +183,9 @@ const ShareDocumentToMembersModal = (props) => {
                         </svg>
                       </label>
                       {item?.image ? (
-                        <img src={item.image} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                        <img src={item.image} className="rounded-full h-8 w-8 min-w-8 min-h-8 mr-2" alt="Profile" />
                       ) : (
-                        <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2" alt="Profile" />
+                        <img src={userDefaultProfil} className="rounded-full h-8 w-8 min-w-8 min-h-8 mr-2" alt="Profile" />
                       )}
                       <span className="text-sm leading-6 text-gray-900_01 tracking-normal capitalize" size="txtDMSansRegular14">
                         {item?.name}

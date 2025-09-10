@@ -492,8 +492,8 @@ const InvestorDetails = () => {
                                 <td className="px-[18px] py-4 text-gray-900_01 font-dm-sans-regular text-sm leading-6">
                                   <div className="flex items-center gap-2" >
                                     {item?.member?.image ?
-                                      <img src={item?.member?.image} className="rounded-full h-8 w-8" alt="Member" /> :
-                                      <img src={userdefaultProfile} className="rounded-full h-8 w-8" alt="Default Profile" />
+                                      <img src={item?.member?.image} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Member" /> :
+                                      <img src={userdefaultProfile} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Default Profile" />
                                     }
                                     <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.member?.companyName || "-"}</span>
                                   </div>

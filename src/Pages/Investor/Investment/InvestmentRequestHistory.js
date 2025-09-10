@@ -249,9 +249,9 @@ const InvestmentRequestHistory = () => {
                         <td className="px-[18px] py-4 text-blue_gray-601 font-dm-sans-regular text-sm leading-6">
                             <div className="flex items-center gap-3" >
                               {item?.logo ? (
-                                <img src={item?.project?.logo} className="rounded-full h-8 w-8" alt="Profile" />
+                                <img src={item?.project?.logo} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Profile" />
                               ) : (
-                                <FaRProject className="h-8 w-8 text-light_blue-200" /> 
+                                <FaRProject className="h-8 w-8 min-w-8 min-h-8 text-light_blue-200" /> 
                               )}                              
                               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.project?.name || '-'}</span>
                             </div>

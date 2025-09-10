@@ -401,9 +401,9 @@ const SponsorRequestHistory = () => {
                               style={{ whiteSpace: 'nowrap' }}>
                               <div className="flex items-center gap-2" >
                                 {item?.eventId?.organizerLogo ?
-                                  <img src={item?.eventId?.organizerLogo} className="rounded-full h-8 w-8 mr-2" alt="Organizer Logo" />
+                                  <img src={item?.eventId?.organizerLogo} className="rounded-full h-8 w-8 min-w-8 min-h-8 mr-2" alt="Organizer Logo" />
                                   :
-                                  <img src={userDefaultProfil} className="rounded-full h-8 w-8 mr-2" alt="Default Profile" />
+                                  <img src={userDefaultProfil} className="rounded-full h-8 w-8 min-w-8 min-h-8 mr-2" alt="Default Profile" />
                                 }
                                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item?.eventId?.organizername || "-"}</span>
                               </div>

@@ -411,11 +411,11 @@ const Investment = () => {
                                   {item?.logo ? (
                                     <img
                                       src={item.logo}
-                                      className="rounded-full h-8 w-8"
+                                      className="rounded-full h-8 w-8 min-w-8 min-h-8"
                                       alt="Profile"
                                     />
                                   ) : (
-                                    <FaRProject className="h-8 w-8 text-light_blue-200" />
+                                    <FaRProject className="h-8 w-8 min-w-8 min-h-8 text-light_blue-200" />
                                   )}
                                   <span
                                     className="capitalize"

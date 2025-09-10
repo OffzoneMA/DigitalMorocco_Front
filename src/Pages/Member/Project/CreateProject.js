@@ -283,6 +283,7 @@ const CreateProject = () => {
         shouldValidate: true,
         shouldDirty: false
       });
+      setLogoFile(project?.logo || null);
       setSelectedStatus(project?.status)
       const initialFormattedMilestones = project?.milestones?.length > 0
         ? project.milestones
@@ -1073,7 +1074,7 @@ const CreateProject = () => {
                       (option) => {
                         return (
                           <div className="flex items-center  space-x-3 ">
-                            <img src={option?.image || userdefaultProfile} alt="teams" className="h-8 w-8 rounded-full" />
+                            <img src={option?.image || userdefaultProfile} alt="teams" className="h-8 w-8 min-w-8 min-h-8 rounded-full" />
                             <div className="flex flex-col gap-1.5 items-start justify-center w-full">
                               <span
                                 className="text-[#101828] text-sm w-auto"

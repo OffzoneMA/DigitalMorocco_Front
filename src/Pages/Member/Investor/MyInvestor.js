@@ -359,7 +359,7 @@ const MyInvestors = () => {
                                 <div className="relative flex">
                                   <div className="px-[18px] py-4 flex items-center gap-3" >
                                     {item?.logo ? (
-                                      <img src={item?.logo} className="rounded-full h-8 w-8" alt="Profile" />
+                                      <img src={item?.logo} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Profile" />
                                     ) : (
                                       <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                         <img src={userdefaultProfile} alt="" className="" />

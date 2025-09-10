@@ -342,7 +342,7 @@ const Dashbord_Investor = () => {
                             <div className="relative flex">
                               <div className="flex px-3 py-4 items-center gap-2">
                                 {item?.project?.image ? (
-                                  <img src={item.project?.image} className="rounded-full h-8 w-8" alt="Profile" />
+                                  <img src={item.project?.image} className="rounded-full h-8 w-8 min-w-8 min-h-8" alt="Profile" />
                                 ) : (
                                   <div className="flex items-center justify-center rounded-full h-9 w-9 bg-[#EDF7FF] p-2">
                                     <img src={userdefaultProfile} alt="" className="" />

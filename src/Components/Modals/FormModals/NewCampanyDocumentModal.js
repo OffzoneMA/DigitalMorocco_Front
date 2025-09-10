@@ -72,6 +72,13 @@ const NewCampanyDocumentModal = (props) => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
+    setHasSubmitted(true);
+    const isFileValid = (files !== null || preview !== null);
+    if (!isFileValid) {
+      setRequiredFields({ docFile: true });
+      setIsFormValid(false);
+      return;
+    }
     // setSendingOk(true);
     if (isFormValid && preview !== null) {
       setSendingOk(true);
@@ -84,7 +91,12 @@ const NewCampanyDocumentModal = (props) => {
       if (documentFile?.ownerId) {
         formData.append("ownerId", documentFile.ownerId);
       }
-      props.onSubmit(formData);
+      await props.onSubmit(formData);
+      setSendingOk(false);
+      setHasSubmitted(false);
+      setRequiredFields({
+        docFile: false,
+      });
     }
 
   };

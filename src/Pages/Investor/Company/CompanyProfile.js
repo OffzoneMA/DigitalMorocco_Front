@@ -194,7 +194,7 @@ const CompanyProfile = () => {
         numberOfExits: parseFloat(numberOfExits.replace(/\s/g, '')),
         numberOfInvestment: parseFloat(numberOfInvestments.replace(/\s/g, '')),
         lastFundingType: selectedFundingType,
-        foundedDate: selectedDate,
+        foundedDate: selectedDate?.split('/').reverse().join('-') || '',
       };
 
       formData.append('companyData', JSON.stringify(requestData));

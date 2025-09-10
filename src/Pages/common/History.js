@@ -118,7 +118,7 @@ const History = () => {
                         {item?.user?.image ? (
                           <img
                             src={item?.user?.image}
-                            className="rounded-full h-8 w-8 "
+                            className="rounded-full h-8 w-8 min-w-8 min-h-8 "
                             alt="User profile"
                           />
                         ) : (
